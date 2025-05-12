@@ -43,3 +43,15 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "cloudrun"
+
+[workflows]
+runButton = "Run Server"
+
+[[workflows.workflow]]
+name = "Run Server"
+author = 37393133
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tailwindcss -i ./input.css -o ./public/out.css && node index.js"
