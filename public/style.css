@@ -609,12 +609,12 @@ video {
   width: auto;
 }
 
-.w-16 {
-  width: 4rem;
-}
-
 .w-full {
   width: 100%;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .max-w-7xl {
@@ -627,10 +627,6 @@ video {
 
 .max-w-2xl {
   max-width: 42rem;
-}
-
-.max-w-full {
-  max-width: 100%;
 }
 
 .max-w-3xl {
@@ -1111,10 +1107,6 @@ video {
     height: 2.5rem;
   }
 
-  .sm\:max-w-3xl {
-    max-width: 48rem;
-  }
-
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -1175,10 +1167,6 @@ video {
 
   .lg\:mt-32 {
     margin-top: 8rem;
-  }
-
-  .lg\:max-w-4xl {
-    max-width: 56rem;
   }
 
   .lg\:list-outside {
