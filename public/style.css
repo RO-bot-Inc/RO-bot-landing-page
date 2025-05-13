@@ -703,6 +703,12 @@ video {
   row-gap: 0.5rem;
 }
 
+.space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
@@ -917,14 +923,14 @@ video {
   color: rgb(15 17 8 / var(--tw-text-opacity));
 }
 
-.text-brand-green {
-  --tw-text-opacity: 1;
-  color: rgb(42 157 143 / var(--tw-text-opacity));
-}
-
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-brand-green {
+  --tw-text-opacity: 1;
+  color: rgb(42 157 143 / var(--tw-text-opacity));
 }
 
 .text-brand-silver {
