@@ -1106,10 +1106,6 @@ video {
     margin-top: 6rem;
   }
 
-  .sm\:block {
-    display: block;
-  }
-
   .sm\:inline {
     display: inline;
   }
