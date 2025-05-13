@@ -43,6 +43,8 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "cloudrun"
+run = ["sh", "-c", "node index.js"]
+build = ["sh", "-c", "npx tailwindcss -i ./input.css -o ./public/out.css"]
 
 [workflows]
 runButton = "Run Server"
