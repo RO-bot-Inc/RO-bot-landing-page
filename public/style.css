@@ -504,6 +504,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.relative {
+  position: relative;
+}
+
 .sticky {
   position: sticky;
 }
@@ -519,6 +523,11 @@ video {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.-mx-\[15\%\] {
+  margin-left: -15%;
+  margin-right: -15%;
 }
 
 .mt-6 {
@@ -615,6 +624,10 @@ video {
 
 .w-16 {
   width: 4rem;
+}
+
+.w-\[130\%\] {
+  width: 130%;
 }
 
 .max-w-7xl {
