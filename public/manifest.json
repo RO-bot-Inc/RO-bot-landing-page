@@ -1,0 +1,13 @@
+
+{
+  "name": "RO-bot",
+  "icons": [
+    {
+      "src": "Android.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#2A9D8F",
+  "background_color": "#F4F4F9"
+}
