@@ -1,20 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
   const arrowImage = document.querySelector('.scroll-spin');
+  let currentRotation = 0;
+  let lastScrollPosition = window.pageYOffset;
   let isScrolling = false;
   let scrollTimeout;
-
+  
   window.addEventListener('scroll', () => {
-    if (!isScrolling) {
-      arrowImage.classList.add('spinning');
+    const currentScrollPosition = window.pageYOffset;
+    
+    if (currentScrollPosition > lastScrollPosition) {
+      currentRotation += 15;
+    } else {
+      currentRotation -= 15;
     }
-
-    isScrolling = true;
+    
+    arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
+    lastScrollPosition = currentScrollPosition;
+    
     clearTimeout(scrollTimeout);
-
     scrollTimeout = setTimeout(() => {
       isScrolling = false;
-      arrowImage.classList.remove('spinning');
-    }, 150);
+    }, 50);
   });
 
   const waitlistLinks = document.querySelectorAll('a[href="#waitlist-form"]');
