@@ -640,10 +640,6 @@ video {
   width: 100%;
 }
 
-.w-\[85\%\] {
-  width: 85%;
-}
-
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -704,8 +700,8 @@ video {
   justify-content: space-between;
 }
 
-.gap-8 {
-  gap: 2rem;
+.gap-4 {
+  gap: 1rem;
 }
 
 .gap-y-12 {

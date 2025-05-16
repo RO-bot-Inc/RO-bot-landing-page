@@ -712,6 +712,10 @@ video {
   gap: 2rem;
 }
 
+.gap-4 {
+  gap: 1rem;
+}
+
 .gap-y-12 {
   row-gap: 3rem;
 }
