@@ -536,16 +536,16 @@ video {
   margin-right: auto;
 }
 
-.mt-6 {
-  margin-top: 1.5rem;
+.mt-16 {
+  margin-top: 4rem;
 }
 
 .mt-10 {
   margin-top: 2.5rem;
 }
 
-.mt-16 {
-  margin-top: 4rem;
+.mt-6 {
+  margin-top: 1.5rem;
 }
 
 .mb-5 {
@@ -1109,10 +1109,6 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:mt-8 {
-    margin-top: 2rem;
-  }
-
   .sm\:mt-24 {
     margin-top: 6rem;
   }
@@ -1191,10 +1187,6 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:mt-10 {
-    margin-top: 2.5rem;
-  }
-
   .lg\:mt-32 {
     margin-top: 8rem;
   }
