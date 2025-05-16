@@ -536,9 +536,9 @@ video {
   margin-right: auto;
 }
 
-.-mx-\[15\%\] {
-  margin-left: -15%;
-  margin-right: -15%;
+.-mx-\[2\.5\%\] {
+  margin-left: -2.5%;
+  margin-right: -2.5%;
 }
 
 .mt-6 {
@@ -633,8 +633,8 @@ video {
   width: 100%;
 }
 
-.w-\[130\%\] {
-  width: 130%;
+.w-\[105\%\] {
+  width: 105%;
 }
 
 .max-w-7xl {

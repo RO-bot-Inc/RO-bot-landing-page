@@ -541,6 +541,11 @@ video {
   margin-right: -15%;
 }
 
+.-mx-\[2\.5\%\] {
+  margin-left: -2.5%;
+  margin-right: -2.5%;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -635,6 +640,10 @@ video {
 
 .w-\[130\%\] {
   width: 130%;
+}
+
+.w-\[105\%\] {
+  width: 105%;
 }
 
 .max-w-7xl {
@@ -1028,10 +1037,6 @@ video {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.text-shadow-xl {
-  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.9), 0 0 2em rgba(0, 0, 0, 0.7);
 }
 
 .shadow-md {
