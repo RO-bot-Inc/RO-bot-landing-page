@@ -604,6 +604,10 @@ video {
   aspect-ratio: 4/3;
 }
 
+.aspect-\[4\/3\.6\] {
+  aspect-ratio: 4/3.6;
+}
+
 .h-16 {
   height: 4rem;
 }
