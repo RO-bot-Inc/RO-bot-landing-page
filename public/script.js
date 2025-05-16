@@ -6,23 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isScrolling = false;
 
-  let lastScrollPosition = window.pageYOffset;
-  
   window.addEventListener('scroll', () => {
-    const currentScrollPosition = window.pageYOffset;
-    
-    if (currentScrollPosition !== lastScrollPosition) {
+    if (!isScrolling) {
       arrowImage.classList.add('spinning');
       isScrolling = true;
-      
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        arrowImage.classList.remove('spinning');
-        isScrolling = false;
-      }, 150);
     }
     
-    lastScrollPosition = currentScrollPosition;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      arrowImage.classList.remove('spinning');
+      isScrolling = false;
+    }, 150);
   });
   
   waitlistLinks.forEach(link => {
