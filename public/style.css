@@ -1305,22 +1305,3 @@ video {
     line-height: 1.25;
   }
 }
-
-@keyframes spin {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-.scroll-spin {
-  transition: transform 0.1s linear;
-}
-
-.scroll-spin.spinning {
-  animation: spin 2s linear infinite;
-}
-
-/*

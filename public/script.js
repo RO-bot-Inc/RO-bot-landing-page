@@ -4,14 +4,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const arrowImage = document.querySelector('.scroll-spin');
   let scrollTimeout;
 
+  let currentRotation = 0;
+  let isScrolling = false;
+
   window.addEventListener('scroll', () => {
-    arrowImage.classList.add('spinning');
+    if (!isScrolling) {
+      isScrolling = true;
+      animate();
+    }
     
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
-      arrowImage.classList.remove('spinning');
+      isScrolling = false;
     }, 150);
   });
+
+  function animate() {
+    if (isScrolling) {
+      currentRotation = (currentRotation + 5) % 360;
+      arrowImage.style.setProperty('--rotation', `${currentRotation}deg`);
+      requestAnimationFrame(animate);
+    }
+  }
   
   waitlistLinks.forEach(link => {
     link.addEventListener('click', (e) => {
