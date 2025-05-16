@@ -620,8 +620,8 @@ video {
   height: 4rem;
 }
 
-.h-8 {
-  height: 2rem;
+.h-12 {
+  height: 3rem;
 }
 
 .h-\[80vh\] {
@@ -1188,8 +1188,8 @@ video {
     height: 5rem;
   }
 
-  .sm\:h-10 {
-    height: 2.5rem;
+  .sm\:h-14 {
+    height: 3.5rem;
   }
 
   .sm\:px-6 {

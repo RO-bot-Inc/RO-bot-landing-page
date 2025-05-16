@@ -644,6 +644,10 @@ video {
   height: auto;
 }
 
+.h-12 {
+  height: 3rem;
+}
+
 .max-h-\[400px\] {
   max-height: 400px;
 }
@@ -1190,6 +1194,10 @@ video {
 
   .sm\:h-10 {
     height: 2.5rem;
+  }
+
+  .sm\:h-14 {
+    height: 3.5rem;
   }
 
   .sm\:px-6 {
