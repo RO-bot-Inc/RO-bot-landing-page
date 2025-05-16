@@ -637,10 +637,6 @@ video {
   max-width: 80rem;
 }
 
-.max-w-4xl {
-  max-width: 56rem;
-}
-
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -855,10 +851,6 @@ video {
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
-}
-
-.pt-16 {
-  padding-top: 4rem;
 }
 
 .pb-20 {
@@ -1148,10 +1140,6 @@ video {
     padding-bottom: 6rem;
   }
 
-  .sm\:pt-24 {
-    padding-top: 6rem;
-  }
-
   .sm\:pb-28 {
     padding-bottom: 7rem;
   }
@@ -1231,10 +1219,6 @@ video {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-
-  .lg\:pt-32 {
-    padding-top: 8rem;
   }
 
   .lg\:pb-36 {
