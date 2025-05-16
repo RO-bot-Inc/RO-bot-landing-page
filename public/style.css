@@ -1125,6 +1125,10 @@ video {
   --tw-ring-offset-color: #F4F4F9;
 }
 
+.text-shadow-xl {
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.75), 0 0 1em rgba(0, 0, 0, 0.5);
+}
+
 @media (min-width: 640px) {
   .sm\:mt-8 {
     margin-top: 2rem;
