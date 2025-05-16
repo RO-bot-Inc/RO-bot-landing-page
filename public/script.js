@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentScrollPosition = window.pageYOffset;
     
     if (currentScrollPosition > lastScrollPosition) {
-      currentRotation += 15;
+      currentRotation += 10.5;
     } else {
-      currentRotation -= 15;
+      currentRotation -= 10.5;
     }
     
     arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
