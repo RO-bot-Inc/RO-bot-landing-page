@@ -534,6 +534,10 @@ video {
   margin-top: 1.5rem;
 }
 
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -614,12 +618,12 @@ video {
   width: auto;
 }
 
-.w-\[130\%\] {
-  width: 130%;
-}
-
 .w-full {
   width: 100%;
+}
+
+.w-\[130\%\] {
+  width: 130%;
 }
 
 .max-w-7xl {
