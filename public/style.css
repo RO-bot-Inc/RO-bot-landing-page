@@ -967,6 +967,10 @@ video {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.text-shadow-lg {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .placeholder-brand-silver::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(176 174 194 / var(--tw-placeholder-opacity));
