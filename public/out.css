@@ -609,6 +609,10 @@ video {
   height: 2rem;
 }
 
+.h-\[80vh\] {
+  height: 80vh;
+}
+
 .h-auto {
   height: auto;
 }
