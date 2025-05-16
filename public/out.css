@@ -540,11 +540,6 @@ video {
   margin-right: auto;
 }
 
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .mt-16 {
   margin-top: 4rem;
 }
@@ -619,6 +614,10 @@ video {
 
 .h-\[80vh\] {
   height: 80vh;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .h-\[90\%\] {
