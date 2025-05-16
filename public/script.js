@@ -1,27 +1,24 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   const arrowImage = document.querySelector('.scroll-spin');
-  let currentRotation = 0;
-  let lastScrollTime = Date.now();
-  let animationFrameId = null;
-  
-  function updateRotation() {
-    if (Date.now() - lastScrollTime < 50) {
-      currentRotation = (currentRotation + 2) % 360;
-      arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
-      animationFrameId = requestAnimationFrame(updateRotation);
-    }
-  }
+  let isScrolling = false;
+  let scrollTimeout;
 
   window.addEventListener('scroll', () => {
-    lastScrollTime = Date.now();
-    if (!animationFrameId) {
-      animationFrameId = requestAnimationFrame(updateRotation);
+    if (!isScrolling) {
+      arrowImage.classList.add('spinning');
     }
+
+    isScrolling = true;
+    clearTimeout(scrollTimeout);
+
+    scrollTimeout = setTimeout(() => {
+      isScrolling = false;
+      arrowImage.classList.remove('spinning');
+    }, 150);
   });
 
   const waitlistLinks = document.querySelectorAll('a[href="#waitlist-form"]');
-  
+
   waitlistLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
