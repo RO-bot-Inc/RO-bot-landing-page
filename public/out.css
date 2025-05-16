@@ -600,6 +600,10 @@ video {
   display: none;
 }
 
+.aspect-\[4\/3\] {
+  aspect-ratio: 4/3;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -612,12 +616,16 @@ video {
   height: 80vh;
 }
 
-.h-auto {
-  height: auto;
+.h-full {
+  height: 100%;
 }
 
 .h-40 {
   height: 10rem;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .max-h-\[400px\] {
