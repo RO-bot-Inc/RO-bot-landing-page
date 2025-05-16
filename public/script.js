@@ -8,10 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Randomly position floating texts
   floatingTexts.forEach(text => {
-    const randomX = Math.random() * 60 + 20; // 20% to 80% of container width
-    const randomY = Math.random() * 60 + 20; // 20% to 80% of container height
-    text.style.left = `${randomX}%`;
-    text.style.top = `${randomY}%`;
+    if (text) {
+      const randomX = Math.random() * 60 + 20; // 20% to 80% of container width
+      const randomY = Math.random() * 60 + 20; // 20% to 80% of container height
+      text.style.left = `${randomX}%`;
+      text.style.top = `${randomY}%`;
+    }
   });
   
   window.addEventListener('scroll', () => {
