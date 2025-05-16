@@ -1,3 +1,22 @@
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.floating-text {
+  position: absolute;
+  animation: float var(--float-speed) ease-in-out infinite;
+  max-width: 200px;
+}
+
 /*
 ! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
 */
