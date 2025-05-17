@@ -28,17 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
     
-    // Update floating texts position based on scroll
-    floatingTexts.forEach((text, index) => {
-      const speed = 0.3 + (index * 0.2); // Different speed for each text
-      const delta = (lastScrollPosition - currentScrollPosition) * speed;
-      const currentTop = parseFloat(text.style.top);
-      text.style.top = `${currentTop + delta * 0.1}%`;
-      
-      // Keep texts within container bounds
-      const boundedTop = Math.min(Math.max(20, parseFloat(text.style.top)), 80);
-      text.style.top = `${boundedTop}%`;
-    });
+    // Update floating text layer position based on scroll
+    const floatingLayer = document.querySelector('.floating-text-layer');
+    if (floatingLayer) {
+      const scrollSpeed = 0.5;
+      const delta = (currentScrollPosition - lastScrollPosition) * scrollSpeed;
+      const currentTransform = floatingLayer.style.transform || 'translateY(0px)';
+      const currentY = parseFloat(currentTransform.match(/translateY\(([-\d.]+)px\)/) || [0, 0])[1];
+      const newY = currentY - delta;
+      floatingLayer.style.transform = `translateY(${newY}px)`;
+    }
     
     lastScrollPosition = currentScrollPosition;
     
