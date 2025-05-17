@@ -6,16 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isScrolling = false;
   let scrollTimeout;
 
-  // Randomly position floating texts
-  floatingTexts.forEach(text => {
-    if (text) {
-      const randomX = Math.random() * 70 + 15; // 15% to 85% of container width
-      const randomY = Math.random() * 70 + 15; // 15% to 85% of container height
-      text.style.left = `${randomX}%`;
-      text.style.top = `${randomY}%`;
-      text.style.transform = 'translate(-50%, -50%)';
-    }
-  });
+  // Text boxes will use fixed positions defined in HTML
   
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
