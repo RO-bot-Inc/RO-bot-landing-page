@@ -1366,3 +1366,15 @@ video {
     line-height: 1.25;
   }
 }
+.floating-text {
+  position: absolute;
+  z-index: 100;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.floating-text-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}

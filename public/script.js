@@ -9,10 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Randomly position floating texts
   floatingTexts.forEach(text => {
     if (text) {
-      const randomX = Math.random() * 60 + 20; // 20% to 80% of container width
-      const randomY = Math.random() * 60 + 20; // 20% to 80% of container height
+      const randomX = Math.random() * 70 + 15; // 15% to 85% of container width
+      const randomY = Math.random() * 70 + 15; // 15% to 85% of container height
       text.style.left = `${randomX}%`;
       text.style.top = `${randomY}%`;
+      text.style.transform = 'translate(-50%, -50%)';
     }
   });
   
