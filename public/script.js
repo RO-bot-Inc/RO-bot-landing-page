@@ -19,15 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
     
-    // Update floating text layer position based on scroll with parallax effect
+    // Update floating text layer position based on scroll
     const floatingLayer = document.querySelector('.floating-text-layer');
     if (floatingLayer) {
-      const parallaxSpeed = 0.7; // Speed factor (0 = fixed, 1 = normal scroll speed)
-      const scrollDelta = currentScrollPosition - lastScrollPosition;
-      const parallaxDelta = scrollDelta * (1 - parallaxSpeed);
+      const scrollSpeed = 0.5;
+      const delta = (currentScrollPosition - lastScrollPosition) * scrollSpeed;
       const currentTransform = floatingLayer.style.transform || 'translateY(0px)';
       const currentY = parseFloat(currentTransform.match(/translateY\(([-\d.]+)px\)/) || [0, 0])[1];
-      const newY = currentY - parallaxDelta;
+      const newY = currentY - delta;
       floatingLayer.style.transform = `translateY(${newY}px)`;
     }
     
