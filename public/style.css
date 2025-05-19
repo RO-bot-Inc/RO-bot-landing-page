@@ -504,38 +504,8 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.container {
-  width: 100%;
-}
-
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
-  }
+.fixed {
+  position: fixed;
 }
 
 .absolute {
@@ -1277,6 +1247,11 @@ video {
     line-height: 2.5rem;
   }
 
+  .sm\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -1311,6 +1286,11 @@ video {
   .md\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 }
 
@@ -1365,16 +1345,4 @@ video {
   .lg\:leading-tight {
     line-height: 1.25;
   }
-}
-.floating-text {
-  position: absolute;
-  z-index: 100;
-  pointer-events: none;
-  will-change: transform;
-}
-
-.floating-text-container {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
 }
