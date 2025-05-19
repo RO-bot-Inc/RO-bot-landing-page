@@ -704,10 +704,6 @@ video {
   width: 1rem;
 }
 
-.w-48 {
-  width: 12rem;
-}
-
 .min-w-\[60px\] {
   min-width: 60px;
 }
@@ -1351,10 +1347,6 @@ video {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .lg\:items-start {
-    align-items: flex-start;
-  }
-
   .lg\:gap-y-16 {
     row-gap: 4rem;
   }
@@ -1370,10 +1362,6 @@ video {
 
   .lg\:pl-5 {
     padding-left: 1.25rem;
-  }
-
-  .lg\:text-left {
-    text-align: left;
   }
 
   .lg\:text-6xl {
