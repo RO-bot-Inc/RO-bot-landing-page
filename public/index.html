@@ -1,316 +1,39 @@
+` tags, ensuring all original content is included and the new changes are applied correctly, without any forbidden words or omissions.
+
+Here's the complete code:
+
+```html
+<replit_final_file>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RO-bot: AI for Automotive Technicians</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <link rel="icon" href="/browser.svg" type="image/svg+xml"> <link rel="shortcut icon" href="/browser.png" type="image/png"> <link rel="apple-touch-icon" href="/iPhone.png"> <link rel="manifest" href="/manifest.json">
-    <script src="/script.js"></script>
-    <link rel="icon" type="image/png" sizes="32x32" href="/Android.png"> <link rel="icon" type="image/png" sizes="16x16" href="/Android.png"> ```
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="Android.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="out.css">
+  <title>RO-bot: AI for Automotive Technicians</title>
 </head>
-<body class="bg-brand-light font-sans text-brand-dark antialiased">
-</body><!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-sm"> <!-- Sticky, White BG, Small Shadow -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- Container -->
-            <div class="flex items-center justify-between h-16 sm:h-20"> <!-- Flex layout, vertical align center, space elements apart, height -->
-
-                <!-- Logo (Left Side) -->
-                <div class="flex-shrink-0">
-                    <a href="#" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
-                </div>
-
-                <!-- Login and Join Waitlist Buttons (Right Side) -->
-                <div class="flex space-x-6">
-                    <a href="#waitlist-form"
-                       class="bg-brand-orange text-white hover:bg-opacity-90 font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Join Waitlist
-                    </a>
-                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
-                       class="border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Login
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </nav>
-
-    <main>
-    <section class="bg-brand-light pb-20 sm:pb-28 lg:pb-36"> <div class="text-center"> <div class="relative">
-                <img src="keyboard-tools.png" alt="Automotive tools and keyboard with mechanics working on a car" class="w-full h-[80vh] object-cover">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <h1 class="font-montserrat text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight sm:leading-tight lg:leading-tight text-center px-4" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8)">
-                        Get AI-Powered Repair<br>Stories in Less Than 5 Seconds.
-                    </h1>
-                </div>
-            </div>
-
-            <div class="mt-16 relative w-[85%] mx-auto">
-                <img src="/arrows.png" alt="Process flow arrows" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[15%] min-w-[60px] z-10 scroll-spin"/>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="relative aspect-[4/3.6] w-full bg-white p-4 rounded-lg">
-                        <div class="flex flex-col items-center justify-center h-full">
-                            <img src="/voicenotes.png" alt="Voice notes interface showing diagnostic process"
-                                 class="h-[90%] w-[90%] object-contain"
-                            />
-                            <div class="absolute bottom-8">
-                                <div class="text-[#80BFF9] text-4xl font-montserrat font-bold text-center">Push to Talk.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative aspect-[4/3.6] w-full bg-white p-4 rounded-lg">
-                        <div class="flex flex-col items-center justify-center h-full">
-                            <img src="/story.png" alt="Generated repair story with detailed documentation"
-                                 class="h-[90%] w-[90%] object-contain"
-                        />
-                            <div class="absolute bottom-8">
-                                <div class="text-[#AF80F6] text-4xl font-montserrat font-bold text-center">Your Story is Ready.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <p class="mt-16 max-w-2xl mx-auto text-xl sm:text-2xl md:text-3xl leading-relaxed text-brand-dark opacity-90">
-                <strong>More Repairs, Less Typing.</strong><br>
-                RO-bot turns voice notes into accurate, professional repair documentation. Techs that use RO-bot earn more, boost shop efficiency, and improve claim approval rates.
-            </p>
-            <div class="mt-10">
-                 <a href="#waitlist-form"
-                   class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-light font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
-                    Join Waitlist
-                </a>
-                 </div>
-
-
-
-        </div>
-    </section>
-        <section class="py-16 sm:py-24 bg-white"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-brand-dark text-center tracking-tight">
-                Every minute on a screen is a minute <em>not</em> spent fixing cars or helping customers.
-            </h2>
-
-            <p class="mt-6 max-w-3xl mx-auto text-lg text-brand-dark opacity-90 text-center leading-relaxed">
-                Paperwork doesn't just slow down your technicians; it creates costly inefficiencies throughout your service department.
-            </p>
-
-            <div class="mt-16 grid grid-cols-1 gap-y-12 gap-x-8 lg:grid-cols-3 lg:gap-y-16">
-
-                <div class="flex flex-col items-center text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200"> 
-                    <div class="flex-shrink-0 mb-5 w-full"> 
-                        <img src="technician.png" alt="Auto repair technician focused on a computer screen" class="h-40 w-full object-cover rounded-lg mb-5 shadow-md"> 
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-brand-dark">Technicians don't get paid for the time they're poking at a keyboard.</h3>
-                    <ul class="mt-4 space-y-2 text-base text-brand-dark opacity-80 list-disc list-outside lg:pl-5 text-left w-full">
-                        <li>Hunting down technical specs, service bulletins, and TSBs</li>
-                        <li>Writing (and re-writing) detailed repair stories</li>
-                        <li>Less wrench time means fewer jobs per day</li>
-                    </ul>
-                </div>
-
-                <div class="flex flex-col items-center text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200">
-                    <div class="flex-shrink-0 mb-5">
-                        <img src="warranty manager.png" alt="Warranty administrator working" class="h-40 w-full object-cover rounded-lg mb-5 shadow-md">
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-brand-dark">Warranty Managers spend most of their day reviewing and correcting documentation.</h3>
-                    <ul class="mt-4 space-y-2 text-base text-brand-dark opacity-80 list-disc list-outside lg:pl-5 text-left w-full">
-                        <li>Deciphering incomplete and poorly-written stories</li>
-                        <li>Chasing down missing details</li>
-                        <li>Claim rejections & chargebacks</li>
-                    </ul>
-                </div>
-
-                <div class="flex flex-col items-center text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200">
-                    <div class="flex-shrink-0 mb-5">
-                        <img src="service manager.png" alt="Service manager at work" class="h-40 w-full object-cover rounded-lg mb-5 shadow-md">
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-brand-dark">Service Managers can't clear all the roadblocks and hurdles for their team.</h3>
-                     <ul class="mt-4 space-y-2 text-base text-brand-dark opacity-80 list-disc list-inside lg:list-outside lg:pl-5 text-left w-full">
-                         <li>Reduced job throughput, bay utilization, revenue</li>
-                         <li>Inconsistent quality leading to comebacks/audits</li>
-                         <li>Insufficient staff development</li>
-                         <li>Decreased morale & higher turnover</li>
-                     </ul>
-                </div>
-
-            </div>
-        </div> </section>
-        <section class="py-16 sm:py-24 bg-brand-light"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="max-w-3xl mx-auto text-center mb-16"> <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-brand-dark tracking-tight">
-            Meet RO-bot: Your AI Co-Pilot for Smarter, Faster Repairs
-        </h2>
-        <p class="mt-6 text-lg text-brand-dark opacity-90 leading-relaxed">
-            RO-bot leverages AI to help you work faster, smarter, and with less frustration. It streamlines your entire repair process, from diagnostics, to repairs, to documentation.
-        </p>
-        </div>
-
-        <div class="space-y-24">
-            <!-- Feature 1 -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-1 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
-                    <img src="wave.png" alt="Voice recording interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.1);">
-                    <div class="floating-text-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                        <div class="floating-text" style="position: absolute; top: 20%; left: calc(20% + 3px);">
-                            <div class="bg-white p-4 rounded-lg border-2 border-[#2A9D8F] shadow-lg text-xs sm:text-sm md:text-base relative" style="width: 140px; height: auto;">
-                                No error codes found
-                                <div class="absolute w-4 h-4 bg-white border-r-2 border-b-2 border-[#2A9D8F] transform rotate-45 -bottom-2 left-6"></div>
-                            </div>
-                        </div>
-                        <div class="floating-text" style="position: absolute; top: 30%; left: 60%;">
-                            <div class="bg-white p-4 rounded-lg border-2 border-[#2A9D8F] shadow-lg text-xs sm:text-sm md:text-base relative" style="width: 200px; height: auto;">
-                                I checked the brake pressure sensors... no issues there
-                                <div class="absolute w-4 h-4 bg-white border-r-2 border-b-2 border-[#2A9D8F] transform rotate-45 -bottom-2 right-6"></div>
-                            </div>
-                        </div>
-                        <div class="floating-text" style="position: absolute; top: 55%; left: 15%;">
-                            <div class="bg-white p-4 rounded-lg border-2 border-[#2A9D8F] shadow-lg text-xs sm:text-sm md:text-base relative" style="width: 180px; height: auto;">
-                                Steering calibration sensors are damaged and need to be replaced
-                                <div class="absolute w-4 h-4 bg-white border-r-2 border-b-2 border-[#2A9D8F] transform rotate-45 -bottom-2 left-6"></div>
-                            </div>
-                        </div>
-                        <div class="floating-text" style="position: absolute; top: 65%; left: calc(60% - 13px);">
-                            <div class="bg-white p-4 rounded-lg border-2 border-[#2A9D8F] shadow-lg text-xs sm:text-sm md:text-base relative" style="width: 180px; height: auto;">
-                                The warning light is still on
-                                <div class="absolute w-4 h-4 bg-white border-r-2 border-b-2 border-[#2A9D8F] transform rotate-45 -bottom-2 right-6"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Effortless Voice Notes, As You Work</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        No need to stop and type. Capture findings, measurements, and ideas with quick voice notes anytime during the repair. RO-bot keeps everything organized for when it's time to build the full story or recall a detail.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Feature 2 -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-2">
-                    <div class="w-full h-[425px] overflow-hidden">
-                        <img src="tech specs.png" alt="Tech specs interface" class="w-full h-full object-cover" style="transform: scale(0.90); object-position: center 0%;">
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-1">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Critical Tech Specs, on Demand</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Stop wasting time searching for information. Ask RO-bot for torque specs, wiring diagram locations, fluid capacities, TSB summaries, and more. Get the answers you need, right in your bay, in seconds.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Feature 3 -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-1 order-2 mt-8 md:mt-0">
-                    <img src="tasks.png" alt="AI-powered diagnostic guidance interface" class="w-full h-auto max-h-[400px] object-cover" style="object-position: center 30%; transform: scale(1.125);">
-                </div>
-                <div class="w-full md:w-1/2 space-y-4 md:order-2 order-1">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Get AI-Powered Diagnostic Guidance</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Facing a tricky intermittent problem? RO-bot provides intelligent diagnostic suggestions, helping you pinpoint issues faster and more accurately.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        </div> </div> </section>
-        <section id="waitlist-form" class="py-16 sm:py-24 bg-gradient-to-b from-white to-brand-light"> <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center"> <h2 class="text-3xl sm:text-4xl font-montserrat font-bold text-brand-dark tracking-tight">
-                Sign Up for Early Access
-            </h2>
-
-            <p class="mt-4 text-lg text-brand-dark opacity-90 leading-relaxed">
-                Join our waitlist to be among the first to see how RO-bot can supercharge your service lane and streamline warranty claims.
-            </p>
-
-            <form action="https://formspree.io/f/mrbqydnq" method="POST" class="mt-10 max-w-lg mx-auto text-left"> <div class="grid grid-cols-1 gap-y-6">
-
-                    <div>
-                        <label for="full-name" class="block text-sm font-medium text-brand-dark opacity-90">Full Name</label>
-                        <div class="mt-1">
-                            <input type="text" name="full-name" id="full-name" autocomplete="name" required
-                                   class="block w-full px-4 py-3 border border-brand-silver rounded-md shadow-sm placeholder-brand-silver focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange sm:text-sm">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-brand-dark opacity-90">Work Email</label>
-                        <div class="mt-1">
-                            <input id="email" name="email" type="email" autocomplete="email" required
-                                   class="block w-full px-4 py-3 border border-brand-silver rounded-md shadow-sm placeholder-brand-silver focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange sm:text-sm">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="dealership" class="block text-sm font-medium text-brand-dark opacity-90">Dealership Name</label>
-                        <div class="mt-1">
-                            <input type="text" name="dealership" id="dealership" autocomplete="organization" required
-                                   class="block w-full px-4 py-3 border border-brand-silver rounded-md shadow-sm placeholder-brand-silver focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange sm:text-sm">
-                        </div>
-                    </div>
-
-                     <div>
-                        <label for="role" class="block text-sm font-medium text-brand-dark opacity-90">Your Role</label>
-                        <div class="mt-1">
-                            <select id="role" name="role" required
-                                    class="block w-full px-4 py-3 border border-brand-silver rounded-md shadow-sm bg-white focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange sm:text-sm text-brand-dark opacity-90">
-                                <option value="" disabled selected>Select your role...</option>
-                                <option value="Technician">Technician</option>
-                                <option value="Service Advisor">Service Advisor</option>
-                                <option value="Service Manager">Service Manager</option>
-                                <option value="Warranty Administrator">Warranty Administrator</option>
-                                <option value="Fixed Ops Director">Fixed Ops Director</option>
-                                <option value="Owner/GM">Owner/GM</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                         <label for="challenge" class="block text-sm font-medium text-brand-dark opacity-90">What do you hope RO-bot can do for you / your dealership? <span class="text-brand-silver font-normal">(Optional)</span></label>
-                         <div class="mt-1">
-                             <textarea id="challenge" name="challenge" rows="4"
-                                       class="block w-full px-4 py-3 border border-brand-silver rounded-md shadow-sm placeholder-brand-silver focus:outline-none focus:ring-1 focus:ring-brand-orange focus:border-brand-orange sm:text-sm"></textarea>
-                         </div>
-                    </div>
-
-                    <div class="text-center pt-2"> <button type="submit"
-                                class="inline-flex justify-center py-3 px-8 border border-transparent shadow-lg text-lg font-semibold rounded-lg text-white bg-brand-orange hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-light transition duration-150 ease-in-out transform hover:scale-105">
-                            Request Early Access
-                        </button>
-                    </div>
-
-                </div> </form> <p class="mt-6 text-xs text-brand-dark opacity-70 text-center">
-                We respect your privacy. We'll only use your information to contact you about RO-bot updates and access opportunities.
-             </p>
-
-        </div> </section>
-    </main>
-    <footer class="bg-brand-dark mt-16 sm:mt-24 lg:mt-32">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mb-6">
-                <a href="#" class="text-sm text-brand-silver hover:text-white transition-colors duration-150 ease-in-out">
-                    Privacy Policy
-                </a>
-                <span class="text-brand-silver hidden sm:inline">|</span>
-
-                <a href="#" class="text-sm text-brand-silver hover:text-white transition-colors duration-150 ease-in-out">
-                    Terms of Service
-                </a>
-                <span class="text-brand-silver hidden sm:inline">|</span>
-
-                <a href="mailto:hello@ro-bot.io" class="text-sm text-brand-silver hover:text-white transition-colors duration-150 ease-in-out">
-                    hello@ro-bot.io
-                </a>
-            </div>
-            <p class="text-sm text-brand-silver">
-                &copy; 2025 RO-bot. All rights reserved.
-            </p>
-        </div>
-    </footer>
+<body class="bg-white flex justify-center">
+  <div class="max-w-5xl pt-20 lg:pt-32 mx-2">
+    <h1 class="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl pb-3 text-sky-500 tracking-tight text-center">Rapidly build modern websites without ever leaving your HTML.</h1>
+    <p class="mt-6 text-lg text-slate-600 text-center max-w-3xl mx-auto dark:text-slate-400">
+      A utility-first CSS framework packed with classes like 
+      <code class="font-mono font-medium text-sky-500 dark:text-sky-400">flex</code>, 
+      <code class="font-mono font-medium text-sky-500 dark:text-sky-400">pt-4</code>, 
+      <code class="font-mono font-medium text-sky-500 dark:text-sky-400">text-center</code> and 
+      <code class="font-mono font-medium text-sky-500 dark:text-sky-400">rotate-90</code> that can be composed to build any design, directly in your markup. Now in replit!
+    </p>
+    <div class="w-full flex justify-center">
+        <a href="https://tailwindcss.com/docs/utility-first" class="bg-slate-900 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400 m-5 flex" target="_blank">
+        Visit the documentation
+      </a>
+    </div>
+    <div class="rounded-lg border-[3px] border-slate-300 shadow-2xl bg-white p-6 my-8">
+      <img src="tech specs.png" class="w-full" />
+    </div>
+  </div>
 </body>
 </html>
