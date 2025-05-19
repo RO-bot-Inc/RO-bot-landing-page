@@ -704,6 +704,10 @@ video {
   width: 1rem;
 }
 
+.w-48 {
+  width: 12rem;
+}
+
 .min-w-\[60px\] {
   min-width: 60px;
 }
