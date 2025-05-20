@@ -576,11 +576,6 @@ video {
   margin-right: auto;
 }
 
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
 .mt-16 {
   margin-top: 4rem;
 }
@@ -1099,10 +1094,6 @@ video {
 
 .opacity-80 {
   opacity: 0.8;
-}
-
-.mix-blend-overlay {
-  mix-blend-mode: overlay;
 }
 
 .shadow-sm {
