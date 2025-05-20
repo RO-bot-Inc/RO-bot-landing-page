@@ -648,8 +648,8 @@ video {
   height: 80vh;
 }
 
-.h-1\/2 {
-  height: 50%;
+.h-\[60\%\] {
+  height: 60%;
 }
 
 .h-full {
