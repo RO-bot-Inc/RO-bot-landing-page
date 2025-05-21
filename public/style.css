@@ -688,6 +688,10 @@ video {
   height: auto;
 }
 
+.h-\[120vh\] {
+  height: 120vh;
+}
+
 .max-h-\[400px\] {
   max-height: 400px;
 }
