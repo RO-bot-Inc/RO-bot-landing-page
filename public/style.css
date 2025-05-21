@@ -620,6 +620,10 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.mt-36 {
+  margin-top: 9rem;
+}
+
 .block {
   display: block;
 }
@@ -957,6 +961,11 @@ video {
   padding-bottom: 3rem;
 }
 
+.py-24 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
 .pb-20 {
   padding-bottom: 5rem;
 }
@@ -1223,6 +1232,11 @@ video {
   .sm\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
+  }
+
+  .sm\:py-32 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 
   .sm\:pb-28 {
