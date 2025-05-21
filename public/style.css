@@ -888,7 +888,7 @@ video {
 
 .bg-brand-light {
   --tw-bg-opacity: 1;
-  background-color: rgb(216 216 224 / var(--tw-bg-opacity));
+  background-color: rgb(128 128 128 / var(--tw-bg-opacity));
 }
 
 .bg-black {
@@ -1196,7 +1196,7 @@ video {
 }
 
 .focus\:ring-offset-brand-light:focus {
-  --tw-ring-offset-color: #D8D8E0;
+  --tw-ring-offset-color: #808080;
 }
 
 @media (min-width: 640px) {
