@@ -680,6 +680,10 @@ video {
   height: 260%;
 }
 
+.h-\[300\%\] {
+  height: 300%;
+}
+
 .max-h-\[400px\] {
   max-height: 400px;
 }
@@ -714,6 +718,10 @@ video {
 
 .w-\[260\%\] {
   width: 260%;
+}
+
+.w-\[300\%\] {
+  width: 300%;
 }
 
 .max-w-7xl {
