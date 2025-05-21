@@ -698,12 +698,16 @@ video {
   height: 300%;
 }
 
-.h-24 {
-  height: 6rem;
+.h-64 {
+  height: 16rem;
 }
 
 .h-40 {
   height: 10rem;
+}
+
+.h-24 {
+  height: 6rem;
 }
 
 .h-4 {
@@ -716,10 +720,6 @@ video {
 
 .h-auto {
   height: auto;
-}
-
-.h-64 {
-  height: 16rem;
 }
 
 .max-h-\[400px\] {
@@ -752,6 +752,10 @@ video {
 
 .max-w-7xl {
   max-width: 80rem;
+}
+
+.max-w-full {
+  max-width: 100%;
 }
 
 .max-w-2xl {
