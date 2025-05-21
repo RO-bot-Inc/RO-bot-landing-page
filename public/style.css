@@ -571,10 +571,6 @@ video {
   order: 3;
 }
 
-.order-5 {
-  order: 5;
-}
-
 .order-1 {
   order: 1;
 }
@@ -668,12 +664,12 @@ video {
   height: 300%;
 }
 
-.h-40 {
-  height: 10rem;
-}
-
 .h-24 {
   height: 6rem;
+}
+
+.h-40 {
+  height: 10rem;
 }
 
 .h-4 {
