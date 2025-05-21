@@ -1004,6 +1004,14 @@ video {
   padding-bottom: 12rem;
 }
 
+.pt-\[50vh\] {
+  padding-top: 50vh;
+}
+
+.pb-24 {
+  padding-bottom: 6rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1392,6 +1400,10 @@ video {
 
   .lg\:pb-64 {
     padding-bottom: 16rem;
+  }
+
+  .lg\:pb-96 {
+    padding-bottom: 24rem;
   }
 
   .lg\:text-6xl {
