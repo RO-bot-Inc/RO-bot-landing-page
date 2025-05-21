@@ -11,7 +11,7 @@ module.exports = {
         'brand-dark': '#0F1108',
         'brand-green': '#2A9D8F',
         'brand-orange': '#C63006',
-        'brand-light': '#D8D8E0',
+        'brand-light': '#808080',
         'brand-silver': '#B0AEC2',
         'white': '#FFFFFF',
       },
