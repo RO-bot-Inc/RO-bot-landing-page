@@ -692,8 +692,8 @@ video {
   width: 85%;
 }
 
-.w-\[7\.5\%\] {
-  width: 7.5%;
+.w-\[5\%\] {
+  width: 5%;
 }
 
 .w-\[195\%\] {
@@ -708,8 +708,8 @@ video {
   width: 1rem;
 }
 
-.min-w-\[117px\] {
-  min-width: 117px;
+.min-w-\[78px\] {
+  min-width: 78px;
 }
 
 .max-w-7xl {
