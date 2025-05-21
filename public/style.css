@@ -654,6 +654,10 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.mt-96 {
+  margin-top: 24rem;
+}
+
 .block {
   display: block;
 }
@@ -996,6 +1000,10 @@ video {
   padding-top: 4rem;
 }
 
+.pb-48 {
+  padding-bottom: 12rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1265,6 +1273,10 @@ video {
     padding-bottom: 7rem;
   }
 
+  .sm\:pb-56 {
+    padding-bottom: 14rem;
+  }
+
   .sm\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -1376,6 +1388,10 @@ video {
 
   .lg\:pl-5 {
     padding-left: 1.25rem;
+  }
+
+  .lg\:pb-64 {
+    padding-bottom: 16rem;
   }
 
   .lg\:text-6xl {
