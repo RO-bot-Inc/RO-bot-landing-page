@@ -652,8 +652,8 @@ video {
   height: 100%;
 }
 
-.h-\[215\%\] {
-  height: 215%;
+.h-\[260\%\] {
+  height: 260%;
 }
 
 .h-40 {
@@ -696,8 +696,8 @@ video {
   width: 15%;
 }
 
-.w-\[215\%\] {
-  width: 215%;
+.w-\[260\%\] {
+  width: 260%;
 }
 
 .w-24 {
@@ -836,6 +836,10 @@ video {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-visible {
+  overflow: visible;
 }
 
 .rounded-md {

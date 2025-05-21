@@ -676,6 +676,10 @@ video {
   height: auto;
 }
 
+.h-\[260\%\] {
+  height: 260%;
+}
+
 .max-h-\[400px\] {
   max-height: 400px;
 }
@@ -706,6 +710,10 @@ video {
 
 .w-4 {
   width: 1rem;
+}
+
+.w-\[260\%\] {
+  width: 260%;
 }
 
 .max-w-7xl {
@@ -836,6 +844,10 @@ video {
 
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-visible {
+  overflow: visible;
 }
 
 .rounded-md {
