@@ -614,12 +614,16 @@ video {
   margin-bottom: 2rem;
 }
 
-.-mt-60 {
-  margin-top: -15rem;
+.-mt-36 {
+  margin-top: -9rem;
 }
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.-mt-12 {
+  margin-top: -3rem;
 }
 
 .mt-6 {
@@ -648,10 +652,6 @@ video {
 
 .mb-6 {
   margin-bottom: 1.5rem;
-}
-
-.-mt-12 {
-  margin-top: -3rem;
 }
 
 .block {
@@ -979,6 +979,11 @@ video {
   padding-bottom: 0.75rem;
 }
 
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -987,11 +992,6 @@ video {
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
-}
-
-.py-8 {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
 }
 
 .pb-16 {
@@ -1234,16 +1234,16 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:-mt-72 {
-    margin-top: -18rem;
-  }
-
-  .sm\:mt-24 {
-    margin-top: 6rem;
+  .sm\:-mt-48 {
+    margin-top: -12rem;
   }
 
   .sm\:-mt-16 {
     margin-top: -4rem;
+  }
+
+  .sm\:mt-24 {
+    margin-top: 6rem;
   }
 
   .sm\:inline {
@@ -1263,14 +1263,14 @@ video {
     padding-right: 1.5rem;
   }
 
-  .sm\:py-24 {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-  }
-
   .sm\:py-12 {
     padding-top: 3rem;
     padding-bottom: 3rem;
+  }
+
+  .sm\:py-24 {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
   }
 
   .sm\:text-5xl {
@@ -1307,8 +1307,8 @@ video {
     order: 2;
   }
 
-  .md\:-mt-80 {
-    margin-top: -20rem;
+  .md\:-mt-56 {
+    margin-top: -14rem;
   }
 
   .md\:mt-0 {
