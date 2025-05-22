@@ -1377,6 +1377,10 @@ video {
     width: 12.5%;
   }
 
+  .md\:w-\[95\%\] {
+    width: 95%;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1387,6 +1391,10 @@ video {
 
   .md\:gap-4 {
     gap: 1rem;
+  }
+
+  .md\:gap-16 {
+    gap: 4rem;
   }
 
   .md\:pt-48 {
