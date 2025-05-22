@@ -759,6 +759,10 @@ video {
   width: 1.25rem;
 }
 
+.w-\[36\%\] {
+  width: 36%;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -1393,6 +1397,10 @@ video {
 
   .md\:w-1\/2 {
     width: 50%;
+  }
+
+  .md\:w-\[22\.5\%\] {
+    width: 22.5%;
   }
 
   .md\:grid-cols-2 {
