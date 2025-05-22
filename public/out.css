@@ -900,9 +900,9 @@ video {
   background-color: rgb(198 48 6 / var(--tw-bg-opacity));
 }
 
-.bg-brand-silver {
+.bg-gray-200 {
   --tw-bg-opacity: 1;
-  background-color: rgb(176 174 194 / var(--tw-bg-opacity));
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
 .bg-black {
