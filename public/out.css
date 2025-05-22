@@ -1098,8 +1098,8 @@ video {
   font-weight: 600;
 }
 
-.font-normal {
-  font-weight: 400;
+.font-light {
+  font-weight: 300;
 }
 
 .leading-tight {
