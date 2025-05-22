@@ -779,6 +779,10 @@ video {
   max-width: 56rem;
 }
 
+.max-w-\[80\%\] {
+  max-width: 80%;
+}
+
 .flex-shrink-0 {
   flex-shrink: 0;
 }
