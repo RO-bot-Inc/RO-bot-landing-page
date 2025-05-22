@@ -726,6 +726,10 @@ video {
   height: 450%;
 }
 
+.h-\[225\%\] {
+  height: 225%;
+}
+
 .max-h-\[400px\] {
   max-height: 400px;
 }
@@ -756,6 +760,10 @@ video {
 
 .w-\[40\%\] {
   width: 40%;
+}
+
+.w-\[20\%\] {
+  width: 20%;
 }
 
 .max-w-7xl {
@@ -800,6 +808,12 @@ video {
 .scale-125 {
   --tw-scale-x: 1.25;
   --tw-scale-y: 1.25;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.scale-\[0\.625\] {
+  --tw-scale-x: 0.625;
+  --tw-scale-y: 0.625;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1357,6 +1371,10 @@ video {
 
   .md\:w-\[25\%\] {
     width: 25%;
+  }
+
+  .md\:w-\[12\.5\%\] {
+    width: 12.5%;
   }
 
   .md\:grid-cols-2 {
