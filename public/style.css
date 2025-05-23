@@ -799,6 +799,13 @@ video {
   width: auto;
 }
 
+
+/* Animation styles for message bubbles */
+.message-bubble {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  will-change: opacity, transform;
+}
+
 .w-full {
   width: 100%;
 }
