@@ -35,16 +35,28 @@ document.addEventListener('DOMContentLoaded', () => {
       return parseInt(a.dataset.animationOrder) - parseInt(b.dataset.animationOrder);
     });
     
+    // Initial pause before starting animations (1 second)
+    const initialDelay = 1000;
+    
     // Animate the bubbles in order with timing
     sortedBubbles.forEach((bubble, index) => {
       const order = parseInt(bubble.dataset.animationOrder);
       
-      // Calculate delay based on animation order
-      let delay = 300 * (order - 1);
+      // Calculate delay based on animation order and requested pauses
+      let delay = initialDelay; // Start with initial 1 second delay
       
-      // Add extra 1 second delay between oil2 and torque (between items 2 and 3)
-      if (order > 2) {
-        delay += 1000;
+      if (order === 1) {
+        // First bubble (torque) - after initial 1s delay
+        delay = initialDelay;
+      } else if (order === 2) {
+        // Second bubble (torque2) - 300ms after first
+        delay = initialDelay + 300;
+      } else if (order === 3) {
+        // Third bubble (oil) - 1s pause after second bubble
+        delay = initialDelay + 300 + 1000;
+      } else if (order === 4) {
+        // Fourth bubble (oil2) - 300ms after third
+        delay = initialDelay + 300 + 1000 + 300;
       }
       
       setTimeout(() => {
