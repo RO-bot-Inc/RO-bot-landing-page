@@ -711,6 +711,10 @@ video {
   display: grid;
 }
 
+.hidden {
+  display: none;
+}
+
 .aspect-\[4\/3\.6\] {
   aspect-ratio: 4/3.6;
 }
@@ -1210,6 +1214,10 @@ video {
 
 .opacity-80 {
   opacity: 0.8;
+}
+
+.opacity-0 {
+  opacity: 0;
 }
 
 .shadow-sm {
