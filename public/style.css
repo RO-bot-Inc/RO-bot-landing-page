@@ -538,6 +538,10 @@ video {
   }
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .fixed {
   position: fixed;
 }
@@ -743,6 +747,10 @@ video {
   display: grid;
 }
 
+.hidden {
+  display: none;
+}
+
 .aspect-\[4\/3\.6\] {
   aspect-ratio: 4/3.6;
 }
@@ -797,15 +805,6 @@ video {
 
 .w-auto {
   width: auto;
-}
-
-
-/* Animation styles for message bubbles */
-.message-bubble {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  will-change: opacity, transform;
 }
 
 .w-full {
@@ -1251,6 +1250,10 @@ video {
 
 .opacity-80 {
   opacity: 0.8;
+}
+
+.opacity-0 {
+  opacity: 0;
 }
 
 .shadow-sm {
