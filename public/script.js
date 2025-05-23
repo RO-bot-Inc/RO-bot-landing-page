@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Second bubble (torque2) - 300ms after first
         delay = initialDelay + 300;
       } else if (order === 3) {
-        // Third bubble (oil) - 1s pause after second bubble
-        delay = initialDelay + 300 + 1000;
+        // Third bubble (oil) - 2s pause after second bubble
+        delay = initialDelay + 300 + 2000;
       } else if (order === 4) {
         // Fourth bubble (oil2) - 300ms after third
-        delay = initialDelay + 300 + 1000 + 300;
+        delay = initialDelay + 300 + 2000 + 300;
       }
       
       setTimeout(() => {
