@@ -617,6 +617,10 @@ video {
   bottom: 15%;
 }
 
+.right-\[45\%\] {
+  right: 45%;
+}
+
 .z-50 {
   z-index: 50;
 }
