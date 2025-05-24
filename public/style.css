@@ -1523,3 +1523,35 @@ video {
     padding-top: 6rem;
   }
 }
+
+/* Logo carousel animation */
+.logo-carousel {
+  display: flex;
+  width: fit-content;
+}
+
+.logo-set {
+  display: flex;
+  animation: none;
+}
+
+.animate-rtl {
+  animation: scroll-rtl 30s linear infinite;
+}
+
+@keyframes scroll-rtl {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.logo-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
