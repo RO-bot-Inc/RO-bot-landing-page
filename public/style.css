@@ -1532,9 +1532,22 @@ video {
 
 .animate-rtl {
   display: inline-flex;
-  animation: scroll-rtl 30s linear infinite;
+  animation: scroll-rtl 35s linear infinite;
 }
 
 .logo-carousel {
   width: fit-content;
+}
+
+.logo-item {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-item img {
+  max-width: 100%;
+  max-height: 100%;
 }
