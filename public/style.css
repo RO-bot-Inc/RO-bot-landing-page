@@ -1093,6 +1093,11 @@ video {
   padding-bottom: 3rem;
 }
 
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
 .pb-16 {
   padding-bottom: 4rem;
 }
