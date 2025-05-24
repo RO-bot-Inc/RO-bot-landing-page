@@ -1515,3 +1515,26 @@ video {
     padding-top: 6rem;
   }
 }
+
+.message-bubble {
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Logo carousel animation */
+@keyframes scroll-rtl {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-rtl {
+  display: inline-flex;
+  animation: scroll-rtl 30s linear infinite;
+}
+
+.logo-carousel {
+  width: fit-content;
+}
