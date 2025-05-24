@@ -1547,11 +1547,11 @@ video {
 }
 
 .logo-item {
-  width: 64px;
-  height: 64px;
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
-  justify-center: center;
+  justify-content: center;
   flex-shrink: 0; /* Prevent individual logos from shrinking */
   margin: 0 16px;
 }
