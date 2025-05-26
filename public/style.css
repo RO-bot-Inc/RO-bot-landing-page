@@ -1542,9 +1542,9 @@ video {
 }
 
 .logo-item img {
-  height: 60px;
+  height: 40px;
   width: auto;
-  max-width: 180px;
+  max-width: 120px;
   object-fit: contain;
   display: block;
 }
