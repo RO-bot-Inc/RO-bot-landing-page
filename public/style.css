@@ -1202,6 +1202,7 @@ video {
 }
 
 .text-white {
+```text
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -1511,4 +1512,57 @@ video {
   .xl\:pt-24 {
     padding-top: 6rem;
   }
+}
+
+/* Logo Carousel - Clean and Robust Implementation */
+.carousel-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: white;
+  padding: 1rem 0;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  animation: logoScroll 25s linear infinite;
+  width: calc(200% + 2rem); /* Account for duplicated logos plus spacing */
+}
+
+.logo-slide {
+  flex: 0 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-slide img {
+  height: 60px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  filter: grayscale(50%);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.logo-slide img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+@keyframes logoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause animation on hover */
+.carousel-container:hover .carousel-track {
+  animation-play-state: paused;
 }
