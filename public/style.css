@@ -1512,39 +1512,3 @@ video {
     padding-top: 6rem;
   }
 }
-
-/* Logo carousel animation */
-.logo-carousel {
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  background-color: white;
-}
-
-.logo-scroll {
-  display: inline-block;
-  animation: scroll-left 25s linear infinite;
-}
-
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.logo-item {
-  display: inline-block;
-  margin: 0 2rem;
-  vertical-align: middle;
-}
-
-.logo-item img {
-  height: 40px;
-  width: auto;
-  max-width: 120px;
-  object-fit: contain;
-  display: block;
-}
