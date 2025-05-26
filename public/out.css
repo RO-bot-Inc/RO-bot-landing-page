@@ -751,8 +751,8 @@ video {
   height: 225%;
 }
 
-.h-48 {
-  height: 12rem;
+.h-32 {
+  height: 8rem;
 }
 
 .h-24 {
@@ -1365,6 +1365,10 @@ video {
     height: 3.5rem;
   }
 
+  .sm\:h-40 {
+    height: 10rem;
+  }
+
   .sm\:scale-125 {
     --tw-scale-x: 1.25;
     --tw-scale-y: 1.25;
@@ -1430,6 +1434,10 @@ video {
 
   .md\:mt-0 {
     margin-top: 0px;
+  }
+
+  .md\:h-48 {
+    height: 12rem;
   }
 
   .md\:w-\[95\%\] {
