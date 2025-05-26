@@ -1515,40 +1515,36 @@ video {
 
 /* Logo carousel animation */
 .logo-carousel {
-  display: flex;
   overflow: hidden;
-  width: 100%;
+  white-space: nowrap;
   position: relative;
   background-color: white;
 }
 
-.logo-set {
-  display: flex;
-  flex-wrap: nowrap;
-  animation: scroll 30s linear infinite;
-  min-width: 100%;
+.logo-scroll {
+  display: inline-block;
+  animation: scroll-left 25s linear infinite;
 }
 
-@keyframes scroll {
+@keyframes scroll-left {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 .logo-item {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 1.5rem;
+  display: inline-block;
+  margin: 0 2rem;
+  vertical-align: middle;
 }
 
 .logo-item img {
-  height: 35px;
+  height: 40px;
   width: auto;
-  max-width: 100px;
+  max-width: 120px;
   object-fit: contain;
+  display: block;
 }
