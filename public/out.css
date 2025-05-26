@@ -787,6 +787,10 @@ video {
   width: 36%;
 }
 
+.w-\[150\%\] {
+  width: 150%;
+}
+
 .w-24 {
   width: 6rem;
 }
@@ -805,6 +809,10 @@ video {
 
 .max-w-full {
   max-width: 100%;
+}
+
+.max-w-\[150\%\] {
+  max-width: 150%;
 }
 
 .max-w-2xl {
