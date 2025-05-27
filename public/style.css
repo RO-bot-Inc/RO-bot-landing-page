@@ -1294,22 +1294,6 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-/* Floating text animations */
-@keyframes float1 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  50% { transform: translateY(-8px) translateX(3px); }
-}
-
-@keyframes float2 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  50% { transform: translateY(-6px) translateX(-4px); }
-}
-
-@keyframes float3 {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  50% { transform: translateY(-10px) translateX(2px); }
-}
-
 .transition {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
