@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     inspectionTexts.forEach((text, index) => {
       let delay;
       if (index === 0) {
-        delay = 0; // First line: no delay
+        delay = 1000; // First line: 1 second delay
       } else if (index === 1) {
-        delay = 1500; // Second line: 1 second delay + 500ms from first = 1500ms
+        delay = 2500; // Second line: 1 second delay + 1500ms from first = 2500ms
       } else {
-        delay = 3000; // Third line: 1 second delay + 2000ms from second = 3000ms
+        delay = 4000; // Third line: 1 second delay + 3000ms from second = 4000ms
       }
       
       setTimeout(() => {
