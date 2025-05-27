@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     storyVideo.addEventListener('loadedmetadata', () => {
       videoDuration = storyVideo.duration;
       storyVideo.pause(); // Stop autoplay for scroll control
+      storyVideo.currentTime = 0; // Start at beginning
     });
     
     // Ensure video is ready
     if (storyVideo.readyState >= 1) {
       videoDuration = storyVideo.duration;
       storyVideo.pause();
+      storyVideo.currentTime = 0; // Start at beginning
     }
   }
   
@@ -176,34 +178,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // Function to update video based on scroll position
+  // Function to update video based on scroll position and direction
   function updateVideoPlayback() {
-    if (!storyVideo || !videoContainer || videoDuration === 0) return;
+    if (!storyVideo || videoDuration === 0) return;
     
-    const containerRect = videoContainer.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+    const currentScrollPosition = window.pageYOffset;
+    const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const halfPageScroll = documentHeight * 0.5; // Halfway down the page
     
-    // Calculate how much of the video container is visible
-    let visibilityRatio = 0;
+    // Calculate progress based on scroll position (video completes at halfway point)
+    let scrollProgress = Math.min(currentScrollPosition / halfPageScroll, 1);
     
-    if (containerRect.top <= windowHeight && containerRect.bottom >= 0) {
-      const visibleTop = Math.max(0, -containerRect.top);
-      const visibleBottom = Math.min(containerRect.height, windowHeight - containerRect.top);
-      const visibleHeight = visibleBottom - visibleTop;
-      visibilityRatio = Math.max(0, Math.min(1, visibleHeight / containerRect.height));
-    }
+    // Map scroll progress to video time
+    const targetTime = scrollProgress * videoDuration;
     
-    // Map visibility ratio to video time
-    const targetTime = visibilityRatio * videoDuration;
-    
-    // Only update if there's a significant difference to avoid jitter
-    if (Math.abs(storyVideo.currentTime - targetTime) > 0.1) {
-      storyVideo.currentTime = targetTime;
-    }
+    // Update video current time
+    storyVideo.currentTime = targetTime;
   }
   
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
+    const scrollDirection = currentScrollPosition > lastScrollPosition ? 'down' : 'up';
+    
+    // Set scrolling state
+    isScrolling = true;
     
     if (currentScrollPosition > lastScrollPosition) {
       currentRotation += 10.5;
@@ -235,12 +233,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update video playback based on scroll
     updateVideoPlayback();
     
+    // Play video in appropriate direction while scrolling
+    if (storyVideo && videoDuration > 0) {
+      if (scrollDirection === 'down') {
+        storyVideo.playbackRate = 1; // Normal speed forward
+        storyVideo.play();
+      } else {
+        storyVideo.playbackRate = -1; // Reverse playback
+        storyVideo.play();
+      }
+    }
+    
     lastScrollPosition = currentScrollPosition;
     
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       isScrolling = false;
-    }, 50);
+      // Pause video when scrolling stops
+      if (storyVideo) {
+        storyVideo.pause();
+      }
+    }, 150); // Pause after 150ms of no scrolling
   });
 
   // Set initial state for message bubbles
