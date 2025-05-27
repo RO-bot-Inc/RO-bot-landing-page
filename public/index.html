@@ -188,11 +188,16 @@
                         document.addEventListener('DOMContentLoaded', () => {
                             const waveformVideo = document.getElementById('waveformVideo');
                             if (waveformVideo) {
-                                try {
-                                    waveformVideo.playbackRate = 0.8; // 20% slower (1.0 - 0.2 = 0.8)
-                                } catch (e) {
-                                    console.log('Playback rate not supported, using default speed');
-                                }
+                                // Wait for video to load before setting playback rate
+                                waveformVideo.addEventListener('loadedmetadata', () => {
+                                    try {
+                                        if (waveformVideo.playbackRate !== undefined) {
+                                            waveformVideo.playbackRate = 0.8;
+                                        }
+                                    } catch (e) {
+                                        console.log('Playback rate not supported, using default speed');
+                                    }
+                                });
                             }
                         });
                     </script>
@@ -272,7 +277,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- OEM Logo Carousel Section -->
             <div class="mb-16">
-                <h3 class="text-xl font-montserrat font-semibold text-brand-dark text-center mb-10">RO-bot works with all major automotive brands</h3>
+                <div class="flex items-center justify-center mb-10">
+                    <hr class="border-t-2 border-gray-300 flex-grow mr-4">
+                    <h3 class="text-xl font-montserrat font-semibold text-brand-dark text-center px-4 whitespace-nowrap">RO-bot works with all major automotive brands</h3>
+                    <hr class="border-t-2 border-gray-300 flex-grow ml-4">
+                </div>
                 <div class="carousel-container">
                     <div class="carousel-track">
                         <div class="logo-slide">
