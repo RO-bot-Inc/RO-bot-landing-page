@@ -53,13 +53,22 @@ document.addEventListener('DOMContentLoaded', () => {
       text.style.transform = 'translateY(20px)';
     });
     
-    // Animate each text with 500ms delay between them
+    // Animate each text with delays
     inspectionTexts.forEach((text, index) => {
+      let delay;
+      if (index === 0) {
+        delay = 0; // First line: no delay
+      } else if (index === 1) {
+        delay = 1500; // Second line: 1 second delay + 500ms from first = 1500ms
+      } else {
+        delay = 2000; // Third line: 1 second delay + 1000ms from second = 2000ms
+      }
+      
       setTimeout(() => {
         text.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         text.style.opacity = '1';
         text.style.transform = 'translateY(0)';
-      }, index * 500); // 500ms delay between each text
+      }, delay);
     });
   }
   
