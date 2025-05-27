@@ -593,14 +593,6 @@ video {
   left: 10%;
 }
 
-.top-\[45\%\] {
-  top: 45%;
-}
-
-.right-\[15\%\] {
-  right: 15%;
-}
-
 .top-\[calc\(10\%-5px\)\] {
   top: calc(10% - 5px);
 }
