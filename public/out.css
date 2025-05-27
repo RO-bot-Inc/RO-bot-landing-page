@@ -601,14 +601,6 @@ video {
   right: 15%;
 }
 
-.bottom-\[35\%\] {
-  bottom: 35%;
-}
-
-.left-\[20\%\] {
-  left: 20%;
-}
-
 .top-\[calc\(10\%-5px\)\] {
   top: calc(10% - 5px);
 }
