@@ -1606,7 +1606,7 @@ line-height: 2rem;
 
 .carousel-track {
   display: flex;
-  animation: carousel-scroll 40s linear infinite;
+  animation: carousel-scroll 30s linear infinite;
   gap: 60px;
   align-items: center;
 }
