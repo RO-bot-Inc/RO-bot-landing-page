@@ -1565,7 +1565,7 @@ video {
 
 .carousel-track {
   display: flex;
-  animation: carousel-scroll 30s linear infinite;
+  animation: carousel-scroll 21s linear infinite;
   gap: 60px;
   align-items: center;
 }
