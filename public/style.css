@@ -1224,7 +1224,7 @@ video {
   opacity: 0;
 }
 
-..shadow-sm {
+.shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -1529,55 +1529,5 @@ video {
 @media (min-width: 1280px) {
   .xl\:pt-8 {
     padding-top: 2rem;
-  }
-}
-
-/* Logo Carousel Styles */
-.carousel-container {
-  overflow: hidden;
-  width: 100%;
-  position: relative;
-  height: 70px; /* Fixed height container */
-}
-
-.carousel-track {
-  display: flex;
-  animation: scrollRightToLeft 25s linear infinite;
-  width: calc(200%); /* Double width for seamless loop */
-  align-items: center;
-  height: 100%;
-}
-
-.logo-slide {
-  flex: 0 0 auto;
-  margin: 0 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-}
-
-.logo-slide img {
-  max-height: 50px !important;
-  height: auto;
-  width: auto;
-  max-width: 120px;
-  object-fit: contain;
-  filter: grayscale(100%);
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-
-.logo-slide img:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-}
-
-@keyframes scrollRightToLeft {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
   }
 }
