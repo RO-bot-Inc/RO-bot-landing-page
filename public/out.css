@@ -695,20 +695,16 @@ video {
   margin-top: 5rem;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .mb-10 {
   margin-bottom: 2.5rem;
 }
 
-.-mt-4 {
-  margin-top: -1rem;
-}
-
 .mb-6 {
   margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .block {
@@ -829,10 +825,6 @@ video {
 
 .max-w-\[181px\] {
   max-width: 181px;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
 }
 
 .flex-shrink-0 {
