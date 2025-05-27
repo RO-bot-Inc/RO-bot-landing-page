@@ -1520,3 +1520,19 @@ video {
     padding-top: 6rem;
   }
 }
+
+/* Floating text animations */
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-8px) translateX(3px); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-6px) translateX(-2px); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-10px) translateX(4px); }
+}
