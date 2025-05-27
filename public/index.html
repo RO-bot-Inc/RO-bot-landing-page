@@ -191,16 +191,14 @@
                                 // Wait for video to load before setting playback rate
                                 waveformVideo.addEventListener('loadedmetadata', () => {
                                     try {
-                                        // Check if playback rate is supported and within valid range
-                                        if (waveformVideo.playbackRate !== undefined && 0.8 >= 0.25 && 0.8 <= 5.0) {
-                                            waveformVideo.playbackRate = 0.8;
-                                        }
+                                        // Set playback rate safely
+                                        waveformVideo.playbackRate = 0.8;
                                     } catch (e) {
                                         console.log('Playback rate not supported, using default speed');
                                     }
                                 });
                                 
-                                // Fallback error handler
+                                // Error handler for video loading issues
                                 waveformVideo.addEventListener('error', (e) => {
                                     console.log('Video error, continuing with default settings');
                                 });
