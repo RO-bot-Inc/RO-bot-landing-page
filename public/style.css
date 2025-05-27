@@ -538,10 +538,6 @@ video {
   }
 }
 
-.pointer-events-none {
-  pointer-events: none;
-}
-
 .invisible {
   visibility: hidden;
 }
@@ -631,26 +627,6 @@ video {
 
 .z-20 {
   z-index: 20;
-}
-
-.z-30 {
-  z-index: 30;
-}
-
-.z-40 {
-  z-index: 40;
-}
-
-.z-\[100\] {
-  z-index: 100;
-}
-
-.z-\[200\] {
-  z-index: 200;
-}
-
-.z-\[150\] {
-  z-index: 150;
 }
 
 .order-2 {
@@ -771,8 +747,8 @@ video {
   height: 100%;
 }
 
-.h-auto {
-  height: auto;
+.h-\[225\%\] {
+  height: 225%;
 }
 
 .h-32 {
@@ -791,12 +767,12 @@ video {
   height: 425px;
 }
 
-.h-5 {
-  height: 1.25rem;
+.h-auto {
+  height: auto;
 }
 
-.h-\[225\%\] {
-  height: 225%;
+.h-5 {
+  height: 1.25rem;
 }
 
 .max-h-\[400px\] {
@@ -815,10 +791,6 @@ video {
   width: 36%;
 }
 
-.w-\[150\%\] {
-  width: 150%;
-}
-
 .w-24 {
   width: 6rem;
 }
@@ -831,10 +803,6 @@ video {
   width: 1.25rem;
 }
 
-.w-\[180px\] {
-  width: 180px;
-}
-
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -843,8 +811,8 @@ video {
   max-width: 100%;
 }
 
-.max-w-\[150\%\] {
-  max-width: 150%;
+.max-w-none {
+  max-width: none;
 }
 
 .max-w-2xl {
@@ -873,10 +841,6 @@ video {
 
 .max-w-4xl {
   max-width: 56rem;
-}
-
-.max-w-none {
-  max-width: none;
 }
 
 .flex-shrink-0 {
@@ -1204,8 +1168,7 @@ video {
 
 .text-2xl {
   font-size: 1.5rem;
-```
-line-height: 2rem;
+  line-height: 2rem;
 }
 
 .font-medium {
@@ -1489,10 +1452,6 @@ line-height: 2rem;
     width: 50%;
   }
 
-  .md\:w-\[280px\] {
-    width: 280px;
-  }
-
   .md\:scale-150 {
     --tw-scale-x: 1.5;
     --tw-scale-y: 1.5;
@@ -1593,59 +1552,4 @@ line-height: 2rem;
   .xl\:pt-24 {
     padding-top: 6rem;
   }
-}
-
-/* Logo Carousel - Robust Implementation */
-.carousel-container {
-  width: 100%;
-  overflow: hidden;
-  background-color: white;
-  padding: 20px 0;
-  position: relative;
-}
-
-.carousel-track {
-  display: flex;
-  animation: carousel-scroll 30s linear infinite;
-  gap: 60px;
-  align-items: center;
-}
-
-.logo-slide {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  min-width: 120px;
-}
-
-.logo-slide img {
-  height: 60px;
-  width: auto;
-  max-width: 180px;
-  object-fit: contain;
-  filter: grayscale(100%);
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-
-.logo-slide img:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-@keyframes carousel-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Pause animation on hover */
-.carousel-container:hover .carousel-track {
-  animation-play-state: paused;
 }
