@@ -538,6 +538,10 @@ video {
   }
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .invisible {
   visibility: hidden;
 }
@@ -623,6 +627,26 @@ video {
 
 .left-0 {
   left: 0px;
+}
+
+.top-\[15\%\] {
+  top: 15%;
+}
+
+.top-\[45\%\] {
+  top: 45%;
+}
+
+.right-\[15\%\] {
+  right: 15%;
+}
+
+.bottom-\[35\%\] {
+  bottom: 35%;
+}
+
+.left-\[20\%\] {
+  left: 20%;
 }
 
 .z-50 {
