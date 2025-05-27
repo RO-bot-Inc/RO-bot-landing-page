@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (index === 1) {
         delay = 1500; // Second line: 1 second delay + 500ms from first = 1500ms
       } else {
-        delay = 2000; // Third line: 1 second delay + 1000ms from second = 2000ms
+        delay = 3000; // Third line: 1 second delay + 2000ms from second = 3000ms
       }
       
       setTimeout(() => {
