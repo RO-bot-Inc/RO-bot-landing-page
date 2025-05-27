@@ -1304,10 +1304,6 @@ video {
     margin-top: -4rem;
   }
 
-  .sm\:mt-24 {
-    margin-top: 6rem;
-  }
-
   .sm\:mb-0 {
     margin-bottom: 0px;
   }
@@ -1435,10 +1431,6 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:mt-32 {
-    margin-top: 8rem;
-  }
-
   .lg\:h-\[225\%\] {
     height: 225%;
   }
