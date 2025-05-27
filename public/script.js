@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isScrolling = false;
   let scrollTimeout;
   let animationTriggered = false;
+  let inspectionAnimationTriggered = false;
   
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
@@ -16,6 +17,50 @@ document.addEventListener('DOMContentLoaded', () => {
       rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
+  }
+  
+  // Function to check if element is partially in viewport (more lenient)
+  function isElementPartiallyInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+    
+    return (
+      rect.bottom > 0 &&
+      rect.right > 0 &&
+      rect.top < windowHeight &&
+      rect.left < windowWidth
+    );
+  }
+  
+  // Function to reset inspection text to invisible state
+  function resetInspectionText() {
+    const inspectionTexts = document.querySelectorAll('.floating-text');
+    inspectionTexts.forEach(text => {
+      text.style.opacity = '0';
+      text.style.transform = 'translateY(20px)';
+    });
+    inspectionAnimationTriggered = false;
+  }
+  
+  // Function to animate inspection text in sequence
+  function animateInspectionText() {
+    const inspectionTexts = document.querySelectorAll('.floating-text');
+    
+    // Reset all text first
+    inspectionTexts.forEach(text => {
+      text.style.opacity = '0';
+      text.style.transform = 'translateY(20px)';
+    });
+    
+    // Animate each text with 500ms delay between them
+    inspectionTexts.forEach((text, index) => {
+      setTimeout(() => {
+        text.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        text.style.opacity = '1';
+        text.style.transform = 'translateY(0)';
+      }, index * 500); // 500ms delay between each text
+    });
   }
   
   // Function to reset message bubbles to initial invisible state
@@ -84,6 +129,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
+  // Check if inspection image is in view and handle text animations
+  function checkInspectionVisibility() {
+    const inspectionImage = document.querySelector('img[src="inspection.png"]');
+    if (inspectionImage) {
+      const isInView = isElementPartiallyInViewport(inspectionImage);
+      
+      if (isInView && !inspectionAnimationTriggered) {
+        // Inspection image just came into view, start text animation
+        animateInspectionText();
+        inspectionAnimationTriggered = true;
+      } else if (!isInView && inspectionAnimationTriggered) {
+        // Inspection image just left view, reset text animations
+        resetInspectionText();
+      }
+    }
+  }
+  
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
     
@@ -111,6 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if dipstick container is in view
     checkTechSpecsVisibility();
     
+    // Check if inspection image is in view
+    checkInspectionVisibility();
+    
     lastScrollPosition = currentScrollPosition;
     
     clearTimeout(scrollTimeout);
@@ -125,8 +190,17 @@ document.addEventListener('DOMContentLoaded', () => {
     bubble.style.transform = 'translateY(20px)';
   });
 
+  // Set initial state for inspection text
+  document.querySelectorAll('.floating-text').forEach(text => {
+    text.style.opacity = '0';
+    text.style.transform = 'translateY(20px)';
+  });
+
   // Check if elements are in view on initial page load
-  setTimeout(checkTechSpecsVisibility, 500);
+  setTimeout(() => {
+    checkTechSpecsVisibility();
+    checkInspectionVisibility();
+  }, 500);
 
   const waitlistLinks = document.querySelectorAll('a[href="#waitlist-form"]');
 
