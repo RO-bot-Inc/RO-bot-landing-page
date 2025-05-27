@@ -1,12 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
   const arrowImage = document.querySelector('.scroll-spin');
   const floatingTexts = document.querySelectorAll('.floating-text');
+  const storyVideo = document.querySelector('video[alt*="Generated repair story"]');
   let currentRotation = 0;
   let lastScrollPosition = window.pageYOffset;
   let isScrolling = false;
   let scrollTimeout;
   let animationTriggered = false;
   let inspectionAnimationTriggered = false;
+  let videoDuration = 0;
+  let videoContainer = null;
+  
+  // Initialize video for scroll control
+  if (storyVideo) {
+    storyVideo.muted = true;
+    storyVideo.preload = 'metadata';
+    videoContainer = storyVideo.closest('.w-full');
+    
+    storyVideo.addEventListener('loadedmetadata', () => {
+      videoDuration = storyVideo.duration;
+      storyVideo.pause(); // Stop autoplay for scroll control
+    });
+    
+    // Ensure video is ready
+    if (storyVideo.readyState >= 1) {
+      videoDuration = storyVideo.duration;
+      storyVideo.pause();
+    }
+  }
   
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
@@ -155,6 +176,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
+  // Function to update video based on scroll position
+  function updateVideoPlayback() {
+    if (!storyVideo || !videoContainer || videoDuration === 0) return;
+    
+    const containerRect = videoContainer.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    
+    // Calculate how much of the video container is visible
+    let visibilityRatio = 0;
+    
+    if (containerRect.top <= windowHeight && containerRect.bottom >= 0) {
+      const visibleTop = Math.max(0, -containerRect.top);
+      const visibleBottom = Math.min(containerRect.height, windowHeight - containerRect.top);
+      const visibleHeight = visibleBottom - visibleTop;
+      visibilityRatio = Math.max(0, Math.min(1, visibleHeight / containerRect.height));
+    }
+    
+    // Map visibility ratio to video time
+    const targetTime = visibilityRatio * videoDuration;
+    
+    // Only update if there's a significant difference to avoid jitter
+    if (Math.abs(storyVideo.currentTime - targetTime) > 0.1) {
+      storyVideo.currentTime = targetTime;
+    }
+  }
+  
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
     
@@ -185,6 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if inspection image is in view
     checkInspectionVisibility();
     
+    // Update video playback based on scroll
+    updateVideoPlayback();
+    
     lastScrollPosition = currentScrollPosition;
     
     clearTimeout(scrollTimeout);
@@ -209,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     checkTechSpecsVisibility();
     checkInspectionVisibility();
+    updateVideoPlayback();
   }, 500);
 
   const waitlistLinks = document.querySelectorAll('a[href="#waitlist-form"]');
