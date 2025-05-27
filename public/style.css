@@ -1520,3 +1520,53 @@ video {
     padding-top: 6rem;
   }
 }
+
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-10px) translateX(4px); }
+}
+
+/* Logo carousel styles */
+.carousel-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-track {
+  display: inline-flex;
+  animation: scroll 30s linear infinite;
+  width: calc(200% + 20px);
+}
+
+.logo-slide {
+  flex: 0 0 auto;
+  margin-right: 2rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-slide img {
+  max-height: 40px;
+  max-width: 120px;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: all 0.3s ease;
+}
+
+.logo-slide:hover img {
+  filter: grayscale(0%) opacity(1);
+  transform: scale(1.1);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
