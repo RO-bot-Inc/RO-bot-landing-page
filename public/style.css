@@ -655,8 +655,8 @@ video {
   margin-bottom: 2rem;
 }
 
-.-mt-72 {
-  margin-top: -18rem;
+.-mt-56 {
+  margin-top: -14rem;
 }
 
 .mt-8 {
@@ -709,10 +709,6 @@ video {
 
 .mb-6 {
   margin-bottom: 1.5rem;
-}
-
-.-mt-56 {
-  margin-top: -14rem;
 }
 
 .block {
@@ -1075,8 +1071,8 @@ video {
   padding-top: 2.5rem;
 }
 
-.pt-64 {
-  padding-top: 16rem;
+.pt-32 {
+  padding-top: 8rem;
 }
 
 .pb-10 {
@@ -1308,8 +1304,8 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:-mt-80 {
-    margin-top: -20rem;
+  .sm\:-mt-64 {
+    margin-top: -16rem;
   }
 
   .sm\:-mt-16 {
@@ -1322,14 +1318,6 @@ video {
 
   .sm\:mb-0 {
     margin-bottom: 0px;
-  }
-
-  .sm\:-mt-48 {
-    margin-top: -12rem;
-  }
-
-  .sm\:-mt-64 {
-    margin-top: -16rem;
   }
 
   .sm\:h-20 {
@@ -1398,20 +1386,12 @@ video {
     order: 2;
   }
 
-  .md\:-mt-96 {
-    margin-top: -24rem;
+  .md\:-mt-64 {
+    margin-top: -16rem;
   }
 
   .md\:mt-0 {
     margin-top: 0px;
-  }
-
-  .md\:-mt-48 {
-    margin-top: -12rem;
-  }
-
-  .md\:-mt-64 {
-    margin-top: -16rem;
   }
 
   .md\:h-48 {
@@ -1452,8 +1432,8 @@ video {
     gap: 4rem;
   }
 
-  .md\:pt-48 {
-    padding-top: 12rem;
+  .md\:pt-24 {
+    padding-top: 6rem;
   }
 
   .md\:text-3xl {
@@ -1498,8 +1478,8 @@ video {
     padding-right: 2rem;
   }
 
-  .lg\:pt-32 {
-    padding-top: 8rem;
+  .lg\:pt-16 {
+    padding-top: 4rem;
   }
 
   .lg\:pl-5 {
@@ -1522,7 +1502,7 @@ video {
 }
 
 @media (min-width: 1280px) {
-  .xl\:pt-24 {
-    padding-top: 6rem;
+  .xl\:pt-12 {
+    padding-top: 3rem;
   }
 }
