@@ -711,6 +711,10 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.-mt-48 {
+  margin-top: -12rem;
+}
+
 .block {
   display: block;
 }
@@ -1209,7 +1213,7 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow-lg{
+.shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -1318,6 +1322,10 @@ video {
 
   .sm\:mb-0 {
     margin-bottom: 0px;
+  }
+
+  .sm\:-mt-60 {
+    margin-top: -15rem;
   }
 
   .sm\:h-20 {
@@ -1504,59 +1512,5 @@ video {
 @media (min-width: 1280px) {
   .xl\:pt-8 {
     padding-top: 2rem;
-  }
-}
-
-/* Logo Carousel Styles */
-.carousel-container {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-  background: transparent;
-  height: 60px;
-  display: flex;
-  align-items: center;
-}
-
-.carousel-track {
-  display: flex;
-  animation: scroll-left 25s linear infinite;
-  width: calc(200% + 40px);
-  height: 50px;
-  align-items: center;
-}
-
-.logo-slide {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 15px;
-  min-width: 60px;
-  height: 50px;
-}
-
-.logo-slide img {
-  max-height: 50px;
-  max-width: 100px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  filter: grayscale(100%);
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-
-.logo-slide img:hover {
-  filter: grayscale(0%);
-  opacity: 1;
-}
-
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
   }
 }
