@@ -10,19 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let inspectionAnimationTriggered = false;
   let videoDuration = 0;
   let videoContainer = null;
-  
+
   // Initialize video for scroll control
   if (storyVideo) {
     storyVideo.muted = true;
     storyVideo.preload = 'metadata';
     videoContainer = storyVideo.closest('.w-full');
-    
+
     storyVideo.addEventListener('loadedmetadata', () => {
       videoDuration = storyVideo.duration;
       storyVideo.pause(); // Stop autoplay for scroll control
       storyVideo.currentTime = 0; // Start at beginning
     });
-    
+
     // Ensure video is ready
     if (storyVideo.readyState >= 1) {
       videoDuration = storyVideo.duration;
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       storyVideo.currentTime = 0; // Start at beginning
     }
   }
-  
+
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }
-  
+
   // Function to check if element is partially in viewport (more lenient)
   function isElementPartiallyInViewport(el) {
     const rect = el.getBoundingClientRect();
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
     const windowWidth = window.innerWidth || document.documentElement.clientWidth;
-    
+
     return (
       rect.bottom > 0 &&
       rect.right > 0 &&
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       rect.left < windowWidth
     );
   }
-  
+
   // Function to reset inspection text to invisible state
   function resetInspectionText() {
     const inspectionTexts = document.querySelectorAll('.floating-text');
@@ -65,17 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     inspectionAnimationTriggered = false;
   }
-  
+
   // Function to animate inspection text in sequence
   function animateInspectionText() {
     const inspectionTexts = document.querySelectorAll('.floating-text');
-    
+
     // Reset all text first
     inspectionTexts.forEach(text => {
       text.style.opacity = '0';
       text.style.transform = 'translateY(20px)';
     });
-    
+
     // Animate each text with delays
     inspectionTexts.forEach((text, index) => {
       let delay;
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         delay = 4000; // Third line: 1 second delay + 3000ms from second = 4000ms
       }
-      
+
       setTimeout(() => {
         text.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         text.style.opacity = '1';
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }, delay);
     });
   }
-  
+
   // Function to reset message bubbles to initial invisible state
   function resetMessageBubbles() {
     const bubbles = document.querySelectorAll('.message-bubble');
@@ -104,24 +104,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     animationTriggered = false;
   }
-  
+
   // Function to animate message bubbles in sequence
   function animateMessageBubbles() {
     const bubbles = document.querySelectorAll('.message-bubble');
     const sortedBubbles = Array.from(bubbles).sort((a, b) => {
       return parseInt(a.dataset.animationOrder) - parseInt(b.dataset.animationOrder);
     });
-    
+
     // Initial pause before starting animations (1 second)
     const initialDelay = 1000;
-    
+
     // Animate the bubbles in order with timing
     sortedBubbles.forEach((bubble, index) => {
       const order = parseInt(bubble.dataset.animationOrder);
-      
+
       // Calculate delay based on animation order and requested pauses
       let delay = initialDelay; // Start with initial 1 second delay
-      
+
       if (order === 1) {
         // First bubble (torque) - after initial 1s delay
         delay = initialDelay;
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fourth bubble (oil2) - 300ms after third
         delay = initialDelay + 300 + 2000 + 300;
       }
-      
+
       setTimeout(() => {
         bubble.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         bubble.style.opacity = '1';
@@ -143,13 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }, delay);
     });
   }
-  
+
   // Check if tech specs container is in view and handle animations
   function checkTechSpecsVisibility() {
     const dipstickContainer = document.getElementById('techSpecsContainer');
     if (dipstickContainer) {
       const isInView = isElementInViewport(dipstickContainer);
-      
+
       if (isInView && !animationTriggered) {
         // Element just came into view, start animation
         animateMessageBubbles();
@@ -160,13 +160,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-  
+
   // Check if inspection image is in view and handle text animations
   function checkInspectionVisibility() {
     const inspectionImage = document.querySelector('img[src="inspection.png"]');
     if (inspectionImage) {
       const isInView = isElementPartiallyInViewport(inspectionImage);
-      
+
       if (isInView && !inspectionAnimationTriggered) {
         // Inspection image just came into view, start text animation
         animateInspectionText();
@@ -177,42 +177,42 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-  
+
   // Function to update video based on scroll position and direction
   function updateVideoPlayback() {
     if (!storyVideo || videoDuration === 0) return;
-    
+
     const currentScrollPosition = window.pageYOffset;
     const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
     const halfPageScroll = documentHeight * 0.5; // Halfway down the page
-    
+
     // Calculate progress based on scroll position (video completes at halfway point)
     let scrollProgress = Math.min(currentScrollPosition / halfPageScroll, 1);
-    
+
     // Map scroll progress to video time
     const targetTime = scrollProgress * videoDuration;
-    
+
     // Update video current time
     storyVideo.currentTime = targetTime;
   }
-  
+
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
     const scrollDirection = currentScrollPosition > lastScrollPosition ? 'down' : 'up';
-    
+
     // Set scrolling state
     isScrolling = true;
-    
+
     if (currentScrollPosition > lastScrollPosition) {
       currentRotation += 10.5;
     } else {
       currentRotation -= 10.5;
     }
-    
+
     if (arrowImage) {
       arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
     }
-    
+
     // Update floating text layer position based on scroll
     const floatingLayer = document.querySelector('.floating-text-layer');
     if (floatingLayer) {
@@ -223,29 +223,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const newY = currentY - delta;
       floatingLayer.style.transform = `translateY(${newY}px)`;
     }
-    
+
     // Check if dipstick container is in view
     checkTechSpecsVisibility();
-    
+
     // Check if inspection image is in view
     checkInspectionVisibility();
-    
+
     // Update video playback based on scroll
     updateVideoPlayback();
-    
-    // Play video in appropriate direction while scrolling
-    if (storyVideo && videoDuration > 0) {
-      if (scrollDirection === 'down') {
-        storyVideo.playbackRate = 1; // Normal speed forward
-        storyVideo.play();
-      } else {
-        storyVideo.playbackRate = -1; // Reverse playback
-        storyVideo.play();
-      }
-    }
-    
+
     lastScrollPosition = currentScrollPosition;
-    
+
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(() => {
       isScrolling = false;
