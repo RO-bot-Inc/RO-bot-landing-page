@@ -1083,6 +1083,10 @@ video {
   padding-top: 2rem;
 }
 
+.pt-24 {
+  padding-top: 6rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1436,6 +1440,10 @@ video {
     padding-top: 6rem;
   }
 
+  .md\:pt-16 {
+    padding-top: 4rem;
+  }
+
   .md\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
@@ -1486,6 +1494,10 @@ video {
     padding-left: 1.25rem;
   }
 
+  .lg\:pt-12 {
+    padding-top: 3rem;
+  }
+
   .lg\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
@@ -1504,5 +1516,9 @@ video {
 @media (min-width: 1280px) {
   .xl\:pt-12 {
     padding-top: 3rem;
+  }
+
+  .xl\:pt-8 {
+    padding-top: 2rem;
   }
 }

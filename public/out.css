@@ -1071,8 +1071,8 @@ video {
   padding-top: 2.5rem;
 }
 
-.pt-32 {
-  padding-top: 8rem;
+.pt-24 {
+  padding-top: 6rem;
 }
 
 .pb-10 {
@@ -1432,8 +1432,8 @@ video {
     gap: 4rem;
   }
 
-  .md\:pt-24 {
-    padding-top: 6rem;
+  .md\:pt-16 {
+    padding-top: 4rem;
   }
 
   .md\:text-3xl {
@@ -1478,8 +1478,8 @@ video {
     padding-right: 2rem;
   }
 
-  .lg\:pt-16 {
-    padding-top: 4rem;
+  .lg\:pt-12 {
+    padding-top: 3rem;
   }
 
   .lg\:pl-5 {
@@ -1502,7 +1502,7 @@ video {
 }
 
 @media (min-width: 1280px) {
-  .xl\:pt-12 {
-    padding-top: 3rem;
+  .xl\:pt-8 {
+    padding-top: 2rem;
   }
 }
