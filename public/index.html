@@ -188,18 +188,21 @@
                         document.addEventListener('DOMContentLoaded', () => {
                             const waveformVideo = document.getElementById('waveformVideo');
                             if (waveformVideo) {
-                                // Wait for video to load before setting playback rate
-                                waveformVideo.addEventListener('loadedmetadata', () => {
+                                // Wait for video to be ready before setting playback rate
+                                waveformVideo.addEventListener('canplay', () => {
                                     try {
-                                        waveformVideo.playbackRate = 0.8;
+                                        // Ensure the video is ready and playback rate is valid
+                                        if (waveformVideo.readyState >= 2) {
+                                            waveformVideo.playbackRate = 0.8;
+                                        }
                                     } catch (e) {
-                                        console.log('Playback rate not supported, using default speed');
+                                        // Silently fail and use default speed
                                     }
                                 });
                                 
                                 // Error handler for video loading issues
                                 waveformVideo.addEventListener('error', (e) => {
-                                    console.log('Video error, continuing with default settings');
+                                    // Silently handle video errors
                                 });
                             }
                         });
