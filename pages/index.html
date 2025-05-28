@@ -50,8 +50,13 @@
     </div>
 <!-- Feature 3 -->
             <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-1 order-1 mt-8 md:mt-0">
-                    <img src="tasks.png" alt="AI-powered diagnostic guidance interface" class="w-full h-auto max-h-[400px] object-cover" style="object-position: center 30%; transform: scale(1.125);">
+                <div class="w-full md:w-1/2 md:order-1 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
+                    <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+                        <source src="waveform-white-on-black.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <!-- Black semi-transparent mask -->
+                    <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
                 </div>
                 <div class="w-full md:w-1/2 space-y-4 md:order-2 order-2">
                     <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">AI Diagnostic Suggestions</h3>
