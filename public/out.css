@@ -803,8 +803,8 @@ video {
   width: 36%;
 }
 
-.w-\[80\%\] {
-  width: 80%;
+.w-\[67\%\] {
+  width: 67%;
 }
 
 .w-0 {
@@ -823,8 +823,8 @@ video {
   max-width: 80rem;
 }
 
-.max-w-sm {
-  max-width: 24rem;
+.max-w-xs {
+  max-width: 20rem;
 }
 
 .max-w-2xl {
