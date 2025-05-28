@@ -815,12 +815,16 @@ video {
   max-width: 42rem;
 }
 
-.max-w-3xl {
-  max-width: 48rem;
+.max-w-md {
+  max-width: 28rem;
 }
 
 .max-w-\[80\%\] {
   max-width: 80%;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
 }
 
 .max-w-\[216px\] {
@@ -1180,14 +1184,14 @@ video {
   color: rgb(42 157 143 / var(--tw-text-opacity));
 }
 
-.text-brand-silver {
-  --tw-text-opacity: 1;
-  color: rgb(176 174 194 / var(--tw-text-opacity));
-}
-
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.text-brand-silver {
+  --tw-text-opacity: 1;
+  color: rgb(176 174 194 / var(--tw-text-opacity));
 }
 
 .underline {
