@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let heroSequenceStep = 0;
   let arrowRotations = 0;
   let heroSequenceInterval;
+  let heroVisibilityChecked = false; // Prevent multiple visibility checks
   
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
@@ -400,6 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function stopHeroAnimation() {
     heroAnimationActive = false;
     heroSequenceRunning = false; // Reset sequence flag
+    heroVisibilityChecked = false; // Reset visibility flag
     
     // Restore normal video behavior
     const heroVideo = getHeroVideo();
@@ -417,9 +419,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const rect = heroSection.getBoundingClientRect();
       const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
       
-      if (isVisible && !heroAnimationActive) {
+      if (isVisible && !heroAnimationActive && !heroVisibilityChecked) {
+        heroVisibilityChecked = true;
         startHeroAnimation();
       } else if (!isVisible && heroAnimationActive) {
+        heroVisibilityChecked = false;
         stopHeroAnimation();
       }
     }
