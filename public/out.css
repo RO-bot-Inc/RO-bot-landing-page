@@ -815,12 +815,16 @@ video {
   max-width: 42rem;
 }
 
-.max-w-3xl {
-  max-width: 48rem;
+.max-w-xl {
+  max-width: 36rem;
 }
 
 .max-w-\[80\%\] {
   max-width: 80%;
+}
+
+.max-w-3xl {
+  max-width: 48rem;
 }
 
 .max-w-\[216px\] {
