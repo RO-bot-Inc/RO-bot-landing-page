@@ -242,31 +242,55 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       
-      console.log('Playing video once');
+      console.log('Starting video playback');
       video.currentTime = 0;
       video.loop = false; // Ensure loop is disabled
       
-      const handleEnded = () => {
-        console.log('Video ended');
+      let resolved = false;
+      
+      const cleanup = () => {
         video.removeEventListener('ended', handleEnded);
+        video.removeEventListener('timeupdate', handleTimeUpdate);
+        video.removeEventListener('error', handleError);
+      };
+      
+      const handleEnded = () => {
+        if (resolved) return;
+        resolved = true;
+        console.log('Video playback completed');
+        cleanup();
         video.pause();
         resolve();
       };
       
       const handleTimeUpdate = () => {
         // Fallback: if video reaches end but ended event doesn't fire
-        if (video.currentTime >= video.duration - 0.1) {
-          video.removeEventListener('timeupdate', handleTimeUpdate);
+        if (video.currentTime >= video.duration - 0.1 && video.duration > 0) {
+          if (resolved) return;
+          console.log('Video reached end via timeupdate');
           handleEnded();
         }
       };
       
+      const handleError = (e) => {
+        if (resolved) return;
+        resolved = true;
+        console.log('Video play error:', e);
+        cleanup();
+        resolve();
+      };
+      
       video.addEventListener('ended', handleEnded);
       video.addEventListener('timeupdate', handleTimeUpdate);
+      video.addEventListener('error', handleError);
       
       video.play().catch(e => {
         console.log('Video play failed:', e);
-        resolve();
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          resolve();
+        }
       });
     });
   }
@@ -274,10 +298,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function rotateArrowsTwice() {
     return new Promise((resolve) => {
       if (!arrowImage) {
+        console.log('No arrow image found for rotation');
         resolve();
         return;
       }
       
+      console.log('Starting arrow rotation');
       const startRotation = currentRotation;
       const targetRotation = startRotation + 720; // 2 full rotations (360 * 2)
       const duration = 2000; // 2 seconds
@@ -296,6 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
+          console.log('Arrow rotation completed');
           resolve();
         }
       }
@@ -310,32 +337,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroVideo = getHeroVideo();
     console.log('Starting hero sequence, video found:', !!heroVideo);
     
-    // Step 1: Play "record note" video once
-    console.log('Step 1: Playing video once');
-    await playVideoOnce(heroVideo);
-    
-    if (!heroAnimationActive) return;
-    
-    // Small pause between steps
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    // Step 2: Rotate arrows twice
-    console.log('Step 2: Rotating arrows twice');
-    await rotateArrowsTwice();
-    
-    if (!heroAnimationActive) return;
-    
-    // Small pause between steps
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    // Step 3: Play "record note" video once again
-    console.log('Step 3: Playing video once more');
-    await playVideoOnce(heroVideo);
-    
-    // Continue the loop
-    if (heroAnimationActive) {
-      console.log('Sequence complete, restarting in 1 second');
-      setTimeout(() => runHeroSequence(), 1000); // 1 second pause before next sequence
+    try {
+      // Step 1: Play "record note" video once - wait for it to complete
+      console.log('Step 1: Playing video once');
+      await playVideoOnce(heroVideo);
+      
+      if (!heroAnimationActive) return;
+      console.log('Step 1 complete, starting step 2');
+      
+      // Step 2: Rotate arrows twice - wait for rotation to complete
+      console.log('Step 2: Rotating arrows twice');
+      await rotateArrowsTwice();
+      
+      if (!heroAnimationActive) return;
+      console.log('Step 2 complete, starting step 3');
+      
+      // Step 3: Play "record note" video once again - wait for it to complete
+      console.log('Step 3: Playing video once more');
+      await playVideoOnce(heroVideo);
+      
+      if (!heroAnimationActive) return;
+      console.log('Step 3 complete, sequence finished');
+      
+      // Continue the loop after all steps are complete
+      if (heroAnimationActive) {
+        console.log('All steps complete, restarting sequence in 1 second');
+        setTimeout(() => runHeroSequence(), 1000); // 1 second pause before next sequence
+      }
+    } catch (error) {
+      console.error('Error in hero sequence:', error);
+      if (heroAnimationActive) {
+        setTimeout(() => runHeroSequence(), 2000); // Retry after error
+      }
     }
   }
   
