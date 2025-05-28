@@ -739,8 +739,8 @@ video {
   display: none;
 }
 
-.aspect-\[3\/4\] {
-  aspect-ratio: 3/4;
+.aspect-\[10\/18\] {
+  aspect-ratio: 10/18;
 }
 
 .h-16 {
@@ -963,6 +963,10 @@ video {
   border-radius: 0.375rem;
 }
 
+.rounded-3xl {
+  border-radius: 1.5rem;
+}
+
 .rounded-lg {
   border-radius: 0.5rem;
 }
@@ -1042,11 +1046,6 @@ video {
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
 }
 
 .object-cover {

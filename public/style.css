@@ -751,6 +751,10 @@ video {
   aspect-ratio: 9/19.5;
 }
 
+.aspect-\[10\/18\] {
+  aspect-ratio: 10/18;
+}
+
 .h-16 {
   height: 4rem;
 }
@@ -979,6 +983,10 @@ video {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.rounded-3xl {
+  border-radius: 1.5rem;
 }
 
 .border-2 {
