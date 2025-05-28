@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Hero animation sequence variables
   let heroAnimationActive = false;
+  let heroSequenceRunning = false; // Prevent multiple sequences from running
   let heroSequenceStep = 0;
   let arrowRotations = 0;
   let heroSequenceInterval;
@@ -332,8 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   async function runHeroSequence() {
-    if (!heroAnimationActive) return;
+    if (!heroAnimationActive || heroSequenceRunning) return;
     
+    heroSequenceRunning = true;
     const heroVideo = getHeroVideo();
     console.log('Starting hero sequence, video found:', !!heroVideo);
     
@@ -362,10 +364,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Continue the loop after all steps are complete
       if (heroAnimationActive) {
         console.log('All steps complete, restarting sequence in 1 second');
+        heroSequenceRunning = false; // Reset flag before next sequence
         setTimeout(() => runHeroSequence(), 1000); // 1 second pause before next sequence
+      } else {
+        heroSequenceRunning = false;
       }
     } catch (error) {
       console.error('Error in hero sequence:', error);
+      heroSequenceRunning = false; // Reset flag on error
       if (heroAnimationActive) {
         setTimeout(() => runHeroSequence(), 2000); // Retry after error
       }
@@ -373,9 +379,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   function startHeroAnimation() {
-    if (heroAnimationActive) return;
+    if (heroAnimationActive || heroSequenceRunning) return;
     
     heroAnimationActive = true;
+    heroSequenceRunning = false; // Reset sequence flag
     
     // Stop the default video autoplay and loop
     const heroVideo = getHeroVideo();
@@ -392,6 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   function stopHeroAnimation() {
     heroAnimationActive = false;
+    heroSequenceRunning = false; // Reset sequence flag
     
     // Restore normal video behavior
     const heroVideo = getHeroVideo();
