@@ -989,6 +989,10 @@ video {
   border-radius: 1.5rem;
 }
 
+.rounded-\[2rem\] {
+  border-radius: 2rem;
+}
+
 .border-2 {
   border-width: 2px;
 }
