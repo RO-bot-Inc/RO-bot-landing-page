@@ -803,6 +803,10 @@ video {
   width: 36%;
 }
 
+.w-\[95\%\] {
+  width: 95%;
+}
+
 .w-0 {
   width: 0px;
 }
