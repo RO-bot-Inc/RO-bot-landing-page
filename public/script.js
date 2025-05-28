@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let heroSequenceStep = 0;
   let arrowRotations = 0;
   let heroSequenceInterval;
-  let heroVisibilityChecked = false; // Prevent multiple visibility checks
   
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
@@ -189,9 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const newY = currentY - delta;
       floatingLayer.style.transform = `translateY(${newY}px)`;
     }
-    
-    // Check if hero section is in view
-    checkHeroVisibility();
     
     // Check if dipstick container is in view
     checkTechSpecsVisibility();
@@ -401,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function stopHeroAnimation() {
     heroAnimationActive = false;
     heroSequenceRunning = false; // Reset sequence flag
-    heroVisibilityChecked = false; // Reset visibility flag
     
     // Restore normal video behavior
     const heroVideo = getHeroVideo();
@@ -412,28 +407,12 @@ document.addEventListener('DOMContentLoaded', () => {
       heroVideo.play();
     }
   }
-  
-  function checkHeroVisibility() {
-    const heroSection = document.querySelector('section');
-    if (heroSection) {
-      const rect = heroSection.getBoundingClientRect();
-      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-      
-      if (isVisible && !heroAnimationActive && !heroVisibilityChecked) {
-        heroVisibilityChecked = true;
-        startHeroAnimation();
-      } else if (!isVisible && heroAnimationActive) {
-        heroVisibilityChecked = false;
-        stopHeroAnimation();
-      }
-    }
-  }
 
-  // Check if elements are in view on initial page load
+  // Check if elements are in view on initial page load and start hero animation
   setTimeout(() => {
     checkTechSpecsVisibility();
     checkInspectionVisibility();
-    checkHeroVisibility();
+    startHeroAnimation(); // Start hero animation on page load
   }, 500);
 
   const waitlistLinks = document.querySelectorAll('a[href="#waitlist-form"]');
