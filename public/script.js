@@ -219,27 +219,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Hero animation sequence functions
   function getHeroVideo() {
-    return document.querySelector('video[src*="record note"], video source[src*="record note"]')?.parentElement || 
-           document.querySelector('video source[src*="record%20note"]')?.parentElement;
+    // Find video with source containing "record note" or "record%20note"
+    const videoWithSource = document.querySelector('video source[src*="record note"], video source[src*="record%20note"]');
+    if (videoWithSource) {
+      return videoWithSource.parentElement;
+    }
+    
+    // Find video with direct src containing "record note"
+    const directVideo = document.querySelector('video[src*="record note"], video[src*="record%20note"]');
+    if (directVideo) {
+      return directVideo;
+    }
+    
+    return null;
   }
   
   function playVideoOnce(video) {
     return new Promise((resolve) => {
       if (!video) {
+        console.log('No video found for playback');
         resolve();
         return;
       }
       
+      console.log('Playing video once');
       video.currentTime = 0;
-      video.play();
+      video.loop = false; // Ensure loop is disabled
       
       const handleEnded = () => {
+        console.log('Video ended');
         video.removeEventListener('ended', handleEnded);
         video.pause();
         resolve();
       };
       
+      const handleTimeUpdate = () => {
+        // Fallback: if video reaches end but ended event doesn't fire
+        if (video.currentTime >= video.duration - 0.1) {
+          video.removeEventListener('timeupdate', handleTimeUpdate);
+          handleEnded();
+        }
+      };
+      
       video.addEventListener('ended', handleEnded);
+      video.addEventListener('timeupdate', handleTimeUpdate);
+      
+      video.play().catch(e => {
+        console.log('Video play failed:', e);
+        resolve();
+      });
     });
   }
   
@@ -280,23 +308,34 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!heroAnimationActive) return;
     
     const heroVideo = getHeroVideo();
+    console.log('Starting hero sequence, video found:', !!heroVideo);
     
     // Step 1: Play "record note" video once
+    console.log('Step 1: Playing video once');
     await playVideoOnce(heroVideo);
     
     if (!heroAnimationActive) return;
     
+    // Small pause between steps
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     // Step 2: Rotate arrows twice
+    console.log('Step 2: Rotating arrows twice');
     await rotateArrowsTwice();
     
     if (!heroAnimationActive) return;
     
+    // Small pause between steps
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     // Step 3: Play "record note" video once again
+    console.log('Step 3: Playing video once more');
     await playVideoOnce(heroVideo);
     
     // Continue the loop
     if (heroAnimationActive) {
-      setTimeout(() => runHeroSequence(), 500); // Small pause before next sequence
+      console.log('Sequence complete, restarting in 1 second');
+      setTimeout(() => runHeroSequence(), 1000); // 1 second pause before next sequence
     }
   }
   
@@ -305,11 +344,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     heroAnimationActive = true;
     
-    // Stop the default video autoplay
+    // Stop the default video autoplay and loop
     const heroVideo = getHeroVideo();
     if (heroVideo) {
       heroVideo.removeAttribute('autoplay');
+      heroVideo.removeAttribute('loop');
       heroVideo.pause();
+      heroVideo.currentTime = 0;
     }
     
     // Start the sequence
@@ -324,6 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroVideo) {
       heroVideo.setAttribute('autoplay', '');
       heroVideo.setAttribute('loop', '');
+      heroVideo.currentTime = 0;
       heroVideo.play();
     }
   }
