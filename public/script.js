@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let animationTriggered = false;
   let inspectionAnimationTriggered = false;
   
+  // Hero animation sequence variables
+  let heroAnimationActive = false;
+  let heroSequenceStep = 0;
+  let arrowRotations = 0;
+  let heroSequenceInterval;
+  
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
@@ -158,14 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
     
-    if (currentScrollPosition > lastScrollPosition) {
-      currentRotation += 10.5;
-    } else {
-      currentRotation -= 10.5;
-    }
-    
-    if (arrowImage) {
-      arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
+    // Only update arrow rotation from scroll if hero animation is not active
+    if (!heroAnimationActive) {
+      if (currentScrollPosition > lastScrollPosition) {
+        currentRotation += 10.5;
+      } else {
+        currentRotation -= 10.5;
+      }
+      
+      if (arrowImage) {
+        arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
+      }
     }
     
     // Update floating text layer position based on scroll
@@ -178,6 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const newY = currentY - delta;
       floatingLayer.style.transform = `translateY(${newY}px)`;
     }
+    
+    // Check if hero section is in view
+    checkHeroVisibility();
     
     // Check if dipstick container is in view
     checkTechSpecsVisibility();
@@ -205,10 +217,136 @@ document.addEventListener('DOMContentLoaded', () => {
     text.style.transform = 'translateY(20px)';
   });
 
+  // Hero animation sequence functions
+  function getHeroVideo() {
+    return document.querySelector('video[src*="record note"], video source[src*="record note"]')?.parentElement || 
+           document.querySelector('video source[src*="record%20note"]')?.parentElement;
+  }
+  
+  function playVideoOnce(video) {
+    return new Promise((resolve) => {
+      if (!video) {
+        resolve();
+        return;
+      }
+      
+      video.currentTime = 0;
+      video.play();
+      
+      const handleEnded = () => {
+        video.removeEventListener('ended', handleEnded);
+        video.pause();
+        resolve();
+      };
+      
+      video.addEventListener('ended', handleEnded);
+    });
+  }
+  
+  function rotateArrowsTwice() {
+    return new Promise((resolve) => {
+      if (!arrowImage) {
+        resolve();
+        return;
+      }
+      
+      const startRotation = currentRotation;
+      const targetRotation = startRotation + 720; // 2 full rotations (360 * 2)
+      const duration = 2000; // 2 seconds
+      const startTime = Date.now();
+      
+      function animate() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for smooth rotation
+        const easeProgress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+        currentRotation = startRotation + (targetRotation - startRotation) * easeProgress;
+        
+        arrowImage.style.transform = `translate(-50%, -50%) rotate(${currentRotation}deg)`;
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          resolve();
+        }
+      }
+      
+      animate();
+    });
+  }
+  
+  async function runHeroSequence() {
+    if (!heroAnimationActive) return;
+    
+    const heroVideo = getHeroVideo();
+    
+    // Step 1: Play "record note" video once
+    await playVideoOnce(heroVideo);
+    
+    if (!heroAnimationActive) return;
+    
+    // Step 2: Rotate arrows twice
+    await rotateArrowsTwice();
+    
+    if (!heroAnimationActive) return;
+    
+    // Step 3: Play "record note" video once again
+    await playVideoOnce(heroVideo);
+    
+    // Continue the loop
+    if (heroAnimationActive) {
+      setTimeout(() => runHeroSequence(), 500); // Small pause before next sequence
+    }
+  }
+  
+  function startHeroAnimation() {
+    if (heroAnimationActive) return;
+    
+    heroAnimationActive = true;
+    
+    // Stop the default video autoplay
+    const heroVideo = getHeroVideo();
+    if (heroVideo) {
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.pause();
+    }
+    
+    // Start the sequence
+    runHeroSequence();
+  }
+  
+  function stopHeroAnimation() {
+    heroAnimationActive = false;
+    
+    // Restore normal video behavior
+    const heroVideo = getHeroVideo();
+    if (heroVideo) {
+      heroVideo.setAttribute('autoplay', '');
+      heroVideo.setAttribute('loop', '');
+      heroVideo.play();
+    }
+  }
+  
+  function checkHeroVisibility() {
+    const heroSection = document.querySelector('section');
+    if (heroSection) {
+      const rect = heroSection.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisible && !heroAnimationActive) {
+        startHeroAnimation();
+      } else if (!isVisible && heroAnimationActive) {
+        stopHeroAnimation();
+      }
+    }
+  }
+
   // Check if elements are in view on initial page load
   setTimeout(() => {
     checkTechSpecsVisibility();
     checkInspectionVisibility();
+    checkHeroVisibility();
   }, 500);
 
   const waitlistLinks = document.querySelectorAll('a[href="#waitlist-form"]');
