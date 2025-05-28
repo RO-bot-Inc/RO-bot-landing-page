@@ -215,6 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return document.querySelector('video[src*="record note"], video[src*="record%20note"], video source[src*="record note"], video source[src*="record%20note"]')?.closest('video');
   }
 
+  function getUpdateStoryVideo() {
+    return document.querySelector('video[src*="update story"], video[src*="update%20story"], video source[src*="update story"], video source[src*="update%20story"]')?.closest('video');
+  }
+
   function playVideoOnce(video) {
     return new Promise((resolve) => {
       if (!video) {
@@ -270,19 +274,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroAnimationRunning) return;
 
     heroAnimationRunning = true;
-    const video = getHeroVideo();
+    const recordVideo = getHeroVideo();
+    const updateVideo = getUpdateStoryVideo();
 
     while (heroAnimationRunning) {
-      // Step 1: Play video once
-      await playVideoOnce(video);
+      // Step 1: Play record note video once
+      await playVideoOnce(recordVideo);
       if (!heroAnimationRunning) break;
 
       // Step 2: Rotate arrows twice
       await rotateArrows();
       if (!heroAnimationRunning) break;
 
-      // Step 3: Play video once more
-      await playVideoOnce(video);
+      // Step 3: Play update story video once
+      await playVideoOnce(updateVideo);
       if (!heroAnimationRunning) break;
 
       // Pause before next cycle
@@ -291,11 +296,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startHeroAnimation() {
-    const video = getHeroVideo();
-    if (video) {
-      video.removeAttribute('autoplay');
-      video.removeAttribute('loop');
-      video.pause();
+    const recordVideo = getHeroVideo();
+    const updateVideo = getUpdateStoryVideo();
+    
+    if (recordVideo) {
+      recordVideo.removeAttribute('autoplay');
+      recordVideo.removeAttribute('loop');
+      recordVideo.pause();
+    }
+    
+    if (updateVideo) {
+      updateVideo.removeAttribute('autoplay');
+      updateVideo.removeAttribute('loop');
+      updateVideo.pause();
     }
 
     runHeroSequence();
@@ -304,11 +317,19 @@ document.addEventListener('DOMContentLoaded', () => {
   function stopHeroAnimation() {
     heroAnimationRunning = false;
 
-    const video = getHeroVideo();
-    if (video) {
-      video.setAttribute('autoplay', '');
-      video.setAttribute('loop', '');
-      video.play();
+    const recordVideo = getHeroVideo();
+    const updateVideo = getUpdateStoryVideo();
+    
+    if (recordVideo) {
+      recordVideo.setAttribute('autoplay', '');
+      recordVideo.setAttribute('loop', '');
+      recordVideo.play();
+    }
+    
+    if (updateVideo) {
+      updateVideo.setAttribute('autoplay', '');
+      updateVideo.setAttribute('loop', '');
+      updateVideo.play();
     }
   }
 
