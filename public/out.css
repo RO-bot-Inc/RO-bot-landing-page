@@ -739,8 +739,8 @@ video {
   display: none;
 }
 
-.aspect-\[9\/16\] {
-  aspect-ratio: 9/16;
+.aspect-\[3\/4\] {
+  aspect-ratio: 3/4;
 }
 
 .h-16 {
@@ -1042,6 +1042,11 @@ video {
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .object-cover {
