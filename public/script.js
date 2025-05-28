@@ -330,7 +330,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   async function runHeroSequence() {
-    if (!heroAnimationActive || heroSequenceRunning) return;
+    if (!heroAnimationActive || heroSequenceRunning) {
+      console.log('Hero sequence blocked - active:', heroAnimationActive, 'running:', heroSequenceRunning);
+      return;
+    }
     
     heroSequenceRunning = true;
     const heroVideo = getHeroVideo();
@@ -341,36 +344,53 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Step 1: Playing video once');
       await playVideoOnce(heroVideo);
       
-      if (!heroAnimationActive) return;
+      if (!heroAnimationActive) {
+        heroSequenceRunning = false;
+        return;
+      }
       console.log('Step 1 complete, starting step 2');
       
       // Step 2: Rotate arrows twice - wait for rotation to complete
       console.log('Step 2: Rotating arrows twice');
       await rotateArrowsTwice();
       
-      if (!heroAnimationActive) return;
+      if (!heroAnimationActive) {
+        heroSequenceRunning = false;
+        return;
+      }
       console.log('Step 2 complete, starting step 3');
       
       // Step 3: Play "record note" video once again - wait for it to complete
       console.log('Step 3: Playing video once more');
       await playVideoOnce(heroVideo);
       
-      if (!heroAnimationActive) return;
+      if (!heroAnimationActive) {
+        heroSequenceRunning = false;
+        return;
+      }
       console.log('Step 3 complete, sequence finished');
+      
+      // Reset flag before scheduling next sequence
+      heroSequenceRunning = false;
       
       // Continue the loop after all steps are complete
       if (heroAnimationActive) {
         console.log('All steps complete, restarting sequence in 1 second');
-        heroSequenceRunning = false; // Reset flag before next sequence
-        setTimeout(() => runHeroSequence(), 1000); // 1 second pause before next sequence
-      } else {
-        heroSequenceRunning = false;
+        setTimeout(() => {
+          if (heroAnimationActive && !heroSequenceRunning) {
+            runHeroSequence();
+          }
+        }, 1000); // 1 second pause before next sequence
       }
     } catch (error) {
       console.error('Error in hero sequence:', error);
       heroSequenceRunning = false; // Reset flag on error
       if (heroAnimationActive) {
-        setTimeout(() => runHeroSequence(), 2000); // Retry after error
+        setTimeout(() => {
+          if (heroAnimationActive && !heroSequenceRunning) {
+            runHeroSequence();
+          }
+        }, 2000); // Retry after error
       }
     }
   }
