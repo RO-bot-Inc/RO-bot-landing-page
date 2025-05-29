@@ -600,14 +600,64 @@
     <!-- Footer -->
     <footer class="bg-brand-dark py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-                <!-- Company Info -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- RO-bot -->
                 <div class="space-y-4">
-                    <img class="h-8 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                    <h3 class="text-white font-semibold text-lg">RO-bot</h3>
                     <p class="text-brand-silver text-sm leading-relaxed">
-                        Transforming automotive service with AI-powered voice documentation for faster repairs and higher warranty claim approvals.
+                        AI-powered assistance for automotive technicians.
                     </p>
+                    <p class="text-brand-silver text-sm">
+                        hello@ro-bot.io
+                    </p>
+                </div>
+
+                <!-- Product -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="/features" class="text-brand-silver hover:text-white text-sm transition duration-150">Features</a></li>
+                        <li><a href="/pricing" class="text-brand-silver hover:text-white text-sm transition duration-150">Pricing</a></li>
+                        <li><a href="/case-studies" class="text-brand-silver hover:text-white text-sm transition duration-150">Case Studies</a></li>
+                        <li><a href="/testimonials" class="text-brand-silver hover:text-white text-sm transition duration-150">Testimonials</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="/knowledge-base" class="text-brand-silver hover:text-white text-sm transition duration-150">Knowledge Base</a></li>
+                        <li><a href="/blog" class="text-brand-silver hover:text-white text-sm transition duration-150">Blog</a></li>
+                        <li><a href="/support" class="text-brand-silver hover:text-white text-sm transition duration-150">Support</a></li>
+                        <li><a href="/contact" class="text-brand-silver hover:text-white text-sm transition duration-150">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="/privacy" class="text-brand-silver hover:text-white text-sm transition duration-150">Privacy Policy</a></li>
+                        <li><a href="/terms" class="text-brand-silver hover:text-white text-sm transition duration-150">Terms of Service</a></li>
+                        <li><a href="/cookies" class="text-brand-silver hover:text-white text-sm transition duration-150">Cookie Policy</a></li>
+                        <li><a href="/gdpr" class="text-brand-silver hover:text-white text-sm transition duration-150">GDPR Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom section -->
+            <div class="border-t border-gray-700 pt-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="text-brand-silver text-sm">
+                        © 2025 RO-bot. All rights reserved.
+                    </div>
                     <div class="flex space-x-4">
+                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Facebook">
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
                         <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Twitter">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
@@ -618,71 +668,6 @@
                                 <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"></path>
                             </svg>
                         </a>
-                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="YouTube">
-                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Product -->
-                <div class="space-y-4">
-                    <h3 class="text-white font-semibold text-sm uppercase tracking-wider">Product</h3>
-                    <ul class="space-y-3">
-                        <li><a href="/features" class="text-brand-silver hover:text-white text-sm transition duration-150">Features</a></li>
-                        <li><a href="/pricing" class="text-brand-silver hover:text-white text-sm transition duration-150">Pricing</a></li>
-                        <li><a href="/integrations" class="text-brand-silver hover:text-white text-sm transition duration-150">Integrations</a></li>
-                        <li><a href="/demo" class="text-brand-silver hover:text-white text-sm transition duration-150">Request Demo</a></li>
-                        <li><a href="/case-studies" class="text-brand-silver hover:text-white text-sm transition duration-150">Case Studies</a></li>
-                        <li><a href="/roadmap" class="text-brand-silver hover:text-white text-sm transition duration-150">Product Roadmap</a></li>
-                    </ul>
-                </div>
-
-                <!-- Company -->
-                <div class="space-y-4">
-                    <h3 class="text-white font-semibold text-sm uppercase tracking-wider">Company</h3>
-                    <ul class="space-y-3">
-                        <li><a href="/about" class="text-brand-silver hover:text-white text-sm transition duration-150">About Us</a></li>
-                        <li><a href="/careers" class="text-brand-silver hover:text-white text-sm transition duration-150">Careers</a></li>
-                        <li><a href="/news" class="text-brand-silver hover:text-white text-sm transition duration-150">News & Press</a></li>
-                        <li><a href="/partners" class="text-brand-silver hover:text-white text-sm transition duration-150">Partners</a></li>
-                        <li><a href="/blog" class="text-brand-silver hover:text-white text-sm transition duration-150">Blog</a></li>
-                        <li><a href="/investors" class="text-brand-silver hover:text-white text-sm transition duration-150">Investors</a></li>
-                    </ul>
-                </div>
-
-                <!-- Support & Legal -->
-                <div class="space-y-4">
-                    <h3 class="text-white font-semibold text-sm uppercase tracking-wider">Support</h3>
-                    <ul class="space-y-3">
-                        <li><a href="/help" class="text-brand-silver hover:text-white text-sm transition duration-150">Help Center</a></li>
-                        <li><a href="/documentation" class="text-brand-silver hover:text-white text-sm transition duration-150">Documentation</a></li>
-                        <li><a href="/training" class="text-brand-silver hover:text-white text-sm transition duration-150">Training</a></li>
-                        <li><a href="mailto:support@ro-bot.io" class="text-brand-silver hover:text-white text-sm transition duration-150">Contact Support</a></li>
-                        <li><a href="/status" class="text-brand-silver hover:text-white text-sm transition duration-150">System Status</a></li>
-                        <li><a href="/security" class="text-brand-silver hover:text-white text-sm transition duration-150">Security</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Bottom section with legal links -->
-            <div class="border-t border-gray-700 pt-8">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-                    <div class="flex flex-wrap gap-x-6 gap-y-2 text-center md:text-left">
-                        <a href="/privacy" class="text-brand-silver hover:text-white text-sm transition duration-150">Privacy Policy</a>
-                        <a href="/terms" class="text-brand-silver hover:text-white text-sm transition duration-150">Terms of Service</a>
-                        <a href="/cookies" class="text-brand-silver hover:text-white text-sm transition duration-150">Cookie Policy</a>
-                        <a href="/data-processing" class="text-brand-silver hover:text-white text-sm transition duration-150">Data Processing</a>
-                        <a href="/compliance" class="text-brand-silver hover:text-white text-sm transition duration-150">Compliance</a>
-                    </div>
-                    <div class="text-center md:text-right">
-                        <p class="text-brand-silver text-sm">
-                            © 2024 RO-bot Technologies, Inc. All rights reserved.
-                        </p>
-                        <p class="text-brand-silver text-xs mt-1">
-                            SOC 2 Type II Certified • ISO 27001 Compliant
-                        </p>
                     </div>
                 </div>
             </div>
