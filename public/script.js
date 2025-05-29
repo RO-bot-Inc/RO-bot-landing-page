@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Simple hero animation variables
   let heroAnimationRunning = false;
+  let diagnosticAnimationTriggered = false;
 
   // Function to check if an element is in viewport
   function isElementInViewport(el) {
@@ -45,6 +46,16 @@ document.addEventListener('DOMContentLoaded', () => {
     inspectionAnimationTriggered = false;
   }
 
+  // Function to reset diagnostic task overlays to invisible state
+  function resetDiagnosticTasks() {
+    const taskOverlays = document.querySelectorAll('.task-overlay');
+    taskOverlays.forEach(overlay => {
+      overlay.style.opacity = '0';
+      overlay.style.transform = 'translateY(20px)';
+    });
+    diagnosticAnimationTriggered = false;
+  }
+
   // Function to animate inspection text in sequence
   function animateInspectionText() {
     const inspectionTexts = document.querySelectorAll('.floating-text');
@@ -70,6 +81,34 @@ document.addEventListener('DOMContentLoaded', () => {
         text.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         text.style.opacity = '1';
         text.style.transform = 'translateY(0)';
+      }, delay);
+    });
+  }
+
+  // Function to animate diagnostic task overlays in sequence
+  function animateDiagnosticTasks() {
+    const taskOverlays = document.querySelectorAll('.task-overlay');
+    const sortedTasks = Array.from(taskOverlays).sort((a, b) => {
+      return parseInt(a.dataset.animationOrder) - parseInt(b.dataset.animationOrder);
+    });
+
+    // Reset all overlays first
+    taskOverlays.forEach(overlay => {
+      overlay.style.opacity = '0';
+      overlay.style.transform = 'translateY(20px)';
+    });
+
+    // Initial pause before starting animations (1 second)
+    const initialDelay = 1000;
+
+    // Animate the tasks in order with no pause between them
+    sortedTasks.forEach((overlay, index) => {
+      const delay = initialDelay + (index * 300); // 300ms between each task
+
+      setTimeout(() => {
+        overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        overlay.style.opacity = '1';
+        overlay.style.transform = 'translateY(0)';
       }, delay);
     });
   }
@@ -157,6 +196,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Check if diagnostic container is in view and handle task animations
+  function checkDiagnosticVisibility() {
+    const diagnosticContainer = document.getElementById('diagnosticContainer');
+    if (diagnosticContainer) {
+      const isInView = isElementPartiallyInViewport(diagnosticContainer);
+
+      if (isInView && !diagnosticAnimationTriggered) {
+        // Diagnostic container just came into view, start task animation
+        animateDiagnosticTasks();
+        diagnosticAnimationTriggered = true;
+      } else if (!isInView && diagnosticAnimationTriggered) {
+        // Diagnostic container just left view, reset task animations
+        resetDiagnosticTasks();
+      }
+    }
+  }
+
   window.addEventListener('scroll', () => {
     const currentScrollPosition = window.pageYOffset;
 
@@ -190,6 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if inspection image is in view
     checkInspectionVisibility();
 
+    // Check if diagnostic container is in view
+    checkDiagnosticVisibility();
+
     lastScrollPosition = currentScrollPosition;
 
     clearTimeout(scrollTimeout);
@@ -208,6 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.floating-text').forEach(text => {
     text.style.opacity = '0';
     text.style.transform = 'translateY(20px)';
+  });
+
+  // Set initial state for diagnostic task overlays
+  document.querySelectorAll('.task-overlay').forEach(overlay => {
+    overlay.style.opacity = '0';
+    overlay.style.transform = 'translateY(20px)';
   });
 
   // Simple, elegant hero animation
@@ -344,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     checkTechSpecsVisibility();
     checkInspectionVisibility();
+    checkDiagnosticVisibility();
     startHeroAnimation();
   }, 500);
 
