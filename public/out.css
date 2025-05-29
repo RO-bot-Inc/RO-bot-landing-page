@@ -803,8 +803,8 @@ video {
   width: 36%;
 }
 
-.w-\[78\%\] {
-  width: 78%;
+.w-\[85\%\] {
+  width: 85%;
 }
 
 .w-0 {
@@ -1053,8 +1053,8 @@ video {
      object-fit: cover;
 }
 
-.p-4 {
-  padding: 1rem;
+.p-3 {
+  padding: 0.75rem;
 }
 
 .p-6 {
@@ -1370,8 +1370,8 @@ video {
     height: 10rem;
   }
 
-  .sm\:w-\[68\%\] {
-    width: 68%;
+  .sm\:w-\[75\%\] {
+    width: 75%;
   }
 
   .sm\:flex-row {
@@ -1442,8 +1442,8 @@ video {
     width: 22.5%;
   }
 
-  .md\:w-\[60\%\] {
-    width: 60%;
+  .md\:w-\[65\%\] {
+    width: 65%;
   }
 
   .md\:w-1\/2 {
@@ -1477,8 +1477,8 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:w-\[53\%\] {
-    width: 53%;
+  .lg\:w-\[58\%\] {
+    width: 58%;
   }
 
   .lg\:grid-cols-3 {
@@ -1518,8 +1518,8 @@ video {
 }
 
 @media (min-width: 1280px) {
-  .xl\:w-\[48\%\] {
-    width: 48%;
+  .xl\:w-\[53\%\] {
+    width: 53%;
   }
 
   .xl\:pt-8 {
