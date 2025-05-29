@@ -101,6 +101,34 @@
         .logo-carousel-container:hover .logo-carousel-track {
             animation-play-state: paused;
         }
+
+        /* Problem Statistics Cards - Glassmorphism */
+        .problem-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            border-color: #2a9d8f;
+            box-shadow: 0 20px 40px rgba(42, 157, 143, 0.1);
+        }
+
+        .problem-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #f76707);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -198,7 +226,56 @@
         </section>
     </div>
 
-    <section class="py-8 sm:py-12 bg-gray-200 -mt-12 sm:-mt-16"> <!-- Further reduced padding and added negative margin --> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-brand-dark text-center tracking-tight max-w-2xl mx-auto">
+    <!-- Problem Statistics Section -->
+    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight">
+                    Your Current System Is Bleeding Money
+                </h2>
+                <p class="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                    Every day you don't fix this costs you thousands in lost efficiency
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Service Techs Card -->
+                <div class="problem-card group">
+                    <div class="problem-icon">
+                        🔧
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Service Techs Are Frustrated</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        <strong class="text-brand-orange">30% of their day is typing</strong> instead of turning wrenches. They spend more time hunting for TSBs and rewriting stories than actually fixing cars. Result? Lower job counts, missed flat rate hours, and tech turnover.
+                    </p>
+                </div>
+
+                <!-- Warranty Managers Card -->
+                <div class="problem-card group">
+                    <div class="problem-icon">
+                        📋
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Warranty Managers Are Overwhelmed</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        <strong class="text-brand-orange">60% of claims need rework</strong> because techs write incomplete stories. You're chasing details, fixing documentation, and dealing with rejected claims. Meanwhile, your approval rates tank and cash flow suffers.
+                    </p>
+                </div>
+
+                <!-- Service Managers Card -->
+                <div class="problem-card group">
+                    <div class="problem-icon">
+                        📊
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Service Managers Are Fighting Fires</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        <strong class="text-brand-orange">Bay utilization under 70%</strong> because everything takes longer than it should. Comebacks from poor documentation. Technician development stalled. Revenue per RO declining while costs increase.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-8 sm:py-12 bg-gray-200"> <!-- Removed negative margin --> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-brand-dark text-center tracking-tight max-w-2xl mx-auto">
                 Every minute on a screen is a minute <em>not</em>&nbsp;&nbsp;fixing cars.
             </h2>
 
