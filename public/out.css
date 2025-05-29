@@ -1222,11 +1222,6 @@ video {
   color: rgb(42 157 143 / var(--tw-text-opacity));
 }
 
-.text-gray-300 {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity));
-}
-
 .text-brand-orange {
   --tw-text-opacity: 1;
   color: rgb(198 48 6 / var(--tw-text-opacity));
@@ -1677,10 +1672,6 @@ video {
 
   .xl\:w-\[260px\] {
     width: 260px;
-  }
-
-  .xl\:grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .xl\:pt-8 {
