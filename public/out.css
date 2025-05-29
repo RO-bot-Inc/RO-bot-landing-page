@@ -694,10 +694,6 @@ video {
   display: block;
 }
 
-.inline-block {
-  display: inline-block;
-}
-
 .flex {
   display: flex;
 }
@@ -1244,10 +1240,6 @@ video {
 
 .focus\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
-}
-
-.focus\:ring-offset-brand-light:focus {
-  --tw-ring-offset-color: #808080;
 }
 
 .focus\:ring-offset-brand-green:focus {
