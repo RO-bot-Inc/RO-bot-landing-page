@@ -289,9 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // Step 3: Play update story video once
       await playVideoOnce(updateVideo);
       if (!heroAnimationRunning) break;
-
-      // Pause before next cycle
-      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
 
