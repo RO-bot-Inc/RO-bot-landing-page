@@ -1434,6 +1434,10 @@ video {
     left: 50%;
   }
 
+  .md\:left-\[46\%\] {
+    left: 46%;
+  }
+
   .md\:order-1 {
     order: 1;
   }
