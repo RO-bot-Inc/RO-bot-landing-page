@@ -216,8 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getUpdateStoryVideo() {
-    // Since we removed the right video, this should return null
-    return null;
+    return document.querySelector('video[src*="update story"], video source[src*="update story"]')?.closest('video');
   }
 
   function playVideoOnce(video) {
@@ -278,18 +277,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const recordVideo = getHeroVideo();
     const updateVideo = getUpdateStoryVideo();
 
+    console.log('Starting hero sequence, videos found:', {
+      recordVideo: !!recordVideo,
+      updateVideo: !!updateVideo
+    });
+
     while (heroAnimationRunning) {
-      // Step 1: Play record note video once
+      // Step 1: Play left video (record note) once
+      console.log('Step 1: Playing left video once');
       await playVideoOnce(recordVideo);
       if (!heroAnimationRunning) break;
 
       // Step 2: Rotate arrows twice
+      console.log('Step 2: Rotating arrows twice');
       await rotateArrows();
       if (!heroAnimationRunning) break;
 
-      // Step 3: Play update story video once
+      // Step 3: Play right video (update story) once
+      console.log('Step 3: Playing right video once');
       await playVideoOnce(updateVideo);
       if (!heroAnimationRunning) break;
+
+      console.log('Sequence complete, restarting...');
     }
   }
 
