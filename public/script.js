@@ -425,4 +425,50 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Features link
+  const featuresLinks = document.querySelectorAll('a[href="#features"]');
+  featuresLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const featuresSection = document.getElementById('features');
+      if (featuresSection) {
+        featuresSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Top navigation links
+  const topLinks = document.querySelectorAll('a[href="#top"]');
+  topLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Contact and Support modal
+  const contactLinks = document.querySelectorAll('a[href="#contact"], a[href="#support"]');
+  const contactModal = document.getElementById('contactModal');
+  const closeModal = document.getElementById('closeModal');
+
+  contactLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      contactModal.classList.remove('hidden');
+    });
+  });
+
+  if (closeModal) {
+    closeModal.addEventListener('click', () => {
+      contactModal.classList.add('hidden');
+    });
+  }
+
+  // Close modal when clicking outside
+  contactModal.addEventListener('click', (e) => {
+    if (e.target === contactModal) {
+      contactModal.classList.add('hidden');
+    }
+  });
 });
