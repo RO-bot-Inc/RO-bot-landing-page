@@ -426,24 +426,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Features link
+  // Features link - instant jump
   const featuresLinks = document.querySelectorAll('a[href="#features"]');
   featuresLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const featuresSection = document.getElementById('features');
       if (featuresSection) {
-        featuresSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        featuresSection.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
     });
   });
 
-  // Top navigation links
+  // Top navigation links - instant jump
   const topLinks = document.querySelectorAll('a[href="#top"]');
   topLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     });
   });
 
