@@ -17,42 +17,42 @@
             overflow-x: hidden;
             max-width: 100%;
         }
-        
+
         /* Ensure all content respects viewport width */
         * {
             max-width: 100%;
             box-sizing: border-box;
         }
-        
+
         /* Responsive video scaling to match container breakpoints */
         .hero-video {
             transform: scale(1.1);
         }
-        
+
         @media (min-width: 640px) {
             .hero-video {
                 transform: scale(1.08);
             }
         }
-        
+
         @media (min-width: 768px) {
             .hero-video {
                 transform: scale(1.06);
             }
         }
-        
+
         @media (min-width: 1024px) {
             .hero-video {
                 transform: scale(1.04);
             }
         }
-        
+
         @media (min-width: 1280px) {
             .hero-video {
                 transform: scale(1.02);
             }
         }
-        
+
         /* Logo Carousel Styles */
         .logo-carousel-container {
             overflow: hidden;
@@ -60,13 +60,13 @@
             position: relative;
             margin: 0 auto;
         }
-        
+
         .logo-carousel-track {
             display: flex;
             animation: scroll-logos 30s linear infinite;
             width: calc(200% + 40px);
         }
-        
+
         .logo-carousel-slide {
             flex: 0 0 auto;
             margin: 0 20px;
@@ -74,7 +74,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .logo-carousel-img {
             height: 50px !important;
             max-height: 50px !important;
@@ -83,11 +83,11 @@
             filter: grayscale(100%) opacity(0.7);
             transition: filter 0.3s ease;
         }
-        
+
         .logo-carousel-img:hover {
             filter: grayscale(0%) opacity(1);
         }
-        
+
         @keyframes scroll-logos {
             0% {
                 transform: translateX(0);
@@ -96,7 +96,7 @@
                 transform: translateX(-50%);
             }
         }
-        
+
         /* Pause animation on hover */
         .logo-carousel-container:hover .logo-carousel-track {
             animation-play-state: paused;
@@ -372,10 +372,10 @@
 
             <!-- Feature 3 -->
             <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-1 order-1 mt-8 md:mt-0">
+                <div class="w-full md:w-1/2 order-1 md:order-1 mt-8 md:mt-0">
                     <img src="tasks.png" alt="AI-powered diagnostic guidance interface" class="w-full h-auto max-h-[400px] object-cover" style="object-position: center 30%; transform: scale(1.125);">
                 </div>
-                <div class="w-full md:w-1/2 space-y-4 md:order-2 order-2">
+                <div class="w-full md:w-1/2 space-y-4 order-2 md:order-2 mt-8 md:mt-0">
                     <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">AI Diagnostic Suggestions</h3>
                     <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
                         Facing a tricky intermittent problem? RO-bot provides intelligent diagnostic suggestions, helping you pinpoint issues faster and more accurately.
