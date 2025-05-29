@@ -621,6 +621,10 @@ video {
   bottom: 5%;
 }
 
+.right-\[10\%\] {
+  right: 10%;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -849,6 +853,10 @@ video {
 
 .max-w-\[181px\] {
   max-width: 181px;
+}
+
+.max-w-\[120px\] {
+  max-width: 120px;
 }
 
 .flex-shrink-0 {
