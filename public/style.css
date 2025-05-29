@@ -1422,6 +1422,10 @@ video {
     top: 50%;
   }
 
+  .md\:left-\[57\.5\%\] {
+    left: 57.5%;
+  }
+
   .md\:order-1 {
     order: 1;
   }
