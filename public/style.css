@@ -1430,6 +1430,10 @@ video {
     left: 42%;
   }
 
+  .md\:left-1\/2 {
+    left: 50%;
+  }
+
   .md\:order-1 {
     order: 1;
   }
