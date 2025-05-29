@@ -573,8 +573,8 @@ video {
   left: 50%;
 }
 
-.top-\[calc\(50\%\+20px\)\] {
-  top: calc(50% + 20px);
+.top-\[calc\(50\%\+80px\)\] {
+  top: calc(50% + 80px);
 }
 
 .bottom-0 {
