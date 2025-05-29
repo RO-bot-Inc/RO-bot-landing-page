@@ -12,6 +12,18 @@
     <script src="/script.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="/Android.png"> <link rel="icon" type="image/png" sizes="16x16" href="/Android.png">
     <style>
+        /* Prevent horizontal overflow on mobile */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+        
+        /* Ensure all content respects viewport width */
+        * {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
         /* Responsive video scaling to match container breakpoints */
         .hero-video {
             transform: scale(1.1);
@@ -373,7 +385,7 @@
         </div>
 
         <!-- Combined OEM Logo Carousel and CTA Section with Grey Background -->
-    <div class="py-8 mt-20" style="background-color: #f3f4f6; width: 100vw; margin-left: calc(-50vw + 50%); position: relative;">
+    <div class="py-8 mt-20" style="background-color: #f3f4f6; width: 100%; position: relative;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- OEM Logo Carousel Section -->
             <div class="mb-16">
@@ -432,7 +444,7 @@
         </div>
     </div>
 
-    <div style="background-color: #0f1108; width: 100vw; margin-left: calc(-50vw + 50%); position: relative;">
+    <div style="background-color: #0f1108; width: 100%; position: relative;">
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <!-- Company Info -->
