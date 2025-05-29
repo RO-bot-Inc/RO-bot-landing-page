@@ -855,6 +855,18 @@ video {
   width: 30%;
 }
 
+.w-\[45\%\] {
+  width: 45%;
+}
+
+.w-\[50\%\] {
+  width: 50%;
+}
+
+.w-\[38\%\] {
+  width: 38%;
+}
+
 .max-w-7xl {
   max-width: 80rem;
 }
@@ -1460,6 +1472,18 @@ video {
     width: 25%;
   }
 
+  .sm\:w-\[38\%\] {
+    width: 38%;
+  }
+
+  .sm\:w-\[42\%\] {
+    width: 42%;
+  }
+
+  .sm\:w-\[32\%\] {
+    width: 32%;
+  }
+
   .sm\:flex-row {
     flex-direction: row;
   }
@@ -1560,6 +1584,14 @@ video {
     width: 22%;
   }
 
+  .md\:w-\[36\%\] {
+    width: 36%;
+  }
+
+  .md\:w-\[26\%\] {
+    width: 26%;
+  }
+
   .md\:-translate-y-1\/2 {
     --tw-translate-y: -50%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1613,6 +1645,14 @@ video {
     width: 20%;
   }
 
+  .lg\:w-\[32\%\] {
+    width: 32%;
+  }
+
+  .lg\:w-\[22\%\] {
+    width: 22%;
+  }
+
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1664,6 +1704,18 @@ video {
 
   .xl\:w-\[199px\] {
     width: 199px;
+  }
+
+  .xl\:w-\[260px\] {
+    width: 260px;
+  }
+
+  .xl\:w-\[300px\] {
+    width: 300px;
+  }
+
+  .xl\:w-\[220px\] {
+    width: 220px;
   }
 
   .xl\:pt-8 {
