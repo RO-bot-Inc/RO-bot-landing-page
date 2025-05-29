@@ -1553,6 +1553,38 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .lg\:left-\[2\%\] {
+    left: 2%;
+  }
+
+  .lg\:top-\[5\%\] {
+    top: 5%;
+  }
+
+  .lg\:right-\[2\%\] {
+    right: 2%;
+  }
+
+  .lg\:top-\[12\%\] {
+    top: 12%;
+  }
+
+  .lg\:left-\[3\%\] {
+    left: 3%;
+  }
+
+  .lg\:bottom-\[18\%\] {
+    bottom: 18%;
+  }
+
+  .lg\:right-\[3\%\] {
+    right: 3%;
+  }
+
+  .lg\:bottom-\[5\%\] {
+    bottom: 5%;
+  }
+
   .lg\:w-\[58\%\] {
     width: 58%;
   }
