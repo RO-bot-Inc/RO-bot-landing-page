@@ -655,8 +655,8 @@ video {
   margin-bottom: 2rem;
 }
 
-.-mt-64 {
-  margin-top: -16rem;
+.-mt-80 {
+  margin-top: -20rem;
 }
 
 .mt-8 {
@@ -1355,10 +1355,6 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:-mt-72 {
-    margin-top: -18rem;
-  }
-
   .sm\:-mt-16 {
     margin-top: -4rem;
   }
@@ -1447,8 +1443,8 @@ video {
     order: 2;
   }
 
-  .md\:-mt-80 {
-    margin-top: -20rem;
+  .md\:-mt-96 {
+    margin-top: -24rem;
   }
 
   .md\:mt-0 {
