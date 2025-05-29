@@ -65,31 +65,29 @@
                     </p>
                 </div>
             </div>
-            <div class="w-full md:w-[95%] relative mx-auto -mt-48 sm:-mt-60 md:-mt-80">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 items-start">
-                            <!-- Record Video (Left) -->
-                            <div class="relative aspect-[10/19] w-[85%] sm:w-[75%] md:w-[90%] lg:w-[85%] xl:w-[80%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center" style="transform: translateY(-100px);">
+<!-- Moved images outside the absolute positioning to allow overflow -->
+                <div class="container mx-auto px-4 relative z-20">
+                    <div class="w-full md:w-[95%] relative mx-auto -mt-32 sm:-mt-40 md:-mt-48">
+                        <img src="/hero/arrows.png" alt="Process flow arrows" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[36%] md:w-[22.5%] z-10 scroll-spin" style="transform: translate(-50%, -50%) translateX(-10px);"/>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                            <div class="relative aspect-[10/19] w-[85%] sm:w-[75%] md:w-[65%] lg:w-[58%] xl:w-[53%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center" style="transform: translateY(-10px);">
                                 <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-[3rem] hero-video" style="object-position: center center;" alt="Voice notes interface showing diagnostic process">
                                     <source src="/hero/record%20note.mov" type="video/mp4">
                                     <source src="/hero/record note.mov" type="video/quicktime">
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
-
-                            <!-- Arrows (Center) -->
-                            <div class="flex justify-center items-center mt-[30%]" style="transform: translateX(-80px);">
-                                <img src="/hero/arrows.png" alt="Process flow arrows" class="w-[60%] md:w-[70%] scroll-spin"/>
-                            </div>
-
-                            <!-- Update Video (Right) -->
-                            <div class="relative aspect-[10/19] w-[85%] sm:w-[75%] md:w-[90%] lg:w-[85%] xl:w-[80%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center mt-[20%]" style="transform: translateY(150px);">
-                                <video muted playsinline class="w-full h-full object-cover rounded-[3rem] hero-video" style="object-position: center center;" alt="Generated repair story with detailed documentation">
+                            <div class="w-full" style="transform: translateY(20px);">
+                                <video muted playsinline
+                                     class="w-full h-auto rounded-lg"
+                                     alt="Generated repair story with detailed documentation">
                                     <source src="/hero/update story.mov" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
                         </div>
                     </div>
+                </div>
 
   </div>
 
