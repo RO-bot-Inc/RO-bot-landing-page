@@ -723,6 +723,10 @@ video {
   margin-bottom: 1rem;
 }
 
+.-mt-64 {
+  margin-top: -16rem;
+}
+
 .block {
   display: block;
 }
@@ -1369,6 +1373,10 @@ video {
 
   .sm\:mb-0 {
     margin-bottom: 0px;
+  }
+
+  .sm\:-mt-72 {
+    margin-top: -18rem;
   }
 
   .sm\:flex {
