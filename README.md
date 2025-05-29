@@ -22,7 +22,7 @@ contains the tailwind libraries to make it function. You can modify it by follow
 is responsible for configuring the build process of your css.
 
 **pages/**
-contains your html files. Make sure to put them there.
+contains additional HTML pages like signup.html.
 
 **public/**
-contains your images, music and everything that does not belong into pages/. You can also find the css file there that tailwindcss generates
+contains your main website files, images, videos, and everything else served to users. The main index.html is located here, and this is where tailwindcss generates the CSS files.
