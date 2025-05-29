@@ -1414,8 +1414,8 @@ video {
 }
 
 @media (min-width: 768px) {
-  .md\:left-\[57\.5\%\] {
-    left: 57.5%;
+  .md\:left-\[42\%\] {
+    left: 42%;
   }
 
   .md\:top-1\/2 {
