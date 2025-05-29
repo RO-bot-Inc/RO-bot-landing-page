@@ -787,10 +787,6 @@ video {
   height: 1.25rem;
 }
 
-.max-h-\[400px\] {
-  max-height: 400px;
-}
-
 .w-auto {
   width: auto;
 }
