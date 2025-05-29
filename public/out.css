@@ -699,6 +699,10 @@ video {
   margin-bottom: 4rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .mt-20 {
   margin-top: 5rem;
 }
@@ -719,10 +723,6 @@ video {
   margin-bottom: 1.5rem;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .block {
   display: block;
 }
@@ -733,6 +733,10 @@ video {
 
 .flex {
   display: flex;
+}
+
+.table {
+  display: table;
 }
 
 .grid {
@@ -1221,6 +1225,11 @@ video {
 .text-red-500 {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.text-gray-500 {
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
 .text-brand-silver {
