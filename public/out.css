@@ -593,32 +593,32 @@ video {
   left: 10%;
 }
 
-.top-\[calc\(10\%-5px\)\] {
-  top: calc(10% - 5px);
+.top-\[5\%\] {
+  top: 5%;
 }
 
 .right-\[40\%\] {
   right: 40%;
 }
 
-.top-\[25\%\] {
-  top: 25%;
+.top-\[30\%\] {
+  top: 30%;
 }
 
 .left-\[15\%\] {
   left: 15%;
 }
 
-.bottom-\[25\%\] {
-  bottom: 25%;
+.bottom-\[30\%\] {
+  bottom: 30%;
 }
 
 .right-\[35\%\] {
   right: 35%;
 }
 
-.bottom-\[5\%\] {
-  bottom: 5%;
+.bottom-\[8\%\] {
+  bottom: 8%;
 }
 
 .right-\[10\%\] {
