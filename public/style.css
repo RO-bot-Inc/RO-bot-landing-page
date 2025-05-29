@@ -743,6 +743,10 @@ video {
   aspect-ratio: 10/18;
 }
 
+.aspect-\[9\/19\] {
+  aspect-ratio: 9/19;
+}
+
 .h-16 {
   height: 4rem;
 }
