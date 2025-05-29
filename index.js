@@ -13,7 +13,7 @@ app.get("/", (req,res) => {
       return;
     }
   });
-  res.sendFile(path.join(__dirname, "pages/index.html"))
+  res.sendFile(path.join(__dirname, "public/index.html"))
 })
 
 const PORT = process.env.PORT || 3000;

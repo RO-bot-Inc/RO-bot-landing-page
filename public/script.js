@@ -216,7 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getUpdateStoryVideo() {
-    return document.querySelector('video[src*="update story"], video[src*="update%20story"], video source[src*="update story"], video source[src*="update%20story"]')?.closest('video');
+    // Since we removed the right video, this should return null
+    return null;
   }
 
   function playVideoOnce(video) {
