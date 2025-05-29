@@ -40,6 +40,55 @@
                 transform: scale(1.02);
             }
         }
+        
+        /* Logo Carousel Styles */
+        .logo-carousel-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .logo-carousel-track {
+            display: flex;
+            animation: scroll-logos 30s linear infinite;
+            width: calc(200% + 40px);
+        }
+        
+        .logo-carousel-slide {
+            flex: 0 0 auto;
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-carousel-img {
+            height: 50px !important;
+            max-height: 50px !important;
+            width: auto !important;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.7);
+            transition: filter 0.3s ease;
+        }
+        
+        .logo-carousel-img:hover {
+            filter: grayscale(0%) opacity(1);
+        }
+        
+        @keyframes scroll-logos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        /* Pause animation on hover */
+        .logo-carousel-container:hover .logo-carousel-track {
+            animation-play-state: paused;
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -334,38 +383,38 @@
                     <hr class="border-t-2 border-gray-300 flex-grow ml-4">
                 </div>
                 <!-- Logo Carousel -->
-                <div class="carousel-container">
-                    <div class="carousel-track">
+                <div class="logo-carousel-container">
+                    <div class="logo-carousel-track">
                         <!-- First set of logos -->
-                        <div class="logo-slide"><img src="OEM logos/audi.png" alt="Audi"></div>
-                        <div class="logo-slide"><img src="OEM logos/BMW.png" alt="BMW"></div>
-                        <div class="logo-slide"><img src="OEM logos/buick.png" alt="Buick"></div>
-                        <div class="logo-slide"><img src="OEM logos/cadillac.png" alt="Cadillac"></div>
-                        <div class="logo-slide"><img src="OEM logos/chevy.png" alt="Chevrolet"></div>
-                        <div class="logo-slide"><img src="OEM logos/dodge.png" alt="Dodge"></div>
-                        <div class="logo-slide"><img src="OEM logos/ford.png" alt="Ford"></div>
-                        <div class="logo-slide"><img src="OEM logos/GMC.png" alt="GMC"></div>
-                        <div class="logo-slide"><img src="OEM logos/honda.png" alt="Honda"></div>
-                        <div class="logo-slide"><img src="OEM logos/jeep.png" alt="Jeep"></div>
-                        <div class="logo-slide"><img src="OEM logos/nissan.png" alt="Nissan"></div>
-                        <div class="logo-slide"><img src="OEM logos/toyota.png" alt="Toyota"></div>
-                        <div class="logo-slide"><img src="OEM logos/volvo.png" alt="Volvo"></div>
-                        <div class="logo-slide"><img src="OEM logos/VW.png" alt="Volkswagen"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/audi.png" alt="Audi" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/BMW.png" alt="BMW" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/buick.png" alt="Buick" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/ford.png" alt="Ford" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/GMC.png" alt="GMC" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/honda.png" alt="Honda" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img"></div>
                         <!-- Duplicate set for seamless loop -->
-                        <div class="logo-slide"><img src="OEM logos/audi.png" alt="Audi"></div>
-                        <div class="logo-slide"><img src="OEM logos/BMW.png" alt="BMW"></div>
-                        <div class="logo-slide"><img src="OEM logos/buick.png" alt="Buick"></div>
-                        <div class="logo-slide"><img src="OEM logos/cadillac.png" alt="Cadillac"></div>
-                        <div class="logo-slide"><img src="OEM logos/chevy.png" alt="Chevrolet"></div>
-                        <div class="logo-slide"><img src="OEM logos/dodge.png" alt="Dodge"></div>
-                        <div class="logo-slide"><img src="OEM logos/ford.png" alt="Ford"></div>
-                        <div class="logo-slide"><img src="OEM logos/GMC.png" alt="GMC"></div>
-                        <div class="logo-slide"><img src="OEM logos/honda.png" alt="Honda"></div>
-                        <div class="logo-slide"><img src="OEM logos/jeep.png" alt="Jeep"></div>
-                        <div class="logo-slide"><img src="OEM logos/nissan.png" alt="Nissan"></div>
-                        <div class="logo-slide"><img src="OEM logos/toyota.png" alt="Toyota"></div>
-                        <div class="logo-slide"><img src="OEM logos/volvo.png" alt="Volvo"></div>
-                        <div class="logo-slide"><img src="OEM logos/VW.png" alt="Volkswagen"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/audi.png" alt="Audi" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/BMW.png" alt="BMW" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/buick.png" alt="Buick" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/ford.png" alt="Ford" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/GMC.png" alt="GMC" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/honda.png" alt="Honda" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img"></div>
+                        <div class="logo-carousel-slide"><img src="OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img"></div>
                     </div>
                 </div>
             </div>
