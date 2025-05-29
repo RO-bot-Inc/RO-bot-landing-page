@@ -657,6 +657,10 @@ video {
   bottom: 8%;
 }
 
+.bottom-\[2\%\] {
+  bottom: 2%;
+}
+
 .z-50 {
   z-index: 50;
 }
