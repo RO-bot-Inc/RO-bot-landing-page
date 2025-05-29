@@ -92,49 +92,23 @@
                 <!-- Moved images outside the absolute positioning to allow overflow -->
                 <div class="container mx-auto px-4 relative z-20">
                     <div class="w-full md:w-[95%] relative mx-auto -mt-48 sm:-mt-60 md:-mt-80">
-                        <!-- Mobile layout: stacked vertically -->
-                        <div class="block md:hidden">
-                            <div class="flex flex-col items-center gap-8">
-                                <div class="relative aspect-[10/19] w-[85%] sm:w-[75%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center">
-                                    <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-[3rem] hero-video" style="object-position: center center;" alt="Voice notes interface showing diagnostic process">
-                                        <source src="/hero/record%20note.mov" type="video/mp4">
-                                        <source src="/hero/record note.mov" type="video/quicktime">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                                <!-- Arrows positioned between videos on mobile -->
-                                <img src="/hero/arrows.png" alt="Process flow arrows" class="w-[40%] max-w-[120px] z-10 scroll-spin rotate-90" style="transform: rotate(90deg);"/>
-                                <div class="w-[90%] max-w-sm">
-                                    <video muted playsinline
-                                         class="w-full h-auto rounded-lg"
-                                         alt="Generated repair story with detailed documentation">
-                                        <source src="/hero/update story.mov" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
+                        <!-- Arrows positioned to be equidistant from video borders -->
+                        <img src="/hero/arrows.png" alt="Process flow arrows" class="absolute top-1/2 -translate-y-1/2 w-[36%] md:w-[22.5%] z-10 scroll-spin" style="left: calc(50% - 60px); transform: translateX(-50%) translateY(-50%);"/>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                            <div class="relative aspect-[10/19] w-[85%] sm:w-[75%] md:w-[65%] lg:w-[58%] xl:w-[53%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center" style="margin-top: -20px;">
+                                <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-[3rem] hero-video" style="object-position: center center;" alt="Voice notes interface showing diagnostic process">
+                                    <source src="/hero/record%20note.mov" type="video/mp4">
+                                    <source src="/hero/record note.mov" type="video/quicktime">
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
-                        </div>
-                        
-                        <!-- Desktop layout: side by side with arrows in center -->
-                        <div class="hidden md:block relative">
-                            <!-- Arrows positioned to be equidistant from video borders on desktop -->
-                            <img src="/hero/arrows.png" alt="Process flow arrows" class="absolute top-1/2 -translate-y-1/2 w-[22.5%] z-10 scroll-spin" style="left: calc(50% - 60px); transform: translateX(-50%) translateY(-50%);"/>
-                            <div class="grid grid-cols-2 gap-8 lg:gap-16">
-                                <div class="relative aspect-[10/19] w-[65%] lg:w-[58%] xl:w-[53%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center" style="margin-top: -20px;">
-                                    <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-[3rem] hero-video" style="object-position: center center;" alt="Voice notes interface showing diagnostic process">
-                                        <source src="/hero/record%20note.mov" type="video/mp4">
-                                        <source src="/hero/record note.mov" type="video/quicktime">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                                <div class="w-full" style="margin-top: 40px;">
-                                    <video muted playsinline
-                                         class="w-full h-auto rounded-lg"
-                                         alt="Generated repair story with detailed documentation">
-                                        <source src="/hero/update story.mov" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
+                            <div class="w-full" style="margin-top: 40px;">
+                                <video muted playsinline
+                                     class="w-full h-auto rounded-lg"
+                                     alt="Generated repair story with detailed documentation">
+                                    <source src="/hero/update story.mov" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                         </div>
                     </div>
