@@ -418,9 +418,10 @@ document.addEventListener('DOMContentLoaded', () => {
   waitlistLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const form = document.getElementById('waitlist-form');
-      if (form) {
-        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Find the CTA section instead of just the form
+      const ctaSection = document.querySelector('section[style*="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%)"]');
+      if (ctaSection) {
+        ctaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   });
