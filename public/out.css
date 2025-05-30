@@ -819,16 +819,16 @@ video {
   max-width: 42rem;
 }
 
+.max-w-4xl {
+  max-width: 56rem;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }
 
 .max-w-\[346px\] {
   max-width: 346px;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
 }
 
 .max-w-md {
