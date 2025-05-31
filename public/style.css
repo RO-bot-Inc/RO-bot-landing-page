@@ -633,6 +633,10 @@ video {
   right: 15%;
 }
 
+.right-\[10\%\] {
+  right: 10%;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -837,6 +841,10 @@ video {
 
 .max-w-md {
   max-width: 28rem;
+}
+
+.max-w-\[200px\] {
+  max-width: 200px;
 }
 
 .flex-shrink-0 {

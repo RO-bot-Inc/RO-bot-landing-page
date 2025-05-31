@@ -625,12 +625,8 @@ video {
   bottom: 2%;
 }
 
-.top-\[12\%\] {
-  top: 12%;
-}
-
-.right-\[15\%\] {
-  right: 15%;
+.right-\[10\%\] {
+  right: 10%;
 }
 
 .z-50 {
@@ -831,8 +827,8 @@ video {
   max-width: 48rem;
 }
 
-.max-w-\[140px\] {
-  max-width: 140px;
+.max-w-\[200px\] {
+  max-width: 200px;
 }
 
 .max-w-md {
