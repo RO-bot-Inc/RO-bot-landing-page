@@ -625,6 +625,14 @@ video {
   bottom: 2%;
 }
 
+.top-\[12\%\] {
+  top: 12%;
+}
+
+.right-\[15\%\] {
+  right: 15%;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -823,8 +831,8 @@ video {
   max-width: 48rem;
 }
 
-.max-w-\[300px\] {
-  max-width: 300px;
+.max-w-\[280px\] {
+  max-width: 280px;
 }
 
 .max-w-md {
