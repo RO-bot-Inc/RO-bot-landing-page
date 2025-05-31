@@ -993,6 +993,11 @@ video {
   background-color: rgb(15 17 8 / var(--tw-bg-opacity));
 }
 
+.bg-brand-green {
+  --tw-bg-opacity: 1;
+  background-color: rgb(42 157 143 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1266,6 +1271,11 @@ video {
 .hover\:text-gray-700:hover {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+.hover\:text-brand-green:hover {
+  --tw-text-opacity: 1;
+  color: rgb(42 157 143 / var(--tw-text-opacity));
 }
 
 .focus\:border-transparent:focus {
