@@ -101,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial pause before starting animations (1 second)
     const initialDelay = 1000;
 
-    // Animate the tasks in order with no pause between them
+    // Animate the tasks in order with 0.5 second pause before each task
     sortedTasks.forEach((overlay, index) => {
-      const delay = initialDelay + (index * 300); // 300ms between each task
+      const delay = initialDelay + (index * 800); // 300ms animation + 500ms pause = 800ms between each task
 
       setTimeout(() => {
         overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
