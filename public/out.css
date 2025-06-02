@@ -597,16 +597,24 @@ video {
   left: 10%;
 }
 
+.top-\[5\%\] {
+  top: 5%;
+}
+
 .left-\[5\%\] {
   left: 5%;
 }
 
-.top-\[8\%\] {
-  top: 8%;
-}
-
 .right-\[5\%\] {
   right: 5%;
+}
+
+.bottom-\[5\%\] {
+  bottom: 5%;
+}
+
+.top-\[8\%\] {
+  top: 8%;
 }
 
 .top-\[17\%\] {
@@ -759,12 +767,12 @@ video {
   height: 33.333333%;
 }
 
-.h-\[150px\] {
-  height: 150px;
-}
-
 .h-\[425px\] {
   height: 425px;
+}
+
+.h-\[42\%\] {
+  height: 42%;
 }
 
 .h-5 {
@@ -793,6 +801,10 @@ video {
 
 .w-24 {
   width: 6rem;
+}
+
+.w-\[42\%\] {
+  width: 42%;
 }
 
 .w-\[45\%\] {
@@ -869,14 +881,6 @@ video {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
-.grid-cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid-rows-2 {
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -895,10 +899,6 @@ video {
 
 .gap-8 {
   gap: 2rem;
-}
-
-.gap-1 {
-  gap: 0.25rem;
 }
 
 .gap-x-12 {
@@ -1015,6 +1015,11 @@ video {
 
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
+}
+
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .object-cover {

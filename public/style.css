@@ -633,6 +633,14 @@ video {
   right: 10%;
 }
 
+.top-\[5\%\] {
+  top: 5%;
+}
+
+.bottom-\[5\%\] {
+  bottom: 5%;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -775,6 +783,10 @@ video {
   height: 150px;
 }
 
+.h-\[42\%\] {
+  height: 42%;
+}
+
 .w-auto {
   width: auto;
 }
@@ -813,6 +825,10 @@ video {
 
 .w-6 {
   width: 1.5rem;
+}
+
+.w-\[42\%\] {
+  width: 42%;
 }
 
 .max-w-7xl {
@@ -1019,6 +1035,11 @@ video {
 
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
+}
+
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .object-cover {
