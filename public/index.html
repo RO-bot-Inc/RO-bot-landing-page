@@ -189,6 +189,52 @@
         .warranty-float-4 {
             animation: float4 3.8s ease-in-out infinite 1.5s;
         }
+
+        /* Responsive warranty images */
+        @media (max-width: 768px) {
+            .warranty-image-1 {
+                transform: translate(-70%, -85%) scale(0.5) !important;
+            }
+            .warranty-image-2 {
+                transform: translate(-30%, -95%) scale(0.5) !important;
+            }
+            .warranty-image-3 {
+                transform: translate(-75%, -35%) scale(0.5) !important;
+            }
+            .warranty-image-4 {
+                transform: translate(-25%, -45%) scale(0.5) !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .warranty-image-1 {
+                transform: translate(-70%, -85%) scale(0.6) !important;
+            }
+            .warranty-image-2 {
+                transform: translate(-30%, -95%) scale(0.6) !important;
+            }
+            .warranty-image-3 {
+                transform: translate(-75%, -35%) scale(0.6) !important;
+            }
+            .warranty-image-4 {
+                transform: translate(-25%, -45%) scale(0.6) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .warranty-image-1 {
+                transform: translate(-70%, -85%) scale(0.7) !important;
+            }
+            .warranty-image-2 {
+                transform: translate(-30%, -95%) scale(0.7) !important;
+            }
+            .warranty-image-3 {
+                transform: translate(-75%, -35%) scale(0.7) !important;
+            }
+            .warranty-image-4 {
+                transform: translate(-25%, -45%) scale(0.7) !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -426,24 +472,24 @@
                     <div class="w-full h-[425px] overflow-hidden relative rounded-lg">
                         <!-- Background Warranty Image -->
                         <img src="Warranty/Warranty.png" alt="Warranty claims interface background" class="w-full h-full object-cover rounded-lg" style="border: none; outline: none;">
-                        
+
                         <!-- Overlay warranty component images -->
                         <div class="absolute inset-0 z-10 pointer-events-none">
                             <!-- Upper Left - Advisor Notes (1041 x 653) -->
                             <div class="absolute" style="left: calc(10% - 200px); top: calc(1% - 185px); width: 1041px; height: 653px; transform: scale(0.42);">
-                                <img src="Warranty/AdvisorNotes2.png" alt="Advisor Notes interface" class="w-full h-full object-contain warranty-float-1">
+                                <img src="Warranty/AdvisorNotes2.png" alt="Advisor Notes interface" class="w-full h-full object-contain warranty-float-1 warranty-image-1">
                             </div>
                             <!-- Upper Right - Customer Complaint (1062 x 684) -->
                             <div class="absolute" style="left: calc(10% + 40px); top: calc(1% - 235px); width: 1062px; height: 684px; transform: scale(0.42);">
-                                <img src="Warranty/Complaint2.png" alt="Customer Complaint interface" class="w-full h-full object-contain warranty-float-2">
+                                <img src="Warranty/Complaint2.png" alt="Customer Complaint interface" class="w-full h-full object-contain warranty-float-2 warranty-image-2">
                             </div>
                             <!-- Lower Left - Diagnostics (1240 x 704) -->
                             <div class="absolute" style="left: calc(10% - 180px); top: calc(1% - 65px); width: 1240px; height: 704px; transform: scale(0.42);">
-                                <img src="Warranty/Diagnostics2.png" alt="Diagnostics interface" class="w-full h-full object-contain warranty-float-4">
+                                <img src="Warranty/Diagnostics2.png" alt="Diagnostics interface" class="w-full h-full object-contain warranty-float-4 warranty-image-3">
                             </div>
                             <!-- Lower Right - Technician Notes (1014 x 935) -->
                             <div class="absolute" style="left: calc(10% + 60px); top: calc(1% - 190px); width: 1014px; height: 935px; transform: scale(0.42);">
-                                <img src="Warranty/TechNotes2.png" alt="Technician Notes interface" class="w-full h-full object-contain warranty-float-3">
+                                <img src="Warranty/TechNotes2.png" alt="Technician Notes interface" class="w-full h-full object-contain warranty-float-3 warranty-image-4">
                             </div>
                         </div>
                     </div>
@@ -503,7 +549,7 @@
                             <img src="tasks/task1.png" alt="Diagnostic task 1" class="w-auto h-auto max-w-[262px]">
                         </div>
                         <div class="absolute opacity-0 task-overlay" id="task2Overlay" data-animation-order="2" style="top: calc(8% + 140px); right: 10%;">
-                            <img src="tasks/task2.png" alt="Diagnostic task 2" class="w-auto h-auto max-w-[262px]">
+                            <img srcsrc="tasks/task2.png" alt="Diagnostic task 2" class="w-auto h-auto max-w-[262px]">
                         </div>
                         <div class="absolute opacity-0 task-overlay" id="task3Overlay" data-animation-order="3" style="top: calc(8% + 210px); right: 10%;">
                             <img src="tasks/task3.png" alt="Diagnostic task 3" class="w-auto h-auto max-w-[262px]">
