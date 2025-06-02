@@ -190,99 +190,105 @@
             animation: float4 3.8s ease-in-out infinite 1.5s;
         }
 
-        /* Responsive warranty images - anchored closer to center on narrow screens */
+        /* Responsive warranty images - prevent cutoff with aggressive centering */
         @media (max-width: 768px) {
-            /* Advisor Notes - anchor closer to center */
+            /* Customer Complaint (top left) - move much closer to center */
             .warranty-image-1 {
-                left: calc(50% - 180px) !important;
+                left: calc(50% - 100px) !important;
                 top: calc(1% - 140px) !important;
-                transform: scale(0.7) !important;
+                transform: scale(0.55) !important;
             }
+            /* Technician Notes (top right) - keep right positioning */
             .warranty-image-2 {
-                left: calc(50% + 20px) !important;
+                left: calc(50% + 60px) !important;
                 top: calc(1% - 180px) !important;
-                transform: scale(0.7) !important;
+                transform: scale(0.55) !important;
             }
-            /* Diagnostics - anchor closer to center */
+            /* Diagnostics (bottom left) - move much closer to center */
             .warranty-image-3 {
-                left: calc(50% - 160px) !important;
+                left: calc(50% - 80px) !important;
                 top: calc(1% - 40px) !important;
-                transform: scale(0.7) !important;
+                transform: scale(0.55) !important;
             }
+            /* Advisor Notes (bottom right) - keep right positioning */
             .warranty-image-4 {
-                left: calc(50% + 40px) !important;
+                left: calc(50% + 80px) !important;
                 top: calc(1% - 140px) !important;
-                transform: scale(0.7) !important;
+                transform: scale(0.55) !important;
             }
         }
 
         @media (max-width: 640px) {
-            /* Advisor Notes - closer to center with smaller spacing */
+            /* Customer Complaint - center more aggressively */
             .warranty-image-1 {
-                left: calc(50% - 120px) !important;
+                left: calc(50% - 60px) !important;
                 top: calc(1% - 120px) !important;
-                transform: scale(0.6) !important;
+                transform: scale(0.45) !important;
             }
+            /* Technician Notes - adjust for smaller screens */
             .warranty-image-2 {
-                left: calc(50% + 30px) !important;
+                left: calc(50% + 40px) !important;
                 top: calc(1% - 150px) !important;
-                transform: scale(0.6) !important;
+                transform: scale(0.45) !important;
             }
-            /* Diagnostics - closer to center with smaller spacing */
+            /* Diagnostics - center more aggressively */
             .warranty-image-3 {
-                left: calc(50% - 100px) !important;
+                left: calc(50% - 40px) !important;
                 top: calc(1% - 20px) !important;
-                transform: scale(0.6) !important;
+                transform: scale(0.45) !important;
             }
+            /* Advisor Notes - adjust for smaller screens */
             .warranty-image-4 {
-                left: calc(50% + 50px) !important;
+                left: calc(50% + 60px) !important;
                 top: calc(1% - 120px) !important;
-                transform: scale(0.6) !important;
+                transform: scale(0.45) !important;
             }
         }
 
         @media (max-width: 480px) {
-            /* Advisor Notes - very close to center */
+            /* Customer Complaint - almost centered */
             .warranty-image-1 {
-                left: calc(50% - 90px) !important;
+                left: calc(50% - 30px) !important;
                 top: calc(1% - 100px) !important;
-                transform: scale(0.5) !important;
+                transform: scale(0.35) !important;
             }
+            /* Technician Notes - compact positioning */
             .warranty-image-2 {
                 left: calc(50% + 20px) !important;
                 top: calc(1% - 130px) !important;
-                transform: scale(0.5) !important;
+                transform: scale(0.35) !important;
             }
-            /* Diagnostics - very close to center */
+            /* Diagnostics - almost centered */
             .warranty-image-3 {
-                left: calc(50% - 70px) !important;
+                left: calc(50% - 10px) !important;
                 top: calc(1% + 10px) !important;
-                transform: scale(0.5) !important;
+                transform: scale(0.35) !important;
             }
+            /* Advisor Notes - compact positioning */
             .warranty-image-4 {
                 left: calc(50% + 40px) !important;
                 top: calc(1% - 100px) !important;
-                transform: scale(0.5) !important;
+                transform: scale(0.35) !important;
             }
         }
 
         /* Additional constraint for very narrow screens */
         @media (max-width: 400px) {
             .warranty-image-1 {
-                left: calc(50% - 70px) !important;
-                transform: scale(0.45) !important;
+                left: calc(50% - 20px) !important;
+                transform: scale(0.3) !important;
             }
             .warranty-image-2 {
                 left: calc(50% + 10px) !important;
-                transform: scale(0.45) !important;
+                transform: scale(0.3) !important;
             }
             .warranty-image-3 {
-                left: calc(50% - 50px) !important;
-                transform: scale(0.45) !important;
+                left: calc(50% + 5px) !important;
+                transform: scale(0.3) !important;
             }
             .warranty-image-4 {
-                left: calc(50% + 30px) !important;
-                transform: scale(0.45) !important;
+                left: calc(50% + 25px) !important;
+                transform: scale(0.3) !important;
             }
         }
     </style>
