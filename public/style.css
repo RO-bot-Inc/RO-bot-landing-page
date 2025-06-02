@@ -633,6 +633,10 @@ video {
   bottom: 17%;
 }
 
+.bottom-\[18\%\] {
+  bottom: 18%;
+}
+
 .z-50 {
   z-index: 50;
 }
@@ -1465,6 +1469,10 @@ video {
 
   .lg\:bottom-\[20\%\] {
     bottom: 20%;
+  }
+
+  .lg\:bottom-\[21\%\] {
+    bottom: 21%;
   }
 
   .lg\:w-\[58\%\] {
