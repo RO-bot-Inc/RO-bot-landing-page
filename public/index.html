@@ -189,6 +189,82 @@
         .warranty-float-4 {
             animation: float4 3.8s ease-in-out infinite 1.5s;
         }
+
+        /* Responsive warranty images */
+        @media (max-width: 768px) {
+            /* Advisor Notes - shift right to prevent cutoff */
+            .warranty-image-1 {
+                left: calc(10% - 100px) !important;
+                top: calc(1% - 140px) !important;
+                transform: scale(0.8) !important;
+            }
+            .warranty-image-2 {
+                left: calc(15% + 30px) !important;
+                top: calc(1% - 180px) !important;
+                transform: scale(0.8) !important;
+            }
+            /* Diagnostics - shift right to prevent cutoff */
+            .warranty-image-3 {
+                left: calc(10% - 80px) !important;
+                top: calc(1% - 40px) !important;
+                transform: scale(0.8) !important;
+            }
+            .warranty-image-4 {
+                left: calc(15% + 50px) !important;
+                top: calc(1% - 140px) !important;
+                transform: scale(0.8) !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            /* Advisor Notes - shift further right */
+            .warranty-image-1 {
+                left: calc(10% - 50px) !important;
+                top: calc(1% - 120px) !important;
+                transform: scale(0.9) !important;
+            }
+            .warranty-image-2 {
+                left: calc(20% + 20px) !important;
+                top: calc(1% - 150px) !important;
+                transform: scale(0.9) !important;
+            }
+            /* Diagnostics - shift further right */
+            .warranty-image-3 {
+                left: calc(10% - 30px) !important;
+                top: calc(1% - 20px) !important;
+                transform: scale(0.9) !important;
+            }
+            .warranty-image-4 {
+                left: calc(20% + 30px) !important;
+                top: calc(1% - 120px) !important;
+                transform: scale(0.9) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Advisor Notes - ensure no cutoff on smallest screens */
+            .warranty-image-1 {
+                left: calc(10% + 10px) !important;
+                top: calc(1% - 100px) !important;
+                transform: scale(1.0) !important;
+            }
+            .warranty-image-2 {
+                left: calc(25% + 10px) !important;
+                top: calc(1% - 130px) !important;
+                transform: scale(1.0) !important;
+            }
+            /* Diagnostics - ensure no cutoff on smallest screens */
+            .warranty-image-3 {
+                left: calc(10% + 20px) !important;
+                top: calc(1% + 10px) !important;
+                transform: scale(1.0) !important;
+            }
+            .warranty-image-4 {
+                left: calc(25% + 20px) !important;
+                top: calc(1% - 100px) !important;
+                transform: scale(1.0) !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -426,7 +502,7 @@
                     <div class="w-full h-[425px] overflow-hidden relative rounded-lg">
                         <!-- Background Warranty Image -->
                         <img src="Warranty/Warranty.png" alt="Warranty claims interface background" class="w-full h-full object-cover rounded-lg" style="border: none; outline: none;">
-                        
+
                         <!-- Overlay warranty component images -->
                         <div class="absolute inset-0 z-10 pointer-events-none">
                             <!-- Upper Left - Advisor Notes (1041 x 653) -->
