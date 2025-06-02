@@ -759,6 +759,10 @@ video {
   height: 33.333333%;
 }
 
+.h-\[150px\] {
+  height: 150px;
+}
+
 .h-\[425px\] {
   height: 425px;
 }
@@ -865,6 +869,14 @@ video {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-rows-2 {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -883,6 +895,10 @@ video {
 
 .gap-8 {
   gap: 2rem;
+}
+
+.gap-1 {
+  gap: 0.25rem;
 }
 
 .gap-x-12 {
