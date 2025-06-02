@@ -195,77 +195,77 @@
             min-left: 0px;
         }
 
-        /* Responsive warranty images with hard left and right boundaries */
+        /* Responsive warranty images with hard left boundary */
         @media (max-width: 768px) {
-            /* Advisor Notes - with left and right boundaries */
+            /* Advisor Notes - with hard left boundary */
             .warranty-image-1 {
-                left: max(0px, calc(50% - 160px)) !important;
+                left: max(0px, calc(50% - 180px)) !important;
                 top: calc(1% - 140px) !important;
                 transform: scale(0.7) !important;
             }
             .warranty-image-2 {
-                left: min(calc(100% - 300px), calc(max(0px, calc(50% - 160px)) + 160px)) !important;
+                left: calc(max(0px, calc(50% - 180px)) + 200px) !important;
                 top: calc(1% - 180px) !important;
                 transform: scale(0.7) !important;
             }
-            /* Diagnostics - with left and right boundaries */
+            /* Diagnostics - with hard left boundary */
             .warranty-image-3 {
-                left: max(0px, calc(50% - 140px)) !important;
+                left: max(0px, calc(50% - 160px)) !important;
                 top: calc(1% - 40px) !important;
                 transform: scale(0.7) !important;
             }
             .warranty-image-4 {
-                left: min(calc(100% - 280px), calc(max(0px, calc(50% - 140px)) + 160px)) !important;
+                left: calc(max(0px, calc(50% - 160px)) + 200px) !important;
                 top: calc(1% - 140px) !important;
                 transform: scale(0.7) !important;
             }
         }
 
         @media (max-width: 640px) {
-            /* Advisor Notes - with left and right boundaries */
+            /* Advisor Notes - with hard left boundary */
             .warranty-image-1 {
                 left: max(0px, calc(50% - 120px)) !important;
                 top: calc(1% - 120px) !important;
                 transform: scale(0.6) !important;
             }
             .warranty-image-2 {
-                left: min(calc(100% - 240px), calc(max(0px, calc(50% - 120px)) + 120px)) !important;
+                left: calc(max(0px, calc(50% - 120px)) + 150px) !important;
                 top: calc(1% - 150px) !important;
                 transform: scale(0.6) !important;
             }
-            /* Diagnostics - with left and right boundaries */
+            /* Diagnostics - with hard left boundary */
             .warranty-image-3 {
                 left: max(0px, calc(50% - 100px)) !important;
                 top: calc(1% - 20px) !important;
                 transform: scale(0.6) !important;
             }
             .warranty-image-4 {
-                left: min(calc(100% - 220px), calc(max(0px, calc(50% - 100px)) + 120px)) !important;
+                left: calc(max(0px, calc(50% - 100px)) + 150px) !important;
                 top: calc(1% - 120px) !important;
                 transform: scale(0.6) !important;
             }
         }
 
         @media (max-width: 480px) {
-            /* Advisor Notes - with left and right boundaries */
+            /* Advisor Notes - with hard left boundary */
             .warranty-image-1 {
-                left: max(0px, calc(50% - 100px)) !important;
+                left: max(0px, calc(50% - 90px)) !important;
                 top: calc(1% - 100px) !important;
                 transform: scale(0.5) !important;
             }
             .warranty-image-2 {
-                left: min(calc(100% - 180px), calc(max(0px, calc(50% - 100px)) + 100px)) !important;
+                left: calc(max(0px, calc(50% - 90px)) + 110px) !important;
                 top: calc(1% - 130px) !important;
                 transform: scale(0.5) !important;
             }
-            /* Diagnostics - with left and right boundaries */
+            /* Diagnostics - with hard left boundary */
             .warranty-image-3 {
-                left: max(0px, calc(50% - 80px)) !important;
+                left: max(0px, calc(50% - 70px)) !important;
                 top: calc(1% + 10px) !important;
                 transform: scale(0.5) !important;
             }
             .warranty-image-4 {
-                left: min(calc(100% - 160px), calc(max(0px, calc(50% - 80px)) + 100px)) !important;
+                left: calc(max(0px, calc(50% - 70px)) + 110px) !important;
                 top: calc(1% - 100px) !important;
                 transform: scale(0.5) !important;
             }
@@ -274,19 +274,19 @@
         /* Additional constraint for very narrow screens */
         @media (max-width: 400px) {
             .warranty-image-1 {
-                left: max(0px, calc(50% - 85px)) !important;
-                transform: scale(0.45) !important;
-            }
-            .warranty-image-2 {
-                left: min(calc(100% - 150px), calc(max(0px, calc(50% - 85px)) + 85px)) !important;
-                transform: scale(0.45) !important;
-            }
-            .warranty-image-3 {
                 left: max(0px, calc(50% - 70px)) !important;
                 transform: scale(0.45) !important;
             }
+            .warranty-image-2 {
+                left: calc(max(0px, calc(50% - 70px)) + 80px) !important;
+                transform: scale(0.45) !important;
+            }
+            .warranty-image-3 {
+                left: max(0px, calc(50% - 50px)) !important;
+                transform: scale(0.45) !important;
+            }
             .warranty-image-4 {
-                left: min(calc(100% - 130px), calc(max(0px, calc(50% - 70px)) + 85px)) !important;
+                left: calc(max(0px, calc(50% - 50px)) + 80px) !important;
                 transform: scale(0.45) !important;
             }
         }
@@ -531,19 +531,19 @@
                         <!-- Overlay warranty component images -->
                         <div class="absolute inset-0 z-10 pointer-events-none">
                             <!-- Upper Left - Advisor Notes (1041 x 653) -->
-                            <div class="absolute warranty-image-1" style="left: max(0px, calc(10% - 200px)); top: calc(1% - 185px); width: 1041px; height: 653px; transform: scale(0.42);">
+                            <div class="absolute" style="left: calc(10% - 200px); top: calc(1% - 185px); width: 1041px; height: 653px; transform: scale(0.42);">
                                 <img src="Warranty/AdvisorNotes2.png" alt="Advisor Notes interface" class="w-full h-full object-contain warranty-float-1">
                             </div>
                             <!-- Upper Right - Customer Complaint (1062 x 684) -->
-                            <div class="absolute warranty-image-2" style="left: calc(max(0px, calc(10% - 200px)) + 240px); top: calc(1% - 235px); width: 1062px; height: 684px; transform: scale(0.42);">
+                            <div class="absolute" style="left: calc(10% + 40px); top: calc(1% - 235px); width: 1062px; height: 684px; transform: scale(0.42);">
                                 <img src="Warranty/Complaint2.png" alt="Customer Complaint interface" class="w-full h-full object-contain warranty-float-2">
                             </div>
                             <!-- Lower Left - Diagnostics (1240 x 704) -->
-                            <div class="absolute warranty-image-3" style="left: max(0px, calc(10% - 180px)); top: calc(1% - 65px); width: 1240px; height: 704px; transform: scale(0.42);">
+                            <div class="absolute" style="left: calc(10% - 180px); top: calc(1% - 65px); width: 1240px; height: 704px; transform: scale(0.42);">
                                 <img src="Warranty/Diagnostics2.png" alt="Diagnostics interface" class="w-full h-full object-contain warranty-float-4">
                             </div>
                             <!-- Lower Right - Technician Notes (1014 x 935) -->
-                            <div class="absolute warranty-image-4" style="left: calc(max(0px, calc(10% - 180px)) + 240px); top: calc(1% - 190px); width: 1014px; height: 935px; transform: scale(0.42);">
+                            <div class="absolute" style="left: calc(10% + 60px); top: calc(1% - 190px); width: 1014px; height: 935px; transform: scale(0.42);">
                                 <img src="Warranty/TechNotes2.png" alt="Technician Notes interface" class="w-full h-full object-contain warranty-float-3">
                             </div>
                         </div>
