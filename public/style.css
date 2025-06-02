@@ -625,14 +625,6 @@ video {
   bottom: 2%;
 }
 
-.top-\[12\%\] {
-  top: 12%;
-}
-
-.right-\[15\%\] {
-  right: 15%;
-}
-
 .right-\[10\%\] {
   right: 10%;
 }
@@ -835,16 +827,12 @@ video {
   max-width: 48rem;
 }
 
-.max-w-\[140px\] {
-  max-width: 140px;
+.max-w-\[250px\] {
+  max-width: 250px;
 }
 
 .max-w-md {
   max-width: 28rem;
-}
-
-.max-w-\[200px\] {
-  max-width: 200px;
 }
 
 .flex-shrink-0 {
