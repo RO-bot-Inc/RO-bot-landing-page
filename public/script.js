@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function checkDiagnosticVisibility() {
     const diagnosticContainer = document.getElementById('diagnosticContainer');
     if (diagnosticContainer) {
-      const isInView = isElementPartiallyInViewport(diagnosticContainer);
+      const isInView = isElementInViewport(diagnosticContainer);
 
       if (isInView && !diagnosticAnimationTriggered) {
         // Diagnostic container just came into view, start task animation
