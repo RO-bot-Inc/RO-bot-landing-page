@@ -1531,6 +1531,22 @@ video {
     bottom: 5%;
   }
 
+  .lg\:left-\[15\%\] {
+    left: 15%;
+  }
+
+  .lg\:right-\[15\%\] {
+    right: 15%;
+  }
+
+  .lg\:left-\[18\%\] {
+    left: 18%;
+  }
+
+  .lg\:right-\[18\%\] {
+    right: 18%;
+  }
+
   .lg\:w-\[58\%\] {
     width: 58%;
   }

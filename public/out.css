@@ -1455,32 +1455,32 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:left-\[2\%\] {
-    left: 2%;
+  .lg\:left-\[15\%\] {
+    left: 15%;
   }
 
   .lg\:top-\[5\%\] {
     top: 5%;
   }
 
-  .lg\:right-\[2\%\] {
-    right: 2%;
+  .lg\:right-\[15\%\] {
+    right: 15%;
   }
 
   .lg\:top-\[14\%\] {
     top: 14%;
   }
 
-  .lg\:left-\[3\%\] {
-    left: 3%;
+  .lg\:left-\[18\%\] {
+    left: 18%;
   }
 
   .lg\:bottom-\[21\%\] {
     bottom: 21%;
   }
 
-  .lg\:right-\[3\%\] {
-    right: 3%;
+  .lg\:right-\[18\%\] {
+    right: 18%;
   }
 
   .lg\:bottom-\[5\%\] {
