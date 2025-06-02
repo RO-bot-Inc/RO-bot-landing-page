@@ -370,24 +370,27 @@
             <!-- Feature 2 - NEW -->
             <div class="flex flex-col md:flex-row items-center gap-x-12">
                 <div class="w-full md:w-1/2 md:order-2">
-                    <div class="w-full h-[150px] overflow-hidden relative">
-                        <!-- 2x2 Grid of Warranty Components -->
-                        <div class="grid grid-cols-2 grid-rows-2 gap-1 h-full">
+                    <div class="w-full h-[425px] overflow-hidden relative">
+                        <!-- Background Warranty Image -->
+                        <img src="Warranty/Warranty.png" alt="Warranty claims interface background" class="w-full h-full object-cover rounded-lg shadow-xl">
+                        
+                        <!-- Overlay warranty component images -->
+                        <div class="absolute inset-0 z-10 pointer-events-none">
                             <!-- Upper Left - Advisor Notes -->
-                            <div class="rounded-lg overflow-hidden shadow-lg">
-                                <img src="Warranty/AdvisorNotes.png" alt="Advisor Notes interface" class="w-full h-full object-cover" style="transform: scale(0.5); transform-origin: center;">
+                            <div class="absolute top-[5%] left-[5%] w-[42%] h-[42%]">
+                                <img src="Warranty/AdvisorNotes.png" alt="Advisor Notes interface" class="w-full h-full object-contain">
                             </div>
                             <!-- Upper Right - Customer Complaint -->
-                            <div class="rounded-lg overflow-hidden shadow-lg">
-                                <img src="Warranty/Complaint.png" alt="Customer Complaint interface" class="w-full h-full object-cover" style="transform: scale(0.5); transform-origin: center;">
+                            <div class="absolute top-[5%] right-[5%] w-[42%] h-[42%]">
+                                <img src="Warranty/Complaint.png" alt="Customer Complaint interface" class="w-full h-full object-contain">
                             </div>
                             <!-- Lower Left - Diagnostics -->
-                            <div class="rounded-lg overflow-hidden shadow-lg">
-                                <img src="Warranty/Diagnostics.png" alt="Diagnostics interface" class="w-full h-full object-cover" style="transform: scale(0.5); transform-origin: center;">
+                            <div class="absolute bottom-[5%] left-[5%] w-[42%] h-[42%]">
+                                <img src="Warranty/Diagnostics.png" alt="Diagnostics interface" class="w-full h-full object-contain">
                             </div>
                             <!-- Lower Right - Technician Notes -->
-                            <div class="rounded-lg overflow-hidden shadow-lg">
-                                <img src="Warranty/TechNotes.png" alt="Technician Notes interface" class="w-full h-full object-cover" style="transform: scale(0.5); transform-origin: center;">
+                            <div class="absolute bottom-[5%] right-[5%] w-[42%] h-[42%]">
+                                <img src="Warranty/TechNotes.png" alt="Technician Notes interface" class="w-full h-full object-contain">
                             </div>
                         </div>
                     </div>
