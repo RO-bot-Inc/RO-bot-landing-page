@@ -190,77 +190,77 @@
             animation: float4 3.8s ease-in-out infinite 1.5s;
         }
 
-        /* Responsive warranty images with stronger left boundary constraints */
+        /* Responsive warranty images - anchored closer to center on narrow screens */
         @media (max-width: 768px) {
-            /* Advisor Notes - ensure at least 20px from left edge */
+            /* Advisor Notes - anchor closer to center */
             .warranty-image-1 {
-                left: max(20px, 5%) !important;
+                left: calc(50% - 180px) !important;
                 top: calc(1% - 140px) !important;
                 transform: scale(0.7) !important;
             }
             .warranty-image-2 {
-                left: calc(max(20px, 5%) + 200px) !important;
+                left: calc(50% + 20px) !important;
                 top: calc(1% - 180px) !important;
                 transform: scale(0.7) !important;
             }
-            /* Diagnostics - ensure at least 20px from left edge */
+            /* Diagnostics - anchor closer to center */
             .warranty-image-3 {
-                left: max(20px, 5%) !important;
+                left: calc(50% - 160px) !important;
                 top: calc(1% - 40px) !important;
                 transform: scale(0.7) !important;
             }
             .warranty-image-4 {
-                left: calc(max(20px, 5%) + 220px) !important;
+                left: calc(50% + 40px) !important;
                 top: calc(1% - 140px) !important;
                 transform: scale(0.7) !important;
             }
         }
 
         @media (max-width: 640px) {
-            /* Advisor Notes - ensure at least 25px from left edge */
+            /* Advisor Notes - closer to center with smaller spacing */
             .warranty-image-1 {
-                left: max(25px, 8%) !important;
+                left: calc(50% - 120px) !important;
                 top: calc(1% - 120px) !important;
                 transform: scale(0.6) !important;
             }
             .warranty-image-2 {
-                left: calc(max(25px, 8%) + 150px) !important;
+                left: calc(50% + 30px) !important;
                 top: calc(1% - 150px) !important;
                 transform: scale(0.6) !important;
             }
-            /* Diagnostics - ensure at least 25px from left edge */
+            /* Diagnostics - closer to center with smaller spacing */
             .warranty-image-3 {
-                left: max(25px, 8%) !important;
+                left: calc(50% - 100px) !important;
                 top: calc(1% - 20px) !important;
                 transform: scale(0.6) !important;
             }
             .warranty-image-4 {
-                left: calc(max(25px, 8%) + 170px) !important;
+                left: calc(50% + 50px) !important;
                 top: calc(1% - 120px) !important;
                 transform: scale(0.6) !important;
             }
         }
 
         @media (max-width: 480px) {
-            /* Advisor Notes - ensure at least 30px from left edge */
+            /* Advisor Notes - very close to center */
             .warranty-image-1 {
-                left: max(30px, 10%) !important;
+                left: calc(50% - 90px) !important;
                 top: calc(1% - 100px) !important;
                 transform: scale(0.5) !important;
             }
             .warranty-image-2 {
-                left: calc(max(30px, 10%) + 120px) !important;
+                left: calc(50% + 20px) !important;
                 top: calc(1% - 130px) !important;
                 transform: scale(0.5) !important;
             }
-            /* Diagnostics - ensure at least 30px from left edge */
+            /* Diagnostics - very close to center */
             .warranty-image-3 {
-                left: max(30px, 10%) !important;
+                left: calc(50% - 70px) !important;
                 top: calc(1% + 10px) !important;
                 transform: scale(0.5) !important;
             }
             .warranty-image-4 {
-                left: calc(max(30px, 10%) + 140px) !important;
+                left: calc(50% + 40px) !important;
                 top: calc(1% - 100px) !important;
                 transform: scale(0.5) !important;
             }
@@ -269,19 +269,19 @@
         /* Additional constraint for very narrow screens */
         @media (max-width: 400px) {
             .warranty-image-1 {
-                left: 40px !important;
+                left: calc(50% - 70px) !important;
                 transform: scale(0.45) !important;
             }
             .warranty-image-2 {
-                left: 160px !important;
+                left: calc(50% + 10px) !important;
                 transform: scale(0.45) !important;
             }
             .warranty-image-3 {
-                left: 40px !important;
+                left: calc(50% - 50px) !important;
                 transform: scale(0.45) !important;
             }
             .warranty-image-4 {
-                left: 180px !important;
+                left: calc(50% + 30px) !important;
                 transform: scale(0.45) !important;
             }
         }
