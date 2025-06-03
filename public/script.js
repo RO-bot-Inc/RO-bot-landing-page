@@ -1,16 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Disable ALL automatic video sequences
-    const allVideos = document.querySelectorAll('video');
-    allVideos.forEach(video => {
-        video.removeAttribute('autoplay');
-        video.pause();
-        video.currentTime = 0;
-    });
-
-    // Stop any existing intervals or timeouts that might be running hero sequences
-    for (let i = 1; i < 99999; i++) {
-        window.clearInterval(i);
-        window.clearTimeout(i);
+    // Only disable autoplay on 5-Second Stories video, leave other videos alone
+    const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
+    const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
+    
+    if (actualStoryVideo) {
+        actualStoryVideo.removeAttribute('autoplay');
+        actualStoryVideo.pause();
+        actualStoryVideo.currentTime = 0;
     }
 
     // Animation for "Specs At Your Fingertips" message bubbles
