@@ -176,12 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Mark sequence as ready to restart
                             sequenceActive = false;
                             
-                            // If still in viewport, start the sequence again
-                            if (isInViewport) {
-                                setTimeout(() => {
-                                    startSequence();
-                                }, 2000);
-                            }
+                            // Always restart the sequence after buffer time (don't rely on viewport check)
+                            setTimeout(() => {
+                                console.log('Starting next cycle');
+                                startSequence();
+                            }, 2000);
                         }, 3000);
                     }
                 });
