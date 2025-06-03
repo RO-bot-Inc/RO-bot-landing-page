@@ -137,6 +137,18 @@
             white-space: nowrap;
         }
 
+        /* Waveform video boundary protection */
+        .waveform-boundary {
+            position: absolute;
+            left: 50%;
+            top: 58%;
+            transform: translate(-50%, -50%);
+            width: 550px; /* Video width + padding */
+            height: 200px; /* Video height + padding */
+            pointer-events: none;
+            z-index: 25;
+        }
+
         /* Floating animations for warranty text images */
         @keyframes float1 {
             0%, 100% {
@@ -162,6 +174,99 @@
             }
             50% {
                 transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive positioning rules to avoid waveform boundary */
+        .floating-text {
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile screens - stack text above and below waveform */
+        @media (max-width: 640px) {
+            .floating-text:nth-child(1) {
+                top: 25% !important;
+                left: 10% !important;
+                right: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(2) {
+                top: 30% !important;
+                right: 10% !important;
+                left: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(3) {
+                bottom: 25% !important;
+                left: 15% !important;
+                top: auto !important;
+                right: auto !important;
+            }
+        }
+
+        /* Tablet screens - wider spacing */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .floating-text:nth-child(1) {
+                top: 35% !important;
+                left: 8% !important;
+                right: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(2) {
+                top: 38% !important;
+                right: 8% !important;
+                left: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(3) {
+                bottom: 28% !important;
+                left: 12% !important;
+                top: auto !important;
+                right: auto !important;
+            }
+        }
+
+        /* Desktop screens - side positioning */
+        @media (min-width: 1025px) {
+            .floating-text:nth-child(1) {
+                top: 45% !important;
+                left: 5% !important;
+                right: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(2) {
+                top: 50% !important;
+                right: 5% !important;
+                left: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(3) {
+                bottom: 35% !important;
+                left: 8% !important;
+                top: auto !important;
+                right: auto !important;
+            }
+        }
+
+        /* Large screens - more spacing from waveform */
+        @media (min-width: 1280px) {
+            .floating-text:nth-child(1) {
+                top: 45% !important;
+                left: 3% !important;
+                right: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(2) {
+                top: 50% !important;
+                right: 3% !important;
+                left: auto !important;
+                bottom: auto !important;
+            }
+            .floating-text:nth-child(3) {
+                bottom: 35% !important;
+                left: 5% !important;
+                top: auto !important;
+                right: auto !important;
             }
         }
 
@@ -343,18 +448,18 @@
                         <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
                     </video>
                     
-                    <!-- Animated text overlay positioned closer to waveform video -->
+                    <!-- Invisible boundary around waveform video -->
+                    <div class="waveform-boundary"></div>
+                    
+                    <!-- Animated text overlay with boundary-aware positioning -->
                     <div class="absolute inset-0 z-30 pointer-events-none">
-                        <!-- Top left - closer to waveform -->
-                        <div class="absolute text-white text-lg font-bold floating-text" style="top: 42%; left: 20%; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float1 5s ease-in-out infinite;">
+                        <div class="absolute text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float1 5s ease-in-out infinite;">
                             Looks pretty clean overall,<br>no leaks that I can see
                         </div>
-                        <!-- Top right - closer to waveform -->
-                        <div class="absolute text-white text-lg font-bold floating-text" style="top: 45%; right: 18%; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float2 6s ease-in-out infinite;">
+                        <div class="absolute text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float2 6s ease-in-out infinite;">
                             There's a bit of corrosion<br>around the battery terminals
                         </div>
-                        <!-- Bottom - closer to waveform -->
-                        <div class="absolute text-white text-lg font-bold floating-text" style="bottom: 32%; left: 30%; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float3 5.5s ease-in-out infinite;">
+                        <div class="absolute text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float3 5.5s ease-in-out infinite;">
                             Looks like a cracked<br>hose right here…
                         </div>
                     </div>
