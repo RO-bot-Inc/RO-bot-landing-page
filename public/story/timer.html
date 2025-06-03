@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Second Timer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1a1a1a; /* Dark background */
+            color: #e0e0e0; /* Light text */
+        }
+        .timer-container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 15px;
+            background-color: #2c2c2c; /* Slightly lighter card background */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        #timerDisplay {
+            font-size: 5rem; /* Responsive font size */
+            font-weight: bold;
+            color: #4ade80; /* Green accent for timer */
+            letter-spacing: 2px;
+            /* Removed margin-bottom as status message is gone */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #timerDisplay {
+                font-size: 3.5rem;
+            }
+            .timer-container {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-container">
+        <div id="timerDisplay">5.000</div>
+        </div>
+
+    <script>
+        // --- Timer Logic ---
+        const timerDisplay = document.getElementById('timerDisplay');
+        // Removed statusMessage element reference
+        let timeLeft = 5.000; // Initial time in seconds
+        let timerInterval;
+
+        // Function to format time to three decimal places
+        function formatTime(seconds) {
+            return seconds.toFixed(3);
+        }
+
+        // Function to update the timer display
+        function updateTimer() {
+            timerDisplay.textContent = formatTime(timeLeft);
+        }
+
+        // Function to start the countdown
+        function startTimer() {
+            // Removed statusMessage update
+            updateTimer(); // Display initial time
+
+            const startTime = performance.now(); // More precise timing
+
+            timerInterval = setInterval(() => {
+                const elapsedTime = (performance.now() - startTime) / 1000; // Time elapsed in seconds
+                timeLeft = 5.000 - elapsedTime;
+
+                if (timeLeft <= 0) {
+                    timeLeft = 0;
+                    clearInterval(timerInterval);
+                    // Removed statusMessage update for "Time's up!"
+                }
+                updateTimer();
+            }, 1); // Update every millisecond for smooth decimal display
+        }
+
+        // Automatically start the timer when the page loads
+        window.onload = function() {
+            startTimer();
+        };
+    </script>
+</body>
+</html>
