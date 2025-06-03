@@ -1253,6 +1253,10 @@ video {
     margin-top: 3rem;
   }
 
+  .sm\:mb-20 {
+    margin-bottom: 5rem;
+  }
+
   .sm\:h-20 {
     height: 5rem;
   }
@@ -1319,6 +1323,10 @@ video {
 
   .md\:mt-16 {
     margin-top: 4rem;
+  }
+
+  .md\:mb-24 {
+    margin-bottom: 6rem;
   }
 
   .md\:mt-0 {
