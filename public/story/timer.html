@@ -18,26 +18,34 @@
         }
         .timer-container {
             text-align: center;
-            padding: 40px;
+            padding: 20px;
             border-radius: 15px;
             background-color: #2c2c2c; /* Slightly lighter card background */
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            min-width: 200px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         #timerDisplay {
-            font-size: 5rem; /* Responsive font size */
+            font-size: 3rem; /* Reduced from 5rem to prevent cropping */
             font-weight: bold;
             color: #4ade80; /* Green accent for timer */
-            letter-spacing: 2px;
-            /* Removed margin-bottom as status message is gone */
+            letter-spacing: 1px;
+            line-height: 1;
+            white-space: nowrap;
+            overflow: visible;
         }
 
         /* Responsive adjustments */
         @media (max-width: 600px) {
             #timerDisplay {
-                font-size: 3.5rem;
+                font-size: 2.5rem;
             }
             .timer-container {
-                padding: 30px;
+                padding: 15px;
+                min-height: 60px;
             }
         }
     </style>
