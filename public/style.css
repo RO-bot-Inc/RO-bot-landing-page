@@ -542,10 +542,6 @@ video {
   pointer-events: none;
 }
 
-.invisible {
-  visibility: hidden;
-}
-
 .fixed {
   position: fixed;
 }
@@ -573,12 +569,12 @@ video {
   top: 0px;
 }
 
-.left-1\/2 {
-  left: 50%;
+.bottom-1 {
+  bottom: 0.25rem;
 }
 
-.top-\[calc\(50\%\+80px\)\] {
-  top: calc(50% + 80px);
+.left-1\/2 {
+  left: 50%;
 }
 
 .bottom-0 {
@@ -631,10 +627,6 @@ video {
 
 .right-\[10\%\] {
   right: 10%;
-}
-
-.bottom-4 {
-  bottom: 1rem;
 }
 
 .z-50 {
@@ -707,10 +699,6 @@ video {
   margin-top: 0.75rem;
 }
 
-.block {
-  display: block;
-}
-
 .inline-block {
   display: inline-block;
 }
@@ -747,16 +735,16 @@ video {
   height: 80vh;
 }
 
-.h-full {
-  height: 100%;
-}
-
-.h-auto {
-  height: auto;
+.h-48 {
+  height: 12rem;
 }
 
 .h-24 {
   height: 6rem;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .h-1\/3 {
@@ -767,6 +755,10 @@ video {
   height: 425px;
 }
 
+.h-auto {
+  height: auto;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -775,20 +767,12 @@ video {
   height: 1.5rem;
 }
 
-.h-48 {
-  height: 12rem;
-}
-
 .w-auto {
   width: auto;
 }
 
 .w-full {
   width: 100%;
-}
-
-.w-\[36\%\] {
-  width: 36%;
 }
 
 .w-\[85\%\] {
@@ -817,10 +801,6 @@ video {
 
 .w-6 {
   width: 1.5rem;
-}
-
-.w-48 {
-  width: 12rem;
 }
 
 .max-w-7xl {
@@ -857,11 +837,6 @@ video {
 
 .-translate-x-1\/2 {
   --tw-translate-x: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.-translate-y-1\/2 {
-  --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1385,14 +1360,6 @@ video {
 }
 
 @media (min-width: 768px) {
-  .md\:left-\[44\%\] {
-    left: 44%;
-  }
-
-  .md\:top-1\/2 {
-    top: 50%;
-  }
-
   .md\:order-1 {
     order: 1;
   }
@@ -1413,21 +1380,12 @@ video {
     width: 95%;
   }
 
-  .md\:w-\[22\.5\%\] {
-    width: 22.5%;
-  }
-
   .md\:w-\[65\%\] {
     width: 65%;
   }
 
   .md\:w-1\/2 {
     width: 50%;
-  }
-
-  .md\:-translate-y-1\/2 {
-    --tw-translate-y: -50%;
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   }
 
   .md\:grid-cols-2 {
