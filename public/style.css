@@ -687,6 +687,10 @@ video {
   margin-top: 0.75rem;
 }
 
+.-mt-16 {
+  margin-top: -4rem;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -1273,6 +1277,10 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:-mt-20 {
+    margin-top: -5rem;
+  }
+
   .sm\:h-20 {
     height: 5rem;
   }
@@ -1343,6 +1351,10 @@ video {
 
   .md\:mt-0 {
     margin-top: 0px;
+  }
+
+  .md\:-mt-24 {
+    margin-top: -6rem;
   }
 
   .md\:w-\[65\%\] {
