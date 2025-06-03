@@ -755,6 +755,10 @@ video {
   height: 1.5rem;
 }
 
+.h-\[70vh\] {
+  height: 70vh;
+}
+
 .w-auto {
   width: auto;
 }
@@ -1283,6 +1287,10 @@ video {
 
   .sm\:h-14 {
     height: 3.5rem;
+  }
+
+  .sm\:h-\[80vh\] {
+    height: 80vh;
   }
 
   .sm\:w-\[42\%\] {
