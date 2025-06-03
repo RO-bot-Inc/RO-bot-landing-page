@@ -130,10 +130,19 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Starting video and timer simultaneously');
             console.log('Video element:', actualVideo);
             
-            // Remove autoplay to prevent conflicts
+            // Remove autoplay and loop to prevent conflicts
             actualVideo.removeAttribute('autoplay');
+            actualVideo.removeAttribute('loop');
             actualVideo.currentTime = 0;
             actualVideo.muted = true;
+            
+            // Add event listener to stop video after one play cycle
+            const handleVideoEnd = () => {
+                console.log('Video finished one play cycle, stopping');
+                actualVideo.pause();
+                actualVideo.removeEventListener('ended', handleVideoEnd);
+            };
+            actualVideo.addEventListener('ended', handleVideoEnd);
             
             // Force play the video
             const playPromise = actualVideo.play();
