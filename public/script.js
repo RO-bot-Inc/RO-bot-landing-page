@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     // Disable ALL automatic video sequences
     const allVideos = document.querySelectorAll('video');
@@ -7,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         video.pause();
         video.currentTime = 0;
     });
-    
+
     // Stop any existing intervals or timeouts that might be running hero sequences
     for (let i = 1; i < 99999; i++) {
         window.clearInterval(i);
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Animation for "Specs At Your Fingertips" message bubbles
     function animateSpecsBubbles() {
         const bubbles = document.querySelectorAll('.message-bubble');
-        
+
         bubbles.forEach((bubble, index) => {
             const order = parseInt(bubble.getAttribute('data-animation-order'));
             setTimeout(() => {
@@ -26,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             }, (order - 1) * 800); // 800ms delay between each bubble
         });
-        
+
         // Hide bubbles after showing them all
         setTimeout(() => {
             bubbles.forEach(bubble => {
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Animation for "Smarter Diagnostics" task overlays
     function animateTaskOverlays() {
         const overlays = document.querySelectorAll('.task-overlay');
-        
+
         overlays.forEach((overlay, index) => {
             const order = parseInt(overlay.getAttribute('data-animation-order'));
             setTimeout(() => {
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             }, (order - 1) * 600); // 600ms delay between each task
         });
-        
+
         // Hide overlays after showing them all
         setTimeout(() => {
             overlays.forEach(overlay => {
@@ -91,11 +90,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start observing the containers
     const techSpecsContainer = document.getElementById('techSpecsContainer');
     const diagnosticContainer = document.getElementById('diagnosticContainer');
-    
+
     if (techSpecsContainer) {
         specsObserver.observe(techSpecsContainer);
     }
-    
+
     if (diagnosticContainer) {
         diagnosticsObserver.observe(diagnosticContainer);
     }
@@ -106,10 +105,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
         const actualVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
-        
+
         console.log('Story video found:', actualVideo);
         console.log('Timer iframe found:', timerIframe);
-        
+
         if (!actualVideo || !timerIframe) {
             console.log('Video or timer not found, retrying...');
             setTimeout(setupVideoTimerSync, 1000);
@@ -125,35 +124,40 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Start sequence: play video and timer simultaneously
+        // Start sequence: play video and timer simultaneously immediately
         function startSequence() {
-            console.log('Starting video and timer simultaneously');
+            console.log('Button pressed, starting immediately');
             console.log('Video element:', actualVideo);
-            
+
+            // Set flag to allow this video to play
+            window.buttonVideoPlaying = true;
+
             // Remove autoplay and loop to prevent conflicts
             actualVideo.removeAttribute('autoplay');
             actualVideo.removeAttribute('loop');
             actualVideo.currentTime = 0;
             actualVideo.muted = true;
-            
+
             // Add event listener to stop video after one play cycle
             const handleVideoEnd = () => {
                 console.log('Video finished one play cycle, stopping');
                 actualVideo.pause();
+                window.buttonVideoPlaying = false; // Reset flag
                 actualVideo.removeEventListener('ended', handleVideoEnd);
             };
             actualVideo.addEventListener('ended', handleVideoEnd);
-            
-            // Force play the video
+
+            // Force play the video immediately
             const playPromise = actualVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     console.log('Video started successfully');
                 }).catch(error => {
                     console.error('Error playing video:', error);
+                    window.buttonVideoPlaying = false; // Reset flag on error
                 });
             }
-            
+
             sendTimerMessage('startTimer');
         }
 
