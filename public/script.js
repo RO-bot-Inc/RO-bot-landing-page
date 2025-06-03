@@ -100,6 +100,22 @@ document.addEventListener('DOMContentLoaded', function() {
         let isInViewport = false;
         let isRunning = false;
         let currentTimeout = null;
+        let iframeReady = false;
+
+        // Safe message sender with retry
+        function sendTimerMessage(message, retries = 3) {
+            if (!iframeReady && retries > 0) {
+                setTimeout(() => sendTimerMessage(message, retries - 1), 100);
+                return;
+            }
+            
+            try {
+                console.log('Sending timer message:', message);
+                timerIframe.contentWindow.postMessage(message, '*');
+            } catch (error) {
+                console.error('Error sending message to timer:', error);
+            }
+        }
 
         // Initialize to starting state
         function resetToStartingState() {
@@ -107,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             storyVideo.currentTime = 0;
             storyVideo.pause();
             storyVideo.muted = true;
-            timerIframe.contentWindow.postMessage('resetTimer', '*');
+            sendTimerMessage('resetTimer');
         }
 
         // Start the sequence cycle
@@ -130,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Starting video and timer simultaneously');
                 // Step 3: Start video and timer simultaneously
                 storyVideo.play();
-                timerIframe.contentWindow.postMessage('startTimer', '*');
+                sendTimerMessage('startTimer');
                 
             }, 2000);
         }
@@ -144,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentTimeout = null;
             }
             storyVideo.pause();
-            timerIframe.contentWindow.postMessage('stopTimer', '*');
+            sendTimerMessage('stopTimer');
         }
 
         // Handle timer stopping at 1.671
@@ -174,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 console.log('Viewport change:', isInViewport);
                 
-                if (isInViewport && !wasInViewport) {
+                if (isInViewport && !wasInViewport && iframeReady) {
                     // Entered viewport - start the cycle
                     startCycle();
                 } else if (!isInViewport && wasInViewport) {
@@ -197,18 +213,37 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Video error:', e);
         });
 
-        // Initialize
-        resetToStartingState();
-        observer.observe(storyVideo);
-        
-        // Wait for iframe to load before starting
-        if (timerIframe.contentDocument?.readyState === 'complete') {
-            console.log('Timer iframe ready');
-        } else {
-            timerIframe.addEventListener('load', () => {
-                console.log('Timer iframe loaded');
-            });
+        // Wait for iframe to fully load
+        function checkIframeReady() {
+            try {
+                if (timerIframe.contentDocument && timerIframe.contentDocument.readyState === 'complete') {
+                    iframeReady = true;
+                    console.log('Timer iframe ready, initializing...');
+                    resetToStartingState();
+                    observer.observe(storyVideo);
+                    
+                    // If already in viewport, start the cycle
+                    const rect = storyVideo.getBoundingClientRect();
+                    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                    if (inView) {
+                        isInViewport = true;
+                        startCycle();
+                    }
+                } else {
+                    setTimeout(checkIframeReady, 100);
+                }
+            } catch (error) {
+                setTimeout(checkIframeReady, 100);
+            }
         }
+
+        // Start checking for iframe readiness
+        timerIframe.addEventListener('load', () => {
+            setTimeout(checkIframeReady, 100);
+        });
+        
+        // Also check immediately in case it's already loaded
+        checkIframeReady();
     }
 
     // Initialize with retry
