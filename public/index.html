@@ -339,7 +339,7 @@
                         </div>
                     </div>
                     <!-- Waveform video at center -->
-                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-144 h-48 z-20" style="top: 58%; mix-blend-mode: screen;" id="heroWaveformVideo">
+                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 58%; mix-blend-mode: screen; width: 518.4px; height: 172.8px;" id="heroWaveformVideo">
                         <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -485,6 +485,24 @@
 
                                 // Error handler for video loading issues
                                 waveformVideo.addEventListener('error', (e) => {
+                                    // Silently handle video errors
+                                });
+                            }
+
+                            // Handle hero waveform video
+                            const heroWaveformVideo = document.getElementById('heroWaveformVideo');
+                            if (heroWaveformVideo) {
+                                heroWaveformVideo.addEventListener('canplay', () => {
+                                    try {
+                                        if (heroWaveformVideo.readyState >= 2) {
+                                            heroWaveformVideo.playbackRate = 0.85;
+                                        }
+                                    } catch (e) {
+                                        // Silently fail and use default speed
+                                    }
+                                });
+
+                                heroWaveformVideo.addEventListener('error', (e) => {
                                     // Silently handle video errors
                                 });
                             }
