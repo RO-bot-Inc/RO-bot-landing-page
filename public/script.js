@@ -105,72 +105,91 @@ document.addEventListener('DOMContentLoaded', function() {
         if (storyVideo && timerIframe) {
             console.log('Setting up video-timer synchronization');
             
+            // Variables for sequence control
+            let isInViewport = false;
+            let sequenceActive = false;
+            let timerStoppedTime = null;
+            
             // Log video duration when metadata loads
             storyVideo.addEventListener('loadedmetadata', function() {
                 console.log('Story video duration:', storyVideo.duration, 'seconds');
+                // Ensure video starts paused on first frame
+                storyVideo.currentTime = 0;
+                storyVideo.pause();
             });
+            
+            // Initialize video state
+            storyVideo.currentTime = 0;
+            storyVideo.pause();
+            
+            // Intersection Observer for viewport detection
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const wasInViewport = isInViewport;
+                    isInViewport = entry.isIntersecting;
+                    
+                    if (isInViewport && !wasInViewport && !sequenceActive) {
+                        console.log('Video entered viewport - starting 2-second countdown');
+                        startSequence();
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of video is visible
+            });
+            
+            observer.observe(storyVideo);
+            
+            // Main sequence function
+            function startSequence() {
+                if (sequenceActive) return;
+                sequenceActive = true;
+                
+                console.log('Sequence started - 2 second delay before play');
+                setTimeout(() => {
+                    if (isInViewport && sequenceActive) {
+                        console.log('Playing video and starting timer simultaneously');
+                        storyVideo.play();
+                        timerIframe.contentWindow.postMessage('startTimer', '*');
+                    }
+                }, 2000);
+            }
             
             // Wait for iframe to be fully loaded
             const setupEvents = () => {
-                // When story video starts playing
-                storyVideo.addEventListener('play', function() {
-                    console.log('Story video started playing - starting timer');
-                    timerIframe.contentWindow.postMessage('startTimer', '*');
+                // Listen for timer stop message from timer iframe
+                window.addEventListener('message', function(event) {
+                    if (event.data === 'timerStopped') {
+                        console.log('Timer stopped - starting 3-second pause');
+                        timerStoppedTime = Date.now();
+                        storyVideo.pause();
+                        
+                        setTimeout(() => {
+                            console.log('3-second pause complete - resetting for next cycle');
+                            // Reset video to first frame
+                            storyVideo.currentTime = 0;
+                            storyVideo.pause();
+                            // Reset timer
+                            timerIframe.contentWindow.postMessage('resetTimer', '*');
+                            // Mark sequence as ready to restart
+                            sequenceActive = false;
+                            
+                            // If still in viewport, start the sequence again
+                            if (isInViewport) {
+                                setTimeout(() => {
+                                    startSequence();
+                                }, 100);
+                            }
+                        }, 3000);
+                    }
                 });
                 
-                // When story video is paused
-                storyVideo.addEventListener('pause', function() {
-                    console.log('Story video paused - stopping timer');
-                    timerIframe.contentWindow.postMessage('stopTimer', '*');
-                });
-                
-                // When story video ends
+                // Handle video end (backup in case timer doesn't stop it)
                 storyVideo.addEventListener('ended', function() {
-                    console.log('Story video ended - stopping and resetting timer');
-                    timerIframe.contentWindow.postMessage('stopTimer', '*');
-                    timerIframe.contentWindow.postMessage('resetTimer', '*');
-                    
-                    // Wait 3 seconds, then prepare for next cycle
-                    setTimeout(() => {
-                        console.log('3-second pause complete - ready for next cycle');
-                        // Timer will start again when video loops and triggers timeupdate
-                    }, 3000);
-                });
-                
-                // Handle video seeking/restarting
-                storyVideo.addEventListener('seeked', function() {
-                    if (storyVideo.currentTime < 0.5) { // If seeked to beginning
-                        console.log('Story video seeked to beginning - resetting timer');
-                        timerIframe.contentWindow.postMessage('resetTimer', '*');
-                        if (!storyVideo.paused) {
-                            timerIframe.contentWindow.postMessage('startTimer', '*');
-                        }
+                    if (!timerStoppedTime || (Date.now() - timerStoppedTime) > 1000) {
+                        console.log('Video ended without timer stop - triggering sequence reset');
+                        window.postMessage('timerStopped', '*');
                     }
                 });
-                
-                // Handle video looping - reset timer when video restarts
-                let lastTime = 0;
-                let pauseTimeout = null;
-                storyVideo.addEventListener('timeupdate', function() {
-                    // Detect when video loops back to beginning
-                    if (lastTime > storyVideo.currentTime + 1) {
-                        console.log('Story video looped - starting timer for new cycle');
-                        // Clear any existing pause timeout
-                        if (pauseTimeout) {
-                            clearTimeout(pauseTimeout);
-                            pauseTimeout = null;
-                        }
-                        timerIframe.contentWindow.postMessage('resetTimer', '*');
-                        timerIframe.contentWindow.postMessage('startTimer', '*');
-                    }
-                    lastTime = storyVideo.currentTime;
-                });
-                
-                // Start timer if video is already playing when page loads
-                if (!storyVideo.paused && storyVideo.currentTime > 0) {
-                    console.log('Story video already playing - starting timer');
-                    timerIframe.contentWindow.postMessage('startTimer', '*');
-                }
             };
             
             // Setup events after iframe loads

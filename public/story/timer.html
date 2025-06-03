@@ -112,6 +112,11 @@
             isRunning = false;
             // Freeze the current time when stopped
             updateTimer();
+            
+            // Notify parent window that timer has stopped
+            if (window.parent) {
+                window.parent.postMessage('timerStopped', '*');
+            }
         }
 
         // Function to reset the timer
