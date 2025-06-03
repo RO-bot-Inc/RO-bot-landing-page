@@ -149,10 +149,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (isInViewport && sequenceActive) {
                         console.log('Playing video and starting timer simultaneously');
                         storyVideo.play();
-                        // Delay timer start by 500ms to sync with video playback
+                        // Delay timer start by 1000ms to sync with video playback
                         setTimeout(() => {
                             timerIframe.contentWindow.postMessage('startTimer', '*');
-                        }, 500);
+                        }, 1000);
                     }
                 }, 2000);
             }
