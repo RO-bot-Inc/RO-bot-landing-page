@@ -121,8 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // When story video ends
                 storyVideo.addEventListener('ended', function() {
-                    console.log('Story video ended - resetting timer');
-                    timerIframe.contentWindow.postMessage('resetTimer', '*');
+                    console.log('Story video ended - stopping timer');
+                    timerIframe.contentWindow.postMessage('stopTimer', '*');
+                    
+                    // Wait 3 seconds, then reset timer and prepare for next cycle
+                    setTimeout(() => {
+                        console.log('3-second pause complete - resetting timer for next cycle');
+                        timerIframe.contentWindow.postMessage('resetTimer', '*');
+                    }, 3000);
                 });
                 
                 // Handle video seeking/restarting
@@ -138,10 +144,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Handle video looping - reset timer when video restarts
                 let lastTime = 0;
+                let pauseTimeout = null;
                 storyVideo.addEventListener('timeupdate', function() {
                     // Detect when video loops back to beginning
                     if (lastTime > storyVideo.currentTime + 1) {
-                        console.log('Story video looped - resetting and starting timer');
+                        console.log('Story video looped - starting timer for new cycle');
+                        // Clear any existing pause timeout
+                        if (pauseTimeout) {
+                            clearTimeout(pauseTimeout);
+                            pauseTimeout = null;
+                        }
                         timerIframe.contentWindow.postMessage('resetTimer', '*');
                         timerIframe.contentWindow.postMessage('startTimer', '*');
                     }
