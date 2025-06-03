@@ -1,11 +1,18 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Disable any automatic hero sequences
-    const heroVideos = document.querySelectorAll('.hero-section video, .hero video, video[autoplay]');
-    heroVideos.forEach(video => {
+    // Disable ALL automatic video sequences
+    const allVideos = document.querySelectorAll('video');
+    allVideos.forEach(video => {
         video.removeAttribute('autoplay');
         video.pause();
+        video.currentTime = 0;
     });
+    
+    // Stop any existing intervals or timeouts that might be running hero sequences
+    for (let i = 1; i < 99999; i++) {
+        window.clearInterval(i);
+        window.clearTimeout(i);
+    }
 
     // Animation for "Specs At Your Fingertips" message bubbles
     function animateSpecsBubbles() {
