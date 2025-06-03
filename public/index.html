@@ -198,7 +198,7 @@
         @media (max-width: 640px) {
             .floating-text:nth-child(1) {
                 left: 5% !important;
-                top: 52% !important;
+                top: 40% !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 bottom: auto !important;
@@ -207,7 +207,7 @@
             }
             .floating-text:nth-child(2) {
                 right: 5% !important;
-                top: 58% !important;
+                top: 45% !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 bottom: auto !important;
@@ -217,7 +217,7 @@
             .floating-text:nth-child(3) {
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                top: 64% !important;
+                top: 50% !important;
                 bottom: auto !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
@@ -499,7 +499,7 @@
         <section>
             <div class="text-center relative overflow-visible">
                 <div class="relative">
-                    <img src="/hero/inspection.png" alt="Automotive inspection and diagnostic process" class="w-full h-[80vh] object-cover">
+                    <img src="/hero/inspection.png" alt="Automotive inspection and diagnostic process" class="w-full h-[70vh] sm:h-[80vh] object-cover">
                     <div class="absolute inset-0" style="background-color: rgba(42, 157, 143, 0.5)"></div>
                     <div class="absolute inset-0 flex flex-col items-center">
                         <div class="container mx-auto px-4 flex flex-col items-center">
@@ -512,9 +512,19 @@
                         </div>
                     </div>
                     <!-- Waveform video at center -->
-                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 58%; mix-blend-mode: screen; width: 518.4px; height: 172.8px;" id="heroWaveformVideo">
+                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px;" id="heroWaveformVideo">
                         <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
                     </video>
+                    
+                    <style>
+                        @media (min-width: 640px) {
+                            #heroWaveformVideo {
+                                top: 58% !important;
+                                width: 518.4px !important;
+                                height: 172.8px !important;
+                            }
+                        }
+                    </style>
 
                     <!-- Invisible boundary around waveform video -->
                     <div class="waveform-boundary"></div>
