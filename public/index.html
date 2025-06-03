@@ -196,19 +196,19 @@
         /* Mobile screens - stack text above and below waveform */
         @media (max-width: 640px) {
             .floating-text:nth-child(1) {
-                top: max(50%, 50%) !important;
+                top: calc(max(50%, 40%) - 20px) !important;
                 left: 10% !important;
                 right: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(2) {
-                top: calc(max(50%, 52%) + 30px) !important;
+                top: calc(max(50%, 75%) + 40px) !important;
                 right: 10% !important;
                 left: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(3) {
-                bottom: 25% !important;
+                bottom: 15% !important;
                 left: 15% !important;
                 top: auto !important;
                 right: auto !important;
