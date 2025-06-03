@@ -95,10 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Video-Timer Sync - Simple Button Triggered Version
     function setupVideoTimerSync() {
-        const storyVideo = document.querySelector('video');
+        // Specifically target the story video in the container with the timer
+        const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
+        const actualVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
         
-        if (!storyVideo || !timerIframe) {
+        console.log('Story video found:', actualVideo);
+        console.log('Timer iframe found:', timerIframe);
+        
+        if (!actualVideo || !timerIframe) {
             console.log('Video or timer not found, retrying...');
             setTimeout(setupVideoTimerSync, 1000);
             return;
@@ -116,9 +121,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Start sequence: play video and timer simultaneously
         function startSequence() {
             console.log('Starting video and timer simultaneously');
-            storyVideo.currentTime = 0;
-            storyVideo.muted = true;
-            storyVideo.play();
+            console.log('Video element:', actualVideo);
+            
+            // Remove autoplay to prevent conflicts
+            actualVideo.removeAttribute('autoplay');
+            actualVideo.currentTime = 0;
+            actualVideo.muted = true;
+            
+            // Force play the video
+            const playPromise = actualVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Video started successfully');
+                }).catch(error => {
+                    console.error('Error playing video:', error);
+                });
+            }
+            
             sendTimerMessage('startTimer');
         }
 
@@ -131,9 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Initialize video to first frame
-        storyVideo.currentTime = 0;
-        storyVideo.pause();
-        storyVideo.muted = true;
+        actualVideo.currentTime = 0;
+        actualVideo.pause();
+        actualVideo.muted = true;
+        actualVideo.removeAttribute('autoplay');
         sendTimerMessage('resetTimer');
 
         // Expose controls globally for button access
