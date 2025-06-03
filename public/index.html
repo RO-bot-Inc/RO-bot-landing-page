@@ -149,10 +149,10 @@
             z-index: 25;
         }
 
-        /* Top boundary at 40% - text cannot go above this */
+        /* Top boundary at 50% - text cannot go above this */
         .top-boundary {
             position: absolute;
-            top: 40%;
+            top: 50%;
             left: 0;
             right: 0;
             height: 1px;
@@ -196,13 +196,13 @@
         /* Mobile screens - stack text above and below waveform */
         @media (max-width: 640px) {
             .floating-text:nth-child(1) {
-                top: max(40%, 40%) !important;
+                top: max(50%, 50%) !important;
                 left: 10% !important;
                 right: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(2) {
-                top: max(40%, 42%) !important;
+                top: max(50%, 52%) !important;
                 right: 10% !important;
                 left: auto !important;
                 bottom: auto !important;
@@ -218,13 +218,13 @@
         /* Tablet screens - wider spacing */
         @media (min-width: 641px) and (max-width: 1024px) {
             .floating-text:nth-child(1) {
-                top: max(40%, 40%) !important;
+                top: max(50%, 50%) !important;
                 left: 8% !important;
                 right: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(2) {
-                top: max(40%, 42%) !important;
+                top: max(50%, 52%) !important;
                 right: 8% !important;
                 left: auto !important;
                 bottom: auto !important;
@@ -240,19 +240,19 @@
         /* Desktop screens - side positioning */
         @media (min-width: 1025px) {
             .floating-text:nth-child(1) {
-                top: max(40%, 50%) !important;
+                top: max(50%, 50%) !important;
                 left: 15% !important;
                 right: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(2) {
-                top: max(40%, 55%) !important;
+                top: max(50%, 55%) !important;
                 right: 15% !important;
                 left: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(3) {
-                top: calc(max(40%, 68%) + 18px) !important;
+                top: calc(max(50%, 68%) + 18px) !important;
                 left: calc(50% - 30px) !important;
                 transform: translateX(-50%) !important;
                 right: auto !important;
@@ -263,19 +263,19 @@
         /* Large screens - closer positioning to waveform */
         @media (min-width: 1280px) {
             .floating-text:nth-child(1) {
-                top: max(40%, 50%) !important;
+                top: max(50%, 50%) !important;
                 left: 20% !important;
                 right: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(2) {
-                top: max(40%, 55%) !important;
+                top: max(50%, 55%) !important;
                 right: 20% !important;
                 left: auto !important;
                 bottom: auto !important;
             }
             .floating-text:nth-child(3) {
-                top: calc(max(40%, 68%) + 18px) !important;
+                top: calc(max(50%, 68%) + 18px) !important;
                 left: calc(50% - 30px) !important;
                 transform: translateX(-50%) !important;
                 right: auto !important;
