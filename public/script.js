@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add floating animation class based on position
             const isLeftSide = overlay.style.left !== '' || overlay.classList.toString().includes('left-');
             if (isLeftSide) {
-                overlay.style.animation = `floatLeft ${3 + index * 0.5}s ease-in-out infinite`;
+                overlay.style.animation = `floatLeft ${6 + index * 0.8}s ease-in-out infinite`;
             } else {
-                overlay.style.animation = `floatRight ${3 + index * 0.5}s ease-in-out infinite`;
+                overlay.style.animation = `floatRight ${6 + index * 0.8}s ease-in-out infinite`;
             }
         });
     }
