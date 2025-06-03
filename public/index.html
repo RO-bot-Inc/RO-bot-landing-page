@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RO-bot: AI for Automotive Technicians</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="/browser.svg" type="image/svg+xml"> <link rel="shortcut icon" href="/browser.png" type="image/png"> <link rel="apple-touch-icon" href="/iPhone.png"> <link rel="manifest" href="/manifest.json">
+    <script src="/script.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="/Android.png"> <link rel="icon" type="image/png" sizes="16x16" href="/Android.png">
+    <style>
+        /* Prevent horizontal overflow on mobile */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        /* Ensure all content respects viewport width */
+        * {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Responsive video scaling to match container breakpoints */
+        .hero-video {
+            transform: scale(1.1);
+        }
+
+        @media (min-width: 640px) {
+            .hero-video {
+                transform: scale(1.08);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero-video {
+                transform: scale(1.06);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-video {
+                transform: scale(1.04);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .hero-video {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Logo Carousel Styles */
+        .logo-carousel-container {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .logo-carousel-track {
+            display: flex;
+            animation: scroll-logos 30s linear infinite;
+            width: calc(200% + 40px);
+        }
+
+        .logo-carousel-slide {
+            flex: 0 0 auto;
+            margin: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-carousel-img {
+            height: 50px !important;
+            max-height: 50px !important;
+            width: auto !important;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.7);
+            transition: filter 0.3s ease;
+        }
+
+        .logo-carousel-img:hover {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        @keyframes scroll-logos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Pause animation on hover */
+        .logo-carousel-container:hover .logo-carousel-track {
+            animation-play-state: paused;
+        }
+
+        /* Problem Statistics Cards - Glassmorphism */
+        .problem-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            border-color: #2a9d8f;
+            box-shadow: 0 20px 40px rgba(42, 157, 143, 0.1);
+        }
+
+        .problem-icon {
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #f76707);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+            width: fit-content;
+            white-space: nowrap;
+        }
+
+        /* Waveform video boundary protection */
+        .waveform-boundary {
+            position: absolute;
+            left: 50%;
+            top: 58%;
+            transform: translate(-50%, -50%);
+            width: 400px; /* Video width + padding */
+            height: 180px; /* Video height + padding */
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        /* Top boundary at 50% - text cannot go above this */
+        .top-boundary {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        /* Removed floating animations - will rebuild warranty section from scratch */
+
+        /* Responsive positioning rules to avoid waveform boundary and overlaps */
+        .floating-text {
+            transition: all 0.3s ease;
+            z-index: 30;
+        }
+
+        /* Mobile screens - position text in visible viewport area */
+        @media (max-width: 640px) {
+            .floating-text:nth-child(1) {
+                left: 5% !important;
+                top: 40% !important;
+                font-size: 13px !important;
+                max-width: 180px !important;
+                bottom: auto !important;
+                line-height: 1.3 !important;
+                right: auto !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 5% !important;
+                top: 45% !important;
+                font-size: 13px !important;
+                max-width: 180px !important;
+                bottom: auto !important;
+                line-height: 1.3 !important;
+                left: auto !important;
+            }
+            .floating-text:nth-child(3) {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 50% !important;
+                bottom: auto !important;
+                font-size: 13px !important;
+                max-width: 180px !important;
+                line-height: 1.3 !important;
+                text-align: center !important;
+                right: auto !important;
+            }
+        }
+
+        /* Tablet screens - wider spacing, strict 50% boundary with no overlaps */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .floating-text:nth-child(1) {
+                top: max(50%, 50%) !important;
+                left: 5% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 250px !important;
+                font-size: 15px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(2) {
+                top: max(50%, 70%) !important;
+                right: 5% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 250px !important;
+                font-size: 15px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(3) {
+                bottom: 20% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: auto !important;
+                right: auto !important;
+                max-width: 250px !important;
+                font-size: 15px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Desktop screens - avoid waveform zone (center 40% width, 58% height area) */
+        @media (min-width: 1025px) {
+            .floating-text:nth-child(1) {
+                top: 52% !important;
+                left: 8% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 280px !important;
+                font-size: 16px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(2) {
+                top: 68% !important;
+                right: 8% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 280px !important;
+                font-size: 16px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(3) {
+                top: 78% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: auto !important;
+                right: auto !important;
+                max-width: 280px !important;
+                font-size: 16px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Large screens - maintain safe distances */
+        @media (min-width: 1280px) {
+            .floating-text:nth-child(1) {
+                top: 52% !important;
+                left: 12% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 17px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(2) {
+                top: 70% !important;
+                right: 12% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 17px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(3) {
+                top: 78% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: auto !important;
+                right: auto !important;
+                max-width: 300px !important;
+                font-size: 17px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Floating animations for warranty overlays */
+        @keyframes floatLeft {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-3px) translateX(-1px);
+            }
+            50% {
+                transform: translateY(-2px) translateX(0px);
+            }
+            75% {
+                transform: translateY(-4px) translateX(1px);
+            }
+        }
+
+        @keyframes floatRight {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-4px) translateX(1px);
+            }
+            50% {
+                transform: translateY(-2px) translateX(0px);
+            }
+            75% {
+                transform: translateY(-5px) translateX(-1px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-white font-sans text-brand-dark antialiased">
+</body><!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm"> <!-- Sticky, White BG, Small Shadow -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- Container -->
+            <div class="flex items-center justify-between h-16 sm:h-20"> <!-- Flex layout, vertical align center, space elements apart, height -->
+
+                <!-- Logo (Left Side) -->
+                <div class="flex-shrink-0">
+                    <a href="#" title="RO-bot Home">
+                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                    </a>
+                </div>
+
+                <!-- Login and Join Waitlist Buttons (Right Side) -->
+                <div class="flex space-x-6">
+                    <a href="#waitlist-form"
+                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Book Demo
+                    </a>
+                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
+                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Login
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <main>
+    <div class="bg-white">
+        <section>
+            <div class="text-center relative overflow-visible">
+                <div class="relative">
+                    <img src="/hero/inspection.png" alt="Automotive inspection and diagnostic process" class="w-full h-[70vh] sm:h-[80vh] object-cover">
+                    <div class="absolute inset-0" style="background-color: rgba(42, 157, 143, 0.5)"></div>
+                    <div class="absolute inset-0 flex flex-col items-center">
+                        <div class="container mx-auto px-4 flex flex-col items-center">
+                            <div class="pt-10 mb-8 z-10 w-full">
+                                <h1 class="font-montserrat text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight sm:leading-tight lg:leading-tight text-center">
+                                    Less screen time, <span style="color: #FDFF85;">more wrench time<span style="color: #FDFF85;">.</span></span><br>
+                                    Fewer audits, <span style="color: #FDFF85;">more warranty revenue<span style="color: #FDFF85;">.</span></span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Waveform video at center -->
+                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px;" id="heroWaveformVideo">
+                        <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
+                    </video>
+                    
+                    <style>
+                        @media (min-width: 640px) {
+                            #heroWaveformVideo {
+                                top: 58% !important;
+                                width: 518.4px !important;
+                                height: 172.8px !important;
+                            }
+                        }
+                    </style>
+
+                    <!-- Invisible boundary around waveform video -->
+                    <div class="waveform-boundary"></div>
+
+                    <!-- Animated text overlay with boundary-aware positioning -->
+                    <div class="absolute inset-0 z-30 pointer-events-none">
+                        <div class="absolute text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float1 5s ease-in-out infinite;">
+                            Looks pretty clean overall,<br>no leaks that I can see
+                        </div>
+                        <div class="absolute text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float2 6s ease-in-out infinite;">
+                            There's a bit of corrosion<br>around the battery terminals
+                        </div>
+                        <div class="absolute text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float3 5.5s ease-in-out infinite;">
+                            Looks like a cracked<br>hose right here…
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            <!-- Increased top padding above RO-bot text -->
+            <div class="container mx-auto px-4 mt-8 sm:mt-12 md:mt-16">
+                <div class="w-full text-center">
+                    <p class="max-w-4xl mx-auto text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-relaxed text-brand-dark opacity-90">
+                        <strong>RO-bot is the world's first AI co-pilot for auto repair technicians.</strong>
+                    </p>
+                    <div class="max-w-2xl mx-auto mt-8 text-lg sm:text-xl leading-relaxed text-brand-dark opacity-90 text-left">
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Voice-first interactions</div>
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Pristine repair stories in under 5 seconds</div>
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Suggested diagnostics, model & trim-specific specs at your fingertips</div>
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Claims documentation that increases warranty revenue</div>
+                    </div>
+                    <div class="mt-8 mb-16 sm:mb-20 md:mb-24" style="margin-top: calc(2rem + 11px);">
+                         <a href="#waitlist-form"
+                           class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
+                            Book Your Demo
+                         </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Problem Statistics Section -->
+    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); margin-top: 10px;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight max-w-4xl mx-auto">
+                    Your Current Repair & Warranty Process Is Bleeding Money
+                </h2>
+                <p class="text-lg sm:text-xl lg:text-2xl max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed" style="color: #64758B;">
+                    Every minute on a screen is a minute not fixing cars.<br>
+                    Every rushed or incomplete story is a warranty denial waiting to happen.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Story Writing Time Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        45+ minutes
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Technicians spend 45+ minutes daily on story writing</h3>
+                    <div class="text-white leading-relaxed text-left w-full">
+                        That's <strong class="text-white text-2xl">$40,000+</strong> in lost revenue per tech, per year
+                    </div>
+                </div>
+
+                <!-- Non-Billable Time Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        35% of the day
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Technicians spend up to 35% of their day on non-billable computer and admin work</h3>
+                    <p class="text-white leading-relaxed">
+                        "Transit time" between vehicle and computer can eat <strong class="text-white text-xl">10–30 minutes per day</strong> of a tech's time
+                    </p>
+                </div>
+
+                <!-- Warranty Denials Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        12% denied
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">12% of warranty claims get denied, costing the average dealership $16,500 a month</h3>
+                    <p class="text-white leading-relaxed">
+                        <strong class="text-white text-xl">#1 cause</strong> of claim rejections: incomplete or poorly written repair stories
+                    </p>
+                </div>
+
+                <!-- Claims Process Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        15% less profit
+                    </div>
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">The claims process erodes 15% of warranty gross profit</h3>
+                    <p class="text-white leading-relaxed">
+                        The time it take to process a single claim has nearly <strong class="text-white text-xl">doubled</strong> since 2020
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-16 sm:py-24 bg-white"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
+            <div class="flex justify-center mb-12">
+                <img src="head only.svg" alt="RO-bot head logo" class="w-24 h-24"/>
+            </div>
+            <div class="max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto text-center mb-16"> <h2 class="font-montserrat font-bold text-brand-dark tracking-tight">
+            <span class="text-4xl sm:text-5xl lg:text-6xl">Meet RO-bot</span><br><br>
+            <span class="text-2xl sm:text-3xl lg:text-4xl font-extralight">AI Co-Pilot for Smarter Repairs & Smoother Warranty Claims</span>
+        </h2>
+        <p class="mt-6 text-lg text-brand-dark opacity-90 leading-relaxed">
+            Techs that use RO-bot work smarter. They stay more focused, and crank through more jobs in a day without sacrificing quality. They earn more, boost shop productivity, and improve warranty claim approval rates.
+        </p>
+        </div>
+
+        <div class="space-y-24">
+            <!-- Feature 1 -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 md:order-1 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
+                    <img src="story/typing.png" alt="Voice recording interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+                    <!-- Black semi-transparent mask -->
+                    <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
+                    <!-- Video overlay -->
+                    <video muted playsinline class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain rounded-lg" style="z-index: 1; mix-blend-mode: screen; opacity: 0.7; width: 60vw; max-width: 400px; height: auto; max-height: 60vh;">
+                        <source src="story/update story.mov" type="video/mp4">
+                    </video>
+                    <!-- Timer iframe in upper right corner -->
+                    <iframe src="story/timer.html" class="absolute top-4 right-4 w-32 h-20 border-0 rounded-lg bg-transparent" style="z-index: 2;" scrolling="no"></iframe>
+                    <!-- Play button -->
+                    <button 
+                        onclick="window.videoTimerControls?.start()" 
+                        class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105"
+                        style="z-index: 3; background-color: #54B3FB; hover:background-color: #4A9FE7; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;"
+                    >
+                        Write Story
+                    </button>
+                </div>
+                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">5-Second Stories</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Techs capture findings, error codes, and part numbers with quick voice notes and zero typing. RO-bot makes sense of everything when it's time to build the full story and writes it in clear, customer-friendly language.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 2 - Warranty Claims with Overlays -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 md:order-2">
+                    <div class="w-full h-[425px] overflow-visible relative rounded-lg" id="warrantyContainer">
+                        <!-- Background image -->
+                        <img src="Warranty/Warranty.png" alt="Warranty claims interface" class="w-full h-full object-cover rounded-lg">
+                        
+                        <!-- Warranty Claim Overlays -->
+                        <div class="absolute left-[5%] top-[15%] lg:left-[15%] lg:top-[5%] opacity-0 warranty-overlay w-[58%] sm:w-[54%] lg:w-[50%] xl:w-[48%]" data-animation-order="1" style="transform: translateX(-20px);">
+                            <img src="Warranty/AdvisorNotes2.png" alt="Advisor Notes" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="absolute right-[5%] top-[25%] lg:right-[15%] lg:top-[14%] opacity-0 warranty-overlay w-[45%] sm:w-[42%] lg:w-[38%] xl:w-[36%]" data-animation-order="2" style="transform: translateX(20px);">
+                            <img src="Warranty/Complaint2.png" alt="Customer Complaint" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="absolute left-[8%] bottom-[35%] lg:left-[18%] lg:bottom-[21%] opacity-0 warranty-overlay w-[54%] sm:w-[50%] lg:w-[46%] xl:w-[44%]" data-animation-order="3" style="transform: translateX(-20px);">
+                            <img src="Warranty/Diagnostics2.png" alt="Diagnostics" class="w-full h-auto">
+                        </div>
+                        
+                        <div class="absolute right-[10%] bottom-[15%] lg:right-[18%] lg:bottom-[5%] opacity-0 warranty-overlay w-[54%] sm:w-[50%] lg:w-[46%] xl:w-[44%]" data-animation-order="4" style="transform: translateX(20px);">
+                            <img src="Warranty/TechNotes2.png" alt="Tech Notes" class="w-full h-auto">
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-1">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Cleaner Warranty Claims, Faster Approvals</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Stop leaving warranty dollars on the table. RO-bot helps techs gather the right info, organizes it cleanly, and writes stories that are more likely to meet OEM standards—reducing rejections and speeding up payment.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 md:order-1">
+                    <div class="w-full h-[425px] overflow-visible relative">
+                        <!-- Dynamic tech specs interface with message bubbles -->
+                        <div id="techSpecsContainer" class="relative w-full h-full">
+                            <!-- Background image -->
+                            <img src="specs/2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
+
+                            <!-- Message bubbles - positioned closer together over background image -->
+                            <div class="absolute left-[5%] top-[8%] lg:left-[15%] lg:top-[5%] opacity-0 message-bubble w-[45%] sm:w-[42%] lg:w-[38%] xl:w-[36%]" id="torqueBubble" data-animation-order="1" style="transform: translateY(10px);">
+                              <img src="specs/spec1.png" alt="Torque specs question" class="w-full h-auto">
+                            </div>
+
+                            <div class="absolute right-[5%] top-[17%] lg:right-[15%] lg:top-[14%] opacity-0 message-bubble w-[58%] sm:w-[54%] lg:w-[50%] xl:w-[48%]" id="torqueAnswerBubble" data-animation-order="2" style="transform: translateY(10px);">
+                              <img src="specs/spec2.png" alt="Torque specs answer" class="w-full h-auto">
+                            </div>
+
+                            <div class="absolute left-[8%] bottom-[18%] lg:left-[18%] lg:bottom-[21%] opacity-0 message-bubble w-[45%] sm:w-[42%] lg:w-[38%] xl:w-[36%]" id="oilBubble" data-animation-order="3" style="transform: translateY(10px);">
+                              <img src="specs/spec3.png" alt="Oil capacity question" class="w-full h-auto">
+                            </div>
+
+                            <div class="absolute right-[8%] bottom-[2%] lg:right-[18%] lg:bottom-[5%] opacity-0 message-bubble w-[54%] sm:w-[50%] lg:w-[46%] xl:w-[44%]" id="oilAnswerBubble" data-animation-order="4" style="transform: translateY(10px);">
+                              <img src="specs/spec4.png" alt="Oil capacity answer" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Specs At Your Fingertips</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Quit searching for vehicle information buried in different websites and portals. Just ask RO-bot for torque specs, fluid capacities, TSB summaries, etc. Get exactly the info you need in seconds, right on your phone.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 order-1 md:order-2 mt-8 md:mt-0 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;" id="diagnosticContainer">
+                    <img src="tasks/warning3.png" alt="AI-powered diagnostic guidance interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+
+                    <!-- Task overlay images - initially hidden -->
+                    <div class="absolute inset-0 z-10 pointer-events-none">
+                        <div class="absolute top-[8%] right-[10%] opacity-0 task-overlay" id="task1Overlay" data-animation-order="1" style="transform: translateX(20px);">
+                            <img src="tasks/task1.png" alt="Diagnostic task 1" class="w-auto h-auto max-w-[262px]">
+                        </div>
+                        <div class="absolute opacity-0 task-overlay" id="task2Overlay" data-animation-order="2" style="top: calc(8% + 140px); right: 10%; transform: translateX(20px);">
+                            <img src="tasks/task2.png" alt="Diagnostic task 2" class="w-auto h-auto max-w-[262px]">
+                        </div>
+                        <div class="absolute opacity-0 task-overlay" id="task3Overlay" data-animation-order="3" style="top: calc(8% + 210px); right: 10%; transform: translateX(20px);">
+                            <img src="tasks/task3.png" alt="Diagnostic task 3" class="w-auto h-auto max-w-[262px]">
+                        </div>
+                        <div class="absolute opacity-0 task-overlay" id="task4Overlay" data-animation-order="4" style="top: calc(8% + 280px); right: 10%; transform: translateX(20px);">
+                            <img src="tasks/task4.png" alt="Diagnostic task 4" class="w-auto h-auto max-w-[262px]">
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 space-y-4 order-2 md:order-1 mt-8 md:mt-0">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Smarter Diagnostics, Less Guesswork</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Tricky diagnostics don't have to slow you down. RO-bot suggests next steps based on error codes, symptoms, and vehicle history—helping techs work through complex problems faster and with more confidence.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Logos Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-montserrat font-semibold text-brand-dark mb-4">
+                    Trusted by technicians working on every major brand
+                </h2>
+            </div>
+
+            <div class="logo-carousel-container">
+                <div class="logo-carousel-track">
+                    <!-- First set of logos -->
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                    </div>
+
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight">
+                Ready to Transform Your Shop?
+            </h2>
+            <p class="text-lg sm:text-xl text-white opacity-90 leading-relaxed mb-10 max-w-2xl mx-auto">
+                Join the forward-thinking dealerships using RO-bot to free up more wrench time, boost job throughput, and maximize warranty claim revenue.
+            </p>
+
+            <div id="waitlist-form" class="max-w-md mx-auto">
+                <form action="https://formspree.io/f/mrbqydnq" method="POST" class="space-y-4">
+                    <input type="hidden" name="_subject" value="New RO-bot Waitlist Signup">
+                    <input type="hidden" name="_next" value="https://ro-bot.io/thank-you">
+
+                    <div>
+                        <input type="text" name="name" placeholder="Your Name" required
+                               class="w-full px-4 py-3 rounded-lg text-brand-dark bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <input type="email" name="email" placeholder="Your Email" required
+                               class="w-full px-4 py-3 rounded-lg text-brand-dark bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <input type="text" name="shop" placeholder="Shop/Dealership Name" 
+                               class="w-full px-4 py-3 rounded-lg text-brand-dark bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent">
+                    </div>
+
+                    <button type="submit" 
+                            class="w-full bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105 mb-6">
+                        Book Your Demo
+                    </button>
+                </form>
+                <p class="text-white opacity-70 text-sm mt-3 text-center">No spam, ever.</p>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-dark py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- RO-bot -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">RO-bot</h3>
+                    <p class="text-brand-silver text-sm leading-relaxed">
+                        AI-powered assistance for automotive technicians.
+                    </p>
+                    <p class="text-brand-silver text-sm">
+                        hello@ro-bot.io
+                    </p>
+                </div>
+
+                <!-- Product -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">Product</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#features" class="text-brand-silver hover:text-white text-sm transition duration-150">Features</a></li>
+                        <li><a href="#top" class="text-brand-silver hover:text-white text-sm transition duration-150">Testimonials</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#top" class="text-brand-silver hover:text-white text-sm transition duration-150">Blog</a></li>
+                        <li><a href="#support" class="text-brand-silver hover:text-white text-sm transition duration-150">Support</a></li>
+                        <li><a href="#contact" class="text-brand-silver hover:text-white text-sm transition duration-150">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div class="space-y-4">
+                    <h3 class="text-white font-semibold text-lg">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#top" class="text-brand-silver hover:text-white text-sm transition duration-150">Privacy Policy</a></li>
+                        <li><a href="#top" class="text-brand-silver hover:text-white text-sm transition duration-150">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom section -->
+            <div class="border-t border-gray-700 pt-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="text-brand-silver text-sm">
+                        © 2025 RO-bot. All rights reserved.
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Facebook">
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Twitter">
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="LinkedIn">
+                            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact/Support Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-brand-dark">Contact Us</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form action="https://formspree.io/f/mrbqydnq" method="POST" class="space-y-4">
+                <input type="hidden" name="_subject" value="Contact from RO-bot Website">
+                <input type="hidden" name="_next" value="https://ro-bot.io">
+
+                <div>
+                    <input type="text" name="name" placeholder="Your Name" required
+                           class="w-full px-4 py-3 rounded-lg text-brand-dark bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent">
+                </div>
+
+                <div>
+                    <input type="email" name="email" placeholder="Your Email" required
+                           class="w-full px-4 py-3 rounded-lg text-brand-dark bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent">
+                </div>
+
+                <div>
+                    <textarea name="message" placeholder="Your Message" rows="4" required
+                              class="w-full px-4 py-3 rounded-lg text-brand-dark bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-orange focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <button type="submit" 
+                        class="w-full bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
