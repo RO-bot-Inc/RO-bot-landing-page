@@ -1028,10 +1028,6 @@ video {
   padding-top: 2.5rem;
 }
 
-.pb-20 {
-  padding-bottom: 5rem;
-}
-
 .pt-8 {
   padding-top: 2rem;
 }
@@ -1308,10 +1304,6 @@ video {
 
   .sm\:py-24 {
     padding-top: 6rem;
-    padding-bottom: 6rem;
-  }
-
-  .sm\:pb-24 {
     padding-bottom: 6rem;
   }
 
