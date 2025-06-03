@@ -121,13 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // When story video ends
                 storyVideo.addEventListener('ended', function() {
-                    console.log('Story video ended - stopping timer');
+                    console.log('Story video ended - stopping and resetting timer');
                     timerIframe.contentWindow.postMessage('stopTimer', '*');
+                    timerIframe.contentWindow.postMessage('resetTimer', '*');
                     
-                    // Wait 3 seconds, then reset timer and prepare for next cycle
+                    // Wait 3 seconds, then prepare for next cycle
                     setTimeout(() => {
-                        console.log('3-second pause complete - resetting timer for next cycle');
-                        timerIframe.contentWindow.postMessage('resetTimer', '*');
+                        console.log('3-second pause complete - ready for next cycle');
+                        // Timer will start again when video loops and triggers timeupdate
                     }, 3000);
                 });
                 
