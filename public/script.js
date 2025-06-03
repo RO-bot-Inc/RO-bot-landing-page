@@ -86,9 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
         diagnosticsObserver.observe(diagnosticContainer);
     }
 
-    // Video and Timer Synchronization
+    // Video and Timer Synchronization - Refactored for reliability
     function setupVideoTimerSync() {
-        // Look for any video with story source
         const storyVideo = document.querySelector('video source[src*="update story.mov"]')?.parentElement || 
                           document.querySelector('video[src*="update story.mov"]') ||
                           document.querySelector('video');
@@ -96,119 +95,143 @@ document.addEventListener('DOMContentLoaded', function() {
         const timerIframe = document.querySelector('iframe[src*="timer.html"]') ||
                            document.querySelector('iframe');
         
-        console.log('Attempting video-timer sync setup:', {
+        console.log('Setting up video-timer sync:', {
             video: !!storyVideo,
-            iframe: !!timerIframe,
-            videoSrc: storyVideo?.querySelector('source')?.src || storyVideo?.src
+            iframe: !!timerIframe
         });
         
-        if (storyVideo && timerIframe) {
-            console.log('Setting up video-timer synchronization');
-            
-            // Variables for sequence control
-            let isInViewport = false;
-            let sequenceActive = false;
-            let timerStoppedTime = null;
-            
-            // Log video duration when metadata loads
-            storyVideo.addEventListener('loadedmetadata', function() {
-                console.log('Story video duration:', storyVideo.duration, 'seconds');
-                // Ensure video starts paused on first frame
-                storyVideo.currentTime = 0;
-                storyVideo.pause();
-            });
-            
-            // Initialize video state
+        if (!storyVideo || !timerIframe) {
+            console.log('Missing elements, retrying...');
+            setTimeout(setupVideoTimerSync, 1000);
+            return;
+        }
+
+        // State management
+        let state = {
+            isInViewport: false,
+            isRunning: false,
+            isReady: true
+        };
+
+        // Initialize video
+        const initializeVideo = () => {
             storyVideo.currentTime = 0;
             storyVideo.pause();
+            storyVideo.muted = true;
+        };
+
+        // Complete cycle sequence
+        const runCycle = () => {
+            if (!state.isReady || state.isRunning) {
+                console.log('Cycle blocked - Ready:', state.isReady, 'Running:', state.isRunning);
+                return;
+            }
+
+            state.isRunning = true;
+            state.isReady = false;
             
-            // Intersection Observer for viewport detection
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const wasInViewport = isInViewport;
-                    isInViewport = entry.isIntersecting;
-                    
-                    if (isInViewport && !wasInViewport && !sequenceActive) {
-                        console.log('Video entered viewport - starting 2-second countdown');
-                        startSequence();
-                    }
-                });
-            }, {
-                threshold: 0.1 // Trigger when 10% of video is visible
-            });
+            console.log('=== Starting new cycle ===');
             
-            observer.observe(storyVideo);
-            
-            // Main sequence function
-            function startSequence() {
-                if (sequenceActive) return;
-                sequenceActive = true;
+            // Step 1: 2-second delay
+            setTimeout(() => {
+                if (!state.isInViewport) {
+                    console.log('Left viewport during delay, aborting cycle');
+                    resetState();
+                    return;
+                }
                 
-                console.log('Sequence started - 2 second delay before play');
+                console.log('Playing video...');
+                storyVideo.play();
+                
+                // Step 2: Start timer after sync delay
                 setTimeout(() => {
-                    if (isInViewport && sequenceActive) {
-                        console.log('Playing video and starting timer simultaneously');
-                        storyVideo.play();
-                        // Delay timer start by 1500ms to sync with video playback
-                        setTimeout(() => {
-                            timerIframe.contentWindow.postMessage('startTimer', '*');
-                        }, 1500);
+                    console.log('Starting timer...');
+                    timerIframe.contentWindow.postMessage('startTimer', '*');
+                }, 1500);
+                
+            }, 2000);
+        };
+
+        // Reset to ready state
+        const resetState = () => {
+            console.log('Resetting state...');
+            state.isRunning = false;
+            initializeVideo();
+            
+            setTimeout(() => {
+                timerIframe.contentWindow.postMessage('resetTimer', '*');
+                state.isReady = true;
+                console.log('State reset complete, ready for next cycle');
+            }, 500);
+        };
+
+        // Handle timer completion
+        const handleTimerStop = () => {
+            console.log('Timer stopped, pausing video...');
+            storyVideo.pause();
+            
+            // 3-second pause, then reset and restart
+            setTimeout(() => {
+                console.log('3-second pause complete, resetting...');
+                resetState();
+                
+                // Start next cycle after reset delay
+                setTimeout(() => {
+                    if (state.isInViewport && state.isReady) {
+                        runCycle();
                     }
                 }, 2000);
-            }
-            
-            // Wait for iframe to be fully loaded
-            const setupEvents = () => {
-                // Listen for timer stop message from timer iframe
-                window.addEventListener('message', function(event) {
-                    if (event.data === 'timerStopped') {
-                        console.log('Timer stopped - starting 3-second pause');
-                        timerStoppedTime = Date.now();
-                        storyVideo.pause();
-                        
-                        setTimeout(() => {
-                            console.log('3-second pause complete - resetting for next cycle');
-                            // Reset video to first frame
-                            storyVideo.currentTime = 0;
-                            storyVideo.pause();
-                            // Reset timer
-                            timerIframe.contentWindow.postMessage('resetTimer', '*');
-                            // Mark sequence as ready to restart
-                            sequenceActive = false;
-                            
-                            // Always restart the sequence after buffer time (don't rely on viewport check)
-                            setTimeout(() => {
-                                console.log('Starting next cycle');
-                                startSequence();
-                            }, 2000);
-                        }, 3000);
-                    }
-                });
+            }, 3000);
+        };
+
+        // Viewport observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const wasInViewport = state.isInViewport;
+                state.isInViewport = entry.isIntersecting;
                 
-                // Handle video end (backup in case timer doesn't stop it)
-                storyVideo.addEventListener('ended', function() {
-                    if (!timerStoppedTime || (Date.now() - timerStoppedTime) > 1000) {
-                        console.log('Video ended without timer stop - triggering sequence reset');
-                        window.postMessage('timerStopped', '*');
-                    }
-                });
-            };
-            
-            // Setup events after iframe loads
-            if (timerIframe.contentDocument && timerIframe.contentDocument.readyState === 'complete') {
-                setupEvents();
-            } else {
-                timerIframe.addEventListener('load', setupEvents);
-            }
-            
-        } else {
-            console.log('Video or timer iframe not found for synchronization', {
-                videoFound: !!storyVideo,
-                iframeFound: !!timerIframe
+                console.log('Viewport change:', state.isInViewport);
+                
+                if (state.isInViewport && !wasInViewport && state.isReady && !state.isRunning) {
+                    console.log('Entered viewport, starting cycle');
+                    runCycle();
+                }
             });
-            
-            // Retry after a longer delay if elements not found
-            setTimeout(setupVideoTimerSync, 2000);
+        }, { threshold: 0.1 });
+
+        // Setup event listeners
+        const setupEventListeners = () => {
+            // Timer messages
+            window.addEventListener('message', (event) => {
+                if (event.data === 'timerStopped') {
+                    handleTimerStop();
+                }
+            });
+
+            // Video events
+            storyVideo.addEventListener('loadedmetadata', () => {
+                console.log('Video loaded, duration:', storyVideo.duration);
+                initializeVideo();
+            });
+
+            storyVideo.addEventListener('ended', () => {
+                if (state.isRunning) {
+                    console.log('Video ended unexpectedly');
+                    handleTimerStop();
+                }
+            });
+
+            // Start observing
+            observer.observe(storyVideo);
+        };
+
+        // Initialize everything
+        initializeVideo();
+        
+        if (timerIframe.contentDocument?.readyState === 'complete') {
+            setupEventListeners();
+        } else {
+            timerIframe.addEventListener('load', setupEventListeners);
         }
     }
     
