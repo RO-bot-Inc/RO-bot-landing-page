@@ -593,32 +593,32 @@ video {
   left: 5%;
 }
 
-.top-\[15\%\] {
-  top: 15%;
+.top-\[2\%\] {
+  top: 2%;
 }
 
 .right-\[5\%\] {
   right: 5%;
 }
 
-.top-\[25\%\] {
-  top: 25%;
+.top-\[38\%\] {
+  top: 38%;
 }
 
 .left-\[8\%\] {
   left: 8%;
 }
 
-.bottom-\[35\%\] {
-  bottom: 35%;
+.bottom-\[46\%\] {
+  bottom: 46%;
 }
 
 .right-\[10\%\] {
   right: 10%;
 }
 
-.bottom-\[15\%\] {
-  bottom: 15%;
+.bottom-\[8\%\] {
+  bottom: 8%;
 }
 
 .top-\[8\%\] {
@@ -639,18 +639,6 @@ video {
 
 .bottom-\[2\%\] {
   bottom: 2%;
-}
-
-.top-\[2\%\] {
-  top: 2%;
-}
-
-.top-\[38\%\] {
-  top: 38%;
-}
-
-.bottom-\[52\%\] {
-  bottom: 52%;
 }
 
 .z-50 {
