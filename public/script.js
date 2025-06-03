@@ -125,40 +125,36 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Start sequence: play video and timer simultaneously with delay
+        // Start sequence: play video and timer simultaneously
         function startSequence() {
-            console.log('Button pressed, starting in 0.5 seconds...');
+            console.log('Starting video and timer simultaneously');
+            console.log('Video element:', actualVideo);
             
-            setTimeout(() => {
-                console.log('Starting video and timer simultaneously');
-                console.log('Video element:', actualVideo);
-                
-                // Remove autoplay and loop to prevent conflicts
-                actualVideo.removeAttribute('autoplay');
-                actualVideo.removeAttribute('loop');
-                actualVideo.currentTime = 0;
-                actualVideo.muted = true;
-                
-                // Add event listener to stop video after one play cycle
-                const handleVideoEnd = () => {
-                    console.log('Video finished one play cycle, stopping');
-                    actualVideo.pause();
-                    actualVideo.removeEventListener('ended', handleVideoEnd);
-                };
-                actualVideo.addEventListener('ended', handleVideoEnd);
-                
-                // Force play the video
-                const playPromise = actualVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log('Video started successfully');
-                    }).catch(error => {
-                        console.error('Error playing video:', error);
-                    });
-                }
-                
-                sendTimerMessage('startTimer');
-            }, 500); // 0.5 second delay
+            // Remove autoplay and loop to prevent conflicts
+            actualVideo.removeAttribute('autoplay');
+            actualVideo.removeAttribute('loop');
+            actualVideo.currentTime = 0;
+            actualVideo.muted = true;
+            
+            // Add event listener to stop video after one play cycle
+            const handleVideoEnd = () => {
+                console.log('Video finished one play cycle, stopping');
+                actualVideo.pause();
+                actualVideo.removeEventListener('ended', handleVideoEnd);
+            };
+            actualVideo.addEventListener('ended', handleVideoEnd);
+            
+            // Force play the video
+            const playPromise = actualVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Video started successfully');
+                }).catch(error => {
+                    console.error('Error playing video:', error);
+                });
+            }
+            
+            sendTimerMessage('startTimer');
         }
 
         // Listen for timer stopping at 1.671 (no additional actions needed)
