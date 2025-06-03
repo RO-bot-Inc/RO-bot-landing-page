@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (isInViewport) {
                                 setTimeout(() => {
                                     startSequence();
-                                }, 100);
+                                }, 2000);
                             }
                         }, 3000);
                     }
