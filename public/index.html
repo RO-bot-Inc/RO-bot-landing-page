@@ -188,101 +188,138 @@
             }
         }
 
-        /* Responsive positioning rules to avoid waveform boundary */
+        /* Responsive positioning rules to avoid waveform boundary and overlaps */
         .floating-text {
             transition: all 0.3s ease;
+            z-index: 30;
         }
 
-        /* Mobile screens - stack text below 50% boundary */
+        /* Mobile screens - stack text below 50% boundary with proper spacing */
         @media (max-width: 640px) {
             .floating-text:nth-child(1) {
                 left: 5% !important;
-                top: max(50%, 52%) !important;
-                font-size: 14px !important;
-                max-width: 200px !important;
+                top: max(50%, 55%) !important;
+                font-size: 13px !important;
+                max-width: 180px !important;
                 bottom: auto !important;
+                line-height: 1.3 !important;
             }
             .floating-text:nth-child(2) {
                 right: 5% !important;
-                top: max(50%, 58%) !important;
-                font-size: 14px !important;
-                max-width: 200px !important;
+                top: max(50%, 68%) !important;
+                font-size: 13px !important;
+                max-width: 180px !important;
                 bottom: auto !important;
+                line-height: 1.3 !important;
             }
             .floating-text:nth-child(3) {
-                left: 8% !important;
-                bottom: 25% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                bottom: 18% !important;
                 top: auto !important;
-                font-size: 14px !important;
-                max-width: 200px !important;
+                font-size: 13px !important;
+                max-width: 180px !important;
+                line-height: 1.3 !important;
+                text-align: center !important;
             }
         }
 
-        /* Tablet screens - wider spacing, strict 50% boundary */
+        /* Tablet screens - wider spacing, strict 50% boundary with no overlaps */
         @media (min-width: 641px) and (max-width: 1024px) {
             .floating-text:nth-child(1) {
-                top: max(50%, 52%) !important;
+                top: max(50%, 55%) !important;
+                left: 5% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 250px !important;
+                font-size: 15px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(2) {
+                top: max(50%, 70%) !important;
+                right: 5% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 250px !important;
+                font-size: 15px !important;
+                line-height: 1.4 !important;
+            }
+            .floating-text:nth-child(3) {
+                bottom: 20% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: auto !important;
+                right: auto !important;
+                max-width: 250px !important;
+                font-size: 15px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Desktop screens - avoid waveform zone (center 40% width, 58% height area) */
+        @media (min-width: 1025px) {
+            .floating-text:nth-child(1) {
+                top: max(50%, 55%) !important;
                 left: 8% !important;
                 right: auto !important;
                 bottom: auto !important;
+                max-width: 280px !important;
+                font-size: 16px !important;
+                line-height: 1.4 !important;
             }
             .floating-text:nth-child(2) {
-                top: max(50%, 58%) !important;
+                top: max(50%, 72%) !important;
                 right: 8% !important;
                 left: auto !important;
                 bottom: auto !important;
+                max-width: 280px !important;
+                font-size: 16px !important;
+                line-height: 1.4 !important;
             }
             .floating-text:nth-child(3) {
-                bottom: 25% !important;
-                left: 12% !important;
+                bottom: 15% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
                 top: auto !important;
                 right: auto !important;
+                max-width: 280px !important;
+                font-size: 16px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
             }
         }
 
-        /* Desktop screens - strict 50% boundary enforcement */
-        @media (min-width: 1025px) {
-            .floating-text:nth-child(1) {
-                top: max(50%, 52%) !important;
-                left: 15% !important;
-                right: auto !important;
-                bottom: auto !important;
-            }
-            .floating-text:nth-child(2) {
-                top: max(50%, 58%) !important;
-                right: 15% !important;
-                left: auto !important;
-                bottom: auto !important;
-            }
-            .floating-text:nth-child(3) {
-                top: max(50%, 70%) !important;
-                left: calc(50% - 30px) !important;
-                transform: translateX(-50%) !important;
-                right: auto !important;
-                bottom: auto !important;
-            }
-        }
-
-        /* Large screens - maintain 50% boundary */
+        /* Large screens - maintain safe distances */
         @media (min-width: 1280px) {
             .floating-text:nth-child(1) {
-                top: max(50%, 52%) !important;
-                left: 20% !important;
+                top: max(50%, 55%) !important;
+                left: 12% !important;
                 right: auto !important;
                 bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 17px !important;
+                line-height: 1.4 !important;
             }
             .floating-text:nth-child(2) {
-                top: max(50%, 58%) !important;
-                right: 20% !important;
+                top: max(50%, 75%) !important;
+                right: 12% !important;
                 left: auto !important;
                 bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 17px !important;
+                line-height: 1.4 !important;
             }
             .floating-text:nth-child(3) {
-                top: max(50%, 70%) !important;
-                left: calc(50% - 30px) !important;
+                bottom: 12% !important;
+                left: 50% !important;
                 transform: translateX(-50%) !important;
+                top: auto !important;
                 right: auto !important;
-                bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 17px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
             }
         }
 
