@@ -342,6 +342,19 @@
                     <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 58%; mix-blend-mode: screen; width: 518.4px; height: 172.8px;" id="heroWaveformVideo">
                         <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
                     </video>
+                    
+                    <!-- Animated text overlay moved from 5-Second Stories -->
+                    <div class="absolute inset-0 z-30 pointer-events-none">
+                        <div class="absolute top-[15%] left-[10%] text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float1 5s ease-in-out infinite;">
+                            Looks pretty clean overall,<br>no leaks that I can see
+                        </div>
+                        <div class="absolute text-white text-lg font-bold floating-text" style="top: calc(45% - 10px); right: calc(15% - 15px); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float2 6s ease-in-out infinite;">
+                            There's a bit of corrosion<br>around the battery terminals
+                        </div>
+                        <div class="absolute text-white text-lg font-bold floating-text" style="bottom: calc(35% - 25px); left: calc(20% - 20px); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float3 5.5s ease-in-out infinite;">
+                            Looks like a cracked<br>hose right here…
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Moved images outside the absolute positioning to allow overflow -->
@@ -508,18 +521,6 @@
                             }
                         });
                     </script>
-                    <!-- Text overlay -->
-                    <div class="absolute inset-0 z-10 pointer-events-none">
-                        <div class="absolute top-[15%] left-[10%] text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float1 5s ease-in-out infinite;">
-                            Looks pretty clean overall,<br>no leaks that I can see
-                        </div>
-                        <div class="absolute text-white text-lg font-bold floating-text" style="top: calc(45% - 10px); right: calc(15% - 15px); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float2 6s ease-in-out infinite;">
-                            There's a bit of corrosion<br>around the battery terminals
-                        </div>
-                        <div class="absolute text-white text-lg font-bold floating-text" style="bottom: calc(35% - 25px); left: calc(20% - 20px); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float3 5.5s ease-in-out infinite;">
-                            Looks like a cracked<br>hose right here…
-                        </div>
-                    </div>
                 </div>
                 <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
                     <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">5-Second Stories</h3>
