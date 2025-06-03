@@ -53,27 +53,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
     }
 
-    // Animation for warranty claim overlays
-    function animateWarrantyOverlays() {
+    // Floating animation for warranty claim overlays
+    function startWarrantyFloating() {
         const overlays = document.querySelectorAll('.warranty-overlay');
 
         overlays.forEach((overlay, index) => {
-            const order = parseInt(overlay.getAttribute('data-animation-order'));
-            setTimeout(() => {
-                overlay.style.opacity = '1';
-                overlay.style.transform = 'translateX(0)';
-                overlay.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            }, (order - 1) * 700); // 700ms delay between each overlay
+            // Make overlays visible immediately
+            overlay.style.opacity = '1';
+            overlay.style.transform = 'translateX(0)';
+            
+            // Add floating animation class based on position
+            const isLeftSide = overlay.style.left !== '' || overlay.classList.toString().includes('left-');
+            if (isLeftSide) {
+                overlay.style.animation = `floatLeft ${3 + index * 0.5}s ease-in-out infinite`;
+            } else {
+                overlay.style.animation = `floatRight ${3 + index * 0.5}s ease-in-out infinite`;
+            }
         });
-
-        // Hide overlays after showing them all
-        setTimeout(() => {
-            overlays.forEach(overlay => {
-                overlay.style.opacity = '0';
-                const isLeftSide = overlay.style.transform.includes('-20px');
-                overlay.style.transform = isLeftSide ? 'translateX(-20px)' : 'translateX(20px)';
-            });
-        }, overlays.length * 700 + 2500); // Show for 2.5 seconds after last overlay
     }
 
     // Intersection Observer to trigger animations when sections come into view
@@ -110,9 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const warrantyObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                animateWarrantyOverlays();
-                // Repeat animation every 8 seconds
-                setInterval(animateWarrantyOverlays, 8000);
+                startWarrantyFloating();
                 warrantyObserver.unobserve(entry.target);
             }
         });

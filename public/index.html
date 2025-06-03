@@ -300,9 +300,36 @@
             }
         }
 
-        /* Float animations removed - will rebuild warranty section */
+        /* Floating animations for warranty overlays */
+        @keyframes floatLeft {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-8px) translateX(-2px);
+            }
+            50% {
+                transform: translateY(-4px) translateX(0px);
+            }
+            75% {
+                transform: translateY(-12px) translateX(2px);
+            }
+        }
 
-        /* Warranty image positioning code removed - will rebuild */
+        @keyframes floatRight {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-10px) translateX(2px);
+            }
+            50% {
+                transform: translateY(-6px) translateX(0px);
+            }
+            75% {
+                transform: translateY(-14px) translateX(-2px);
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
