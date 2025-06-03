@@ -1,5 +1,12 @@
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Disable any automatic hero sequences
+    const heroVideos = document.querySelectorAll('.hero-section video, .hero video, video[autoplay]');
+    heroVideos.forEach(video => {
+        video.removeAttribute('autoplay');
+        video.pause();
+    });
+
     // Animation for "Specs At Your Fingertips" message bubbles
     function animateSpecsBubbles() {
         const bubbles = document.querySelectorAll('.message-bubble');
@@ -186,8 +193,20 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Initialize
+    // Initialize video-timer sync only (no automatic sequences)
     setTimeout(setupVideoTimerSync, 500);
+    
+    // Ensure no other automatic sequences are running
+    const stopAutoSequences = () => {
+        // Clear any intervals that might be running hero sequences
+        for (let i = 1; i < 99999; i++) {
+            window.clearInterval(i);
+            window.clearTimeout(i);
+        }
+    };
+    
+    // Stop any existing auto sequences after a brief delay
+    setTimeout(stopAutoSequences, 1000);
 
     // Contact modal functionality
     const contactModal = document.getElementById('contactModal');
