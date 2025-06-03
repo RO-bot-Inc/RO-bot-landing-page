@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         diagnosticsObserver.observe(diagnosticContainer);
     }
 
-    // Video-Timer Sync - Complete Rewrite
+    // Video-Timer Sync - Button Triggered Version
     function setupVideoTimerSync() {
         const storyVideo = document.querySelector('video');
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
@@ -97,18 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        let isInViewport = false;
         let isRunning = false;
         let currentTimeout = null;
-        let iframeReady = false;
 
-        // Safe message sender with retry
-        function sendTimerMessage(message, retries = 3) {
-            if (!iframeReady && retries > 0) {
-                setTimeout(() => sendTimerMessage(message, retries - 1), 100);
-                return;
-            }
-            
+        // Send message to timer iframe
+        function sendTimerMessage(message) {
             try {
                 console.log('Sending timer message:', message);
                 timerIframe.contentWindow.postMessage(message, '*');
@@ -128,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Start the sequence cycle
         function startCycle() {
-            if (isRunning || !isInViewport) return;
+            if (isRunning) return;
             
             isRunning = true;
             console.log('=== Starting new cycle ===');
@@ -138,16 +131,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Step 2: 2 second pause
             currentTimeout = setTimeout(() => {
-                if (!isInViewport) {
-                    stopCycle();
-                    return;
-                }
-                
                 console.log('Starting video and timer simultaneously');
                 // Step 3: Start video and timer simultaneously
                 storyVideo.play();
                 sendTimerMessage('startTimer');
-                
             }, 2000);
         }
 
@@ -170,36 +157,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Step 5: 3 second pause after timer stops
             currentTimeout = setTimeout(() => {
-                if (!isInViewport) {
-                    stopCycle();
-                    return;
-                }
-                
                 // Step 6: Reset and restart cycle
                 isRunning = false;
                 startCycle();
-                
             }, 3000);
         }
-
-        // Viewport observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const wasInViewport = isInViewport;
-                isInViewport = entry.isIntersecting;
-                
-                console.log('Viewport change:', isInViewport);
-                
-                if (isInViewport && !wasInViewport && iframeReady) {
-                    // Entered viewport - start the cycle
-                    startCycle();
-                } else if (!isInViewport && wasInViewport) {
-                    // Left viewport - stop everything
-                    stopCycle();
-                    resetToStartingState();
-                }
-            });
-        }, { threshold: 0.1 });
 
         // Listen for timer messages
         window.addEventListener('message', (event) => {
@@ -213,40 +175,18 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Video error:', e);
         });
 
-        // Wait for iframe to fully load
-        function checkIframeReady() {
-            try {
-                if (timerIframe.contentDocument && timerIframe.contentDocument.readyState === 'complete') {
-                    iframeReady = true;
-                    console.log('Timer iframe ready, initializing...');
-                    resetToStartingState();
-                    observer.observe(storyVideo);
-                    
-                    // If already in viewport, start the cycle
-                    const rect = storyVideo.getBoundingClientRect();
-                    const inView = rect.top < window.innerHeight && rect.bottom > 0;
-                    if (inView) {
-                        isInViewport = true;
-                        startCycle();
-                    }
-                } else {
-                    setTimeout(checkIframeReady, 100);
-                }
-            } catch (error) {
-                setTimeout(checkIframeReady, 100);
-            }
-        }
+        // Initialize
+        resetToStartingState();
 
-        // Start checking for iframe readiness
-        timerIframe.addEventListener('load', () => {
-            setTimeout(checkIframeReady, 100);
-        });
-        
-        // Also check immediately in case it's already loaded
-        checkIframeReady();
+        // Expose controls globally for button access
+        window.videoTimerControls = {
+            start: startCycle,
+            stop: stopCycle,
+            reset: resetToStartingState
+        };
     }
 
-    // Initialize with retry
+    // Initialize
     setTimeout(setupVideoTimerSync, 500);
 
     // Contact modal functionality
