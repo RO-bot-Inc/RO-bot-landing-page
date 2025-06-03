@@ -88,65 +88,95 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Video and Timer Synchronization
     function setupVideoTimerSync() {
-        const storyVideo = document.querySelector('video[src*="update story.mov"]');
-        const timerIframe = document.querySelector('iframe[src*="timer.html"]');
+        // Look for any video with story source
+        const storyVideo = document.querySelector('video source[src*="update story.mov"]')?.parentElement || 
+                          document.querySelector('video[src*="update story.mov"]') ||
+                          document.querySelector('video');
+        
+        const timerIframe = document.querySelector('iframe[src*="timer.html"]') ||
+                           document.querySelector('iframe');
+        
+        console.log('Attempting video-timer sync setup:', {
+            video: !!storyVideo,
+            iframe: !!timerIframe,
+            videoSrc: storyVideo?.querySelector('source')?.src || storyVideo?.src
+        });
         
         if (storyVideo && timerIframe) {
             console.log('Setting up video-timer synchronization');
             
-            // When story video starts playing
-            storyVideo.addEventListener('play', function() {
-                console.log('Story video started playing - starting timer');
-                timerIframe.contentWindow.postMessage('startTimer', '*');
-            });
-            
-            // When story video is paused
-            storyVideo.addEventListener('pause', function() {
-                console.log('Story video paused - stopping timer');
-                timerIframe.contentWindow.postMessage('stopTimer', '*');
-            });
-            
-            // When story video ends
-            storyVideo.addEventListener('ended', function() {
-                console.log('Story video ended - resetting timer');
-                timerIframe.contentWindow.postMessage('resetTimer', '*');
-            });
-            
-            // Handle video seeking/restarting
-            storyVideo.addEventListener('seeked', function() {
-                if (storyVideo.currentTime < 0.5) { // If seeked to beginning
-                    console.log('Story video seeked to beginning - resetting timer');
+            // Wait for iframe to be fully loaded
+            const setupEvents = () => {
+                // When story video starts playing
+                storyVideo.addEventListener('play', function() {
+                    console.log('Story video started playing - starting timer');
+                    timerIframe.contentWindow.postMessage('startTimer', '*');
+                });
+                
+                // When story video is paused
+                storyVideo.addEventListener('pause', function() {
+                    console.log('Story video paused - stopping timer');
+                    timerIframe.contentWindow.postMessage('stopTimer', '*');
+                });
+                
+                // When story video ends
+                storyVideo.addEventListener('ended', function() {
+                    console.log('Story video ended - resetting timer');
                     timerIframe.contentWindow.postMessage('resetTimer', '*');
-                    if (!storyVideo.paused) {
+                });
+                
+                // Handle video seeking/restarting
+                storyVideo.addEventListener('seeked', function() {
+                    if (storyVideo.currentTime < 0.5) { // If seeked to beginning
+                        console.log('Story video seeked to beginning - resetting timer');
+                        timerIframe.contentWindow.postMessage('resetTimer', '*');
+                        if (!storyVideo.paused) {
+                            timerIframe.contentWindow.postMessage('startTimer', '*');
+                        }
+                    }
+                });
+                
+                // Handle video looping - reset timer when video restarts
+                let lastTime = 0;
+                storyVideo.addEventListener('timeupdate', function() {
+                    // Detect when video loops back to beginning
+                    if (lastTime > storyVideo.currentTime + 1) {
+                        console.log('Story video looped - resetting and starting timer');
+                        timerIframe.contentWindow.postMessage('resetTimer', '*');
                         timerIframe.contentWindow.postMessage('startTimer', '*');
                     }
-                }
-            });
-            
-            // Handle video looping - reset timer when video restarts
-            let lastTime = 0;
-            storyVideo.addEventListener('timeupdate', function() {
-                // Detect when video loops back to beginning
-                if (lastTime > storyVideo.currentTime + 1) {
-                    console.log('Story video looped - resetting and starting timer');
-                    timerIframe.contentWindow.postMessage('resetTimer', '*');
+                    lastTime = storyVideo.currentTime;
+                });
+                
+                // Start timer if video is already playing when page loads
+                if (!storyVideo.paused && storyVideo.currentTime > 0) {
+                    console.log('Story video already playing - starting timer');
                     timerIframe.contentWindow.postMessage('startTimer', '*');
                 }
-                lastTime = storyVideo.currentTime;
+            };
+            
+            // Setup events after iframe loads
+            if (timerIframe.contentDocument && timerIframe.contentDocument.readyState === 'complete') {
+                setupEvents();
+            } else {
+                timerIframe.addEventListener('load', setupEvents);
+            }
+            
+        } else {
+            console.log('Video or timer iframe not found for synchronization', {
+                videoFound: !!storyVideo,
+                iframeFound: !!timerIframe
             });
             
-            // Start timer if video is already playing when page loads
-            if (!storyVideo.paused && storyVideo.currentTime > 0) {
-                console.log('Story video already playing - starting timer');
-                timerIframe.contentWindow.postMessage('startTimer', '*');
-            }
-        } else {
-            console.log('Video or timer iframe not found for synchronization');
+            // Retry after a longer delay if elements not found
+            setTimeout(setupVideoTimerSync, 2000);
         }
     }
     
-    // Setup video-timer sync after a short delay to ensure iframe is loaded
-    setTimeout(setupVideoTimerSync, 1000);
+    // Setup video-timer sync with multiple retry attempts
+    setTimeout(setupVideoTimerSync, 500);
+    setTimeout(setupVideoTimerSync, 1500);
+    setTimeout(setupVideoTimerSync, 3000);
 
     // Contact modal functionality
     const contactModal = document.getElementById('contactModal');
