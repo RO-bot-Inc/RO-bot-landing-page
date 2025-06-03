@@ -53,6 +53,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
     }
 
+    // Animation for warranty claim overlays
+    function animateWarrantyOverlays() {
+        const overlays = document.querySelectorAll('.warranty-overlay');
+
+        overlays.forEach((overlay, index) => {
+            const order = parseInt(overlay.getAttribute('data-animation-order'));
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                overlay.style.transform = 'translateX(0)';
+                overlay.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            }, (order - 1) * 700); // 700ms delay between each overlay
+        });
+
+        // Hide overlays after showing them all
+        setTimeout(() => {
+            overlays.forEach(overlay => {
+                overlay.style.opacity = '0';
+                const isLeftSide = overlay.style.transform.includes('-20px');
+                overlay.style.transform = isLeftSide ? 'translateX(-20px)' : 'translateX(20px)';
+            });
+        }, overlays.length * 700 + 2500); // Show for 2.5 seconds after last overlay
+    }
+
     // Intersection Observer to trigger animations when sections come into view
     const observerOptions = {
         threshold: 0.3,
@@ -83,9 +106,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
+    // Observer for warranty section
+    const warrantyObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateWarrantyOverlays();
+                // Repeat animation every 8 seconds
+                setInterval(animateWarrantyOverlays, 8000);
+                warrantyObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
     // Start observing the containers
     const techSpecsContainer = document.getElementById('techSpecsContainer');
     const diagnosticContainer = document.getElementById('diagnosticContainer');
+    const warrantyContainer = document.getElementById('warrantyContainer');
 
     if (techSpecsContainer) {
         specsObserver.observe(techSpecsContainer);
@@ -93,6 +129,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (diagnosticContainer) {
         diagnosticsObserver.observe(diagnosticContainer);
+    }
+
+    if (warrantyContainer) {
+        warrantyObserver.observe(warrantyContainer);
     }
 
     // Video-Timer Sync - Simple Button Triggered Version
