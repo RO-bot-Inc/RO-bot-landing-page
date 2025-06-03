@@ -743,16 +743,12 @@ video {
   height: 80vh;
 }
 
-.h-full {
-  height: 100%;
-}
-
-.h-auto {
-  height: auto;
-}
-
 .h-24 {
   height: 6rem;
+}
+
+.h-full {
+  height: 100%;
 }
 
 .h-1\/3 {
@@ -761,6 +757,10 @@ video {
 
 .h-\[425px\] {
   height: 425px;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .h-5 {
