@@ -105,6 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (storyVideo && timerIframe) {
             console.log('Setting up video-timer synchronization');
             
+            // Log video duration when metadata loads
+            storyVideo.addEventListener('loadedmetadata', function() {
+                console.log('Story video duration:', storyVideo.duration, 'seconds');
+            });
+            
             // Wait for iframe to be fully loaded
             const setupEvents = () => {
                 // When story video starts playing
