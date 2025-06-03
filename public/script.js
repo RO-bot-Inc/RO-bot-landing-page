@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
         diagnosticsObserver.observe(diagnosticContainer);
     }
 
-    // Video-Timer Sync - Button Triggered Version
+    // Video-Timer Sync - Simple Button Triggered Version
     function setupVideoTimerSync() {
         const storyVideo = document.querySelector('video');
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
@@ -104,109 +104,46 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        let isRunning = false;
-        let currentTimeout = null;
-
         // Send message to timer iframe
         function sendTimerMessage(message) {
             try {
-                console.log('Sending timer message:', message);
                 timerIframe.contentWindow.postMessage(message, '*');
             } catch (error) {
                 console.error('Error sending message to timer:', error);
             }
         }
 
-        // Initialize to starting state
-        function resetToStartingState() {
-            console.log('Resetting to starting state');
+        // Start sequence: play video and timer simultaneously
+        function startSequence() {
+            console.log('Starting video and timer simultaneously');
             storyVideo.currentTime = 0;
-            storyVideo.pause();
             storyVideo.muted = true;
-            sendTimerMessage('resetTimer');
+            storyVideo.play();
+            sendTimerMessage('startTimer');
         }
 
-        // Start the sequence cycle
-        function startCycle() {
-            if (isRunning) return;
-            
-            isRunning = true;
-            console.log('=== Starting new cycle ===');
-            
-            // Step 1: Reset to starting state
-            resetToStartingState();
-            
-            // Step 2: 2 second pause
-            currentTimeout = setTimeout(() => {
-                console.log('Starting video and timer simultaneously');
-                // Step 3: Start video and timer simultaneously
-                storyVideo.play();
-                sendTimerMessage('startTimer');
-            }, 2000);
-        }
-
-        // Stop the current cycle
-        function stopCycle() {
-            console.log('Stopping cycle');
-            isRunning = false;
-            if (currentTimeout) {
-                clearTimeout(currentTimeout);
-                currentTimeout = null;
-            }
-            storyVideo.pause();
-            sendTimerMessage('stopTimer');
-        }
-
-        // Handle timer stopping at 1.671
-        function onTimerStop() {
-            console.log('Timer stopped at 1.671, pausing video');
-            storyVideo.pause();
-            
-            // Step 5: 3 second pause after timer stops
-            currentTimeout = setTimeout(() => {
-                // Step 6: Reset and restart cycle
-                isRunning = false;
-                startCycle();
-            }, 3000);
-        }
-
-        // Listen for timer messages
+        // Listen for timer stopping at 1.671 (no additional actions needed)
         window.addEventListener('message', (event) => {
             if (event.data === 'timerStopped') {
-                onTimerStop();
+                console.log('Timer stopped at 1.671');
+                // Timer stops automatically, no other actions needed
             }
         });
 
-        // Video error handling
-        storyVideo.addEventListener('error', (e) => {
-            console.error('Video error:', e);
-        });
-
-        // Initialize
-        resetToStartingState();
+        // Initialize video to first frame
+        storyVideo.currentTime = 0;
+        storyVideo.pause();
+        storyVideo.muted = true;
+        sendTimerMessage('resetTimer');
 
         // Expose controls globally for button access
         window.videoTimerControls = {
-            start: startCycle,
-            stop: stopCycle,
-            reset: resetToStartingState
+            start: startSequence
         };
     }
 
-    // Initialize video-timer sync only (no automatic sequences)
+    // Initialize video-timer sync only
     setTimeout(setupVideoTimerSync, 500);
-    
-    // Ensure no other automatic sequences are running
-    const stopAutoSequences = () => {
-        // Clear any intervals that might be running hero sequences
-        for (let i = 1; i < 99999; i++) {
-            window.clearInterval(i);
-            window.clearTimeout(i);
-        }
-    };
-    
-    // Stop any existing auto sequences after a brief delay
-    setTimeout(stopAutoSequences, 1000);
 
     // Contact modal functionality
     const contactModal = document.getElementById('contactModal');
