@@ -86,6 +86,50 @@ document.addEventListener('DOMContentLoaded', function() {
         diagnosticsObserver.observe(diagnosticContainer);
     }
 
+    // Video and Timer Synchronization
+    function setupVideoTimerSync() {
+        const video = document.querySelector('video[src*="update story.mov"]');
+        const timerIframe = document.querySelector('iframe[src*="timer.html"]');
+        
+        if (video && timerIframe) {
+            // When video starts playing
+            video.addEventListener('play', function() {
+                timerIframe.contentWindow.postMessage('startTimer', '*');
+            });
+            
+            // When video ends or loops
+            video.addEventListener('ended', function() {
+                timerIframe.contentWindow.postMessage('resetTimer', '*');
+            });
+            
+            // Handle video seeking (when it restarts)
+            video.addEventListener('seeked', function() {
+                if (video.currentTime < 1) { // If seeked to beginning
+                    timerIframe.contentWindow.postMessage('resetTimer', '*');
+                    if (!video.paused) {
+                        timerIframe.contentWindow.postMessage('startTimer', '*');
+                    }
+                }
+            });
+            
+            // Handle when video loops (for looping videos)
+            video.addEventListener('timeupdate', function() {
+                // If video duration is about 5 seconds and it's near the end, prepare for restart
+                if (video.duration > 0 && video.currentTime >= video.duration - 0.1) {
+                    timerIframe.contentWindow.postMessage('resetTimer', '*');
+                }
+            });
+            
+            // Start timer if video is already playing when page loads
+            if (!video.paused && video.currentTime > 0) {
+                timerIframe.contentWindow.postMessage('startTimer', '*');
+            }
+        }
+    }
+    
+    // Setup video-timer sync after a short delay to ensure iframe is loaded
+    setTimeout(setupVideoTimerSync, 1000);
+
     // Contact modal functionality
     const contactModal = document.getElementById('contactModal');
     const closeModal = document.getElementById('closeModal');

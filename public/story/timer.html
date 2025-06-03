@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,18 +54,18 @@
 <body>
     <div class="timer-container">
         <div id="timerDisplay">5.000</div>
-        </div>
+    </div>
 
     <script>
         // --- Timer Logic ---
         const timerDisplay = document.getElementById('timerDisplay');
-        // Removed statusMessage element reference
         let timeLeft = 5.000; // Initial time in seconds
         let timerInterval;
+        let isRunning = false;
 
         // Function to format time to three decimal places
         function formatTime(seconds) {
-            return seconds.toFixed(3);
+            return Math.max(0, seconds).toFixed(3);
         }
 
         // Function to update the timer display
@@ -74,28 +75,55 @@
 
         // Function to start the countdown
         function startTimer() {
-            // Removed statusMessage update
-            updateTimer(); // Display initial time
+            if (isRunning) return;
+            
+            isRunning = true;
+            timeLeft = 5.000;
+            updateTimer();
 
-            const startTime = performance.now(); // More precise timing
+            const startTime = performance.now();
 
             timerInterval = setInterval(() => {
-                const elapsedTime = (performance.now() - startTime) / 1000; // Time elapsed in seconds
+                const elapsedTime = (performance.now() - startTime) / 1000;
                 timeLeft = 5.000 - elapsedTime;
 
                 if (timeLeft <= 0) {
                     timeLeft = 0;
-                    clearInterval(timerInterval);
-                    // Removed statusMessage update for "Time's up!"
+                    stopTimer();
                 }
                 updateTimer();
             }, 1); // Update every millisecond for smooth decimal display
         }
 
-        // Automatically start the timer when the page loads
-        window.onload = function() {
-            startTimer();
-        };
+        // Function to stop the timer
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            isRunning = false;
+        }
+
+        // Function to reset the timer
+        function resetTimer() {
+            stopTimer();
+            timeLeft = 5.000;
+            updateTimer();
+        }
+
+        // Listen for messages from parent window to control timer
+        window.addEventListener('message', function(event) {
+            if (event.data === 'startTimer') {
+                startTimer();
+            } else if (event.data === 'stopTimer') {
+                stopTimer();
+            } else if (event.data === 'resetTimer') {
+                resetTimer();
+            }
+        });
+
+        // Initialize timer display
+        updateTimer();
     </script>
 </body>
 </html>
