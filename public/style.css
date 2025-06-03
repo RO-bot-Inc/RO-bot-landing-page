@@ -775,6 +775,10 @@ video {
   height: 1.5rem;
 }
 
+.h-48 {
+  height: 12rem;
+}
+
 .w-auto {
   width: auto;
 }
