@@ -88,42 +88,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Video and Timer Synchronization
     function setupVideoTimerSync() {
-        const video = document.querySelector('video[src*="update story.mov"]');
+        const storyVideo = document.querySelector('video[src*="update story.mov"]');
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
         
-        if (video && timerIframe) {
-            // When video starts playing
-            video.addEventListener('play', function() {
+        if (storyVideo && timerIframe) {
+            console.log('Setting up video-timer synchronization');
+            
+            // When story video starts playing
+            storyVideo.addEventListener('play', function() {
+                console.log('Story video started playing - starting timer');
                 timerIframe.contentWindow.postMessage('startTimer', '*');
             });
             
-            // When video ends or loops
-            video.addEventListener('ended', function() {
+            // When story video is paused
+            storyVideo.addEventListener('pause', function() {
+                console.log('Story video paused - stopping timer');
+                timerIframe.contentWindow.postMessage('stopTimer', '*');
+            });
+            
+            // When story video ends
+            storyVideo.addEventListener('ended', function() {
+                console.log('Story video ended - resetting timer');
                 timerIframe.contentWindow.postMessage('resetTimer', '*');
             });
             
-            // Handle video seeking (when it restarts)
-            video.addEventListener('seeked', function() {
-                if (video.currentTime < 1) { // If seeked to beginning
+            // Handle video seeking/restarting
+            storyVideo.addEventListener('seeked', function() {
+                if (storyVideo.currentTime < 0.5) { // If seeked to beginning
+                    console.log('Story video seeked to beginning - resetting timer');
                     timerIframe.contentWindow.postMessage('resetTimer', '*');
-                    if (!video.paused) {
+                    if (!storyVideo.paused) {
                         timerIframe.contentWindow.postMessage('startTimer', '*');
                     }
                 }
             });
             
-            // Handle when video loops (for looping videos)
-            video.addEventListener('timeupdate', function() {
-                // If video duration is about 5 seconds and it's near the end, prepare for restart
-                if (video.duration > 0 && video.currentTime >= video.duration - 0.1) {
+            // Handle video looping - reset timer when video restarts
+            let lastTime = 0;
+            storyVideo.addEventListener('timeupdate', function() {
+                // Detect when video loops back to beginning
+                if (lastTime > storyVideo.currentTime + 1) {
+                    console.log('Story video looped - resetting and starting timer');
                     timerIframe.contentWindow.postMessage('resetTimer', '*');
+                    timerIframe.contentWindow.postMessage('startTimer', '*');
                 }
+                lastTime = storyVideo.currentTime;
             });
             
             // Start timer if video is already playing when page loads
-            if (!video.paused && video.currentTime > 0) {
+            if (!storyVideo.paused && storyVideo.currentTime > 0) {
+                console.log('Story video already playing - starting timer');
                 timerIframe.contentWindow.postMessage('startTimer', '*');
             }
+        } else {
+            console.log('Video or timer iframe not found for synchronization');
         }
     }
     
