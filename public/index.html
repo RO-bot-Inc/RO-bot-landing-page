@@ -194,33 +194,36 @@
             z-index: 30;
         }
 
-        /* Mobile screens - stack text below 50% boundary with proper spacing */
+        /* Mobile screens - position text in visible viewport area */
         @media (max-width: 640px) {
             .floating-text:nth-child(1) {
                 left: 5% !important;
-                top: max(50%, 50%) !important;
+                top: 60% !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 bottom: auto !important;
                 line-height: 1.3 !important;
+                right: auto !important;
             }
             .floating-text:nth-child(2) {
                 right: 5% !important;
-                top: max(50%, 68%) !important;
+                top: 70% !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 bottom: auto !important;
                 line-height: 1.3 !important;
+                left: auto !important;
             }
             .floating-text:nth-child(3) {
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                bottom: 18% !important;
-                top: auto !important;
+                top: 80% !important;
+                bottom: auto !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 line-height: 1.3 !important;
                 text-align: center !important;
+                right: auto !important;
             }
         }
 
