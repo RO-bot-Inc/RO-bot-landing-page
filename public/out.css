@@ -625,20 +625,12 @@ video {
   top: 8%;
 }
 
-.top-\[17\%\] {
-  top: 17%;
-}
-
 .bottom-\[18\%\] {
   bottom: 18%;
 }
 
 .right-\[8\%\] {
   right: 8%;
-}
-
-.bottom-\[2\%\] {
-  bottom: 2%;
 }
 
 .z-50 {
@@ -1474,16 +1466,16 @@ video {
     bottom: 5%;
   }
 
-  .lg\:left-\[15\%\] {
-    left: 15%;
+  .lg\:top-\[8\%\] {
+    top: 8%;
   }
 
-  .lg\:top-\[5\%\] {
-    top: 5%;
+  .lg\:right-\[8\%\] {
+    right: 8%;
   }
 
-  .lg\:left-\[18\%\] {
-    left: 18%;
+  .lg\:bottom-\[18\%\] {
+    bottom: 18%;
   }
 
   .lg\:w-\[26\.25\%\] {
