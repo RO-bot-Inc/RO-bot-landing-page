@@ -330,6 +330,79 @@
                 transform: translateY(-5px) translateX(-1px);
             }
         }
+
+        /* Specs Overlay Positioning */
+        .specs-q1 {
+            left: 3%;
+            top: 5%;
+            height: 70px;
+            max-width: 180px;
+        }
+
+        .specs-a1 {
+            right: 3%;
+            top: 25%;
+            width: min(200px, 40vw);
+            max-width: 200px;
+        }
+
+        .specs-q2 {
+            left: 3%;
+            bottom: 35%;
+            height: 70px;
+            max-width: 140px;
+        }
+
+        .specs-a2 {
+            right: 3%;
+            bottom: 8%;
+            height: 70px;
+            max-width: 240px;
+        }
+
+        @media (min-width: 640px) {
+            .specs-q1 {
+                left: 5%;
+                top: 8%;
+            }
+
+            .specs-a1 {
+                right: 5%;
+                top: 20%;
+            }
+
+            .specs-q2 {
+                left: 8%;
+                bottom: 25%;
+            }
+
+            .specs-a2 {
+                right: 8%;
+                bottom: 5%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .specs-q1 {
+                left: 8%;
+                top: 8%;
+            }
+
+            .specs-a1 {
+                right: 8%;
+                top: 8%;
+            }
+
+            .specs-q2 {
+                left: 8%;
+                bottom: 18%;
+            }
+
+            .specs-a2 {
+                right: 8%;
+                bottom: 18%;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -390,7 +463,7 @@
                                 top: 55% !important;
                             }
                         }
-                        
+
                         @media (min-width: 640px) {
                             #heroWaveformVideo {
                                 top: 58% !important;
@@ -591,22 +664,22 @@
 
                             <!-- Message bubbles - positioned for paired animations -->
                             <!-- Q1 (left) - First pair -->
-                            <div class="absolute left-[5%] top-[8%] lg:left-[8%] lg:top-[8%] opacity-0 message-bubble" id="q1Bubble" data-animation-order="1" style="transform: translateY(10px); height: 90px;">
+                            <div class="absolute specs-q1 opacity-0 message-bubble" id="q1Bubble" data-animation-order="1" style="transform: translateY(10px);">
                               <img src="specs/Q1_920x412.png" alt="Torque specs question" style="height: 100%; width: auto; aspect-ratio: 920/412;">
                             </div>
 
                             <!-- A1 (right) - First pair -->
-                            <div class="absolute right-[5%] top-[8%] lg:right-[8%] lg:top-[8%] opacity-0 message-bubble" id="a1Bubble" data-animation-order="2" style="transform: translateY(10px); width: min(280px, 45vw); max-width: 280px;">
+                            <div class="absolute specs-a1 opacity-0 message-bubble" id="a1Bubble" data-animation-order="2" style="transform: translateY(10px);">
                               <img src="specs/A1_1542x755.png" alt="Torque specs answer" style="width: 100%; height: auto; aspect-ratio: 1542/755;">
                             </div>
 
                             <!-- Q2 (left) - Second pair -->
-                            <div class="absolute left-[8%] bottom-[18%] lg:left-[8%] lg:bottom-[18%] opacity-0 message-bubble" id="q2Bubble" data-animation-order="3" style="transform: translateY(10px); height: 90px;">
+                            <div class="absolute specs-q2 opacity-0 message-bubble" id="q2Bubble" data-animation-order="3" style="transform: translateY(10px);">
                               <img src="specs/Q2_638xx412.png" alt="Oil capacity question" style="height: 100%; width: auto; aspect-ratio: 638/412;">
                             </div>
 
                             <!-- A2 (right) - Second pair -->
-                            <div class="absolute right-[8%] bottom-[18%] lg:right-[8%] lg:bottom-[18%] opacity-0 message-bubble" id="a2Bubble" data-animation-order="4" style="transform: translateY(10px); height: 90px;">
+                            <div class="absolute specs-a2 opacity-0 message-bubble" id="a2Bubble" data-animation-order="4" style="transform: translateY(10px);">
                               <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
                             </div>
                         </div>
