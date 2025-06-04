@@ -81,12 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let positions = [];
         
         if (screenWidth <= 640) {
-            // Mobile: Vertical stacking down the center
+            // Mobile: Staggered positioning across container width
             positions = [
-                { left: '50%', top: '5%', width: '45vw', maxWidth: '280px', transform: 'translateX(-50%)', zIndex: 14 },
-                { left: '50%', top: '28%', width: '47vw', maxWidth: '290px', transform: 'translateX(-50%)', zIndex: 13 },
-                { left: '50%', top: '52%', width: '49vw', maxWidth: '300px', transform: 'translateX(-50%)', zIndex: 12 },
-                { left: '50%', top: '76%', width: '45vw', maxWidth: '280px', transform: 'translateX(-50%)', zIndex: 15 }
+                { left: '8%', top: '5%', width: '42vw', maxWidth: '260px', transform: 'none', zIndex: 14 },
+                { right: '8%', top: '25%', width: '44vw', maxWidth: '270px', transform: 'none', zIndex: 13 },
+                { left: '12%', top: '48%', width: '46vw', maxWidth: '280px', transform: 'none', zIndex: 12 },
+                { right: '12%', top: '70%', width: '43vw', maxWidth: '265px', transform: 'none', zIndex: 15 }
             ];
         } else if (screenWidth <= 768) {
             // Small tablet: Alternating corners with minimal overlap
@@ -142,11 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Fine-tune positions to minimize overlap after initial positioning
-        setTimeout(() => adjustForOverlaps(overlays), 100);
+        setTimeout(() => adjustForOverlaps(overlays, screenWidth), 100);
     }
     
     // Detect and adjust overlapping elements
-    function adjustForOverlaps(overlays) {
+    function adjustForOverlaps(overlays, screenWidth) {
         const rects = Array.from(overlays).map(overlay => ({
             element: overlay,
             rect: overlay.getBoundingClientRect()
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const overlap = calculateOverlap(rects[i].rect, rects[j].rect);
                 if (overlap.area > 0) {
                     // Make small adjustments to reduce overlap
-                    adjustOverlappingElements(rects[i].element, rects[j].element, overlap);
+                    adjustOverlappingElements(rects[i].element, rects[j].element, overlap, screenWidth);
                 }
             }
         }
@@ -182,9 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Make small adjustments to reduce overlap
-    function adjustOverlappingElements(elem1, elem2, overlap) {
-        const screenWidth = window.innerWidth;
-        
+    function adjustOverlappingElements(elem1, elem2, overlap, screenWidth) {
         // Only make micro-adjustments (max 2-3% movement)
         const maxAdjustment = screenWidth * 0.03;
         
@@ -192,9 +190,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Horizontal overlap - adjust horizontally
             const adjustment = Math.min(overlap.width / 2, maxAdjustment);
             
+            // Handle left-positioned elements
             if (elem1.style.left && elem1.style.left !== 'auto') {
                 const currentLeft = parseFloat(elem1.style.left);
                 elem1.style.left = Math.max(1, currentLeft - adjustment / screenWidth * 100) + '%';
+            }
+            
+            // Handle right-positioned elements
+            if (elem1.style.right && elem1.style.right !== 'auto') {
+                const currentRight = parseFloat(elem1.style.right);
+                elem1.style.right = Math.max(1, currentRight + adjustment / screenWidth * 100) + '%';
+            }
+            
+            if (elem2.style.left && elem2.style.left !== 'auto') {
+                const currentLeft = parseFloat(elem2.style.left);
+                elem2.style.left = Math.max(1, currentLeft + adjustment / screenWidth * 100) + '%';
             }
             
             if (elem2.style.right && elem2.style.right !== 'auto') {
@@ -210,6 +220,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (elem1.style.top && elem1.style.top !== 'auto') {
                 const currentTop = parseFloat(elem1.style.top);
                 elem1.style.top = Math.max(1, currentTop - adjustment / containerHeight * 100) + '%';
+            }
+            
+            if (elem2.style.top && elem2.style.top !== 'auto') {
+                const currentTop = parseFloat(elem2.style.top);
+                elem2.style.top = Math.max(1, currentTop + adjustment / containerHeight * 100) + '%';
+            }
+            
+            if (elem1.style.bottom && elem1.style.bottom !== 'auto') {
+                const currentBottom = parseFloat(elem1.style.bottom);
+                elem1.style.bottom = Math.max(1, currentBottom + adjustment / containerHeight * 100) + '%';
             }
             
             if (elem2.style.bottom && elem2.style.bottom !== 'auto') {
