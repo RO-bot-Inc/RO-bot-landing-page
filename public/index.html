@@ -168,11 +168,11 @@
             z-index: 30;
         }
 
-        /* Mobile screens - position text in visible viewport area */
+        /* Mobile screens - position text in lower 50% of screen */
         @media (max-width: 640px) {
             .floating-text:nth-child(1) {
                 left: 5% !important;
-                top: 40% !important;
+                top: 55% !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 bottom: auto !important;
@@ -181,7 +181,7 @@
             }
             .floating-text:nth-child(2) {
                 right: 5% !important;
-                top: 45% !important;
+                top: 65% !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
                 bottom: auto !important;
@@ -191,7 +191,7 @@
             .floating-text:nth-child(3) {
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                top: 50% !important;
+                top: 75% !important;
                 bottom: auto !important;
                 font-size: 13px !important;
                 max-width: 180px !important;
