@@ -65,17 +65,183 @@ document.addEventListener('DOMContentLoaded', function() {
         }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
     }
 
-    // Make warranty claim overlays continuously visible
-    function startWarrantyFloating() {
+    // Dynamic positioning system for warranty overlays
+    function calculateOptimalPositions() {
+        const container = document.getElementById('warrantyContainer');
         const overlays = document.querySelectorAll('.warranty-overlay');
+        
+        if (!container || overlays.length === 0) return;
+        
+        const containerRect = container.getBoundingClientRect();
+        const containerWidth = containerRect.width;
+        const containerHeight = containerRect.height;
+        const screenWidth = window.innerWidth;
+        
+        // Define positioning strategies for different screen sizes
+        let positions = [];
+        
+        if (screenWidth <= 640) {
+            // Mobile: Vertical stacking down the center
+            positions = [
+                { left: '50%', top: '5%', width: '45vw', maxWidth: '280px', transform: 'translateX(-50%)', zIndex: 14 },
+                { left: '50%', top: '28%', width: '47vw', maxWidth: '290px', transform: 'translateX(-50%)', zIndex: 13 },
+                { left: '50%', top: '52%', width: '49vw', maxWidth: '300px', transform: 'translateX(-50%)', zIndex: 12 },
+                { left: '50%', top: '76%', width: '45vw', maxWidth: '280px', transform: 'translateX(-50%)', zIndex: 15 }
+            ];
+        } else if (screenWidth <= 768) {
+            // Small tablet: Alternating corners with minimal overlap
+            positions = [
+                { left: '3%', top: '8%', width: '32vw', maxWidth: '300px', transform: 'none', zIndex: 14 },
+                { right: '3%', top: '20%', width: '35vw', maxWidth: '320px', transform: 'none', zIndex: 13 },
+                { left: '3%', bottom: '30%', width: '37vw', maxWidth: '340px', transform: 'none', zIndex: 12 },
+                { right: '3%', bottom: '8%', width: '34vw', maxWidth: '310px', transform: 'none', zIndex: 15 }
+            ];
+        } else if (screenWidth <= 1024) {
+            // Medium tablet: Better spacing, slight overlap only if needed
+            positions = [
+                { left: '4%', top: '8%', width: '30vw', maxWidth: '340px', transform: 'none', zIndex: 14 },
+                { right: '4%', top: '18%', width: '32vw', maxWidth: '360px', transform: 'none', zIndex: 13 },
+                { left: '4%', bottom: '26%', width: '34vw', maxWidth: '380px', transform: 'none', zIndex: 12 },
+                { right: '4%', bottom: '8%', width: '31vw', maxWidth: '350px', transform: 'none', zIndex: 15 }
+            ];
+        } else {
+            // Large screens: No overlap, optimal spacing
+            positions = [
+                { left: '4%', top: '6%', width: '26%', maxWidth: '380px', transform: 'none', zIndex: 14 },
+                { right: '4%', top: '12%', width: '28%', maxWidth: '420px', transform: 'none', zIndex: 13 },
+                { left: '4%', bottom: '20%', width: '30%', maxWidth: '440px', transform: 'none', zIndex: 12 },
+                { right: '4%', bottom: '18%', width: '27%', maxWidth: '400px', transform: 'none', zIndex: 16 }
+            ];
+        }
+        
+        // Apply calculated positions with overlap detection and adjustment
+        overlays.forEach((overlay, index) => {
+            if (index >= positions.length) return;
+            
+            const pos = positions[index];
+            overlay.classList.add('positioned');
+            
+            // Apply base positioning
+            Object.entries(pos).forEach(([property, value]) => {
+                if (property === 'transform') {
+                    overlay.style.transform = value;
+                } else if (property === 'zIndex') {
+                    overlay.style.zIndex = value;
+                } else if (property === 'maxWidth') {
+                    overlay.style.maxWidth = value;
+                } else {
+                    overlay.style[property] = value;
+                }
+            });
+            
+            // Clear conflicting positioning
+            if (pos.left) overlay.style.right = 'auto';
+            if (pos.right) overlay.style.left = 'auto';
+            if (pos.top) overlay.style.bottom = 'auto';
+            if (pos.bottom) overlay.style.top = 'auto';
+        });
+        
+        // Fine-tune positions to minimize overlap after initial positioning
+        setTimeout(() => adjustForOverlaps(overlays), 100);
+    }
+    
+    // Detect and adjust overlapping elements
+    function adjustForOverlaps(overlays) {
+        const rects = Array.from(overlays).map(overlay => ({
+            element: overlay,
+            rect: overlay.getBoundingClientRect()
+        }));
+        
+        // Check for overlaps and make micro-adjustments
+        for (let i = 0; i < rects.length; i++) {
+            for (let j = i + 1; j < rects.length; j++) {
+                const overlap = calculateOverlap(rects[i].rect, rects[j].rect);
+                if (overlap.area > 0) {
+                    // Make small adjustments to reduce overlap
+                    adjustOverlappingElements(rects[i].element, rects[j].element, overlap);
+                }
+            }
+        }
+    }
+    
+    // Calculate overlap between two rectangles
+    function calculateOverlap(rect1, rect2) {
+        const left = Math.max(rect1.left, rect2.left);
+        const right = Math.min(rect1.right, rect2.right);
+        const top = Math.max(rect1.top, rect2.top);
+        const bottom = Math.min(rect1.bottom, rect2.bottom);
+        
+        const width = Math.max(0, right - left);
+        const height = Math.max(0, bottom - top);
+        
+        return {
+            area: width * height,
+            width: width,
+            height: height
+        };
+    }
+    
+    // Make small adjustments to reduce overlap
+    function adjustOverlappingElements(elem1, elem2, overlap) {
+        const screenWidth = window.innerWidth;
+        
+        // Only make micro-adjustments (max 2-3% movement)
+        const maxAdjustment = screenWidth * 0.03;
+        
+        if (overlap.width > overlap.height) {
+            // Horizontal overlap - adjust horizontally
+            const adjustment = Math.min(overlap.width / 2, maxAdjustment);
+            
+            if (elem1.style.left && elem1.style.left !== 'auto') {
+                const currentLeft = parseFloat(elem1.style.left);
+                elem1.style.left = Math.max(1, currentLeft - adjustment / screenWidth * 100) + '%';
+            }
+            
+            if (elem2.style.right && elem2.style.right !== 'auto') {
+                const currentRight = parseFloat(elem2.style.right);
+                elem2.style.right = Math.max(1, currentRight - adjustment / screenWidth * 100) + '%';
+            }
+        } else {
+            // Vertical overlap - adjust vertically
+            const adjustment = Math.min(overlap.height / 2, maxAdjustment);
+            const container = document.getElementById('warrantyContainer');
+            const containerHeight = container.getBoundingClientRect().height;
+            
+            if (elem1.style.top && elem1.style.top !== 'auto') {
+                const currentTop = parseFloat(elem1.style.top);
+                elem1.style.top = Math.max(1, currentTop - adjustment / containerHeight * 100) + '%';
+            }
+            
+            if (elem2.style.bottom && elem2.style.bottom !== 'auto') {
+                const currentBottom = parseFloat(elem2.style.bottom);
+                elem2.style.bottom = Math.max(1, currentBottom - adjustment / containerHeight * 100) + '%';
+            }
+        }
+    }
 
+    // Make warranty claim overlays continuously visible with dynamic positioning
+    function startWarrantyFloating() {
+        calculateOptimalPositions();
+        
+        const overlays = document.querySelectorAll('.warranty-overlay');
         overlays.forEach((overlay, index) => {
             // Make overlays visible permanently
             overlay.style.opacity = '1';
-            overlay.style.transform = 'translateX(0)';
-            overlay.style.transition = 'none';
+            overlay.style.transition = 'all 0.3s ease';
         });
     }
+    
+    // Recalculate positions on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const warrantyContainer = document.getElementById('warrantyContainer');
+            if (warrantyContainer) {
+                calculateOptimalPositions();
+            }
+        }, 250);
+    });
 
     // Intersection Observer to trigger animations when sections come into view
     const observerOptions = {
