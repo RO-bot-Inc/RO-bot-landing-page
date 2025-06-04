@@ -81,36 +81,36 @@ document.addEventListener('DOMContentLoaded', function() {
         let positions = [];
         
         if (screenWidth <= 640) {
-            // Mobile: Staggered positioning across container width
+            // Mobile: Smaller sizes for better proportion
             positions = [
-                { left: '8%', top: '5%', width: '42vw', maxWidth: '260px', transform: 'none', zIndex: 14 },
-                { right: '8%', top: '25%', width: '44vw', maxWidth: '270px', transform: 'none', zIndex: 13 },
-                { left: '12%', top: '48%', width: '46vw', maxWidth: '280px', transform: 'none', zIndex: 12 },
-                { right: '12%', top: '70%', width: '43vw', maxWidth: '265px', transform: 'none', zIndex: 15 }
+                { left: '8%', top: '5%', width: '36vw', maxWidth: '220px', transform: 'none', zIndex: 14 },
+                { right: '8%', top: '25%', width: '38vw', maxWidth: '230px', transform: 'none', zIndex: 13 },
+                { left: '12%', top: '48%', width: '40vw', maxWidth: '240px', transform: 'none', zIndex: 12 },
+                { right: '12%', top: '70%', width: '37vw', maxWidth: '225px', transform: 'none', zIndex: 15 }
             ];
         } else if (screenWidth <= 768) {
-            // Small tablet: Alternating corners with minimal overlap
+            // Small tablet: Reduced sizes
             positions = [
-                { left: '3%', top: '8%', width: '32vw', maxWidth: '300px', transform: 'none', zIndex: 14 },
-                { right: '3%', top: '20%', width: '35vw', maxWidth: '320px', transform: 'none', zIndex: 13 },
-                { left: '3%', bottom: '30%', width: '37vw', maxWidth: '340px', transform: 'none', zIndex: 12 },
-                { right: '3%', bottom: '8%', width: '34vw', maxWidth: '310px', transform: 'none', zIndex: 15 }
+                { left: '3%', top: '8%', width: '28vw', maxWidth: '260px', transform: 'none', zIndex: 14 },
+                { right: '3%', top: '20%', width: '30vw', maxWidth: '280px', transform: 'none', zIndex: 13 },
+                { left: '3%', bottom: '30%', width: '32vw', maxWidth: '300px', transform: 'none', zIndex: 12 },
+                { right: '3%', bottom: '8%', width: '29vw', maxWidth: '270px', transform: 'none', zIndex: 15 }
             ];
         } else if (screenWidth <= 1024) {
-            // Medium tablet: Better spacing, slight overlap only if needed
+            // Medium tablet: More conservative sizing
             positions = [
-                { left: '4%', top: '8%', width: '30vw', maxWidth: '340px', transform: 'none', zIndex: 14 },
-                { right: '4%', top: '18%', width: '32vw', maxWidth: '360px', transform: 'none', zIndex: 13 },
-                { left: '4%', bottom: '26%', width: '34vw', maxWidth: '380px', transform: 'none', zIndex: 12 },
-                { right: '4%', bottom: '8%', width: '31vw', maxWidth: '350px', transform: 'none', zIndex: 15 }
+                { left: '4%', top: '8%', width: '25vw', maxWidth: '280px', transform: 'none', zIndex: 14 },
+                { right: '4%', top: '18%', width: '27vw', maxWidth: '300px', transform: 'none', zIndex: 13 },
+                { left: '4%', bottom: '26%', width: '29vw', maxWidth: '320px', transform: 'none', zIndex: 12 },
+                { right: '4%', bottom: '8%', width: '26vw', maxWidth: '290px', transform: 'none', zIndex: 15 }
             ];
         } else {
-            // Large screens: Smaller sizes for laptop viewing
+            // Large screens: Even smaller for better proportion
             positions = [
-                { left: '4%', top: '6%', width: '18vw', maxWidth: '280px', transform: 'none', zIndex: 14 },
-                { right: '4%', top: '12%', width: '20vw', maxWidth: '300px', transform: 'none', zIndex: 13 },
-                { left: '4%', bottom: '20%', width: '22vw', maxWidth: '320px', transform: 'none', zIndex: 12 },
-                { right: '4%', bottom: '18%', width: '19vw', maxWidth: '290px', transform: 'none', zIndex: 16 }
+                { left: '4%', top: '6%', width: '15vw', maxWidth: '240px', transform: 'none', zIndex: 14 },
+                { right: '4%', top: '12%', width: '17vw', maxWidth: '260px', transform: 'none', zIndex: 13 },
+                { left: '4%', bottom: '20%', width: '19vw', maxWidth: '280px', transform: 'none', zIndex: 12 },
+                { right: '4%', bottom: '18%', width: '16vw', maxWidth: '250px', transform: 'none', zIndex: 16 }
             ];
         }
         
