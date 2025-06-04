@@ -357,8 +357,6 @@
         .specs-a1 {
             right: 3%;
             top: 25%;
-            width: min(260px, 50vw);
-            max-width: 260px;
             transform: scale(1.2);
         }
 
@@ -387,8 +385,6 @@
             .specs-a1 {
                 right: 5%;
                 top: 20%;
-                width: min(240px, 40vw);
-                max-width: 240px;
                 transform: scale(1.2);
             }
 
@@ -418,8 +414,6 @@
             .specs-a1 {
                 right: 8%;
                 top: 8%;
-                width: min(280px, 38vw);
-                max-width: 280px;
                 transform: scale(1.2);
             }
 
@@ -435,6 +429,69 @@
                 bottom: 18%;
                 height: 90px;
                 max-width: 320px;
+            }
+        }
+
+        /* Responsive overlap management for specs overlays */
+        @media (max-width: 640px) {
+            .specs-q1, .specs-a1, .specs-q2, .specs-a2 {
+                position: absolute !important;
+                z-index: 20;
+            }
+            
+            /* Allow overlapping on small screens, prioritize visibility */
+            .specs-a1 {
+                right: 2% !important;
+                top: 20% !important;
+                max-width: 45vw;
+            }
+            
+            .specs-q1 {
+                left: 2% !important;
+                top: 5% !important;
+                max-width: 40vw;
+            }
+            
+            .specs-q2 {
+                left: 2% !important;
+                bottom: 25% !important;
+                max-width: 35vw;
+            }
+            
+            .specs-a2 {
+                right: 2% !important;
+                bottom: 5% !important;
+                max-width: 50vw;
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1023px) {
+            /* Medium screens - minimize overlap */
+            .specs-a1 {
+                right: 4% !important;
+                top: 18% !important;
+                max-width: 38vw;
+            }
+            
+            .specs-q2 {
+                left: 6% !important;
+                bottom: 20% !important;
+                max-width: 32vw;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            /* Large screens - prevent overlap completely */
+            .specs-a1 {
+                right: 6% !important;
+                top: 12% !important;
+                max-width: 35vw;
+            }
+            
+            .specs-q2 {
+                left: 6% !important;
+                bottom: 15% !important;
+                max-width: 30vw;
             }
         }
     </style>
