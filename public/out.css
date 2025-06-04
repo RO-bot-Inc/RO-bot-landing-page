@@ -589,40 +589,12 @@ video {
   right: 1rem;
 }
 
-.left-\[5\%\] {
-  left: 5%;
-}
-
-.top-\[12\%\] {
-  top: 12%;
-}
-
-.right-\[5\%\] {
-  right: 5%;
-}
-
-.top-\[38\%\] {
-  top: 38%;
-}
-
-.left-\[8\%\] {
-  left: 8%;
-}
-
-.bottom-\[35\%\] {
-  bottom: 35%;
+.top-\[8\%\] {
+  top: 8%;
 }
 
 .right-\[10\%\] {
   right: 10%;
-}
-
-.bottom-\[8\%\] {
-  bottom: 8%;
-}
-
-.top-\[8\%\] {
-  top: 8%;
 }
 
 .z-50 {
@@ -769,22 +741,6 @@ video {
 
 .w-32 {
   width: 8rem;
-}
-
-.w-\[30\%\] {
-  width: 30%;
-}
-
-.w-\[36\%\] {
-  width: 36%;
-}
-
-.w-\[39\%\] {
-  width: 39%;
-}
-
-.w-\[37\.5\%\] {
-  width: 37.5%;
 }
 
 .w-5 {
@@ -1269,22 +1225,6 @@ video {
 }
 
 @media (min-width: 640px) {
-  .sm\:top-\[8\%\] {
-    top: 8%;
-  }
-
-  .sm\:top-\[32\%\] {
-    top: 32%;
-  }
-
-  .sm\:bottom-\[45\%\] {
-    bottom: 45%;
-  }
-
-  .sm\:bottom-\[8\%\] {
-    bottom: 8%;
-  }
-
   .sm\:mt-12 {
     margin-top: 3rem;
   }
@@ -1303,22 +1243,6 @@ video {
 
   .sm\:h-\[80vh\] {
     height: 80vh;
-  }
-
-  .sm\:w-\[28\.5\%\] {
-    width: 28.5%;
-  }
-
-  .sm\:w-\[33\.75\%\] {
-    width: 33.75%;
-  }
-
-  .sm\:w-\[36\%\] {
-    width: 36%;
-  }
-
-  .sm\:w-\[35\.25\%\] {
-    width: 35.25%;
   }
 
   .sm\:max-w-lg {
@@ -1426,54 +1350,6 @@ video {
 }
 
 @media (min-width: 1024px) {
-  .lg\:left-\[18\.75\%\] {
-    left: 18.75%;
-  }
-
-  .lg\:top-\[11\.35\%\] {
-    top: 11.35%;
-  }
-
-  .lg\:right-\[15\%\] {
-    right: 15%;
-  }
-
-  .lg\:top-\[14\%\] {
-    top: 14%;
-  }
-
-  .lg\:left-\[8\%\] {
-    left: 8%;
-  }
-
-  .lg\:bottom-\[21\%\] {
-    bottom: 21%;
-  }
-
-  .lg\:right-\[18\%\] {
-    right: 18%;
-  }
-
-  .lg\:bottom-\[5\%\] {
-    bottom: 5%;
-  }
-
-  .lg\:w-\[26\.25\%\] {
-    width: 26.25%;
-  }
-
-  .lg\:w-\[31\.5\%\] {
-    width: 31.5%;
-  }
-
-  .lg\:w-\[33\.75\%\] {
-    width: 33.75%;
-  }
-
-  .lg\:w-\[33\%\] {
-    width: 33%;
-  }
-
   .lg\:max-w-3xl {
     max-width: 48rem;
   }
@@ -1509,23 +1385,5 @@ video {
 
   .lg\:leading-tight {
     line-height: 1.25;
-  }
-}
-
-@media (min-width: 1280px) {
-  .xl\:w-\[24\.75\%\] {
-    width: 24.75%;
-  }
-
-  .xl\:w-\[30\%\] {
-    width: 30%;
-  }
-
-  .xl\:w-\[32\.25\%\] {
-    width: 32.25%;
-  }
-
-  .xl\:w-\[31\.5\%\] {
-    width: 31.5%;
   }
 }
