@@ -1482,8 +1482,8 @@ video {
     top: 14%;
   }
 
-  .lg\:left-\[18\%\] {
-    left: 18%;
+  .lg\:left-\[8\%\] {
+    left: 8%;
   }
 
   .lg\:bottom-\[21\%\] {
@@ -1496,6 +1496,10 @@ video {
 
   .lg\:bottom-\[5\%\] {
     bottom: 5%;
+  }
+
+  .lg\:left-\[18\%\] {
+    left: 18%;
   }
 
   .lg\:w-\[26\.25\%\] {
