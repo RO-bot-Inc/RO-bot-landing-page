@@ -384,6 +384,13 @@
                     </video>
 
                     <style>
+                        /* Mobile positioning - push waveform lower to avoid headline overlap */
+                        @media (max-width: 639px) {
+                            #heroWaveformVideo {
+                                top: 55% !important;
+                            }
+                        }
+                        
                         @media (min-width: 640px) {
                             #heroWaveformVideo {
                                 top: 58% !important;
