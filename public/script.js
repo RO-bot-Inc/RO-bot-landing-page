@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Only disable autoplay on 5-Second Stories video, leave other videos alone
     const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
     const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
-    
+
     if (actualStoryVideo) {
         actualStoryVideo.removeAttribute('autoplay');
         actualStoryVideo.pause();
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         bubbles.forEach((bubble, index) => {
             const order = parseInt(bubble.getAttribute('data-animation-order'));
             let delay = 0;
-            
+
             // First pair (Q1, A1): orders 1 and 2
             if (order <= 2) {
                 delay = (order - 1) * 800; // 0ms for Q1, 800ms for A1
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             else {
                 delay = 2 * 800 + 1000 + (order - 3) * 800; // First pair time + 1s pause + timing for second pair
             }
-            
+
             setTimeout(() => {
                 bubble.style.opacity = '1';
                 bubble.style.transform = 'translateY(0)';
@@ -65,22 +65,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
     }
 
-    // Floating animation for warranty claim overlays
+    // Make warranty claim overlays continuously visible
     function startWarrantyFloating() {
         const overlays = document.querySelectorAll('.warranty-overlay');
 
         overlays.forEach((overlay, index) => {
-            // Make overlays visible immediately
+            // Make overlays visible permanently
             overlay.style.opacity = '1';
             overlay.style.transform = 'translateX(0)';
-            
-            // Add floating animation class based on position
-            const isLeftSide = overlay.style.left !== '' || overlay.classList.toString().includes('left-');
-            if (isLeftSide) {
-                overlay.style.animation = `floatLeft ${6 + index * 0.8}s ease-in-out infinite`;
-            } else {
-                overlay.style.animation = `floatRight ${6 + index * 0.8}s ease-in-out infinite`;
-            }
+            overlay.style.transition = 'none';
         });
     }
 
