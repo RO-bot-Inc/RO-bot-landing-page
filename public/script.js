@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const delay = index * 800; // 800ms between Q1 and Q2
             
             setTimeout(() => {
+                // Add the interaction ready class for enhanced styling
+                question.classList.add('ready-for-interaction');
                 question.style.opacity = '1';
                 question.style.transform = 'translateY(0)';
                 question.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -39,6 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
             bubble.style.opacity = '0';
             bubble.style.transform = 'translateY(10px)';
             bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            
+            // Reset interaction classes for questions
+            if (bubble.classList.contains('clickable-question')) {
+                bubble.classList.remove('ready-for-interaction');
+                bubble.style.setProperty('--pulse-opacity', '0.3');
+                bubble.style.setProperty('--pulse-speed', '2s');
+            }
         });
     }
 
@@ -65,26 +74,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.transform = 'translateY(-2px) scale(1.02)';
                 this.style.transition = 'all 0.1s ease';
                 
-                // Remove the pulsing glow after click
+                // Temporarily stop the pulsing animation after click
                 this.style.setProperty('--pulse-opacity', '0');
                 
                 // Show answer
                 showAnswerBubble(answerId);
                 
-                // Reset transform after animation
+                // Reset transform and restore pulsing after animation
                 setTimeout(() => {
                     this.style.transform = 'translateY(0) scale(1)';
                     this.style.transition = 'all 0.3s ease';
+                    // Restore pulsing after 2 seconds
+                    setTimeout(() => {
+                        this.style.setProperty('--pulse-opacity', '0.3');
+                    }, 2000);
                 }, 100);
             });
 
-            // Add mouseenter/mouseleave for better feedback
+            // Enhanced hover feedback
             question.addEventListener('mouseenter', function() {
                 this.style.setProperty('--pulse-speed', '1.5s');
+                this.style.setProperty('--pulse-opacity', '0.4');
             });
 
             question.addEventListener('mouseleave', function() {
                 this.style.setProperty('--pulse-speed', '2s');
+                this.style.setProperty('--pulse-opacity', '0.3');
             });
         });
     }
