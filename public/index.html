@@ -474,15 +474,7 @@
                 z-index: 12;
             }
             
-            .warranty-overlay:nth-child(4) {
-                /* Tech notes - bottom right, kept within bounds */
-                right: 2% !important;
-                bottom: 20% !important;
-                width: 40vw !important;
-                max-width: 250px !important;
-                z-index: 11;
             }
-        }
 
         /* Small tablet screens - reduce overlap gradually */
         @media (min-width: 641px) and (max-width: 768px) {
@@ -510,14 +502,7 @@
                 z-index: 12;
             }
             
-            .warranty-overlay:nth-child(4) {
-                right: 3% !important;
-                bottom: 8% !important;
-                width: 34vw !important;
-                max-width: 310px !important;
-                z-index: 11;
             }
-        }
 
         /* Medium tablet screens - minimal overlap */
         @media (min-width: 769px) and (max-width: 1023px) {
@@ -545,14 +530,7 @@
                 z-index: 12;
             }
             
-            .warranty-overlay:nth-child(4) {
-                right: 4% !important;
-                bottom: 8% !important;
-                width: 31vw !important;
-                max-width: 350px !important;
-                z-index: 11;
             }
-        }
 
         /* Large screens - no overlap, full size */
         @media (min-width: 1024px) {
@@ -580,14 +558,7 @@
                 z-index: 12;
             }
             
-            .warranty-overlay:nth-child(4) {
-                right: 4% !important;
-                bottom: 8% !important;
-                width: 27% !important;
-                max-width: 400px !important;
-                z-index: 11;
             }
-        }
 
         /* Apply these classes to warranty overlay images */
         .warranty-overlay img {
@@ -830,10 +801,6 @@
 
                         <div class="opacity-0 warranty-overlay" data-animation-order="3" style="transform: translateX(-20px);">
                             <img src="Warranty/Diag813x379.png" alt="Diagnostics">
-                        </div>
-
-                        <div class="opacity-0 warranty-overlay" data-animation-order="4" style="transform: translateX(20px);">
-                            <img src="Warranty/technician744x500.png" alt="Tech Notes">
                         </div>
                     </div>
                 </div>
