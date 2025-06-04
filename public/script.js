@@ -59,13 +59,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }, (order - 1) * 600); // 600ms delay between each task
         });
 
-        // Hide overlays after showing them all
-        setTimeout(() => {
-            overlays.forEach(overlay => {
-                overlay.style.opacity = '0';
-                overlay.style.transform = 'translateX(20px)';
-            });
-        }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
+        // Keep overlays visible - don't auto-hide them
+    }
+
+    // Function to hide diagnostic task overlays when background is not fully visible
+    function hideDiagnosticOverlays() {
+        const overlays = document.querySelectorAll('.task-overlay');
+        overlays.forEach(overlay => {
+            overlay.style.opacity = '0';
+            overlay.style.transform = 'translateX(20px)';
+            overlay.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
     }
 
     // Dynamic positioning system for warranty overlays
@@ -410,17 +414,23 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px'
     });
 
-    // Observer for diagnostics section
+    // Observer for diagnostics section - trigger when background image is fully visible
     const diagnosticsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                // Background image is completely within viewport
                 animateTaskOverlays();
-                // Repeat animation every 7 seconds
-                setInterval(animateTaskOverlays, 7000);
-                diagnosticsObserver.unobserve(entry.target);
+                entry.target.setAttribute('data-diagnostics-visible', 'true');
+            } else {
+                // Background image is partially or completely outside viewport
+                hideDiagnosticOverlays();
+                entry.target.setAttribute('data-diagnostics-visible', 'false');
             }
         });
-    }, observerOptions);
+    }, {
+        threshold: 1.0, // Trigger only when 100% visible
+        rootMargin: '0px'
+    });
 
     // Observer for warranty section
     const warrantyObserver = new IntersectionObserver((entries) => {
@@ -449,7 +459,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (diagnosticContainer) {
-        diagnosticsObserver.observe(diagnosticContainer);
+        // Find the background image within the diagnostics container
+        const diagnosticsBackgroundImg = diagnosticContainer.querySelector('img[src*="warning"]');
+        if (diagnosticsBackgroundImg) {
+            diagnosticsObserver.observe(diagnosticsBackgroundImg);
+        } else {
+            // Fallback to container if no background image found
+            diagnosticsObserver.observe(diagnosticContainer);
+        }
     }
 
     if (warrantyContainer) {
