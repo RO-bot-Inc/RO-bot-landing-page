@@ -33,14 +33,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }, delay);
         });
 
-        // Hide bubbles after showing them all + 4 second pause
-        const totalAnimationTime = 2 * 800 + 1000 + 2 * 800; // First pair + pause + second pair
-        setTimeout(() => {
-            bubbles.forEach(bubble => {
-                bubble.style.opacity = '0';
-                bubble.style.transform = 'translateY(10px)';
-            });
-        }, totalAnimationTime + 4000); // Show for 4 seconds after last bubble
+        // Keep bubbles visible - don't auto-hide them
+    }
+
+    // Function to hide specs bubbles when background is not fully visible
+    function hideSpecsBubbles() {
+        const bubbles = document.querySelectorAll('.message-bubble');
+        bubbles.forEach(bubble => {
+            bubble.style.opacity = '0';
+            bubble.style.transform = 'translateY(10px)';
+            bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
     }
 
     // Animation for "Smarter Diagnostics" task overlays
@@ -389,17 +392,23 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -100px 0px'
     };
 
-    // Observer for specs section
+    // Observer for specs section - trigger when background image is fully visible
     const specsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                // Background image is completely within viewport
                 animateSpecsBubbles();
-                // Repeat animation every 12 seconds (total animation + pauses)
-                setInterval(animateSpecsBubbles, 12000);
-                specsObserver.unobserve(entry.target);
+                entry.target.setAttribute('data-specs-visible', 'true');
+            } else {
+                // Background image is partially or completely outside viewport
+                hideSpecsBubbles();
+                entry.target.setAttribute('data-specs-visible', 'false');
             }
         });
-    }, observerOptions);
+    }, {
+        threshold: 1.0, // Trigger only when 100% visible
+        rootMargin: '0px'
+    });
 
     // Observer for diagnostics section
     const diagnosticsObserver = new IntersectionObserver((entries) => {
@@ -429,7 +438,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const warrantyContainer = document.getElementById('warrantyContainer');
 
     if (techSpecsContainer) {
-        specsObserver.observe(techSpecsContainer);
+        // Find the background image within the specs container
+        const specsBackgroundImg = techSpecsContainer.querySelector('img[src*="spec"]');
+        if (specsBackgroundImg) {
+            specsObserver.observe(specsBackgroundImg);
+        } else {
+            // Fallback to container if no background image found
+            specsObserver.observe(techSpecsContainer);
+        }
     }
 
     if (diagnosticContainer) {
