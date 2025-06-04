@@ -263,6 +263,106 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 
+    // Dynamic positioning system for floating text elements
+    function adjustFloatingTextPositions() {
+        const floatingTexts = document.querySelectorAll('.floating-text');
+        if (floatingTexts.length === 0) return;
+
+        const screenWidth = window.innerWidth;
+        const containerHeight = window.innerHeight * 0.7; // Approximate hero section height
+        
+        // Check for overlaps and adjust positions
+        const textRects = Array.from(floatingTexts).map(text => ({
+            element: text,
+            rect: text.getBoundingClientRect()
+        }));
+
+        // Apply dynamic adjustments based on screen size and overlap detection
+        for (let i = 0; i < textRects.length; i++) {
+            for (let j = i + 1; j < textRects.length; j++) {
+                const overlap = calculateTextOverlap(textRects[i].rect, textRects[j].rect);
+                if (overlap.area > 100) { // Threshold for significant overlap
+                    adjustOverlappingText(textRects[i].element, textRects[j].element, overlap, screenWidth);
+                }
+            }
+        }
+    }
+
+    // Calculate overlap between two text elements
+    function calculateTextOverlap(rect1, rect2) {
+        const left = Math.max(rect1.left, rect2.left);
+        const right = Math.min(rect1.right, rect2.right);
+        const top = Math.max(rect1.top, rect2.top);
+        const bottom = Math.min(rect1.bottom, rect2.bottom);
+        
+        const width = Math.max(0, right - left);
+        const height = Math.max(0, bottom - top);
+        
+        return {
+            area: width * height,
+            width: width,
+            height: height
+        };
+    }
+
+    // Adjust overlapping text elements with minimal movement
+    function adjustOverlappingText(elem1, elem2, overlap, screenWidth) {
+        const maxAdjustment = screenWidth <= 640 ? 15 : 25; // Smaller adjustments on mobile
+        
+        if (overlap.width > overlap.height) {
+            // Horizontal overlap - adjust horizontally
+            const adjustment = Math.min(overlap.width / 3, maxAdjustment);
+            
+            // Get current positions
+            const elem1Style = window.getComputedStyle(elem1);
+            const elem2Style = window.getComputedStyle(elem2);
+            
+            // Adjust left-positioned element
+            if (elem1Style.left !== 'auto' && elem1Style.left !== '') {
+                const currentLeft = parseFloat(elem1Style.left);
+                if (currentLeft > 2) { // Don't go too close to edge
+                    elem1.style.left = Math.max(2, currentLeft - 2) + '%';
+                }
+            }
+            
+            // Adjust right-positioned element
+            if (elem2Style.right !== 'auto' && elem2Style.right !== '') {
+                const currentRight = parseFloat(elem2Style.right);
+                if (currentRight > 2) { // Don't go too close to edge
+                    elem2.style.right = Math.max(2, currentRight - 2) + '%';
+                }
+            }
+        } else {
+            // Vertical overlap - adjust vertically with minimal movement
+            const adjustment = Math.min(overlap.height / 3, 20);
+            
+            const elem1Style = window.getComputedStyle(elem1);
+            const elem2Style = window.getComputedStyle(elem2);
+            
+            // Move the lower element down slightly
+            if (elem2Style.top !== 'auto' && elem2Style.top !== '') {
+                const currentTop = parseFloat(elem2Style.top);
+                if (currentTop < 85) { // Don't push beyond container
+                    elem2.style.top = Math.min(85, currentTop + 1.5) + '%';
+                }
+            }
+        }
+    }
+
+    // Responsive adjustment on window resize
+    let textResizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(textResizeTimeout);
+        textResizeTimeout = setTimeout(() => {
+            adjustFloatingTextPositions();
+        }, 200);
+    });
+
+    // Initial positioning adjustment after page load
+    window.addEventListener('load', () => {
+        setTimeout(adjustFloatingTextPositions, 500);
+    });
+
     // Intersection Observer to trigger animations when sections come into view
     const observerOptions = {
         threshold: 0.3,
