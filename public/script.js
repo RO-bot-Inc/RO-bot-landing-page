@@ -59,34 +59,30 @@ document.addEventListener('DOMContentLoaded', function() {
             }, (order - 1) * 600); // 600ms delay between each task
         });
 
-        // Keep overlays visible - don't auto-hide them
-    }
-
-    // Function to hide diagnostic task overlays when background is not fully visible
-    function hideDiagnosticOverlays() {
-        const overlays = document.querySelectorAll('.task-overlay');
-        overlays.forEach(overlay => {
-            overlay.style.opacity = '0';
-            overlay.style.transform = 'translateX(20px)';
-            overlay.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        });
+        // Hide overlays after showing them all
+        setTimeout(() => {
+            overlays.forEach(overlay => {
+                overlay.style.opacity = '0';
+                overlay.style.transform = 'translateX(20px)';
+            });
+        }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
     }
 
     // Dynamic positioning system for warranty overlays
     function calculateOptimalPositions() {
         const container = document.getElementById('warrantyContainer');
         const overlays = document.querySelectorAll('.warranty-overlay');
-
+        
         if (!container || overlays.length === 0) return;
-
+        
         const containerRect = container.getBoundingClientRect();
         const containerWidth = containerRect.width;
         const containerHeight = containerRect.height;
         const screenWidth = window.innerWidth;
-
+        
         // Define positioning strategies for different screen sizes
         let positions = [];
-
+        
         if (screenWidth <= 640) {
             // Mobile: Smaller sizes for better proportion
             positions = [
@@ -120,14 +116,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 { right: '4%', bottom: '18%', width: '16vw', maxWidth: '250px', transform: 'none', zIndex: 16 }
             ];
         }
-
+        
         // Apply calculated positions with overlap detection and adjustment
         overlays.forEach((overlay, index) => {
             if (index >= positions.length) return;
-
+            
             const pos = positions[index];
             overlay.classList.add('positioned');
-
+            
             // Apply base positioning
             Object.entries(pos).forEach(([property, value]) => {
                 if (property === 'transform') {
@@ -140,25 +136,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     overlay.style[property] = value;
                 }
             });
-
+            
             // Clear conflicting positioning
             if (pos.left) overlay.style.right = 'auto';
             if (pos.right) overlay.style.left = 'auto';
             if (pos.top) overlay.style.bottom = 'auto';
             if (pos.bottom) overlay.style.top = 'auto';
         });
-
+        
         // Fine-tune positions to minimize overlap after initial positioning
         setTimeout(() => adjustForOverlaps(overlays, screenWidth), 100);
     }
-
+    
     // Detect and adjust overlapping elements
     function adjustForOverlaps(overlays, screenWidth) {
         const rects = Array.from(overlays).map(overlay => ({
             element: overlay,
             rect: overlay.getBoundingClientRect()
         }));
-
+        
         // Check for overlaps and make micro-adjustments
         for (let i = 0; i < rects.length; i++) {
             for (let j = i + 1; j < rects.length; j++) {
@@ -170,50 +166,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-
+    
     // Calculate overlap between two rectangles
     function calculateOverlap(rect1, rect2) {
         const left = Math.max(rect1.left, rect2.left);
         const right = Math.min(rect1.right, rect2.right);
         const top = Math.max(rect1.top, rect2.top);
         const bottom = Math.min(rect1.bottom, rect2.bottom);
-
+        
         const width = Math.max(0, right - left);
         const height = Math.max(0, bottom - top);
-
+        
         return {
             area: width * height,
             width: width,
             height: height
         };
     }
-
+    
     // Make small adjustments to reduce overlap
     function adjustOverlappingElements(elem1, elem2, overlap, screenWidth) {
         // Only make micro-adjustments (max 2-3% movement)
         const maxAdjustment = screenWidth * 0.03;
-
+        
         if (overlap.width > overlap.height) {
             // Horizontal overlap - adjust horizontally
             const adjustment = Math.min(overlap.width / 2, maxAdjustment);
-
+            
             // Handle left-positioned elements
             if (elem1.style.left && elem1.style.left !== 'auto') {
                 const currentLeft = parseFloat(elem1.style.left);
                 elem1.style.left = Math.max(1, currentLeft - adjustment / screenWidth * 100) + '%';
             }
-
+            
             // Handle right-positioned elements
             if (elem1.style.right && elem1.style.right !== 'auto') {
                 const currentRight = parseFloat(elem1.style.right);
                 elem1.style.right = Math.max(1, currentRight + adjustment / screenWidth * 100) + '%';
             }
-
+            
             if (elem2.style.left && elem2.style.left !== 'auto') {
                 const currentLeft = parseFloat(elem2.style.left);
                 elem2.style.left = Math.max(1, currentLeft + adjustment / screenWidth * 100) + '%';
             }
-
+            
             if (elem2.style.right && elem2.style.right !== 'auto') {
                 const currentRight = parseFloat(elem2.style.right);
                 elem2.style.right = Math.max(1, currentRight - adjustment / screenWidth * 100) + '%';
@@ -223,22 +219,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const adjustment = Math.min(overlap.height / 2, maxAdjustment);
             const container = document.getElementById('warrantyContainer');
             const containerHeight = container.getBoundingClientRect().height;
-
+            
             if (elem1.style.top && elem1.style.top !== 'auto') {
                 const currentTop = parseFloat(elem1.style.top);
                 elem1.style.top = Math.max(1, currentTop - adjustment / containerHeight * 100) + '%';
             }
-
+            
             if (elem2.style.top && elem2.style.top !== 'auto') {
                 const currentTop = parseFloat(elem2.style.top);
                 elem2.style.top = Math.max(1, currentTop + adjustment / containerHeight * 100) + '%';
             }
-
+            
             if (elem1.style.bottom && elem1.style.bottom !== 'auto') {
                 const currentBottom = parseFloat(elem1.style.bottom);
                 elem1.style.bottom = Math.max(1, currentBottom + adjustment / containerHeight * 100) + '%';
             }
-
+            
             if (elem2.style.bottom && elem2.style.bottom !== 'auto') {
                 const currentBottom = parseFloat(elem2.style.bottom);
                 elem2.style.bottom = Math.max(1, currentBottom - adjustment / containerHeight * 100) + '%';
@@ -249,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make warranty claim overlays continuously visible with dynamic positioning
     function startWarrantyFloating() {
         calculateOptimalPositions();
-
+        
         const overlays = document.querySelectorAll('.warranty-overlay');
         overlays.forEach((overlay, index) => {
             // Make overlays visible permanently
@@ -257,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
             overlay.style.transition = 'all 0.3s ease';
         });
     }
-
+    
     // Recalculate positions on window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
@@ -277,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const screenWidth = window.innerWidth;
         const containerHeight = window.innerHeight * 0.7; // Approximate hero section height
-
+        
         // For mobile screens, apply better spacing
         if (screenWidth <= 640) {
             floatingTexts.forEach((text, index) => {
@@ -300,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-
+        
         // Check for overlaps and adjust positions
         const textRects = Array.from(floatingTexts).map(text => ({
             element: text,
@@ -324,10 +320,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const right = Math.min(rect1.right, rect2.right);
         const top = Math.max(rect1.top, rect2.top);
         const bottom = Math.min(rect1.bottom, rect2.bottom);
-
+        
         const width = Math.max(0, right - left);
         const height = Math.max(0, bottom - top);
-
+        
         return {
             area: width * height,
             width: width,
@@ -339,24 +335,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function adjustOverlappingText(elem1, elem2, overlap, screenWidth) {
         // Increase overlap tolerance - only adjust for significant overlaps
         const overlapThreshold = screenWidth <= 640 ? 200 : 300;
-
+        
         if (overlap.area < overlapThreshold) {
             return; // Allow minor overlaps
         }
-
+        
         const maxAdjustment = screenWidth <= 640 ? 10 : 15; // Even smaller adjustments
-
+        
         if (overlap.width > overlap.height) {
             // Horizontal overlap - make minimal adjustments
             const elem1Style = window.getComputedStyle(elem1);
             const elem2Style = window.getComputedStyle(elem2);
-
+            
             // Only adjust if elements are too close to center
             if (elem1Style.left !== 'auto' && parseFloat(elem1Style.left) > 40) {
                 const currentLeft = parseFloat(elem1Style.left);
                 elem1.style.left = Math.max(5, currentLeft - 1) + '%';
             }
-
+            
             if (elem2Style.right !== 'auto' && parseFloat(elem2Style.right) > 40) {
                 const currentRight = parseFloat(elem2Style.right);
                 elem2.style.right = Math.max(5, currentRight - 1) + '%';
@@ -365,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Vertical overlap - prefer stacking with slight offset
             const elem1Style = window.getComputedStyle(elem1);
             const elem2Style = window.getComputedStyle(elem2);
-
+            
             // Only move lower element if there's room
             if (elem2Style.top !== 'auto' && elem2Style.top !== '') {
                 const currentTop = parseFloat(elem2Style.top);
@@ -414,43 +410,17 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px'
     });
 
-   // Observer for diagnostics section
-    let diagnosticsObserver;
-    let diagnosticsBackgroundImg;
-
-    function initializeDiagnosticsObserver() {
-        const diagnosticsObserverOptions = {
-            threshold: 1.0, // Trigger only when 100% visible
-            rootMargin: '0px'
-        };
-
-        diagnosticsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
-                    // Background image is completely within viewport
-                    animateTaskOverlays();
-                    entry.target.setAttribute('data-diagnostics-visible', 'true');
-                } else {
-                    // Background image is partially or completely outside viewport
-                    hideDiagnosticOverlays();
-                    entry.target.setAttribute('data-diagnostics-visible', 'false');
-                }
-            });
-        }, diagnosticsObserverOptions);
-
-        if (diagnosticContainer) {
-            diagnosticsBackgroundImg = diagnosticContainer.querySelector('img[src*="warning"]');
-
-            if (diagnosticsBackgroundImg) {
-                diagnosticsObserver.observe(diagnosticsBackgroundImg);
-            } else {
-                console.warn('Diagnostics background image not found. Observer not attached.');
+    // Observer for diagnostics section
+    const diagnosticsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateTaskOverlays();
+                // Repeat animation every 7 seconds
+                setInterval(animateTaskOverlays, 7000);
+                diagnosticsObserver.unobserve(entry.target);
             }
-        }
-    }
-
-    // Run diagnostics observer setup after DOM is fully loaded
-    setTimeout(initializeDiagnosticsObserver, 100);
+        });
+    }, observerOptions);
 
     // Observer for warranty section
     const warrantyObserver = new IntersectionObserver((entries) => {
@@ -476,6 +446,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Fallback to container if no background image found
             specsObserver.observe(techSpecsContainer);
         }
+    }
+
+    if (diagnosticContainer) {
+        diagnosticsObserver.observe(diagnosticContainer);
     }
 
     if (warrantyContainer) {
