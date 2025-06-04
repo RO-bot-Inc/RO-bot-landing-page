@@ -105,12 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 { right: '4%', bottom: '8%', width: '31vw', maxWidth: '350px', transform: 'none', zIndex: 15 }
             ];
         } else {
-            // Large screens: Use viewport units for consistent scaling
+            // Large screens: Smaller sizes for laptop viewing
             positions = [
-                { left: '4%', top: '6%', width: '22vw', maxWidth: '380px', transform: 'none', zIndex: 14 },
-                { right: '4%', top: '12%', width: '24vw', maxWidth: '420px', transform: 'none', zIndex: 13 },
-                { left: '4%', bottom: '20%', width: '26vw', maxWidth: '440px', transform: 'none', zIndex: 12 },
-                { right: '4%', bottom: '18%', width: '23vw', maxWidth: '400px', transform: 'none', zIndex: 16 }
+                { left: '4%', top: '6%', width: '18vw', maxWidth: '280px', transform: 'none', zIndex: 14 },
+                { right: '4%', top: '12%', width: '20vw', maxWidth: '300px', transform: 'none', zIndex: 13 },
+                { left: '4%', bottom: '20%', width: '22vw', maxWidth: '320px', transform: 'none', zIndex: 12 },
+                { right: '4%', bottom: '18%', width: '19vw', maxWidth: '290px', transform: 'none', zIndex: 16 }
             ];
         }
         
