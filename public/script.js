@@ -15,20 +15,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
         bubbles.forEach((bubble, index) => {
             const order = parseInt(bubble.getAttribute('data-animation-order'));
+            let delay = 0;
+            
+            // First pair (Q1, A1): orders 1 and 2
+            if (order <= 2) {
+                delay = (order - 1) * 800; // 0ms for Q1, 800ms for A1
+            }
+            // Second pair (Q2, A2): orders 3 and 4 - add 1 second pause after first pair
+            else {
+                delay = 2 * 800 + 1000 + (order - 3) * 800; // First pair time + 1s pause + timing for second pair
+            }
+            
             setTimeout(() => {
                 bubble.style.opacity = '1';
                 bubble.style.transform = 'translateY(0)';
                 bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            }, (order - 1) * 800); // 800ms delay between each bubble
+            }, delay);
         });
 
-        // Hide bubbles after showing them all
+        // Hide bubbles after showing them all + 4 second pause
+        const totalAnimationTime = 2 * 800 + 1000 + 2 * 800; // First pair + pause + second pair
         setTimeout(() => {
             bubbles.forEach(bubble => {
                 bubble.style.opacity = '0';
                 bubble.style.transform = 'translateY(10px)';
             });
-        }, bubbles.length * 800 + 2000); // Show for 2 seconds after last bubble
+        }, totalAnimationTime + 4000); // Show for 4 seconds after last bubble
     }
 
     // Animation for "Smarter Diagnostics" task overlays
@@ -83,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 animateSpecsBubbles();
-                // Repeat animation every 8 seconds
-                setInterval(animateSpecsBubbles, 8000);
+                // Repeat animation every 12 seconds (total animation + pauses)
+                setInterval(animateSpecsBubbles, 12000);
                 specsObserver.unobserve(entry.target);
             }
         });
