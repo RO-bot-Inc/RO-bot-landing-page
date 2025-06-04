@@ -305,45 +305,42 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Adjust overlapping text elements with minimal movement
+    // Adjust overlapping text elements with minimal movement - prioritize overlap tolerance
     function adjustOverlappingText(elem1, elem2, overlap, screenWidth) {
-        const maxAdjustment = screenWidth <= 640 ? 15 : 25; // Smaller adjustments on mobile
+        // Increase overlap tolerance - only adjust for significant overlaps
+        const overlapThreshold = screenWidth <= 640 ? 200 : 300;
+        
+        if (overlap.area < overlapThreshold) {
+            return; // Allow minor overlaps
+        }
+        
+        const maxAdjustment = screenWidth <= 640 ? 10 : 15; // Even smaller adjustments
         
         if (overlap.width > overlap.height) {
-            // Horizontal overlap - adjust horizontally
-            const adjustment = Math.min(overlap.width / 3, maxAdjustment);
-            
-            // Get current positions
+            // Horizontal overlap - make minimal adjustments
             const elem1Style = window.getComputedStyle(elem1);
             const elem2Style = window.getComputedStyle(elem2);
             
-            // Adjust left-positioned element
-            if (elem1Style.left !== 'auto' && elem1Style.left !== '') {
+            // Only adjust if elements are too close to center
+            if (elem1Style.left !== 'auto' && parseFloat(elem1Style.left) > 40) {
                 const currentLeft = parseFloat(elem1Style.left);
-                if (currentLeft > 2) { // Don't go too close to edge
-                    elem1.style.left = Math.max(2, currentLeft - 2) + '%';
-                }
+                elem1.style.left = Math.max(5, currentLeft - 1) + '%';
             }
             
-            // Adjust right-positioned element
-            if (elem2Style.right !== 'auto' && elem2Style.right !== '') {
+            if (elem2Style.right !== 'auto' && parseFloat(elem2Style.right) > 40) {
                 const currentRight = parseFloat(elem2Style.right);
-                if (currentRight > 2) { // Don't go too close to edge
-                    elem2.style.right = Math.max(2, currentRight - 2) + '%';
-                }
+                elem2.style.right = Math.max(5, currentRight - 1) + '%';
             }
         } else {
-            // Vertical overlap - adjust vertically with minimal movement
-            const adjustment = Math.min(overlap.height / 3, 20);
-            
+            // Vertical overlap - prefer stacking with slight offset
             const elem1Style = window.getComputedStyle(elem1);
             const elem2Style = window.getComputedStyle(elem2);
             
-            // Move the lower element down slightly
+            // Only move lower element if there's room
             if (elem2Style.top !== 'auto' && elem2Style.top !== '') {
                 const currentTop = parseFloat(elem2Style.top);
-                if (currentTop < 85) { // Don't push beyond container
-                    elem2.style.top = Math.min(85, currentTop + 1.5) + '%';
+                if (currentTop < 80) {
+                    elem2.style.top = Math.min(80, currentTop + 0.5) + '%';
                 }
             }
         }
