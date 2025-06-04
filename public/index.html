@@ -346,95 +346,143 @@
             }
         }
 
-        /* Specs Overlay Positioning */
+        /* Specs Overlay Positioning - Allow controlled overlap */
         .specs-q1 {
-            left: 3%;
-            top: 5%;
-            height: 90px;
-            max-width: 230px;
+            left: 2%;
+            top: 8%;
+            width: 35%;
+            height: auto;
+            z-index: 11;
         }
 
         .specs-a1 {
-            right: 3%;
-            top: 25%;
-            width: 192px !important;
-            height: auto !important;
-            max-width: 192px !important;
+            right: 2%;
+            top: 15%;
+            width: 40%;
+            height: auto;
+            z-index: 12;
         }
 
         .specs-q2 {
-            left: 3%;
-            bottom: 35%;
-            height: 90px;
-            max-width: 180px;
+            left: 5%;
+            bottom: 25%;
+            width: 32%;
+            height: auto;
+            z-index: 13;
         }
 
         .specs-a2 {
-            right: 3%;
-            bottom: 8%;
-            height: 90px;
-            max-width: 310px;
+            right: 5%;
+            bottom: 12%;
+            width: 45%;
+            height: auto;
+            z-index: 14;
+        }
+
+        /* Preserve aspect ratios for all spec images */
+        .specs-q1 img {
+            aspect-ratio: 920/412;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .specs-a1 img {
+            aspect-ratio: 1542/755;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .specs-q2 img {
+            aspect-ratio: 638/412;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .specs-a2 img {
+            aspect-ratio: 1316/412;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
         }
 
         @media (min-width: 640px) {
             .specs-q1 {
-                left: 5%;
-                top: 8%;
-                height: 80px;
-                max-width: 210px;
+                left: 3%;
+                top: 10%;
+                width: 32%;
             }
 
             .specs-a1 {
-                right: 5%;
-                top: 20%;
-                width: 256px !important;
-                height: auto !important;
-                max-width: 256px !important;
+                right: 3%;
+                top: 18%;
+                width: 38%;
             }
 
             .specs-q2 {
-                left: 8%;
-                bottom: 25%;
-                height: 80px;
-                max-width: 160px;
+                left: 6%;
+                bottom: 22%;
+                width: 28%;
             }
 
             .specs-a2 {
-                right: 8%;
-                bottom: 5%;
-                height: 80px;
-                max-width: 280px;
+                right: 6%;
+                bottom: 15%;
+                width: 42%;
             }
         }
 
         @media (min-width: 1024px) {
             .specs-q1 {
-                left: 8%;
-                top: 8%;
-                height: 90px;
-                max-width: 230px;
+                left: 5%;
+                top: 12%;
+                width: 28%;
             }
 
             .specs-a1 {
-                right: 8%;
-                top: 8%;
-                width: 320px !important;
-                height: auto !important;
-                max-width: 320px !important;
+                right: 5%;
+                top: 20%;
+                width: 35%;
             }
 
             .specs-q2 {
                 left: 8%;
-                bottom: 18%;
-                height: 90px;
-                max-width: 180px;
+                bottom: 20%;
+                width: 25%;
             }
 
             .specs-a2 {
                 right: 8%;
                 bottom: 18%;
-                height: 90px;
-                max-width: 320px;
+                width: 38%;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .specs-q1 {
+                left: 6%;
+                top: 15%;
+                width: 25%;
+            }
+
+            .specs-a1 {
+                right: 6%;
+                top: 22%;
+                width: 32%;
+            }
+
+            .specs-q2 {
+                left: 10%;
+                bottom: 18%;
+                width: 22%;
+            }
+
+            .specs-a2 {
+                right: 10%;
+                bottom: 20%;
+                width: 35%;
             }
         }
 
