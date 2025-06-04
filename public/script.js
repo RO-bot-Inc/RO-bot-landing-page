@@ -271,6 +271,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const screenWidth = window.innerWidth;
         const containerHeight = window.innerHeight * 0.7; // Approximate hero section height
         
+        // For mobile screens, apply better spacing
+        if (screenWidth <= 640) {
+            floatingTexts.forEach((text, index) => {
+                if (index === 0) {
+                    text.style.top = '65%';
+                    text.style.left = '5%';
+                    text.style.right = 'auto';
+                }
+                if (index === 1) {
+                    text.style.top = '72%';
+                    text.style.right = '5%';
+                    text.style.left = 'auto';
+                }
+                if (index === 2) {
+                    text.style.top = '85%';
+                    text.style.left = '5%';
+                    text.style.right = 'auto';
+                    text.style.textAlign = 'left';
+                    text.style.transform = 'none';
+                }
+            });
+        }
+        
         // Check for overlaps and adjust positions
         const textRects = Array.from(floatingTexts).map(text => ({
             element: text,
