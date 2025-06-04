@@ -589,21 +589,25 @@
                             <!-- Background image -->
                             <img src="specs/2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
 
-                            <!-- Message bubbles - positioned to maintain native aspect ratios -->
-                            <div class="absolute left-[5%] top-[8%] lg:left-[15%] lg:top-[5%] opacity-0 message-bubble" id="torqueBubble" data-animation-order="1" style="transform: translateY(10px); width: min(364px, 58.5vw); max-width: 364px;">
-                              <img src="specs/A1_1542x755.png" alt="Torque specs question" style="width: 100%; height: auto; aspect-ratio: 1542/755;">
+                            <!-- Message bubbles - positioned for paired animations -->
+                            <!-- Q1 (left) - First pair -->
+                            <div class="absolute left-[5%] top-[8%] lg:left-[8%] lg:top-[8%] opacity-0 message-bubble" id="q1Bubble" data-animation-order="1" style="transform: translateY(10px); height: 90px;">
+                              <img src="specs/Q1_920x412.png" alt="Torque specs question" style="height: 100%; width: auto; aspect-ratio: 920/412;">
                             </div>
 
-                            <div class="absolute right-[5%] top-[17%] lg:right-[15%] lg:top-[14%] opacity-0 message-bubble" id="torqueAnswerBubble" data-animation-order="2" style="transform: translateY(10px); height: 90px;">
-                              <img src="specs/Q1_920x412.png" alt="Torque specs answer" style="height: 100%; width: auto; aspect-ratio: 920/412;">
+                            <!-- A1 (right) - First pair -->
+                            <div class="absolute right-[5%] top-[8%] lg:right-[8%] lg:top-[8%] opacity-0 message-bubble" id="a1Bubble" data-animation-order="2" style="transform: translateY(10px); width: min(280px, 45vw); max-width: 280px;">
+                              <img src="specs/A1_1542x755.png" alt="Torque specs answer" style="width: 100%; height: auto; aspect-ratio: 1542/755;">
                             </div>
 
-                            <div class="absolute left-[8%] bottom-[18%] lg:left-[18%] lg:bottom-[21%] opacity-0 message-bubble" id="oilBubble" data-animation-order="3" style="transform: translateY(10px); height: 90px;">
-                              <img src="specs/A2_1316x412.png" alt="Oil capacity question" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
+                            <!-- Q2 (left) - Second pair -->
+                            <div class="absolute left-[8%] bottom-[18%] lg:left-[8%] lg:bottom-[18%] opacity-0 message-bubble" id="q2Bubble" data-animation-order="3" style="transform: translateY(10px); height: 90px;">
+                              <img src="specs/Q2_638xx412.png" alt="Oil capacity question" style="height: 100%; width: auto; aspect-ratio: 638/412;">
                             </div>
 
-                            <div class="absolute right-[8%] bottom-[2%] lg:right-[18%] lg:bottom-[5%] opacity-0 message-bubble" id="oilAnswerBubble" data-animation-order="4" style="transform: translateY(10px); height: 90px;">
-                              <img src="specs/Q2_638xx412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 638/412;">
+                            <!-- A2 (right) - Second pair -->
+                            <div class="absolute right-[8%] bottom-[18%] lg:right-[8%] lg:bottom-[18%] opacity-0 message-bubble" id="a2Bubble" data-animation-order="4" style="transform: translateY(10px); height: 90px;">
+                              <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
                             </div>
                         </div>
                     </div>
