@@ -70,36 +70,16 @@ document.addEventListener('DOMContentLoaded', function() {
             question.addEventListener('click', function() {
                 const answerId = this.getAttribute('data-answer');
                 
-                // Add clicked effect
-                this.style.transform = 'translateY(-2px) scale(1.02)';
-                this.style.transition = 'all 0.1s ease';
-                
-                // Temporarily stop the pulsing animation after click
-                this.style.setProperty('--pulse-opacity', '0');
+                // Add clicked class to stop pulsing
+                this.classList.add('clicked');
                 
                 // Show answer
                 showAnswerBubble(answerId);
                 
-                // Reset transform and restore pulsing after animation
+                // Remove clicked class after a delay to allow pulsing to resume
                 setTimeout(() => {
-                    this.style.transform = 'translateY(0) scale(1)';
-                    this.style.transition = 'all 0.3s ease';
-                    // Restore pulsing after 2 seconds
-                    setTimeout(() => {
-                        this.style.setProperty('--pulse-opacity', '0.3');
-                    }, 2000);
-                }, 100);
-            });
-
-            // Enhanced hover feedback
-            question.addEventListener('mouseenter', function() {
-                this.style.setProperty('--pulse-speed', '1.5s');
-                this.style.setProperty('--pulse-opacity', '0.4');
-            });
-
-            question.addEventListener('mouseleave', function() {
-                this.style.setProperty('--pulse-speed', '2s');
-                this.style.setProperty('--pulse-opacity', '0.3');
+                    this.classList.remove('clicked');
+                }, 3000);
             });
         });
     }

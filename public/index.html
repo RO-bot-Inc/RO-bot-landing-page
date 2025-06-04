@@ -628,6 +628,85 @@
             object-fit: contain;
         }
 
+        /* Enhanced clickable question interactivity styles */
+        .clickable-question {
+            cursor: pointer !important;
+            position: relative !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .clickable-question:hover {
+            transform: translateY(-5px) scale(1.05) !important;
+            filter: drop-shadow(0 10px 20px rgba(42, 157, 143, 0.3)) !important;
+        }
+
+        .clickable-question:hover img {
+            filter: brightness(1.15) contrast(1.1) !important;
+        }
+
+        /* Pulsing glow animation to indicate interactivity */
+        .clickable-question::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #2a9d8f, #54B3FB);
+            border-radius: 12px;
+            opacity: 0;
+            z-index: -1;
+            animation: pulseGlow 2s ease-in-out infinite;
+            transition: opacity 0.3s ease;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+        }
+
+        /* Click me tooltip */
+        .clickable-question::after {
+            content: 'Click me!';
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(42, 157, 143, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .clickable-question:hover::after {
+            opacity: 1;
+        }
+
+        /* Active/pressed state */
+        .clickable-question:active {
+            transform: translateY(-2px) scale(1.02) !important;
+            transition: all 0.1s ease !important;
+        }
+
+        /* Stop pulsing when clicked */
+        .clickable-question.clicked::before {
+            animation-play-state: paused;
+            opacity: 0;
+        }
+
         /* Floating animations for warranty overlays */
         .warranty-overlay:nth-child(1) {
             animation: warrantyFloat1 4s ease-in-out infinite;
