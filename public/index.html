@@ -445,41 +445,45 @@
             transition: all 0.3s ease;
         }
 
-        /* Mobile screens - allow significant overlap but maintain readability */
+        /* Mobile screens - vertical stacking to ensure all 4 overlays are visible */
         @media (max-width: 640px) {
             .warranty-overlay:nth-child(1) {
-                /* Advisor notes - top left */
-                left: 2% !important;
+                /* Advisor notes - top */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
                 top: 5% !important;
-                width: 40vw !important;
-                max-width: 250px !important;
+                width: 45vw !important;
+                max-width: 280px !important;
                 z-index: 14;
             }
             
             .warranty-overlay:nth-child(2) {
-                /* Customer complaint - top right, slight overlap */
-                right: 2% !important;
-                top: 15% !important;
-                width: 42vw !important;
-                max-width: 270px !important;
+                /* Customer complaint - second */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 28% !important;
+                width: 47vw !important;
+                max-width: 290px !important;
                 z-index: 13;
             }
             
             .warranty-overlay:nth-child(3) {
-                /* Diagnostics - bottom left, overlaps with advisor */
-                left: 2% !important;
-                bottom: 25% !important;
-                width: 45vw !important;
-                max-width: 290px !important;
+                /* Diagnostics - third */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 52% !important;
+                width: 49vw !important;
+                max-width: 300px !important;
                 z-index: 12;
             }
             
             .warranty-overlay:nth-child(4) {
-                /* Technician notes - bottom right */
-                right: 2% !important;
-                bottom: 5% !important;
-                width: 40vw !important;
-                max-width: 250px !important;
+                /* Technician notes - bottom */
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 76% !important;
+                width: 45vw !important;
+                max-width: 280px !important;
                 z-index: 15;
             }
         }
@@ -618,37 +622,76 @@
 
         @keyframes warrantyFloat1 {
             0%, 100% {
-                transform: translateY(0px);
+                transform: translateX(-50%) translateY(0px);
             }
             50% {
-                transform: translateY(-8px);
+                transform: translateX(-50%) translateY(-8px);
             }
         }
 
         @keyframes warrantyFloat2 {
             0%, 100% {
-                transform: translateY(0px);
+                transform: translateX(-50%) translateY(0px);
             }
             50% {
-                transform: translateY(-6px);
+                transform: translateX(-50%) translateY(-6px);
             }
         }
 
         @keyframes warrantyFloat3 {
             0%, 100% {
-                transform: translateY(0px);
+                transform: translateX(-50%) translateY(0px);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateX(-50%) translateY(-10px);
             }
         }
 
         @keyframes warrantyFloat4 {
             0%, 100% {
-                transform: translateY(0px);
+                transform: translateX(-50%) translateY(0px);
             }
             50% {
-                transform: translateY(-7px);
+                transform: translateX(-50%) translateY(-7px);
+            }
+        }
+
+        /* Floating animations for larger screens (no translateX needed) */
+        @media (min-width: 641px) {
+            @keyframes warrantyFloat1 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-8px);
+                }
+            }
+
+            @keyframes warrantyFloat2 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-6px);
+                }
+            }
+
+            @keyframes warrantyFloat3 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            @keyframes warrantyFloat4 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-7px);
+                }
             }
         }
     </style>
