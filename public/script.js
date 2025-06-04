@@ -9,40 +9,50 @@ document.addEventListener('DOMContentLoaded', function() {
         actualStoryVideo.currentTime = 0;
     }
 
-    // Animation for "Specs At Your Fingertips" message bubbles
-    function animateSpecsBubbles() {
-        const bubbles = document.querySelectorAll('.message-bubble');
-
-        bubbles.forEach((bubble, index) => {
-            const order = parseInt(bubble.getAttribute('data-animation-order'));
-            let delay = 0;
-
-            // First pair (Q1, A1): orders 1 and 2
-            if (order <= 2) {
-                delay = (order - 1) * 800; // 0ms for Q1, 800ms for A1
-            }
-            // Second pair (Q2, A2): orders 3 and 4 - add 1 second pause after first pair
-            else {
-                delay = 2 * 800 + 1000 + (order - 3) * 800; // First pair time + 1s pause + timing for second pair
-            }
-
+    // New specs animation logic - auto-animate questions, click for answers
+    function animateSpecsQuestions() {
+        const questions = document.querySelectorAll('.clickable-question');
+        
+        questions.forEach((question, index) => {
+            const delay = index * 800; // 800ms between Q1 and Q2
+            
             setTimeout(() => {
-                bubble.style.opacity = '1';
-                bubble.style.transform = 'translateY(0)';
-                bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                question.style.opacity = '1';
+                question.style.transform = 'translateY(0)';
+                question.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             }, delay);
         });
-
-        // Keep bubbles visible - don't auto-hide them
     }
 
-    // Function to hide specs bubbles when background is not fully visible
+    // Function to hide all specs bubbles when not in viewport
     function hideSpecsBubbles() {
-        const bubbles = document.querySelectorAll('.message-bubble');
-        bubbles.forEach(bubble => {
+        const allBubbles = document.querySelectorAll('.message-bubble');
+        allBubbles.forEach(bubble => {
             bubble.style.opacity = '0';
             bubble.style.transform = 'translateY(10px)';
             bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
+    }
+
+    // Function to show answer bubble when question is clicked
+    function showAnswerBubble(answerId) {
+        const answerBubble = document.getElementById(answerId);
+        if (answerBubble) {
+            answerBubble.style.opacity = '1';
+            answerBubble.style.transform = 'translateY(0)';
+            answerBubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
+    }
+
+    // Setup click handlers for questions
+    function setupSpecsClickHandlers() {
+        const questions = document.querySelectorAll('.clickable-question');
+        
+        questions.forEach(question => {
+            question.addEventListener('click', function() {
+                const answerId = this.getAttribute('data-answer');
+                showAnswerBubble(answerId);
+            });
         });
     }
 
@@ -392,21 +402,64 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -100px 0px'
     };
 
-    // Observer for specs section - trigger when background image is fully visible
+    // Observer for specs section - trigger when any overlay is not 100% visible
     const specsObserver = new IntersectionObserver((entries) => {
+        let allOverlaysVisible = true;
+        
+        // Check if all overlay elements are 100% visible
+        const allOverlays = document.querySelectorAll('#techSpecsContainer .message-bubble');
+        allOverlays.forEach(overlay => {
+            const rect = overlay.getBoundingClientRect();
+            const isFullyVisible = rect.top >= 0 && 
+                                 rect.left >= 0 && 
+                                 rect.bottom <= window.innerHeight && 
+                                 rect.right <= window.innerWidth;
+            if (!isFullyVisible) {
+                allOverlaysVisible = false;
+            }
+        });
+
         entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
-                // Background image is completely within viewport
-                animateSpecsBubbles();
+            if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && allOverlaysVisible) {
+                // Background and all overlays are completely within viewport
+                animateSpecsQuestions();
+                setupSpecsClickHandlers();
                 entry.target.setAttribute('data-specs-visible', 'true');
             } else {
-                // Background image is partially or completely outside viewport
+                // Background or overlays are partially/completely outside viewport
                 hideSpecsBubbles();
                 entry.target.setAttribute('data-specs-visible', 'false');
             }
         });
     }, {
         threshold: 1.0, // Trigger only when 100% visible
+        rootMargin: '0px'
+    });
+
+    // Additional observer to watch for scroll changes affecting overlay visibility
+    const specsScrollObserver = new IntersectionObserver((entries) => {
+        const container = document.getElementById('techSpecsContainer');
+        if (!container) return;
+        
+        const allOverlays = container.querySelectorAll('.message-bubble');
+        let anyOverlayOutOfView = false;
+        
+        allOverlays.forEach(overlay => {
+            const rect = overlay.getBoundingClientRect();
+            const isFullyVisible = rect.top >= 0 && 
+                                 rect.left >= 0 && 
+                                 rect.bottom <= window.innerHeight && 
+                                 rect.right <= window.innerWidth;
+            if (!isFullyVisible && overlay.style.opacity !== '0') {
+                anyOverlayOutOfView = true;
+            }
+        });
+        
+        if (anyOverlayOutOfView) {
+            hideSpecsBubbles();
+        }
+    }, {
+        threshold: [0, 1.0],
         rootMargin: '0px'
     });
 
@@ -439,9 +492,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (techSpecsContainer) {
         // Find the background image within the specs container
-        const specsBackgroundImg = techSpecsContainer.querySelector('img[src*="spec"]');
+        const specsBackgroundImg = techSpecsContainer.querySelector('img[src*="dipstick"]');
         if (specsBackgroundImg) {
             specsObserver.observe(specsBackgroundImg);
+            // Also observe all overlay elements for scroll detection
+            const allOverlays = techSpecsContainer.querySelectorAll('.message-bubble');
+            allOverlays.forEach(overlay => {
+                specsScrollObserver.observe(overlay);
+            });
         } else {
             // Fallback to container if no background image found
             specsObserver.observe(techSpecsContainer);

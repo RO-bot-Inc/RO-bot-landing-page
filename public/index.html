@@ -978,24 +978,24 @@
                             <!-- Background image -->
                             <img src="specs/2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
 
-                            <!-- Message bubbles - positioned for paired animations -->
-                            <!-- Q1 (left) - First pair -->
-                            <div class="absolute specs-q1 opacity-0 message-bubble" id="q1Bubble" data-animation-order="1" style="transform: translateY(10px);">
+                            <!-- Message bubbles - positioned for click interactions -->
+                            <!-- Q1 (left) - First question (clickable) -->
+                            <div class="absolute specs-q1 opacity-0 message-bubble clickable-question" id="q1Bubble" data-answer="a1Bubble" style="transform: translateY(10px); cursor: pointer;">
                               <img src="specs/Q1_920x412.png" alt="Torque specs question" style="height: 100%; width: auto; aspect-ratio: 920/412;">
                             </div>
 
-                            <!-- A1 (right) - First pair -->
-                            <div class="absolute specs-a1 opacity-0 message-bubble" id="a1Bubble" data-animation-order="2" style="transform: translateY(10px);">
+                            <!-- A1 (right) - First answer -->
+                            <div class="absolute specs-a1 opacity-0 message-bubble answer-bubble" id="a1Bubble" style="transform: translateY(10px);">
                               <img src="specs/A1_1542x755.png" alt="Torque specs answer" style="width: 100%; height: auto; aspect-ratio: 1542/755;">
                             </div>
 
-                            <!-- Q2 (left) - Second pair -->
-                            <div class="absolute specs-q2 opacity-0 message-bubble" id="q2Bubble" data-animation-order="3" style="transform: translateY(10px);">
+                            <!-- Q2 (left) - Second question (clickable) -->
+                            <div class="absolute specs-q2 opacity-0 message-bubble clickable-question" id="q2Bubble" data-answer="a2Bubble" style="transform: translateY(10px); cursor: pointer;">
                               <img src="specs/Q2_638xx412.png" alt="Oil capacity question" style="height: 100%; width: auto; aspect-ratio: 638/412;">
                             </div>
 
-                            <!-- A2 (right) - Second pair -->
-                            <div class="absolute specs-a2 opacity-0 message-bubble" id="a2Bubble" data-animation-order="4" style="transform: translateY(10px);">
+                            <!-- A2 (right) - Second answer -->
+                            <div class="absolute specs-a2 opacity-0 message-bubble answer-bubble" id="a2Bubble" style="transform: translateY(10px);">
                               <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
                             </div>
                         </div>
