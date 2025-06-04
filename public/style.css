@@ -1415,18 +1415,3 @@ video {
     line-height: 1.25;
   }
 }
-
-        /* Clickable question hover effects */
-        .clickable-question:hover {
-            transform: translateY(-2px) !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .clickable-question:hover img {
-            filter: brightness(1.1);
-        }
-
-        /* Floating animations for warranty overlays */
-        .warranty-overlay:nth-child(1) {
-            animation: warrantyFloat1 4s ease-in-out infinite;
-        }

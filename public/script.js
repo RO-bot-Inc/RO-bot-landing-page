@@ -20,6 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 question.style.opacity = '1';
                 question.style.transform = 'translateY(0)';
                 question.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                // Add a subtle bounce after appearing
+                setTimeout(() => {
+                    question.style.transform = 'translateY(-3px)';
+                    setTimeout(() => {
+                        question.style.transform = 'translateY(0)';
+                    }, 200);
+                }, 600);
             }, delay);
         });
     }
@@ -49,9 +57,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const questions = document.querySelectorAll('.clickable-question');
         
         questions.forEach(question => {
+            // Add visual feedback on click
             question.addEventListener('click', function() {
                 const answerId = this.getAttribute('data-answer');
+                
+                // Add clicked effect
+                this.style.transform = 'translateY(-2px) scale(1.02)';
+                this.style.transition = 'all 0.1s ease';
+                
+                // Remove the pulsing glow after click
+                this.style.setProperty('--pulse-opacity', '0');
+                
+                // Show answer
                 showAnswerBubble(answerId);
+                
+                // Reset transform after animation
+                setTimeout(() => {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.transition = 'all 0.3s ease';
+                }, 100);
+            });
+
+            // Add mouseenter/mouseleave for better feedback
+            question.addEventListener('mouseenter', function() {
+                this.style.setProperty('--pulse-speed', '1.5s');
+            });
+
+            question.addEventListener('mouseleave', function() {
+                this.style.setProperty('--pulse-speed', '2s');
             });
         });
     }
