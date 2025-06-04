@@ -88,9 +88,10 @@
             filter: grayscale(0%) opacity(1);
         }
 
-        /* Scale down Chevy logo specifically */
+        /* Scale down Chevy logo specifically while maintaining spacing */
         .logo-carousel-img[src*="chevy.png"] {
-            transform: scale(0.5);
+            height: 25px !important;
+            max-height: 25px !important;
         }
 
         @keyframes scroll-logos {
