@@ -598,6 +598,59 @@
             height: auto;
             object-fit: contain;
         }
+
+        /* Floating animations for warranty overlays */
+        .warranty-overlay:nth-child(1) {
+            animation: warrantyFloat1 4s ease-in-out infinite;
+        }
+
+        .warranty-overlay:nth-child(2) {
+            animation: warrantyFloat2 4.5s ease-in-out infinite;
+        }
+
+        .warranty-overlay:nth-child(3) {
+            animation: warrantyFloat3 5s ease-in-out infinite;
+        }
+
+        .warranty-overlay:nth-child(4) {
+            animation: warrantyFloat4 3.5s ease-in-out infinite;
+        }
+
+        @keyframes warrantyFloat1 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes warrantyFloat2 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes warrantyFloat3 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes warrantyFloat4 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-7px);
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
