@@ -474,65 +474,42 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -100px 0px'
     };
 
-    // Observer for specs section - trigger when any overlay is not 100% visible
+    // Observer for specs section - mobile-friendly visibility detection
     const specsObserver = new IntersectionObserver((entries) => {
-        let allOverlaysVisible = true;
-        
-        // Check if all overlay elements are 100% visible
-        const allOverlays = document.querySelectorAll('#techSpecsContainer .message-bubble');
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible) {
-                allOverlaysVisible = false;
-            }
-        });
-
         entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && allOverlaysVisible) {
-                // Background and all overlays are completely within viewport
+            // Use more lenient visibility detection for mobile compatibility
+            const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.7;
+            
+            if (isVisible) {
+                // Background is mostly visible - trigger animations
                 animateSpecsQuestions();
                 setupSpecsClickHandlers();
                 entry.target.setAttribute('data-specs-visible', 'true');
             } else {
-                // Background or overlays are partially/completely outside viewport
+                // Background is mostly out of view
                 hideSpecsBubbles();
                 entry.target.setAttribute('data-specs-visible', 'false');
             }
         });
     }, {
-        threshold: 1.0, // Trigger only when 100% visible
-        rootMargin: '0px'
+        threshold: [0, 0.7, 1.0], // Multiple thresholds for better mobile detection
+        rootMargin: '-50px 0px -50px 0px' // Add margin to account for mobile browser UI
     });
 
-    // Additional observer to watch for scroll changes affecting overlay visibility
+    // Simplified scroll observer for mobile compatibility
     const specsScrollObserver = new IntersectionObserver((entries) => {
         const container = document.getElementById('techSpecsContainer');
         if (!container) return;
         
-        const allOverlays = container.querySelectorAll('.message-bubble');
-        let anyOverlayOutOfView = false;
-        
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible && overlay.style.opacity !== '0') {
-                anyOverlayOutOfView = true;
+        entries.forEach(entry => {
+            // If container visibility drops below 50%, hide overlays
+            if (entry.intersectionRatio < 0.5) {
+                hideSpecsBubbles();
             }
         });
-        
-        if (anyOverlayOutOfView) {
-            hideSpecsBubbles();
-        }
     }, {
-        threshold: [0, 1.0],
-        rootMargin: '0px'
+        threshold: [0, 0.5, 1.0],
+        rootMargin: '-25px 0px -25px 0px'
     });
 
     // Observer for diagnostics section
@@ -563,19 +540,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const warrantyContainer = document.getElementById('warrantyContainer');
 
     if (techSpecsContainer) {
-        // Find the background image within the specs container
-        const specsBackgroundImg = techSpecsContainer.querySelector('img[src*="dipstick"]');
-        if (specsBackgroundImg) {
-            specsObserver.observe(specsBackgroundImg);
-            // Also observe all overlay elements for scroll detection
-            const allOverlays = techSpecsContainer.querySelectorAll('.message-bubble');
-            allOverlays.forEach(overlay => {
-                specsScrollObserver.observe(overlay);
-            });
-        } else {
-            // Fallback to container if no background image found
-            specsObserver.observe(techSpecsContainer);
-        }
+        // Observe the container directly for better mobile compatibility
+        specsObserver.observe(techSpecsContainer);
+        specsScrollObserver.observe(techSpecsContainer);
     }
 
     if (diagnosticContainer) {
