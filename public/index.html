@@ -1132,8 +1132,8 @@
                                 </div>
                         </div>
                     </div>
-                    <div id="choices-wrapper" class="pt-4 text-center">
-                        <h4 id="choices-heading" class="text-sm font-semibold text-gray-600 mb-2 opacity-0 transition-opacity duration-300">What's next?</h4>
+                    <div id="choices-wrapper" class="pt-1 text-left">
+                        <h4 id="choices-heading" class="text-lg text-brand-dark opacity-80 leading-relaxed mb-2 opacity-100">Diagnose with RO-bot</h4>
                         <div id="choice-bubbles" class="flex justify-center items-center gap-4">
                             </div>
                     </div>
@@ -1416,7 +1416,7 @@
 
     const resetDemo = () => {
       chatLog.innerHTML = '';
-      choicesHeading.classList.add('opacity-0');
+      // Keep heading always visible
       showChoices([{ text: 'error codes', id: 'start' }]);
     };
     
@@ -1436,11 +1436,7 @@
     const showChoices = (choices, delay = 0) => {
       setTimeout(() => {
           choiceBubbles.innerHTML = '';
-          if (choices.length > 0) {
-            choicesHeading.classList.remove('opacity-0');
-          } else {
-            choicesHeading.classList.add('opacity-0');
-          }
+          // Keep heading always visible
 
           choices.forEach((choice, index) => {
               const button = document.createElement('button');
@@ -1465,7 +1461,7 @@
 
     const handleChoice = async (choiceId) => {
       choiceBubbles.innerHTML = '';
-      choicesHeading.classList.add('opacity-0');
+      // Keep heading always visible
 
       switch (choiceId) {
         case 'start':
