@@ -794,7 +794,8 @@
         #chat-log {
           display: flex;
           flex-direction: column;
-          gap: 8px; /* Adds a little space between bubbles */
+          justify-content: flex-end; /* This new line fixes the alignment */
+          gap: 8px;
         }
 
         .chat-bubble {
@@ -904,7 +905,7 @@
 
                     <!-- Animated text overlay with boundary-aware positioning -->
                     <div class="absolute inset-0 z-30 pointer-events-none">
-                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float1 5s ease-in-out infinite;">
+                        <div class="absolute text-white text-2xl font-boldfloating-text" style="animation: float1 5s ease-in-out infinite;">
                             Looks pretty clean<br>overall, no leaks that I can see
                         </div>
                         <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float2 6s ease-in-out infinite;">
@@ -1137,7 +1138,7 @@
   </div>
 </div>
 
-                    
+
                 </div>
                 <div class="w-full md:w-1/2 space-y-4 order-2 md:order-1 mt-8 md:mt-0">
                     <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Smarter Diagnostics, Less Guesswork</h3>
@@ -1491,7 +1492,7 @@
           await addMessage('Calibration was successful. That was the issue. Error message resolved.', 'user-message');
           showChoices([{ text: 'Start Over', id: 'reset' }], 500); // <-- ADDED THIS
           break;
-        
+
         case 'reset':
           resetDemo(); // <-- ADDED THIS
           break;
