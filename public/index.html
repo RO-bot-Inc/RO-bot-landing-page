@@ -1412,6 +1412,7 @@
     const choicesHeading = document.getElementById('choices-heading');
     const chatLog = document.getElementById('chat-log');
     const choiceBubbles = document.getElementById('choice-bubbles');
+    const chatOverlay = document.getElementById('chat-overlay'); // Get the new overlay
 
     const scrollToBottom = () => {
       chatLog.scrollTop = chatLog.scrollHeight;
@@ -1419,7 +1420,8 @@
 
     const resetDemo = () => {
       chatLog.innerHTML = '';
-      // Keep heading always visible
+      choicesHeading.classList.add('opacity-0');
+      chatOverlay.classList.add('opacity-0'); // Hide overlay on reset
       showChoices([{ text: 'error codes', id: 'start' }]);
     };
     
@@ -1439,7 +1441,11 @@
     const showChoices = (choices, delay = 0) => {
       setTimeout(() => {
           choiceBubbles.innerHTML = '';
-          // Keep heading always visible
+          if (choices.length > 0) {
+            choicesHeading.classList.remove('opacity-0');
+          } else {
+            choicesHeading.classList.add('opacity-0');
+          }
 
           choices.forEach((choice, index) => {
               const button = document.createElement('button');
@@ -1448,15 +1454,7 @@
               if (choice.id === 'reset') {
                 button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
               } else {
-                button.className = 'text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
-                button.style.backgroundColor = '#2a9d8f';
-                button.style.setProperty('--hover-bg', '#237a6f');
-                button.addEventListener('mouseenter', () => {
-                  button.style.backgroundColor = '#237a6f';
-                });
-                button.addEventListener('mouseleave', () => {
-                  button.style.backgroundColor = '#2a9d8f';
-                });
+                button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
               }
               choiceBubbles.appendChild(button);
 
@@ -1472,38 +1470,39 @@
 
     const handleChoice = async (choiceId) => {
       choiceBubbles.innerHTML = '';
-      // Keep heading always visible
+      choicesHeading.classList.add('opacity-0');
 
       switch (choiceId) {
         case 'start':
+          chatOverlay.classList.remove('opacity-0'); // Show overlay on start
           await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
-          await addMessage('Visually Inspect Radar Sensor and Fascia.<br>Locate the front radar sensor (usually behind the grille or lower front fascia).<br>Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).<br>Confirm the sensor is mounted securely and sits flush.', 'robot-message', 1000);
+          await addMessage('Visually Inspect Radar Sensor and Fascia.<br>Locate the front radar sensor (usually behind the grille or lower front fascia).<br>Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).<br>Confirm the sensor is mounted securely and sits flush.', 'robot-message', 1250);
           showChoices([
             { text: 'Front bumper', id: 'bumper' },
             { text: 'No issues', id: 'no_issues' }
-          ], 1000);
+          ], 500);
           break;
 
         case 'bumper':
           await addMessage('It looks like the the front bumper was recently removed.', 'user-message');
-          await addMessage('Inspect radar sensor mounting. Verify sensor is properly seated.<br>Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.', 'robot-message', 1000);
-          showChoices([{ text: 'Sensor misaligment', id: 'misaligned' }], 1000);
+          await addMessage('Inspect radar sensor mounting. Verify sensor is properly seated.<br>Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.', 'robot-message', 1250);
+          showChoices([{ text: 'Sensor misaligment', id: 'misaligned' }], 500);
           break;
 
         case 'no_issues':
           await addMessage('No issues found. Now what?', 'user-message');
-          await addMessage('Run Radar Sensor Calibration.<br>Connect MDI 2 and launch GDS2 or Techline Connect.<br>Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn', 'robot-message', 1000);
-          showChoices([{ text: 'Success!', id: 'success' }], 1000);
+          await addMessage('Run Radar Sensor Calibration.<br>Connect MDI 2 and launch GDS2 or Techline Connect.<br>Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn', 'robot-message', 1250);
+          showChoices([{ text: 'Success!', id: 'success' }], 500);
           break;
 
         case 'misaligned':
           await addMessage('The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.', 'user-message');
-          showChoices([{ text: 'Start Over', id: 'reset' }], 1000);
+          showChoices([{ text: 'Start Over', id: 'reset' }], 500);
           break;
 
         case 'success':
           await addMessage('Calibration was successful. That was the issue. Error message resolved.', 'user-message');
-          showChoices([{ text: 'Start Over', id: 'reset' }], 1000);
+          showChoices([{ text: 'Start Over', id: 'reset' }], 500);
           break;
         
         case 'reset':
