@@ -1425,6 +1425,23 @@ video {
     z-index: 11;
 }
 
+/* Ensure clickable-question class doesn't override positioning */
+.clickable-question.specs-q1 {
+    left: 2%;
+    top: 5%;
+    width: 49.5%;
+    height: auto;
+    z-index: 11;
+}
+
+.clickable-question.specs-q2 {
+    left: 3% !important;
+    bottom: 25% !important;
+    width: 33% !important;
+    height: auto !important;
+    z-index: 13 !important;
+}
+
 .specs-a1 {
     right: 2%;
     top: 12%;
@@ -1442,7 +1459,8 @@ video {
 }
 
 @media (min-width: 640px) {
-    .specs-q1 {
+    .specs-q1,
+    .clickable-question.specs-q1 {
         left: 2%;
         top: 8%;
         width: 46.2%;
@@ -1454,7 +1472,8 @@ video {
         width: 72%;
     }
 
-    .specs-q2 {
+    .specs-q2,
+    .clickable-question.specs-q2 {
         left: 4% !important;
         bottom: 20% !important;
         width: 29.7% !important;
@@ -1462,7 +1481,8 @@ video {
 }
 
 @media (min-width: 1024px) {
-    .specs-q1 {
+    .specs-q1,
+    .clickable-question.specs-q1 {
         left: 3%;
         top: 10%;
         width: 41.8%;
@@ -1474,7 +1494,8 @@ video {
         width: 67.5%;
     }
 
-    .specs-q2 {
+    .specs-q2,
+    .clickable-question.specs-q2 {
         left: 6% !important;
         bottom: 18% !important;
         width: 28.6% !important;
@@ -1490,7 +1511,8 @@ video {
 }
 
 @media (min-width: 1280px) {
-    .specs-q1 {
+    .specs-q1,
+    .clickable-question.specs-q1 {
         left: 4%;
         top: 12%;
         width: 38.5%;
@@ -1502,7 +1524,8 @@ video {
         width: 63%;
     }
 
-    .specs-q2 {
+    .specs-q2,
+    .clickable-question.specs-q2 {
         left: 8% !important;
         bottom: 16% !important;
         width: 25.3% !important;
