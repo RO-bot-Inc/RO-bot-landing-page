@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // New specs animation logic - auto-animate questions, click for answers
     function animateSpecsQuestions() {
         const questions = document.querySelectorAll('.clickable-question');
-        
+
         questions.forEach((question, index) => {
             const delay = index * 800; // 800ms between Q1 and Q2
-            
+
             setTimeout(() => {
                 question.style.opacity = '1';
                 question.style.transform = 'translateY(0)';
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             bubble.style.transform = 'translateY(10px)';
             bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         });
-        
+
         // Reset question images back to original tappable versions
         resetQuestionImages();
     }
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function replaceQuestionImage(questionElement) {
         const img = questionElement.querySelector('img');
         if (!img) return;
-        
+
         const currentSrc = img.src;
         if (currentSrc.includes('Q1_920x412.png')) {
             img.src = 'specs/Q1_notap.png';
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetQuestionImages() {
         const q1Element = document.getElementById('q1Bubble');
         const q2Element = document.getElementById('q2Bubble');
-        
+
         if (q1Element && q1Element.classList.contains('tapped')) {
             const img = q1Element.querySelector('img');
             if (img) {
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 q1Element.classList.add('clickable-question');
             }
         }
-        
+
         if (q2Element && q2Element.classList.contains('tapped')) {
             const img = q2Element.querySelector('img');
             if (img) {
@@ -91,24 +91,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup click handlers for questions with enhanced feedback
     function setupSpecsClickHandlers() {
         const questions = document.querySelectorAll('.clickable-question');
-        
+
         questions.forEach(question => {
             // Add click handler
             question.addEventListener('click', function() {
                 const answerId = this.getAttribute('data-answer');
-                
+
                 // Add click animation
                 this.style.transform = 'translateY(-4px) scale(0.98)';
                 setTimeout(() => {
                     this.style.transform = 'translateY(0) scale(1)';
                 }, 150);
-                
+
                 // Hide the click indicator after clicking
                 this.style.setProperty('--clicked', 'true');
-                
+
                 // Replace the question image with no-tap version
                 replaceQuestionImage(this);
-                
+
                 showAnswerBubble(answerId);
             });
 
@@ -154,17 +154,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculateOptimalPositions() {
         const container = document.getElementById('warrantyContainer');
         const overlays = document.querySelectorAll('.warranty-overlay');
-        
+
         if (!container || overlays.length === 0) return;
-        
+
         const containerRect = container.getBoundingClientRect();
         const containerWidth = containerRect.width;
         const containerHeight = containerRect.height;
         const screenWidth = window.innerWidth;
-        
+
         // Define positioning strategies for different screen sizes
         let positions = [];
-        
+
         if (screenWidth <= 640) {
             // Mobile: Smaller sizes for better proportion
             positions = [
@@ -198,14 +198,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 { right: '4%', bottom: '18%', width: '16vw', maxWidth: '250px', transform: 'none', zIndex: 16 }
             ];
         }
-        
+
         // Apply calculated positions with overlap detection and adjustment
         overlays.forEach((overlay, index) => {
             if (index >= positions.length) return;
-            
+
             const pos = positions[index];
             overlay.classList.add('positioned');
-            
+
             // Apply base positioning
             Object.entries(pos).forEach(([property, value]) => {
                 if (property === 'transform') {
@@ -218,25 +218,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     overlay.style[property] = value;
                 }
             });
-            
+
             // Clear conflicting positioning
             if (pos.left) overlay.style.right = 'auto';
             if (pos.right) overlay.style.left = 'auto';
             if (pos.top) overlay.style.bottom = 'auto';
             if (pos.bottom) overlay.style.top = 'auto';
         });
-        
+
         // Fine-tune positions to minimize overlap after initial positioning
         setTimeout(() => adjustForOverlaps(overlays, screenWidth), 100);
     }
-    
+
     // Detect and adjust overlapping elements
     function adjustForOverlaps(overlays, screenWidth) {
         const rects = Array.from(overlays).map(overlay => ({
             element: overlay,
             rect: overlay.getBoundingClientRect()
         }));
-        
+
         // Check for overlaps and make micro-adjustments
         for (let i = 0; i < rects.length; i++) {
             for (let j = i + 1; j < rects.length; j++) {
@@ -248,50 +248,50 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-    
+
     // Calculate overlap between two rectangles
     function calculateOverlap(rect1, rect2) {
         const left = Math.max(rect1.left, rect2.left);
         const right = Math.min(rect1.right, rect2.right);
         const top = Math.max(rect1.top, rect2.top);
         const bottom = Math.min(rect1.bottom, rect2.bottom);
-        
+
         const width = Math.max(0, right - left);
         const height = Math.max(0, bottom - top);
-        
+
         return {
             area: width * height,
             width: width,
             height: height
         };
     }
-    
+
     // Make small adjustments to reduce overlap
     function adjustOverlappingElements(elem1, elem2, overlap, screenWidth) {
         // Only make micro-adjustments (max 2-3% movement)
         const maxAdjustment = screenWidth * 0.03;
-        
+
         if (overlap.width > overlap.height) {
             // Horizontal overlap - adjust horizontally
             const adjustment = Math.min(overlap.width / 2, maxAdjustment);
-            
+
             // Handle left-positioned elements
             if (elem1.style.left && elem1.style.left !== 'auto') {
                 const currentLeft = parseFloat(elem1.style.left);
                 elem1.style.left = Math.max(1, currentLeft - adjustment / screenWidth * 100) + '%';
             }
-            
+
             // Handle right-positioned elements
             if (elem1.style.right && elem1.style.right !== 'auto') {
                 const currentRight = parseFloat(elem1.style.right);
                 elem1.style.right = Math.max(1, currentRight + adjustment / screenWidth * 100) + '%';
             }
-            
+
             if (elem2.style.left && elem2.style.left !== 'auto') {
                 const currentLeft = parseFloat(elem2.style.left);
                 elem2.style.left = Math.max(1, currentLeft + adjustment / screenWidth * 100) + '%';
             }
-            
+
             if (elem2.style.right && elem2.style.right !== 'auto') {
                 const currentRight = parseFloat(elem2.style.right);
                 elem2.style.right = Math.max(1, currentRight - adjustment / screenWidth * 100) + '%';
@@ -301,22 +301,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const adjustment = Math.min(overlap.height / 2, maxAdjustment);
             const container = document.getElementById('warrantyContainer');
             const containerHeight = container.getBoundingClientRect().height;
-            
+
             if (elem1.style.top && elem1.style.top !== 'auto') {
                 const currentTop = parseFloat(elem1.style.top);
                 elem1.style.top = Math.max(1, currentTop - adjustment / containerHeight * 100) + '%';
             }
-            
+
             if (elem2.style.top && elem2.style.top !== 'auto') {
                 const currentTop = parseFloat(elem2.style.top);
                 elem2.style.top = Math.max(1, currentTop + adjustment / containerHeight * 100) + '%';
             }
-            
+
             if (elem1.style.bottom && elem1.style.bottom !== 'auto') {
                 const currentBottom = parseFloat(elem1.style.bottom);
                 elem1.style.bottom = Math.max(1, currentBottom + adjustment / containerHeight * 100) + '%';
             }
-            
+
             if (elem2.style.bottom && elem2.style.bottom !== 'auto') {
                 const currentBottom = parseFloat(elem2.style.bottom);
                 elem2.style.bottom = Math.max(1, currentBottom - adjustment / containerHeight * 100) + '%';
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make warranty claim overlays continuously visible with dynamic positioning
     function startWarrantyFloating() {
         calculateOptimalPositions();
-        
+
         const overlays = document.querySelectorAll('.warranty-overlay');
         overlays.forEach((overlay, index) => {
             // Make overlays visible permanently
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
             overlay.style.transition = 'all 0.3s ease';
         });
     }
-    
+
     // Recalculate positions on window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const screenWidth = window.innerWidth;
         const containerHeight = window.innerHeight * 0.7; // Approximate hero section height
-        
+
         // For mobile screens, apply better spacing
         if (screenWidth <= 640) {
             floatingTexts.forEach((text, index) => {
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-        
+
         // Check for overlaps and adjust positions
         const textRects = Array.from(floatingTexts).map(text => ({
             element: text,
@@ -402,10 +402,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const right = Math.min(rect1.right, rect2.right);
         const top = Math.max(rect1.top, rect2.top);
         const bottom = Math.min(rect1.bottom, rect2.bottom);
-        
+
         const width = Math.max(0, right - left);
         const height = Math.max(0, bottom - top);
-        
+
         return {
             area: width * height,
             width: width,
@@ -417,24 +417,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function adjustOverlappingText(elem1, elem2, overlap, screenWidth) {
         // Increase overlap tolerance - only adjust for significant overlaps
         const overlapThreshold = screenWidth <= 640 ? 200 : 300;
-        
+
         if (overlap.area < overlapThreshold) {
             return; // Allow minor overlaps
         }
-        
+
         const maxAdjustment = screenWidth <= 640 ? 10 : 15; // Even smaller adjustments
-        
+
         if (overlap.width > overlap.height) {
             // Horizontal overlap - make minimal adjustments
             const elem1Style = window.getComputedStyle(elem1);
             const elem2Style = window.getComputedStyle(elem2);
-            
+
             // Only adjust if elements are too close to center
             if (elem1Style.left !== 'auto' && parseFloat(elem1Style.left) > 40) {
                 const currentLeft = parseFloat(elem1Style.left);
                 elem1.style.left = Math.max(5, currentLeft - 1) + '%';
             }
-            
+
             if (elem2Style.right !== 'auto' && parseFloat(elem2Style.right) > 40) {
                 const currentRight = parseFloat(elem2Style.right);
                 elem2.style.right = Math.max(5, currentRight - 1) + '%';
@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Vertical overlap - prefer stacking with slight offset
             const elem1Style = window.getComputedStyle(elem1);
             const elem2Style = window.getComputedStyle(elem2);
-            
+
             // Only move lower element if there's room
             if (elem2Style.top !== 'auto' && elem2Style.top !== '') {
                 const currentTop = parseFloat(elem2Style.top);
@@ -468,71 +468,51 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(adjustFloatingTextPositions, 500);
     });
 
-    // Intersection Observer to trigger animations when sections come into view
-    const observerOptions = {
-        threshold: 0.3,
-        rootMargin: '0px 0px -100px 0px'
-    };
+    // Function to detect if the device is a phone
+    function isPhone() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        return /iphone|ipad|android/.test(userAgent);
+    }
 
-    // Observer for specs section - trigger when any overlay is not 100% visible
+    // Observer for specs section - mobile-friendly visibility detection
     const specsObserver = new IntersectionObserver((entries) => {
-        let allOverlaysVisible = true;
-        
-        // Check if all overlay elements are 100% visible
-        const allOverlays = document.querySelectorAll('#techSpecsContainer .message-bubble');
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible) {
-                allOverlaysVisible = false;
-            }
-        });
-
         entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && allOverlaysVisible) {
-                // Background and all overlays are completely within viewport
+            // Relaxed visibility detection for phones
+            const phoneDevice = isPhone();
+            const visibilityThreshold = phoneDevice ? 0.3 : 0.7; // Much more lenient for phones
+            const isVisible = entry.isIntersecting && entry.intersectionRatio >= visibilityThreshold;
+
+            if (isVisible) {
+                // Background is visible - trigger animations
                 animateSpecsQuestions();
                 setupSpecsClickHandlers();
                 entry.target.setAttribute('data-specs-visible', 'true');
             } else {
-                // Background or overlays are partially/completely outside viewport
+                // Background is out of view
                 hideSpecsBubbles();
                 entry.target.setAttribute('data-specs-visible', 'false');
             }
         });
     }, {
-        threshold: 1.0, // Trigger only when 100% visible
-        rootMargin: '0px'
+        threshold: isPhone() ? [0, 0.3, 0.5] : [0, 0.7, 1.0], // Lower thresholds for phones
+        rootMargin: isPhone() ? '-20px 0px -20px 0px' : '-50px 0px -50px 0px' // Less margin for phones
     });
 
-    // Additional observer to watch for scroll changes affecting overlay visibility
+    // Simplified scroll observer for mobile compatibility
     const specsScrollObserver = new IntersectionObserver((entries) => {
         const container = document.getElementById('techSpecsContainer');
         if (!container) return;
-        
-        const allOverlays = container.querySelectorAll('.message-bubble');
-        let anyOverlayOutOfView = false;
-        
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible && overlay.style.opacity !== '0') {
-                anyOverlayOutOfView = true;
+
+        entries.forEach(entry => {
+            // Relaxed visibility for phones - hide only when mostly out of view
+            const hideThreshold = isPhone() ? 0.2 : 0.5;
+            if (entry.intersectionRatio < hideThreshold) {
+                hideSpecsBubbles();
             }
         });
-        
-        if (anyOverlayOutOfView) {
-            hideSpecsBubbles();
-        }
     }, {
-        threshold: [0, 1.0],
-        rootMargin: '0px'
+        threshold: isPhone() ? [0, 0.2, 0.5] : [0, 0.5, 1.0],
+        rootMargin: isPhone() ? '-10px 0px -10px 0px' : '-25px 0px -25px 0px'
     });
 
     // Observer for diagnostics section

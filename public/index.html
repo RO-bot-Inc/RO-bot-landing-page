@@ -789,6 +789,22 @@
         .clickable-question.tapped:hover::before {
             display: none !important;
         }
+
+        /* Disable hover effects on phones and touch devices */
+        @media (max-width: 480px), (hover: none) {
+            .clickable-question:hover {
+                transform: none !important;
+                filter: none !important;
+            }
+
+            .clickable-question:hover::before {
+                display: none !important;
+            }
+
+            .clickable-question:hover img {
+                filter: none !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
