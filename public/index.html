@@ -1446,7 +1446,6 @@
               const button = document.createElement('button');
               button.dataset.choice = choice.id;
               button.innerText = choice.text;
-              // Add a different style for the reset button
               if (choice.id === 'reset') {
                 button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-full text-sm shadow-md transition-transform transform hover:scale-105';
               } else {
@@ -1464,37 +1463,37 @@
       switch (choiceId) {
         case 'start':
           await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
-          await addMessage('Visually Inspect Radar Sensor and Fascia.<br>Locate the front radar sensor (usually behind the grille or lower front fascia).<br>Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).<br>Confirm the sensor is mounted securely and sits flush.', 'robot-message', 500);
+          await addMessage('Visually Inspect Radar Sensor and Fascia.<br>Locate the front radar sensor (usually behind the grille or lower front fascia).<br>Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).<br>Confirm the sensor is mounted securely and sits flush.', 'robot-message', 1250);
           showChoices([
             { text: 'Front bumper', id: 'bumper' },
             { text: 'No issues', id: 'no_issues' }
-          ], 500);
+          ], 1250);
           break;
 
         case 'bumper':
           await addMessage('It looks like the the front bumper was recently removed.', 'user-message');
-          await addMessage('Inspect radar sensor mounting. Verify sensor is properly seated.<br>Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.', 'robot-message', 500);
-          showChoices([{ text: 'Sensor misaligment', id: 'misaligned' }], 500);
+          await addMessage('Inspect radar sensor mounting. Verify sensor is properly seated.<br>Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.', 'robot-message', 1250);
+          showChoices([{ text: 'Sensor misaligment', id: 'misaligned' }], 1250);
           break;
 
         case 'no_issues':
           await addMessage('No issues found. Now what?', 'user-message');
-          await addMessage('Run Radar Sensor Calibration.<br>Connect MDI 2 and launch GDS2 or Techline Connect.<br>Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn', 'robot-message', 500);
-          showChoices([{ text: 'Success!', id: 'success' }], 500);
+          await addMessage('Run Radar Sensor Calibration.<br>Connect MDI 2 and launch GDS2 or Techline Connect.<br>Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn', 'robot-message', 1250);
+          showChoices([{ text: 'Success!', id: 'success' }], 1250);
           break;
 
         case 'misaligned':
           await addMessage('The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.', 'user-message');
-          showChoices([{ text: 'Start Over', id: 'reset' }], 500); // <-- ADDED THIS
+          showChoices([{ text: 'Start Over', id: 'reset' }], 1250);
           break;
 
         case 'success':
           await addMessage('Calibration was successful. That was the issue. Error message resolved.', 'user-message');
-          showChoices([{ text: 'Start Over', id: 'reset' }], 500); // <-- ADDED THIS
+          showChoices([{ text: 'Start Over', id: 'reset' }], 1250);
           break;
 
         case 'reset':
-          resetDemo(); // <-- ADDED THIS
+          resetDemo();
           break;
       }
     };
