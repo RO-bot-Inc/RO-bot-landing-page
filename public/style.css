@@ -1436,7 +1436,7 @@ video {
 .specs-q2 {
     left: 3% !important;
     bottom: 25% !important;
-    width: 15% !important;
+    width: 30% !important;
     height: auto !important;
     z-index: 13 !important;
 }
@@ -1457,7 +1457,7 @@ video {
     .specs-q2 {
         left: 4% !important;
         bottom: 20% !important;
-        width: 13.5% !important;
+        width: 27% !important;
     }
 }
 
@@ -1477,7 +1477,7 @@ video {
     .specs-q2 {
         left: 6% !important;
         bottom: 18% !important;
-        width: 13% !important;
+        width: 26% !important;
     }
 
     .specs-a2 {
@@ -1503,6 +1503,6 @@ video {
     .specs-q2 {
         left: 8% !important;
         bottom: 16% !important;
-        width: 11.5% !important;
+        width: 23% !important;
     }
 }
