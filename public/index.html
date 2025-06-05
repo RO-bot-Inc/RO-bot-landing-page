@@ -719,6 +719,34 @@
                 }
             }
         }
+
+        /* Click indicators */
+        .click-indicator {
+            position: absolute;
+            color: white;
+            font-size: 0.8rem;
+            animation: pulse 1.5s infinite alternate;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .q1-indicator {
+            left: 22%;
+            top: 20%;
+        }
+
+        .q2-indicator {
+            left: 20%;
+            bottom: 12%;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -998,6 +1026,10 @@
                             <div class="absolute specs-a2 opacity-0 message-bubble answer-bubble" id="a2Bubble" style="transform: translateY(10px);">
                               <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
                             </div>
+
+                            <!-- Click indicators -->
+                            <div class="click-indicator q1-indicator">👆 Tap me</div>
+                            <div class="click-indicator q2-indicator">👆 Tap me</div>
                         </div>
                     </div>
                 </div>
