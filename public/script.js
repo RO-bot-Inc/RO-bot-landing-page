@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
             bubble.style.transform = 'translateY(10px)';
             bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         });
+        
+        // Reset question images back to original tappable versions
+        resetQuestionImages();
     }
 
     // Function to show answer bubble when question is clicked
@@ -41,6 +44,47 @@ document.addEventListener('DOMContentLoaded', function() {
             answerBubble.style.opacity = '1';
             answerBubble.style.transform = 'translateY(0)';
             answerBubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
+    }
+
+    // Function to replace question image with no-tap version
+    function replaceQuestionImage(questionElement) {
+        const img = questionElement.querySelector('img');
+        if (!img) return;
+        
+        const currentSrc = img.src;
+        if (currentSrc.includes('Q1_920x412.png')) {
+            img.src = 'specs/Q1_notap.png';
+            questionElement.classList.add('tapped');
+            questionElement.classList.remove('clickable-question');
+        } else if (currentSrc.includes('Q2_638xx412.png')) {
+            img.src = 'specs/Q2_notap.png';
+            questionElement.classList.add('tapped');
+            questionElement.classList.remove('clickable-question');
+        }
+    }
+
+    // Function to reset question images back to original
+    function resetQuestionImages() {
+        const q1Element = document.getElementById('q1Bubble');
+        const q2Element = document.getElementById('q2Bubble');
+        
+        if (q1Element && q1Element.classList.contains('tapped')) {
+            const img = q1Element.querySelector('img');
+            if (img) {
+                img.src = 'specs/Q1_920x412.png';
+                q1Element.classList.remove('tapped');
+                q1Element.classList.add('clickable-question');
+            }
+        }
+        
+        if (q2Element && q2Element.classList.contains('tapped')) {
+            const img = q2Element.querySelector('img');
+            if (img) {
+                img.src = 'specs/Q2_638xx412.png';
+                q2Element.classList.remove('tapped');
+                q2Element.classList.add('clickable-question');
+            }
         }
     }
 
@@ -62,16 +106,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Hide the click indicator after clicking
                 this.style.setProperty('--clicked', 'true');
                 
+                // Replace the question image with no-tap version
+                replaceQuestionImage(this);
+                
                 showAnswerBubble(answerId);
             });
 
             // Add mouse enter/leave effects for better feedback
             question.addEventListener('mouseenter', function() {
-                this.style.cursor = 'pointer';
+                // Only show hover effects if not tapped
+                if (!this.classList.contains('tapped')) {
+                    this.style.cursor = 'pointer';
+                }
             });
 
             question.addEventListener('mouseleave', function() {
-                if (!this.style.getPropertyValue('--clicked')) {
+                if (!this.style.getPropertyValue('--clicked') && !this.classList.contains('tapped')) {
                     this.style.transform = 'translateY(0) scale(1)';
                 }
             });

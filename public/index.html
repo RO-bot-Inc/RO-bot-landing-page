@@ -775,6 +775,20 @@
                 transform: scale(1.02);
             }
         }
+
+        /* Remove hover effects for tapped questions */
+        .clickable-question.tapped {
+            cursor: default !important;
+        }
+
+        .clickable-question.tapped:hover {
+            transform: none !important;
+            filter: none !important;
+        }
+
+        .clickable-question.tapped:hover::before {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
