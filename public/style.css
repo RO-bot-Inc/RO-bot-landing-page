@@ -1502,7 +1502,7 @@ video {
                 padding: 3px 8px;
                 top: -20px;
             }
-            
+
             .clickable-question:hover {
                 transform: translateY(-5px) scale(1.03) !important;
             }
@@ -1520,4 +1520,90 @@ video {
         /* Floating animations for warranty overlays */
         .warranty-overlay:nth-child(1) {
             animation: warrantyFloat1 4s ease-in-out infinite;
+        }
+
+        .specs-q2 {
+            left: 3%;
+            bottom: 15%;
+            width: 42%;
+            height: auto;
+            z-index: 13;
+        }
+
+        @media (min-width: 640px) {
+            .specs-q1 {
+                left: 2%;
+                top: 8%;
+                width: 42%;
+            }
+
+            .specs-a1 {
+                right: 2%;
+                top: 15%;
+                width: 72%;
+            }
+
+            .specs-q2 {
+                left: 4%;
+                bottom: 12%;
+                width: 38%;
+            }
+
+            .specs-a2 {
+                right: 4%;
+                bottom: 12%;
+                width: 52%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .specs-q1 {
+                left: 3%;
+                top: 10%;
+                width: 38%;
+            }
+
+            .specs-a1 {
+                right: 3%;
+                top: 17%;
+                width: 67.5%;
+            }
+
+            .specs-q2 {
+                left: 6%;
+                bottom: 8%;
+                width: 35%;
+            }
+
+            .specs-a2 {
+                right: 6%;
+                bottom: 15%;
+                width: 48%;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .specs-q1 {
+                left: 4%;
+                top: 12%;
+                width: 35%;
+            }
+
+            .specs-a1 {
+                right: 4%;
+                top: 19%;
+                width: 63%;
+            }
+
+            .specs-q2 {
+                left: 8%;
+                bottom: 5%;
+                width: 32%;
+            }
+
+            .specs-a2 {
+                right: 8%;
+                bottom: 17%;
+                width: 45%;
+            }
         }
