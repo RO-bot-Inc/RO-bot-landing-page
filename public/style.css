@@ -1415,34 +1415,27 @@ video {
     line-height: 1.25;
   }
 }
+
 .specs-a2 {
-    right: 2%;
-    top: 12%;
-    width: 90%;
+    right: 3%;
+    bottom: 8%;
+    width: 79.2%;
     height: auto;
-    z-index: 12;
+    z-index: 14;
 }
 
 @media (min-width: 640px) {
     .specs-a2 {
-        right: 2%;
-        top: 15%;
-        width: 86.4%;
-    }
-}
-
-@media (min-width: 1024px) {
-    .specs-a2 {
-        right: 3%;
-        top: 17%;
-        width: 81%;
+        right: 4%;
+        bottom: 12%;
+        width: 74.88%;
     }
 }
 
 @media (min-width: 1280px) {
     .specs-a2 {
-        right: 4%;
-        top: 19%;
-        width: 75.6%;
+        right: 8%;
+        bottom: 17%;
+        width: 64.8%;
     }
 }
