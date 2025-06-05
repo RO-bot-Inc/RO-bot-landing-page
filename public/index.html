@@ -735,25 +735,44 @@
             }
         }
 
-        /* Simplified clickable questions - no hover effects for mobile */
+        /* Dramatic hover states for clickable questions */
         .clickable-question {
-            transition: transform 0.2s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        /* Only show hover effects on desktop */
-        @media (min-width: 769px) {
-            .clickable-question {
-                cursor: pointer;
-            }
-            
-            .clickable-question:hover {
-                transform: translateY(-4px) scale(1.02) !important;
-                filter: drop-shadow(0 8px 16px rgba(42, 157, 143, 0.2)) brightness(1.05) !important;
-                z-index: 100 !important;
-            }
+        .clickable-question:hover {
+            transform: translateY(-8px) scale(1.05) !important;
+            filter: drop-shadow(0 15px 30px rgba(42, 157, 143, 0.4)) brightness(1.1) !important;
+            z-index: 100 !important;
+        }
 
-            .clickable-question:hover img {
-                filter: brightness(1.1) contrast(1.05);
+        .clickable-question:hover img {
+            filter: brightness(1.15) contrast(1.1);
+        }
+
+        /* Pulse effect on hover */
+        .clickable-question:hover::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px solid #2a9d8f;
+            border-radius: 12px;
+            animation: pulseGlow 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
             }
         }
 
@@ -765,6 +784,10 @@
         .clickable-question.tapped:hover {
             transform: none !important;
             filter: none !important;
+        }
+
+        .clickable-question.tapped:hover::before {
+            display: none !important;
         }
     </style>
 </head>
@@ -1027,8 +1050,8 @@
 
                             <!-- Message bubbles - positioned for click interactions -->
                             <!-- Q1 (left) - First question (clickable) -->
-                            <div class="absolute specs-q1 opacity-0 message-bubble clickable-question" id="q1Bubble" data-answer="a1Bubble" style="transform: translateY(10px);">
-                              <img src="specs/Q1_920x412.png" alt="Torque spec question" style="width: 100%; height: auto; aspect-ratio: 920/412;">
+                            <div class="absolute specs-q1 opacity-0 message-bubble clickable-question" id="q1Bubble" data-answer="a1Bubble" style="transform: translateY(10px); cursor: pointer;">
+                              <img src="specs/Q1_920x412.png" alt="Torque spec question" style="height: 100%; width: auto; aspect-ratio: 920/412;">
                             </div>
 
                             <!-- A1 (right) - First answer -->
@@ -1037,13 +1060,13 @@
                             </div>
 
                             <!-- Q2 (left) - Second question (clickable) -->
-                            <div class="absolute specs-q2 opacity-0 message-bubble clickable-question" id="q2Bubble" data-answer="a2Bubble" style="transform: translateY(10px);">
-                              <img src="specs/Q2_638xx412.png" alt="Oil capacity question" style="width: 100%; height: auto; aspect-ratio: 638/412;">
+                            <div class="absolute specs-q2 opacity-0 message-bubble clickable-question" id="q2Bubble" data-answer="a2Bubble" style="transform: translateY(10px); cursor: pointer;">
+                              <img src="specs/Q2_638xx412.png" alt="Oil capacity question" style="height: 100%; width: auto; aspect-ratio: 638/412;">
                             </div>
 
                             <!-- A2 (right) - Second answer -->
                             <div class="absolute specs-a2 opacity-0 message-bubble answer-bubble" id="a2Bubble" style="transform: translateY(10px);">
-                              <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="width: 100%; height: auto; aspect-ratio: 1316/412;">
+                              <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
                             </div>
 
 
