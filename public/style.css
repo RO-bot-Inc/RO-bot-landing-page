@@ -1415,27 +1415,3 @@ video {
     line-height: 1.25;
   }
 }
-
-.specs-a2 {
-    right: 3%;
-    bottom: 8%;
-    width: 79.2%;
-    height: auto;
-    z-index: 14;
-}
-
-@media (min-width: 640px) {
-    .specs-a2 {
-        right: 4%;
-        bottom: 12%;
-        width: 74.88%;
-    }
-}
-
-@media (min-width: 1280px) {
-    .specs-a2 {
-        right: 8%;
-        bottom: 17%;
-        width: 64.8%;
-    }
-}
