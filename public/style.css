@@ -1481,9 +1481,11 @@ video {
     }
 
     .specs-a2 {
-        right: 6%;
-        bottom: 15%;
-        width: 48%;
+        right: 3%;
+        bottom: 8%;
+        width: 66%;
+        height: auto;
+        z-index: 14;
     }
 }
 
@@ -1505,93 +1507,49 @@ video {
         bottom: 16% !important;
         width: 25.3% !important;
     }
-}
 
-/* Dramatic hover effects for interactive questions */
-.clickable-question {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    position: relative;
-}
-
-.clickable-question::before {
-    content: '';
-    position: absolute;
-    inset: -8px;
-    background: linear-gradient(45deg, #2a9d8f, #f76707, #2a9d8f);
-    background-size: 200% 200%;
-    border-radius: 12px;
-    opacity: 0;
-    z-index: -1;
-    animation: gradientShift 2s ease infinite;
-    transition: opacity 0.3s ease;
-}
-
-.clickable-question:hover::before {
-    opacity: 0.6;
-}
-
-.clickable-question:hover {
-    transform: scale(1.08) translateY(-4px);
-    filter: brightness(1.1) drop-shadow(0 8px 25px rgba(42, 157, 143, 0.4));
-}
-
-.clickable-question:hover img {
-    filter: brightness(1.15) contrast(1.1);
-}
-
-/* Pulse animation to indicate interactivity */
-.clickable-question::after {
-    content: '👆 Click me!';
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(42, 157, 143, 0.95);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 100;
-    white-space: nowrap;
-    backdrop-filter: blur(10px);
-}
-
-.clickable-question:hover::after {
-    opacity: 1;
-}
-
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
+     .specs-a2 {
+        right: 4%;
+        bottom: 12%;
+        width: 62.4%;
     }
 }
 
-/* Enhanced click feedback */
-.clickable-question:active {
-    transform: scale(1.05) translateY(-2px);
-    transition: all 0.1s ease;
+@media (min-width: 1280px) {
+    .specs-a2 {
+        right: 8%;
+        bottom: 17%;
+        width: 54%;
+    }
+}
+.specs-a2 {
+    right: 2%;
+    top: 12%;
+    width: 108%;
+    height: auto;
+    z-index: 12;
 }
 
-/* Mobile-specific hover states */
-@media (max-width: 768px) {
-    .clickable-question::after {
-        content: '👆 Tap me!';
-        font-size: 11px;
-        padding: 3px 10px;
-        top: -25px;
+@media (min-width: 640px) {
+    .specs-a2 {
+        right: 2%;
+        top: 15%;
+        width: 103.68%;
     }
+}
 
-    .clickable-question:hover {
-        transform: scale(1.05) translateY(-2px);
+@media (min-width: 1024px) {
+    .specs-a2 {
+        right: 3%;
+        top: 17%;
+        width: 97.2%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .specs-a2 {
+        right: 4%;
+        top: 19%;
+        width: 90.72%;
     }
 }
