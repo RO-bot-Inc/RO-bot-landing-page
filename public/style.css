@@ -1416,14 +1416,105 @@ video {
   }
 }
 
-        /* Clickable question hover effects */
+        /* Clickable question hover effects - more dramatic */
+        .clickable-question {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
         .clickable-question:hover {
-            transform: translateY(-2px) !important;
+            transform: translateY(-8px) scale(1.05) !important;
             transition: all 0.3s ease !important;
+            filter: drop-shadow(0 10px 20px rgba(42, 157, 143, 0.3));
         }
 
         .clickable-question:hover img {
-            filter: brightness(1.1);
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        /* Click me indicators */
+        .clickable-question::before {
+            content: "👆 Click me!";
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #2a9d8f, #54B3FB);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            white-space: nowrap;
+            z-index: 100;
+            opacity: 0;
+            animation: pulseClick 2s ease-in-out infinite;
+            box-shadow: 0 4px 12px rgba(42, 157, 143, 0.4);
+        }
+
+        .clickable-question:hover::before {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        /* Pulsing animation for click indicators */
+        @keyframes pulseClick {
+            0%, 100% {
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
+        /* Add subtle glow effect when not hovered */
+        .clickable-question {
+            box-shadow: 0 0 0 2px transparent;
+            transition: all 0.3s ease;
+        }
+
+        .clickable-question:not(:hover) {
+            animation: subtleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes subtleGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 2px transparent;
+            }
+            50% {
+                box-shadow: 0 0 0 2px rgba(42, 157, 143, 0.3);
+            }
+        }
+
+        /* Hide click indicator after clicking */
+        .clickable-question[style*="--clicked: true"]::before {
+            display: none;
+        }
+
+        /* Responsive adjustments for click indicators */
+        @media (max-width: 768px) {
+            .clickable-question::before {
+                font-size: 10px;
+                padding: 3px 8px;
+                top: -20px;
+            }
+            
+            .clickable-question:hover {
+                transform: translateY(-5px) scale(1.03) !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .clickable-question::before {
+                content: "👆 Tap me!";
+                font-size: 9px;
+                padding: 2px 6px;
+                top: -18px;
+            }
         }
 
         /* Floating animations for warranty overlays */

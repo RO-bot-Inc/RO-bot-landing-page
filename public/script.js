@@ -44,14 +44,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Setup click handlers for questions
+    // Setup click handlers for questions with enhanced feedback
     function setupSpecsClickHandlers() {
         const questions = document.querySelectorAll('.clickable-question');
         
         questions.forEach(question => {
+            // Add click handler
             question.addEventListener('click', function() {
                 const answerId = this.getAttribute('data-answer');
+                
+                // Add click animation
+                this.style.transform = 'translateY(-4px) scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }, 150);
+                
+                // Hide the click indicator after clicking
+                this.style.setProperty('--clicked', 'true');
+                
                 showAnswerBubble(answerId);
+            });
+
+            // Add mouse enter/leave effects for better feedback
+            question.addEventListener('mouseenter', function() {
+                this.style.cursor = 'pointer';
+            });
+
+            question.addEventListener('mouseleave', function() {
+                if (!this.style.getPropertyValue('--clicked')) {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }
             });
         });
     }
