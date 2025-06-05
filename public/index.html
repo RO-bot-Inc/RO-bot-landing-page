@@ -1422,7 +1422,10 @@
     // Function to reset the demo to its initial state
     const resetDemo = () => {
       chatLog.innerHTML = ''; // Clear the chat log
-      showChoices([{ text: 'error codes', id: 'start' }]); // Show the first button
+      choiceBubbles.innerHTML = ''; // Clear existing buttons first
+      setTimeout(() => {
+        showChoices([{ text: 'error codes', id: 'start' }], 0); // Show the first button immediately
+      }, 100); // Small delay to ensure DOM is cleared
     };
 
     // Function to add a new message to the chat log
