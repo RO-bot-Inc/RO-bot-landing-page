@@ -63,8 +63,8 @@
 
         .logo-carousel-track {
             display: flex;
-            animation: scroll-logos 30s linear infinite;
-            width: calc(200% + 40px);
+            animation: scroll-logos 28s linear infinite;
+            width: 200%;
         }
 
         .logo-carousel-slide {
@@ -88,9 +88,45 @@
             filter: grayscale(0%) opacity(1);
         }
 
+        /* Scale down Chevy logo specifically while maintaining spacing */
+        .logo-carousel-img[src*="chevy.png"] {
+            height: 25px !important;
+            max-height: 25px !important;
+        }
+
+        /* Scale up Nissan logo specifically */
+        .logo-carousel-img[src*="nissan.png"] {
+            height: 65px !important;
+            max-height: 65px !important;
+        }
+
+        /* Scale up Dodge logo specifically */
+        .logo-carousel-img[src*="dodge.png"] {
+            height: 75px !important;
+            max-height: 75px !important;
+        }
+
+        /* Scale up Jeep logo specifically */
+        .logo-carousel-img[src*="jeep.png"] {
+            height: 65px !important;
+            max-height: 65px !important;
+        }
+
+        /* Scale up Volvo logo specifically */
+        .logo-carousel-img[src*="volvo.png"] {
+            height: 65px !important;
+            max-height: 65px !important;
+        }
+
+        /* Scale up Honda logo specifically */
+        .logo-carousel-img[src*="honda.png"] {
+            height: 60px !important;
+            max-height: 60px !important;
+        }
+
         @keyframes scroll-logos {
             0% {
-                transform: translateX(0);
+                transform: translateX(0%);
             }
             100% {
                 transform: translateX(-50%);
@@ -136,6 +172,623 @@
             width: fit-content;
             white-space: nowrap;
         }
+
+        /* Waveform video boundary protection */
+        .waveform-boundary {
+            position: absolute;
+            left: 50%;
+            top: 58%;
+            transform: translate(-50%, -50%);
+            width: 400px; /* Video width + padding */
+            height: 180px; /* Video height + padding */
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        /* Top boundary at 50% - text cannot go above this */
+        .top-boundary {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        /* Removed floating animations - will rebuild warranty section from scratch */
+
+        /* Responsive positioning rules with overlap management */
+        .floating-text {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 30;
+            position: absolute;
+            word-wrap: break-word;
+            hyphens: auto;
+            /* Allow controlled overlap while maintaining readability */
+            mix-blend-mode: normal;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Overlap management - prefer staggered positioning over strict separation */
+        .floating-text:nth-child(1) {
+            z-index: 31;
+        }
+
+        .floating-text:nth-child(2) {
+            z-index: 32;
+        }
+
+        .floating-text:nth-child(3) {
+            z-index: 33;
+        }
+
+        /* Mobile screens - position text below waveform with better spacing */
+        @media (max-width: 640px) {
+            .floating-text:nth-child(1) {
+                left: 5% !important;
+                top: 65% !important;
+                font-size: 16px !important;
+                max-width: 170px !important;
+                bottom: auto !important;
+                line-height: 1.2 !important;
+                right: auto !important;
+                transform: none !important;
+                z-index: 31 !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 5% !important;
+                top: 72% !important;
+                font-size: 16px !important;
+                max-width: 170px !important;
+                bottom: auto !important;
+                line-height: 1.2 !important;
+                left: auto !important;
+                transform: none !important;
+                z-index: 32 !important;
+            }
+            .floating-text:nth-child(3) {
+                left: 5% !important;
+                top: 85% !important;
+                bottom: auto !important;
+                font-size: 16px !important;
+                max-width: 170px !important;
+                line-height: 1.2 !important;
+                text-align: left !important;
+                right: auto !important;
+                transform: none !important;
+                z-index: 33 !important;
+            }
+        }
+
+        /* Small tablet screens - allow controlled overlap */
+        @media (min-width: 641px) and (max-width: 768px) {
+            .floating-text:nth-child(1) {
+                left: 3% !important;
+                top: 50% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 200px !important;
+                font-size: 18px !important;
+                line-height: 1.3 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 3% !important;
+                top: 58% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 200px !important;
+                font-size: 18px !important;
+                line-height: 1.3 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(3) {
+                left: 50% !important;
+                top: 68% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 200px !important;
+                font-size: 18px !important;
+                line-height: 1.3 !important;
+                text-align: center !important;
+                transform: translateX(-50%) !important;
+            }
+        }
+
+        /* Medium tablet screens - balanced positioning */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .floating-text:nth-child(1) {
+                left: 5% !important;
+                top: 55% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 260px !important;
+                font-size: 20px !important;
+                line-height: 1.3 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 5% !important;
+                top: 66% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 260px !important;
+                font-size: 20px !important;
+                line-height: 1.3 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(3) {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 77% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 260px !important;
+                font-size: 20px !important;
+                line-height: 1.3 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Desktop screens - optimized positioning with overlap management */
+        @media (min-width: 1025px) {
+            .floating-text:nth-child(1) {
+                left: 8% !important;
+                top: 54% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 22px !important;
+                line-height: 1.4 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 8% !important;
+                top: 66% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 300px !important;
+                font-size: 22px !important;
+                line-height: 1.4 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(3) {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 78% !important;
+                bottom: auto !important;
+                right: auto !important;
+                max-width: 300px !important;
+                font-size: 22px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Large screens - maintain proportions */
+        @media (min-width: 1280px) {
+            .floating-text:nth-child(1) {
+                left: 10% !important;
+                top: 55% !important;
+                right: auto !important;
+                bottom: auto !important;
+                max-width: 320px !important;
+                font-size: 24px !important;
+                line-height: 1.4 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 10% !important;
+                top: 67% !important;
+                left: auto !important;
+                bottom: auto !important;
+                max-width: 320px !important;
+                font-size: 24px !important;
+                line-height: 1.4 !important;
+                transform: none !important;
+            }
+            .floating-text:nth-child(3) {
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                top: 79% !important;
+                bottom: auto !important;
+                right: auto !important;
+                max-width: 320px !important;
+                font-size: 24px !important;
+                line-height: 1.4 !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Extra large screens - preserve readability */
+        @media (min-width: 1536px) {
+            .floating-text:nth-child(1) {
+                left: 12% !important;
+                top: 56% !important;
+                max-width: 350px !important;
+                font-size: 26px !important;
+            }
+            .floating-text:nth-child(2) {
+                right: 12% !important;
+                top: 68% !important;
+                max-width: 350px !important;
+                font-size: 26px !important;
+            }
+            .floating-text:nth-child(3) {
+                top: 80% !important;
+                max-width: 350px !important;
+                font-size: 26px !important;
+            }
+        }
+
+        /* Floating animations for hero text overlays */
+        @keyframes float1 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            25% {
+                transform: translateY(-3px);
+            }
+            50% {
+                transform: translateY(-2px);
+            }
+            75% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes float2 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            25% {
+                transform: translateY(-4px);
+            }
+            50% {
+                transform: translateY(-1px);
+            }
+            75% {
+                transform: translateY(-3px);
+            }
+        }
+
+        @keyframes float3 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            25% {
+                transform: translateY(-2px);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+            75% {
+                transform: translateY(-1px);
+            }
+        }
+
+        /* Specs Overlay Positioning - Larger sizes for better readability */
+        .specs-q1 {
+            left: 2%;
+            top: 5%;
+            width: 45%;
+            height: auto;
+            z-index: 11;
+        }
+
+        .specs-a1 {
+            right: 2%;
+            top: 12%;
+            width: 75%;
+            height: auto;
+            z-index: 12;
+        }
+
+        .specs-q2 {
+            left: 3%;
+            bottom: 25%;
+            width: 42%;
+            height: auto;
+            z-index: 13;
+        }
+
+        .specs-a2 {
+            right: 3%;
+            bottom: 8%;
+            width: 55%;
+            height: auto;
+            z-index: 14;
+        }
+
+        /* Preserve aspect ratios for all spec images */
+        .specs-q1 img {
+            aspect-ratio: 920/412;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .specs-a1 img {
+            aspect-ratio: 1542/755;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .specs-q2 img {
+            aspect-ratio: 638/412;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .specs-a2 img {
+            aspect-ratio: 1316/412;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        @media (min-width: 640px) {
+            .specs-q1 {
+                left: 2%;
+                top: 8%;
+                width: 42%;
+            }
+
+            .specs-a1 {
+                right: 2%;
+                top: 15%;
+                width: 72%;
+            }
+
+            .specs-q2 {
+                left: 4%;
+                bottom: 20%;
+                width: 38%;
+            }
+
+            .specs-a2 {
+                right: 4%;
+                bottom: 12%;
+                width: 52%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .specs-q1 {
+                left: 3%;
+                top: 10%;
+                width: 38%;
+            }
+
+            .specs-a1 {
+                right: 3%;
+                top: 17%;
+                width: 67.5%;
+            }
+
+            .specs-q2 {
+                left: 6%;
+                bottom: 18%;
+                width: 35%;
+            }
+
+            .specs-a2 {
+                right: 6%;
+                bottom: 15%;
+                width: 48%;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .specs-q1 {
+                left: 4%;
+                top: 12%;
+                width: 35%;
+            }
+
+            .specs-a1 {
+                right: 4%;
+                top: 19%;
+                width: 63%;
+            }
+
+            .specs-q2 {
+                left: 8%;
+                bottom: 16%;
+                width: 32%;
+            }
+
+            .specs-a2 {
+                right: 8%;
+                bottom: 17%;
+                width: 45%;
+            }
+        }
+
+        /* Responsive overlay positioning - allow controlled overlap while preserving aspect ratios */
+        .warranty-overlay {
+            position: absolute;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        /* Dynamic positioning will be handled by JavaScript */
+        .warranty-overlay.positioned {
+            position: absolute !important;
+            transition: all 0.3s ease !important;
+        }
+
+        /* Apply these classes to warranty overlay images */
+        .warranty-overlay img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Floating animations for warranty overlays */
+        .warranty-overlay:nth-child(1) {
+            animation: warrantyFloat1 4s ease-in-out infinite;
+        }
+
+        .warranty-overlay:nth-child(2) {
+            animation: warrantyFloat2 4.5s ease-in-out infinite;
+        }
+
+        .warranty-overlay:nth-child(3) {
+            animation: warrantyFloat3 5s ease-in-out infinite;
+        }
+
+        .warranty-overlay:nth-child(4) {
+            animation: warrantyFloat4 3.5s ease-in-out infinite;
+        }
+
+        @keyframes warrantyFloat1 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes warrantyFloat2 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes warrantyFloat3 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes warrantyFloat4 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        /* Floating animations for larger screens (no translateX needed) */
+        @media (min-width: 641px) {
+            @keyframes warrantyFloat1 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-8px);
+                }
+            }
+
+            @keyframes warrantyFloat2 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-6px);
+                }
+            }
+
+            @keyframes warrantyFloat3 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+            }
+
+            @keyframes warrantyFloat4 {
+                0%, 100% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-7px);
+                }
+            }
+        }
+
+        /* Click indicators animation */
+        .click-indicator {
+            animation: pulse 1.5s infinite alternate;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Dramatic hover states for clickable questions */
+        .clickable-question {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .clickable-question:hover {
+            transform: translateY(-8px) scale(1.05) !important;
+            filter: drop-shadow(0 15px 30px rgba(42, 157, 143, 0.4)) brightness(1.1) !important;
+            z-index: 100 !important;
+        }
+
+        .clickable-question:hover img {
+            filter: brightness(1.15) contrast(1.1);
+        }
+
+        /* Pulse effect on hover */
+        .clickable-question:hover::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px solid #2a9d8f;
+            border-radius: 12px;
+            animation: pulseGlow 1.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.02);
+            }
+        }
+
+        /* Remove hover effects for tapped questions */
+        .clickable-question.tapped {
+            cursor: default !important;
+        }
+
+        .clickable-question.tapped:hover {
+            transform: none !important;
+            filter: none !important;
+        }
+
+        .clickable-question.tapped:hover::before {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -154,11 +807,11 @@
                 <!-- Login and Join Waitlist Buttons (Right Side) -->
                 <div class="flex space-x-6">
                     <a href="#waitlist-form"
-                       class="bg-brand-orange text-white hover:bg-opacity-90 font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Sign Up
+                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Book Demo
                     </a>
                     <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
-                       class="border-2 border-brand-green text-brand-green hover:bg-brand-green hover:text-white font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                         Login
                     </a>
                 </div>
@@ -169,66 +822,76 @@
 
     <main>
     <div class="bg-white">
-        <section class="pb-16">
+        <section>
             <div class="text-center relative overflow-visible">
                 <div class="relative">
-                    <img src="/hero/keyboard-tools.png" alt="Automotive tools and keyboard with mechanics working on a car" class="w-full h-[80vh] object-cover">
+                    <img src="/hero/inspection.png" alt="Automotive inspection and diagnostic process" class="w-full h-[70vh] sm:h-[80vh] object-cover">
                     <div class="absolute inset-0" style="background-color: rgba(42, 157, 143, 0.5)"></div>
                     <div class="absolute inset-0 flex flex-col items-center">
                         <div class="container mx-auto px-4 flex flex-col items-center">
                             <div class="pt-10 mb-8 z-10 w-full">
-                                <h1 class="font-montserrat text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight sm:leading-tight lg:leading-tight text-center" style="text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8)">
-                                    Less screen time, <span style="color: #C63006; text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);">more wrench time<span style="color: #C63006;">.</span></span><br>
-                                    Fewer audits, <span style="color: #C63006; text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);">more warranty revenue<span style="color: #C63006;">.</span></span>
+                                <h1 class="font-montserrat text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-tight sm:leading-tight lg:leading-tight text-center">
+                                    Less screen time, <span style="background: linear-gradient(135deg, #EBFC00 0%, #C4FF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">more wrench time<span style="background: linear-gradient(135deg, #EBFC00 0%, #C4FF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">.</span></span><br>
+                                    Fewer audits, <span style="background: linear-gradient(135deg, #EBFC00 0%, #C4FF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">more warranty revenue<span style="background: linear-gradient(135deg, #EBFC00 0%, #C4FF00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">.</span></span>
                                 </h1>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <!-- Waveform video at center -->
+                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px;" id="heroWaveformVideo">
+                        <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
+                    </video>
 
-                <!-- Moved images outside the absolute positioning to allow overflow -->
-                <div class="container mx-auto px-4 relative z-20">
-                    <div class="w-full md:w-[95%] relative mx-auto -mt-64 sm:-mt-72 md:-mt-80"></div>
-                        <!-- Arrows positioned to be equidistant from video borders -->
-                        <img src="/hero/arrows.png" alt="Process flow arrows" class="absolute z-10 scroll-spin
-                                                                                       w-[36%] md:w-[22.5%]
-                                                                                       left-1/2 -translate-x-1/2
-                                                                                       top-[calc(50%+80px)] -translate-y-1/2
-                                                                                       md:left-[44%] md:top-1/2 md:-translate-y-1/2"/>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-                            <div class="relative aspect-[10/19] w-[85%] sm:w-[75%] md:w-[65%] lg:w-[58%] xl:w-[53%] max-w-xs mx-auto p-3 rounded-[3rem] overflow-hidden flex items-center justify-center" style="margin-top: -20px;">
-                                <video autoplay loop muted playsinline class="w-full h-full object-cover rounded-[3rem] hero-video" style="object-position: center center;" alt="Voice notes interface showing diagnostic process">
-                                    <source src="/hero/record%20note.mov" type="video/mp4">
-                                    <source src="/hero/record note.mov" type="video/quicktime">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                            <div class="w-full" style="margin-top: 40px;">
-                                <video autoplay loop muted playsinline
-                                     class="w-full h-auto rounded-lg"
-                                     alt="Generated repair story with detailed documentation">
-                                    <source src="/hero/update story.mov" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
+                    <style>
+                        /* Mobile positioning - push waveform lower to avoid headline overlap */
+                        @media (max-width: 639px) {
+                            #heroWaveformVideo {
+                                top: 55% !important;
+                            }
+                        }
+
+                        @media (min-width: 640px) {
+                            #heroWaveformVideo {
+                                top: 58% !important;
+                                width: 518.4px !important;
+                                height: 172.8px !important;
+                            }
+                        }
+                    </style>
+
+                    <!-- Invisible boundary around waveform video -->
+                    <div class="waveform-boundary"></div>
+
+                    <!-- Animated text overlay with boundary-aware positioning -->
+                    <div class="absolute inset-0 z-30 pointer-events-none">
+                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float1 5s ease-in-out infinite;">
+                            Looks pretty clean<br>overall, no leaks that I can see
+                        </div>
+                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float2 6s ease-in-out infinite;">
+                            There's a bit of corrosion<br>around the battery terminals
+                        </div>
+                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float3 5.5s ease-in-out infinite;">
+                            Looks like a cracked<br>hose right here…
                         </div>
                     </div>
                 </div>
+
+                </div>
             </div>
 
-            <!-- Added padding-top that adjusts with screen size to accommodate the images -->
-            <div class="container mx-auto px-4 pt-24 md:pt-16 lg:pt-12 xl:pt-8 pb-20 sm:pb-24">
+            <!-- Increased top padding above RO-bot text -->
+            <div class="container mx-auto px-4 mt-8 sm:mt-12 md:mt-16">
                 <div class="w-full text-center">
                     <p class="max-w-4xl mx-auto text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-relaxed text-brand-dark opacity-90">
                         <strong>RO-bot is the world's first AI co-pilot for auto repair technicians.</strong>
                     </p>
                     <div class="max-w-2xl mx-auto mt-8 text-lg sm:text-xl leading-relaxed text-brand-dark opacity-90 text-left">
-                        → Voice-first interactions<br>
-                        → Pristine repair stories in under 5 seconds<br>
-                        → Suggested diagnostics, model & trim-specific specs at your fingertips<br>
-                        → Claims documentation that increases warranty revenue
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Voice-first interactions</div>
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Pristine repair stories in under 5 seconds</div>
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Suggested diagnostics, model & trim-specific specs at your fingertips</div>
+                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Claims documentation that increases warranty revenue</div>
                     </div>
-                    <div class="mt-8 mb-8">
+                    <div class="mt-8 mb-16 sm:mb-20 md:mb-24" style="margin-top: calc(2rem + 11px);">
                          <a href="#waitlist-form"
                            class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
                             Book Your Demo
@@ -240,13 +903,13 @@
     </div>
 
     <!-- Problem Statistics Section -->
-    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
+    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); margin-top: 10px;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight max-w-4xl mx-auto">
                     Your Current Repair & Warranty Process Is Bleeding Money
                 </h2>
-                <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed" style="color: #64758B;">
+                <p class="text-lg sm:text-xl lg:text-2xl max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed" style="color: #64758B;">
                     Every minute on a screen is a minute not fixing cars.<br>
                     Every rushed or incomplete story is a warranty denial waiting to happen.
                 </p>
@@ -304,9 +967,9 @@
             <div class="flex justify-center mb-12">
                 <img src="head only.svg" alt="RO-bot head logo" class="w-24 h-24"/>
             </div>
-            <div class="max-w-2xl mx-auto text-center mb-16"> <h2 class="font-montserrat font-bold text-brand-dark tracking-tight">
+            <div class="max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto text-center mb-16"> <h2 class="font-montserrat font-bold text-brand-dark tracking-tight">
             <span class="text-4xl sm:text-5xl lg:text-6xl">Meet RO-bot</span><br><br>
-            <span class="text-2xl sm:text-3xl lg:text-4xl font-extralight">Your AI Co-Pilot for Smarter Repairs & Smoother Warranty Claims</span>
+            <span class="text-2xl sm:text-3xl lg:text-4xl font-extralight">AI Co-Pilot for Smarter Repairs & Smoother Warranty Claims</span>
         </h2>
         <p class="mt-6 text-lg text-brand-dark opacity-90 leading-relaxed">
             Techs that use RO-bot work smarter. They stay more focused, and crank through more jobs in a day without sacrificing quality. They earn more, boost shop productivity, and improve warranty claim approval rates.
@@ -317,67 +980,54 @@
             <!-- Feature 1 -->
             <div class="flex flex-col md:flex-row items-center gap-x-12">
                 <div class="w-full md:w-1/2 md:order-1 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
-                    <img src="inspection.png" alt="Voice recording interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+                    <img src="story/typing.png" alt="Voice recording interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
                     <!-- Black semi-transparent mask -->
                     <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
-                    <video autoplay loop muted playsinline class="absolute bottom-0 left-0 w-full h-1/3 object-cover rounded-lg" style="transform-origin: center; transform: scale(0.65); z-index: 1; mix-blend-mode: screen;" id="waveformVideo">
-                        <source src="waveform-white-on-black.mp4" type="video/mp4">
+                    <!-- Video overlay -->
+                    <video muted playsinline class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain rounded-lg" style="z-index: 1; mix-blend-mode: screen; opacity: 0.7; width: 60vw; max-width: 400px; height: auto; max-height: 60vh;">
+                        <source src="story/update story.mov" type="video/mp4">
                     </video>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', () => {
-                            const waveformVideo = document.getElementById('waveformVideo');
-                            if (waveformVideo) {
-                                // Wait for video to be ready before setting playback rate
-                                waveformVideo.addEventListener('canplay', () => {
-                                    try {
-                                        // Ensure the video is ready and playback rate is valid
-                                        if (waveformVideo.readyState >= 2) {
-                                            waveformVideo.playbackRate = 0.8;
-                                        }
-                                    } catch (e) {
-                                        // Silently fail and use default speed
-                                    }
-                                });
-
-                                // Error handler for video loading issues
-                                waveformVideo.addEventListener('error', (e) => {
-                                    // Silently handle video errors
-                                });
-                            }
-                        });
-                    </script>
-                    <!-- Text overlay -->
-                    <div class="absolute inset-0 z-10 pointer-events-none">
-                        <div class="absolute top-[15%] left-[10%] text-white text-lg font-bold floating-text" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float1 5s ease-in-out infinite;">
-                            Looks pretty clean overall,<br>no leaks that I can see
-                        </div>
-                        <div class="absolute text-white text-lg font-bold floating-text" style="top: calc(45% - 10px); right: calc(15% - 15px); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float2 6s ease-in-out infinite;">
-                            There's a bit of corrosion<br>around the battery terminals
-                        </div>
-                        <div class="absolute text-white text-lg font-bold floating-text" style="bottom: calc(35% - 25px); left: calc(20% - 20px); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); animation: float3 5.5s ease-in-out infinite;">
-                            Looks like a cracked<br>hose right here…
-                        </div>
-                    </div>
+                    <!-- Timer iframe in upper right corner -->
+                    <iframe src="story/timer.html" class="absolute top-4 right-4 w-32 h-20 border-0 rounded-lg bg-transparent" style="z-index: 2;" scrolling="no"></iframe>
+                    <!-- Play button -->
+                    <button 
+                        onclick="window.videoTimerControls?.start()" 
+                        class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105"
+                        style="z-index: 3; background-color: #54B3FB; hover:background-color: #4A9FE7; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;"
+                    >
+                        Write Story
+                    </button>
                 </div>
                 <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
                     <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">5-Second Stories</h3>
                     <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Techs capture findings, error codes, and part numbers with quick voice notes and zero typing. RO-bot makes sense of everything when it's time to build the full story and writes it in clear, customer-friendly language.
+                        Techs capture findings, error codes, and part numbers with quick voice notes and zero typing. RO-bot makes sense of everything when it's time to build the full story and writes it in clear, customer-friendly language. RO-bot requires zero DMS integration so you can be up and running in minutes, not weeks.
                     </p>
                 </div>
             </div>
 
-            <!-- Feature 2 - NEW -->
+            <!-- Feature 2 - Warranty Claims with Overlays -->
             <div class="flex flex-col md:flex-row items-center gap-x-12">
                 <div class="w-full md:w-1/2 md:order-2">
-                    <div class="w-full h-[425px] overflow-hidden relative">
-                        <!-- Placeholder image for warranty claims feature -->
-                        <div class="relative w-full h-full bg-gray-200 rounded-lg flex items-center justify-center">
-                            <div class="text-center text-gray-500">
-                                <div class="text-4xl mb-4">📋</div>
-                                <div class="text-lg font-semibold">Warranty Claims Interface</div>
-                                <div class="text-sm">Placeholder Image</div>
-                            </div>
+                    <div class="w-full h-[425px] overflow-hidden relative rounded-lg" id="warrantyContainer">
+                        <!-- Background image -->
+                        <img src="Warranty/warranty.png" alt="Warranty claims interface" class="w-full h-full object-cover rounded-lg">
+
+                        <!-- Warranty Claim Overlays with new images -->
+                        <div class="warranty-overlay" data-animation-order="1">
+                            <img src="Warranty/advisor580x490.png" alt="Advisor Notes">
+                        </div>
+
+                        <div class="warranty-overlay" data-animation-order="2">
+                            <img src="Warranty/complaint708x462.png" alt="Customer Complaint">
+                        </div>
+
+                        <div class="warranty-overlay" data-animation-order="3">
+                            <img src="Warranty/Diag813x379.png" alt="Diagnostics">
+                        </div>
+
+                        <div class="warranty-overlay" data-animation-order="4">
+                            <img src="Warranty/technician744x500.png" alt="Tech Notes" style="width: 100%; height: auto; object-fit: contain;">
                         </div>
                     </div>
                 </div>
@@ -396,24 +1046,30 @@
                         <!-- Dynamic tech specs interface with message bubbles -->
                         <div id="techSpecsContainer" class="relative w-full h-full">
                             <!-- Background image -->
-                            <img src="2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
+                            <img src="specs/2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
 
-                            <!-- Message bubbles - positioned closer together over background image -->
-                            <div class="absolute left-[5%] top-[8%] lg:left-[2%] lg:top-[5%] w-[48%] sm:w-[42%] md:w-[32%] lg:w-[38%] xl:w-[280px] opacity-0 message-bubble" id="torqueBubble" data-animation-order="1">
-                              <img src="2_torque.png" alt="Torque specs question" class="w-full">
+                            <!-- Message bubbles - positioned for click interactions -->
+                            <!-- Q1 (left) - First question (clickable) -->
+                            <div class="absolute specs-q1 opacity-0 message-bubble clickable-question" id="q1Bubble" data-answer="a1Bubble" style="transform: translateY(10px); cursor: pointer;">
+                              <img src="specs/Q1_920x412.png" alt="Torque spec question" style="height: 100%; width: auto; aspect-ratio: 920/412;">
                             </div>
 
-                            <div class="absolute right-[5%] top-[15%] lg:right-[2%] lg:top-[12%] w-[52%] sm:w-[46%] md:w-[36%] lg:w-[42%] xl:w-[320px] opacity-0 message-bubble" id="torqueAnswerBubble" data-animation-order="2">
-                              <img src="2_torque2.png" alt="Torque specs answer" class="w-full">
+                            <!-- A1 (right) - First answer -->
+                            <div class="absolute specs-a1 opacity-0 message-bubble answer-bubble" id="a1Bubble" style="transform: translateY(10px);">
+                              <img src="specs/A1_1542x755.png" alt="Torque specs answer" style="width: 100%; height: auto; aspect-ratio: 1542/755;">
                             </div>
 
-                            <div class="absolute left-[8%] bottom-[15%] lg:left-[3%] lg:bottom-[18%] w-[44%] sm:w-[38%] md:w-[28%] lg:w-[34%] xl:w-[260px] opacity-0 message-bubble" id="oilBubble" data-animation-order="3">
-                              <img src="2_oil.png" alt="Oil capacity question" class="w-full">
+                            <!-- Q2 (left) - Second question (clickable) -->
+                            <div class="absolute specs-q2 opacity-0 message-bubble clickable-question" id="q2Bubble" data-answer="a2Bubble" style="transform: translateY(10px); cursor: pointer;">
+                              <img src="specs/Q2_638xx412.png" alt="Oil capacity question" style="height: 100%; width: auto; aspect-ratio: 638/412;">
                             </div>
 
-                            <div class="absolute right-[8%] bottom-[2%] lg:right-[3%] lg:bottom-[5%] w-[52%] sm:w-[46%] md:w-[36%] lg:w-[42%] xl:w-[320px] opacity-0 message-bubble" id="oilAnswerBubble" data-animation-order="4">
-                              <img src="2_oil2.png" alt="Oil capacity answer" class="w-full">
+                            <!-- A2 (right) - Second answer -->
+                            <div class="absolute specs-a2 opacity-0 message-bubble answer-bubble" id="a2Bubble" style="transform: translateY(10px);">
+                              <img src="specs/A2_1316x412.png" alt="Oil capacity answer" style="height: 100%; width: auto; aspect-ratio: 1316/412;">
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -428,21 +1084,21 @@
             <!-- Feature 4 -->
             <div class="flex flex-col md:flex-row items-center gap-x-12">
                 <div class="w-full md:w-1/2 order-1 md:order-2 mt-8 md:mt-0 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;" id="diagnosticContainer">
-                    <img src="tasks/warning2.webp" alt="AI-powered diagnostic guidance interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+                    <img src="tasks/warning3.png" alt="AI-powered diagnostic guidance interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
 
                     <!-- Task overlay images - initially hidden -->
                     <div class="absolute inset-0 z-10 pointer-events-none">
-                        <div class="absolute top-[15%] right-[10%] opacity-0 task-overlay" id="task1Overlay" data-animation-order="1">
-                            <img src="tasks/task1.png" alt="Diagnostic task 1" class="w-auto h-auto max-w-[350px]">
+                        <div class="absolute top-[8%] right-[10%] opacity-0 task-overlay" id="task1Overlay" data-animation-order="1" style="transform: translateX(20px);">
+                            <img src="tasks/task1.png" alt="Diagnostic task 1" class="w-auto h-auto max-w-[262px]">
                         </div>
-                        <div class="absolute opacity-0 task-overlay" id="task2Overlay" data-animation-order="2" style="top: calc(15% + 110px + 10px); right: 10%;">
-                            <img src="tasks/task2.png" alt="Diagnostic task 2" class="w-auto h-auto max-w-[350px]">
+                        <div class="absolute opacity-0 task-overlay" id="task2Overlay" data-animation-order="2" style="top: calc(8% + 140px); right: 10%; transform: translateX(20px);">
+                            <img src="tasks/task2.png" alt="Diagnostic task 2" class="w-auto h-auto max-w-[262px]">
                         </div>
-                        <div class="absolute opacity-0 task-overlay" id="task3Overlay" data-animation-order="3" style="top: calc(15% + 110px + 47px + 15px); right: 10%;">
-                            <img src="tasks/task3.png" alt="Diagnostic task 3" class="w-auto h-auto max-w-[350px]">
+                        <div class="absolute opacity-0 task-overlay" id="task3Overlay" data-animation-order="3" style="top: calc(8% + 210px); right: 10%; transform: translateX(20px);">
+                            <img src="tasks/task3.png" alt="Diagnostic task 3" class="w-auto h-auto max-w-[262px]">
                         </div>
-                        <div class="absolute opacity-0 task-overlay" id="task4Overlay" data-animation-order="4" style="top: calc(15% + 110px + 47px + 56px + 20px); right: 10%;">
-                            <img src="tasks/task4.png" alt="Diagnostic task 4" class="w-auto h-auto max-w-[350px]">
+                        <div class="absolute opacity-0 task-overlay" id="task4Overlay" data-animation-order="4" style="top: calc(8% + 280px); right: 10%; transform: translateX(20px);">
+                            <img src="tasks/task4.png" alt="Diagnostic task 4" class="w-auto h-auto max-w-[262px]">
                         </div>
                     </div>
                 </div>
@@ -590,7 +1246,7 @@
                     </div>
 
                     <button type="submit" 
-                            class="w-full bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
+                            class="w-full bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105 mb-6">
                         Book Your Demo
                     </button>
                 </form>
