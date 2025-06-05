@@ -1,3 +1,4 @@
+
 /*
 ! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
 */
@@ -1416,7 +1417,7 @@ video {
   }
 }
 
-/* Specs Overlay Positioning */
+/* Specs Overlay Positioning - 50% reduced sizes from original */
 .specs-q1 {
     left: 2%;
     top: 5%;
