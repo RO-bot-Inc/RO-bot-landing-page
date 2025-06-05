@@ -90,41 +90,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Setup click handlers for questions with enhanced feedback
     function setupSpecsClickHandlers() {
+        // Remove any existing event listeners by cloning and replacing elements
         const questions = document.querySelectorAll('.clickable-question');
         
         questions.forEach(question => {
-            // Add click handler
-            question.addEventListener('click', function() {
+            // Clone the element to remove all existing event listeners
+            const newQuestion = question.cloneNode(true);
+            question.parentNode.replaceChild(newQuestion, question);
+            
+            // Add fresh click handler
+            newQuestion.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const answerId = this.getAttribute('data-answer');
+                console.log('Question clicked:', this.id, 'Answer:', answerId);
                 
-                // Add click animation
-                this.style.transform = 'translateY(-4px) scale(0.98)';
+                // Prevent multiple clicks
+                if (this.classList.contains('tapped')) {
+                    return;
+                }
+                
+                // Simple click feedback without hover effects
+                this.style.transform = 'translateY(-2px)';
                 setTimeout(() => {
-                    this.style.transform = 'translateY(0) scale(1)';
-                }, 150);
-                
-                // Hide the click indicator after clicking
-                this.style.setProperty('--clicked', 'true');
+                    this.style.transform = 'translateY(0)';
+                }, 100);
                 
                 // Replace the question image with no-tap version
                 replaceQuestionImage(this);
                 
+                // Show the corresponding answer
                 showAnswerBubble(answerId);
             });
 
-            // Add mouse enter/leave effects for better feedback
-            question.addEventListener('mouseenter', function() {
-                // Only show hover effects if not tapped
-                if (!this.classList.contains('tapped')) {
-                    this.style.cursor = 'pointer';
-                }
-            });
-
-            question.addEventListener('mouseleave', function() {
-                if (!this.style.getPropertyValue('--clicked') && !this.classList.contains('tapped')) {
-                    this.style.transform = 'translateY(0) scale(1)';
-                }
-            });
+            // Remove cursor pointer for mobile to avoid hover states
+            if (window.innerWidth <= 768) {
+                newQuestion.style.cursor = 'default';
+            }
         });
     }
 
