@@ -1522,3 +1522,34 @@ video {
         width: 54%;
     }
 }
+.specs-a2 {
+    right: 2%;
+    top: 12%;
+    width: 108%;
+    height: auto;
+    z-index: 12;
+}
+
+@media (min-width: 640px) {
+    .specs-a2 {
+        right: 2%;
+        top: 15%;
+        width: 103.68%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .specs-a2 {
+        right: 3%;
+        top: 17%;
+        width: 97.2%;
+    }
+}
+
+@media (min-width: 1280px) {
+    .specs-a2 {
+        right: 4%;
+        top: 19%;
+        width: 90.72%;
+    }
+}
