@@ -841,10 +841,6 @@ video {
   gap: 2rem;
 }
 
-.gap-4 {
-  gap: 1rem;
-}
-
 .gap-x-12 {
   -moz-column-gap: 3rem;
        column-gap: 3rem;
@@ -1030,8 +1026,8 @@ video {
   padding-top: 2.5rem;
 }
 
-.pt-1 {
-  padding-top: 0.25rem;
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .pt-8 {
