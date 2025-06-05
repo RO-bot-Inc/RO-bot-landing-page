@@ -1419,37 +1419,32 @@ video {
 /* Click indicators animation and styling */
         .click-indicator {
             position: absolute;
-            background: #2A9D8F;
+            background: #DB995C;
             color: white;
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
             text-align: center;
-            cursor: pointer;
             z-index: 25;
-            transition: all 0.3s ease;
             white-space: nowrap;
             animation: pulse 1.5s infinite alternate;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        .click-indicator:hover {
-            background: #238B7A;
-            transform: scale(1.05);
-        }
-
-        /* Q1 indicator - positioned relative to Q1's position */
+        /* Q1 indicator - centered horizontally with Q1 */
         .click-indicator.q1-indicator {
-            left: 2%;
+            left: 50%;
             top: 18%;
+            transform: translateX(-50%);
         }
 
-        /* Q2 indicator - positioned relative to Q2's position */
+        /* Q2 indicator - centered horizontally with Q2 */
         .click-indicator.q2-indicator {
-            left: 3%;
+            left: 50%;
             bottom: 22%;
+            transform: translateX(-50%);
         }
 
         @media (min-width: 640px) {
@@ -1459,13 +1454,15 @@ video {
             }
 
             .click-indicator.q1-indicator {
-                left: 2%;
+                left: 23%;
                 top: 20%;
+                transform: translateX(-50%);
             }
 
             .click-indicator.q2-indicator {
-                left: 4%;
+                left: 23%;
                 bottom: 17%;
+                transform: translateX(-50%);
             }
         }
 
@@ -1476,25 +1473,29 @@ video {
             }
 
             .click-indicator.q1-indicator {
-                left: 3%;
+                left: 22%;
                 top: 22%;
+                transform: translateX(-50%);
             }
 
             .click-indicator.q2-indicator {
-                left: 6%;
+                left: 23%;
                 bottom: 15%;
+                transform: translateX(-50%);
             }
         }
 
         @media (min-width: 1280px) {
             .click-indicator.q1-indicator {
-                left: 4%;
+                left: 23%;
                 top: 24%;
+                transform: translateX(-50%);
             }
 
             .click-indicator.q2-indicator {
-                left: 8%;
+                left: 24%;
                 bottom: 14%;
+                transform: translateX(-50%);
             }
         }
 
