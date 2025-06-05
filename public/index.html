@@ -1417,16 +1417,20 @@
       chatLog.scrollTop = chatLog.scrollHeight;
     };
 
+    // Function to reset the demo to its initial state
+    const resetDemo = () => {
+      chatLog.innerHTML = ''; // Clear the chat log
+      showChoices([{ text: 'error codes', id: 'start' }]); // Show the first button
+    };
+
     // Function to add a new message to the chat log
     const addMessage = (text, type, delay = 0) => {
-      // This returns a "Promise", which is just a way to handle delays
       return new Promise(resolve => {
         setTimeout(() => {
           const messageElement = document.createElement('div');
           messageElement.classList.add('chat-bubble', type);
-          messageElement.innerHTML = text; // Use innerHTML to render line breaks
+          messageElement.innerHTML = text;
           chatLog.appendChild(messageElement);
-          // A short delay before scrolling to let the element render
           setTimeout(scrollToBottom, 50);
           resolve();
         }, delay);
@@ -1436,12 +1440,17 @@
     // Function to create and display choice buttons
     const showChoices = (choices, delay = 0) => {
       setTimeout(() => {
-          choiceBubbles.innerHTML = ''; // Clear existing choices
+          choiceBubbles.innerHTML = '';
           choices.forEach(choice => {
               const button = document.createElement('button');
               button.dataset.choice = choice.id;
               button.innerText = choice.text;
-              button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full text-sm shadow-md transition-transform transform hover:scale-105';
+              // Add a different style for the reset button
+              if (choice.id === 'reset') {
+                button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-full text-sm shadow-md transition-transform transform hover:scale-105';
+              } else {
+                button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full text-sm shadow-md transition-transform transform hover:scale-105';
+              }
               choiceBubbles.appendChild(button);
           });
       }, delay);
@@ -1449,7 +1458,7 @@
 
     // This is the main function that controls the conversation
     const handleChoice = async (choiceId) => {
-      choiceBubbles.innerHTML = ''; // Clear choices immediately on click
+      choiceBubbles.innerHTML = '';
 
       switch (choiceId) {
         case 'start':
@@ -1475,19 +1484,22 @@
 
         case 'misaligned':
           await addMessage('The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.', 'user-message');
-          // End of this path
+          showChoices([{ text: 'Start Over', id: 'reset' }], 500); // <-- ADDED THIS
           break;
 
         case 'success':
           await addMessage('Calibration was successful. That was the issue. Error message resolved.', 'user-message');
-          // End of this path
+          showChoices([{ text: 'Start Over', id: 'reset' }], 500); // <-- ADDED THIS
+          break;
+        
+        case 'reset':
+          resetDemo(); // <-- ADDED THIS
           break;
       }
     };
 
     // This listens for clicks inside our feature container
     container.addEventListener('click', (e) => {
-      // Check if the thing that was clicked is a choice button
       if (e.target.matches('#choice-bubbles button[data-choice]')) {
         const choiceId = e.target.dataset.choice;
         handleChoice(choiceId);
