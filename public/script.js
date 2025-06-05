@@ -17,19 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const delay = index * 800; // 800ms between Q1 and Q2
             
             setTimeout(() => {
-                // Add the interaction ready class for enhanced styling
-                question.classList.add('ready-for-interaction');
                 question.style.opacity = '1';
                 question.style.transform = 'translateY(0)';
                 question.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                
-                // Add a subtle bounce after appearing
-                setTimeout(() => {
-                    question.style.transform = 'translateY(-3px)';
-                    setTimeout(() => {
-                        question.style.transform = 'translateY(0)';
-                    }, 200);
-                }, 600);
             }, delay);
         });
     }
@@ -41,13 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
             bubble.style.opacity = '0';
             bubble.style.transform = 'translateY(10px)';
             bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            
-            // Reset interaction classes for questions
-            if (bubble.classList.contains('clickable-question')) {
-                bubble.classList.remove('ready-for-interaction');
-                bubble.style.setProperty('--pulse-opacity', '0.3');
-                bubble.style.setProperty('--pulse-speed', '2s');
-            }
         });
     }
 
@@ -66,20 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const questions = document.querySelectorAll('.clickable-question');
         
         questions.forEach(question => {
-            // Add visual feedback on click
             question.addEventListener('click', function() {
                 const answerId = this.getAttribute('data-answer');
-                
-                // Add clicked class to stop pulsing
-                this.classList.add('clicked');
-                
-                // Show answer
                 showAnswerBubble(answerId);
-                
-                // Remove clicked class after a delay to allow pulsing to resume
-                setTimeout(() => {
-                    this.classList.remove('clicked');
-                }, 3000);
             });
         });
     }
