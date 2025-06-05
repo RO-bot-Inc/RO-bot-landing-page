@@ -1415,3 +1415,77 @@ video {
     line-height: 1.25;
   }
 }
+
+/* Enhanced interactivity indicators */
+        .clickable-question {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clickable-question::after {
+            content: "👇 Tap me!";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(42, 157, 143, 0.95);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 1;
+            animation: pulse 2s infinite;
+            z-index: 25;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        @media (min-width: 640px) {
+            .clickable-question::after {
+                content: "👇 Click me!";
+                font-size: 0.8rem;
+                padding: 5px 12px;
+                bottom: -35px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .clickable-question::after {
+                font-size: 0.85rem;
+                padding: 6px 14px;
+                bottom: -40px;
+            }
+        }
+
+        /* Hide indicator after clicking */
+        .clickable-question[style*="--clicked: true"]::after {
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        /* Pulse animation for indicators */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+
+        /* Enhanced hover states */
+        .clickable-question:hover {
+            transform: translateY(-3px) scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        @media (min-width: 640px) {
+            .clickable-question:hover {
+                transform: translateY(-5px) scale(1.03) !important;
+            }
+        }
