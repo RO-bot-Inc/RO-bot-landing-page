@@ -1354,7 +1354,8 @@
                         </a>
                         <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Twitter">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 0 006.29 1.84"></path>
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 01```text
+2 18.407a11.616 0 006.29 1.84"></path>
                             </svg>
                         </a>
                         <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="LinkedIn">
@@ -1418,15 +1419,48 @@
       chatLog.scrollTop = chatLog.scrollHeight;
     };
 
+    // Internal function to render choices, used by resetDemo and showChoices
+    const _renderChoices = (choicesArray) => {
+        choiceBubbles.innerHTML = ''; // Clear existing buttons
+
+        // Control visibility of "What's next?" heading
+        if (choicesArray.length > 0 && choicesArray[0].id !== 'initial_error_code_path' && choicesArray[0].id !== 'initial_symptom_path') {
+            choicesHeading.classList.remove('opacity-0');
+        } else {
+            choicesHeading.classList.add('opacity-0');
+        }
+
+        choicesArray.forEach((choice, index) => {
+            const button = document.createElement('button');
+            button.dataset.choice = choice.id;
+            button.innerText = choice.text;
+            // Apply styling based on choice ID
+            if (choice.id === 'reset') {
+                button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+            } else {
+                button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+            }
+            choiceBubbles.appendChild(button);
+
+            // Add "or" text between two choices, but not for the initial main path choices
+            if (choicesArray.length === 2 && index === 0 && choice.id !== 'initial_error_code_path' && choice.id !== 'initial_symptom_path') {
+                const orText = document.createElement('span');
+                orText.className = 'text-gray-500 font-semibold';
+                orText.innerText = 'or';
+                choiceBubbles.appendChild(orText);
+            }
+        });
+    };
+
     const resetDemo = () => {
       chatLog.innerHTML = '';
       choicesHeading.classList.add('opacity-0');
-      chatOverlay.classList.add('opacity-0'); // Hide overlay on reset
-      // Initial choices for the two main paths
-      showChoices([
+      chatOverlay.classList.add('opacity-0');
+      const initialChoices = [
         { text: 'Diagnose by Error Code', id: 'initial_error_code_path' },
         { text: 'Diagnose by Symptom', id: 'initial_symptom_path' }
-      ]);
+      ];
+      _renderChoices(initialChoices); // Directly render initial choices
     };
 
     const addMessage = (text, type, delay = 0) => {
@@ -1434,7 +1468,7 @@
         setTimeout(() => {
           const messageElement = document.createElement('div');
           messageElement.classList.add('chat-bubble', type);
-          messageElement.innerHTML = text; // Use innerHTML for <br> tags
+          messageElement.innerHTML = text;
           chatLog.appendChild(messageElement);
           setTimeout(scrollToBottom, 50);
           resolve();
@@ -1442,55 +1476,43 @@
       });
     };
 
+    // showChoices now uses _renderChoices with a setTimeout if a delay is needed
     const showChoices = (choices, delay = 0) => {
-      setTimeout(() => {
-          choiceBubbles.innerHTML = '';
-          if (choices.length > 0 && choices[0].id !== 'initial_error_code_path' && choices[0].id !== 'initial_symptom_path') {
-            choicesHeading.classList.remove('opacity-0');
-          } else {
-            choicesHeading.classList.add('opacity-0');
-          }
-
-          choices.forEach((choice, index) => {
-              const button = document.createElement('button');
-              button.dataset.choice = choice.id;
-              button.innerText = choice.text;
-              if (choice.id === 'reset') {
-                button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
-              } else {
-                button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
-              }
-              choiceBubbles.appendChild(button);
-
-              if (choices.length === 2 && index === 0 && choice.id !== 'initial_error_code_path' && choice.id !== 'initial_symptom_path') {
-                  const orText = document.createElement('span');
-                  orText.className = 'text-gray-500 font-semibold';
-                  orText.innerText = 'or';
-                  choiceBubbles.appendChild(orText);
-              }
-          });
-      }, delay);
+      if (delay > 0) {
+        setTimeout(() => _renderChoices(choices), delay);
+      } else {
+        _renderChoices(choices); // Call directly if no delay
+      }
     };
 
     const handleChoice = async (choiceId) => {
-      choiceBubbles.innerHTML = ''; // Clear current choices
-      if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path' && choiceId !== 'reset') {
-          choicesHeading.classList.add('opacity-0');
+      // Clear current choices from the display immediately, unless it's an initial path selection
+      if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
+        choiceBubbles.innerHTML = '';
+        choicesHeading.classList.add('opacity-0');
       }
 
-      // Show overlay once a path is truly started
-      if (choiceId === 'path1_start_error_codes' || choiceId === 'initial_symptom_path_start_dialogue') {
+
+      // Show overlay once a path is truly started (i.e., after the first user message in that path)
+      // Note: 'initial_symptom_path' case handles its own overlay logic because it starts with a user message.
+      if (choiceId === 'path1_start_error_codes') {
           chatOverlay.classList.remove('opacity-0');
       }
+
 
       switch (choiceId) {
         // Initial Path Selection
         case 'initial_error_code_path':
+            // Don't clear choices here, just set up the next specific choice
             showChoices([{ text: 'error codes', id: 'path1_start_error_codes' }]);
             break;
         case 'initial_symptom_path':
-            // This case now directly starts the dialogue for the symptom path
-            chatOverlay.classList.remove('opacity-0'); // Show overlay
+            chatOverlay.classList.remove('opacity-0');
+            // It's important that the initial choiceBubbles.innerHTML clearing is handled carefully
+            // for the initial path selections to avoid flicker or premature clearing.
+            // The main `choiceBubbles.innerHTML = '';` at the start of handleChoice might need adjustment
+            // if it's too aggressive for these initial branching clicks.
+            // For now, let's rely on showChoices to clear for its new set.
             await addMessage("The rustomer reports a rattling noise from the rear passenger side. It gets louder with vehicle speed.<br>I verified with a road test. There's a metallic rattle at 30–50 mph.", 'user-message');
             await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area.<br>- Brake dust shield<br>- Parking brake<br>- Exhaust near wheel well — hangers, clearance from body, heat shields<br>- Shock mount points — wear, cracked bushings, loose fasteners<br>- Suspension arms and links<br>- Rotor", 'robot-message', 1250);
             showChoices([
@@ -1501,6 +1523,9 @@
 
         // --- Path 1: Diagnose by Error Code ---
         case 'path1_start_error_codes':
+            // Ensure choiceBubbles is cleared *before* adding new messages for this path
+            choiceBubbles.innerHTML = ''; 
+            choicesHeading.classList.add('opacity-0');
             await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
             await addMessage("Okay, I see three codes related to the advanced driver-assistance system.", 'robot-message', 1250);
             showChoices([
@@ -1515,9 +1540,10 @@
             break;
         case 'path1_suggest_steps':
         case 'path1_ok_suggest_steps':
-            if (choiceId === 'path1_suggest_steps') {
+            if (choiceId === 'path1_suggest_steps') { // Only add "Suggest next steps" if that was the button clicked
                  await addMessage("Suggest next steps.", 'user-message');
             }
+            // For path1_ok_suggest_steps, we don't add a new user message, just proceed to RO-BOT's response.
             await addMessage("Visually Inspect Radar Sensor and Fascia. Locate the front radar sensor (usually behind the grille or lower front fascia). Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover). Confirm the sensor is mounted securely and sits flush.", 'robot-message', 1250);
             showChoices([
                 { text: 'Front bumper looks recent', id: 'path1_bumper_recent' },
@@ -1564,7 +1590,6 @@
             break;
         case 'symptom_found_it_rotor':
             await addMessage("Found it! There was a broken spring. I'm waiting on a hardware kit and we'll be good to go.", 'user-message');
-            // No RO-BOT response specified, directly to Start Over
             showChoices([{ text: 'Start Over', id: 'reset' }], 500);
             break;
         case 'symptom_everything_normal':
