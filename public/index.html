@@ -930,19 +930,35 @@
           margin-bottom: -1px; /* Fine-tuning */
         }
 
-        /* Shimmer animation for "Try It!" text */
+        /* New dramatic wave animation for "Try It!" text */
         #choices-heading {
-          position: relative; /* Required for the pseudo-element positioning */
-          overflow: hidden;   /* Hides the shimmer when it's outside the text box */
-          color: #4A5568;    /* Sets the base text color (Tailwind gray-600) */
-          -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
-          -webkit-mask-size: 200%;
-          animation: shimmer 2.5s infinite;
+          font-weight: 600; /* Make the font a bit bolder for impact */
+          display: inline-block;
         }
 
-        @keyframes shimmer {
-          0% { -webkit-mask-position: 150%; }
-          100% { -webkit-mask-position: -50%; }
+        #choices-heading span {
+          display: inline-block; /* Required to apply transforms */
+          position: relative;
+          /* Apply the animation here */
+          animation: dramatic-gleam 3s ease-in-out infinite;
+        }
+
+        @keyframes dramatic-gleam {
+          0%, 100% {
+            transform: scale(1.0);
+            color: #4A5568; /* Standard gray color */
+            text-shadow: none;
+          }
+          25% {
+            transform: scale(1.6); /* Grow significantly */
+            color: #FFD700;       /* Bright gold color */
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7); /* Add a subtle glow */
+          }
+          50% {
+            transform: scale(1.0);
+            color: #4A5568; /* Return to normal color mid-cycle */
+            text-shadow: none;
+          }
         }
     </style>
 </head>
@@ -996,24 +1012,6 @@
                     <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px;" id="heroWaveformVideo">
                         <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
                     </video>
-                    /* Wave animation for "Try It!" text */
-                    #choices-heading span {
-                      display: inline-block; /* Allows transforms on characters */
-                      position: relative;
-                      color: #4A5568; /* Tailwind gray-600 */
-                      animation: wave 3s ease-in-out infinite;
-                    }
-
-                    @keyframes wave {
-                      0%, 100% {
-                        transform: scale(1);
-                        color: #4A5568; /* Normal color */
-                      }
-                      50% {
-                        transform: scale(1.4);
-                        color: #D4AF37; /* Gold color */
-                      }
-                    }
 
                     <style>
                         /* Mobile positioning - push waveform lower to avoid headline overlap */
@@ -1517,10 +1515,26 @@
                     if (!choiceBubbles) return;
                     choiceBubbles.innerHTML = '';
 
-                    if (choicesHeading) {
-                        // The heading text is now always set to "Try It! &#128073;"
-                        choicesHeading.innerHTML = 'Try It! &#128073;';
-                    }
+                    if(choicesHeading) {
+                            const text = 'Try It!';
+                            const emoji = '👉';
+
+                            // Create individual spans for the text characters
+                            const textSpans = text.split('').map((char) => 
+                                `<span>${char === ' ' ? '&nbsp;' : char}</span>`
+                            ).join('');
+
+                            // Create a separate span for the emoji
+                            const emojiSpan = `<span>${emoji}</span>`;
+
+                            choicesHeading.innerHTML = textSpans + emojiSpan;
+
+                            // Apply the staggered animation delay to each span
+                            const chars = choicesHeading.querySelectorAll('span');
+                            chars.forEach((char, index) => {
+                                char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
+                            });
+                        }
 
                     choicesArray.forEach((choice, index) => {
                         const button = document.createElement('button');
@@ -1571,10 +1585,25 @@
                 const handleChoice = async (choiceId) => {
                     if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
                         if(choiceBubbles) choiceBubbles.innerHTML = '';
-                        if(choicesHeading) if (choicesHeading) {
-                            const text = 'Try It! 👉';
-                            // Split text into characters, wrap each in a span for animation
-                            choicesHeading.innerHTML = 'Try It! &#128073;';
+                        if(choicesHeading) {
+                            const text = 'Try It!';
+                            const emoji = '👉';
+
+                            // Create individual spans for the text characters
+                            const textSpans = text.split('').map((char) => 
+                                `<span>${char === ' ' ? '&nbsp;' : char}</span>`
+                            ).join('');
+
+                            // Create a separate span for the emoji
+                            const emojiSpan = `<span>${emoji}</span>`;
+
+                            choicesHeading.innerHTML = textSpans + emojiSpan;
+
+                            // Apply the staggered animation delay to each span
+                            const chars = choicesHeading.querySelectorAll('span');
+                            chars.forEach((char, index) => {
+                                char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
+                            });
                         }
                     }
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
