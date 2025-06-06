@@ -620,13 +620,13 @@
             transition: all 0.3s ease !important;
         }
 
-        /* Default positioning for warranty overlays */
+        /* Default positioning for warranty overlays - reduced by 20% */
         .warranty-overlay:nth-child(1) {
             position: absolute;
             left: 4%;
             top: 6%;
-            width: 15vw;
-            max-width: 240px;
+            width: 12vw;
+            max-width: 192px;
             z-index: 14;
         }
 
@@ -634,8 +634,8 @@
             position: absolute;
             right: 4%;
             top: 12%;
-            width: 17vw;
-            max-width: 260px;
+            width: 13.6vw;
+            max-width: 208px;
             z-index: 13;
         }
 
@@ -643,8 +643,8 @@
             position: absolute;
             left: 4%;
             bottom: 20%;
-            width: 19vw;
-            max-width: 280px;
+            width: 15.2vw;
+            max-width: 224px;
             z-index: 12;
         }
 
@@ -652,73 +652,73 @@
             position: absolute;
             right: 4%;
             bottom: 18%;
-            width: 16vw;
-            max-width: 250px;
+            width: 12.8vw;
+            max-width: 200px;
             z-index: 16;
         }
 
-        /* Mobile responsive positioning */
+        /* Mobile responsive positioning - reduced by 20% */
         @media (max-width: 640px) {
             .warranty-overlay:nth-child(1) {
                 left: 8%;
                 top: 5%;
-                width: 36vw;
-                max-width: 220px;
+                width: 28.8vw;
+                max-width: 176px;
             }
 
             .warranty-overlay:nth-child(2) {
                 right: 8%;
                 top: 25%;
-                width: 38vw;
-                max-width: 230px;
+                width: 30.4vw;
+                max-width: 184px;
             }
 
             .warranty-overlay:nth-child(3) {
                 left: 12%;
                 top: 48%;
-                width: 40vw;
-                max-width: 240px;
+                width: 32vw;
+                max-width: 192px;
             }
 
             .warranty-overlay:nth-child(4) {
                 right: 12%;
                 top: 70%;
-                width: 37vw;
-                max-width: 225px;
+                width: 29.6vw;
+                max-width: 180px;
             }
         }
 
-        /* Tablet and desktop positioning - ensure 4th overlay is visible */
+        /* Tablet and desktop positioning - reduced by 20% */
         @media (min-width: 641px) {
             .warranty-overlay:nth-child(1) {
                 left: 4%;
                 top: 6%;
-                width: 15vw;
-                max-width: 240px;
+                width: 12vw;
+                max-width: 192px;
                 z-index: 14;
             }
 
             .warranty-overlay:nth-child(2) {
                 right: 4%;
                 top: 12%;
-                width: 17vw;
-                max-width: 260px;
+                width: 13.6vw;
+                max-width: 208px;
                 z-index: 13;
             }
 
             .warranty-overlay:nth-child(3) {
                 left: 4%;
                 bottom: 20%;
-                width: 19vw;
-                max-width: 280px;
+                width: 15.2vw;
+                max-width: 224px;
                 z-index: 12;
             }
 
             .warranty-overlay:nth-child(4) {
                 right: 4%;
                 bottom: 15%;
-                width: 18vw;
-                max-width: 270px;
+                width: 14.4vw;
+                max-width: 216px;
                 z-index: 15;
             }
         }
