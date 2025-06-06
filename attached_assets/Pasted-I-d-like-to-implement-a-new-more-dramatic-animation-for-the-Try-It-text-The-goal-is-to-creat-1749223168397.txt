@@ -1,0 +1,76 @@
+I'd like to implement a new, more dramatic animation for the "Try It! 👉" text. The goal is to create a looping "wave" that sweeps from left to right, causing each character to momentarily grow in size and turn a gleaming gold color before returning to normal.
+
+Please perform the following two steps to create this effect.
+
+Part 1: Update the JavaScript to Prepare the Text
+
+First, we need to wrap each character in its own element so we can animate them individually.
+
+In the public/index.html file, find the <script> tag at the bottom of the page. Inside that script, locate the _renderChoices function.
+
+Find this line of code:
+choicesHeading.innerHTML = 'Try It! &#128073;';
+
+Please replace it with this new block of JavaScript. This code splits the text and emoji into separate <span> elements and applies a staggered animation delay to each one, which is essential for the wave effect.
+
+JavaScript
+
+            if (choicesHeading) {
+                const text = 'Try It!';
+                const emoji = '&#128073;';
+
+                // Create individual spans for the text characters
+                const textSpans = text.split('').map((char) => 
+                    `<span>${char === ' ' ? '&nbsp;' : char}</span>`
+                ).join('');
+
+                // Create a separate span for the emoji
+                const emojiSpan = `<span>${emoji}</span>`;
+
+                choicesHeading.innerHTML = textSpans + emojiSpan;
+
+                // Apply the staggered animation delay to each span
+                const chars = choicesHeading.querySelectorAll('span');
+                chars.forEach((char, index) => {
+                    char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
+                });
+            }
+Part 2: Add the New CSS for the Dramatic Animation
+
+Next, we need to add the CSS that creates the "gleaming gold" effect.
+
+Go to the <style> block in the <head> of the public/index.html file. Please remove any existing CSS rules for #choices-heading or @keyframes shimmer to avoid conflicts.
+
+Then, at the very end of the <style> block (before the closing </style> tag), please add the following new CSS code:
+
+CSS
+
+/* New dramatic wave animation for "Try It!" text */
+#choices-heading {
+  font-weight: 600; /* Make the font a bit bolder for impact */
+}
+
+#choices-heading span {
+  display: inline-block; /* Required to apply transforms */
+  position: relative;
+  /* Apply the animation here */
+  animation: dramatic-gleam 3s ease-in-out infinite;
+}
+
+@keyframes dramatic-gleam {
+  0%, 100% {
+    transform: scale(1.0);
+    color: #4A5568; /* Standard gray color */
+    text-shadow: none;
+  }
+  25% {
+    transform: scale(1.6); /* Grow significantly */
+    color: #FFD700;       /* Bright gold color */
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7); /* Add a subtle glow */
+  }
+  50% {
+    transform: scale(1.0);
+    color: #4A5568; /* Return to normal color mid-cycle */
+    text-shadow: none;
+  }
+}
