@@ -467,6 +467,42 @@
             }
         }
 
+        /* Apply floating animations with proper duration and easing */
+        .floating-text:nth-child(1) {
+            animation: float1 5s ease-in-out infinite !important;
+        }
+
+        .floating-text:nth-child(2) {
+            animation: float2 6s ease-in-out infinite !important;
+        }
+
+        .floating-text:nth-child(3) {
+            animation: float3 5.5s ease-in-out infinite !important;
+        }
+
+        /* Ensure animations work on mobile with translateX */
+        @media (max-width: 640px) {
+            .floating-text:nth-child(1) {
+                animation: float1 5s ease-in-out infinite !important;
+            }
+            .floating-text:nth-child(2) {
+                animation: float2 6s ease-in-out infinite !important;
+            }
+            .floating-text:nth-child(3) {
+                animation: float3 5.5s ease-in-out infinite !important;
+            }
+        }
+
+        /* Ensure animations work on larger screens with translateX */
+        @media (min-width: 641px) {
+            .floating-text:nth-child(2) {
+                animation: float2 6s ease-in-out infinite !important;
+            }
+            .floating-text:nth-child(3) {
+                animation: float3 5.5s ease-in-out infinite !important;
+            }
+        }
+
         /* Specs Overlay Positioning - Larger sizes for better readability */
         .specs-q1 {
             left: 2%;
@@ -1002,13 +1038,13 @@
 
                     <!-- Animated text overlay with boundary-aware positioning -->
                     <div class="absolute inset-0 z-30 pointer-events-none">
-                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float1 5s ease-in-out infinite;">
-                            Looks pretty clean                    overall, no leaks that I can see
+                        <div class="absolute text-white text-2xl font-bold floating-text">
+                            Looks pretty clean overall, no leaks that I can see
                         </div>
-                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float2 6s ease-in-out infinite;">
+                        <div class="absolute text-white text-2xl font-bold floating-text">
                             There's a bit of corrosion<br>around the battery terminals
                         </div>
-                        <div class="absolute text-white text-2xl font-bold floating-text" style="animation: float3 5.5s ease-in-out infinite;">
+                        <div class="absolute text-white text-2xl font-bold floating-text">
                             Looks like a cracked<br>hose right here…
                         </div>
                     </div>
