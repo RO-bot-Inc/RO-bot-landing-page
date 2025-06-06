@@ -1772,6 +1772,31 @@
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(calculateOptimalPositions, 250);
             });
+
+            // --- Smooth Scroll for Demo Buttons ---
+            function setupDemoButtonScrolling() {
+                // Select all demo buttons (both "Book Demo" and "Book Your Demo")
+                const demoButtons = document.querySelectorAll('a[href="#waitlist-form"]');
+                
+                demoButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Find the CTA section with green background
+                        const ctaSection = document.querySelector('section[style*="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%)"]');
+                        
+                        if (ctaSection) {
+                            // Scroll so the top of the green section aligns with the top of the viewport
+                            ctaSection.scrollIntoView({ 
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    });
+                });
+            }
+
+            setupDemoButtonScrolling();
         });
     </script>
 </body>
