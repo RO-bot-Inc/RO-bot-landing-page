@@ -929,6 +929,21 @@
           border-right: 0;
           margin-bottom: -1px; /* Fine-tuning */
         }
+
+        /* Shimmer animation for "Try It!" text */
+        #choices-heading {
+          position: relative; /* Required for the pseudo-element positioning */
+          overflow: hidden;   /* Hides the shimmer when it's outside the text box */
+          color: #4A5568;    /* Sets the base text color (Tailwind gray-600) */
+          -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+          -webkit-mask-size: 200%;
+          animation: shimmer 2.5s infinite;
+        }
+
+        @keyframes shimmer {
+          0% { -webkit-mask-position: 150%; }
+          100% { -webkit-mask-position: -50%; }
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -999,7 +1014,7 @@
                         color: #D4AF37; /* Gold color */
                       }
                     }
-                    
+
                     <style>
                         /* Mobile positioning - push waveform lower to avoid headline overlap */
                         @media (max-width: 639px) {
@@ -1559,9 +1574,7 @@
                         if(choicesHeading) if (choicesHeading) {
                             const text = 'Try It! 👉';
                             // Split text into characters, wrap each in a span for animation
-                            choicesHeading.innerHTML = text.split('').map((char, index) => 
-                                `<span style="animation-delay: ${index * 0.1}s;">${char === ' ' ? '&nbsp;' : char}</span>`
-                            ).join('');
+                            choicesHeading.innerHTML = 'Try It! &#128073;';
                         }
                     }
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
@@ -1803,14 +1816,14 @@
             function setupDemoButtonScrolling() {
                 // Select all demo buttons (both "Book Demo" and "Book Your Demo")
                 const demoButtons = document.querySelectorAll('a[href="#waitlist-form"]');
-                
+
                 demoButtons.forEach(button => {
                     button.addEventListener('click', function(e) {
                         e.preventDefault();
-                        
+
                         // Find the CTA section with green background
                         const ctaSection = document.querySelector('section[style*="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%)"]');
-                        
+
                         if (ctaSection) {
                             // Scroll so the top of the green section aligns with the top of the viewport
                             ctaSection.scrollIntoView({ 
