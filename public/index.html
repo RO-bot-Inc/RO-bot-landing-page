@@ -866,15 +866,16 @@
         }
 
         .chat-bubble {
-          padding: 10px 16px;
-          border-radius: 18px;
-          max-width: 85%;
-          word-wrap: break-word;
-          line-height: 1.4;
-          box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-          opacity: 0; /* Start invisible */
-          transform: translateY(40px); /* Start further down */
-          animation: slideUpIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; /* Smoother, ease-out animation */
+              padding: 10px 16px;
+              border-radius: 16px; /* Slightly reduced as requested */
+              max-width: 85%;
+              word-wrap: break-word;
+              line-height: 1.4;
+              box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+              opacity: 0;
+              transform: translateY(40px);
+              animation: slideUpIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+              position: relative; /* This is the key addition */
         }
 
         @keyframes slideUpIn {
@@ -896,6 +897,35 @@
           color: white;
           align-self: flex-end; /* Align to the right */
           text-align: left;
+        }
+        /* Robot message tail (bottom-left) */
+        .robot-message::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 4px;
+          width: 0;
+          height: 0;
+          border: 10px solid transparent;
+          border-top-color: #F3F4F6; /* Tailwind gray-100 */
+          border-bottom: 0;
+          border-left: 0;
+          margin-bottom: -1px; /* Fine-tuning */
+        }
+
+        /* User message tail (bottom-right) */
+        .user-message::after {
+          content: '';
+          position: absolute;
+          bottom: -6px;
+          right: 8px;
+          width: 0;
+          height: 0;
+          border: 10px solid transparent;
+          border-top-color: #059669; /* Tailwind emerald-600 */
+          border-bottom: 0;
+          border-right: 0;
+          margin-bottom: -1px; /* Fine-tuning */
         }
     </style>
 </head>
@@ -1431,297 +1461,318 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
 
-        // ===================================================
-        // CHOOSE YOUR OWN ADVENTURE (SMARTER DIAGNOSTICS) LOGIC
-        // ===================================================
-        const choicesWrapper = document.getElementById('choices-wrapper');
-        const choicesHeading = document.getElementById('choices-heading');
-        const chatLog = document.getElementById('chat-log');
-        const choiceBubbles = document.getElementById('choice-bubbles');
-        const chatOverlay = document.getElementById('chat-overlay');
+            // ===================================================
+            // CHOOSE YOUR OWN ADVENTURE (SMARTER DIAGNOSTICS) LOGIC
+            // ===================================================
+            const choicesWrapper = document.getElementById('choices-wrapper');
+            const chatLog = document.getElementById('chat-log');
 
-        if (choicesWrapper) { // Only run if the chooser elements exist
-            const scrollToBottom = () => {
-                if(chatLog) chatLog.scrollTop = chatLog.scrollHeight;
-            };
+            if (choicesWrapper && chatLog) { // Only run if the chooser elements exist
+                const choicesHeading = document.getElementById('choices-heading');
+                const choiceBubbles = document.getElementById('choice-bubbles');
+                const chatOverlay = document.getElementById('chat-overlay');
 
-            const _renderChoices = (choicesArray) => {
-                if (!choiceBubbles) return;
-                choiceBubbles.innerHTML = '';
-                const isInitialChoice = choicesArray.length > 0 && (choicesArray[0].id === 'initial_error_code_path' || choicesArray[0].id === 'initial_symptom_path');
+                const scrollToBottom = () => {
+                    if(chatLog) chatLog.scrollTop = chatLog.scrollHeight;
+                };
 
-                if (choicesHeading) {
-                    choicesHeading.innerHTML = isInitialChoice ? 'Try It! 👉' : 'What\'s next?';
-                }
+                const _renderChoices = (choicesArray) => {
+                    if (!choiceBubbles) return;
+                    choiceBubbles.innerHTML = '';
 
-                choicesArray.forEach((choice, index) => {
-                    const button = document.createElement('button');
-                    button.dataset.choice = choice.id;
-                    button.innerText = choice.text;
-                    button.className = choice.id === 'reset' 
-                        ? 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105'
-                        : 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
-                    choiceBubbles.appendChild(button);
+                    if (choicesHeading) {
+                        // The heading text is now always set to "Try It! &#128073;"
+                        choicesHeading.innerHTML = 'Try It! &#128073;';
+                    }
 
-                    if (choicesArray.length === 2 && index === 0 && !isInitialChoice) {
-                        const orText = document.createElement('span');
-                        orText.className = 'text-gray-500 font-semibold';
-                        orText.innerText = 'or';
-                        choiceBubbles.appendChild(orText);
+                    choicesArray.forEach((choice, index) => {
+                        const button = document.createElement('button');
+                        button.dataset.choice = choice.id;
+                        button.innerText = choice.text;
+                        button.className = choice.id === 'reset' 
+                            ? 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105'
+                            : 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+                        choiceBubbles.appendChild(button);
+
+                        const isInitialChoice = choicesArray.length > 0 && (choicesArray[0].id === 'initial_error_code_path' || choicesArray[0].id === 'initial_symptom_path');
+                        if (choicesArray.length === 2 && index === 0 && !isInitialChoice) {
+                            const orText = document.createElement('span');
+                            orText.className = 'text-gray-500 font-semibold';
+                            orText.innerText = 'or';
+                            choiceBubbles.appendChild(orText);
+                        }
+                    });
+                };
+
+                const resetDemo = () => {
+                    if(chatLog) chatLog.innerHTML = '';
+                    if(chatOverlay) chatOverlay.classList.add('opacity-0');
+                    const initialChoices = [
+                        { text: 'Error codes', id: 'initial_error_code_path' },
+                        { text: 'Mystery noise', id: 'initial_symptom_path' }
+                    ];
+                    _renderChoices(initialChoices);
+                };
+
+                const addMessage = (text, type, delay = 0) => {
+                    return new Promise(resolve => {
+                        setTimeout(() => {
+                            const messageElement = document.createElement('div');
+                            messageElement.classList.add('chat-bubble', type);
+                            messageElement.innerHTML = text;
+                            if(chatLog) chatLog.appendChild(messageElement);
+                            setTimeout(scrollToBottom, 50);
+                            resolve();
+                        }, delay);
+                    });
+                };
+
+                const showChoices = (choices, delay = 0) => {
+                    setTimeout(() => _renderChoices(choices), delay);
+                };
+
+                const handleChoice = async (choiceId) => {
+                    if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
+                        if(choiceBubbles) choiceBubbles.innerHTML = '';
+                        if(choicesHeading) choicesHeading.innerHTML = 'Try It! &#128073;';
+                    }
+                    if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
+                        if(chatOverlay) chatOverlay.classList.remove('opacity-0');
+                    }
+
+                    // --- All cases for the adventure demo ---
+                    switch (choiceId) {
+                        case 'initial_error_code_path':
+                            await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
+                            await addMessage("Okay, I see three codes related to the advanced driver-assistance system.", 'robot-message', 1250);
+                            showChoices([{ text: 'What do these codes mean?', id: 'path1_what_mean' }, { text: 'Suggest next steps', id: 'path1_suggest_steps' }], 500);
+                            break;
+                        case 'initial_symptom_path':
+                            await addMessage("The rustomer reports a rattling noise from the rear passenger side. It gets louder with vehicle speed.<br>I verified with a road test. There’s a metallic rattle at 30–50 mph.", 'user-message');
+                            await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area.<br>- Brake dust shield<br>- Parking brake<br>- Exhaust near wheel well<br>- Shock mount points<br>- Suspension arms and links<br>- Rotor", 'robot-message', 1250);
+                            showChoices([{ text: 'Rotor noise', id: 'symptom_rotor_noise' }, { text: 'Everything normal', id: 'symptom_everything_normal' }], 500);
+                            break;
+                        case 'path1_what_mean':
+                            await addMessage("What do these codes mean?", 'user-message');
+                            await addMessage("U0235: Lost Communication With Front Controls Interface Module<br>C1A67: Forward Looking Sensor Misaligned<br>U0415: Invalid Data Received From ABS Control Module<br><br>All three codes point to an issue with the Front Radar Sensor, which is common after a minor front-end impact or bumper removal.", 'robot-message', 1250);
+                            showChoices([{ text: 'Okay, suggest next steps', id: 'path1_ok_suggest_steps' }], 500);
+                            break;
+                        case 'path1_suggest_steps':
+                        case 'path1_ok_suggest_steps':
+                            if (choiceId === 'path1_suggest_steps') await addMessage("Suggest next steps.", 'user-message');
+                            await addMessage("Visually Inspect Radar Sensor and Fascia. Locate the front radar sensor (usually behind the grille or lower front fascia). Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover). Confirm the sensor is mounted securely and sits flush.", 'robot-message', 1250);
+                            showChoices([{ text: 'Front bumper looks recent', id: 'path1_bumper_recent' }, { text: 'I see damaged wiring', id: 'path1_damaged_wiring' }, { text: 'No visible issues', id: 'path1_no_visible_issues' }], 500);
+                            break;
+                        case 'path1_bumper_recent':
+                            await addMessage("It looks like the the front bumper was recently removed.", 'user-message');
+                            await addMessage("Inspect radar sensor mounting. Verify sensor is properly seated. Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.", 'robot-message', 1250);
+                            showChoices([{ text: 'Sensor misaligment', id: 'path1_misaligned' }], 500);
+                            break;
+                        case 'path1_misaligned':
+                            await addMessage("The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.", 'user-message');
+                            await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
+                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+                            break;
+                        case 'path1_damaged_wiring':
+                            await addMessage("It looks like the wiring harness going to the sensor is frayed.", 'user-message');
+                            await addMessage("Understood. Let's test the connector before replacing the harness. You'll need a multimeter.<br><br>**Connector C241 Pinout:**<br>• Pin 1: 12V+ (Ignition On)<br>• Pin 2: Ground<br>• Pin 3: CAN High<br>• Pin 4: CAN Low", 'robot-message', 1250);
+                            showChoices([{ text: 'Wiring repaired. All clear.', id: 'path1_wiring_repaired' }], 500);
+                            break;
+                        case 'path1_wiring_repaired':
+                            await addMessage("The connector was loose... After the repair, the codes are gone. Good call.", 'user-message');
+                            await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
+                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+                            break;
+                        case 'path1_no_visible_issues':
+                            await addMessage("No issues found. Now what?", 'user-message');
+                            await addMessage("Run Radar Sensor Calibration. Connect MDI 2 and launch GDS2 or Techline Connect...", 'robot-message', 1250);
+                            showChoices([{ text: 'Success!', id: 'path1_calibration_success' }], 500);
+                            break;
+                        case 'path1_calibration_success':
+                            await addMessage("Calibration was successful. That was the issue. Error message resolved.", 'user-message');
+                            await addMessage("Calibration successful. Repair story drafted.", 'robot-message', 1250);
+                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+                            break;
+                        case 'symptom_rotor_noise':
+                            await addMessage("When I spin the rotor it rattles.", 'user-message');
+                            await addMessage("Remove rotor, inspect the parking brake assembly.", 'robot-message', 1250);
+                            showChoices([{ text: 'Found it!', id: 'symptom_found_it_rotor' }], 500);
+                            break;
+                        case 'symptom_found_it_rotor':
+                            await addMessage("Found it! There was a broken spring. I’m waiting on a hardware kit and we’ll be good to go.", 'user-message');
+                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+                            break;
+                        case 'symptom_everything_normal':
+                            await addMessage("Everything looks normal. Now what?", 'user-message');
+                            await addMessage("Use a chassis ear kit or mechanic’s stethoscope to isolate the nose...<br>Rear subframe<br>Rear seatbelt anchor", 'robot-message', 1250);
+                            showChoices([{ text: 'It’s coming from the door.', id: 'symptom_from_door' }], 500);
+                            break;
+                        case 'symptom_from_door':
+                            await addMessage("It seemed to be coming from the inside of the door...I secured it and everything is quiet on test drive.", 'user-message');
+                            await addMessage("Congratulations! Mystery solved!", 'robot-message', 1250);
+                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+                            break;
+                        case 'reset':
+                            resetDemo();
+                            break;
+                    }
+                };
+
+                choicesWrapper.addEventListener('click', (e) => {
+                    if (e.target.matches('#choice-bubbles button[data-choice]')) {
+                        handleChoice(e.target.dataset.choice);
                     }
                 });
-            };
-
-            const resetDemo = () => {
-                if(chatLog) chatLog.innerHTML = '';
-                if(chatOverlay) chatOverlay.classList.add('opacity-0');
-                const initialChoices = [
-                    { text: 'Error codes', id: 'initial_error_code_path' },
-                    { text: 'Mystery noise', id: 'initial_symptom_path' }
-                ];
-                _renderChoices(initialChoices);
-            };
-
-            const addMessage = (text, type, delay = 0) => {
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        const messageElement = document.createElement('div');
-                        messageElement.classList.add('chat-bubble', type);
-                        messageElement.innerHTML = text;
-                        if(chatLog) chatLog.appendChild(messageElement);
-                        setTimeout(scrollToBottom, 50);
-                        resolve();
-                    }, delay);
-                });
-            };
-
-            const showChoices = (choices, delay = 0) => {
-                setTimeout(() => _renderChoices(choices), delay);
-            };
-
-            const handleChoice = async (choiceId) => {
-                if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
-                    if(choiceBubbles) choiceBubbles.innerHTML = '';
-                    if(choicesHeading) choicesHeading.innerHTML = 'Try It! 👉';
-                }
-                if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
-                    if(chatOverlay) chatOverlay.classList.remove('opacity-0');
-                }
-
-                switch (choiceId) {
-                    case 'initial_error_code_path':
-                        await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
-                        await addMessage("Okay, I see three codes related to the advanced driver-assistance system.", 'robot-message', 1250);
-                        showChoices([{ text: 'What do these codes mean?', id: 'path1_what_mean' }, { text: 'Suggest next steps', id: 'path1_suggest_steps' }], 500);
-                        break;
-                    case 'initial_symptom_path':
-                        await addMessage("The rustomer reports a rattling noise from the rear passenger side. It gets louder with vehicle speed.<br>I verified with a road test. There’s a metallic rattle at 30–50 mph.", 'user-message');
-                        await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area.<br>- Brake dust shield<br>- Parking brake<br>- Exhaust near wheel well<br>- Shock mount points<br>- Suspension arms and links<br>- Rotor", 'robot-message', 1250);
-                        showChoices([{ text: 'Rotor noise', id: 'symptom_rotor_noise' }, { text: 'Everything normal', id: 'symptom_everything_normal' }], 500);
-                        break;
-                    // --- All other cases for the adventure demo ---
-                    case 'path1_what_mean':
-                        await addMessage("What do these codes mean?", 'user-message');
-                        await addMessage("U0235...U0415...All three codes point to an issue with the Front Radar Sensor...", 'robot-message', 1250);
-                        showChoices([{ text: 'Okay, suggest next steps', id: 'path1_ok_suggest_steps' }], 500);
-                        break;
-                    case 'path1_suggest_steps':
-                    case 'path1_ok_suggest_steps':
-                        if (choiceId === 'path1_suggest_steps') await addMessage("Suggest next steps.", 'user-message');
-                        await addMessage("Visually Inspect Radar Sensor and Fascia...", 'robot-message', 1250);
-                        showChoices([{ text: 'Front bumper looks recent', id: 'path1_bumper_recent' }, { text: 'I see damaged wiring', id: 'path1_damaged_wiring' }, { text: 'No visible issues', id: 'path1_no_visible_issues' }], 500);
-                        break;
-                    case 'path1_bumper_recent':
-                        await addMessage("It looks like the the front bumper was recently removed.", 'user-message');
-                        await addMessage("Inspect radar sensor mounting...", 'robot-message', 1250);
-                        showChoices([{ text: 'Sensor misaligment', id: 'path1_misaligned' }], 500);
-                        break;
-                    case 'path1_misaligned':
-                        await addMessage("The sensor was misaligned...", 'user-message');
-                        await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
-                        showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                        break;
-                    case 'path1_damaged_wiring':
-                        await addMessage("It looks like the wiring harness... is frayed.", 'user-message');
-                        await addMessage("Understood. Let's test the connector...<br><br>**Connector C241 Pinout:**...", 'robot-message', 1250);
-                        showChoices([{ text: 'Wiring repaired. All clear.', id: 'path1_wiring_repaired' }], 500);
-                        break;
-                    case 'path1_wiring_repaired':
-                        await addMessage("The connector was loose... After the repair, the codes are gone.", 'user-message');
-                        await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
-                        showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                        break;
-                    case 'path1_no_visible_issues':
-                        await addMessage("No issues found. Now what?", 'user-message');
-                        await addMessage("Run Radar Sensor Calibration...", 'robot-message', 1250);
-                        showChoices([{ text: 'Success!', id: 'path1_calibration_success' }], 500);
-                        break;
-                    case 'path1_calibration_success':
-                        await addMessage("Calibration was successful...", 'user-message');
-                        await addMessage("Calibration successful. Repair story drafted.", 'robot-message', 1250);
-                        showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                        break;
-                    case 'symptom_rotor_noise':
-                        await addMessage("When I spin the rotor it rattles.", 'user-message');
-                        await addMessage("Remove rotor, inspect the parking brake assembly.", 'robot-message', 1250);
-                        showChoices([{ text: 'Found it!', id: 'symptom_found_it_rotor' }], 500);
-                        break;
-                    case 'symptom_found_it_rotor':
-                        await addMessage("Found it! There was a broken spring...", 'user-message');
-                        showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                        break;
-                    case 'symptom_everything_normal':
-                        await addMessage("Everything looks normal. Now what?", 'user-message');
-                        await addMessage("Use a chassis ear kit or mechanic’s stethoscope...", 'robot-message', 1250);
-                        showChoices([{ text: 'It’s coming from the door.', id: 'symptom_from_door' }], 500);
-                        break;
-                    case 'symptom_from_door':
-                        await addMessage("It seemed to be coming from the inside of the door...", 'user-message');
-                        await addMessage("Congratulations! Mystery solved!", 'robot-message', 1250);
-                        showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                        break;
-                    case 'reset':
-                        resetDemo();
-                        break;
-                }
-            };
-            choicesWrapper.addEventListener('click', (e) => {
-                if (e.target.matches('#choice-bubbles button[data-choice]')) {
-                    handleChoice(e.target.dataset.choice);
-                }
-            });
-            resetDemo();
-        }
+                resetDemo();
+            }
 
 
-        // ===========================================
-        // ANIMATION LOGIC FOR OTHER FEATURES (MERGED)
-        // ===========================================
+            // ===========================================
+            // ANIMATION LOGIC FOR OTHER FEATURES (RESTORED & UPDATED)
+            // ===========================================
 
-        // --- Feature 1: 5-Second Stories Video ---
-        function setupVideoTimerSync() {
-            const storyVideoElement = document.querySelector('video[src*="update_story.mov"]');
-            const timerIframe = document.querySelector('iframe[src*="timer.html"]');
-            const writeStoryBtn = document.getElementById('writeStoryBtn');
+            // --- Feature 1: 5-Second Stories Video ---
+            function setupVideoTimerSync() {
+                const storyVideoElement = document.querySelector('video[src*="update_story.mov"]');
+                const timerIframe = document.querySelector('iframe[src*="timer.html"]');
+                const writeStoryBtn = document.getElementById('writeStoryBtn');
 
-            if (!storyVideoElement || !timerIframe || !writeStoryBtn) return;
+                if (!storyVideoElement || !timerIframe || !writeStoryBtn) return;
 
-            storyVideoElement.removeAttribute('autoplay');
-            storyVideoElement.pause();
-            storyVideoElement.currentTime = 0;
-
-            const sendTimerMessage = (message) => {
-                try {
-                    timerIframe.contentWindow.postMessage(message, '*');
-                } catch (error) {
-                    console.error('Error sending message to timer:', error);
-                }
-            };
-
-            const startSequence = () => {
+                storyVideoElement.removeAttribute('autoplay');
+                storyVideoElement.pause();
                 storyVideoElement.currentTime = 0;
-                storyVideoElement.muted = true;
-                storyVideoElement.play();
-                sendTimerMessage('startTimer');
-            };
 
-            writeStoryBtn.addEventListener('click', startSequence);
-            sendTimerMessage('resetTimer'); // Initial reset
-        }
+                const sendTimerMessage = (message) => {
+                    try {
+                        timerIframe.contentWindow.postMessage(message, '*');
+                    } catch (error) { /* Silently fail */ }
+                };
 
-        // --- Feature 2: Warranty Claims Overlays ---
-        function startWarrantyFloating() {
-            const container = document.getElementById('warrantyContainer');
-            if (!container) return;
-            // This function simply ensures the overlays are visible and uses the CSS animations.
-            // The complex positioning from the original script is simplified here to rely on CSS.
-            // You might need to add specific positioning styles back into your CSS if needed.
-            const overlays = container.querySelectorAll('.warranty-overlay');
-            overlays.forEach(overlay => {
-                overlay.style.opacity = '1';
-            });
-        }
+                const startSequence = () => {
+                    storyVideoElement.currentTime = 0;
+                    storyVideoElement.muted = true;
+                    storyVideoElement.play();
+                    sendTimerMessage('startTimer');
+                };
 
-        // --- Feature 3: Specs at Your Fingertips ---
-        function animateSpecsQuestions() {
-            const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
-            questions.forEach((question, index) => {
-                setTimeout(() => {
-                    question.style.opacity = '1';
-                    question.style.transform = 'translateY(0)';
-                }, index * 800);
-            });
-        }
+                writeStoryBtn.addEventListener('click', startSequence);
+                sendTimerMessage('resetTimer');
+            }
 
-        function hideSpecsBubbles() {
-            const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
-            allBubbles.forEach(bubble => {
-                bubble.style.opacity = '0';
-                bubble.style.transform = 'translateY(10px)';
-            });
-            // Reset question images if they were changed
-            const q1Img = document.querySelector('#q1Bubble img');
-            if(q1Img) q1Img.src = 'specs/Q1_920x412.png';
-            const q2Img = document.querySelector('#q2Bubble img');
-            if(q2Img) q2Img.src = 'specs/Q2_638xx412.png';
-            document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => q.classList.remove('tapped'));
-        }
-
-        function setupSpecsClickHandlers() {
-            const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
-            questions.forEach(question => {
-                question.addEventListener('click', function() {
-                    if(this.classList.contains('tapped')) return; // Prevent re-clicking
-
-                    const answerId = this.getAttribute('data-answer');
-                    const answerBubble = document.getElementById(answerId);
-                    if (answerBubble) {
-                        answerBubble.style.opacity = '1';
-                        answerBubble.style.transform = 'translateY(0)';
-                    }
-                    this.classList.add('tapped'); // Mark as tapped
-
-                    // Optional: Change image source to a non-glowing version
-                    const img = this.querySelector('img');
-                    if (img && img.src.includes('Q1_920x412.png')) img.src = 'specs/Q1_notap.png';
-                    if (img && img.src.includes('Q2_638xx412.png')) img.src = 'specs/Q2_notap.png';
-                });
-            });
-        }
-
-        // --- Intersection Observer to Trigger All Animations ---
-        const observerOptions = { threshold: 0.3 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const targetId = entry.target.id;
-                    if (targetId === 'warrantyContainer') startWarrantyFloating();
-                    if (targetId === 'techSpecsContainer') {
-                        animateSpecsQuestions();
-                    }
-                    // We don't unobserve, so animations can re-trigger if needed
+            // --- Feature 2: Warranty Claims Overlays ---
+            function calculateOptimalPositions() {
+                const container = document.getElementById('warrantyContainer');
+                const overlays = document.querySelectorAll('.warranty-overlay');
+                if (!container || overlays.length === 0) return;
+                const screenWidth = window.innerWidth;
+                let positions = [];
+                if (screenWidth <= 640) {
+                    positions = [ { left: '8%', top: '5%', width: '36vw', zIndex: 14 }, { right: '8%', top: '25%', width: '38vw', zIndex: 13 }, { left: '12%', top: '48%', width: '40vw', zIndex: 12 }, { right: '12%', top: '70%', width: '37vw', zIndex: 15 } ];
+                } else if (screenWidth <= 1024) {
+                    positions = [ { left: '4%', top: '8%', width: '25vw', zIndex: 14 }, { right: '4%', top: '18%', width: '27vw', zIndex: 13 }, { left: '4%', bottom: '26%', width: '29vw', zIndex: 12 }, { right: '4%', bottom: '8%', width: '26vw', zIndex: 15 } ];
                 } else {
-                     // Reset animations when they scroll out of view
-                     if (entry.target.id === 'techSpecsContainer') hideSpecsBubbles();
+                    positions = [ { left: '4%', top: '6%', width: '15vw', zIndex: 14 }, { right: '4%', top: '12%', width: '17vw', zIndex: 13 }, { left: '4%', bottom: '20%', width: '19vw', zIndex: 12 }, { right: '4%', bottom: '18%', width: '16vw', zIndex: 16 } ];
                 }
+                overlays.forEach((overlay, index) => {
+                    if (index >= positions.length) return;
+                    const pos = positions[index];
+                    Object.assign(overlay.style, { position: 'absolute', left: pos.left || 'auto', top: pos.top || 'auto', right: pos.right || 'auto', bottom: pos.bottom || 'auto', width: pos.width, zIndex: pos.zIndex, opacity: '1' });
+                });
+            }
+
+            // --- Feature 3: Specs at Your Fingertips ---
+            function animateSpecsQuestions() {
+                const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
+                questions.forEach((question, index) => {
+                    setTimeout(() => {
+                        question.style.opacity = '1';
+                        question.style.transform = 'translateY(0)';
+                    }, index * 800);
+                });
+            }
+
+            function hideSpecsBubbles() {
+                const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
+                allBubbles.forEach(bubble => {
+                    bubble.style.opacity = '0';
+                    bubble.style.transform = 'translateY(10px)';
+                });
+                document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => {
+                    q.classList.remove('tapped');
+                    const img = q.querySelector('img');
+                    if (!img) return;
+                    if (img.src.includes('notap')) {
+                       img.src = img.src.replace('_notap.png', '_920x412.png').replace('_638xx412.png','_638xx412.png');
+                    }
+                });
+            }
+
+            function setupSpecsClickHandlers() {
+                const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
+                questions.forEach(question => {
+                    question.addEventListener('click', function() {
+                        if(this.classList.contains('tapped')) return;
+                        const answerId = this.getAttribute('data-answer');
+                        const answerBubble = document.getElementById(answerId);
+                        if (answerBubble) {
+                            answerBubble.style.opacity = '1';
+                            answerBubble.style.transform = 'translateY(0)';
+                        }
+                        this.classList.add('tapped');
+                        const img = this.querySelector('img');
+                        if (!img) return;
+                        if (img.src.includes('Q1_920x412.png')) img.src = 'specs/Q1_notap.png';
+                        if (img.src.includes('Q2_638xx412.png')) img.src = 'specs/Q2_notap.png';
+                    });
+                });
+            }
+
+            // --- Intersection Observer Setup ---
+            // Observer for one-time animations (Warranty)
+            const onceObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.id === 'warrantyContainer') calculateOptimalPositions();
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            // More sensitive observer for specs that resets on scroll away
+            const specsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Check if the target is fully in the viewport
+                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                        animateSpecsQuestions();
+                    } else {
+                        // If it's not fully visible, hide the bubbles
+                        hideSpecsBubbles();
+                    }
+                });
+            }, { threshold: 1.0 }); // Set threshold to 1.0 to trigger only when fully visible
+
+            // Attach observers to their respective elements
+            const warrantyContainer = document.getElementById('warrantyContainer');
+            const techSpecsContainer = document.getElementById('techSpecsContainer');
+            if (warrantyContainer) onceObserver.observe(warrantyContainer);
+            if (techSpecsContainer) {
+                setupSpecsClickHandlers();
+                specsObserver.observe(techSpecsContainer);
+            }
+
+            // --- Initialize All Logic ---
+            setupVideoTimerSync();
+
+            // Recalculate warranty positions on window resize
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(calculateOptimalPositions, 250);
             });
-        }, observerOptions);
-
-        const warrantyContainer = document.getElementById('warrantyContainer');
-        const techSpecsContainer = document.getElementById('techSpecsContainer');
-
-        if (warrantyContainer) observer.observe(warrantyContainer);
-        if (techSpecsContainer) {
-            setupSpecsClickHandlers(); // Set up clicks regardless of view
-            observer.observe(techSpecsContainer);
-        }
-
-        // --- Initialize All Logic ---
-        setupVideoTimerSync();
-
-    });
+        });
     </script>
 </body>
 </html>
