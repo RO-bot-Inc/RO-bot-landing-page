@@ -929,40 +929,6 @@
           border-right: 0;
           margin-bottom: -1px; /* Fine-tuning */
         }
-
-        /* Shimmer animation for "Try It!" text */
-        .shimmer-text {
-          position: relative;
-          background: linear-gradient(
-            90deg,
-            #6B7280 0%,
-            #6B7280 30%,
-            #2A9D8F 50%,
-            #6B7280 70%,
-            #6B7280 100%
-          );
-          background-size: 200% 100%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmerText 2s ease-in-out infinite;
-          transform-origin: center;
-        }
-
-        @keyframes shimmerText {
-          0% {
-            background-position: -200% 0;
-            transform: scale(1);
-          }
-          50% {
-            background-position: 200% 0;
-            transform: scale(1.1);
-          }
-          100% {
-            background-position: -200% 0;
-            transform: scale(1);
-          }
-        }
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -1226,7 +1192,7 @@
                         </div>
                     </div>
                     <div id="choices-wrapper" class="pt-4 flex items-center" style="gap: 20px;">
-                        <h4 id="choices-heading" class="text-lg text-brand-dark opacity-80 leading-relaxed opacity-100 whitespace-nowrap shimmer-text">Try It! 👉</h4>
+                        <h4 id="choices-heading" class="text-lg text-brand-dark opacity-80 leading-relaxed opacity-100 whitespace-nowrap">Try It! 👉</h4>
                         <div id="choice-bubbles" class="flex justify-center items-center" style="gap: 5px;">
                             </div>
                     </div>
