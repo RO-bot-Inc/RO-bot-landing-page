@@ -1444,7 +1444,7 @@
             }
         });
     };
-
+    
     // Resets the demo to the initial state
     const resetDemo = () => {
       chatLog.innerHTML = '';
@@ -1455,7 +1455,7 @@
       ];
       _renderChoices(initialChoices);
     };
-
+    
     // Adds a message to the chat log with an optional delay
     const addMessage = (text, type, delay = 0) => {
       return new Promise(resolve => {
@@ -1580,14 +1580,14 @@
             await addMessage("Congratulations! Mystery solved!", 'robot-message', 1250);
             showChoices([{ text: 'Start Over', id: 'reset' }], 500);
             break;
-
+        
         // ---- RESET ACTION ----
         case 'reset':
           resetDemo();
           break;
       }
     };
-
+    
     // Event listener for all clicks within the choices wrapper
     choicesWrapper.addEventListener('click', (e) => {
       if (e.target.matches('#choice-bubbles button[data-choice]')) {
