@@ -933,31 +933,34 @@
         /* Shimmer animation for "Try It!" text */
         .shimmer-text {
           position: relative;
-          overflow: hidden;
-        }
-
-        .shimmer-text::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
           background: linear-gradient(
             90deg,
-            transparent,
-            rgba(42, 157, 143, 0.4),
-            transparent
+            #6B7280 0%,
+            #6B7280 30%,
+            #2A9D8F 50%,
+            #6B7280 70%,
+            #6B7280 100%
           );
-          animation: shimmer 2s infinite;
+          background-size: 200% 100%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: shimmerText 2s ease-in-out infinite;
+          transform-origin: center;
         }
 
-        @keyframes shimmer {
+        @keyframes shimmerText {
           0% {
-            left: -100%;
+            background-position: -200% 0;
+            transform: scale(1);
+          }
+          50% {
+            background-position: 200% 0;
+            transform: scale(1.1);
           }
           100% {
-            left: 100%;
+            background-position: -200% 0;
+            transform: scale(1);
           }
         }
     </style>
