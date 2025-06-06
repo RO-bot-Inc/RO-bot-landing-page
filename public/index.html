@@ -620,6 +620,74 @@
             transition: all 0.3s ease !important;
         }
 
+        /* Default positioning for warranty overlays */
+        .warranty-overlay:nth-child(1) {
+            position: absolute;
+            left: 4%;
+            top: 6%;
+            width: 15vw;
+            max-width: 240px;
+            z-index: 14;
+        }
+
+        .warranty-overlay:nth-child(2) {
+            position: absolute;
+            right: 4%;
+            top: 12%;
+            width: 17vw;
+            max-width: 260px;
+            z-index: 13;
+        }
+
+        .warranty-overlay:nth-child(3) {
+            position: absolute;
+            left: 4%;
+            bottom: 20%;
+            width: 19vw;
+            max-width: 280px;
+            z-index: 12;
+        }
+
+        .warranty-overlay:nth-child(4) {
+            position: absolute;
+            right: 4%;
+            bottom: 18%;
+            width: 16vw;
+            max-width: 250px;
+            z-index: 16;
+        }
+
+        /* Mobile responsive positioning */
+        @media (max-width: 640px) {
+            .warranty-overlay:nth-child(1) {
+                left: 8%;
+                top: 5%;
+                width: 36vw;
+                max-width: 220px;
+            }
+
+            .warranty-overlay:nth-child(2) {
+                right: 8%;
+                top: 25%;
+                width: 38vw;
+                max-width: 230px;
+            }
+
+            .warranty-overlay:nth-child(3) {
+                left: 12%;
+                top: 48%;
+                width: 40vw;
+                max-width: 240px;
+            }
+
+            .warranty-overlay:nth-child(4) {
+                right: 12%;
+                top: 70%;
+                width: 37vw;
+                max-width: 225px;
+            }
+        }
+
         /* Apply these classes to warranty overlay images */
         .warranty-overlay img {
             width: 100%;
