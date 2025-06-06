@@ -1,0 +1,103 @@
+<script>
+  // Wait for the document to be fully loaded before running the script
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // Get references to our HTML elements
+    const container = document.getElementById('diagnosticContainer');
+    const chatLog = document.getElementById('chat-log');
+    const choiceBubbles = document.getElementById('choice-bubbles');
+
+    // Function to scroll the chat log to the bottom
+    const scrollToBottom = () => {
+      chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+    // Function to reset the demo to its initial state
+    const resetDemo = () => {
+      chatLog.innerHTML = ''; // Clear the chat log
+      showChoices([{ text: 'error codes', id: 'start' }]); // Show the first button
+    };
+
+    // Function to add a new message to the chat log
+    const addMessage = (text, type, delay = 0) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const messageElement = document.createElement('div');
+          messageElement.classList.add('chat-bubble', type);
+          messageElement.innerHTML = text;
+          chatLog.appendChild(messageElement);
+          setTimeout(scrollToBottom, 50);
+          resolve();
+        }, delay);
+      });
+    };
+
+    // Function to create and display choice buttons
+    const showChoices = (choices, delay = 0) => {
+      setTimeout(() => {
+          choiceBubbles.innerHTML = '';
+          choices.forEach(choice => {
+              const button = document.createElement('button');
+              button.dataset.choice = choice.id;
+              button.innerText = choice.text;
+              if (choice.id === 'reset') {
+                button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-full text-sm shadow-md transition-transform transform hover:scale-105';
+              } else {
+                button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full text-sm shadow-md transition-transform transform hover:scale-105';
+              }
+              choiceBubbles.appendChild(button);
+          });
+      }, delay);
+    };
+
+    // This is the main function that controls the conversation
+    const handleChoice = async (choiceId) => {
+      choiceBubbles.innerHTML = '';
+
+      switch (choiceId) {
+        case 'start':
+          await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
+          await addMessage('Visually Inspect Radar Sensor and Fascia.<br>Locate the front radar sensor (usually behind the grille or lower front fascia).<br>Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).<br>Confirm the sensor is mounted securely and sits flush.', 'robot-message', 1250);
+          showChoices([
+            { text: 'Front bumper', id: 'bumper' },
+            { text: 'No issues', id: 'no_issues' }
+          ], 1250);
+          break;
+
+        case 'bumper':
+          await addMessage('It looks like the the front bumper was recently removed.', 'user-message');
+          await addMessage('Inspect radar sensor mounting. Verify sensor is properly seated.<br>Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.', 'robot-message', 1250);
+          showChoices([{ text: 'Sensor misaligment', id: 'misaligned' }], 1250);
+          break;
+
+        case 'no_issues':
+          await addMessage('No issues found. Now what?', 'user-message');
+          await addMessage('Run Radar Sensor Calibration.<br>Connect MDI 2 and launch GDS2 or Techline Connect.<br>Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn', 'robot-message', 1250);
+          showChoices([{ text: 'Success!', id: 'success' }], 1250);
+          break;
+
+        case 'misaligned':
+          await addMessage('The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.', 'user-message');
+          showChoices([{ text: 'Start Over', id: 'reset' }], 1250);
+          break;
+
+        case 'success':
+          await addMessage('Calibration was successful. That was the issue. Error message resolved.', 'user-message');
+          showChoices([{ text: 'Start Over', id: 'reset' }], 1250);
+          break;
+        
+        case 'reset':
+          resetDemo();
+          break;
+      }
+    };
+
+    // This listens for clicks inside our feature container
+    container.addEventListener('click', (e) => {
+      if (e.target.matches('#choice-bubbles button[data-choice]')) {
+        const choiceId = e.target.dataset.choice;
+        handleChoice(choiceId);
+      }
+    });
+  });
+</script>

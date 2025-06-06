@@ -1,0 +1,194 @@
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const choicesWrapper = document.getElementById('choices-wrapper');
+    const choicesHeading = document.getElementById('choices-heading');
+    const chatLog = document.getElementById('chat-log');
+    const choiceBubbles = document.getElementById('choice-bubbles');
+    const chatOverlay = document.getElementById('chat-overlay');
+
+    const scrollToBottom = () => {
+      chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+    // Internal function to render the choice buttons
+    const _renderChoices = (choicesArray) => {
+        choiceBubbles.innerHTML = '';
+        if (choicesArray.length > 0 && choicesArray[0].id !== 'initial_error_code_path' && choicesArray[0].id !== 'initial_symptom_path') {
+            choicesHeading.style.display = 'block';
+        } else {
+            choicesHeading.style.display = 'none'; // Hide "Try It!" for the main choices
+        }
+        choicesArray.forEach((choice, index) => {
+            const button = document.createElement('button');
+            button.dataset.choice = choice.id;
+            button.innerText = choice.text;
+            if (choice.id === 'reset') {
+                button.className = 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+            } else {
+                button.className = 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+            }
+            choiceBubbles.appendChild(button);
+            if (choicesArray.length === 2 && index === 0 && choice.id !== 'initial_error_code_path' && choice.id !== 'initial_symptom_path') {
+                const orText = document.createElement('span');
+                orText.className = 'text-gray-500 font-semibold';
+                orText.innerText = 'or';
+                choiceBubbles.appendChild(orText);
+            }
+        });
+    };
+    
+    // Resets the demo to the initial state
+    const resetDemo = () => {
+      chatLog.innerHTML = '';
+      chatOverlay.classList.add('opacity-0');
+      const initialChoices = [
+        { text: 'Error codes', id: 'initial_error_code_path' },
+        { text: 'Mystery noise', id: 'initial_symptom_path' }
+      ];
+      _renderChoices(initialChoices);
+    };
+    
+    // Adds a message to the chat log with an optional delay
+    const addMessage = (text, type, delay = 0) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const messageElement = document.createElement('div');
+          messageElement.classList.add('chat-bubble', type);
+          messageElement.innerHTML = text;
+          chatLog.appendChild(messageElement);
+          setTimeout(scrollToBottom, 50);
+          resolve();
+        }, delay);
+      });
+    };
+
+    // Shows choice buttons after an optional delay
+    const showChoices = (choices, delay = 0) => {
+      setTimeout(() => _renderChoices(choices), delay);
+    };
+
+    // Main logic handler for all user choices
+    const handleChoice = async (choiceId) => {
+      // Clear previous choices unless it's the very first selection
+      if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
+        choiceBubbles.innerHTML = '';
+        choicesHeading.style.display = 'none';
+      }
+
+      // Activate the dark overlay when a story path begins
+      if (choiceId === 'path1_start_error_codes' || choiceId === 'initial_symptom_path') { 
+          chatOverlay.classList.remove('opacity-0');
+      }
+
+      switch (choiceId) {
+        // ---- INITIAL PATH SELECTION ----
+        case 'initial_error_code_path':
+            showChoices([{ text: 'error codes', id: 'path1_start_error_codes' }]);
+            break;
+        case 'initial_symptom_path':
+            await addMessage("The rustomer reports a rattling noise from the rear passenger side. It gets louder with vehicle speed.<br>I verified with a road test. There’s a metallic rattle at 30–50 mph.", 'user-message');
+            await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area.<br>- Brake dust shield<br>- Parking brake<br>- Exhaust near wheel well — hangers, clearance from body, heat shields<br>- Shock mount points — wear, cracked bushings, loose fasteners<br>- Suspension arms and links<br>- Rotor", 'robot-message', 1250);
+            showChoices([
+                { text: 'Rotor noise', id: 'symptom_rotor_noise' },
+                { text: 'Everything normal', id: 'symptom_everything_normal' }
+            ], 500);
+            break;
+
+        // ---- PATH 1: DIAGNOSE BY ERROR CODE (Original Story) ----
+        case 'path1_start_error_codes':
+            await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
+            await addMessage("Okay, I see three codes related to the advanced driver-assistance system.", 'robot-message', 1250);
+            showChoices([
+                { text: 'What do these codes mean?', id: 'path1_what_mean' },
+                { text: 'Suggest next steps', id: 'path1_suggest_steps' }
+            ], 500);
+            break;
+        // ... (The entire original "Error Code" path logic remains unchanged here)
+        case 'path1_what_mean':
+            await addMessage("What do these codes mean?", 'user-message');
+            await addMessage("U0235: Lost Communication...<br>C1A67: Forward Looking Sensor Misaligned...<br>...common after a minor front-end impact or bumper removal.", 'robot-message', 1250);
+            showChoices([{ text: 'Okay, suggest next steps', id: 'path1_ok_suggest_steps' }], 500);
+            break;
+        case 'path1_suggest_steps':
+        case 'path1_ok_suggest_steps':
+            if (choiceId === 'path1_suggest_steps') await addMessage("Suggest next steps.", 'user-message');
+            await addMessage("Visually Inspect Radar Sensor and Fascia... Confirm the sensor is mounted securely and sits flush.", 'robot-message', 1250);
+            showChoices([
+                { text: 'Front bumper looks recent', id: 'path1_bumper_recent' },
+                { text: 'I see damaged wiring', id: 'path1_damaged_wiring' },
+                { text: 'No visible issues', id: 'path1_no_visible_issues' }
+            ], 500);
+            break;
+        // ... (Rest of Path 1's sub-branches)
+        case 'path1_bumper_recent':
+            await addMessage("It looks like the the front bumper was recently removed.", 'user-message');
+            await addMessage("Inspect radar sensor mounting... The sensor must be aimed straight ahead and level to the ground.", 'robot-message', 1250);
+            showChoices([{ text: 'Sensor misaligment', id: 'path1_misaligned' }], 500);
+            break;
+        case 'path1_misaligned':
+            await addMessage("The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.", 'user-message');
+            await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
+            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+            break;
+        case 'path1_damaged_wiring':
+            await addMessage("It looks like the wiring harness going to the sensor is frayed.", 'user-message');
+            await addMessage("Understood. Let's test the connector...<br><br>**Connector C241 Pinout:**...", 'robot-message', 1250);
+            showChoices([{ text: 'Wiring repaired. All clear.', id: 'path1_wiring_repaired' }], 500);
+            break;
+        case 'path1_wiring_repaired':
+            await addMessage("The connector was loose... After the repair, the codes are gone. Good call.", 'user-message');
+            await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
+            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+            break;
+        case 'path1_no_visible_issues':
+            await addMessage("No issues found. Now what?", 'user-message');
+            await addMessage("Run Radar Sensor Calibration... Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn", 'robot-message', 1250);
+            showChoices([{ text: 'Success!', id: 'path1_calibration_success' }], 500);
+            break;
+        case 'path1_calibration_success':
+            await addMessage("Calibration was successful. That was the issue. Error message resolved.", 'user-message');
+            await addMessage("Calibration successful. Repair story drafted.", 'robot-message', 1250);
+            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+            break;
+
+
+        // ---- PATH 2: DIAGNOSE BY SYMPTOM (New "Mystery Noise" Story) ----
+        case 'symptom_rotor_noise':
+            await addMessage("When I spin the rotor it rattles.", 'user-message');
+            await addMessage("Remove rotor, inspect the parking brake assembly.", 'robot-message', 1250);
+            showChoices([{ text: 'Found it!', id: 'symptom_found_it_rotor' }], 500);
+            break;
+        case 'symptom_found_it_rotor':
+            await addMessage("Found it! There was a broken spring. I’m waiting on a hardware kit and we’ll be good to go.", 'user-message');
+            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+            break;
+        case 'symptom_everything_normal':
+            await addMessage("Everything looks normal. Now what?", 'user-message');
+            await addMessage("Use a chassis ear kit or mechanic’s stethoscope to isolate the nose... Check these areas...", 'robot-message', 1250);
+            showChoices([{ text: 'It’s coming from the door.', id: 'symptom_from_door' }], 500);
+            break;
+        case 'symptom_from_door':
+            await addMessage("It seemed to be coming from the inside of the door... I secured it and everything is quiet on test drive.", 'user-message');
+            await addMessage("Congratulations! Mystery solved!", 'robot-message', 1250);
+            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
+            break;
+        
+        // ---- RESET ACTION ----
+        case 'reset':
+          resetDemo();
+          break;
+      }
+    };
+    
+    // Event listener for all clicks within the choices wrapper
+    choicesWrapper.addEventListener('click', (e) => {
+      if (e.target.matches('#choice-bubbles button[data-choice]')) {
+        const choiceId = e.target.dataset.choice;
+        handleChoice(choiceId);
+      }
+    });
+
+    // Kick off the demo!
+    resetDemo();
+  });
+</script>
