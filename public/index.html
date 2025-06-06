@@ -1456,11 +1456,20 @@
       chatLog.innerHTML = '';
       choicesHeading.classList.add('opacity-0');
       chatOverlay.classList.add('opacity-0');
+      
+      // Clear any existing choices first
+      choiceBubbles.innerHTML = '';
+      
+      // Initial choices for the two main paths
       const initialChoices = [
         { text: 'Diagnose by Error Code', id: 'initial_error_code_path' },
         { text: 'Diagnose by Symptom', id: 'initial_symptom_path' }
       ];
-      _renderChoices(initialChoices); // Directly render initial choices
+      
+      // Render choices with a small delay to ensure DOM is ready
+      setTimeout(() => {
+        _renderChoices(initialChoices);
+      }, 100);
     };
 
     const addMessage = (text, type, delay = 0) => {
