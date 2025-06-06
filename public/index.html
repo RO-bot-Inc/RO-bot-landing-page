@@ -932,17 +932,66 @@
 
         /* Shimmer animation for "Try It!" text */
         #choices-heading {
-          position: relative; /* Required for the pseudo-element positioning */
-          overflow: hidden;   /* Hides the shimmer when it's outside the text box */
-          color: #4A5568;    /* Sets the base text color (Tailwind gray-600) */
-          -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
-          -webkit-mask-size: 200%;
-          animation: shimmer 2.5s infinite;
+          position: relative;
+          overflow: visible; /* Allow scaling characters to show */
+          color: #374151;
+          font-weight: 600;
+          display: inline-block;
         }
 
-        @keyframes shimmer {
-          0% { -webkit-mask-position: 150%; }
-          100% { -webkit-mask-position: -50%; }
+        #choices-heading span {
+          display: inline-block;
+          position: relative;
+          color: #374151;
+          background: linear-gradient(
+            -75deg,
+            #374151 20%,
+            #D4AF37 40%,
+            #FFD700 50%,
+            #FFA500 60%,
+            #374151 80%
+          );
+          background-size: 300% 100%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: dramaticCharacterShimmer 2.2s ease-in-out infinite;
+          text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+          transform-origin: center;
+        }
+
+        /* Stagger the animation for each character */
+        #choices-heading span:nth-child(1) { animation-delay: 0s; }
+        #choices-heading span:nth-child(2) { animation-delay: 0.1s; }
+        #choices-heading span:nth-child(3) { animation-delay: 0.2s; }
+        #choices-heading span:nth-child(4) { animation-delay: 0.3s; }
+        #choices-heading span:nth-child(5) { animation-delay: 0.4s; }
+        #choices-heading span:nth-child(6) { animation-delay: 0.5s; }
+        #choices-heading span:nth-child(7) { animation-delay: 0.6s; }
+        #choices-heading span:nth-child(8) { animation-delay: 0.7s; }
+        #choices-heading span:nth-child(9) { animation-delay: 0.8s; }
+
+        @keyframes dramaticCharacterShimmer {
+          0% { 
+            background-position: 300% 0;
+            transform: scale(1);
+            filter: brightness(1);
+          }
+          30% {
+            background-position: 100% 0;
+            transform: scale(1.3);
+            filter: brightness(1.4) drop-shadow(0 0 8px #FFD700);
+          }
+          70% { 
+            background-position: -100% 0;
+            transform: scale(1.3);
+            filter: brightness(1.4) drop-shadow(0 0 8px #FFD700);
+          }
+          100% { 
+            background-position: -300% 0;
+            transform: scale(1);
+            filter: brightness(1);
+          }
         }
     </style>
 </head>
@@ -1397,6 +1446,7 @@
                     </p>
                     <p class="text-brand-silver text-sm">
                         hello@ro-bot.io
+                    </io
                     </p>
                 </div>
 
@@ -1574,7 +1624,7 @@
                         if(choicesHeading) if (choicesHeading) {
                             const text = 'Try It! 👉';
                             // Split text into characters, wrap each in a span for animation
-                            choicesHeading.innerHTML = 'Try It! &#128073;';
+                            choicesHeading.innerHTML = text.split('').map(char => `<span>${char}</span>`).join('');
                         }
                     }
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
