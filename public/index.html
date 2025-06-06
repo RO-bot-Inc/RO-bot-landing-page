@@ -1500,6 +1500,8 @@
                     if(chatLog) chatLog.scrollTop = chatLog.scrollHeight;
                 };
 
+                let animationStopped = false;
+
                 const _renderChoices = (choicesArray) => {
                     if (!choiceBubbles) return;
                     choiceBubbles.innerHTML = '';
@@ -1518,10 +1520,14 @@
 
                             choicesHeading.innerHTML = textSpans + emojiSpan;
 
-                            // Apply the staggered animation delay to each span
+                            // Apply the staggered animation delay to each span only if animation hasn't been stopped
                             const chars = choicesHeading.querySelectorAll('span');
                             chars.forEach((char, index) => {
-                                char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
+                                if (!animationStopped) {
+                                    char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
+                                } else {
+                                    char.style.animation = 'none';
+                                }
                             });
                         }
 
@@ -1547,6 +1553,7 @@
                 const resetDemo = () => {
                     if(chatLog) chatLog.innerHTML = '';
                     if(chatOverlay) chatOverlay.classList.add('opacity-0');
+                    animationStopped = false; // Reset the animation flag
                     const initialChoices = [
                         { text: 'Error codes', id: 'initial_error_code_path' },
                         { text: 'Mystery noise', id: 'initial_symptom_path' }
@@ -1598,7 +1605,8 @@
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
                         if(chatOverlay) chatOverlay.classList.remove('opacity-0');
                         
-                        // Stop the wave animation by removing it from all spans
+                        // Stop the wave animation by removing it from all spans and set flag
+                        animationStopped = true;
                         if(choicesHeading) {
                             const chars = choicesHeading.querySelectorAll('span');
                             chars.forEach((char) => {
