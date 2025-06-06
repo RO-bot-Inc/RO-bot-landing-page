@@ -1636,7 +1636,7 @@
                         case 'path1_ok_suggest_steps':
                             if (choiceId === 'path1_suggest_steps') await addMessage("Suggest next steps.", 'user-message');
                             await addMessage("Visually Inspect Radar Sensor and Fascia. Locate the front radar sensor (usually behind the grille or lower front fascia). Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover). Confirm the sensor is mounted securely and sits flush.", 'robot-message', 1250);
-                            showChoices([{ text: 'Front bumper looks recent', id: 'path1_bumper_recent' }, { text: 'I see damaged wiring', id: 'path1_damaged_wiring' }, { text: 'No visible issues', id: 'path1_no_visible_issues' }], 500);
+                            showChoices([{ text: 'Bumper', id: 'path1_bumper_recent' }, { text: 'I see damaged wiring', id: 'path1_damaged_wiring' }, { text: 'No visible issues', id: 'path1_no_visible_issues' }], 500);
                             break;
                         case 'path1_bumper_recent':
                             await addMessage("It looks like the the front bumper was recently removed.", 'user-message');
