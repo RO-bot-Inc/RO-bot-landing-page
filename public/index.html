@@ -981,7 +981,25 @@
                     <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px;" id="heroWaveformVideo">
                         <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
                     </video>
+                    /* Wave animation for "Try It!" text */
+                    #choices-heading span {
+                      display: inline-block; /* Allows transforms on characters */
+                      position: relative;
+                      color: #4A5568; /* Tailwind gray-600 */
+                      animation: wave 3s ease-in-out infinite;
+                    }
 
+                    @keyframes wave {
+                      0%, 100% {
+                        transform: scale(1);
+                        color: #4A5568; /* Normal color */
+                      }
+                      50% {
+                        transform: scale(1.4);
+                        color: #D4AF37; /* Gold color */
+                      }
+                    }
+                    
                     <style>
                         /* Mobile positioning - push waveform lower to avoid headline overlap */
                         @media (max-width: 639px) {
@@ -1538,7 +1556,13 @@
                 const handleChoice = async (choiceId) => {
                     if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
                         if(choiceBubbles) choiceBubbles.innerHTML = '';
-                        if(choicesHeading) choicesHeading.innerHTML = 'Try It! &#128073;';
+                        if(choicesHeading) if (choicesHeading) {
+                            const text = 'Try It! 👉';
+                            // Split text into characters, wrap each in a span for animation
+                            choicesHeading.innerHTML = text.split('').map((char, index) => 
+                                `<span style="animation-delay: ${index * 0.1}s;">${char === ' ' ? '&nbsp;' : char}</span>`
+                            ).join('');
+                        }
                     }
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
                         if(chatOverlay) chatOverlay.classList.remove('opacity-0');
