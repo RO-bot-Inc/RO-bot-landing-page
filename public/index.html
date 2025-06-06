@@ -1597,6 +1597,14 @@
                     }
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
                         if(chatOverlay) chatOverlay.classList.remove('opacity-0');
+                        
+                        // Stop the wave animation by removing it from all spans
+                        if(choicesHeading) {
+                            const chars = choicesHeading.querySelectorAll('span');
+                            chars.forEach((char) => {
+                                char.style.animation = 'none';
+                            });
+                        }
                     }
 
                     // --- All cases for the adventure demo ---
