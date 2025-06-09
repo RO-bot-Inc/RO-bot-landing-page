@@ -1404,6 +1404,14 @@ video {
     width: 50%;
   }
 
+  .md\:w-1\/4 {
+    width: 25%;
+  }
+
+  .md\:w-2\/5 {
+    width: 40%;
+  }
+
   .md\:max-w-2xl {
     max-width: 42rem;
   }
