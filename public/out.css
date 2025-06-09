@@ -755,6 +755,10 @@ video {
   width: 6rem;
 }
 
+.w-1\/2 {
+  width: 50%;
+}
+
 .w-32 {
   width: 8rem;
 }
@@ -771,20 +775,20 @@ video {
   max-width: 80rem;
 }
 
-.max-w-md {
-  max-width: 28rem;
+.max-w-xs {
+  max-width: 20rem;
 }
 
 .max-w-4xl {
   max-width: 56rem;
 }
 
-.max-w-xs {
-  max-width: 20rem;
-}
-
 .max-w-2xl {
   max-width: 42rem;
+}
+
+.max-w-md {
+  max-width: 28rem;
 }
 
 .flex-shrink-0 {
@@ -1429,8 +1433,8 @@ video {
     width: 50%;
   }
 
-  .lg\:max-w-lg {
-    max-width: 32rem;
+  .lg\:max-w-sm {
+    max-width: 24rem;
   }
 
   .lg\:max-w-3xl {
