@@ -142,7 +142,7 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
-            padding: 2.5rem;
+            padding: 2.5rem 2rem;
             backdrop-filter: blur(15px);
             transition: all 0.3s ease;
             display: flex;
@@ -952,7 +952,8 @@
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
-</body><!-- Navigation Bar -->
+
+    <!-- Navigation Bar -->
     <nav class="sticky top-0 z-50 bg-white shadow-sm"> <!-- Sticky, White BG, Small Shadow -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- Container -->
             <div class="flex items-center justify-between h-16 sm:h-20"> <!-- Flex layout, vertical align center, space elements apart, height -->
@@ -1038,103 +1039,38 @@
 
             </div>
         </section>
-
-            <!-- Increased top padding above RO-bot text -->
-            <div class="container mx-auto px-4 mt-8 sm:mt-12 md:mt-16">
-                <div class="w-full text-center">
-                    <p class="max-w-4xl mx-auto text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-relaxed text-brand-dark opacity-90">
-                        <strong>RO-bot is the world's first AI co-pilot for auto repair technicians.</strong>
-                    </p>
-                    <div class="max-w-2xl mx-auto mt-8 text-lg sm:text-xl leading-relaxed text-brand-dark opacity-90 text-left">
-                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Voice-first interactions</div>
-                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Pristine repair stories in under 5 seconds</div>
-                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Diagnostic guidance and technical specifications at your fingertips</div>
-                        <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Claims documentation that increases warranty revenue</div>
-                    </div>
-                    <div class="mt-8 mb-16 sm:mb-20 md:mb-24" style="margin-top: calc(2rem + 11px);">
-                         <a href="#waitlist-form"
-                           class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
-                            Book Your Demo
-                         </a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <!-- Problem Statistics Section -->
-    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); margin-top: 10px;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight max-w-4xl mx-auto">
-                    Your Current Repair & Warranty Process Is Bleeding Money
-                </h2>
-                <p class="text-lg sm:text-xl lg:text-2xl max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed" style="color: #64758B;">
-                    Every minute on a screen is a minute not fixing cars.<br>
-                    Every rushed or incomplete story is a warranty denial waiting to happen.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Story Writing Time Card -->
-                <div class="problem-card group">
-                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        45+ minutes
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Technicians spend 45+ minutes daily on story writing</h3>
-                    <div class="text-white leading-relaxed text-left w-full">
-                        That's <strong class="text-white text-2xl">$40,000+</strong> in lost revenue per tech, per year
-                    </div>
-                </div>
-
-                <!-- Non-Billable Time Card -->
-                <div class="problem-card group">
-                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        35% of the day
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Technicians spend up to 35% of their day on non-billable computer and admin work</h3>
-                    <p class="text-white leading-relaxed">
-                        "Transit time" between vehicle and computer can eat <strong class="text-white text-xl">10–30 minutes per day</strong> of a tech's time
-                    </p>
-                </div>
-
-                <!-- Warranty Denials Card -->
-                <div class="problem-card group">
-                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        12% denied
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">12% of warranty claims get denied, costing the average dealership $16,500 a month</h3>
-                    <p class="text-white leading-relaxed">
-                        <strong class="text-white text-xl">#1 cause</strong> of claim rejections: incomplete or poorly written repair stories
-                    </p>
-                </div>
-
-                <!-- Claims Process Card -->
-                <div class="problem-card group">
-                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                        15% less profit
-                    </div>
-                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">The claims process erodes 15% of warranty gross profit</h3>
-                    <p class="text-white leading-relaxed">
-                        The time it take to process a single claim has nearly <strong class="text-white text-xl">doubled</strong> since 2020
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section id="features" class="py-16 sm:py-24 bg-white"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
-            <div class="flex justify-center mb-12">
-                <img src="head only.svg" alt="RO-bot head logo" class="w-24 h-24"/>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+                <!-- Left phone image -->
+                <div class="w-full md:w-1/5 flex justify-center">
+                    <img src="/product3d/left-phone-only.png" alt="RO-bot Dashboard Interface" class="w-1/2 md:w-full max-w-xs object-contain"/>
+                </div>
+
+                <!-- Center text content -->
+                <div class="w-full md:w-3/5 flex flex-col justify-center text-center px-4">
+                    <h2 class="font-montserrat font-bold text-brand-dark tracking-tight">
+                        <span class="text-4xl sm:text-5xl lg:text-6xl">Meet RO-bot</span><br>
+                        <span class="text-2xl sm:text-3xl lg:text-4xl font-extralight">Your AI Co-Pilot for Smarter Repairs & Smoother Warranty Claims</span>
+                    </h2>
+                    <p class="text-lg text-brand-dark opacity-90 leading-relaxed mt-4">
+                        Techs that use RO-bot work smarter. They stay more focused, and crank through more jobs in a day without sacrificing quality. They earn more, boost shop productivity, and improve warranty claim approval rates.
+                    </p>
+                    <div class="mt-12">
+                        <a href="#waitlist-form"
+                           class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange font-semibold px-6 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
+                            Book Your Demo
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right phone image -->
+                <div class="w-full md:w-1/5 flex justify-center">
+                    <img src="/product3d/right-phone-only.png" alt="RO-bot Chat Interface" class="w-1/2 md:w-full max-w-xs object-contain"/>
+                </div>
             </div>
-            <div class="max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto text-center mb-16"> <h2 class="font-montserrat font-bold text-brand-dark tracking-tight">
-            <span class="text-4xl sm:text-5xl lg:text-6xl">Meet RO-bot</span><br><br>
-            <span class="text-2xl sm:text-3xl lg:text-4xl font-extralight">AI Co-Pilot for Smarter Repairs & Smoother Warranty Claims</span>
-        </h2>
-        <p class="mt-6 text-lg text-brand-dark opacity-90 leading-relaxed">
-            Techs that use RO-bot work smarter. They stay more focused, and crank through more jobs in a day without sacrificing quality. They earn more, boost shop productivity, and improve warranty claim approval rates.
-        </p>
-        </div>
 
         <div class="space-y-24">
 
@@ -1145,7 +1081,7 @@
                     <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
                     <video muted playsinline class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain rounded-lg" style="z-index: 1; mix-blend-mode: screen; opacity: 0.7; width: 60vw; max-width: 400px; height: auto; max-height: 60vh;" src="story/update_story.mov"></video>
                     <iframe src="story/timer.html" class="absolute top-4 right-4 w-32 h-20 border-0 rounded-lg bg-transparent" style="z-index: 2;" scrolling="no"></iframe>
-                    <button id="writeStoryBtn" class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105" style="z-index: 3; background-color: #54B3FB; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;">
+                    <button id="writeStoryBtn" class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105" style="z-index: 3; background-color: #3C82F6; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;">
                         Write Story
                     </button>
                 </div>
@@ -1228,108 +1164,199 @@
         </div>
     </section>
 
-    <!-- Company Logos Section -->
-    <section class="py-16 bg-white">
+    
+
+    <!-- Problem Statistics Section -->
+    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-2xl font-montserrat font-semibold text-brand-dark mb-4">
-                    Trusted by technicians working on every major brand
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight max-w-4xl mx-auto">
+                    Your Current Repair & Warranty Process Is Bleeding Money
                 </h2>
+                <p class="text-lg sm:text-xl lg:text-2xl max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed" style="color: #64758B;">
+                    Every minute on a screen is a minute not fixing cars.<br>
+                    Every rushed or incomplete story is a warranty denial waiting to happen.
+                </p>
             </div>
 
-            <div class="logo-carousel-container">
-                <div class="logo-carousel-track">
-                    <!-- First set of logos -->
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Story Writing Time Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        45+ minutes
                     </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Technicians spend 45+ minutes daily on story writing</h3>
+                    <div class="text-white leading-relaxed text-left w-full">
+                        That's <strong class="text-white text-2xl">$40,000+</strong> in lost revenue per tech, per year
                     </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
-                    </div>
+                </div>
 
-                    <!-- Duplicate set for seamless loop -->
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+                <!-- Non-Billable Time Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        35% of the day
                     </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">Technicians spend up to 35% of their day on non-billable computer and admin work</h3>
+                    <p class="text-white leading-relaxed">
+                        "Transit time" between vehicle and computer can eat <strong class="text-white text-xl">10–30 minutes per day</strong> of a tech's time
+                    </p>
+                </div>
+
+                <!-- Warranty Denials Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        12% denied
                     </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">12% of warranty claims get denied, costing the average dealership $16,500 a month</h3>
+                    <p class="text-white leading-relaxed">
+                        <strong class="text-white text-xl">#1 cause</strong> of claim rejections: incomplete or poorly written repair stories
+                    </p>
+                </div>
+
+                <!-- Claims Process Card -->
+                <div class="problem-card group">
+                    <div class="text-5xl lg:text-6xl font-montserrat font-bold mb-6" style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        15% less profit
                     </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
-                    </div>
-                    <div class="logo-carousel-slide">
-                        <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                    <h3 class="text-xl font-montserrat font-semibold text-white mb-4">The claims process erodes 15% of warranty gross profit</h3>
+                    <p class="text-white leading-relaxed">
+                        The time it take to process a single claim has nearly <strong class="text-white text-xl">doubled</strong> since 2020
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RO-bot Description Section -->
+    <section class="py-16 sm:py-24 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="w-full text-center">
+                <p class="max-w-4xl mx-auto text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-relaxed text-brand-dark opacity-90">
+                    <strong>RO-bot is the world's first AI co-pilot for auto repair technicians.</strong>
+                </p>
+                <div class="max-w-2xl mx-auto mt-8 text-lg sm:text-xl leading-relaxed text-brand-dark opacity-90 text-left">
+                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Voice-first interactions</div>
+                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Pristine repair stories in under 5 seconds</div>
+                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Diagnostics and technical specifications at your fingertips</div>
+                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Higher claims acceptance rates and warranty revenue</div>
+                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Happier technicians, making more money</div>
+                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Fewer OEM warranty headaches</div>
+                </div>
+                <div class="mt-8 mb-16 sm:mb-20 md:mb-24" style="margin-top: calc(2rem + 11px);">
+                     <a href="#waitlist-form"
+                       class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
+                        Book Your Demo
+                     </a>
+                </div>
+
+                <!-- Horizontal Divider -->
+                <div class="flex justify-center mb-12">
+                    <div class="h-0.5 bg-gray-400" style="width: 800px;"></div>
+                </div>
+
+                <!-- Company Logos Section -->
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl font-montserrat font-semibold text-brand-dark mb-8">
+                        Trusted by technicians working on every major brand
+                    </h2>
+                </div>
+
+                <div class="logo-carousel-container mb-16">
+                    <div class="logo-carousel-track">
+                        <!-- First set of logos -->
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                        </div>
+
+                        <!-- Duplicate set for seamless loop -->
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
+                        </div>
+                        <div class="logo-carousel-slide">
+                            <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
 
     <!-- CTA Section -->
     <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
@@ -1423,7 +1450,8 @@
                         © 2025 RO-bot. All rights reserved.
                     </div>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Facebook">
+                        <a```html
+href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Facebook">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
                             </svg>
@@ -1537,7 +1565,18 @@
                         button.innerText = choice.text;
                         button.className = choice.id === 'reset' 
                             ? 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105'
-                            : 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+                            : 'text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+                        
+                        if (choice.id !== 'reset') {
+                            button.style.backgroundColor = '#3C82F6';
+                            button.addEventListener('mouseenter', () => {
+                                button.style.backgroundColor = '#2563EB';
+                            });
+                            button.addEventListener('mouseleave', () => {
+                                button.style.backgroundColor = '#3C82F6';
+                            });
+                        }
+                        
                         choiceBubbles.appendChild(button);
 
                         const isInitialChoice = choicesArray.length > 0 && (choicesArray[0].id === 'initial_error_code_path' || choicesArray[0].id === 'initial_symptom_path');
@@ -1604,7 +1643,7 @@
                     }
                     if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
                         if(chatOverlay) chatOverlay.classList.remove('opacity-0');
-                        
+
                         // Stop the wave animation by removing it from all spans and set flag
                         animationStopped = true;
                         if(choicesHeading) {
@@ -1825,7 +1864,7 @@
                         hideSpecsBubbles();
                     }
                 });
-            }, { threshold: 1.0 }); // Set threshold to 1.0 to trigger only when fully visible
+            }, { threshold: 1.0 }); // Set threshold to trigger only when fully visible
 
             // Attach observers to their respective elements
             const warrantyContainer = document.getElementById('warrantyContainer');
@@ -1872,5 +1911,6 @@
             setupDemoButtonScrolling();
         });
     </script>
+
 </body>
 </html>
