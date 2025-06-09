@@ -739,6 +739,14 @@ video {
   height: 425px;
 }
 
+.h-0\.5 {
+  height: 0.125rem;
+}
+
+.h-0 {
+  height: 0px;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -761,6 +769,10 @@ video {
 
 .w-32 {
   width: 8rem;
+}
+
+.w-24 {
+  width: 6rem;
 }
 
 .w-5 {
@@ -966,6 +978,11 @@ video {
 
 .bg-transparent {
   background-color: transparent;
+}
+
+.bg-gray-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
 }
 
 .bg-brand-dark {
