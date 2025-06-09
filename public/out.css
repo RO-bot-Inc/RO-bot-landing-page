@@ -755,8 +755,8 @@ video {
   width: 6rem;
 }
 
-.w-1\/2 {
-  width: 50%;
+.w-3\/4 {
+  width: 75%;
 }
 
 .w-32 {
@@ -775,12 +775,16 @@ video {
   max-width: 80rem;
 }
 
-.max-w-xs {
-  max-width: 20rem;
+.max-w-sm {
+  max-width: 24rem;
 }
 
 .max-w-4xl {
   max-width: 56rem;
+}
+
+.max-w-xs {
+  max-width: 20rem;
 }
 
 .max-w-2xl {
@@ -1433,8 +1437,12 @@ video {
     width: 50%;
   }
 
-  .lg\:max-w-sm {
-    max-width: 24rem;
+  .lg\:w-full {
+    width: 100%;
+  }
+
+  .lg\:max-w-md {
+    max-width: 28rem;
   }
 
   .lg\:max-w-3xl {
@@ -1445,8 +1453,8 @@ video {
     flex-direction: row;
   }
 
-  .lg\:justify-start {
-    justify-content: flex-start;
+  .lg\:justify-end {
+    justify-content: flex-end;
   }
 
   .lg\:px-8 {
