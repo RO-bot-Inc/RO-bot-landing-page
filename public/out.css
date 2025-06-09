@@ -1388,12 +1388,16 @@ video {
     margin-bottom: 6rem;
   }
 
-  .md\:w-1\/4 {
-    width: 25%;
+  .md\:w-1\/5 {
+    width: 20%;
   }
 
   .md\:w-full {
     width: 100%;
+  }
+
+  .md\:w-3\/5 {
+    width: 60%;
   }
 
   .md\:w-1\/2 {
