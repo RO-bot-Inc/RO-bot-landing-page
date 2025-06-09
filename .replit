@@ -41,6 +41,10 @@ start = "typescript-language-server --stdio"
 localPort = 3000
 externalPort = 80
 
+[[ports]]
+localPort = 5000
+externalPort = 5000
+
 [deployment]
 deploymentTarget = "cloudrun"
 run = ["sh", "-c", "node index.js"]
