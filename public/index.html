@@ -1080,7 +1080,7 @@
                     <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
                     <video muted playsinline class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain rounded-lg" style="z-index: 1; mix-blend-mode: screen; opacity: 0.7; width: 60vw; max-width: 400px; height: auto; max-height: 60vh;" src="story/update_story.mov"></video>
                     <iframe src="story/timer.html" class="absolute top-4 right-4 w-32 h-20 border-0 rounded-lg bg-transparent" style="z-index: 2;" scrolling="no"></iframe>
-                    <button id="writeStoryBtn" class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105" style="z-index: 3; background-color: #54B3FB; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;">
+                    <button id="writeStoryBtn" class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105" style="z-index: 3; background-color: #3C82F6; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;">
                         Write Story
                     </button>
                 </div>
@@ -1557,7 +1557,18 @@ href="#" class="text-brand-silver hover:text-white transition duration-150" aria
                         button.innerText = choice.text;
                         button.className = choice.id === 'reset' 
                             ? 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105'
-                            : 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+                            : 'text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
+                        
+                        if (choice.id !== 'reset') {
+                            button.style.backgroundColor = '#3C82F6';
+                            button.addEventListener('mouseenter', () => {
+                                button.style.backgroundColor = '#2563EB';
+                            });
+                            button.addEventListener('mouseleave', () => {
+                                button.style.backgroundColor = '#3C82F6';
+                            });
+                        }
+                        
                         choiceBubbles.appendChild(button);
 
                         const isInitialChoice = choicesArray.length > 0 && (choicesArray[0].id === 'initial_error_code_path' || choicesArray[0].id === 'initial_symptom_path');
