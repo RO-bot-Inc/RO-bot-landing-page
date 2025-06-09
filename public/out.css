@@ -1454,6 +1454,14 @@ video {
     padding-right: 2rem;
   }
 
+  .lg\:pr-8 {
+    padding-right: 2rem;
+  }
+
+  .lg\:pl-8 {
+    padding-left: 2rem;
+  }
+
   .lg\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
