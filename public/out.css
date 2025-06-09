@@ -751,8 +751,8 @@ video {
   width: 100%;
 }
 
-.w-3\/5 {
-  width: 60%;
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-32 {
@@ -1014,6 +1014,11 @@ video {
 .py-16 {
   padding-top: 4rem;
   padding-bottom: 4rem;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .px-8 {
@@ -1388,16 +1393,16 @@ video {
     margin-bottom: 6rem;
   }
 
-  .md\:w-1\/5 {
-    width: 20%;
+  .md\:w-1\/6 {
+    width: 16.666667%;
   }
 
   .md\:w-full {
     width: 100%;
   }
 
-  .md\:w-3\/5 {
-    width: 60%;
+  .md\:w-4\/6 {
+    width: 66.666667%;
   }
 
   .md\:w-1\/2 {
