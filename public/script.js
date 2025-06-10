@@ -108,7 +108,7 @@ function initializeTextAnimation() {
 
     const sentences = [
         "The engine compartment looks pretty clean overall. No leaks that I can see.",
-        "Ok there's a bit of corrosion around the battery terminals.",
+        "A bit of corrosion around the battery terminals.",
         "Looks like a cracked hose right here."
     ];
 
