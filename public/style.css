@@ -617,6 +617,10 @@ video {
   z-index: 10;
 }
 
+.z-20 {
+  z-index: 20;
+}
+
 .order-1 {
   order: 1;
 }
