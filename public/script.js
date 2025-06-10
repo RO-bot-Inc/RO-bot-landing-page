@@ -35,9 +35,71 @@ function createVoiceVisualizer() {
     voiceVisualizerRoot.appendChild(container);
 }
 
+// Waveform Animation Function
+function initializeWaveformAnimation() {
+    const waveformContainer = document.getElementById('waveform');
+    if (!waveformContainer) return;
+
+    const numberOfBars = 40;
+    const bars = [];
+    const targetHeights = new Array(numberOfBars).fill(0.05);
+    const visualHeights = new Array(numberOfBars).fill(0.05);
+    const smoothingFactor = 0.1;
+    let isSpeaking = true;
+
+    for (let i = 0; i < numberOfBars; i++) {
+        const bar = document.createElement('div');
+        bar.classList.add('waveform-bar');
+        waveformContainer.appendChild(bar);
+        bars.push(bar);
+    }
+
+    function manageSpeechCycle() {
+        isSpeaking = !isSpeaking;
+        const duration = isSpeaking ? 2000 + Math.random() * 2000 : 1000 + Math.random() * 1500;
+        setTimeout(manageSpeechCycle, duration);
+    }
+
+    let frameCount = 0;
+    function animateWave() {
+        if (frameCount % 4 === 0) {
+            for (let i = 0; i < numberOfBars - 1; i++) {
+                targetHeights[i] = targetHeights[i + 1];
+            }
+            let newHeight;
+            if (isSpeaking && Math.random() > 0.7) { 
+                newHeight = 0.4 + Math.random() * 0.6; 
+            } else {
+                newHeight = 0.05 + Math.random() * 0.1;
+            }
+            targetHeights[numberOfBars - 1] = newHeight;
+        }
+        for (let i = 0; i < numberOfBars; i++) {
+            visualHeights[i] += (targetHeights[i] - visualHeights[i]) * smoothingFactor;
+            bars[i].style.transform = `scaleY(${visualHeights[i]})`;
+        }
+        frameCount++;
+        requestAnimationFrame(animateWave);
+    }
+
+    animateWave();
+    manageSpeechCycle();
+
+    const text1 = document.getElementById('text1');
+    const text2 = document.getElementById('text2');
+    const text3 = document.getElementById('text3');
+
+    if(text1) setTimeout(() => { text1.classList.add('visible'); }, 1000);
+    if(text2) setTimeout(() => { text2.classList.add('visible'); }, 2500);
+    if(text3) setTimeout(() => { text3.classList.add('visible'); }, 4000);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Create Voice Visualizer
     createVoiceVisualizer();
+    
+    // Initialize waveform animation
+    initializeWaveformAnimation();
     // Only disable autoplay on 5-Second Stories video, leave other videos alone
     const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
     const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
