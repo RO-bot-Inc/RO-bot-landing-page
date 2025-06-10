@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Container for the waveform visualizer */
+.waveform-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 4rem; 
+    width: 14rem; 
+}
+/* Individual bars of the waveform */
+.waveform-bar {
+    width: 3px;
+    height: 100%;
+    margin: 0 2px;
+    background-color: white;
+    border-radius: 9999px;
+    transform-origin: center; 
+    transform: scaleY(0.05); 
+}
+/* Classes for the staggered text animation */
+.fade-in-text {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+.visible {
+    opacity: 1;
+}
