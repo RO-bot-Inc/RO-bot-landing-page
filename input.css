@@ -7,17 +7,17 @@
     display: flex;
     justify-content: center;
     align-items: center; 
-    height: 4rem; 
-    width: 14rem;
+    height: 8rem; 
+    width: 28rem;
     background-color: #3C82F6;
-    border-radius: 0.75rem;
-    padding: 1rem;
+    border-radius: 1.5rem;
+    padding: 2rem;
 }
 /* Individual bars of the waveform */
 .waveform-bar {
-    width: 3px;
+    width: 6px;
     height: 100%;
-    margin: 0 2px;
+    margin: 0 4px;
     background-color: white;
     border-radius: 9999px;
     transform-origin: center; 
