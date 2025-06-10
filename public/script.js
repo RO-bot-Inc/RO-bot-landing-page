@@ -7,7 +7,7 @@ const VoiceVisualizer = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            zIndex: 20,
+            zIndex: 30,
             width: '200px',
             height: '4px',
             display: 'flex',
