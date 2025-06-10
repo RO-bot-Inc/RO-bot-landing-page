@@ -1,4 +1,38 @@
+// Voice Visualizer React Component
+const VoiceVisualizer = () => {
+    return React.createElement('div', {
+        className: 'voice-visualizer-container',
+        style: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 20,
+            width: '200px',
+            height: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }
+    }, React.createElement('div', {
+        className: 'voice-line',
+        style: {
+            width: '100%',
+            height: '2px',
+            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent)',
+            borderRadius: '2px',
+            animation: 'voicePulse 2s ease-in-out infinite',
+            boxShadow: '0 0 8px rgba(255, 255, 255, 0.3)'
+        }
+    }));
+};
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Render Voice Visualizer
+    const voiceVisualizerRoot = document.getElementById('voice-visualizer-root');
+    if (voiceVisualizerRoot && typeof React !== 'undefined' && typeof ReactDOM !== 'undefined') {
+        ReactDOM.render(React.createElement(VoiceVisualizer), voiceVisualizerRoot);
+    }
     // Only disable autoplay on 5-Second Stories video, leave other videos alone
     const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
     const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
