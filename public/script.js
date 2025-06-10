@@ -107,9 +107,9 @@ function initializeTextAnimation() {
     if (!textContainer) return;
 
     const sentences = [
-        "Looks pretty clean overall, no leaks that I can see",
-        "There's a bit of corrosion around the battery terminals",
-        "Looks like a cracked hose right here..."
+        "The engine compartment looks pretty clean overall. No leaks that I can see.",
+        "Ok there's a bit of corrosion around the battery terminals.",
+        "Looks like a cracked hose right here."
     ];
 
     let currentSentenceIndex = 0;
