@@ -5,13 +5,24 @@
 /* Container for the waveform visualizer */
 .waveform-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center; 
-    height: 8rem; 
+    height: 10rem; 
     width: 28rem;
     background-color: #3C82F6;
     border-radius: 1.5rem;
     padding: 2rem;
+    gap: 1rem;
+}
+
+/* Waveform bars container */
+.waveform-bars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
 }
 /* Individual bars of the waveform */
 .waveform-bar {

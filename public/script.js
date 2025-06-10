@@ -40,6 +40,11 @@ function initializeWaveformAnimation() {
     const waveformContainer = document.getElementById('waveform');
     if (!waveformContainer) return;
 
+    // Create waveform bars container
+    const waveformBars = document.createElement('div');
+    waveformBars.classList.add('waveform-bars');
+    waveformContainer.appendChild(waveformBars);
+
     const numberOfBars = 40;
     const bars = [];
     const targetHeights = new Array(numberOfBars).fill(0.05);
@@ -50,7 +55,7 @@ function initializeWaveformAnimation() {
     for (let i = 0; i < numberOfBars; i++) {
         const bar = document.createElement('div');
         bar.classList.add('waveform-bar');
-        waveformContainer.appendChild(bar);
+        waveformBars.appendChild(bar);
         bars.push(bar);
     }
 
@@ -85,13 +90,55 @@ function initializeWaveformAnimation() {
     animateWave();
     manageSpeechCycle();
 
-    const text1 = document.getElementById('text1');
-    const text2 = document.getElementById('text2');
-    const text3 = document.getElementById('text3');
+    // Initialize text animation
+    initializeTextAnimation();
+}
 
-    if(text1) setTimeout(() => { text1.classList.add('visible'); }, 1000);
-    if(text2) setTimeout(() => { text2.classList.add('visible'); }, 2500);
-    if(text3) setTimeout(() => { text3.classList.add('visible'); }, 4000);
+// Text Animation Function
+function initializeTextAnimation() {
+    const textContainer = document.getElementById('animated-text-container');
+    if (!textContainer) return;
+
+    const sentences = [
+        "Looks pretty clean overall, no leaks that I can see",
+        "There's a bit of corrosion around the battery terminals",
+        "Looks like a cracked hose right here..."
+    ];
+
+    let currentSentenceIndex = 0;
+    let currentWordIndex = 0;
+    let isAnimating = false;
+
+    function animateNextWord() {
+        if (isAnimating) return;
+        
+        const currentSentence = sentences[currentSentenceIndex];
+        const words = currentSentence.split(' ');
+        
+        if (currentWordIndex < words.length) {
+            // Add the next word
+            const currentText = words.slice(0, currentWordIndex + 1).join(' ');
+            textContainer.textContent = currentText;
+            currentWordIndex++;
+            
+            // Continue with next word after 200ms
+            setTimeout(animateNextWord, 200);
+        } else {
+            // Sentence complete, pause for 2 seconds
+            setTimeout(() => {
+                // Move to next sentence
+                currentSentenceIndex = (currentSentenceIndex + 1) % sentences.length;
+                currentWordIndex = 0;
+                textContainer.textContent = '';
+                
+                // Start next sentence after clearing
+                setTimeout(animateNextWord, 300);
+            }, 2000);
+        }
+    }
+
+    // Start the animation
+    setTimeout(animateNextWord, 1000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
