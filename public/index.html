@@ -1060,44 +1060,14 @@
                         </div>
                     </div>
 
-                    <!-- Voice visualizer component -->
-                    <div id="voice-visualizer-root"></div>
-                    {/* Waveform video at center - HIDDEN */}
-                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px; display: none;" id="heroWaveformVideo">
-                        <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
-                    </video>
+                    <div class="mt-12 flex flex-col items-center space-y-4">
+                        <!-- The Visualizer Container -->
+                        <div id="waveform" class="waveform-container"></div>
 
-                    <style>
-                        /* Mobile positioning - push waveform lower to avoid headline overlap */
-                        @media (max-width: 639px) {
-                            #heroWaveformVideo {
-                                top: 55% !important;
-                            }
-                        }
-
-                        @media (min-width: 640px) {
-                            #heroWaveformVideo {
-                                top: 58% !important;
-                                width: 518.4px !important;
-                                height: 172.8px !important;
-                            }
-                        }
-                    </style>
-
-                    <!-- Invisible boundary around waveform video -->
-                    <div class="waveform-boundary"></div>
-
-                    <!-- Animated text overlay with boundary-aware positioning -->
-                    <div class="absolute inset-0 z-30 pointer-events-none">
-                        <div class="absolute text-white text-2xl font-bold floating-text">
-                            Looks pretty clean overall, no leaks that I can see
-                        </div>
-                        <div class="absolute text-white text-2xl font-bold floating-text">
-                            There's a bit of corrosion<br>around the battery terminals
-                        </div>
-                        <div class="absolute text-white text-2xl font-bold floating-text">
-                            Looks like a cracked<br>hose right here…
-                        </div>
+                        <!-- Transcription Text Elements -->
+                        <p id="text1" class="fade-in-text text-lg md:text-xl">Looks pretty clean overall, no leaks that I can see</p>
+                        <p id="text2" class="fade-in-text text-lg md:text-xl">There's a bit of corrosion around the battery terminals</p>
+                        <p id="text3" class="fade-in-text text-lg md:text-xl">Looks like a cracked hose right here...</p>
                     </div>
                 </div>
 
