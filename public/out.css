@@ -1236,14 +1236,14 @@ video {
 .waveform-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   height: 10rem;
   width: 28rem;
   background-color: #3C82F6;
   border-radius: 1.5rem;
   padding: 1.5rem;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 /* Waveform bars container */
