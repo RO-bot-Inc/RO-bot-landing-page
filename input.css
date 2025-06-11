@@ -5,25 +5,37 @@
 /* Waveform Container Styles */
 .waveform-container {
     width: 400px;
-    height: 100px;
-    background: rgba(42, 157, 143, 0.9);
+    height: 160px;
+    background: #3C82F6;
     border-radius: 12px;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 1.5rem;
+    gap: 1rem;
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(42, 157, 143, 0.3);
+    box-shadow: 0 8px 32px rgba(60, 130, 246, 0.3);
     overflow: hidden;
 }
 
+.waveform-bars {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
+    flex-shrink: 0;
+}
+
 .waveform-bar {
-    width: 3px;
-    height: 60px;
-    background: linear-gradient(to top, #ffffff, #e6f7ff);
-    margin: 0 1px;
-    border-radius: 2px;
-    transform-origin: bottom;
+    width: 6px;
+    height: 100%;
+    background-color: white;
+    margin: 0 4px;
+    border-radius: 9999px;
+    transform-origin: center;
+    transform: scaleY(0.05);
     transition: transform 0.1s ease-out;
-    box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
 }

@@ -20,11 +20,16 @@ function initializeHeroAnimation() {
     ];
     let currentSentenceIndex = 0;
 
-    // Generate the bar elements
+    // Create a container for the waveform bars
+    const barsContainer = document.createElement('div');
+    barsContainer.classList.add('waveform-bars');
+    waveformContainer.insertBefore(barsContainer, transcriptionContainer);
+
+    // Generate the bar elements inside the bars container
     for (let i = 0; i < numberOfBars; i++) {
         const bar = document.createElement('div');
         bar.classList.add('waveform-bar');
-        waveformContainer.appendChild(bar);
+        barsContainer.appendChild(bar);
         bars.push(bar);
     }
 
