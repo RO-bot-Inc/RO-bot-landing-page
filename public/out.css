@@ -508,17 +508,9 @@ video {
   width: 100%;
 }
 
-.\!container {
-  width: 100% !important;
-}
-
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
-  }
-
-  .\!container {
-    max-width: 640px !important;
   }
 }
 
@@ -526,19 +518,11 @@ video {
   .container {
     max-width: 768px;
   }
-
-  .\!container {
-    max-width: 768px !important;
-  }
 }
 
 @media (min-width: 1024px) {
   .container {
     max-width: 1024px;
-  }
-
-  .\!container {
-    max-width: 1024px !important;
   }
 }
 
@@ -546,19 +530,11 @@ video {
   .container {
     max-width: 1280px;
   }
-
-  .\!container {
-    max-width: 1280px !important;
-  }
 }
 
 @media (min-width: 1536px) {
   .container {
     max-width: 1536px;
-  }
-
-  .\!container {
-    max-width: 1536px !important;
   }
 }
 
@@ -807,10 +783,6 @@ video {
 
 .resize-none {
   resize: none;
-}
-
-.resize {
-  resize: both;
 }
 
 .grid-cols-1 {
@@ -1224,6 +1196,34 @@ video {
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Waveform Container Styles */
+
+.waveform-container {
+  width: 400px;
+  height: 100px;
+  background: rgba(42, 157, 143, 0.9);
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(42, 157, 143, 0.3);
+  overflow: hidden;
+}
+
+.waveform-bar {
+  width: 3px;
+  height: 60px;
+  background: linear-gradient(to top, #ffffff, #e6f7ff);
+  margin: 0 1px;
+  border-radius: 2px;
+  transform-origin: bottom;
+  transition: transform 0.1s ease-out;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
 }
 
 .hover\:scale-105:hover {
