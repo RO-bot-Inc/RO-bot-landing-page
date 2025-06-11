@@ -1260,14 +1260,15 @@ video {
 /* Individual bars of the waveform */
 
 .waveform-bar {
-  width: 6px;
-  height: 100%;
-  margin: 0 4px;
-  background-color: white;
-  border-radius: 9999px;
-  transform-origin: center;
-  transform: scaleY(0.05);
+    width: 3px;
+    height: 100%;
+    margin: 0 2px;
+    background-color: white;
+    border-radius: 9999px;
+    transform-origin: center; 
+    transform: scaleY(0.05); 
 }
+
 
 /* Classes for the staggered text animation */
 
