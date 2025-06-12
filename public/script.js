@@ -743,8 +743,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Video-Timer Sync - Automatic Trigger Version
     function setupVideoTimerSync() {
-        // More flexible video targeting
-        const storyVideo = document.querySelector('video[src*="update_story.mov"], video[src*="update story.mov"], video source[src*="update_story.mov"], video source[src*="update story.mov"]');
+        // More flexible video targeting with multiple fallbacks
+        let storyVideo = document.querySelector('video[src*="update_story.mov"], video[src*="update story.mov"], video source[src*="update_story.mov"], video source[src*="update story.mov"]');
+        
+        // Fallback: look for any video in the story section
+        if (!storyVideo) {
+            storyVideo = document.querySelector('#features video, .story video');
+        }
+        
+        // Fallback: look for any video element near timer iframe
+        if (!storyVideo) {
+            const timerContainer = document.querySelector('iframe[src*="timer.html"]')?.closest('.relative');
+            if (timerContainer) {
+                storyVideo = timerContainer.querySelector('video');
+            }
+        }
         const allVideos = document.querySelectorAll('video');
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
         
@@ -765,6 +778,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Story video found:', actualVideo);
         console.log('Timer iframe found:', timerIframe);
+        console.log('All videos on page:', document.querySelectorAll('video'));
+        console.log('All iframes on page:', document.querySelectorAll('iframe'));
 
         if (!actualVideo || !timerIframe) {
             // Stop retrying after a reasonable number of attempts
@@ -848,6 +863,16 @@ document.addEventListener('DOMContentLoaded', function() {
         window.videoTimerControls = {
             start: startSequence
         };
+
+        // Add button click handler as backup
+        const writeStoryBtn = document.getElementById('writeStoryBtn');
+        if (writeStoryBtn) {
+            writeStoryBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Button clicked, starting sequence');
+                startSequence();
+            });
+        }
     }
 
     // Auto-trigger story animation when feature image enters viewport
