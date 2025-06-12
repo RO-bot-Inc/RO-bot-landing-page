@@ -1240,7 +1240,7 @@ video {
   align-items: center;
   height: 10rem;
   width: 28rem;
-  background-color: #3C82F6;
+  background-color: rgba(60, 130, 246, 0.7);
   border-radius: 1.5rem;
   padding: 1.5rem;
   gap: 1rem;
