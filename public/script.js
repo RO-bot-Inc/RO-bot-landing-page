@@ -49,8 +49,27 @@ function initializeHeroAnimation() {
             targetHeights[numberOfBars - 1] = 0.01 + Math.random() * 0.05;
         }
 
+        // Propagate heights with natural variation
         for (let i = 0; i < numberOfBars - 1; i++) {
             targetHeights[i] = targetHeights[i + 1];
+            
+            // Add variation to bars that are more than 5 positions apart from each other
+            if (i % 6 === 0 && isSpeaking) {
+                // Every 6th bar gets additional random variation during speech
+                const variationFactor = 0.3 + Math.random() * 0.4; // 0.3 to 0.7 multiplier
+                targetHeights[i] *= variationFactor;
+                
+                // Occasionally make some bars significantly different
+                if (Math.random() > 0.8) {
+                    targetHeights[i] = 0.2 + Math.random() * 0.8;
+                }
+            }
+            
+            // Add subtle micro-variations to create more natural speech patterns
+            if (isSpeaking && Math.random() > 0.7) {
+                const microVariation = 0.9 + Math.random() * 0.2; // ±10% variation
+                targetHeights[i] *= microVariation;
+            }
         }
 
         for (let i = 0; i < numberOfBars; i++) {
