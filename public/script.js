@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 4. A2 appears after 0.5 second pause (from Q2)
         setTimeout(() => {
             a2Bubble.style.opacity = '1';
-            a2Bubble.style.transform = 'translateY(0)';
+            a2Bubble.style.transform = 'translateY(0) scale(1.3)';
             a2Bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         }, 2500);
     }
