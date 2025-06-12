@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function() {
         warrantyObserver.observe(warrantyContainer);
     }
 
-    // Video-Timer Sync - Simple Button Triggered Version
+    // Video-Timer Sync - Automatic Trigger Version
     function setupVideoTimerSync() {
         // More flexible video targeting
         const storyVideo = document.querySelector('video[src*="update_story.mov"], video[src*="update story.mov"], video source[src*="update_story.mov"], video source[src*="update story.mov"]');
@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Start sequence: play video and timer simultaneously immediately
         function startSequence() {
-            console.log('Button pressed, starting immediately');
+            console.log('Auto-triggering animation sequence');
             console.log('Video element:', actualVideo);
 
             // Set flag to allow this video to play
@@ -841,10 +841,67 @@ document.addEventListener('DOMContentLoaded', function() {
         actualVideo.removeAttribute('autoplay');
         sendTimerMessage('resetTimer');
 
-        // Expose controls globally for button access
+        // Setup Intersection Observer for automatic triggering
+        setupStoryAutoTrigger(startSequence);
+
+        // Expose controls globally for button access (fallback)
         window.videoTimerControls = {
             start: startSequence
         };
+    }
+
+    // Auto-trigger story animation when feature image enters viewport
+    function setupStoryAutoTrigger(startSequence) {
+        // Find the feature image in the story section
+        const featureImages = document.querySelectorAll('img[src*="typing"], img[src*="story"], .story img, #story img');
+        let targetImage = null;
+
+        // Look for the typing.png image or any image in the story section
+        for (let img of featureImages) {
+            if (img.src.includes('typing.png') || img.closest('.relative') && img.closest('.relative').querySelector('iframe[src*="timer.html"]')) {
+                targetImage = img;
+                break;
+            }
+        }
+
+        // Fallback: look for any image in a container with timer iframe
+        if (!targetImage) {
+            const timerContainer = document.querySelector('iframe[src*="timer.html"]')?.closest('.relative');
+            if (timerContainer) {
+                targetImage = timerContainer.querySelector('img');
+            }
+        }
+
+        console.log('Target feature image found:', targetImage);
+
+        if (!targetImage) {
+            console.log('Feature image not found for auto-trigger');
+            return;
+        }
+
+        let hasTriggered = false; // Prevent multiple triggers
+
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && !hasTriggered) {
+                    // Image is fully visible in viewport
+                    console.log('Feature image fully visible, triggering animation in 0.5 seconds');
+                    hasTriggered = true;
+                    
+                    setTimeout(() => {
+                        startSequence();
+                    }, 500); // 0.5 second delay
+                    
+                    // Unobserve after triggering to prevent repeated triggers
+                    storyObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 1.0, // Trigger only when 100% visible
+            rootMargin: '0px'
+        });
+
+        storyObserver.observe(targetImage);
     }
 
     // Initialize video-timer sync only
