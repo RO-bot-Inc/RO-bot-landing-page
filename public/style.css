@@ -562,10 +562,6 @@ video {
   }
 }
 
-.pointer-events-none {
-  pointer-events: none;
-}
-
 .visible {
   visibility: visible;
 }
@@ -597,12 +593,12 @@ video {
   top: 0px;
 }
 
-.left-1\/2 {
-  left: 50%;
-}
-
 .top-1\/2 {
   top: 50%;
+}
+
+.left-1\/2 {
+  left: 50%;
 }
 
 .top-4 {
@@ -611,10 +607,6 @@ video {
 
 .right-4 {
   right: 1rem;
-}
-
-.isolate {
-  isolation: isolate;
 }
 
 .z-50 {
@@ -627,10 +619,6 @@ video {
 
 .z-20 {
   z-index: 20;
-}
-
-.z-30 {
-  z-index: 30;
 }
 
 .order-1 {
@@ -689,10 +677,6 @@ video {
 
 .mt-3 {
   margin-top: 0.75rem;
-}
-
-.block {
-  display: block;
 }
 
 .inline-block {
@@ -986,11 +970,6 @@ video {
   background-color: rgb(15 17 8 / var(--tw-bg-opacity));
 }
 
-.bg-gray-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-}
-
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1021,6 +1000,11 @@ video {
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 .py-16 {
@@ -1081,14 +1065,14 @@ video {
   line-height: 2.5rem;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-3xl {
@@ -1197,12 +1181,6 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow-md {
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
 .blur {
   --tw-blur: blur(8px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1241,12 +1219,6 @@ video {
   transition-duration: 150ms;
 }
 
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 .duration-150 {
   transition-duration: 150ms;
 }
@@ -1259,6 +1231,74 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Container for the waveform visualizer */
+
+.waveform-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 11rem;
+  width: 28rem;
+  background-color: rgba(60, 130, 246, 0.4);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  gap: 1rem;
+}
+
+/* Waveform bars container */
+
+.waveform-bars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* Individual bars of the waveform */
+
+.waveform-bar {
+  width: 6px;
+  height: 100%;
+  margin: 0 4px;
+  background-color: white;
+  border-radius: 9999px;
+  transform-origin: center;
+  transform: scaleY(0.05);
+}
+
+/* Make bars thicker and more opaque on mobile */
+
+@media (max-width: 640px) {
+  .waveform-bar {
+    width: 8px;
+    margin: 0 3px;
+    opacity: 1;
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Ensure bars are fully opaque on all screen sizes */
+
+@media (min-width: 641px) {
+  .waveform-bar {
+    opacity: 1;
+  }
+}
+
+/* Classes for the staggered text animation */
+
+.fade-in-text {
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.visible {
+  opacity: 1;
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
@@ -1268,11 +1308,6 @@ video {
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-gray-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-opacity-90:hover {

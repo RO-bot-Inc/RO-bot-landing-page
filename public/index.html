@@ -847,6 +847,64 @@
             display: none !important;
         }
 
+        /* Voice Visualizer Animation */
+        @keyframes voicePulse {
+            0%, 100% {
+                height: 2px;
+                opacity: 0.6;
+                transform: scaleX(0.8);
+            }
+            25% {
+                height: 3px;
+                opacity: 0.8;
+                transform: scaleX(0.9);
+            }
+            50% {
+                height: 4px;
+                opacity: 1;
+                transform: scaleX(1);
+            }
+            75% {
+                height: 3px;
+                opacity: 0.8;
+                transform: scaleX(0.95);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .voice-visualizer-container {
+                width: 150px !important;
+                height: 3px !important;
+            }
+            
+            .voice-line {
+                height: 1.5px !important;
+            }
+            
+            @keyframes voicePulse {
+                0%, 100% {
+                    height: 1.5px;
+                    opacity: 0.6;
+                    transform: scaleX(0.8);
+                }
+                25% {
+                    height: 2px;
+                    opacity: 0.8;
+                    transform: scaleX(0.9);
+                }
+                50% {
+                    height: 3px;
+                    opacity: 1;
+                    transform: scaleX(1);
+                }
+                75% {
+                    height: 2.5px;
+                    opacity: 0.8;
+                    transform: scaleX(0.95);
+                }
+            }
+        }
+
         /* Custom styles for the interactive chat demo */
         #chat-log {
           display: flex;
@@ -949,6 +1007,9 @@
             text-shadow: none;
           }
         }
+
+        
+
     </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
@@ -996,43 +1057,15 @@
                                     Fewer audits, <span style="background: linear-gradient(45deg, #FF4500, #FF8C69); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">more warranty revenue<span style="background: linear-gradient(45deg, #FF4500, #FF8C69); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">.</span></span>
                                 </h1>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Waveform video at center -->
-                    <video autoplay loop muted playsinline class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="top: 45%; mix-blend-mode: screen; width: 300px; height: 100px;" id="heroWaveformVideo">
-                        <source src="/hero/waveform-white-on-black.mp4" type="video/mp4">
-                    </video>
-
-                    <style>
-                        /* Mobile positioning - push waveform lower to avoid headline overlap */
-                        @media (max-width: 639px) {
-                            #heroWaveformVideo {
-                                top: 55% !important;
-                            }
-                        }
-
-                        @media (min-width: 640px) {
-                            #heroWaveformVideo {
-                                top: 58% !important;
-                                width: 518.4px !important;
-                                height: 172.8px !important;
-                            }
-                        }
-                    </style>
-
-                    <!-- Invisible boundary around waveform video -->
-                    <div class="waveform-boundary"></div>
-
-                    <!-- Animated text overlay with boundary-aware positioning -->
-                    <div class="absolute inset-0 z-30 pointer-events-none">
-                        <div class="absolute text-white text-2xl font-bold floating-text">
-                            Looks pretty clean overall, no leaks that I can see
-                        </div>
-                        <div class="absolute text-white text-2xl font-bold floating-text">
-                            There's a bit of corrosion<br>around the battery terminals
-                        </div>
-                        <div class="absolute text-white text-2xl font-bold floating-text">
-                            Looks like a cracked<br>hose right here…
+                            
+                            <!-- The Visualizer Container - moved inside hero overlay -->
+                            <div id="waveform" class="waveform-container z-20 mb-8">
+                                <!-- Waveform bars will be inserted here by JavaScript -->
+                                <!-- Animated Text Container - displays inside blue waveform container -->
+                                <div id="animated-text-container" class="text-white text-center text-lg font-bold min-h-6 flex items-center justify-center px-2 flex-shrink-0">
+                                    <!-- Text will be dynamically inserted here -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1164,7 +1197,7 @@
         </div>
     </section>
 
-    
+
 
     <!-- Problem Statistics Section -->
     <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
@@ -1450,8 +1483,7 @@
                         © 2025 RO-bot. All rights reserved.
                     </div>
                     <div class="flex space-x-4">
-                        <a```html
-href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Facebook">
+                        <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Facebook">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
                             </svg>
@@ -1510,407 +1542,8 @@ href="#" class="text-brand-silver hover:text-white transition duration-150" aria
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // ===================================================
-            // CHOOSE YOUR OWN ADVENTURE (SMARTER DIAGNOSTICS) LOGIC
-            // ===================================================
-            const choicesWrapper = document.getElementById('choices-wrapper');
-            const chatLog = document.getElementById('chat-log');
-
-            if (choicesWrapper && chatLog) { // Only run if the chooser elements exist
-                const choicesHeading = document.getElementById('choices-heading');
-                const choiceBubbles = document.getElementById('choice-bubbles');
-                const chatOverlay = document.getElementById('chat-overlay');
-
-                const scrollToBottom = () => {
-                    if(chatLog) chatLog.scrollTop = chatLog.scrollHeight;
-                };
-
-                let animationStopped = false;
-
-                const _renderChoices = (choicesArray) => {
-                    if (!choiceBubbles) return;
-                    choiceBubbles.innerHTML = '';
-
-                    if(choicesHeading) {
-                            const text = 'Try It ';
-                            const emoji = '👉';
-
-                            // Create individual spans for the text characters
-                            const textSpans = text.split('').map((char) => 
-                                `<span>${char === ' ' ? '&nbsp;' : char}</span>`
-                            ).join('');
-
-                            // Create a separate span for the emoji
-                            const emojiSpan = `<span>${emoji}</span>`;
-
-                            choicesHeading.innerHTML = textSpans + emojiSpan;
-
-                            // Apply the staggered animation delay to each span only if animation hasn't been stopped
-                            const chars = choicesHeading.querySelectorAll('span');
-                            chars.forEach((char, index) => {
-                                if (!animationStopped) {
-                                    char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
-                                } else {
-                                    char.style.animation = 'none';
-                                }
-                            });
-                        }
-
-                    choicesArray.forEach((choice, index) => {
-                        const button = document.createElement('button');
-                        button.dataset.choice = choice.id;
-                        button.innerText = choice.text;
-                        button.className = choice.id === 'reset' 
-                            ? 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105'
-                            : 'text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
-                        
-                        if (choice.id !== 'reset') {
-                            button.style.backgroundColor = '#3C82F6';
-                            button.addEventListener('mouseenter', () => {
-                                button.style.backgroundColor = '#2563EB';
-                            });
-                            button.addEventListener('mouseleave', () => {
-                                button.style.backgroundColor = '#3C82F6';
-                            });
-                        }
-                        
-                        choiceBubbles.appendChild(button);
-
-                        const isInitialChoice = choicesArray.length > 0 && (choicesArray[0].id === 'initial_error_code_path' || choicesArray[0].id === 'initial_symptom_path');
-                        if (choicesArray.length === 2 && index === 0 && !isInitialChoice) {
-                            const orText = document.createElement('span');
-                            orText.className = 'text-gray-500 font-semibold';
-                            orText.innerText = 'or';
-                            choiceBubbles.appendChild(orText);
-                        }
-                    });
-                };
-
-                const resetDemo = () => {
-                    if(chatLog) chatLog.innerHTML = '';
-                    if(chatOverlay) chatOverlay.classList.add('opacity-0');
-                    animationStopped = false; // Reset the animation flag
-                    const initialChoices = [
-                        { text: 'Error codes', id: 'initial_error_code_path' },
-                        { text: 'Mystery noise', id: 'initial_symptom_path' }
-                    ];
-                    _renderChoices(initialChoices);
-                };
-
-                const addMessage = (text, type, delay = 0) => {
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            const messageElement = document.createElement('div');
-                            messageElement.classList.add('chat-bubble', type);
-                            messageElement.innerHTML = text;
-                            if(chatLog) chatLog.appendChild(messageElement);
-                            setTimeout(scrollToBottom, 50);
-                            resolve();
-                        }, delay);
-                    });
-                };
-
-                const showChoices = (choices, delay = 0) => {
-                    setTimeout(() => _renderChoices(choices), delay);
-                };
-
-                const handleChoice = async (choiceId) => {
-                    if (choiceId !== 'initial_error_code_path' && choiceId !== 'initial_symptom_path') {
-                        if(choiceBubbles) choiceBubbles.innerHTML = '';
-                        if(choicesHeading) {
-                            const text = 'Try It ';
-                            const emoji = '👉';
-
-                            // Create individual spans for the text characters
-                            const textSpans = text.split('').map((char) => 
-                                `<span>${char === ' ' ? '&nbsp;' : char}</span>`
-                            ).join('');
-
-                            // Create a separate span for the emoji
-                            const emojiSpan = `<span>${emoji}</span>`;
-
-                            choicesHeading.innerHTML = textSpans + emojiSpan;
-
-                            // Apply the staggered animation delay to each span
-                            const chars = choicesHeading.querySelectorAll('span');
-                            chars.forEach((char, index) => {
-                                char.style.animationDelay = `${index * 0.08}s`; // 80ms delay between each character
-                            });
-                        }
-                    }
-                    if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
-                        if(chatOverlay) chatOverlay.classList.remove('opacity-0');
-
-                        // Stop the wave animation by removing it from all spans and set flag
-                        animationStopped = true;
-                        if(choicesHeading) {
-                            const chars = choicesHeading.querySelectorAll('span');
-                            chars.forEach((char) => {
-                                char.style.animation = 'none';
-                            });
-                        }
-                    }
-
-                    // --- All cases for the adventure demo ---
-                    switch (choiceId) {
-                        case 'initial_error_code_path':
-                            await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
-                            await addMessage("Okay, I see three codes related to the advanced driver-assistance system.", 'robot-message', 1250);
-                            showChoices([{ text: 'What do these codes mean?', id: 'path1_what_mean' }, { text: 'Suggest next steps', id: 'path1_suggest_steps' }], 500);
-                            break;
-                        case 'initial_symptom_path':
-                            await addMessage("The rustomer reports a rattling noise from the rear passenger side. It gets louder with vehicle speed.<br>I verified with a road test. There’s a metallic rattle at 30–50 mph.", 'user-message');
-                            await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area.<br>- Brake dust shield<br>- Parking brake<br>- Exhaust near wheel well<br>- Shock mount points<br>- Suspension arms and links<br>- Rotor", 'robot-message', 1250);
-                            showChoices([{ text: 'Rotor noise', id: 'symptom_rotor_noise' }, { text: 'Everything normal', id: 'symptom_everything_normal' }], 500);
-                            break;
-                        case 'path1_what_mean':
-                            await addMessage("What do these codes mean?", 'user-message');
-                            await addMessage("U0235: Lost Communication With Front Controls Interface Module<br>C1A67: Forward Looking Sensor Misaligned<br>U0415: Invalid Data Received From ABS Control Module<br><br>All three codes point to an issue with the Front Radar Sensor, which is common after a minor front-end impact or bumper removal.", 'robot-message', 1250);
-                            showChoices([{ text: 'Okay, suggest next steps', id: 'path1_ok_suggest_steps' }], 500);
-                            break;
-                        case 'path1_suggest_steps':
-                        case 'path1_ok_suggest_steps':
-                            if (choiceId === 'path1_suggest_steps') await addMessage("Suggest next steps.", 'user-message');
-                            await addMessage("Visually Inspect Radar Sensor and Fascia. Locate the front radar sensor (usually behind the grille or lower front fascia). Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover). Confirm the sensor is mounted securely and sits flush.", 'robot-message', 1250);
-                            showChoices([{ text: 'Bumper', id: 'path1_bumper_recent' }, { text: 'I see damaged wiring', id: 'path1_damaged_wiring' }, { text: 'No visible issues', id: 'path1_no_visible_issues' }], 500);
-                            break;
-                        case 'path1_bumper_recent':
-                            await addMessage("It looks like the the front bumper was recently removed.", 'user-message');
-                            await addMessage("Inspect radar sensor mounting. Verify sensor is properly seated. Check radar sensor angle. The sensor must be aimed straight ahead and level to the ground.", 'robot-message', 1250);
-                            showChoices([{ text: 'Sensor misaligment', id: 'path1_misaligned' }], 500);
-                            break;
-                        case 'path1_misaligned':
-                            await addMessage("The sensor was misaligned. I pointed it in the right direction and the DTCs cleared.", 'user-message');
-                            await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
-                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                            break;
-                        case 'path1_damaged_wiring':
-                            await addMessage("It looks like the wiring harness going to the sensor is frayed.", 'user-message');
-                            await addMessage("Understood. Let's test the connector before replacing the harness. You'll need a multimeter.<br><br>**Connector C241 Pinout:**<br>• Pin 1: 12V+ (Ignition On)<br>• Pin 2: Ground<br>• Pin 3: CAN High<br>• Pin 4: CAN Low", 'robot-message', 1250);
-                            showChoices([{ text: 'Wiring repaired. All clear.', id: 'path1_wiring_repaired' }], 500);
-                            break;
-                        case 'path1_wiring_repaired':
-                            await addMessage("The connector was loose... After the repair, the codes are gone. Good call.", 'user-message');
-                            await addMessage("Diagnosis confirmed. Repair story drafted.", 'robot-message', 1250);
-                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                            break;
-                        case 'path1_no_visible_issues':
-                            await addMessage("No issues found. Now what?", 'user-message');
-                            await addMessage("Run Radar Sensor Calibration. Connect MDI 2 and launch GDS2 or Techline Connect...", 'robot-message', 1250);
-                            showChoices([{ text: 'Success!', id: 'path1_calibration_success' }], 500);
-                            break;
-                        case 'path1_calibration_success':
-                            await addMessage("Calibration was successful. That was the issue. Error message resolved.", 'user-message');
-                            await addMessage("Calibration successful. Repair story drafted.", 'robot-message', 1250);
-                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                            break;
-                        case 'symptom_rotor_noise':
-                            await addMessage("When I spin the rotor it rattles.", 'user-message');
-                            await addMessage("Remove rotor, inspect the parking brake assembly.", 'robot-message', 1250);
-                            showChoices([{ text: 'Found it!', id: 'symptom_found_it_rotor' }], 500);
-                            break;
-                        case 'symptom_found_it_rotor':
-                            await addMessage("Found it! There was a broken spring. I’m waiting on a hardware kit and we’ll be good to go.", 'user-message');
-                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                            break;
-                        case 'symptom_everything_normal':
-                            await addMessage("Everything looks normal. Now what?", 'user-message');
-                            await addMessage("Use a chassis ear kit or mechanic’s stethoscope to isolate the nose...<br>Rear subframe<br>Rear seatbelt anchor", 'robot-message', 1250);
-                            showChoices([{ text: 'It’s coming from the door.', id: 'symptom_from_door' }], 500);
-                            break;
-                        case 'symptom_from_door':
-                            await addMessage("It seemed to be coming from the inside of the door...I secured it and everything is quiet on test drive.", 'user-message');
-                            await addMessage("Congratulations! Mystery solved!", 'robot-message', 1250);
-                            showChoices([{ text: 'Start Over', id: 'reset' }], 500);
-                            break;
-                        case 'reset':
-                            resetDemo();
-                            break;
-                    }
-                };
-
-                choicesWrapper.addEventListener('click', (e) => {
-                    if (e.target.matches('#choice-bubbles button[data-choice]')) {
-                        handleChoice(e.target.dataset.choice);
-                    }
-                });
-                resetDemo();
-            }
-
-
-            // ===========================================
-            // ANIMATION LOGIC FOR OTHER FEATURES (RESTORED & UPDATED)
-            // ===========================================
-
-            // --- Feature 1: 5-Second Stories Video ---
-            function setupVideoTimerSync() {
-                const storyVideoElement = document.querySelector('video[src*="update_story.mov"]');
-                const timerIframe = document.querySelector('iframe[src*="timer.html"]');
-                const writeStoryBtn = document.getElementById('writeStoryBtn');
-
-                if (!storyVideoElement || !timerIframe || !writeStoryBtn) return;
-
-                storyVideoElement.removeAttribute('autoplay');
-                storyVideoElement.pause();
-                storyVideoElement.currentTime = 0;
-
-                const sendTimerMessage = (message) => {
-                    try {
-                        timerIframe.contentWindow.postMessage(message, '*');
-                    } catch (error) { /* Silently fail */ }
-                };
-
-                const startSequence = () => {
-                    storyVideoElement.currentTime = 0;
-                    storyVideoElement.muted = true;
-                    storyVideoElement.play();
-                    sendTimerMessage('startTimer');
-                };
-
-                writeStoryBtn.addEventListener('click', startSequence);
-                sendTimerMessage('resetTimer');
-            }
-
-            // --- Feature 2: Warranty Claims Overlays ---
-            function calculateOptimalPositions() {
-                const container = document.getElementById('warrantyContainer');
-                const overlays = document.querySelectorAll('.warranty-overlay');
-                if (!container || overlays.length === 0) return;
-                const screenWidth = window.innerWidth;
-                let positions = [];
-                if (screenWidth <= 640) {
-                    positions = [ { left: '8%', top: '5%', width: '36vw', zIndex: 14 }, { right: '8%', top: '25%', width: '38vw', zIndex: 13 }, { left: '12%', top: '48%', width: '40vw', zIndex: 12 }, { right: '12%', top: '70%', width: '37vw', zIndex: 15 } ];
-                } else if (screenWidth <= 1024) {
-                    positions = [ { left: '4%', top: '8%', width: '25vw', zIndex: 14 }, { right: '4%', top: '18%', width: '27vw', zIndex: 13 }, { left: '4%', bottom: '26%', width: '29vw', zIndex: 12 }, { right: '4%', bottom: '8%', width: '26vw', zIndex: 15 } ];
-                } else {
-                    positions = [ { left: '4%', top: '6%', width: '15vw', zIndex: 14 }, { right: '4%', top: '12%', width: '17vw', zIndex: 13 }, { left: '4%', bottom: '20%', width: '19vw', zIndex: 12 }, { right: '4%', bottom: '18%', width: '16vw', zIndex: 16 } ];
-                }
-                overlays.forEach((overlay, index) => {
-                    if (index >= positions.length) return;
-                    const pos = positions[index];
-                    Object.assign(overlay.style, { position: 'absolute', left: pos.left || 'auto', top: pos.top || 'auto', right: pos.right || 'auto', bottom: pos.bottom || 'auto', width: pos.width, zIndex: pos.zIndex, opacity: '1' });
-                });
-            }
-
-            // --- Feature 3: Specs at Your Fingertips ---
-            function animateSpecsQuestions() {
-                const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
-                questions.forEach((question, index) => {
-                    setTimeout(() => {
-                        question.style.opacity = '1';
-                        question.style.transform = 'translateY(0)';
-                    }, index * 800);
-                });
-            }
-
-            function hideSpecsBubbles() {
-                const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
-                allBubbles.forEach(bubble => {
-                    bubble.style.opacity = '0';
-                    bubble.style.transform = 'translateY(10px)';
-                });
-                document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => {
-                    q.classList.remove('tapped');
-                    const img = q.querySelector('img');
-                    if (!img) return;
-                    if (img.src.includes('notap')) {
-                       img.src = img.src.replace('_notap.png', '_920x412.png').replace('_638xx412.png','_638xx412.png');
-                    }
-                });
-            }
-
-            function setupSpecsClickHandlers() {
-                const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
-                questions.forEach(question => {
-                    question.addEventListener('click', function() {
-                        if(this.classList.contains('tapped')) return;
-                        const answerId = this.getAttribute('data-answer');
-                        const answerBubble = document.getElementById(answerId);
-                        if (answerBubble) {
-                            answerBubble.style.opacity = '1';
-                            answerBubble.style.transform = 'translateY(0)';
-                        }
-                        this.classList.add('tapped');
-                        const img = this.querySelector('img');
-                        if (!img) return;
-                        if (img.src.includes('Q1_920x412.png')) img.src = 'specs/Q1_notap.png';
-                        if (img.src.includes('Q2_638xx412.png')) img.src = 'specs/Q2_notap.png';
-                    });
-                });
-            }
-
-            // --- Intersection Observer Setup ---
-            // Observer for one-time animations (Warranty)
-            const onceObserver = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (entry.target.id === 'warrantyContainer') calculateOptimalPositions();
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            // More sensitive observer for specs that resets on scroll away
-            const specsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    // Check if the target is fully in the viewport
-                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
-                        animateSpecsQuestions();
-                    } else {
-                        // If it's not fully visible, hide the bubbles
-                        hideSpecsBubbles();
-                    }
-                });
-            }, { threshold: 1.0 }); // Set threshold to trigger only when fully visible
-
-            // Attach observers to their respective elements
-            const warrantyContainer = document.getElementById('warrantyContainer');
-            const techSpecsContainer = document.getElementById('techSpecsContainer');
-            if (warrantyContainer) onceObserver.observe(warrantyContainer);
-            if (techSpecsContainer) {
-                setupSpecsClickHandlers();
-                specsObserver.observe(techSpecsContainer);
-            }
-
-            // --- Initialize All Logic ---
-            setupVideoTimerSync();
-
-            // Recalculate warranty positions on window resize
-            let resizeTimeout;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimeout);
-                resizeTimeout = setTimeout(calculateOptimalPositions, 250);
-            });
-
-            // --- Smooth Scroll for Demo Buttons ---
-            function setupDemoButtonScrolling() {
-                // Select all demo buttons (both "Book Demo" and "Book Your Demo")
-                const demoButtons = document.querySelectorAll('a[href="#waitlist-form"]');
-
-                demoButtons.forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-
-                        // Find the CTA section with green background
-                        const ctaSection = document.querySelector('section[style*="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%)"]');
-
-                        if (ctaSection) {
-                            // Scroll so the top of the green section aligns with the top of the viewport
-                            ctaSection.scrollIntoView({ 
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    });
-                });
-            }
-
-            setupDemoButtonScrolling();
-        });
-    </script>
+    
+    <script src="script.js"></script>
 
 </body>
 </html>
