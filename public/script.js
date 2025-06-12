@@ -765,6 +765,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 actualVideo = timerContainer.querySelector('video');
             }
         }
+        
+        // Additional fallback: look for any video with the story source
+        if (!actualVideo) {
+            actualVideo = document.querySelector('video[src="story/update_story.mov"]');
+        }
 
         console.log('Story video found:', actualVideo);
         console.log('Timer iframe found:', timerIframe);
