@@ -35,41 +35,16 @@ function initializeHeroAnimation() {
 
     // This is the main animation loop for the waveform visualizer
     function animateWave() {
-        if (isSpeaking && Math.random() > 0.5) {
-            // Create more dramatic variations with occasional super tall peaks
-            const randomValue = Math.random();
-            if (randomValue > 0.8) {
-                // 20% chance of very tall peaks
-                targetHeights[numberOfBars - 1] = 1.2 + Math.random() * 0.8;
-            } else {
-                // Regular speaking heights with more variation
-                targetHeights[numberOfBars - 1] = 0.3 + Math.random() * 1.2;
-            }
+        // Generate new bar at the rightmost position with variation
+        if (isSpeaking && Math.random() > 0.7) {
+            targetHeights[numberOfBars - 1] = 0.5 + Math.random() * 1.0;
         } else {
-            targetHeights[numberOfBars - 1] = 0.01 + Math.random() * 0.05;
+            targetHeights[numberOfBars - 1] = 0.02 + Math.random() * 0.08;
         }
 
-        // Propagate heights with natural variation
+        // Simply shift all bars to the left, maintaining their heights
         for (let i = 0; i < numberOfBars - 1; i++) {
             targetHeights[i] = targetHeights[i + 1];
-            
-            // Add variation to bars that are more than 5 positions apart from each other
-            if (i % 6 === 0 && isSpeaking) {
-                // Every 6th bar gets additional random variation during speech
-                const variationFactor = 0.3 + Math.random() * 0.4; // 0.3 to 0.7 multiplier
-                targetHeights[i] *= variationFactor;
-                
-                // Occasionally make some bars significantly different
-                if (Math.random() > 0.8) {
-                    targetHeights[i] = 0.2 + Math.random() * 0.8;
-                }
-            }
-            
-            // Add subtle micro-variations to create more natural speech patterns
-            if (isSpeaking && Math.random() > 0.7) {
-                const microVariation = 0.9 + Math.random() * 0.2; // ±10% variation
-                targetHeights[i] *= microVariation;
-            }
         }
 
         for (let i = 0; i < numberOfBars; i++) {
