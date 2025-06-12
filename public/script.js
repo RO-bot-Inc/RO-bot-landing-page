@@ -208,11 +208,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!img) return;
 
         const currentSrc = img.src;
-        if (currentSrc.includes('Q1_920x412.png')) {
+        if (currentSrc.includes('Q1_notap.png')) {
             img.src = 'specs/Q1_notap.png';
             questionElement.classList.add('tapped');
             questionElement.classList.remove('clickable-question');
-        } else if (currentSrc.includes('Q2_638xx412.png')) {
+        } else if (currentSrc.includes('Q2_notap.png')) {
             img.src = 'specs/Q2_notap.png';
             questionElement.classList.add('tapped');
             questionElement.classList.remove('clickable-question');
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (q1Element && q1Element.classList.contains('tapped')) {
             const img = q1Element.querySelector('img');
             if (img) {
-                img.src = 'specs/Q1_920x412.png';
+                img.src = 'specs/Q1_notap.png';
                 q1Element.classList.remove('tapped');
                 q1Element.classList.add('clickable-question');
             }
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (q2Element && q2Element.classList.contains('tapped')) {
             const img = q2Element.querySelector('img');
             if (img) {
-                img.src = 'specs/Q2_638xx412.png';
+                img.src = 'specs/Q2_notap.png';
                 q2Element.classList.remove('tapped');
                 q2Element.classList.add('clickable-question');
             }
