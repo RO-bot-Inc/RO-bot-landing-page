@@ -36,7 +36,7 @@ function initializeHeroAnimation() {
     // This is the main animation loop for the waveform visualizer
     function animateWave() {
         if (isSpeaking && Math.random() > 0.7) {
-            targetHeights[numberOfBars - 1] = 0.6 + Math.random() * 0.4;
+            targetHeights[numberOfBars - 1] = 0.5 + Math.random() * 1.0;
         } else {
             targetHeights[numberOfBars - 1] = 0.02 + Math.random() * 0.08;
         }
