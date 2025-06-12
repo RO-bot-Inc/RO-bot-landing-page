@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function() {
         warrantyObserver.observe(warrantyContainer);
     }
 
-    // Video-Timer Sync - Simple Button Triggered Version
+    // Video-Timer Sync - Auto-triggered when feature image is in viewport
     function setupVideoTimerSync() {
         // More flexible video targeting
         const storyVideo = document.querySelector('video[src*="update_story.mov"], video[src*="update story.mov"], video source[src*="update_story.mov"], video source[src*="update story.mov"]');
@@ -791,7 +791,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Start sequence: play video and timer simultaneously immediately
         function startSequence() {
-            console.log('Button pressed, starting immediately');
+            console.log('Auto-starting animation sequence');
             console.log('Video element:', actualVideo);
 
             // Set flag to allow this video to play
@@ -841,7 +841,36 @@ document.addEventListener('DOMContentLoaded', function() {
         actualVideo.removeAttribute('autoplay');
         sendTimerMessage('resetTimer');
 
-        // Expose controls globally for button access
+        // Set up intersection observer for the feature image
+        const featureImage = document.querySelector('img[src*="typing.png"]');
+        if (featureImage) {
+            let hasTriggered = false; // Prevent multiple triggers
+            
+            const featureObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && !hasTriggered) {
+                        // Image is fully visible in viewport
+                        hasTriggered = true;
+                        console.log('Feature image fully in viewport, starting animation in 0.5 seconds');
+                        
+                        // Wait 0.5 seconds then start the animation
+                        setTimeout(() => {
+                            startSequence();
+                        }, 500);
+                        
+                        // Stop observing after first trigger
+                        featureObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 1.0, // Trigger only when 100% visible
+                rootMargin: '0px'
+            });
+            
+            featureObserver.observe(featureImage);
+        }
+
+        // Keep button functionality as backup
         window.videoTimerControls = {
             start: startSequence
         };
