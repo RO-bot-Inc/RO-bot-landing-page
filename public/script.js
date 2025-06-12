@@ -693,9 +693,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const specsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Container is entering viewport - trigger animation
-                console.log('Specs container entering viewport, starting animation');
-                animateSpecsSequence();
+                // Container is entering viewport - trigger animation after 1 second delay
+                console.log('Specs container entering viewport, starting animation in 1 second');
+                setTimeout(() => {
+                    animateSpecsSequence();
+                }, 1000);
                 entry.target.setAttribute('data-specs-visible', 'true');
             } else {
                 // Container is leaving viewport - reset for next time
