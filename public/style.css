@@ -1269,25 +1269,6 @@ video {
   transform: scaleY(0.05);
 }
 
-/* Make bars thicker and more opaque on mobile */
-
-@media (max-width: 640px) {
-  .waveform-bar {
-    width: 8px;
-    margin: 0 3px;
-    opacity: 1;
-    box-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
-  }
-}
-
-/* Ensure bars are fully opaque on all screen sizes */
-
-@media (min-width: 641px) {
-  .waveform-bar {
-    opacity: 1;
-  }
-}
-
 /* Classes for the staggered text animation */
 
 .fade-in-text {

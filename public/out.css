@@ -1238,10 +1238,10 @@ video {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 11rem;
+  height: 10rem;
   width: 28rem;
-  background-color: rgba(60, 130, 246, 0.4);
-  border-radius: 1rem;
+  background-color: #3C82F6;
+  border-radius: 1.5rem;
   padding: 1.5rem;
   gap: 1rem;
 }
@@ -1267,25 +1267,6 @@ video {
   border-radius: 9999px;
   transform-origin: center;
   transform: scaleY(0.05);
-}
-
-/* Make bars thicker and more opaque on mobile */
-
-@media (max-width: 640px) {
-  .waveform-bar {
-    width: 8px;
-    margin: 0 3px;
-    opacity: 1;
-    box-shadow: 0 0 2px rgba(255, 255, 255, 0.3);
-  }
-}
-
-/* Ensure bars are fully opaque on all screen sizes */
-
-@media (min-width: 641px) {
-  .waveform-bar {
-    opacity: 1;
-  }
 }
 
 /* Classes for the staggered text animation */
