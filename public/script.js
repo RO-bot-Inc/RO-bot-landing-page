@@ -746,29 +746,31 @@ document.addEventListener('DOMContentLoaded', function() {
         // Find the timer iframe first
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
         
-        // Find the video element - look for the specific video in the feature section
+        // Find the video element - look more broadly
         let actualVideo = null;
-        const allVideos = document.querySelectorAll('video');
         
-        // Look for video that has update_story.mov source
-        for (let video of allVideos) {
-            if (video.src && video.src.includes('update_story.mov')) {
-                actualVideo = video;
-                break;
-            }
-        }
+        // First try to find video by source attribute
+        actualVideo = document.querySelector('video[src*="update_story"]') || 
+                     document.querySelector('video source[src*="update_story"]')?.parentElement;
         
-        // Fallback: look for video in the container with timer iframe
+        // If not found, look in the same container as the timer iframe
         if (!actualVideo && timerIframe) {
-            const timerContainer = timerIframe.closest('.relative, div');
-            if (timerContainer) {
-                actualVideo = timerContainer.querySelector('video');
+            const featureContainer = timerIframe.closest('.flex, .relative, div');
+            if (featureContainer) {
+                actualVideo = featureContainer.querySelector('video');
             }
         }
         
-        // Additional fallback: look for any video with the story source
+        // Fallback: get any video in the feature section
         if (!actualVideo) {
-            actualVideo = document.querySelector('video[src="story/update_story.mov"]');
+            const featureSections = document.querySelectorAll('.flex.flex-col.md\\:flex-row');
+            for (let section of featureSections) {
+                const video = section.querySelector('video');
+                if (video) {
+                    actualVideo = video;
+                    break;
+                }
+            }
         }
 
         console.log('Story video found:', actualVideo);
@@ -787,6 +789,17 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (error) {
                 console.error('Error sending message to timer:', error);
             }
+        }
+
+        // Reset function to prepare for next trigger
+        function resetSequence() {
+            console.log('Resetting video and timer');
+            actualVideo.pause();
+            actualVideo.currentTime = 0;
+            actualVideo.muted = true;
+            actualVideo.removeAttribute('autoplay');
+            sendTimerMessage('resetTimer');
+            window.buttonVideoPlaying = false;
         }
 
         // Start sequence: play video and timer simultaneously
@@ -834,14 +847,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Initialize video
-        actualVideo.currentTime = 0;
-        actualVideo.pause();
-        actualVideo.muted = true;
-        actualVideo.removeAttribute('autoplay');
-        sendTimerMessage('resetTimer');
+        resetSequence();
 
-        // Setup scroll-triggered animation
-        setupStoryScrollTrigger(startSequence);
+        // Setup scroll-triggered animation with reset
+        setupStoryScrollTrigger(startSequence, resetSequence);
 
         // Keep button click handler as backup
         const writeStoryBtn = document.getElementById('writeStoryBtn');
@@ -855,53 +864,78 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Expose controls globally
         window.videoTimerControls = {
-            start: startSequence
+            start: startSequence,
+            reset: resetSequence
         };
     }
 
-    // Scroll-triggered animation for Feature 1
-    function setupStoryScrollTrigger(startSequence) {
-        // Find the typing.png image in Feature 1
-        let targetImage = document.querySelector('img[src*="typing.png"]');
+    // Scroll-triggered animation for Feature 1 with reset capability
+    function setupStoryScrollTrigger(startSequence, resetSequence) {
+        // Find the container with the typing.png image
+        let targetContainer = null;
         
-        // Fallback: look for any image in the container with timer iframe
-        if (!targetImage) {
-            const timerContainer = document.querySelector('iframe[src*="timer.html"]')?.closest('.relative, div');
-            if (timerContainer) {
-                targetImage = timerContainer.querySelector('img');
+        // Look for the container that has both the image and the iframe
+        const timerIframe = document.querySelector('iframe[src*="timer.html"]');
+        if (timerIframe) {
+            targetContainer = timerIframe.closest('.relative, .bg-black, div');
+        }
+        
+        // Fallback: find by image
+        if (!targetContainer) {
+            const typingImage = document.querySelector('img[src*="typing.png"]');
+            if (typingImage) {
+                targetContainer = typingImage.closest('.relative, .bg-black, div');
             }
         }
 
-        console.log('Target feature image for scroll trigger:', targetImage);
+        console.log('Target container for scroll trigger:', targetContainer);
 
-        if (!targetImage) {
-            console.log('Feature image not found for scroll trigger');
+        if (!targetContainer) {
+            console.log('Feature container not found for scroll trigger');
             return;
         }
 
-        let hasTriggered = false; // Prevent multiple triggers
+        let hasTriggered = false;
+        let animationTimeout = null;
 
         const storyObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && !hasTriggered) {
-                    // Image is fully visible in viewport
-                    console.log('Feature 1 image fully visible, triggering animation in 0.5 seconds');
-                    hasTriggered = true;
+                if (entry.isIntersecting) {
+                    // Container is entering viewport
+                    if (!hasTriggered) {
+                        console.log('Feature 1 container entering viewport, triggering animation in 0.5 seconds');
+                        hasTriggered = true;
+                        
+                        // Clear any existing timeout
+                        if (animationTimeout) {
+                            clearTimeout(animationTimeout);
+                        }
+                        
+                        animationTimeout = setTimeout(() => {
+                            startSequence();
+                        }, 500); // 0.5 second delay as requested
+                    }
+                } else {
+                    // Container is leaving viewport - reset for next time
+                    console.log('Feature 1 container left viewport, resetting');
+                    hasTriggered = false;
                     
-                    setTimeout(() => {
-                        startSequence();
-                    }, 500); // 0.5 second delay as requested
+                    // Clear any pending animation
+                    if (animationTimeout) {
+                        clearTimeout(animationTimeout);
+                        animationTimeout = null;
+                    }
                     
-                    // Unobserve after triggering to prevent repeated triggers
-                    storyObserver.unobserve(entry.target);
+                    // Reset the sequence
+                    resetSequence();
                 }
             });
         }, {
-            threshold: 1.0, // Trigger only when 100% visible
+            threshold: 0.8, // Trigger when 80% of container is visible
             rootMargin: '0px'
         });
 
-        storyObserver.observe(targetImage);
+        storyObserver.observe(targetContainer);
     }
 
     // Initialize video-timer sync only
