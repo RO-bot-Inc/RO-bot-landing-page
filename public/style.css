@@ -1238,10 +1238,10 @@ video {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 10rem;
+  height: 11rem;
   width: 28rem;
-  background-color: #3C82F6;
-  border-radius: 1.5rem;
+  background-color: rgba(60, 130, 246, 0.4);
+  border-radius: 1rem;
   padding: 1.5rem;
   gap: 1rem;
 }
