@@ -632,7 +632,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Automatic specs animation sequence
     function animateSpecsSequence() {
         console.log('Starting specs animation sequence');
-        
+
         // Get all the elements we need to animate
         const q1Bubble = document.getElementById('q1Bubble');
         const a1Bubble = document.getElementById('a1Bubble');
@@ -677,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reset specs elements for next animation
     function resetSpecsSequence() {
         console.log('Resetting specs animation sequence');
-        
+
         const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
         allBubbles.forEach(bubble => {
             bubble.style.opacity = '0';
@@ -761,14 +761,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupVideoTimerSync() {
         // Find the timer iframe first
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
-        
+
         // Find the video element - look more broadly
         let actualVideo = null;
-        
+
         // First try to find video by source attribute
         actualVideo = document.querySelector('video[src*="update_story"]') || 
                      document.querySelector('video source[src*="update_story"]')?.parentElement;
-        
+
         // If not found, look in the same container as the timer iframe
         if (!actualVideo && timerIframe) {
             const featureContainer = timerIframe.closest('.flex, .relative, div');
@@ -776,7 +776,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 actualVideo = featureContainer.querySelector('video');
             }
         }
-        
+
         // Fallback: get any video in the feature section
         if (!actualVideo) {
             const featureSections = document.querySelectorAll('.flex.flex-col.md\\:flex-row');
@@ -803,8 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 timerIframe.contentWindow.postMessage(message, '*');
             } catch (error) {
-                console.error('Error sending message to timer:', error);
-            }
+                console.error('Error sending message to timer:', error);}
         }
 
         // Reset function to prepare for next trigger
@@ -889,13 +888,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function setupStoryScrollTrigger(startSequence, resetSequence) {
         // Find the container with the typing.png image
         let targetContainer = null;
-        
+
         // Look for the container that has both the image and the iframe
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
         if (timerIframe) {
             targetContainer = timerIframe.closest('.relative, .bg-black, div');
         }
-        
+
         // Fallback: find by image
         if (!targetContainer) {
             const typingImage = document.querySelector('img[src*="typing.png"]');
@@ -921,12 +920,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (!hasTriggered) {
                         console.log('Feature 1 container entering viewport, triggering animation in 0.5 seconds');
                         hasTriggered = true;
-                        
+
                         // Clear any existing timeout
                         if (animationTimeout) {
                             clearTimeout(animationTimeout);
                         }
-                        
+
                         animationTimeout = setTimeout(() => {
                             startSequence();
                         }, 500); // 0.5 second delay as requested
@@ -935,13 +934,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Container is leaving viewport - reset for next time
                     console.log('Feature 1 container left viewport, resetting');
                     hasTriggered = false;
-                    
+
                     // Clear any pending animation
                     if (animationTimeout) {
                         clearTimeout(animationTimeout);
                         animationTimeout = null;
                     }
-                    
+
                     // Reset the sequence
                     resetSequence();
                 }
