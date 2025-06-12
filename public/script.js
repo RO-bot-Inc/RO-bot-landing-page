@@ -629,64 +629,83 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -100px 0px'
     };
 
-    // Observer for specs section - trigger when any overlay is not 100% visible
-    const specsObserver = new IntersectionObserver((entries) => {
-        let allOverlaysVisible = true;
+    // Automatic specs animation sequence
+    function animateSpecsSequence() {
+        console.log('Starting specs animation sequence');
+        
+        // Get all the elements we need to animate
+        const q1Bubble = document.getElementById('q1Bubble');
+        const a1Bubble = document.getElementById('a1Bubble');
+        const q2Bubble = document.getElementById('q2Bubble');
+        const a2Bubble = document.getElementById('a2Bubble');
 
-        // Check if all overlay elements are 100% visible
-        const allOverlays = document.querySelectorAll('#techSpecsContainer .message-bubble');
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible) {
-                allOverlaysVisible = false;
-            }
+        if (!q1Bubble || !a1Bubble || !q2Bubble || !a2Bubble) {
+            console.log('Some specs elements not found');
+            return;
+        }
+
+        // Animation sequence with precise timing
+        // 1. Q1 appears
+        setTimeout(() => {
+            q1Bubble.style.opacity = '1';
+            q1Bubble.style.transform = 'translateY(0)';
+            q1Bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }, 0);
+
+        // 2. A1 appears after 0.5 second pause
+        setTimeout(() => {
+            a1Bubble.style.opacity = '1';
+            a1Bubble.style.transform = 'translateY(0)';
+            a1Bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }, 500);
+
+        // 3. Q2 appears after 1.5 second pause (from A1)
+        setTimeout(() => {
+            q2Bubble.style.opacity = '1';
+            q2Bubble.style.transform = 'translateY(0)';
+            q2Bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }, 2000);
+
+        // 4. A2 appears after 0.5 second pause (from Q2)
+        setTimeout(() => {
+            a2Bubble.style.opacity = '1';
+            a2Bubble.style.transform = 'translateY(0)';
+            a2Bubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }, 2500);
+    }
+
+    // Reset specs elements for next animation
+    function resetSpecsSequence() {
+        console.log('Resetting specs animation sequence');
+        
+        const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
+        allBubbles.forEach(bubble => {
+            bubble.style.opacity = '0';
+            bubble.style.transform = 'translateY(10px)';
+            bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         });
 
+        // Reset question images back to original tappable versions
+        resetQuestionImages();
+    }
+
+    // Observer for specs section with scroll-triggered animation
+    const specsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && allOverlaysVisible) {
-                // Background and all overlays are completely within viewport
-                animateSpecsQuestions();
-                setupSpecsClickHandlers();
+            if (entry.isIntersecting) {
+                // Container is entering viewport - trigger animation
+                console.log('Specs container entering viewport, starting animation');
+                animateSpecsSequence();
                 entry.target.setAttribute('data-specs-visible', 'true');
             } else {
-                // Background or overlays are partially/completely outside viewport
-                hideSpecsBubbles();
+                // Container is leaving viewport - reset for next time
+                console.log('Specs container left viewport, resetting');
+                resetSpecsSequence();
                 entry.target.setAttribute('data-specs-visible', 'false');
             }
         });
     }, {
-        threshold: 1.0, // Trigger only when 100% visible
-        rootMargin: '0px'
-    });
-
-    // Additional observer to watch for scroll changes affecting overlay visibility
-    const specsScrollObserver = new IntersectionObserver((entries) => {
-        const container = document.getElementById('techSpecsContainer');
-        if (!container) return;
-
-        const allOverlays = container.querySelectorAll('.message-bubble');
-        let anyOverlayOutOfView = false;
-
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible && overlay.style.opacity !== '0') {
-                anyOverlayOutOfView = true;
-            }
-        });
-
-        if (anyOverlayOutOfView) {
-            hideSpecsBubbles();
-        }
-    }, {
-        threshold: [0, 1.0],
+        threshold: 0.8, // Trigger when 80% of container is visible
         rootMargin: '0px'
     });
 
@@ -722,11 +741,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const specsBackgroundImg = techSpecsContainer.querySelector('img[src*="dipstick"]');
         if (specsBackgroundImg) {
             specsObserver.observe(specsBackgroundImg);
-            // Also observe all overlay elements for scroll detection
-            const allOverlays = techSpecsContainer.querySelectorAll('.message-bubble');
-            allOverlays.forEach(overlay => {
-                specsScrollObserver.observe(overlay);
-            });
         } else {
             // Fallback to container if no background image found
             specsObserver.observe(techSpecsContainer);
