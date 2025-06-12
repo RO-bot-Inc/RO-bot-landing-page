@@ -741,57 +741,37 @@ document.addEventListener('DOMContentLoaded', function() {
         warrantyObserver.observe(warrantyContainer);
     }
 
-    // Video-Timer Sync - Automatic Trigger Version
+    // Video-Timer Sync - Scroll-Triggered Version
     function setupVideoTimerSync() {
-        // More flexible video targeting with multiple fallbacks
-        let storyVideo = document.querySelector('video[src*="update_story.mov"], video[src*="update story.mov"], video source[src*="update_story.mov"], video source[src*="update story.mov"]');
-        
-        // Fallback: look for any video in the story section
-        if (!storyVideo) {
-            storyVideo = document.querySelector('#features video, .story video');
-        }
-        
-        // Fallback: look for any video element near timer iframe
-        if (!storyVideo) {
-            const timerContainer = document.querySelector('iframe[src*="timer.html"]')?.closest('.relative');
-            if (timerContainer) {
-                storyVideo = timerContainer.querySelector('video');
-            }
-        }
-        const allVideos = document.querySelectorAll('video');
+        // Find the timer iframe first
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
         
-        // Find video in the 5-Second Stories section
+        // Find the video element - look for the specific video in the feature section
         let actualVideo = null;
-        if (storyVideo) {
-            actualVideo = storyVideo.tagName === 'VIDEO' ? storyVideo : storyVideo.parentElement;
-        } else if (allVideos.length > 0) {
-            // Look for video in the story section
-            for (let video of allVideos) {
-                const container = video.closest('.relative');
-                if (container && container.querySelector('iframe[src*="timer.html"]')) {
-                    actualVideo = video;
-                    break;
-                }
+        const allVideos = document.querySelectorAll('video');
+        
+        // Look for video that has update_story.mov source
+        for (let video of allVideos) {
+            if (video.src && video.src.includes('update_story.mov')) {
+                actualVideo = video;
+                break;
+            }
+        }
+        
+        // Fallback: look for video in the container with timer iframe
+        if (!actualVideo && timerIframe) {
+            const timerContainer = timerIframe.closest('.relative, div');
+            if (timerContainer) {
+                actualVideo = timerContainer.querySelector('video');
             }
         }
 
         console.log('Story video found:', actualVideo);
         console.log('Timer iframe found:', timerIframe);
-        console.log('All videos on page:', document.querySelectorAll('video'));
-        console.log('All iframes on page:', document.querySelectorAll('iframe'));
 
         if (!actualVideo || !timerIframe) {
-            // Stop retrying after a reasonable number of attempts
-            if (!window.videoSetupAttempts) window.videoSetupAttempts = 0;
-            window.videoSetupAttempts++;
-            
-            if (window.videoSetupAttempts < 5) {
-                console.log('Video or timer not found, retrying...', window.videoSetupAttempts);
-                setTimeout(setupVideoTimerSync, 1000);
-            } else {
-                console.log('Video setup failed after multiple attempts, stopping retries');
-            }
+            console.log('Video or timer not found, retrying in 1 second...');
+            setTimeout(setupVideoTimerSync, 1000);
             return;
         }
 
@@ -804,15 +784,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Start sequence: play video and timer simultaneously immediately
+        // Start sequence: play video and timer simultaneously
         function startSequence() {
-            console.log('Auto-triggering animation sequence');
-            console.log('Video element:', actualVideo);
+            console.log('Starting video-timer sequence');
 
             // Set flag to allow this video to play
             window.buttonVideoPlaying = true;
 
-            // Remove autoplay and loop to prevent conflicts
+            // Prepare video
             actualVideo.removeAttribute('autoplay');
             actualVideo.removeAttribute('loop');
             actualVideo.currentTime = 0;
@@ -820,51 +799,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Add event listener to stop video after one play cycle
             const handleVideoEnd = () => {
-                console.log('Video finished one play cycle, stopping');
+                console.log('Video finished, stopping');
                 actualVideo.pause();
-                window.buttonVideoPlaying = false; // Reset flag
+                window.buttonVideoPlaying = false;
                 actualVideo.removeEventListener('ended', handleVideoEnd);
             };
             actualVideo.addEventListener('ended', handleVideoEnd);
 
-            // Force play the video immediately
+            // Start video and timer
             const playPromise = actualVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     console.log('Video started successfully');
+                    sendTimerMessage('startTimer');
                 }).catch(error => {
                     console.error('Error playing video:', error);
-                    window.buttonVideoPlaying = false; // Reset flag on error
+                    window.buttonVideoPlaying = false;
                 });
+            } else {
+                sendTimerMessage('startTimer');
             }
-
-            sendTimerMessage('startTimer');
         }
 
-        // Listen for timer stopping at 1.671 (no additional actions needed)
+        // Listen for timer stopping
         window.addEventListener('message', (event) => {
             if (event.data === 'timerStopped') {
                 console.log('Timer stopped at 1.671');
-                // Timer stops automatically, no other actions needed
             }
         });
 
-        // Initialize video to first frame
+        // Initialize video
         actualVideo.currentTime = 0;
         actualVideo.pause();
         actualVideo.muted = true;
         actualVideo.removeAttribute('autoplay');
         sendTimerMessage('resetTimer');
 
-        // Setup Intersection Observer for automatic triggering
-        setupStoryAutoTrigger(startSequence);
+        // Setup scroll-triggered animation
+        setupStoryScrollTrigger(startSequence);
 
-        // Expose controls globally for button access (fallback)
-        window.videoTimerControls = {
-            start: startSequence
-        };
-
-        // Add button click handler as backup
+        // Keep button click handler as backup
         const writeStoryBtn = document.getElementById('writeStoryBtn');
         if (writeStoryBtn) {
             writeStoryBtn.addEventListener('click', function(e) {
@@ -873,34 +847,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 startSequence();
             });
         }
+
+        // Expose controls globally
+        window.videoTimerControls = {
+            start: startSequence
+        };
     }
 
-    // Auto-trigger story animation when feature image enters viewport
-    function setupStoryAutoTrigger(startSequence) {
-        // Find the feature image in the story section
-        const featureImages = document.querySelectorAll('img[src*="typing"], img[src*="story"], .story img, #story img');
-        let targetImage = null;
-
-        // Look for the typing.png image or any image in the story section
-        for (let img of featureImages) {
-            if (img.src.includes('typing.png') || img.closest('.relative') && img.closest('.relative').querySelector('iframe[src*="timer.html"]')) {
-                targetImage = img;
-                break;
-            }
-        }
-
-        // Fallback: look for any image in a container with timer iframe
+    // Scroll-triggered animation for Feature 1
+    function setupStoryScrollTrigger(startSequence) {
+        // Find the typing.png image in Feature 1
+        let targetImage = document.querySelector('img[src*="typing.png"]');
+        
+        // Fallback: look for any image in the container with timer iframe
         if (!targetImage) {
-            const timerContainer = document.querySelector('iframe[src*="timer.html"]')?.closest('.relative');
+            const timerContainer = document.querySelector('iframe[src*="timer.html"]')?.closest('.relative, div');
             if (timerContainer) {
                 targetImage = timerContainer.querySelector('img');
             }
         }
 
-        console.log('Target feature image found:', targetImage);
+        console.log('Target feature image for scroll trigger:', targetImage);
 
         if (!targetImage) {
-            console.log('Feature image not found for auto-trigger');
+            console.log('Feature image not found for scroll trigger');
             return;
         }
 
@@ -910,12 +880,12 @@ document.addEventListener('DOMContentLoaded', function() {
             entries.forEach(entry => {
                 if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && !hasTriggered) {
                     // Image is fully visible in viewport
-                    console.log('Feature image fully visible, triggering animation in 0.5 seconds');
+                    console.log('Feature 1 image fully visible, triggering animation in 0.5 seconds');
                     hasTriggered = true;
                     
                     setTimeout(() => {
                         startSequence();
-                    }, 500); // 0.5 second delay
+                    }, 500); // 0.5 second delay as requested
                     
                     // Unobserve after triggering to prevent repeated triggers
                     storyObserver.unobserve(entry.target);
