@@ -1058,11 +1058,12 @@
                                 </h1>
                             </div>
                             
-                            <div class="mt-12 flex flex-col items-center">
-                                <!-- The Visualizer Container -->
-                                <div id="waveform" class="waveform-container">
-                                    <!-- Transcription Text Container inside the blue container -->
-                                    <p id="transcription-text" class="text-white text-lg font-bold mt-4 text-center min-h-6"></p>
+                            <!-- The Visualizer Container - moved inside hero overlay -->
+                            <div id="waveform" class="waveform-container z-20 mb-8">
+                                <!-- Waveform bars will be inserted here by JavaScript -->
+                                <!-- Animated Text Container - displays inside blue waveform container -->
+                                <div id="animated-text-container" class="text-white text-center text-lg font-bold min-h-6 flex items-center justify-center px-2 flex-shrink-0">
+                                    <!-- Text will be dynamically inserted here -->
                                 </div>
                             </div>
                         </div>
