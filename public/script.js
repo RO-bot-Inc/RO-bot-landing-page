@@ -35,14 +35,12 @@ function initializeHeroAnimation() {
 
     // This is the main animation loop for the waveform visualizer
     function animateWave() {
-        // Generate new bar at the rightmost position with variation
         if (isSpeaking && Math.random() > 0.7) {
-            targetHeights[numberOfBars - 1] = 0.5 + Math.random() * 1.0;
+            targetHeights[numberOfBars - 1] = 0.4 + Math.random() * 0.6;
         } else {
-            targetHeights[numberOfBars - 1] = 0.02 + Math.random() * 0.08;
+            targetHeights[numberOfBars - 1] = 0.05 + Math.random() * 0.1;
         }
 
-        // Simply shift all bars to the left, maintaining their heights
         for (let i = 0; i < numberOfBars - 1; i++) {
             targetHeights[i] = targetHeights[i + 1];
         }
