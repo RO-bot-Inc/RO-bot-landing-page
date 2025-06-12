@@ -743,17 +743,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Video-Timer Sync - Simple Button Triggered Version
     function setupVideoTimerSync() {
-        // Specifically target the story video in the container with the timer
-        const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
-        const actualVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
+        // More flexible video targeting
+        const storyVideo = document.querySelector('video[src*="update_story.mov"], video[src*="update story.mov"], video source[src*="update_story.mov"], video source[src*="update story.mov"]');
+        const allVideos = document.querySelectorAll('video');
         const timerIframe = document.querySelector('iframe[src*="timer.html"]');
+        
+        // Find video in the 5-Second Stories section
+        let actualVideo = null;
+        if (storyVideo) {
+            actualVideo = storyVideo.tagName === 'VIDEO' ? storyVideo : storyVideo.parentElement;
+        } else if (allVideos.length > 0) {
+            // Look for video in the story section
+            for (let video of allVideos) {
+                const container = video.closest('.relative');
+                if (container && container.querySelector('iframe[src*="timer.html"]')) {
+                    actualVideo = video;
+                    break;
+                }
+            }
+        }
 
         console.log('Story video found:', actualVideo);
         console.log('Timer iframe found:', timerIframe);
 
         if (!actualVideo || !timerIframe) {
-            console.log('Video or timer not found, retrying...');
-            setTimeout(setupVideoTimerSync, 1000);
+            // Stop retrying after a reasonable number of attempts
+            if (!window.videoSetupAttempts) window.videoSetupAttempts = 0;
+            window.videoSetupAttempts++;
+            
+            if (window.videoSetupAttempts < 5) {
+                console.log('Video or timer not found, retrying...', window.videoSetupAttempts);
+                setTimeout(setupVideoTimerSync, 1000);
+            } else {
+                console.log('Video setup failed after multiple attempts, stopping retries');
+            }
             return;
         }
 
