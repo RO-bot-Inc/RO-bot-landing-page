@@ -35,10 +35,18 @@ function initializeHeroAnimation() {
 
     // This is the main animation loop for the waveform visualizer
     function animateWave() {
-        if (isSpeaking && Math.random() > 0.7) {
-            targetHeights[numberOfBars - 1] = 0.5 + Math.random() * 1.0;
+        if (isSpeaking && Math.random() > 0.5) {
+            // Create more dramatic variations with occasional super tall peaks
+            const randomValue = Math.random();
+            if (randomValue > 0.8) {
+                // 20% chance of very tall peaks
+                targetHeights[numberOfBars - 1] = 1.2 + Math.random() * 0.8;
+            } else {
+                // Regular speaking heights with more variation
+                targetHeights[numberOfBars - 1] = 0.3 + Math.random() * 1.2;
+            }
         } else {
-            targetHeights[numberOfBars - 1] = 0.02 + Math.random() * 0.08;
+            targetHeights[numberOfBars - 1] = 0.01 + Math.random() * 0.05;
         }
 
         for (let i = 0; i < numberOfBars - 1; i++) {
