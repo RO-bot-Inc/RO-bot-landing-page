@@ -54,8 +54,9 @@ function initializeWaveformAnimation() {
 
     const numberOfBars = 40;
     const bars = [];
-    const targetHeights = new Array(numberOfBars).fill(0.05);
-    const visualHeights = new Array(numberOfBars).fill(0.05);
+    // Initialize with some varied heights for immediate visual interest
+    const targetHeights = new Array(numberOfBars).fill(0).map(() => 0.05 + Math.random() * 0.3);
+    const visualHeights = new Array(numberOfBars).fill(0).map(() => 0.05 + Math.random() * 0.3);
     const smoothingFactor = 0.1;
     let isSpeaking = true;
 
@@ -79,7 +80,8 @@ function initializeWaveformAnimation() {
                 targetHeights[i] = targetHeights[i + 1];
             }
             let newHeight;
-            if (isSpeaking && Math.random() > 0.7) { 
+            // Start with immediate dramatic variation, then follow speech pattern
+            if (frameCount < 80 || (isSpeaking && Math.random() > 0.7)) { 
                 newHeight = 0.4 + Math.random() * 0.6; 
             } else {
                 newHeight = 0.05 + Math.random() * 0.1;
