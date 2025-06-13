@@ -1,3 +1,4 @@
+
 // Voice Visualizer Vanilla JavaScript Component
 function createVoiceVisualizer() {
     const voiceVisualizerRoot = document.getElementById('voice-visualizer-root');
@@ -39,6 +40,12 @@ function createVoiceVisualizer() {
 function initializeWaveformAnimation() {
     const waveformContainer = document.getElementById('waveform');
     if (!waveformContainer) return;
+
+    // Check if waveform is already initialized to prevent duplicates
+    if (waveformContainer.querySelector('.waveform-bars')) {
+        console.log('Waveform already initialized, skipping...');
+        return;
+    }
 
     // Create bars container
     const barsContainer = document.createElement('div');
@@ -148,12 +155,110 @@ function initializeTextAnimation() {
     setTimeout(animateNextWord, 1000);
 }
 
+// Chat demo functionality
+const chatChoices = [
+    {
+        text: "Error codes",
+        response: "P0234 indicates turbocharger overboost. Common causes: wastegate actuator malfunction, boost pressure sensor fault, or vacuum leak."
+    },
+    {
+        text: "Mystery noise",
+        response: "Based on your description, that grinding noise during turns could be CV joints or wheel bearings. Check for play in the wheel and listen for changes when turning left vs right."
+    }
+];
+
+// Function to create choice bubbles
+function createChoiceBubbles() {
+    const choiceBubbles = document.getElementById('choice-bubbles');
+    if (!choiceBubbles) {
+        console.log('Choice bubbles container not found');
+        return;
+    }
+
+    console.log('Creating choice bubbles');
+    choiceBubbles.innerHTML = '';
+
+    chatChoices.forEach((choice, index) => {
+        const bubble = document.createElement('button');
+        bubble.className = 'choice-bubble';
+        bubble.textContent = choice.text;
+        bubble.style.cssText = `
+            background-color: #3B82F6;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin: 0 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        `;
+
+        bubble.addEventListener('mouseenter', () => {
+            bubble.style.backgroundColor = '#2563EB';
+            bubble.style.transform = 'translateY(-2px)';
+        });
+
+        bubble.addEventListener('mouseleave', () => {
+            bubble.style.backgroundColor = '#3B82F6';
+            bubble.style.transform = 'translateY(0)';
+        });
+
+        bubble.addEventListener('click', () => {
+            handleChoiceClick(index);
+        });
+
+        choiceBubbles.appendChild(bubble);
+    });
+}
+
+// Handle choice bubble clicks
+function handleChoiceClick(index) {
+    const choice = chatChoices[index];
+    const chatLog = document.getElementById('chat-log');
+
+    if (!chatLog) {
+        console.log('Chat log not found');
+        return;
+    }
+
+    // Add user message
+    const userMessage = document.createElement('div');
+    userMessage.className = 'chat-bubble user-message';
+    userMessage.textContent = choice.text;
+    chatLog.appendChild(userMessage);
+
+    // Add robot response after a delay
+    setTimeout(() => {
+        const robotMessage = document.createElement('div');
+        robotMessage.className = 'chat-bubble robot-message';
+        robotMessage.textContent = choice.response;
+        chatLog.appendChild(robotMessage);
+
+        // Scroll to bottom
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }, 1000);
+
+    // Hide choice bubbles after first interaction
+    const choiceBubbles = document.getElementById('choice-bubbles');
+    if (choiceBubbles) {
+        choiceBubbles.style.opacity = '0.5';
+        choiceBubbles.style.pointerEvents = 'none';
+    }
+}
+
+// Main DOMContentLoaded event listener - SINGLE INSTANCE
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing...');
+
     // Create Voice Visualizer
     createVoiceVisualizer();
 
-    // Initialize waveform animation
+    // Initialize waveform animation (only once)
     initializeWaveformAnimation();
+
     // Only disable autoplay on 5-Second Stories video, leave other videos alone
     const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
     const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
@@ -163,6 +268,9 @@ document.addEventListener('DOMContentLoaded', function() {
         actualStoryVideo.pause();
         actualStoryVideo.currentTime = 0;
     }
+
+    // Initialize choice bubbles for Feature 4
+    createChoiceBubbles();
 
     // New specs animation logic - auto-animate questions, click for answers
     function animateSpecsQuestions() {
@@ -980,124 +1088,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // Chat demo functionality
-    const chatChoices = [
-        {
-            text: "Error codes",
-            response: "P0234 indicates turbocharger overboost. Common causes: wastegate actuator malfunction, boost pressure sensor fault, or vacuum leak."
-        },
-        {
-            text: "Mystery noise",
-            response: "Based on your description, that grinding noise during turns could be CV joints or wheel bearings. Check for play in the wheel and listen for changes when turning left vs right."
-        }
-    ];
-
-    // Function to create choice bubbles
-    function createChoiceBubbles() {
-        const choiceBubbles = document.getElementById('choice-bubbles');
-        if (!choiceBubbles) {
-            console.log('Choice bubbles container not found');
-            return;
-        }
-
-        console.log('Creating choice bubbles');
-        choiceBubbles.innerHTML = '';
-
-        chatChoices.forEach((choice, index) => {
-            const bubble = document.createElement('button');
-            bubble.className = 'choice-bubble';
-            bubble.textContent = choice.text;
-            bubble.style.cssText = `
-                background-color: #3B82F6;
-                color: white;
-                border: none;
-                border-radius: 20px;
-                padding: 8px 16px;
-                margin: 0 4px;
-                cursor: pointer;
-                font-size: 14px;
-                font-weight: 500;
-                transition: all 0.2s ease;
-                white-space: nowrap;
-            `;
-
-            bubble.addEventListener('mouseenter', () => {
-                bubble.style.backgroundColor = '#2563EB';
-                bubble.style.transform = 'translateY(-2px)';
-            });
-
-            bubble.addEventListener('mouseleave', () => {
-                bubble.style.backgroundColor = '#3B82F6';
-                bubble.style.transform = 'translateY(0)';
-            });
-
-            bubble.addEventListener('click', () => {
-                handleChoiceClick(index);
-            });
-
-            choiceBubbles.appendChild(bubble);
-        });
-    }
-
-    // Handle choice bubble clicks
-    function handleChoiceClick(index) {
-        const choice = chatChoices[index];
-        const chatLog = document.getElementById('chat-log');
-
-        if (!chatLog) {
-            console.log('Chat log not found');
-            return;
-        }
-
-        // Add user message
-        const userMessage = document.createElement('div');
-        userMessage.className = 'chat-bubble user-message';
-        userMessage.textContent = choice.text;
-        chatLog.appendChild(userMessage);
-
-        // Add robot response after a delay
-        setTimeout(() => {
-            const robotMessage = document.createElement('div');
-            robotMessage.className = 'chat-bubble robot-message';
-            robotMessage.textContent = choice.response;
-            chatLog.appendChild(robotMessage);
-
-            // Scroll to bottom
-            chatLog.scrollTop = chatLog.scrollHeight;
-        }, 1000);
-
-        // Hide choice bubbles after first interaction
-        const choiceBubbles = document.getElementById('choice-bubbles');
-        if (choiceBubbles) {
-            choiceBubbles.style.opacity = '0.5';
-            choiceBubbles.style.pointerEvents = 'none';
-        }
-    }
-});
-
-// Main DOMContentLoaded event listener
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing...');
-
-    // Create Voice Visualizer
-    createVoiceVisualizer();
-
-    // Initialize waveform animation
-    initializeWaveformAnimation();
-
-    // Only disable autoplay on 5-Second Stories video, leave other videos alone
-    const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
-    const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
-
-    if (actualStoryVideo) {
-        actualStoryVideo.removeAttribute('autoplay');
-        actualStoryVideo.pause();
-        actualStoryVideo.currentTime = 0;
-    }
-
-    // Initialize choice bubbles for Feature 4
-    createChoiceBubbles();
 
     console.log('All initialization complete');
 });
