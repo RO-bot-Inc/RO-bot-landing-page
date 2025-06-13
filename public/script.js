@@ -984,16 +984,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // Chat demo functionality
     const chatChoices = [
         {
-            text: "Check TSBs",
-            response: "Found 3 relevant TSBs for adaptive cruise issues on this model. TSB #21-0045 addresses radar calibration procedures."
-        },
-        {
-            text: "Error code help",
+            text: "Error codes",
             response: "P0234 indicates turbocharger overboost. Common causes: wastegate actuator malfunction, boost pressure sensor fault, or vacuum leak."
         },
         {
-            text: "Next steps?",
-            response: "Recommended: 1) Inspect wastegate actuator 2) Test boost pressure sensor 3) Check vacuum lines for leaks 4) Verify ECU software version"
+            text: "Mystery noise",
+            response: "Based on your description, that grinding noise during turns could be CV joints or wheel bearings. Check for play in the wheel and listen for changes when turning left vs right."
         }
     ];
 
