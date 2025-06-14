@@ -292,17 +292,17 @@ document.addEventListener('DOMContentLoaded', () => {
             a1.style.transform = 'translateY(0)';
         }, 100);
         
-        // Animate A2 with 1 second delay
+        // Animate A2 with 3 second delay (1s original + 2s pause)
         setTimeout(() => {
             a2.style.opacity = '1';
             a2.style.transform = 'translateY(0)';
-        }, 1100);
+        }, 3100);
         
         // Start floating animation after both bubbles have animated in
         setTimeout(() => {
             a1.classList.add('floating');
             a2.classList.add('floating');
-        }, 1600);
+        }, 3600);
     }
 
     function resetSpecsBubbles() {
