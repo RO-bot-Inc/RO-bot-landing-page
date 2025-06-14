@@ -348,18 +348,28 @@ document.addEventListener('DOMContentLoaded', () => {
             opacity: '0'
         });
         
-        // Animate A1 first - fade in and move to final position
+        // Animate A1 first - fade in and move upward to final position
         setTimeout(() => {
             a1.style.opacity = '1';
             Object.assign(a1.style, a1FinalStyle);
-            a1.style.transform = 'translate(0, 0)';
+            // A1 moves upward from center, so we need to account for its final positioning
+            if (a1FinalStyle.top !== 'auto') {
+                a1.style.transform = 'translate(0, 0)';
+            } else if (a1FinalStyle.right !== 'auto') {
+                a1.style.transform = 'translate(0, 0)';
+            }
         }, 100);
         
-        // Animate A2 with 1 second delay
+        // Animate A2 with 1 second delay - fade in and move downward to final position
         setTimeout(() => {
             a2.style.opacity = '1';
             Object.assign(a2.style, a2FinalStyle);
-            a2.style.transform = 'translate(0, 0)';
+            // A2 moves downward from center, so we need to account for its final positioning
+            if (a2FinalStyle.bottom !== 'auto') {
+                a2.style.transform = 'translate(0, 0)';
+            } else if (a2FinalStyle.left !== 'auto') {
+                a2.style.transform = 'translate(0, 0)';
+            }
         }, 1100);
         
         // Start floating animation after both bubbles have animated in
