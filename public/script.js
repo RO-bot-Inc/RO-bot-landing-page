@@ -295,11 +295,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const bulletPattern = /(\s+-\s)/g;
                 let formattedText = message.text;
                 
-                // Replace bullet point dashes with newline + dash
-                formattedText = formattedText.replace(bulletPattern, '\n- ');
+                // Replace bullet point dashes with newline + bullet
+                formattedText = formattedText.replace(bulletPattern, '\n• ');
                 
                 messageEl.style.whiteSpace = 'pre-line';
-                messageEl.textContent = formattedText.trim();
+                messageEl.style.textIndent = '0';
+                messageEl.style.paddingLeft = '1em';
+                messageEl.style.textAlign = 'left';
+                messageEl.innerHTML = formattedText.trim().replace(/\n• /g, '\n<span style="margin-left: -1em; display: inline-block;">• </span>');
             } else {
                 messageEl.textContent = message.text;
             }
