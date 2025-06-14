@@ -187,19 +187,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const a2 = document.getElementById('a2Bubble');
         if (!a1 || !a2) return;
         resetSpecsBubbles();
+        
+        // Randomly position A1
+        const a1Top = Math.random() * 30 + 10; // 10-40% from top
+        const a1Right = Math.random() * 20 + 5; // 5-25% from right
+        a1.style.top = `${a1Top}%`;
+        a1.style.right = `${a1Right}%`;
+        a1.style.left = 'auto';
+        a1.style.bottom = 'auto';
+        
+        // Randomly position A2
+        const a2Bottom = Math.random() * 30 + 10; // 10-40% from bottom
+        const a2Right = Math.random() * 20 + 5; // 5-25% from right
+        a2.style.bottom = `${a2Bottom}%`;
+        a2.style.right = `${a2Right}%`;
+        a2.style.left = 'auto';
+        a2.style.top = 'auto';
+        
+        // Animate A1 first
         setTimeout(() => {
             a1.style.opacity = '1';
             a1.style.transform = 'translateY(0)';
         }, 0);
+        
+        // Animate A2 with 1 second delay
         setTimeout(() => {
             a2.style.opacity = '1';
             a2.style.transform = 'translateY(0)';
-        }, 800);
+        }, 1000);
+        
         // Start floating animation after both bubbles have animated in
         setTimeout(() => {
             a1.classList.add('floating');
             a2.classList.add('floating');
-        }, 1200);
+        }, 1500);
     }
 
     function resetSpecsBubbles() {
