@@ -267,9 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.appendChild(messageEl);
                 container.scrollTop = container.scrollHeight;
 
-                // Reset flag when last message is shown
+                // Restart the sequence when last message is shown
                 if (index === messages.length - 1) {
-                    isAutoplayRunning = false;
+                    setTimeout(() => {
+                        startDiagnosticAutoplay();
+                    }, 3000); // Wait 3 seconds before restarting
                 }
             }, delays[index]);
         });
