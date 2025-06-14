@@ -472,10 +472,16 @@
         /* Floating animation for specs containers */
         @keyframes specFloat {
             0%, 100% {
-                transform: translateY(0px);
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-4px) translateX(3px);
             }
             50% {
-                transform: translateY(-8px);
+                transform: translateY(-8px) translateX(0px);
+            }
+            75% {
+                transform: translateY(-4px) translateX(-3px);
             }
         }
 
