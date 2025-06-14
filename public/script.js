@@ -228,10 +228,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startDiagnosticAutoplay() {
         const container = document.getElementById('chatMessagesContainer');
-        if (!container || isAutoplayRunning) return;
+        if (!container) return;
+
+        // Always reset the sequence to start fresh
+        isAutoplayRunning = false;
+        container.innerHTML = '';
+        
+        // Clear any existing timeouts to prevent overlapping sequences
+        if (window.diagnosticTimeouts) {
+            window.diagnosticTimeouts.forEach(timeout => clearTimeout(timeout));
+        }
+        window.diagnosticTimeouts = [];
 
         isAutoplayRunning = true;
-        container.innerHTML = '';
 
         const messages = [
             { type: 'user', text: "We've got this error message on the display panel… adaptive cruise temporarily unavailable. I'm also getting some DTCs… U0235, C1A67, U0415" },
@@ -253,7 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 23000, 25000, 27000, 31000, 33000];
 
         messages.forEach((message, index) => {
-            setTimeout(() => {
+            const timeout = setTimeout(() => {
+                // Check if autoplay is still running (prevents execution after reset)
+                if (!isAutoplayRunning) return;
+
                 if (message.type === 'fadeout') {
                     // Fade out all existing messages
                     const allMessages = container.querySelectorAll('.chat-bubble, div[style*="margin-left: 10px"]');
@@ -264,7 +276,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Clear container after fade animation completes
                     setTimeout(() => {
-                        container.innerHTML = '';
+                        if (isAutoplayRunning) {
+                            container.innerHTML = '';
+                        }
                     }, 1000);
                     return;
                 }
@@ -285,11 +299,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Restart the sequence when last message is shown
                 if (index === messages.length - 1) {
-                    setTimeout(() => {
-                        startDiagnosticAutoplay();
+                    const restartTimeout = setTimeout(() => {
+                        if (isAutoplayRunning) {
+                            startDiagnosticAutoplay();
+                        }
                     }, 3000); // Wait 3 seconds before restarting
+                    window.diagnosticTimeouts.push(restartTimeout);
                 }
             }, delays[index]);
+            
+            window.diagnosticTimeouts.push(timeout);
         });
     }
 
