@@ -221,9 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => {
             q.classList.remove('tapped');
-            const img = q.querySelector('img');
-            if (!img) return;
-            if (img.src.includes('_notap.png')) { img.src = img.src.replace('_notap.png', '.png'); }
+            // Keep the original notap images since that's what we want to show
         });
     }
 
@@ -238,8 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.classList.add('tapped');
                 const img = this.querySelector('img');
                 if (!img) return;
-                if (img.src.includes('Q1_notap.png')) img.src = 'specs/Q1_notap.png';
-                if (img.src.includes('Q2_notap.png')) img.src = 'specs/Q2_notap.png';
+                // The images are already the "notap" versions, so no need to change them
             });
         });
     }
