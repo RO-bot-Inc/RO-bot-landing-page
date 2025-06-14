@@ -224,9 +224,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Feature 4: Diagnostic Autoplay ---
+    let isAutoplayRunning = false;
+    
     function startDiagnosticAutoplay() {
         const container = document.getElementById('chatMessagesContainer');
-        if (!container) return;
+        if (!container || isAutoplayRunning) return;
+
+        // Set flag to prevent multiple instances
+        isAutoplayRunning = true;
 
         // Clear any existing content
         container.innerHTML = '';
@@ -285,6 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 setTimeout(addMessage, nextDelay);
+            } else {
+                // Autoplay completed, reset flag
+                isAutoplayRunning = false;
             }
         }
 
@@ -297,6 +305,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (container) {
             container.innerHTML = '';
         }
+        // Reset the flag when manually resetting
+        isAutoplayRunning = false;
     }
 
     // ===========================================
