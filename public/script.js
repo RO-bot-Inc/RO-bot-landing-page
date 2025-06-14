@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (message.type === 'robot') {
                     const tagEl = document.createElement('div');
                     tagEl.textContent = 'RO-bot';
-                    tagEl.className = 'text-xs text-white mb-1 self-start';
+                    tagEl.className = 'text-xs text-white mb-1 self-start font-bold';
                     tagEl.style.cssText = 'margin-left: 5px; margin-bottom: -3px;';
                     container.appendChild(tagEl);
                 }
