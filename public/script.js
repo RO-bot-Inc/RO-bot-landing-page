@@ -273,18 +273,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Schedule next message
             if (currentIndex < messages.length) {
-                const nextMessage = messages[currentIndex];
                 let delay;
                 
-                if (nextMessage.delay) {
-                    // Special delay before the next message
-                    delay = nextMessage.delay;
-                } else if (message.type === 'user') {
+                if (message.type === 'user') {
                     // After user message: 1 second pause
                     delay = 1000;
                 } else {
                     // After robot message: 2 second pause
                     delay = 2000;
+                }
+
+                // Check if the next message has a special delay
+                const nextMessage = messages[currentIndex];
+                if (nextMessage && nextMessage.delay) {
+                    delay = nextMessage.delay;
                 }
 
                 setTimeout(addMessage, delay);
