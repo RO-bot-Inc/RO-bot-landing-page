@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 lines.forEach(line => {
                     if (line.startsWith('• ')) {
                         // This is a bullet point - create proper hanging indent where text aligns
-                        htmlContent += `<div style="padding-left: 1em; text-indent: -1em;">${line}</div>`;
+                        htmlContent += `<div style="padding-left: 0.8em; text-indent: -0.8em;">${line}</div>`;
                     } else if (line.trim()) {
                         // Regular line
                         htmlContent += `<div>${line}</div>`;
