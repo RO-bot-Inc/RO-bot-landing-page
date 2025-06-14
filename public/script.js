@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
 
         // Animation sequence with 4-second delays between RO-bot messages and user messages, plus 5-second fade out pause
-        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 22000, 26000, 28000, 32000, 34000];
+        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 23000, 28000, 30000, 34000, 36000];
 
         messages.forEach((message, index) => {
             const timeout = setTimeout(() => {
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         msg.style.opacity = '0';
                     });
                     
-                    // Clear container after fade animation completes
+                    // Clear container after fade animation completes, then wait 5 seconds
                     setTimeout(() => {
                         if (isAutoplayRunning) {
                             container.innerHTML = '';
