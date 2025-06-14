@@ -188,20 +188,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!a1 || !a2) return;
         resetSpecsBubbles();
         
-        // Randomly position A1
-        const a1Top = Math.random() * 30 + 10; // 10-40% from top
+        // Position A1 in upper portion to avoid overlap
+        const a1Top = Math.random() * 25 + 10; // 10-35% from top
         const a1Right = Math.random() * 20 + 5; // 5-25% from right
         a1.style.top = `${a1Top}%`;
         a1.style.right = `${a1Right}%`;
         a1.style.left = 'auto';
         a1.style.bottom = 'auto';
         
-        // Randomly position A2
-        const a2Bottom = Math.random() * 30 + 10; // 10-40% from bottom
-        const a2Right = Math.random() * 20 + 5; // 5-25% from right
+        // Position A2 in lower portion to avoid overlap with A1
+        const a2Bottom = Math.random() * 25 + 15; // 15-40% from bottom
+        const a2Left = Math.random() * 20 + 5; // 5-25% from left (opposite side)
         a2.style.bottom = `${a2Bottom}%`;
-        a2.style.right = `${a2Right}%`;
-        a2.style.left = 'auto';
+        a2.style.left = `${a2Left}%`;
+        a2.style.right = 'auto';
         a2.style.top = 'auto';
         
         // Animate A1 first
