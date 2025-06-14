@@ -255,9 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
 
             // Timing based on new sequence specifications:
-            // User 1 (0), RO-bot 1 (1s), User 2 (6s), RO-bot 2 (7s), User 3 (12s), RO-bot 3 (13s), 
-            // fadeout (18s), User 4 (20s), RO-bot 4 (21s), User 5 (26s), RO-bot 5 (27s), User 6 (32s), RO-bot 6 (33s), finalfadeout (38s)
-            this.delays = [0, 1000, 6000, 7000, 12000, 13000, 18000, 20000, 21000, 26000, 27000, 32000, 33000, 38000];
+            // User 1 (0), RO-bot 1 (2s), User 2 (7s), RO-bot 2 (9s), User 3 (14s), RO-bot 3 (16s), 
+            // fadeout (21s), User 4 (23s), RO-bot 4 (25s), User 5 (30s), RO-bot 5 (32s), User 6 (37s), RO-bot 6 (39s), finalfadeout (44s)
+            this.delays = [0, 2000, 7000, 9000, 14000, 16000, 21000, 23000, 25000, 30000, 32000, 37000, 39000, 44000];
 
             return true;
         }
