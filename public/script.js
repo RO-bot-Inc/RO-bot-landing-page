@@ -321,14 +321,12 @@ document.addEventListener('DOMContentLoaded', () => {
             this.container.appendChild(messageEl);
             this.container.scrollTop = this.container.scrollHeight;
 
-            // Schedule restart if this is the last message
+            // End sequence after the last message
             if (index === this.messages.length - 1) {
-                const restartTimeout = setTimeout(() => {
-                    if (this.isRunning) {
-                        this.start();
-                    }
-                }, 4000);
-                this.timeouts.push(restartTimeout);
+                const endTimeout = setTimeout(() => {
+                    this.isRunning = false;
+                }, 1000);
+                this.timeouts.push(endTimeout);
             }
         }
 
