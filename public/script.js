@@ -281,38 +281,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const a1 = document.getElementById('a1Bubble');
         const a2 = document.getElementById('a2Bubble');
         if (!a1 || !a2) return;
-        resetSpecsBubbles();
         
         // Position both bubbles using zone-based positioning
         calculateSpecsBubblePositions();
         
-        // Animate A1 first
-        setTimeout(() => {
-            a1.style.opacity = '1';
-            a1.style.transform = 'translateY(0)';
-        }, 100);
-        
-        // Animate A2 with 2 second delay (1s original + 1s pause)
-        setTimeout(() => {
-            a2.style.opacity = '1';
-            a2.style.transform = 'translateY(0)';
-        }, 2100);
-        
-        // Start floating animation after both bubbles have animated in
-        setTimeout(() => {
-            a1.classList.add('floating');
-            a2.classList.add('floating');
-        }, 2600);
+        // Show bubbles immediately with floating animation
+        a1.style.opacity = '1';
+        a2.style.opacity = '1';
+        a1.classList.add('floating');
+        a2.classList.add('floating');
     }
 
     function resetSpecsBubbles() {
         const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
         allBubbles.forEach(bubble => {
             bubble.style.opacity = '0';
-            bubble.style.transform = 'translateY(10px)';
             bubble.classList.remove('floating');
         });
-        
     }
 
     
