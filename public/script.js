@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ALL FUNCTION DEFINITIONS
     // ===========================================
 
-    // --- Hero Section Animations (from your new script) ---
+    // --- Hero Section Animations ---
     function createVoiceVisualizer() {
         const root = document.getElementById('voice-visualizer-root');
         if (!root) return;
@@ -171,10 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const q1 = document.getElementById('q1Bubble');
         const q2 = document.getElementById('q2Bubble');
         if (!q1 || !q2) return;
-
-        // Reset bubbles before animating
         resetSpecsBubbles();
-
         setTimeout(() => {
             q1.style.opacity = '1';
             q1.style.transform = 'translateY(0)';
@@ -212,112 +209,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===================================================
-    // CHOOSE YOUR OWN ADVENTURE (CYA) LOGIC (MERGED IN)
-    // ===================================================
-    function initializeChooserDemo() {
-        const choicesWrapper = document.getElementById('choices-wrapper');
-        const chatLog = document.getElementById('chat-log');
-        if (!choicesWrapper || !chatLog) return;
-
-        const choicesHeading = document.getElementById('choices-heading');
-        const choiceBubbles = document.getElementById('choice-bubbles');
-        const chatOverlay = document.getElementById('chat-overlay');
-
-        const scrollToBottom = () => { if (chatLog) chatLog.scrollTop = chatLog.scrollHeight; };
-
-        const _renderChoices = (choicesArray) => {
-            if (!choiceBubbles || !choicesHeading) return;
-            const text = 'Try It!';
-            const emoji = '&#128073;';
-            const textSpans = text.split('').map(char => `<span>${char === ' ' ? '&nbsp;' : char}</span>`).join('');
-            choicesHeading.innerHTML = textSpans + `<span>${emoji}</span>`;
-            const chars = choicesHeading.querySelectorAll('span');
-            chars.forEach((char, index) => { char.style.animationDelay = `${index * 0.08}s`; });
-
-            choiceBubbles.innerHTML = '';
-            const isInitialChoice = choicesArray.length > 0 && (choicesArray[0].id === 'initial_error_code_path' || choicesArray[0].id === 'initial_symptom_path');
-            choicesArray.forEach((choice, index) => {
-                const button = document.createElement('button');
-                button.dataset.choice = choice.id;
-                button.innerText = choice.text;
-                button.className = choice.id === 'reset' ? 'bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105' : 'bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm shadow-md transition-transform transform hover:scale-105';
-                choiceBubbles.appendChild(button);
-                if (choicesArray.length === 2 && index === 0 && !isInitialChoice) {
-                    const orText = document.createElement('span');
-                    orText.className = 'text-gray-500 font-semibold';
-                    orText.innerText = 'or';
-                    choiceBubbles.appendChild(orText);
-                }
-            });
-        };
-
-        const resetDemo = () => {
-            if (chatLog) chatLog.innerHTML = '';
-            if (chatOverlay) chatOverlay.classList.add('opacity-0');
-            if (choicesHeading) choicesHeading.classList.remove('no-animation');
-            _renderChoices([{ text: 'Error codes', id: 'initial_error_code_path' }, { text: 'Mystery noise', id: 'initial_symptom_path' }]);
-        };
-
-        const addMessage = (text, type, delay = 0) => new Promise(resolve => setTimeout(() => {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('chat-bubble', type);
-            messageElement.innerHTML = text;
-            if (chatLog) chatLog.appendChild(messageElement);
-            setTimeout(scrollToBottom, 50);
-            resolve();
-        }, delay));
-
-        const showChoices = (choices, delay = 0) => setTimeout(() => _renderChoices(choices), delay);
-
-        const handleChoice = async (choiceId) => {
-            if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
-                if (choicesHeading) choicesHeading.classList.add('no-animation');
-                if (chatOverlay) chatOverlay.classList.remove('opacity-0');
-            } else if (choiceId !== 'reset') {
-                if (choiceBubbles) choiceBubbles.innerHTML = '';
-            }
-
-            switch (choiceId) {
-                case 'initial_error_code_path':
-                    await addMessage('I got these error codes: U0235, C1A67, U0415', 'user-message');
-                    await addMessage("Okay, I see three codes related to the advanced driver-assistance system.", 'robot-message', 1250);
-                    showChoices([{ text: 'What do these codes mean?', id: 'path1_what_mean' }, { text: 'Suggest next steps', id: 'path1_suggest_steps' }], 500);
-                    break;
-                case 'initial_symptom_path':
-                    await addMessage("The rustomer reports a rattling noise from the rear passenger side...There’s a metallic rattle at 30–50 mph.", 'user-message');
-                    await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area...", 'robot-message', 1250);
-                    showChoices([{ text: 'Rotor noise', id: 'symptom_rotor_noise' }, { text: 'Everything normal', id: 'symptom_everything_normal' }], 500);
-                    break;
-                case 'reset':
-                    resetDemo();
-                    break;
-                // Add all other story branch cases here from your working version...
-            }
-        };
-
-        choicesWrapper.addEventListener('click', (e) => {
-            if (e.target.matches('#choice-bubbles button[data-choice]')) {
-                handleChoice(e.target.dataset.choice);
-            }
-        });
-        resetDemo();
-    }
-
     // ===========================================
     // INITIALIZE ALL PAGE SCRIPTS
     // ===========================================
     createVoiceVisualizer();
     initializeWaveformAnimation();
-    initializeChooserDemo();
     setupVideoTimerSync();
     setupFeatureObservers();
 
-    // Recalculate warranty positions on window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(calculateOptimalPositions, 250);
     });
-
 });
