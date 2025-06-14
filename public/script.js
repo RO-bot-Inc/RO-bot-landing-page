@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Feature 4: Diagnostic Autoplay ---
     let isAutoplayRunning = false;
-    
+
     function startDiagnosticAutoplay() {
         const container = document.getElementById('chatMessagesContainer');
         if (!container || isAutoplayRunning) return;
