@@ -147,9 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const specsObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
-                        animateSpecsQuestions();
+                        animateSpecsSequence();
                     } else {
-                        hideSpecsBubbles();
+                        resetSpecsBubbles();
                     }
                 });
             }, { threshold: 1.0 });
@@ -174,14 +174,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function animateSpecsQuestions() {
-        const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
-        questions.forEach((question, index) => { setTimeout(() => { question.style.opacity = '1'; question.style.transform = 'translateY(0)'; }, index * 800); });
+    function animateSpecsSequence() {
+        const q1 = document.getElementById('q1Bubble');
+        const a1 = document.getElementById('a1Bubble');
+        const q2 = document.getElementById('q2Bubble');
+        const a2 = document.getElementById('a2Bubble');
+
+        // Reset all elements first
+        resetSpecsBubbles();
+
+        // Animation sequence: Q1, pause 0.5s, A1, pause 1.5s, Q2, pause 0.5s, A2
+        setTimeout(() => {
+            if (q1) {
+                q1.style.opacity = '1';
+                q1.style.transform = 'translateY(0)';
+            }
+        }, 0);
+
+        setTimeout(() => {
+            if (a1) {
+                a1.style.opacity = '1';
+                a1.style.transform = 'translateY(0)';
+            }
+        }, 500);
+
+        setTimeout(() => {
+            if (q2) {
+                q2.style.opacity = '1';
+                q2.style.transform = 'translateY(0)';
+            }
+        }, 2000);
+
+        setTimeout(() => {
+            if (a2) {
+                a2.style.opacity = '1';
+                a2.style.transform = 'translateY(0)';
+            }
+        }, 2500);
     }
 
-    function hideSpecsBubbles() {
+    function resetSpecsBubbles() {
         const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
-        allBubbles.forEach(bubble => { bubble.style.opacity = '0'; bubble.style.transform = 'translateY(10px)'; });
+        allBubbles.forEach(bubble => { 
+            bubble.style.opacity = '0'; 
+            bubble.style.transform = 'translateY(10px)'; 
+        });
         document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => {
             q.classList.remove('tapped');
             const img = q.querySelector('img');
