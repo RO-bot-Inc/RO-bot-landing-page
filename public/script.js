@@ -102,6 +102,26 @@ document.addEventListener('DOMContentLoaded', () => {
             actualVideo.play().then(() => { sendTimerMessage('startTimer'); }).catch(error => {});
         }
         resetSequence();
+
+        // Set up intersection observer for auto-trigger
+        const featureContainer = actualVideo.closest('.relative');
+        if (featureContainer) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                        // Trigger animation 0.5 seconds after fully in viewport
+                        setTimeout(() => {
+                            startSequence();
+                        }, 500);
+                        // Stop observing after first trigger
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 1.0 });
+            observer.observe(featureContainer);
+        }
+
+        // Keep button functionality as backup
         const writeStoryBtn = document.getElementById('writeStoryBtn');
         if (writeStoryBtn) { writeStoryBtn.addEventListener('click', startSequence); }
     }
