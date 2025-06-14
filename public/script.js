@@ -381,6 +381,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const messageEl = document.createElement('div');
             messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
             
+            // Add smooth entrance animation
+            messageEl.style.opacity = '0';
+            messageEl.style.transform = 'translateY(20px)';
+            messageEl.style.transition = 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            
             // Format RO-bot messages to create new lines for dash bullet points only
             if (message.type === 'robot' && message.text.includes('- ')) {
                 // Only split on dashes that have a space after them (bullet points)
@@ -417,9 +422,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fadeOutMessages() {
             const allMessages = this.container.querySelectorAll('.chat-bubble, div[style*="margin-left: 10px"]');
-            allMessages.forEach(msg => {
-                msg.style.transition = 'opacity 1s ease-out';
-                msg.style.opacity = '0';
+            allMessages.forEach((msg, index) => {
+                // Stagger the fade out animation for a smoother effect
+                setTimeout(() => {
+                    msg.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                    msg.style.opacity = '0';
+                    msg.style.transform = 'translateY(-10px)';
+                }, index * 100);
             });
 
             // Clear container after fade animation completes
@@ -427,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (this.isRunning && this.container) {
                     this.container.innerHTML = '';
                 }
-            }, 1000);
+            }, 1200);
 
             this.timeouts.push(clearTimeout);
         }
@@ -444,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (this.isRunning) {
                             this.start();
                         }
-                    }, 3000); // 1s fade + 2s pause
+                    }, 3200); // 1.2s fade + 2s pause
                     this.timeouts.push(restartTimeout);
                 }
                 return;
@@ -452,12 +461,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (message.type === 'robot') {
                 const robotTag = this.createRobotTag();
+                robotTag.style.opacity = '0';
+                robotTag.style.transform = 'translateY(10px)';
+                robotTag.style.transition = 'all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
                 this.container.appendChild(robotTag);
+                
+                // Animate robot tag in
+                setTimeout(() => {
+                    robotTag.style.opacity = '1';
+                    robotTag.style.transform = 'translateY(0)';
+                }, 50);
             }
 
             const messageEl = this.createMessageElement(message);
             this.container.appendChild(messageEl);
+            
+            // Smooth scroll to bottom
+            this.container.style.scrollBehavior = 'smooth';
             this.container.scrollTop = this.container.scrollHeight;
+            
+            // Animate message in
+            setTimeout(() => {
+                messageEl.style.opacity = '1';
+                messageEl.style.transform = 'translateY(0)';
+            }, message.type === 'robot' ? 200 : 100);
         }
 
         start() {
