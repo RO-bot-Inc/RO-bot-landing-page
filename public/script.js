@@ -248,8 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
         ];
 
-        // Simple animation sequence with predetermined delays
-        const delays = [0, 2000, 3000, 5000, 6000, 8000, 12000, 14000, 15000, 17000, 18000, 20000];
+        // Animation sequence with 4-second delays between RO-bot messages and user messages
+        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 22000, 26000, 28000, 32000, 34000];
 
         messages.forEach((message, index) => {
             setTimeout(() => {
