@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.classList.add('tapped');
                 const img = this.querySelector('img');
                 if (!img) return;
-                if (img.src.includes('Q1_920x412.png')) img.src = 'specs/Q1_notap.png';
-                if (img.src.includes('Q2_638xx412.png')) img.src = 'specs/Q2_notap.png';
+                if (img.src.includes('Q1_notap.png')) img.src = 'specs/Q1_notap.png';
+                if (img.src.includes('Q2_notap.png')) img.src = 'specs/Q2_notap.png';
             });
         });
     }
