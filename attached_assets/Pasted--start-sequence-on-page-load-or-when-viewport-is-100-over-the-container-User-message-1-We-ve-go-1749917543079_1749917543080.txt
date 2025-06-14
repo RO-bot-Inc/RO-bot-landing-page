@@ -1,0 +1,59 @@
+[start sequence on page load or when viewport is 100% over the container]
+
+User message 1: 
+We’ve got this error message on the display panel… adaptive cruise temporarily unavailable. I’m also getting some DTCs… U0235, C1A67, U0415
+[1 second pause]
+
+RO-bot message 1: Those codes are related to the advanced driver-assistance system. Start with a visual inspection of radar sensor and fascia. 
+- Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover). 
+- Verify sensor is properly seated. The sensor must be aimed straight ahead and level to the ground.
+[5 second pause]
+
+User message 2: No issues found. Now what?
+[1 second pause]
+
+RO-bot message 2: Check wiring/connectors for damage and run radar sensor calibration.
+- Connect MDI 2 and launch GDS2 or Techline Connect. 
+- Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn
+[5 second pause]
+
+User message 3: Calibration was successful. That was the issue. Error message resolved.
+[1 second pause]
+
+RO-bot message 3: Recolution confirmed. Check to make sure DTCs are clear. 
+[5 second pause]
+[all on-screen messages fade out]
+[2 second pause]
+
+
+User message 4: Road test confirms a rattling noise from the rear passenger side. It gets louder with speed.
+[1 second pause]
+
+RO-bot message 4: Remove the right rear wheel. Inspect rear passenger side wheel area. 
+- Brake dust shield
+- Parking brake 
+- Exhaust near wheel well — hangers, clearance from body, heat shields
+- Shock mount points — wear, cracked bushings, loose fasteners
+- Suspension arms and links 
+- Rotor
+[5 second pause]
+
+User message 5: Everything looks normal. Now what? 
+[1 second pause]
+
+RO-bot message 5: Use a chassis ear kit or mechanic’s stethoscope to isolate the nose. Check these areas:
+- Rear shock absorber lower mount
+- Control arm
+- Sway bar link
+- Subframe
+- Seatbelt anchor
+[5 second pause]
+
+User message 6: It was coming from the inside of the door. I opened up the panel and found a loose wiring harness.
+[1 second pause]
+
+RO-bot message 6: Mystery solved! Secure the harness and confirm the resolution with a final road test. 
+[5 second pause]
+[all on-screen messages fade out]
+[2 second pause]
+[restart sequence at User message 1]
