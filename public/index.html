@@ -469,24 +469,64 @@
             animation: float3 5.5s ease-in-out infinite !important;
         }
 
-        /* Floating animation for specs containers */
-        @keyframes specFloat {
-            0%, 100% {
+        /* Floating animation for specs containers - more random movement */
+        @keyframes specFloat1 {
+            0% {
                 transform: translateY(0px) translateX(0px);
             }
-            25% {
-                transform: translateY(-4px) translateX(3px);
+            15% {
+                transform: translateY(-3px) translateX(2px);
             }
-            50% {
-                transform: translateY(-8px) translateX(0px);
+            32% {
+                transform: translateY(-7px) translateX(-1px);
             }
-            75% {
-                transform: translateY(-4px) translateX(-3px);
+            48% {
+                transform: translateY(-2px) translateX(4px);
+            }
+            65% {
+                transform: translateY(-9px) translateX(-2px);
+            }
+            78% {
+                transform: translateY(-1px) translateX(3px);
+            }
+            92% {
+                transform: translateY(-5px) translateX(-3px);
+            }
+            100% {
+                transform: translateY(0px) translateX(0px);
+            }
+        }
+
+        @keyframes specFloat2 {
+            0% {
+                transform: translateY(0px) translateX(0px);
+            }
+            18% {
+                transform: translateY(-6px) translateX(-3px);
+            }
+            35% {
+                transform: translateY(-2px) translateX(1px);
+            }
+            52% {
+                transform: translateY(-8px) translateX(3px);
+            }
+            69% {
+                transform: translateY(-3px) translateX(-2px);
+            }
+            84% {
+                transform: translateY(-7px) translateX(2px);
+            }
+            100% {
+                transform: translateY(0px) translateX(0px);
             }
         }
 
         .floating {
-            animation: specFloat 4s ease-in-out infinite;
+            animation: specFloat1 5.2s ease-in-out infinite;
+        }
+
+        #a2Bubble.floating {
+            animation: specFloat2 4.7s ease-in-out infinite;
         }
 
         /* Specs Overlay Positioning - Larger sizes for better readability */
