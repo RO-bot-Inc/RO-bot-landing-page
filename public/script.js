@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // ===========================================
@@ -335,6 +334,46 @@ document.addEventListener('DOMContentLoaded', () => {
                     await addMessage('Everything normal', 'user-message');
                     await addMessage("Since the wheel area looks normal, check the exhaust heat shield and suspension components in that area.", 'robot-message', 1250);
                     showChoices([{ text: 'Check exhaust', id: 'symptom_check_exhaust' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'path1_how_to_fix':
+                    await addMessage('How to fix?', 'user-message');
+                    await addMessage("First, check radar sensor connections and wiring. If connections are good, the radar sensor likely needs replacement. This requires calibration after installation.", 'robot-message', 1250);
+                    showChoices([{ text: 'Calibration steps?', id: 'path1_calibration' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'path1_check_connections':
+                    await addMessage('Check connections', 'user-message');
+                    await addMessage("Remove the front bumper cover to access the radar sensor. Check for loose connections, corrosion, or damaged wiring. Clean connections with electrical contact cleaner.", 'robot-message', 1250);
+                    showChoices([{ text: 'Still have codes?', id: 'path1_still_codes' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'path1_calibration':
+                    await addMessage('Calibration steps?', 'user-message');
+                    await addMessage("Use the OEM scan tool to perform radar sensor calibration. Drive the vehicle in a straight line for 15-20 minutes at highway speeds to complete the learning process.", 'robot-message', 1250);
+                    showChoices([{ text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'path1_still_codes':
+                    await addMessage('Still have codes?', 'user-message');
+                    await addMessage("If connections are clean but codes persist, the radar sensor has likely failed and needs replacement. Order part number specific to your vehicle's year and model.", 'robot-message', 1250);
+                    showChoices([{ text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'symptom_parts_needed':
+                    await addMessage('Parts needed?', 'user-message');
+                    await addMessage("You'll need a new rear rotor and brake pads for that wheel. Also check if the caliper piston is seized - that could have caused the excessive wear.", 'robot-message', 1250);
+                    showChoices([{ text: 'Check caliper?', id: 'symptom_check_caliper' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'symptom_check_exhaust':
+                    await addMessage('Check exhaust', 'user-message');
+                    await addMessage("I found a loose exhaust heat shield. The bracket has broken, causing it to rattle against the exhaust pipe. Simple fix - just need a new heat shield bracket.", 'robot-message', 1250);
+                    showChoices([{ text: 'Part number?', id: 'symptom_part_number' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'symptom_check_caliper':
+                    await addMessage('Check caliper?', 'user-message');
+                    await addMessage("Press the caliper piston back with a C-clamp. If it moves smoothly, the caliper is fine. If it's stuck or moves unevenly, replace the caliper too.", 'robot-message', 1250);
+                    showChoices([{ text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'symptom_part_number':
+                    await addMessage('Part number?', 'user-message');
+                    await addMessage("Heat shield bracket part number varies by vehicle. Check the service manual or contact parts department with your VIN for the exact part number.", 'robot-message', 1250);
+                    showChoices([{ text: 'Reset', id: 'reset' }], 500);
                     break;
                 case 'reset':
                     resetDemo();
