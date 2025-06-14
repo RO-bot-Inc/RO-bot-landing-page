@@ -149,7 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }, { threshold: 1.0 });
-            setupSpecsClickHandlers();
             specsObserver.observe(techSpecsContainer);
         }
 
@@ -184,17 +183,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function animateSpecsSequence() {
-        const q1 = document.getElementById('q1Bubble');
-        const q2 = document.getElementById('q2Bubble');
-        if (!q1 || !q2) return;
+        const a1 = document.getElementById('a1Bubble');
+        const a2 = document.getElementById('a2Bubble');
+        if (!a1 || !a2) return;
         resetSpecsBubbles();
         setTimeout(() => {
-            q1.style.opacity = '1';
-            q1.style.transform = 'translateY(0)';
+            a1.style.opacity = '1';
+            a1.style.transform = 'translateY(0)';
         }, 0);
         setTimeout(() => {
-            q2.style.opacity = '1';
-            q2.style.transform = 'translateY(0)';
+            a2.style.opacity = '1';
+            a2.style.transform = 'translateY(0)';
         }, 800);
     }
 
@@ -204,26 +203,10 @@ document.addEventListener('DOMContentLoaded', () => {
             bubble.style.opacity = '0';
             bubble.style.transform = 'translateY(10px)';
         });
-        document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => {
-            q.classList.remove('tapped');
-        });
+        
     }
 
-    function setupSpecsClickHandlers() {
-        const questions = document.querySelectorAll('#techSpecsContainer .clickable-question');
-        questions.forEach(question => {
-            question.addEventListener('click', function() {
-                if (this.classList.contains('tapped')) return;
-                const answerId = this.getAttribute('data-answer');
-                const answerBubble = document.getElementById(answerId);
-                if (answerBubble) {
-                    answerBubble.style.opacity = '1';
-                    answerBubble.style.transform = 'translateY(0)';
-                }
-                this.classList.add('tapped');
-            });
-        });
-    }
+    
 
     // --- Feature 4: Diagnostic Autoplay (Refactored) ---
     class DiagnosticAutoplay {
