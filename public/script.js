@@ -183,65 +183,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkBubbleOverlap(bubble1, bubble2) {
+        // Force layout recalculation to get accurate positions
+        bubble1.offsetHeight;
+        bubble2.offsetHeight;
+        
         const rect1 = bubble1.getBoundingClientRect();
         const rect2 = bubble2.getBoundingClientRect();
         
-        return !(rect1.right < rect2.left || 
-                rect2.right < rect1.left || 
-                rect1.bottom < rect2.top || 
-                rect2.bottom < rect1.top);
+        // Add padding to ensure some space between bubbles
+        const padding = 20;
+        
+        return !(rect1.right + padding < rect2.left || 
+                rect2.right + padding < rect1.left || 
+                rect1.bottom + padding < rect2.top || 
+                rect2.bottom + padding < rect1.top);
+    }
+
+    function positionBubbleRandomly(bubble, isA1 = true) {
+        if (isA1) {
+            // Position A1 in upper half
+            const a1Top = Math.random() * 30 + 5; // 5-35% from top
+            const a1Right = Math.random() * 50 + 5; // 5-55% from right
+            bubble.style.top = `${a1Top}%`;
+            bubble.style.right = `${a1Right}%`;
+            bubble.style.left = 'auto';
+            bubble.style.bottom = 'auto';
+        } else {
+            // Position A2 in lower half
+            const a2Bottom = Math.random() * 30 + 10; // 10-40% from bottom
+            const a2Left = Math.random() * 50 + 5; // 5-55% from left
+            bubble.style.bottom = `${a2Bottom}%`;
+            bubble.style.left = `${a2Left}%`;
+            bubble.style.right = 'auto';
+            bubble.style.top = 'auto';
+        }
     }
 
     function positionBubbleWithoutOverlap(bubble, otherBubble, isA1 = true) {
         const container = document.getElementById('techSpecsContainer');
         if (!container) return;
         
-        const containerRect = container.getBoundingClientRect();
         let attempts = 0;
-        const maxAttempts = 20;
+        const maxAttempts = 30;
         
         while (attempts < maxAttempts) {
-            if (isA1) {
-                // Position A1 in upper portion
-                const a1Top = Math.random() * 25 + 10; // 10-35% from top
-                const a1Right = Math.random() * 40 + 5; // 5-45% from right (wider range)
-                bubble.style.top = `${a1Top}%`;
-                bubble.style.right = `${a1Right}%`;
-                bubble.style.left = 'auto';
-                bubble.style.bottom = 'auto';
-            } else {
-                // Position A2 in lower portion
-                const a2Bottom = Math.random() * 25 + 15; // 15-40% from bottom
-                const a2Left = Math.random() * 40 + 5; // 5-45% from left (wider range)
-                bubble.style.bottom = `${a2Bottom}%`;
-                bubble.style.left = `${a2Left}%`;
-                bubble.style.right = 'auto';
-                bubble.style.top = 'auto';
-            }
+            // Try random positioning
+            positionBubbleRandomly(bubble, isA1);
+            
+            // Make bubble visible temporarily to check overlap
+            const originalOpacity = bubble.style.opacity;
+            bubble.style.opacity = '1';
             
             // Check for overlap if the other bubble is already positioned
             if (otherBubble && otherBubble.style.opacity !== '0') {
-                if (!checkBubbleOverlap(bubble, otherBubble)) {
-                    break; // No overlap, position is good
-                }
+                // Wait for layout to settle
+                setTimeout(() => {
+                    if (!checkBubbleOverlap(bubble, otherBubble)) {
+                        // No overlap found, keep this position
+                        bubble.style.opacity = originalOpacity;
+                        return;
+                    }
+                }, 0);
+                
+                // If we get here, there was overlap, try again
+                bubble.style.opacity = originalOpacity;
             } else {
-                break; // Other bubble not positioned yet, this position is fine
+                // Other bubble not positioned yet, this position is fine
+                bubble.style.opacity = originalOpacity;
+                break;
             }
             
             attempts++;
         }
         
-        // If we couldn't find a non-overlapping position after max attempts,
-        // use safe fallback positions
+        // If we couldn't find a non-overlapping position, use guaranteed safe positions
         if (attempts >= maxAttempts) {
             if (isA1) {
-                bubble.style.top = '15%';
-                bubble.style.right = '10%';
+                bubble.style.top = '12%';
+                bubble.style.right = '8%';
                 bubble.style.left = 'auto';
                 bubble.style.bottom = 'auto';
             } else {
-                bubble.style.bottom = '20%';
-                bubble.style.left = '10%';
+                bubble.style.bottom = '15%';
+                bubble.style.left = '8%';
                 bubble.style.right = 'auto';
                 bubble.style.top = 'auto';
             }
@@ -257,26 +281,28 @@ document.addEventListener('DOMContentLoaded', () => {
         // Position A1 first
         positionBubbleWithoutOverlap(a1, null, true);
         
-        // Position A2 after A1, checking for overlap
-        positionBubbleWithoutOverlap(a2, a1, false);
+        // Wait a moment then position A2, checking for overlap with A1
+        setTimeout(() => {
+            positionBubbleWithoutOverlap(a2, a1, false);
+        }, 50);
         
         // Animate A1 first
         setTimeout(() => {
             a1.style.opacity = '1';
             a1.style.transform = 'translateY(0)';
-        }, 0);
+        }, 100);
         
         // Animate A2 with 1 second delay
         setTimeout(() => {
             a2.style.opacity = '1';
             a2.style.transform = 'translateY(0)';
-        }, 1000);
+        }, 1100);
         
         // Start floating animation after both bubbles have animated in
         setTimeout(() => {
             a1.classList.add('floating');
             a2.classList.add('floating');
-        }, 1500);
+        }, 1600);
     }
 
     function resetSpecsBubbles() {
