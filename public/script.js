@@ -191,17 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const screenWidth = window.innerWidth;
         let positions = [];
         
-        // Define safe zones similar to warranty overlays
+        // Define safe zones for the new text containers
         if (screenWidth <= 640) {
             positions = [
-                { // A1 - upper right
+                { // A1 - upper right (oil capacity)
                     bubble: a1,
                     right: '5%',
                     top: '8%',
                     left: 'auto',
                     bottom: 'auto'
                 },
-                { // A2 - lower left
+                { // A2 - lower left (torque specs)
                     bubble: a2,
                     left: '5%',
                     bottom: '15%',
@@ -211,14 +211,31 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
         } else if (screenWidth <= 1024) {
             positions = [
-                { // A1 - upper right
+                { // A1 - upper right (oil capacity)
+                    bubble: a1,
+                    right: '4%',
+                    top: '10%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left (torque specs)
+                    bubble: a2,
+                    left: '4%',
+                    bottom: '15%',
+                    right: 'auto',
+                    top: 'auto'
+                }
+            ];
+        } else {
+            positions = [
+                { // A1 - upper right (oil capacity)
                     bubble: a1,
                     right: '4%',
                     top: '12%',
                     left: 'auto',
                     bottom: 'auto'
                 },
-                { // A2 - lower left
+                { // A2 - lower left (torque specs)
                     bubble: a2,
                     left: '4%',
                     bottom: '18%',
@@ -226,28 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     top: 'auto'
                 }
             ];
-        } else {
-            positions = [
-                { // A1 - upper right
-                    bubble: a1,
-                    right: '4%',
-                    top: '15%',
-                    left: 'auto',
-                    bottom: 'auto'
-                },
-                { // A2 - lower left
-                    bubble: a2,
-                    left: '4%',
-                    bottom: '20%',
-                    right: 'auto',
-                    top: 'auto'
-                }
-            ];
         }
         
-        // Add random variation within safe zones
+        // Add slight random variation within safe zones
         positions.forEach(pos => {
-            const randomOffset = Math.random() * 8 - 4; // ±4% variation
+            const randomOffset = Math.random() * 6 - 3; // ±3% variation
             
             if (pos.top !== 'auto') {
                 const topValue = parseFloat(pos.top);
