@@ -255,9 +255,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
 
             // Timing based on new sequence specifications:
-            // User 1 (0), RO-bot 1 (2s), User 2 (7s), RO-bot 2 (9s), User 3 (14s), RO-bot 3 (16s), 
-            // fadeout (21s), User 4 (23s), RO-bot 4 (25s), User 5 (30s), RO-bot 5 (32s), User 6 (37s), RO-bot 6 (39s), finalfadeout (44s)
-            this.delays = [0, 2000, 7000, 9000, 14000, 16000, 21000, 23000, 25000, 30000, 32000, 37000, 39000, 44000];
+            // User 1 (1s), RO-bot 1 (3s), User 2 (8s), RO-bot 2 (10s), User 3 (15s), RO-bot 3 (17s), 
+            // fadeout (22s), User 4 (24s), RO-bot 4 (26s), User 5 (31s), RO-bot 5 (33s), User 6 (38s), RO-bot 6 (40s), finalfadeout (45s)
+            this.delays = [1000, 3000, 8000, 10000, 15000, 17000, 22000, 24000, 26000, 31000, 33000, 38000, 40000, 45000];
 
             return true;
         }
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.container.innerHTML = '';
                 }
             }, 1000);
-            
+
             this.timeouts.push(clearTimeout);
         }
 
@@ -312,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (message.type === 'fadeout' || message.type === 'finalfadeout') {
                 this.fadeOutMessages();
-                
+
                 // If this is the final fadeout, schedule restart after 2 second pause
                 if (message.type === 'finalfadeout') {
                     const restartTimeout = setTimeout(() => {
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const timeout = setTimeout(() => {
                     this.displayMessage(message, index);
                 }, this.delays[index]);
-                
+
                 this.timeouts.push(timeout);
             });
         }
