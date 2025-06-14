@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const tagEl = document.createElement('div');
                     tagEl.textContent = 'RO-bot';
                     tagEl.className = 'text-xs text-white mb-1 self-start font-bold';
-                    tagEl.style.cssText = 'margin-left: 5px; margin-bottom: -3px;';
+                    tagEl.style.cssText = 'margin-left: 10px; margin-bottom: 2px;';
                     container.appendChild(tagEl);
                 }
 
