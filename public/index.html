@@ -469,28 +469,31 @@
             animation: float3 5.5s ease-in-out infinite !important;
         }
 
-        /* Floating animation for specs containers - more random movement */
+        /* Floating animation for specs containers - slower, gentler movement */
         @keyframes specFloat1 {
             0% {
                 transform: translateY(0px) translateX(0px);
             }
-            15% {
-                transform: translateY(-3px) translateX(2px);
+            12% {
+                transform: translateY(-1px) translateX(1px);
             }
-            32% {
-                transform: translateY(-7px) translateX(-1px);
+            25% {
+                transform: translateY(-3px) translateX(-0.5px);
             }
-            48% {
-                transform: translateY(-2px) translateX(4px);
+            38% {
+                transform: translateY(-1px) translateX(2px);
             }
-            65% {
-                transform: translateY(-9px) translateX(-2px);
+            50% {
+                transform: translateY(-4px) translateX(-1px);
             }
-            78% {
-                transform: translateY(-1px) translateX(3px);
+            62% {
+                transform: translateY(-0.5px) translateX(1.5px);
             }
-            92% {
-                transform: translateY(-5px) translateX(-3px);
+            75% {
+                transform: translateY(-2.5px) translateX(-1.5px);
+            }
+            88% {
+                transform: translateY(-1px) translateX(0.5px);
             }
             100% {
                 transform: translateY(0px) translateX(0px);
@@ -501,20 +504,23 @@
             0% {
                 transform: translateY(0px) translateX(0px);
             }
-            18% {
-                transform: translateY(-6px) translateX(-3px);
+            15% {
+                transform: translateY(-2px) translateX(-1.5px);
             }
-            35% {
-                transform: translateY(-2px) translateX(1px);
+            30% {
+                transform: translateY(-1px) translateX(0.5px);
             }
-            52% {
-                transform: translateY(-8px) translateX(3px);
+            45% {
+                transform: translateY(-3.5px) translateX(1.5px);
             }
-            69% {
-                transform: translateY(-3px) translateX(-2px);
+            60% {
+                transform: translateY(-1.5px) translateX(-1px);
             }
-            84% {
-                transform: translateY(-7px) translateX(2px);
+            75% {
+                transform: translateY(-3px) translateX(1px);
+            }
+            90% {
+                transform: translateY(-0.5px) translateX(-0.5px);
             }
             100% {
                 transform: translateY(0px) translateX(0px);
@@ -522,11 +528,11 @@
         }
 
         .floating {
-            animation: specFloat1 5.2s ease-in-out infinite;
+            animation: specFloat1 12s ease-in-out infinite;
         }
 
         #a2Bubble.floating {
-            animation: specFloat2 4.7s ease-in-out infinite;
+            animation: specFloat2 11s ease-in-out infinite;
         }
 
         /* Specs Overlay Positioning - Larger sizes for better readability */
