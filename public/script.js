@@ -299,10 +299,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 formattedText = formattedText.replace(bulletPattern, '\n• ');
                 
                 messageEl.style.whiteSpace = 'pre-line';
-                messageEl.style.textIndent = '0';
-                messageEl.style.paddingLeft = '1em';
                 messageEl.style.textAlign = 'left';
-                messageEl.innerHTML = formattedText.trim().replace(/\n• /g, '\n<span style="margin-left: -1em; display: inline-block;">• </span>');
+                
+                // Split into lines and format each bullet point properly
+                const lines = formattedText.trim().split('\n');
+                let htmlContent = '';
+                
+                lines.forEach(line => {
+                    if (line.startsWith('• ')) {
+                        // This is a bullet point - add proper indentation
+                        htmlContent += `<div style="margin-left: 1.2em; text-indent: -1.2em;">${line}</div>`;
+                    } else if (line.trim()) {
+                        // Regular line
+                        htmlContent += `<div>${line}</div>`;
+                    }
+                });
+                
+                messageEl.innerHTML = htmlContent;
             } else {
                 messageEl.textContent = message.text;
             }
