@@ -240,6 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { type: 'robot', text: "Check wiring/connectors for damage and run radar sensor calibration.\n- Connect MDI 2 and launch GDS2 or Techline Connect.\n- Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn" },
             { type: 'user', text: "Calibration was successful. That was the issue. Error message resolved." },
             { type: 'robot', text: "Resolution confirmed. Check to make sure DTCs are clear." },
+            { type: 'fadeout', text: "" }, // Special marker for fade out effect
             { type: 'user', text: "Road test confirms a rattling noise from the rear passenger side. It gets louder with speed." },
             { type: 'robot', text: "Remove the right rear wheel. Inspect rear passenger side wheel area.\n- Brake dust shield\n- Parking brake\n- Exhaust near wheel well — hangers, clearance from body, heat shields\n- Shock mount points — wear, cracked bushings, loose fasteners\n- Suspension arms and links\n- Rotor" },
             { type: 'user', text: "Everything looks normal. Now what?" },
@@ -248,11 +249,26 @@ document.addEventListener('DOMContentLoaded', () => {
             { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
         ];
 
-        // Animation sequence with 4-second delays between RO-bot messages and user messages
-        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 22000, 26000, 28000, 32000, 34000];
+        // Animation sequence with 4-second delays between RO-bot messages and user messages, plus 5-second fade out pause
+        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 23000, 25000, 27000, 31000, 33000];
 
         messages.forEach((message, index) => {
             setTimeout(() => {
+                if (message.type === 'fadeout') {
+                    // Fade out all existing messages
+                    const allMessages = container.querySelectorAll('.chat-bubble, div[style*="margin-left: 10px"]');
+                    allMessages.forEach(msg => {
+                        msg.style.transition = 'opacity 1s ease-out';
+                        msg.style.opacity = '0';
+                    });
+                    
+                    // Clear container after fade animation completes
+                    setTimeout(() => {
+                        container.innerHTML = '';
+                    }, 1000);
+                    return;
+                }
+
                 if (message.type === 'robot') {
                     const tagEl = document.createElement('div');
                     tagEl.textContent = 'RO-bot';
