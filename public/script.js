@@ -1,7 +1,4 @@
-Refactored handleChoice to prevent duplicate messages and ensure choice bubbles load correctly in Feature 4.
-```
 
-```replit_final_file
 document.addEventListener('DOMContentLoaded', () => {
 
     // ===========================================
@@ -225,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         document.querySelectorAll('#techSpecsContainer .clickable-question').forEach(q => {
             q.classList.remove('tapped');
-            // Keep the original notap images since that's what we want to show
         });
     }
 
@@ -238,9 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const answerBubble = document.getElementById(answerId);
                 if (answerBubble) { answerBubble.style.opacity = '1'; answerBubble.style.transform = 'translateY(0)'; }
                 this.classList.add('tapped');
-                const img = this.querySelector('img');
-                if (!img) return;
-                // The images are already the "notap" versions, so no need to change them
             });
         });
     }
