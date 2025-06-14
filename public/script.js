@@ -280,22 +280,86 @@ document.addEventListener('DOMContentLoaded', () => {
     function animateSpecsSequence() {
         const a1 = document.getElementById('a1Bubble');
         const a2 = document.getElementById('a2Bubble');
-        if (!a1 || !a2) return;
+        const container = document.getElementById('techSpecsContainer');
+        if (!a1 || !a2 || !container) return;
         resetSpecsBubbles();
         
-        // Position both bubbles using zone-based positioning
+        // Start both bubbles at center of container
+        const centerX = '50%';
+        const centerY = '50%';
+        
+        // Position both bubbles at center initially
+        Object.assign(a1.style, {
+            position: 'absolute',
+            left: centerX,
+            top: centerY,
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            transition: 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)',
+            opacity: '0'
+        });
+        
+        Object.assign(a2.style, {
+            position: 'absolute',
+            left: centerX,
+            top: centerY,
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            transition: 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)',
+            opacity: '0'
+        });
+        
+        // Calculate final positions
         calculateSpecsBubblePositions();
         
-        // Animate A1 first
+        // Store final positions
+        const a1FinalStyle = {
+            left: a1.style.left,
+            top: a1.style.top,
+            right: a1.style.right,
+            bottom: a1.style.bottom
+        };
+        
+        const a2FinalStyle = {
+            left: a2.style.left,
+            top: a2.style.top,
+            right: a2.style.right,
+            bottom: a2.style.bottom
+        };
+        
+        // Reset to center positions
+        Object.assign(a1.style, {
+            left: centerX,
+            top: centerY,
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            opacity: '0'
+        });
+        
+        Object.assign(a2.style, {
+            left: centerX,
+            top: centerY,
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%)',
+            opacity: '0'
+        });
+        
+        // Animate A1 first - fade in and move to final position
         setTimeout(() => {
             a1.style.opacity = '1';
-            a1.style.transform = 'translateY(0)';
+            Object.assign(a1.style, a1FinalStyle);
+            a1.style.transform = 'translate(0, 0)';
         }, 100);
         
         // Animate A2 with 1 second delay
         setTimeout(() => {
             a2.style.opacity = '1';
-            a2.style.transform = 'translateY(0)';
+            Object.assign(a2.style, a2FinalStyle);
+            a2.style.transform = 'translate(0, 0)';
         }, 1100);
         
         // Start floating animation after both bubbles have animated in
