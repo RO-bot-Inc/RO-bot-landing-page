@@ -187,10 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const a1 = document.getElementById('a1Bubble');
         const a2 = document.getElementById('a2Bubble');
         if (!container || !a1 || !a2) return;
-        
+
         const screenWidth = window.innerWidth;
         let positions = [];
-        
+
         // Define safe zones similar to warranty overlays
         if (screenWidth <= 640) {
             positions = [
@@ -244,11 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             ];
         }
-        
+
         // Add random variation within safe zones
         positions.forEach(pos => {
             const randomOffset = Math.random() * 8 - 4; // ±4% variation
-            
+
             if (pos.top !== 'auto') {
                 const topValue = parseFloat(pos.top);
                 pos.top = `${Math.max(5, topValue + randomOffset)}%`;
@@ -265,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rightValue = parseFloat(pos.right);
                 pos.right = `${Math.max(2, rightValue + randomOffset)}%`;
             }
-            
+
             // Apply positioning
             Object.assign(pos.bubble.style, {
                 position: 'absolute',
@@ -280,25 +280,86 @@ document.addEventListener('DOMContentLoaded', () => {
     function animateSpecsSequence() {
         const a1 = document.getElementById('a1Bubble');
         const a2 = document.getElementById('a2Bubble');
-        if (!a1 || !a2) return;
+        const container = document.getElementById('techSpecsContainer');
+        if (!a1 || !a2 || !container) return;
         resetSpecsBubbles();
-        
-        // Position both bubbles using zone-based positioning
+
+        // Calculate final positions first
         calculateSpecsBubblePositions();
-        
-        // Animate A1 first
+
+        // Store final positions
+        const a1FinalStyle = {
+            left: a1.style.left,
+            top: a1.style.top,
+            right: a1.style.right,
+            bottom: a1.style.bottom
+        };
+
+        const a2FinalStyle = {
+            left: a2.style.left,
+            top: a2.style.top,
+            right: a2.style.right,
+            bottom: a2.style.bottom
+        };
+
+        // Start both bubbles at bottom center of container (engine compartment area)
+        // This simulates them growing out of the dipstick/engine area
+        const startX = '50%';
+        const startY = '85%'; // Near bottom where engine components would be
+
+        // Position both bubbles at starting position with scale 0 (compressed/hidden)
+        Object.assign(a1.style, {
+            position: 'absolute',
+            left: startX,
+            top: startY,
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%) scaleY(0)',
+            transformOrigin: 'bottom center',
+            transition: 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)',
+            opacity: '0'
+        });
+
+        Object.assign(a2.style, {
+            position: 'absolute',
+            left: startX,
+            top: startY,
+            right: 'auto',
+            bottom: 'auto',
+            transform: 'translate(-50%, -50%) scaleY(0)',
+            transformOrigin: 'bottom center',
+            transition: 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)',
+            opacity: '0'
+        });
+
+        // Animate A1 first - stretch up and move to final position
         setTimeout(() => {
             a1.style.opacity = '1';
-            a1.style.transform = 'translateY(0)';
+            // First stretch up from the engine area
+            a1.style.transform = 'translate(-50%, -50%) scaleY(1)';
+
+            // Then move to final position after a short delay
+            setTimeout(() => {
+                Object.assign(a1.style, a1FinalStyle);
+                a1.style.transform = 'translate(0, 0) scaleY(1)';
+            }, 200);
         }, 100);
-        
-        // Animate A2 with 1 second delay
+
+        // Animate A2 with 1 second delay - stretch up and move to final position
         setTimeout(() => {
             a2.style.opacity = '1';
-            a2.style.transform = 'translateY(0)';
+            // First stretch up from the engine area
+            a2.style.transform = 'translate(-50%, -50%) scaleY(1)';
+
+            // Then move to final position after a short delay
+            setTimeout(() => {
+                Object.assign(a2.style, a2FinalStyle);
+                a2.style.transform = 'translate(0, 0) scaleY(1)';
+            }, 200);
         }, 1100);
-        
+
         // Start floating animation after both bubbles have animated in
+
         setTimeout(() => {
             a1.classList.add('floating');
             a2.classList.add('floating');
@@ -312,10 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
             bubble.style.transform = 'translateY(10px)';
             bubble.classList.remove('floating');
         });
-        
+
     }
 
-    
+
 
     // --- Feature 4: Diagnostic Autoplay (Refactored) ---
     class DiagnosticAutoplay {
@@ -380,23 +441,23 @@ document.addEventListener('DOMContentLoaded', () => {
         createMessageElement(message) {
             const messageEl = document.createElement('div');
             messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
-            
+
             // Format RO-bot messages to create new lines for dash bullet points only
             if (message.type === 'robot' && message.text.includes('- ')) {
                 // Only split on dashes that have a space after them (bullet points)
                 const bulletPattern = /(\s+-\s)/g;
                 let formattedText = message.text;
-                
+
                 // Replace bullet point dashes with newline + bullet
                 formattedText = formattedText.replace(bulletPattern, '\n• ');
-                
+
                 messageEl.style.whiteSpace = 'pre-line';
                 messageEl.style.textAlign = 'left';
-                
+
                 // Split into lines and format each bullet point properly
                 const lines = formattedText.trim().split('\n');
                 let htmlContent = '';
-                
+
                 lines.forEach(line => {
                     if (line.startsWith('• ')) {
                         // This is a bullet point - create proper hanging indent where text aligns
@@ -406,12 +467,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         htmlContent += `<div>${line}</div>`;
                     }
                 });
-                
+
                 messageEl.innerHTML = htmlContent;
             } else {
                 messageEl.textContent = message.text;
             }
-            
+
             return messageEl;
         }
 
