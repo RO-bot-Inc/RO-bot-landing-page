@@ -258,8 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
             { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
         ];
 
-        // Animation sequence with 4-second delays between RO-bot messages and user messages, plus 5-second fade out pause
-        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 23000, 28000, 30000, 34000, 36000];
+        // Animation sequence: First conversation (0-5), fadeout (6), second conversation (7-11)
+        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 24000, 28000, 30000, 34000, 36000];
 
         messages.forEach((message, index) => {
             const timeout = setTimeout(() => {
@@ -297,13 +297,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.appendChild(messageEl);
                 container.scrollTop = container.scrollHeight;
 
-                // Restart the sequence when last message is shown
+                // Restart the sequence when last actual message is shown (not fadeout)
                 if (index === messages.length - 1) {
                     const restartTimeout = setTimeout(() => {
                         if (isAutoplayRunning) {
                             startDiagnosticAutoplay();
                         }
-                    }, 3000); // Wait 3 seconds before restarting
+                    }, 4000); // Wait 4 seconds before restarting
                     window.diagnosticTimeouts.push(restartTimeout);
                 }
             }, delays[index]);
