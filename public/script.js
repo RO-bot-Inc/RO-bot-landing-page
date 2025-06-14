@@ -1,3 +1,7 @@
+Refactored handleChoice to prevent duplicate messages and ensure choice bubbles load correctly in Feature 4.
+```
+
+```replit_final_file
 document.addEventListener('DOMContentLoaded', () => {
 
     // ===========================================
@@ -298,11 +302,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const showChoices = (choices, delay = 0) => setTimeout(() => _renderChoices(choices), delay);
 
         const handleChoice = async (choiceId) => {
+            // Clear existing choices immediately to prevent double-clicks
+            if (choiceBubbles && choiceId !== 'reset') {
+                choiceBubbles.innerHTML = '';
+            }
+
             if (choiceId === 'initial_error_code_path' || choiceId === 'initial_symptom_path') {
                 if (choicesHeading) choicesHeading.classList.add('no-animation');
                 if (chatOverlay) chatOverlay.classList.remove('opacity-0');
-            } else if (choiceId !== 'reset') {
-                if (choiceBubbles) choiceBubbles.innerHTML = '';
             }
 
             switch (choiceId) {
@@ -312,19 +319,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     showChoices([{ text: 'What do these codes mean?', id: 'path1_what_mean' }, { text: 'Suggest next steps', id: 'path1_suggest_steps' }], 500);
                     break;
                 case 'initial_symptom_path':
-                    await addMessage("The rustomer reports a rattling noise from the rear passenger side...There’s a metallic rattle at 30–50 mph.", 'user-message');
+                    await addMessage("The customer reports a rattling noise from the rear passenger side...There's a metallic rattle at 30–50 mph.", 'user-message');
                     await addMessage("Remove the right rear wheel. Inspect rear passenger side wheel area...", 'robot-message', 1250);
                     showChoices([{ text: 'Rotor noise', id: 'symptom_rotor_noise' }, { text: 'Everything normal', id: 'symptom_everything_normal' }], 500);
+                    break;
+                case 'path1_what_mean':
+                    await addMessage('What do these codes mean?', 'user-message');
+                    await addMessage("U0235 indicates a communication issue with the radar sensor. C1A67 suggests a problem with the electronic stability control module. U0415 points to an issue with the adaptive cruise control system.", 'robot-message', 1250);
+                    showChoices([{ text: 'How to fix?', id: 'path1_how_to_fix' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'path1_suggest_steps':
+                    await addMessage('Suggest next steps', 'user-message');
+                    await addMessage("Start by checking all connections to the front radar sensor. Then scan for any TSBs related to these codes for this vehicle year and model.", 'robot-message', 1250);
+                    showChoices([{ text: 'Check connections', id: 'path1_check_connections' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'symptom_rotor_noise':
+                    await addMessage('Rotor noise', 'user-message');
+                    await addMessage("The brake rotor shows significant scoring. Replace the rotor and inspect the brake pads for metal-on-metal contact.", 'robot-message', 1250);
+                    showChoices([{ text: 'Parts needed?', id: 'symptom_parts_needed' }, { text: 'Reset', id: 'reset' }], 500);
+                    break;
+                case 'symptom_everything_normal':
+                    await addMessage('Everything normal', 'user-message');
+                    await addMessage("Since the wheel area looks normal, check the exhaust heat shield and suspension components in that area.", 'robot-message', 1250);
+                    showChoices([{ text: 'Check exhaust', id: 'symptom_check_exhaust' }, { text: 'Reset', id: 'reset' }], 500);
                     break;
                 case 'reset':
                     resetDemo();
                     break;
-                // Add all other story branch cases here...
             }
         };
 
         choicesWrapper.addEventListener('click', (e) => {
             if (e.target.matches('#choice-bubbles button[data-choice]')) {
+                e.preventDefault();
+                e.stopPropagation();
                 handleChoice(e.target.dataset.choice);
             }
         });
