@@ -252,44 +252,42 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentIndex >= messages.length) return;
 
             const message = messages[currentIndex];
-            const messageEl = document.createElement('div');
             
-            if (message.type === 'robot') {
-                // Add RO-bot tag
-                const tagEl = document.createElement('div');
-                tagEl.textContent = 'RO-bot';
-                tagEl.className = 'text-xs text-gray-400 mb-1 self-start';
-                container.appendChild(tagEl);
+            // Check for special delay BEFORE adding this message
+            const delay = message.delay || 0;
+            
+            function displayMessage() {
+                const messageEl = document.createElement('div');
+                
+                if (message.type === 'robot') {
+                    // Add RO-bot tag
+                    const tagEl = document.createElement('div');
+                    tagEl.textContent = 'RO-bot';
+                    tagEl.className = 'text-xs text-gray-400 mb-1 self-start';
+                    container.appendChild(tagEl);
+                }
+
+                messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
+                messageEl.textContent = message.text;
+                container.appendChild(messageEl);
+
+                // Scroll to bottom
+                container.scrollTop = container.scrollHeight;
+
+                currentIndex++;
+
+                // Schedule next message with standard delay
+                if (currentIndex < messages.length) {
+                    const nextDelay = message.type === 'user' ? 1000 : 2000;
+                    setTimeout(addMessage, nextDelay);
+                }
             }
 
-            messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
-            messageEl.textContent = message.text;
-            container.appendChild(messageEl);
-
-            // Scroll to bottom
-            container.scrollTop = container.scrollHeight;
-
-            currentIndex++;
-
-            // Schedule next message
-            if (currentIndex < messages.length) {
-                let delay;
-                
-                if (message.type === 'user') {
-                    // After user message: 1 second pause
-                    delay = 1000;
-                } else {
-                    // After robot message: 2 second pause
-                    delay = 2000;
-                }
-
-                // Check if the next message has a special delay
-                const nextMessage = messages[currentIndex];
-                if (nextMessage && nextMessage.delay) {
-                    delay = nextMessage.delay;
-                }
-
-                setTimeout(addMessage, delay);
+            // Apply special delay if it exists, otherwise display immediately
+            if (delay > 0) {
+                setTimeout(displayMessage, delay);
+            } else {
+                displayMessage();
             }
         }
 
