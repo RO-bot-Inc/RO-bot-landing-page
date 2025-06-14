@@ -497,7 +497,7 @@
         .specs-a2 {
             right: 3%;
             bottom: 8%;
-            width: 55%;
+            width: 82.5%; /* 55% * 1.5 = 82.5% */
             height: auto;
             z-index: 14;
         }
@@ -553,7 +553,7 @@
             .specs-a2 {
                 right: 4%;
                 bottom: 12%;
-                width: 52%;
+                width: 78%; /* 52% * 1.5 = 78% */
             }
         }
 
@@ -579,7 +579,7 @@
             .specs-a2 {
                 right: 6%;
                 bottom: 15%;
-                width: 48%;
+                width: 72%; /* 48% * 1.5 = 72% */
             }
         }
 
@@ -605,7 +605,7 @@
             .specs-a2 {
                 right: 8%;
                 bottom: 17%;
-                width: 45%;
+                width: 67.5%; /* 45% * 1.5 = 67.5% */
             }
         }
 
@@ -887,6 +887,33 @@
                     opacity: 0.8;
                     transform: scaleX(0.95);
                 }
+            }
+        }
+
+        /* Floating animations for specs answer bubbles */
+        .specs-a1.floating {
+            animation: specsFloat1 4s ease-in-out infinite;
+        }
+
+        .specs-a2.floating {
+            animation: specsFloat2 5s ease-in-out infinite;
+        }
+
+        @keyframes specsFloat1 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes specsFloat2 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
             }
         }
 

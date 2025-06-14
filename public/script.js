@@ -195,6 +195,11 @@ document.addEventListener('DOMContentLoaded', () => {
             a2.style.opacity = '1';
             a2.style.transform = 'translateY(0)';
         }, 800);
+        // Start floating animation after both bubbles have animated in
+        setTimeout(() => {
+            a1.classList.add('floating');
+            a2.classList.add('floating');
+        }, 1200);
     }
 
     function resetSpecsBubbles() {
@@ -202,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allBubbles.forEach(bubble => {
             bubble.style.opacity = '0';
             bubble.style.transform = 'translateY(10px)';
+            bubble.classList.remove('floating');
         });
         
     }
