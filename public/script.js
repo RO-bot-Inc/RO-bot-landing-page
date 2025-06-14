@@ -109,7 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
                         setTimeout(() => { startSequence(); }, 500);
-                        observer.unobserve(entry.target);
+                    } else if (!entry.isIntersecting) {
+                        // Reset sequence when container leaves viewport
+                        resetSequence();
                     }
                 });
             }, { threshold: 1.0 });
