@@ -307,9 +307,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 lines.forEach(line => {
                     if (line.startsWith('• ')) {
-                        // This is a bullet point - add proper hanging indent with left margin
-                        // The text after the bullet should align with regular text
-                        htmlContent += `<div style="margin-left: 1.2em; padding-left: 1em; text-indent: -0.2em;">${line}</div>`;
+                        // This is a bullet point - create proper hanging indent where text aligns
+                        htmlContent += `<div style="padding-left: 1.5em; text-indent: -1.5em;">${line}</div>`;
                     } else if (line.trim()) {
                         // Regular line
                         htmlContent += `<div>${line}</div>`;
