@@ -182,27 +182,83 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function checkBubbleOverlap(bubble1, bubble2) {
+        const rect1 = bubble1.getBoundingClientRect();
+        const rect2 = bubble2.getBoundingClientRect();
+        
+        return !(rect1.right < rect2.left || 
+                rect2.right < rect1.left || 
+                rect1.bottom < rect2.top || 
+                rect2.bottom < rect1.top);
+    }
+
+    function positionBubbleWithoutOverlap(bubble, otherBubble, isA1 = true) {
+        const container = document.getElementById('techSpecsContainer');
+        if (!container) return;
+        
+        const containerRect = container.getBoundingClientRect();
+        let attempts = 0;
+        const maxAttempts = 20;
+        
+        while (attempts < maxAttempts) {
+            if (isA1) {
+                // Position A1 in upper portion
+                const a1Top = Math.random() * 25 + 10; // 10-35% from top
+                const a1Right = Math.random() * 40 + 5; // 5-45% from right (wider range)
+                bubble.style.top = `${a1Top}%`;
+                bubble.style.right = `${a1Right}%`;
+                bubble.style.left = 'auto';
+                bubble.style.bottom = 'auto';
+            } else {
+                // Position A2 in lower portion
+                const a2Bottom = Math.random() * 25 + 15; // 15-40% from bottom
+                const a2Left = Math.random() * 40 + 5; // 5-45% from left (wider range)
+                bubble.style.bottom = `${a2Bottom}%`;
+                bubble.style.left = `${a2Left}%`;
+                bubble.style.right = 'auto';
+                bubble.style.top = 'auto';
+            }
+            
+            // Check for overlap if the other bubble is already positioned
+            if (otherBubble && otherBubble.style.opacity !== '0') {
+                if (!checkBubbleOverlap(bubble, otherBubble)) {
+                    break; // No overlap, position is good
+                }
+            } else {
+                break; // Other bubble not positioned yet, this position is fine
+            }
+            
+            attempts++;
+        }
+        
+        // If we couldn't find a non-overlapping position after max attempts,
+        // use safe fallback positions
+        if (attempts >= maxAttempts) {
+            if (isA1) {
+                bubble.style.top = '15%';
+                bubble.style.right = '10%';
+                bubble.style.left = 'auto';
+                bubble.style.bottom = 'auto';
+            } else {
+                bubble.style.bottom = '20%';
+                bubble.style.left = '10%';
+                bubble.style.right = 'auto';
+                bubble.style.top = 'auto';
+            }
+        }
+    }
+
     function animateSpecsSequence() {
         const a1 = document.getElementById('a1Bubble');
         const a2 = document.getElementById('a2Bubble');
         if (!a1 || !a2) return;
         resetSpecsBubbles();
         
-        // Position A1 in upper portion to avoid overlap
-        const a1Top = Math.random() * 25 + 10; // 10-35% from top
-        const a1Right = Math.random() * 20 + 5; // 5-25% from right
-        a1.style.top = `${a1Top}%`;
-        a1.style.right = `${a1Right}%`;
-        a1.style.left = 'auto';
-        a1.style.bottom = 'auto';
+        // Position A1 first
+        positionBubbleWithoutOverlap(a1, null, true);
         
-        // Position A2 in lower portion to avoid overlap with A1
-        const a2Bottom = Math.random() * 25 + 15; // 15-40% from bottom
-        const a2Left = Math.random() * 20 + 5; // 5-25% from left (opposite side)
-        a2.style.bottom = `${a2Bottom}%`;
-        a2.style.left = `${a2Left}%`;
-        a2.style.right = 'auto';
-        a2.style.top = 'auto';
+        // Position A2 after A1, checking for overlap
+        positionBubbleWithoutOverlap(a2, a1, false);
         
         // Animate A1 first
         setTimeout(() => {
