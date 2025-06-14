@@ -144,8 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
                         animateSpecsSequence();
-                    } else {
-                        resetSpecsBubbles();
                     }
                 });
             }, { threshold: 1.0 });
@@ -282,14 +280,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const a2 = document.getElementById('a2Bubble');
         if (!a1 || !a2) return;
         
-        // Position both bubbles using zone-based positioning
-        calculateSpecsBubblePositions();
-        
-        // Show bubbles immediately with floating animation
-        a1.style.opacity = '1';
-        a2.style.opacity = '1';
-        a1.classList.add('floating');
-        a2.classList.add('floating');
+        // Only animate if not already visible
+        if (a1.style.opacity !== '1') {
+            // Position both bubbles using zone-based positioning
+            calculateSpecsBubblePositions();
+            
+            // Show bubbles immediately with floating animation
+            a1.style.opacity = '1';
+            a2.style.opacity = '1';
+            a1.classList.add('floating');
+            a2.classList.add('floating');
+        }
     }
 
     function resetSpecsBubbles() {

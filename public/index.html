@@ -469,6 +469,20 @@
             animation: float3 5.5s ease-in-out infinite !important;
         }
 
+        /* Floating animation for specs containers */
+        @keyframes specFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .floating {
+            animation: specFloat 4s ease-in-out infinite;
+        }
+
         /* Specs Overlay Positioning - Larger sizes for better readability */
         .specs-q1 {
             left: 2%;
