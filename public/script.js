@@ -223,101 +223,144 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Feature 4: Diagnostic Autoplay ---
-    let isAutoplayRunning = false;
+    // --- Feature 4: Diagnostic Autoplay (Refactored) ---
+    class DiagnosticAutoplay {
+        constructor() {
+            this.isRunning = false;
+            this.timeouts = [];
+            this.container = null;
+            this.messages = [];
+            this.delays = [];
+        }
+
+        initialize() {
+            this.container = document.getElementById('chatMessagesContainer');
+            if (!this.container) return false;
+
+            this.messages = [
+                { type: 'user', text: "We've got this error message on the display panel… adaptive cruise temporarily unavailable. I'm also getting some DTCs… U0235, C1A67, U0415" },
+                { type: 'robot', text: "Those codes are related to the advanced driver-assistance system. Start with a visual inspection of radar sensor and fascia.\n- Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).\n- Verify sensor is properly seated. The sensor must be aimed straight ahead and level to the ground." },
+                { type: 'user', text: "No issues found. Now what?" },
+                { type: 'robot', text: "Check wiring/connectors for damage and run radar sensor calibration.\n- Connect MDI 2 and launch GDS2 or Techline Connect.\n- Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn" },
+                { type: 'user', text: "Calibration was successful. That was the issue. Error message resolved." },
+                { type: 'robot', text: "Resolution confirmed. Check to make sure DTCs are clear." },
+                { type: 'fadeout', text: "" },
+                { type: 'user', text: "Road test confirms a rattling noise from the rear passenger side. It gets louder with speed." },
+                { type: 'robot', text: "Remove the right rear wheel. Inspect rear passenger side wheel area.\n- Brake dust shield\n- Parking brake\n- Exhaust near wheel well — hangers, clearance from body, heat shields\n- Shock mount points — wear, cracked bushings, loose fasteners\n- Suspension arms and links\n- Rotor" },
+                { type: 'user', text: "Everything looks normal. Now what?" },
+                { type: 'robot', text: "Use a chassis ear kit or mechanic's stethoscope to isolate the noise. Check these areas:\n- Rear shock absorber lower mount\n- Control arm\n- Sway bar link\n- Subframe\n- Seatbelt anchor" },
+                { type: 'user', text: "It was coming from the inside of the door. I opened up the panel and found a loose wiring harness." },
+                { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
+            ];
+
+            // Updated timing: First conversation (0-5), fadeout with 5sec pause (6), second conversation (7-12)
+            this.delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 24000, 28000, 30000, 34000, 36000];
+
+            return true;
+        }
+
+        clearTimeouts() {
+            this.timeouts.forEach(timeout => clearTimeout(timeout));
+            this.timeouts = [];
+        }
+
+        reset() {
+            this.isRunning = false;
+            this.clearTimeouts();
+            if (this.container) {
+                this.container.innerHTML = '';
+            }
+        }
+
+        createRobotTag() {
+            const tagEl = document.createElement('div');
+            tagEl.textContent = 'RO-bot';
+            tagEl.className = 'text-xs text-white mb-1 self-start font-bold';
+            tagEl.style.cssText = 'margin-left: 10px; margin-bottom: -8px; font-weight: bold;';
+            return tagEl;
+        }
+
+        createMessageElement(message) {
+            const messageEl = document.createElement('div');
+            messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
+            messageEl.textContent = message.text;
+            return messageEl;
+        }
+
+        fadeOutMessages() {
+            const allMessages = this.container.querySelectorAll('.chat-bubble, div[style*="margin-left: 10px"]');
+            allMessages.forEach(msg => {
+                msg.style.transition = 'opacity 1s ease-out';
+                msg.style.opacity = '0';
+            });
+
+            // Clear container after fade animation completes
+            const clearTimeout = setTimeout(() => {
+                if (this.isRunning && this.container) {
+                    this.container.innerHTML = '';
+                }
+            }, 1000);
+            
+            this.timeouts.push(clearTimeout);
+        }
+
+        displayMessage(message, index) {
+            if (!this.isRunning) return;
+
+            if (message.type === 'fadeout') {
+                this.fadeOutMessages();
+                return;
+            }
+
+            if (message.type === 'robot') {
+                const robotTag = this.createRobotTag();
+                this.container.appendChild(robotTag);
+            }
+
+            const messageEl = this.createMessageElement(message);
+            this.container.appendChild(messageEl);
+            this.container.scrollTop = this.container.scrollHeight;
+
+            // Schedule restart if this is the last message
+            if (index === this.messages.length - 1) {
+                const restartTimeout = setTimeout(() => {
+                    if (this.isRunning) {
+                        this.start();
+                    }
+                }, 4000);
+                this.timeouts.push(restartTimeout);
+            }
+        }
+
+        start() {
+            if (!this.initialize()) return;
+
+            this.reset();
+            this.isRunning = true;
+
+            this.messages.forEach((message, index) => {
+                const timeout = setTimeout(() => {
+                    this.displayMessage(message, index);
+                }, this.delays[index]);
+                
+                this.timeouts.push(timeout);
+            });
+        }
+
+        stop() {
+            this.reset();
+        }
+    }
+
+    // Create singleton instance
+    const diagnosticAutoplay = new DiagnosticAutoplay();
 
     function startDiagnosticAutoplay() {
-        const container = document.getElementById('chatMessagesContainer');
-        if (!container) return;
-
-        // Always reset the sequence to start fresh
-        isAutoplayRunning = false;
-        container.innerHTML = '';
-        
-        // Clear any existing timeouts to prevent overlapping sequences
-        if (window.diagnosticTimeouts) {
-            window.diagnosticTimeouts.forEach(timeout => clearTimeout(timeout));
-        }
-        window.diagnosticTimeouts = [];
-
-        isAutoplayRunning = true;
-
-        const messages = [
-            { type: 'user', text: "We've got this error message on the display panel… adaptive cruise temporarily unavailable. I'm also getting some DTCs… U0235, C1A67, U0415" },
-            { type: 'robot', text: "Those codes are related to the advanced driver-assistance system. Start with a visual inspection of radar sensor and fascia.\n- Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).\n- Verify sensor is properly seated. The sensor must be aimed straight ahead and level to the ground." },
-            { type: 'user', text: "No issues found. Now what?" },
-            { type: 'robot', text: "Check wiring/connectors for damage and run radar sensor calibration.\n- Connect MDI 2 and launch GDS2 or Techline Connect.\n- Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn" },
-            { type: 'user', text: "Calibration was successful. That was the issue. Error message resolved." },
-            { type: 'robot', text: "Resolution confirmed. Check to make sure DTCs are clear." },
-            { type: 'fadeout', text: "" }, // Special marker for fade out effect
-            { type: 'user', text: "Road test confirms a rattling noise from the rear passenger side. It gets louder with speed." },
-            { type: 'robot', text: "Remove the right rear wheel. Inspect rear passenger side wheel area.\n- Brake dust shield\n- Parking brake\n- Exhaust near wheel well — hangers, clearance from body, heat shields\n- Shock mount points — wear, cracked bushings, loose fasteners\n- Suspension arms and links\n- Rotor" },
-            { type: 'user', text: "Everything looks normal. Now what?" },
-            { type: 'robot', text: "Use a chassis ear kit or mechanic's stethoscope to isolate the noise. Check these areas:\n- Rear shock absorber lower mount\n- Control arm\n- Sway bar link\n- Subframe\n- Seatbelt anchor" },
-            { type: 'user', text: "It was coming from the inside of the door. I opened up the panel and found a loose wiring harness." },
-            { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
-        ];
-
-        // Animation sequence: First conversation (0-5), fadeout (6), second conversation (7-11)
-        const delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 24000, 28000, 30000, 34000, 36000];
-
-        messages.forEach((message, index) => {
-            const timeout = setTimeout(() => {
-                // Check if autoplay is still running (prevents execution after reset)
-                if (!isAutoplayRunning) return;
-
-                if (message.type === 'fadeout') {
-                    // Fade out all existing messages
-                    const allMessages = container.querySelectorAll('.chat-bubble, div[style*="margin-left: 10px"]');
-                    allMessages.forEach(msg => {
-                        msg.style.transition = 'opacity 1s ease-out';
-                        msg.style.opacity = '0';
-                    });
-                    
-                    // Clear container after fade animation completes, then wait 5 seconds
-                    setTimeout(() => {
-                        if (isAutoplayRunning) {
-                            container.innerHTML = '';
-                        }
-                    }, 1000);
-                    return;
-                }
-
-                if (message.type === 'robot') {
-                    const tagEl = document.createElement('div');
-                    tagEl.textContent = 'RO-bot';
-                    tagEl.className = 'text-xs text-white mb-1 self-start font-bold';
-                    tagEl.style.cssText = 'margin-left: 10px; margin-bottom: -8px;';
-                    container.appendChild(tagEl);
-                }
-
-                const messageEl = document.createElement('div');
-                messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
-                messageEl.textContent = message.text;
-                container.appendChild(messageEl);
-                container.scrollTop = container.scrollHeight;
-
-                // Restart the sequence when last actual message is shown (not fadeout)
-                if (index === messages.length - 1) {
-                    const restartTimeout = setTimeout(() => {
-                        if (isAutoplayRunning) {
-                            startDiagnosticAutoplay();
-                        }
-                    }, 4000); // Wait 4 seconds before restarting
-                    window.diagnosticTimeouts.push(restartTimeout);
-                }
-            }, delays[index]);
-            
-            window.diagnosticTimeouts.push(timeout);
-        });
+        diagnosticAutoplay.start();
     }
 
     function resetDiagnosticMessages() {
-        const container = document.getElementById('chatMessagesContainer');
-        if (container) {
-            container.innerHTML = '';
-        }
-        isAutoplayRunning = false;
+        diagnosticAutoplay.stop();
     }
 
     // ===========================================
