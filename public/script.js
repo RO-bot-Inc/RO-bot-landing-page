@@ -288,7 +288,45 @@ document.addEventListener('DOMContentLoaded', () => {
         createMessageElement(message) {
             const messageEl = document.createElement('div');
             messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
-            messageEl.textContent = message.text;
+            
+            // Format RO-bot messages to create new lines for dash characters
+            if (message.type === 'robot' && message.text.includes('-')) {
+                // Split by sentences first, then handle dashes within each part
+                const parts = message.text.split(/(?<=\.)\s+/);
+                let formattedText = '';
+                
+                parts.forEach((part, index) => {
+                    if (part.includes('-')) {
+                        // Split by dash and create new lines
+                        const dashParts = part.split(/\s*-\s*/);
+                        const mainText = dashParts[0];
+                        const bulletPoints = dashParts.slice(1);
+                        
+                        formattedText += mainText;
+                        if (bulletPoints.length > 0) {
+                            formattedText += '\n';
+                            bulletPoints.forEach(bullet => {
+                                if (bullet.trim()) {
+                                    formattedText += `- ${bullet.trim()}\n`;
+                                }
+                            });
+                        }
+                    } else {
+                        formattedText += part;
+                    }
+                    
+                    // Add space between sentences if not the last part
+                    if (index < parts.length - 1 && !formattedText.endsWith('\n')) {
+                        formattedText += ' ';
+                    }
+                });
+                
+                messageEl.style.whiteSpace = 'pre-line';
+                messageEl.textContent = formattedText.trim();
+            } else {
+                messageEl.textContent = message.text;
+            }
+            
             return messageEl;
         }
 
