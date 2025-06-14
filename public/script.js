@@ -230,10 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('chatMessagesContainer');
         if (!container || isAutoplayRunning) return;
 
-        // Set flag to prevent multiple instances
         isAutoplayRunning = true;
-
-        // Clear any existing content
         container.innerHTML = '';
 
         const messages = [
@@ -243,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { type: 'robot', text: "Check wiring/connectors for damage and run radar sensor calibration.\n- Connect MDI 2 and launch GDS2 or Techline Connect.\n- Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn" },
             { type: 'user', text: "Calibration was successful. That was the issue. Error message resolved." },
             { type: 'robot', text: "Resolution confirmed. Check to make sure DTCs are clear." },
-            { type: 'user', text: "Road test confirms a rattling noise from the rear passenger side. It gets louder with speed.", delay: 4000 },
+            { type: 'user', text: "Road test confirms a rattling noise from the rear passenger side. It gets louder with speed." },
             { type: 'robot', text: "Remove the right rear wheel. Inspect rear passenger side wheel area.\n- Brake dust shield\n- Parking brake\n- Exhaust near wheel well — hangers, clearance from body, heat shields\n- Shock mount points — wear, cracked bushings, loose fasteners\n- Suspension arms and links\n- Rotor" },
             { type: 'user', text: "Everything looks normal. Now what?" },
             { type: 'robot', text: "Use a chassis ear kit or mechanic's stethoscope to isolate the noise. Check these areas:\n- Rear shock absorber lower mount\n- Control arm\n- Sway bar link\n- Subframe\n- Seatbelt anchor" },
@@ -251,53 +248,30 @@ document.addEventListener('DOMContentLoaded', () => {
             { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
         ];
 
-        let currentIndex = 0;
+        // Simple animation sequence with predetermined delays
+        const delays = [0, 2000, 3000, 5000, 6000, 8000, 12000, 14000, 15000, 17000, 18000, 20000];
 
-        function addMessage() {
-            if (currentIndex >= messages.length) return;
-
-            const message = messages[currentIndex];
-            const messageEl = document.createElement('div');
-            
-            if (message.type === 'robot') {
-                // Add RO-bot tag
-                const tagEl = document.createElement('div');
-                tagEl.textContent = 'RO-bot';
-                tagEl.className = 'text-xs text-gray-400 mb-1 self-start';
-                container.appendChild(tagEl);
-            }
-
-            messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
-            messageEl.textContent = message.text;
-            container.appendChild(messageEl);
-
-            // Scroll to bottom
-            container.scrollTop = container.scrollHeight;
-
-            currentIndex++;
-
-            // Schedule next message
-            if (currentIndex < messages.length) {
-                let nextDelay;
-                
-                // Check if current message has special delay
-                if (message.delay) {
-                    nextDelay = message.delay;
-                } else if (message.type === 'user') {
-                    nextDelay = 1000; // 1 second after user message
-                } else {
-                    nextDelay = 2000; // 2 seconds after robot message
+        messages.forEach((message, index) => {
+            setTimeout(() => {
+                if (message.type === 'robot') {
+                    const tagEl = document.createElement('div');
+                    tagEl.textContent = 'RO-bot';
+                    tagEl.className = 'text-xs text-gray-400 mb-1 self-start';
+                    container.appendChild(tagEl);
                 }
-                
-                setTimeout(addMessage, nextDelay);
-            } else {
-                // Autoplay completed, reset flag
-                isAutoplayRunning = false;
-            }
-        }
 
-        // Start the sequence
-        addMessage();
+                const messageEl = document.createElement('div');
+                messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
+                messageEl.textContent = message.text;
+                container.appendChild(messageEl);
+                container.scrollTop = container.scrollHeight;
+
+                // Reset flag when last message is shown
+                if (index === messages.length - 1) {
+                    isAutoplayRunning = false;
+                }
+            }, delays[index]);
+        });
     }
 
     function resetDiagnosticMessages() {
@@ -305,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (container) {
             container.innerHTML = '';
         }
-        // Reset the flag when manually resetting
         isAutoplayRunning = false;
     }
 
