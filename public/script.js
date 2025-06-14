@@ -182,94 +182,99 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function checkBubbleOverlap(bubble1, bubble2) {
-        // Force layout recalculation to get accurate positions
-        bubble1.offsetHeight;
-        bubble2.offsetHeight;
-        
-        const rect1 = bubble1.getBoundingClientRect();
-        const rect2 = bubble2.getBoundingClientRect();
-        
-        // Add padding to ensure some space between bubbles
-        const padding = 20;
-        
-        return !(rect1.right + padding < rect2.left || 
-                rect2.right + padding < rect1.left || 
-                rect1.bottom + padding < rect2.top || 
-                rect2.bottom + padding < rect1.top);
-    }
-
-    function positionBubbleRandomly(bubble, isA1 = true) {
-        if (isA1) {
-            // Position A1 in upper half
-            const a1Top = Math.random() * 30 + 5; // 5-35% from top
-            const a1Right = Math.random() * 50 + 5; // 5-55% from right
-            bubble.style.top = `${a1Top}%`;
-            bubble.style.right = `${a1Right}%`;
-            bubble.style.left = 'auto';
-            bubble.style.bottom = 'auto';
-        } else {
-            // Position A2 in lower half
-            const a2Bottom = Math.random() * 30 + 10; // 10-40% from bottom
-            const a2Left = Math.random() * 50 + 5; // 5-55% from left
-            bubble.style.bottom = `${a2Bottom}%`;
-            bubble.style.left = `${a2Left}%`;
-            bubble.style.right = 'auto';
-            bubble.style.top = 'auto';
-        }
-    }
-
-    function positionBubbleWithoutOverlap(bubble, otherBubble, isA1 = true) {
+    function calculateSpecsBubblePositions() {
         const container = document.getElementById('techSpecsContainer');
-        if (!container) return;
+        const a1 = document.getElementById('a1Bubble');
+        const a2 = document.getElementById('a2Bubble');
+        if (!container || !a1 || !a2) return;
         
-        let attempts = 0;
-        const maxAttempts = 30;
+        const screenWidth = window.innerWidth;
+        let positions = [];
         
-        while (attempts < maxAttempts) {
-            // Try random positioning
-            positionBubbleRandomly(bubble, isA1);
-            
-            // Make bubble visible temporarily to check overlap
-            const originalOpacity = bubble.style.opacity;
-            bubble.style.opacity = '1';
-            
-            // Check for overlap if the other bubble is already positioned
-            if (otherBubble && otherBubble.style.opacity !== '0') {
-                // Wait for layout to settle
-                setTimeout(() => {
-                    if (!checkBubbleOverlap(bubble, otherBubble)) {
-                        // No overlap found, keep this position
-                        bubble.style.opacity = originalOpacity;
-                        return;
-                    }
-                }, 0);
-                
-                // If we get here, there was overlap, try again
-                bubble.style.opacity = originalOpacity;
-            } else {
-                // Other bubble not positioned yet, this position is fine
-                bubble.style.opacity = originalOpacity;
-                break;
-            }
-            
-            attempts++;
+        // Define safe zones similar to warranty overlays
+        if (screenWidth <= 640) {
+            positions = [
+                { // A1 - upper right
+                    bubble: a1,
+                    right: '5%',
+                    top: '8%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left
+                    bubble: a2,
+                    left: '5%',
+                    bottom: '15%',
+                    right: 'auto',
+                    top: 'auto'
+                }
+            ];
+        } else if (screenWidth <= 1024) {
+            positions = [
+                { // A1 - upper right
+                    bubble: a1,
+                    right: '4%',
+                    top: '12%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left
+                    bubble: a2,
+                    left: '4%',
+                    bottom: '18%',
+                    right: 'auto',
+                    top: 'auto'
+                }
+            ];
+        } else {
+            positions = [
+                { // A1 - upper right
+                    bubble: a1,
+                    right: '4%',
+                    top: '15%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left
+                    bubble: a2,
+                    left: '4%',
+                    bottom: '20%',
+                    right: 'auto',
+                    top: 'auto'
+                }
+            ];
         }
         
-        // If we couldn't find a non-overlapping position, use guaranteed safe positions
-        if (attempts >= maxAttempts) {
-            if (isA1) {
-                bubble.style.top = '12%';
-                bubble.style.right = '8%';
-                bubble.style.left = 'auto';
-                bubble.style.bottom = 'auto';
-            } else {
-                bubble.style.bottom = '15%';
-                bubble.style.left = '8%';
-                bubble.style.right = 'auto';
-                bubble.style.top = 'auto';
+        // Add random variation within safe zones
+        positions.forEach(pos => {
+            const randomOffset = Math.random() * 8 - 4; // ±4% variation
+            
+            if (pos.top !== 'auto') {
+                const topValue = parseFloat(pos.top);
+                pos.top = `${Math.max(5, topValue + randomOffset)}%`;
             }
-        }
+            if (pos.bottom !== 'auto') {
+                const bottomValue = parseFloat(pos.bottom);
+                pos.bottom = `${Math.max(5, bottomValue + randomOffset)}%`;
+            }
+            if (pos.left !== 'auto') {
+                const leftValue = parseFloat(pos.left);
+                pos.left = `${Math.max(2, leftValue + randomOffset)}%`;
+            }
+            if (pos.right !== 'auto') {
+                const rightValue = parseFloat(pos.right);
+                pos.right = `${Math.max(2, rightValue + randomOffset)}%`;
+            }
+            
+            // Apply positioning
+            Object.assign(pos.bubble.style, {
+                position: 'absolute',
+                left: pos.left,
+                top: pos.top,
+                right: pos.right,
+                bottom: pos.bottom
+            });
+        });
     }
 
     function animateSpecsSequence() {
@@ -278,13 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!a1 || !a2) return;
         resetSpecsBubbles();
         
-        // Position A1 first
-        positionBubbleWithoutOverlap(a1, null, true);
-        
-        // Wait a moment then position A2, checking for overlap with A1
-        setTimeout(() => {
-            positionBubbleWithoutOverlap(a2, a1, false);
-        }, 50);
+        // Position both bubbles using zone-based positioning
+        calculateSpecsBubblePositions();
         
         // Animate A1 first
         setTimeout(() => {
