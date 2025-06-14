@@ -250,11 +250,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 { type: 'user', text: "Everything looks normal. Now what?" },
                 { type: 'robot', text: "Use a chassis ear kit or mechanic's stethoscope to isolate the noise. Check these areas:\n- Rear shock absorber lower mount\n- Control arm\n- Sway bar link\n- Subframe\n- Seatbelt anchor" },
                 { type: 'user', text: "It was coming from the inside of the door. I opened up the panel and found a loose wiring harness." },
-                { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." }
+                { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." },
+                { type: 'finalfadeout', text: "" }
             ];
 
-            // Updated timing: First conversation (0-5), fadeout with 5sec pause (6), second conversation (7-12)
-            this.delays = [0, 2000, 6000, 8000, 12000, 14000, 18000, 24000, 28000, 30000, 34000, 36000];
+            // Timing based on new sequence specifications:
+            // User 1 (0), RO-bot 1 (1s), User 2 (6s), RO-bot 2 (7s), User 3 (12s), RO-bot 3 (13s), 
+            // fadeout (18s), User 4 (20s), RO-bot 4 (21s), User 5 (26s), RO-bot 5 (27s), User 6 (32s), RO-bot 6 (33s), finalfadeout (38s)
+            this.delays = [0, 1000, 6000, 7000, 12000, 13000, 18000, 20000, 21000, 26000, 27000, 32000, 33000, 38000];
 
             return true;
         }
@@ -307,8 +310,18 @@ document.addEventListener('DOMContentLoaded', () => {
         displayMessage(message, index) {
             if (!this.isRunning) return;
 
-            if (message.type === 'fadeout') {
+            if (message.type === 'fadeout' || message.type === 'finalfadeout') {
                 this.fadeOutMessages();
+                
+                // If this is the final fadeout, schedule restart after 2 second pause
+                if (message.type === 'finalfadeout') {
+                    const restartTimeout = setTimeout(() => {
+                        if (this.isRunning) {
+                            this.start();
+                        }
+                    }, 3000); // 1s fade + 2s pause
+                    this.timeouts.push(restartTimeout);
+                }
                 return;
             }
 
@@ -320,14 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const messageEl = this.createMessageElement(message);
             this.container.appendChild(messageEl);
             this.container.scrollTop = this.container.scrollHeight;
-
-            // End sequence after the last message
-            if (index === this.messages.length - 1) {
-                const endTimeout = setTimeout(() => {
-                    this.isRunning = false;
-                }, 1000);
-                this.timeouts.push(endTimeout);
-            }
         }
 
         start() {
