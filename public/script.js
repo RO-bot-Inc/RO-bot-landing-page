@@ -276,9 +276,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const nextMessage = messages[currentIndex];
                 let delay;
                 
-                if (message.delay) {
-                    // Special 4-second pause before this message
-                    delay = message.delay;
+                if (nextMessage.delay) {
+                    // Special delay before the next message
+                    delay = nextMessage.delay;
                 } else if (message.type === 'user') {
                     // After user message: 1 second pause
                     delay = 1000;
