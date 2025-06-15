@@ -691,6 +691,10 @@ video {
   margin-bottom: 0.25rem;
 }
 
+.block {
+  display: block;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -773,6 +777,10 @@ video {
 
 .max-w-4xl {
   max-width: 56rem;
+}
+
+.max-w-5xl {
+  max-width: 64rem;
 }
 
 .max-w-2xl {
@@ -1148,10 +1156,6 @@ video {
   opacity: 0.8;
 }
 
-.opacity-0 {
-  opacity: 0;
-}
-
 .opacity-70 {
   opacity: 0.7;
 }
@@ -1212,10 +1216,6 @@ video {
 
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.ease-out {
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
 /* Container for the waveform visualizer */
@@ -1381,6 +1381,11 @@ video {
     padding-bottom: 6rem;
   }
 
+  .sm\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
   .sm\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -1475,6 +1480,11 @@ video {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .lg\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 
   .lg\:text-6xl {
