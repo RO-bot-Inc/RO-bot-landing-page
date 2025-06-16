@@ -504,6 +504,25 @@ document.addEventListener('DOMContentLoaded', () => {
         diagnosticAutoplay.stop();
     }
 
+    // --- Contact Modal Handler ---
+    function setupContactModal() {
+        const closeModal = document.getElementById('closeModal');
+        const contactModal = document.getElementById('contactModal');
+        
+        if (closeModal && contactModal) {
+            closeModal.addEventListener('click', () => {
+                contactModal.classList.add('hidden');
+            });
+            
+            // Close modal when clicking outside
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    contactModal.classList.add('hidden');
+                }
+            });
+        }
+    }
+
     // --- Smooth Scroll Handler ---
     function setupSmoothScroll() {
         const smoothScrollLinks = document.querySelectorAll('a[data-smooth-scroll]');
@@ -533,6 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupVideoTimerSync();
     setupFeatureObservers();
     setupSmoothScroll();
+    setupContactModal();
 
     let resizeTimeout;
     window.addEventListener('resize', () => {
