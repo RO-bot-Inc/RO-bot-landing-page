@@ -1,853 +1,562 @@
-// Voice Visualizer Vanilla JavaScript Component
-function createVoiceVisualizer() {
-    const voiceVisualizerRoot = document.getElementById('voice-visualizer-root');
-    if (!voiceVisualizerRoot) return;
+document.addEventListener('DOMContentLoaded', () => {
 
-    // Create the voice visualizer container
-    const container = document.createElement('div');
-    container.className = 'voice-visualizer-container';
-    container.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 30;
-        width: 200px;
-        height: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    `;
+    // ===========================================
+    // ALL FUNCTION DEFINITIONS
+    // ===========================================
 
-    // Create the voice line
-    const voiceLine = document.createElement('div');
-    voiceLine.className = 'voice-line';
-    voiceLine.style.cssText = `
-        width: 100%;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-        border-radius: 2px;
-        animation: voicePulse 2s ease-in-out infinite;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-    `;
-
-    container.appendChild(voiceLine);
-    voiceVisualizerRoot.appendChild(container);
-}
-
-// Waveform Animation Function
-function initializeWaveformAnimation() {
-    const waveformContainer = document.getElementById('waveform');
-    if (!waveformContainer) return;
-
-    // Create bars container
-    const barsContainer = document.createElement('div');
-    barsContainer.className = 'waveform-bars';
-
-    // Insert bars container before the text container
-    const textContainer = document.getElementById('animated-text-container');
-    if (textContainer) {
-        waveformContainer.insertBefore(barsContainer, textContainer);
-    } else {
-        waveformContainer.appendChild(barsContainer);
+    // --- Hero Section Animations ---
+    function createVoiceVisualizer() {
+        const root = document.getElementById('voice-visualizer-root');
+        if (!root) return;
+        const container = document.createElement('div');
+        container.className = 'voice-visualizer-container';
+        container.style.cssText = `position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 30; width: 200px; height: 4px; display: flex; align-items: center; justify-content: center;`;
+        const voiceLine = document.createElement('div');
+        voiceLine.className = 'voice-line';
+        voiceLine.style.cssText = `width: 100%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); border-radius: 2px; animation: voicePulse 2s ease-in-out infinite; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);`;
+        container.appendChild(voiceLine);
+        root.appendChild(container);
     }
 
-    const numberOfBars = 40;
-    const bars = [];
-    const targetHeights = new Array(numberOfBars).fill(0.05);
-    const visualHeights = new Array(numberOfBars).fill(0.05);
-    const smoothingFactor = 0.1;
-    let isSpeaking = true;
+    function initializeWaveformAnimation() {
+        const container = document.getElementById('waveform');
+        if (!container || container.querySelector('.waveform-bars')) return;
+        const barsContainer = document.createElement('div');
+        barsContainer.className = 'waveform-bars';
+        const textContainer = document.getElementById('animated-text-container');
+        if (textContainer) container.insertBefore(barsContainer, textContainer);
+        else container.appendChild(barsContainer);
 
-    for (let i = 0; i < numberOfBars; i++) {
-        const bar = document.createElement('div');
-        bar.classList.add('waveform-bar');
-        barsContainer.appendChild(bar);
-        bars.push(bar);
-    }
-
-    function manageSpeechCycle() {
-        isSpeaking = !isSpeaking;
-        const duration = isSpeaking ? 2000 + Math.random() * 2000 : 1000 + Math.random() * 1500;
-        setTimeout(manageSpeechCycle, duration);
-    }
-
-    let frameCount = 0;
-    function animateWave() {
-        if (frameCount % 4 === 0) {
-            for (let i = 0; i < numberOfBars - 1; i++) {
-                targetHeights[i] = targetHeights[i + 1];
+        const numBars = 40, bars = [], targetHeights = new Array(numBars).fill(0.05), visualHeights = new Array(numBars).fill(0.05);
+        let isSpeaking = true, frameCount = 0;
+        for (let i = 0; i < numBars; i++) {
+            const bar = document.createElement('div');
+            bar.classList.add('waveform-bar');
+            barsContainer.appendChild(bar);
+            bars.push(bar);
+        }
+        function speechCycle() {
+            isSpeaking = !isSpeaking;
+            setTimeout(speechCycle, isSpeaking ? 2000 + Math.random() * 2000 : 1000 + Math.random() * 1500);
+        }
+        function animate() {
+            if (frameCount % 4 === 0) {
+                for (let i = 0; i < numBars - 1; i++) { targetHeights[i] = targetHeights[i + 1]; }
+                targetHeights[numBars - 1] = isSpeaking && Math.random() > 0.7 ? 0.4 + Math.random() * 0.6 : 0.05 + Math.random() * 0.1;
             }
-            let newHeight;
-            if (isSpeaking && Math.random() > 0.7) { 
-                newHeight = 0.4 + Math.random() * 0.6; 
+            for (let i = 0; i < numBars; i++) {
+                visualHeights[i] += (targetHeights[i] - visualHeights[i]) * 0.1;
+                bars[i].style.transform = `scaleY(${visualHeights[i]})`;
+            }
+            frameCount++;
+            requestAnimationFrame(animate);
+        }
+        animate();
+        speechCycle();
+        initializeTextAnimation();
+    }
+
+    function initializeTextAnimation() {
+        const container = document.getElementById('animated-text-container');
+        if (!container) return;
+        const sentences = ["The engine compartment looks pretty clean overall. No leaks that I can see.", "A bit of corrosion around the battery terminals.", "Looks like a cracked hose right here."];
+        let sentenceIndex = 0, wordIndex = 0;
+        function animate() {
+            const words = sentences[sentenceIndex].split(' ');
+            if (wordIndex < words.length) {
+                container.textContent = words.slice(0, wordIndex + 1).join(' ');
+                wordIndex++;
+                setTimeout(animate, 200);
             } else {
-                newHeight = 0.05 + Math.random() * 0.1;
-            }
-            targetHeights[numberOfBars - 1] = newHeight;
-        }
-        for (let i = 0; i < numberOfBars; i++) {
-            visualHeights[i] += (targetHeights[i] - visualHeights[i]) * smoothingFactor;
-            bars[i].style.transform = `scaleY(${visualHeights[i]})`;
-        }
-        frameCount++;
-        requestAnimationFrame(animateWave);
-    }
-
-    animateWave();
-    manageSpeechCycle();
-
-    // Initialize text animation
-    initializeTextAnimation();
-}
-
-// Text Animation Function
-function initializeTextAnimation() {
-    const textContainer = document.getElementById('animated-text-container');
-    if (!textContainer) return;
-
-    const sentences = [
-        "The engine compartment looks pretty clean overall. No leaks that I can see.",
-        "A bit of corrosion around the battery terminals.",
-        "Looks like a cracked hose right here."
-    ];
-
-    let currentSentenceIndex = 0;
-    let currentWordIndex = 0;
-    let isAnimating = false;
-
-    function animateNextWord() {
-        if (isAnimating) return;
-
-        const currentSentence = sentences[currentSentenceIndex];
-        const words = currentSentence.split(' ');
-
-        if (currentWordIndex < words.length) {
-            // Add the next word
-            const currentText = words.slice(0, currentWordIndex + 1).join(' ');
-            textContainer.textContent = currentText;
-            currentWordIndex++;
-
-            // Continue with next word after 200ms
-            setTimeout(animateNextWord, 200);
-        } else {
-            // Sentence complete, pause for 2 seconds
-            setTimeout(() => {
-                // Move to next sentence
-                currentSentenceIndex = (currentSentenceIndex + 1) % sentences.length;
-                currentWordIndex = 0;
-                textContainer.textContent = '';
-
-                // Start next sentence after clearing
-                setTimeout(animateNextWord, 300);
-            }, 2000);
-        }
-    }
-
-    // Start the animation
-    setTimeout(animateNextWord, 1000);
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Create Voice Visualizer
-    createVoiceVisualizer();
-
-    // Initialize waveform animation
-    initializeWaveformAnimation();
-    // Only disable autoplay on 5-Second Stories video, leave other videos alone
-    const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
-    const actualStoryVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
-
-    if (actualStoryVideo) {
-        actualStoryVideo.removeAttribute('autoplay');
-        actualStoryVideo.pause();
-        actualStoryVideo.currentTime = 0;
-    }
-
-    // New specs animation logic - auto-animate questions, click for answers
-    function animateSpecsQuestions() {
-        const questions = document.querySelectorAll('.clickable-question');
-
-        questions.forEach((question, index) => {
-            const delay = index * 800; // 800ms between Q1 and Q2
-
-            setTimeout(() => {
-                question.style.opacity = '1';
-                question.style.transform = 'translateY(0)';
-                question.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            }, delay);
-        });
-    }
-
-    // Function to hide all specs bubbles when not in viewport
-    function hideSpecsBubbles() {
-        const allBubbles = document.querySelectorAll('.message-bubble');
-        allBubbles.forEach(bubble => {
-            bubble.style.opacity = '0';
-            bubble.style.transform = 'translateY(10px)';
-            bubble.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        });
-
-        // Reset question images back to original tappable versions
-        resetQuestionImages();
-    }
-
-    // Function to show answer bubble when question is clicked
-    function showAnswerBubble(answerId) {
-        const answerBubble = document.getElementById(answerId);
-        if (answerBubble) {
-            answerBubble.style.opacity = '1';
-            answerBubble.style.transform = 'translateY(0)';
-            answerBubble.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        }
-    }
-
-    // Function to replace question image with no-tap version
-    function replaceQuestionImage(questionElement) {
-        const img = questionElement.querySelector('img');
-        if (!img) return;
-
-        const currentSrc = img.src;
-        if (currentSrc.includes('Q1_920x412.png')) {
-            img.src = 'specs/Q1_notap.png';
-            questionElement.classList.add('tapped');
-            questionElement.classList.remove('clickable-question');
-        } else if (currentSrc.includes('Q2_638xx412.png')) {
-            img.src = 'specs/Q2_notap.png';
-            questionElement.classList.add('tapped');
-            questionElement.classList.remove('clickable-question');
-        }
-    }
-
-    // Function to reset question images back to original
-    function resetQuestionImages() {
-        const q1Element = document.getElementById('q1Bubble');
-        const q2Element = document.getElementById('q2Bubble');
-
-        if (q1Element && q1Element.classList.contains('tapped')) {
-            const img = q1Element.querySelector('img');
-            if (img) {
-                img.src = 'specs/Q1_920x412.png';
-                q1Element.classList.remove('tapped');
-                q1Element.classList.add('clickable-question');
-            }
-        }
-
-        if (q2Element && q2Element.classList.contains('tapped')) {
-            const img = q2Element.querySelector('img');
-            if (img) {
-                img.src = 'specs/Q2_638xx412.png';
-                q2Element.classList.remove('tapped');
-                q2Element.classList.add('clickable-question');
-            }
-        }
-    }
-
-    // Setup click handlers for questions with enhanced feedback
-    function setupSpecsClickHandlers() {
-        const questions = document.querySelectorAll('.clickable-question');
-
-        questions.forEach(question => {
-            // Add click handler
-            question.addEventListener('click', function() {
-                const answerId = this.getAttribute('data-answer');
-
-                // Add click animation
-                this.style.transform = 'translateY(-4px) scale(0.98)';
                 setTimeout(() => {
-                    this.style.transform = 'translateY(0) scale(1)';
-                }, 150);
-
-                // Hide the click indicator after clicking
-                this.style.setProperty('--clicked', 'true');
-
-                // Replace the question image with no-tap version
-                replaceQuestionImage(this);
-
-                showAnswerBubble(answerId);
-            });
-
-            // Add mouse enter/leave effects for better feedback
-            question.addEventListener('mouseenter', function() {
-                // Only show hover effects if not tapped
-                if (!this.classList.contains('tapped')) {
-                    this.style.cursor = 'pointer';
-                }
-            });
-
-            question.addEventListener('mouseleave', function() {
-                if (!this.style.getPropertyValue('--clicked') && !this.classList.contains('tapped')) {
-                    this.style.transform = 'translateY(0) scale(1)';
-                }
-            });
-        });
+                    sentenceIndex = (sentenceIndex + 1) % sentences.length;
+                    wordIndex = 0;
+                    container.textContent = '';
+                    setTimeout(animate, 300);
+                }, 2000);
+            }
+        }
+        setTimeout(animate, 1000);
     }
 
-    // Animation for "Smarter Diagnostics" task overlays
-    function animateTaskOverlays() {
-        const overlays = document.querySelectorAll('.task-overlay');
+    // --- Feature 1: 5-Second Stories ---
+    function setupVideoTimerSync() {
+        const timerIframe = document.querySelector('iframe[src*="timer.html"]');
+        let actualVideo = document.querySelector('video[src*="update_story.mov"]');
+        if (!actualVideo && timerIframe) {
+            const featureContainer = timerIframe.closest('div.relative');
+            if (featureContainer) { actualVideo = featureContainer.querySelector('video'); }
+        }
+        if (!actualVideo || !timerIframe) return;
 
-        overlays.forEach((overlay, index) => {
-            const order = parseInt(overlay.getAttribute('data-animation-order'));
-            setTimeout(() => {
-                overlay.style.opacity = '1';
-                overlay.style.transform = 'translateX(0)';
-                overlay.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            }, (order - 1) * 600); // 600ms delay between each task
-        });
-
-        // Hide overlays after showing them all
-        setTimeout(() => {
-            overlays.forEach(overlay => {
-                overlay.style.opacity = '0';
-                overlay.style.transform = 'translateX(20px)';
-            });
-        }, overlays.length * 600 + 2500); // Show for 2.5 seconds after last overlay
+        function sendTimerMessage(message) { try { timerIframe.contentWindow.postMessage(message, '*'); } catch (error) { } }
+        function resetSequence() {
+            actualVideo.pause();
+            actualVideo.currentTime = 0;
+            actualVideo.muted = true;
+            actualVideo.removeAttribute('autoplay');
+            sendTimerMessage('resetTimer');
+        }
+        function startSequence() {
+            actualVideo.currentTime = 0;
+            actualVideo.muted = true;
+            actualVideo.play().then(() => { sendTimerMessage('startTimer'); }).catch(error => { });
+        }
+        resetSequence();
+        const featureContainer = actualVideo.closest('.relative');
+        if (featureContainer) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                        setTimeout(() => { startSequence(); }, 500);
+                    } else if (!entry.isIntersecting) {
+                        // Reset sequence when container leaves viewport
+                        resetSequence();
+                    }
+                });
+            }, { threshold: 1.0 });
+            observer.observe(featureContainer);
+        }
+        const writeStoryBtn = document.getElementById('writeStoryBtn');
+        if (writeStoryBtn) { writeStoryBtn.addEventListener('click', startSequence); }
     }
 
-    // Dynamic positioning system for warranty overlays
+    // --- Feature 2 & 3: Observers and Handlers ---
+    function setupFeatureObservers() {
+        const warrantyContainer = document.getElementById('warrantyContainer');
+        const techSpecsContainer = document.getElementById('techSpecsContainer');
+        const diagnosticContainer = document.getElementById('diagnosticContainer');
+
+        if (warrantyContainer) {
+            const warrantyObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        calculateOptimalPositions();
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            warrantyObserver.observe(warrantyContainer);
+        }
+
+        if (techSpecsContainer) {
+            const specsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                        animateSpecsSequence();
+                    }
+                });
+            }, { threshold: 1.0 });
+            specsObserver.observe(techSpecsContainer);
+        }
+
+        if (diagnosticContainer) {
+            const diagnosticObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 1.0) {
+                        startDiagnosticAutoplay();
+                    } else {
+                        resetDiagnosticMessages();
+                    }
+                });
+            }, { threshold: 1.0 });
+            diagnosticObserver.observe(diagnosticContainer);
+        }
+    }
+
     function calculateOptimalPositions() {
         const container = document.getElementById('warrantyContainer');
         const overlays = document.querySelectorAll('.warranty-overlay');
-
         if (!container || overlays.length === 0) return;
-
-        const containerRect = container.getBoundingClientRect();
-        const containerWidth = containerRect.width;
-        const containerHeight = containerRect.height;
         const screenWidth = window.innerWidth;
-
-        // Define positioning strategies for different screen sizes
         let positions = [];
-
-        if (screenWidth <= 640) {
-            // Mobile: Smaller sizes for better proportion
-            positions = [
-                { left: '8%', top: '5%', width: '36vw', maxWidth: '220px', transform: 'none', zIndex: 14 },
-                { right: '8%', top: '25%', width: '38vw', maxWidth: '230px', transform: 'none', zIndex: 13 },
-                { left: '12%', top: '48%', width: '40vw', maxWidth: '240px', transform: 'none', zIndex: 12 },
-                { right: '12%', top: '70%', width: '37vw', maxWidth: '225px', transform: 'none', zIndex: 15 }
-            ];
-        } else if (screenWidth <= 768) {
-            // Small tablet: Reduced sizes
-            positions = [
-                { left: '3%', top: '8%', width: '28vw', maxWidth: '260px', transform: 'none', zIndex: 14 },
-                { right: '3%', top: '20%', width: '30vw', maxWidth: '280px', transform: 'none', zIndex: 13 },
-                { left: '3%', bottom: '30%', width: '32vw', maxWidth: '300px', transform: 'none', zIndex: 12 },
-                { right: '3%', bottom: '8%', width: '29vw', maxWidth: '270px', transform: 'none', zIndex: 15 }
-            ];
-        } else if (screenWidth <= 1024) {
-            // Medium tablet: More conservative sizing
-            positions = [
-                { left: '4%', top: '8%', width: '25vw', maxWidth: '280px', transform: 'none', zIndex: 14 },
-                { right: '4%', top: '18%', width: '27vw', maxWidth: '300px', transform: 'none', zIndex: 13 },
-                { left: '4%', bottom: '26%', width: '29vw', maxWidth: '320px', transform: 'none', zIndex: 12 },
-                { right: '4%', bottom: '8%', width: '26vw', maxWidth: '290px', transform: 'none', zIndex: 15 }
-            ];
-        } else {
-            // Large screens: Even smaller for better proportion
-            positions = [
-                { left: '4%', top: '6%', width: '15vw', maxWidth: '240px', transform: 'none', zIndex: 14 },
-                { right: '4%', top: '12%', width: '17vw', maxWidth: '260px', transform: 'none', zIndex: 13 },
-                { left: '4%', bottom: '20%', width: '19vw', maxWidth: '280px', transform: 'none', zIndex: 12 },
-                { right: '4%', bottom: '18%', width: '16vw', maxWidth: '250px', transform: 'none', zIndex: 16 }
-            ];
-        }
-
-        // Apply calculated positions with overlap detection and adjustment
+        if (screenWidth <= 640) { positions = [{ left: '8%', top: '5%', width: '36vw', zIndex: 14 }, { right: '8%', top: '25%', width: '38vw', zIndex: 13 }, { left: '12%', top: '48%', width: '40vw', zIndex: 12 }, { right: '12%', top: '70%', width: '37vw', zIndex: 15 }]; }
+        else if (screenWidth <= 1024) { positions = [{ left: '4%', top: '8%', width: '25vw', zIndex: 14 }, { right: '4%', top: '18%', width: '27vw', zIndex: 13 }, { left: '4%', bottom: '26%', width: '29vw', zIndex: 12 }, { right: '4%', bottom: '8%', width: '26vw', zIndex: 15 }]; }
+        else { positions = [{ left: '4%', top: '6%', width: '15vw', zIndex: 14 }, { right: '4%', top: '12%', width: '17vw', zIndex: 13 }, { left: '4%', bottom: '20%', width: '19vw', zIndex: 12 }, { right: '4%', bottom: '18%', width: '16vw', zIndex: 16 }]; }
         overlays.forEach((overlay, index) => {
             if (index >= positions.length) return;
-
             const pos = positions[index];
-            overlay.classList.add('positioned');
+            Object.assign(overlay.style, { position: 'absolute', left: pos.left || 'auto', top: pos.top || 'auto', right: pos.right || 'auto', bottom: pos.bottom || 'auto', width: pos.width, zIndex: pos.zIndex, opacity: '1' });
+        });
+    }
 
-            // Apply base positioning
-            Object.entries(pos).forEach(([property, value]) => {
-                if (property === 'transform') {
-                    overlay.style.transform = value;
-                } else if (property === 'zIndex') {
-                    overlay.style.zIndex = value;
-                } else if (property === 'maxWidth') {
-                    overlay.style.maxWidth = value;
-                } else {
-                    overlay.style[property] = value;
+    function calculateSpecsBubblePositions() {
+        const container = document.getElementById('techSpecsContainer');
+        const a1 = document.getElementById('a1Bubble');
+        const a2 = document.getElementById('a2Bubble');
+        if (!container || !a1 || !a2) return;
+        
+        const screenWidth = window.innerWidth;
+        let positions = [];
+        
+        // Define safe zones for the new text containers
+        if (screenWidth <= 640) {
+            positions = [
+                { // A1 - upper right (oil capacity)
+                    bubble: a1,
+                    right: '5%',
+                    top: '8%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left (torque specs)
+                    bubble: a2,
+                    left: '5%',
+                    bottom: '15%',
+                    right: 'auto',
+                    top: 'auto'
                 }
+            ];
+        } else if (screenWidth <= 1024) {
+            positions = [
+                { // A1 - upper right (oil capacity)
+                    bubble: a1,
+                    right: '4%',
+                    top: '10%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left (torque specs)
+                    bubble: a2,
+                    left: '4%',
+                    bottom: '15%',
+                    right: 'auto',
+                    top: 'auto'
+                }
+            ];
+        } else {
+            positions = [
+                { // A1 - upper right (oil capacity)
+                    bubble: a1,
+                    right: '4%',
+                    top: '12%',
+                    left: 'auto',
+                    bottom: 'auto'
+                },
+                { // A2 - lower left (torque specs)
+                    bubble: a2,
+                    left: '4%',
+                    bottom: '18%',
+                    right: 'auto',
+                    top: 'auto'
+                }
+            ];
+        }
+        
+        // Add slight random variation within safe zones
+        positions.forEach(pos => {
+            const randomOffset = Math.random() * 6 - 3; // ±3% variation
+            
+            if (pos.top !== 'auto') {
+                const topValue = parseFloat(pos.top);
+                pos.top = `${Math.max(5, topValue + randomOffset)}%`;
+            }
+            if (pos.bottom !== 'auto') {
+                const bottomValue = parseFloat(pos.bottom);
+                pos.bottom = `${Math.max(5, bottomValue + randomOffset)}%`;
+            }
+            if (pos.left !== 'auto') {
+                const leftValue = parseFloat(pos.left);
+                pos.left = `${Math.max(2, leftValue + randomOffset)}%`;
+            }
+            if (pos.right !== 'auto') {
+                const rightValue = parseFloat(pos.right);
+                pos.right = `${Math.max(2, rightValue + randomOffset)}%`;
+            }
+            
+            // Apply positioning
+            Object.assign(pos.bubble.style, {
+                position: 'absolute',
+                left: pos.left,
+                top: pos.top,
+                right: pos.right,
+                bottom: pos.bottom
+            });
+        });
+    }
+
+    function animateSpecsSequence() {
+        const a1 = document.getElementById('a1Bubble');
+        const a2 = document.getElementById('a2Bubble');
+        if (!a1 || !a2) return;
+        
+        // Only animate if not already visible
+        if (a1.style.opacity !== '1') {
+            // Position both bubbles using zone-based positioning
+            calculateSpecsBubblePositions();
+            
+            // Show bubbles immediately with floating animation
+            a1.style.opacity = '1';
+            a2.style.opacity = '1';
+            a1.classList.add('floating');
+            a2.classList.add('floating');
+        }
+    }
+
+    function resetSpecsBubbles() {
+        const allBubbles = document.querySelectorAll('#techSpecsContainer .message-bubble');
+        allBubbles.forEach(bubble => {
+            bubble.style.opacity = '0';
+            bubble.classList.remove('floating');
+        });
+    }
+
+    
+
+    // --- Feature 4: Diagnostic Autoplay (Refactored) ---
+    class DiagnosticAutoplay {
+        constructor() {
+            this.isRunning = false;
+            this.timeouts = [];
+            this.container = null;
+            this.messages = [];
+            this.delays = [];
+        }
+
+        initialize() {
+            this.container = document.getElementById('chatMessagesContainer');
+            if (!this.container) return false;
+
+            this.messages = [
+                { type: 'user', text: "We've got this error message on the display panel… adaptive cruise temporarily unavailable. I'm also getting some DTCs… U0235, C1A67, U0415" },
+                { type: 'robot', text: "Those codes are related to the advanced driver-assistance system. Start with a visual inspection of radar sensor and fascia.\n- Check for obstructions (dirt, bug splatter, snow/ice, aftermarket grille cover).\n- Verify sensor is properly seated. The sensor must be aimed straight ahead and level to the ground." },
+                { type: 'user', text: "No issues found. Now what?" },
+                { type: 'robot', text: "Check wiring/connectors for damage and run radar sensor calibration.\n- Connect MDI 2 and launch GDS2 or Techline Connect.\n- Navigate to: Chassis > Front View Camera Module > Special Functions > Radar Sensor Learn" },
+                { type: 'user', text: "Calibration was successful. That was the issue. Error message resolved." },
+                { type: 'robot', text: "Resolution confirmed. Check to make sure DTCs are clear." },
+                { type: 'fadeout', text: "" },
+                { type: 'user', text: "Road test confirms a rattling noise from the rear passenger side. It gets louder with speed." },
+                { type: 'robot', text: "Remove the right rear wheel. Inspect rear passenger side wheel area.\n- Brake dust shield\n- Parking brake\n- Exhaust near wheel well — hangers, clearance from body, heat shields\n- Shock mount points — wear, cracked bushings, loose fasteners\n- Suspension arms and links\n- Rotor" },
+                { type: 'user', text: "Everything looks normal. Now what?" },
+                { type: 'robot', text: "Use a chassis ear kit or mechanic's stethoscope to isolate the noise. Check these areas:\n- Rear shock absorber lower mount\n- Control arm\n- Sway bar link\n- Subframe\n- Seatbelt anchor" },
+                { type: 'user', text: "It was coming from the inside of the door. I opened up the panel and found a loose wiring harness." },
+                { type: 'robot', text: "Mystery solved! Secure the harness and confirm the resolution with a final road test." },
+                { type: 'finalfadeout', text: "" }
+            ];
+
+            // Timing based on new sequence specifications:
+            // User 1 (1s), RO-bot 1 (3s), User 2 (7s), RO-bot 2 (9s), User 3 (13s), RO-bot 3 (15s), 
+            // fadeout (19s), User 4 (21s), RO-bot 4 (23s), User 5 (27s), RO-bot 5 (29s), User 6 (33s), RO-bot 6 (35s), finalfadeout (39s)
+            this.delays = [1000, 3000, 7000, 9000, 13000, 15000, 19000, 21000, 23000, 27000, 29000, 33000, 35000, 39000];
+
+            return true;
+        }
+
+        clearTimeouts() {
+            this.timeouts.forEach(timeout => clearTimeout(timeout));
+            this.timeouts = [];
+        }
+
+        reset() {
+            this.isRunning = false;
+            this.clearTimeouts();
+            if (this.container) {
+                this.container.innerHTML = '';
+            }
+        }
+
+        createRobotTag() {
+            const tagEl = document.createElement('div');
+            tagEl.textContent = 'RO-bot';
+            tagEl.className = 'text-xs text-white mb-1 self-start font-bold';
+            tagEl.style.cssText = 'margin-left: 10px; margin-bottom: -8px; font-weight: bold;';
+            return tagEl;
+        }
+
+        createMessageElement(message) {
+            const messageEl = document.createElement('div');
+            messageEl.className = `chat-bubble ${message.type === 'user' ? 'user-message' : 'robot-message'}`;
+            
+            // Add smooth entrance animation
+            messageEl.style.opacity = '0';
+            messageEl.style.transform = 'translateY(20px)';
+            messageEl.style.transition = 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            
+            // Format RO-bot messages to create new lines for dash bullet points only
+            if (message.type === 'robot' && message.text.includes('- ')) {
+                // Only split on dashes that have a space after them (bullet points)
+                const bulletPattern = /(\s+-\s)/g;
+                let formattedText = message.text;
+                
+                // Replace bullet point dashes with newline + bullet
+                formattedText = formattedText.replace(bulletPattern, '\n• ');
+                
+                messageEl.style.whiteSpace = 'pre-line';
+                messageEl.style.textAlign = 'left';
+                
+                // Split into lines and format each bullet point properly
+                const lines = formattedText.trim().split('\n');
+                let htmlContent = '';
+                
+                lines.forEach(line => {
+                    if (line.startsWith('• ')) {
+                        // This is a bullet point - create proper hanging indent where text aligns
+                        htmlContent += `<div style="padding-left: 0.8em; text-indent: -0.8em;">${line}</div>`;
+                    } else if (line.trim()) {
+                        // Regular line
+                        htmlContent += `<div>${line}</div>`;
+                    }
+                });
+                
+                messageEl.innerHTML = htmlContent;
+            } else {
+                messageEl.textContent = message.text;
+            }
+            
+            return messageEl;
+        }
+
+        fadeOutMessages() {
+            const allMessages = this.container.querySelectorAll('.chat-bubble, div[style*="margin-left: 10px"]');
+            allMessages.forEach((msg, index) => {
+                // Stagger the fade out animation for a smoother effect
+                setTimeout(() => {
+                    msg.style.transition = 'all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                    msg.style.opacity = '0';
+                    msg.style.transform = 'translateY(-10px)';
+                }, index * 100);
             });
 
-            // Clear conflicting positioning
-            if (pos.left) overlay.style.right = 'auto';
-            if (pos.right) overlay.style.left = 'auto';
-            if (pos.top) overlay.style.bottom = 'auto';
-            if (pos.bottom) overlay.style.top = 'auto';
-        });
-
-        // Fine-tune positions to minimize overlap after initial positioning
-        setTimeout(() => adjustForOverlaps(overlays, screenWidth), 100);
-    }
-
-    // Detect and adjust overlapping elements
-    function adjustForOverlaps(overlays, screenWidth) {
-        const rects = Array.from(overlays).map(overlay => ({
-            element: overlay,
-            rect: overlay.getBoundingClientRect()
-        }));
-
-        // Check for overlaps and make micro-adjustments
-        for (let i = 0; i < rects.length; i++) {
-            for (let j = i + 1; j < rects.length; j++) {
-                const overlap = calculateOverlap(rects[i].rect, rects[j].rect);
-                if (overlap.area > 0) {
-                    // Make small adjustments to reduce overlap
-                    adjustOverlappingElements(rects[i].element, rects[j].element, overlap, screenWidth);
+            // Clear container after fade animation completes
+            const clearTimeout = setTimeout(() => {
+                if (this.isRunning && this.container) {
+                    this.container.innerHTML = '';
                 }
+            }, 1200);
+
+            this.timeouts.push(clearTimeout);
+        }
+
+        displayMessage(message, index) {
+            if (!this.isRunning) return;
+
+            if (message.type === 'fadeout' || message.type === 'finalfadeout') {
+                this.fadeOutMessages();
+
+                // If this is the final fadeout, schedule restart after 2 second pause
+                if (message.type === 'finalfadeout') {
+                    const restartTimeout = setTimeout(() => {
+                        if (this.isRunning) {
+                            this.start();
+                        }
+                    }, 3200); // 1.2s fade + 2s pause
+                    this.timeouts.push(restartTimeout);
+                }
+                return;
             }
+
+            if (message.type === 'robot') {
+                const robotTag = this.createRobotTag();
+                robotTag.style.opacity = '0';
+                robotTag.style.transform = 'translateY(10px)';
+                robotTag.style.transition = 'all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                this.container.appendChild(robotTag);
+                
+                // Animate robot tag in
+                setTimeout(() => {
+                    robotTag.style.opacity = '1';
+                    robotTag.style.transform = 'translateY(0)';
+                }, 50);
+            }
+
+            const messageEl = this.createMessageElement(message);
+            this.container.appendChild(messageEl);
+            
+            // Smooth scroll to bottom
+            this.container.style.scrollBehavior = 'smooth';
+            this.container.scrollTop = this.container.scrollHeight;
+            
+            // Animate message in
+            setTimeout(() => {
+                messageEl.style.opacity = '1';
+                messageEl.style.transform = 'translateY(0)';
+            }, message.type === 'robot' ? 200 : 100);
+        }
+
+        start() {
+            if (!this.initialize()) return;
+
+            this.reset();
+            this.isRunning = true;
+
+            this.messages.forEach((message, index) => {
+                const timeout = setTimeout(() => {
+                    this.displayMessage(message, index);
+                }, this.delays[index]);
+
+                this.timeouts.push(timeout);
+            });
+        }
+
+        stop() {
+            this.reset();
         }
     }
 
-    // Calculate overlap between two rectangles
-    function calculateOverlap(rect1, rect2) {
-        const left = Math.max(rect1.left, rect2.left);
-        const right = Math.min(rect1.right, rect2.right);
-        const top = Math.max(rect1.top, rect2.top);
-        const bottom = Math.min(rect1.bottom, rect2.bottom);
+    // Create singleton instance
+    const diagnosticAutoplay = new DiagnosticAutoplay();
 
-        const width = Math.max(0, right - left);
-        const height = Math.max(0, bottom - top);
-
-        return {
-            area: width * height,
-            width: width,
-            height: height
-        };
+    function startDiagnosticAutoplay() {
+        diagnosticAutoplay.start();
     }
 
-    // Make small adjustments to reduce overlap
-    function adjustOverlappingElements(elem1, elem2, overlap, screenWidth) {
-        // Only make micro-adjustments (max 2-3% movement)
-        const maxAdjustment = screenWidth * 0.03;
+    function resetDiagnosticMessages() {
+        diagnosticAutoplay.stop();
+    }
 
-        if (overlap.width > overlap.height) {
-            // Horizontal overlap - adjust horizontally
-            const adjustment = Math.min(overlap.width / 2, maxAdjustment);
-
-            // Handle left-positioned elements
-            if (elem1.style.left && elem1.style.left !== 'auto') {
-                const currentLeft = parseFloat(elem1.style.left);
-                elem1.style.left = Math.max(1, currentLeft - adjustment / screenWidth * 100) + '%';
-            }
-
-            // Handle right-positioned elements
-            if (elem1.style.right && elem1.style.right !== 'auto') {
-                const currentRight = parseFloat(elem1.style.right);
-                elem1.style.right = Math.max(1, currentRight + adjustment / screenWidth * 100) + '%';
-            }
-
-            if (elem2.style.left && elem2.style.left !== 'auto') {
-                const currentLeft = parseFloat(elem2.style.left);
-                elem2.style.left = Math.max(1, currentLeft + adjustment / screenWidth * 100) + '%';
-            }
-
-            if (elem2.style.right && elem2.style.right !== 'auto') {
-                const currentRight = parseFloat(elem2.style.right);
-                elem2.style.right = Math.max(1, currentRight - adjustment / screenWidth * 100) + '%';
-            }
-        } else {
-            // Vertical overlap - adjust vertically
-            const adjustment = Math.min(overlap.height / 2, maxAdjustment);
-            const container = document.getElementById('warrantyContainer');
-            const containerHeight = container.getBoundingClientRect().height;
-
-            if (elem1.style.top && elem1.style.top !== 'auto') {
-                const currentTop = parseFloat(elem1.style.top);
-                elem1.style.top = Math.max(1, currentTop - adjustment / containerHeight * 100) + '%';
-            }
-
-            if (elem2.style.top && elem2.style.top !== 'auto') {
-                const currentTop = parseFloat(elem2.style.top);
-                elem2.style.top = Math.max(1, currentTop + adjustment / containerHeight * 100) + '%';
-            }
-
-            if (elem1.style.bottom && elem1.style.bottom !== 'auto') {
-                const currentBottom = parseFloat(elem1.style.bottom);
-                elem1.style.bottom = Math.max(1, currentBottom + adjustment / containerHeight * 100) + '%';
-            }
-
-            if (elem2.style.bottom && elem2.style.bottom !== 'auto') {
-                const currentBottom = parseFloat(elem2.style.bottom);
-                elem2.style.bottom = Math.max(1, currentBottom - adjustment / containerHeight * 100) + '%';
-            }
+    // --- Contact Modal Handler ---
+    function setupContactModal() {
+        const closeModal = document.getElementById('closeModal');
+        const contactModal = document.getElementById('contactModal');
+        
+        if (closeModal && contactModal) {
+            closeModal.addEventListener('click', () => {
+                contactModal.classList.add('hidden');
+            });
+            
+            // Close modal when clicking outside
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    contactModal.classList.add('hidden');
+                }
+            });
         }
     }
 
-    // Make warranty claim overlays continuously visible with dynamic positioning
-    function startWarrantyFloating() {
-        calculateOptimalPositions();
-
-        const overlays = document.querySelectorAll('.warranty-overlay');
-        overlays.forEach((overlay, index) => {
-            // Make overlays visible permanently
-            overlay.style.opacity = '1';
-            overlay.style.transition = 'all 0.3s ease';
+    // --- Smooth Scroll Handler ---
+    function setupSmoothScroll() {
+        const smoothScrollLinks = document.querySelectorAll('a[data-smooth-scroll]');
+        
+        smoothScrollLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     }
 
-    // Recalculate positions on window resize
+    // ===========================================
+    // INITIALIZE ALL PAGE SCRIPTS
+    // ===========================================
+    createVoiceVisualizer();
+    initializeWaveformAnimation();
+    setupVideoTimerSync();
+    setupFeatureObservers();
+    setupSmoothScroll();
+    setupContactModal();
+
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            const warrantyContainer = document.getElementById('warrantyContainer');
-            if (warrantyContainer) {
-                calculateOptimalPositions();
-            }
-        }, 250);
+        resizeTimeout = setTimeout(calculateOptimalPositions, 250);
     });
-
-    // Dynamic positioning system for floating text elements
-    function adjustFloatingTextPositions() {
-        const floatingTexts = document.querySelectorAll('.floating-text');
-        if (floatingTexts.length === 0) return;
-
-        const screenWidth = window.innerWidth;
-        const containerHeight = window.innerHeight * 0.7; // Approximate hero section height
-
-        // For mobile screens, apply better spacing
-        if (screenWidth <= 640) {
-            floatingTexts.forEach((text, index) => {
-                if (index === 0) {
-                    text.style.top = '65%';
-                    text.style.left = '5%';
-                    text.style.right = 'auto';
-                }
-                if (index === 1) {
-                    text.style.top = '72%';
-                    text.style.right = '5%';
-                    text.style.left = 'auto';
-                }
-                if (index === 2) {
-                    text.style.top = '85%';
-                    text.style.left = '5%';
-                    text.style.right = 'auto';
-                    text.style.textAlign = 'left';
-                    text.style.transform = 'none';
-                }
-            });
-        }
-
-        // Check for overlaps and adjust positions
-        const textRects = Array.from(floatingTexts).map(text => ({
-            element: text,
-            rect: text.getBoundingClientRect()
-        }));
-
-        // Apply dynamic adjustments based on screen size and overlap detection
-        for (let i = 0; i < textRects.length; i++) {
-            for (let j = i + 1; j < textRects.length; j++) {
-                const overlap = calculateTextOverlap(textRects[i].rect, textRects[j].rect);
-                if (overlap.area > 100) { // Threshold for significant overlap
-                    adjustOverlappingText(textRects[i].element, textRects[j].element, overlap, screenWidth);
-                }
-            }
-        }
-    }
-
-    // Calculate overlap between two text elements
-    function calculateTextOverlap(rect1, rect2) {
-        const left = Math.max(rect1.left, rect2.left);
-        const right = Math.min(rect1.right, rect2.right);
-        const top = Math.max(rect1.top, rect2.top);
-        const bottom = Math.min(rect1.bottom, rect2.bottom);
-
-        const width = Math.max(0, right - left);
-        const height = Math.max(0, bottom - top);
-
-        return {
-            area: width * height,
-            width: width,
-            height: height
-        };
-    }
-
-    // Adjust overlapping text elements with minimal movement - prioritize overlap tolerance
-    function adjustOverlappingText(elem1, elem2, overlap, screenWidth) {
-        // Increase overlap tolerance - only adjust for significant overlaps
-        const overlapThreshold = screenWidth <= 640 ? 200 : 300;
-
-        if (overlap.area < overlapThreshold) {
-            return; // Allow minor overlaps
-        }
-
-        const maxAdjustment = screenWidth <= 640 ? 10 : 15; // Even smaller adjustments
-
-        if (overlap.width > overlap.height) {
-            // Horizontal overlap - make minimal adjustments
-            const elem1Style = window.getComputedStyle(elem1);
-            const elem2Style = window.getComputedStyle(elem2);
-
-            // Only adjust if elements are too close to center
-            if (elem1Style.left !== 'auto' && parseFloat(elem1Style.left) > 40) {
-                const currentLeft = parseFloat(elem1Style.left);
-                elem1.style.left = Math.max(5, currentLeft - 1) + '%';
-            }
-
-            if (elem2Style.right !== 'auto' && parseFloat(elem2Style.right) > 40) {
-                const currentRight = parseFloat(elem2Style.right);
-                elem2.style.right = Math.max(5, currentRight - 1) + '%';
-            }
-        } else {
-            // Vertical overlap - prefer stacking with slight offset
-            const elem1Style = window.getComputedStyle(elem1);
-            const elem2Style = window.getComputedStyle(elem2);
-
-            // Only move lower element if there's room
-            if (elem2Style.top !== 'auto' && elem2Style.top !== '') {
-                const currentTop = parseFloat(elem2Style.top);
-                if (currentTop < 80) {
-                    elem2.style.top = Math.min(80, currentTop + 0.5) + '%';
-                }
-            }
-        }
-    }
-
-    // Responsive adjustment on window resize
-    let textResizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(textResizeTimeout);
-        textResizeTimeout = setTimeout(() => {
-            adjustFloatingTextPositions();
-        }, 200);
-    });
-
-    // Initial positioning adjustment after page load
-    window.addEventListener('load', () => {
-        setTimeout(adjustFloatingTextPositions, 500);
-    });
-
-    // Intersection Observer to trigger animations when sections come into view
-    const observerOptions = {
-        threshold: 0.3,
-        rootMargin: '0px 0px -100px 0px'
-    };
-
-    // Observer for specs section - trigger when any overlay is not 100% visible
-    const specsObserver = new IntersectionObserver((entries) => {
-        let allOverlaysVisible = true;
-
-        // Check if all overlay elements are 100% visible
-        const allOverlays = document.querySelectorAll('#techSpecsContainer .message-bubble');
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible) {
-                allOverlaysVisible = false;
-            }
-        });
-
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 1.0 && allOverlaysVisible) {
-                // Background and all overlays are completely within viewport
-                animateSpecsQuestions();
-                setupSpecsClickHandlers();
-                entry.target.setAttribute('data-specs-visible', 'true');
-            } else {
-                // Background or overlays are partially/completely outside viewport
-                hideSpecsBubbles();
-                entry.target.setAttribute('data-specs-visible', 'false');
-            }
-        });
-    }, {
-        threshold: 1.0, // Trigger only when 100% visible
-        rootMargin: '0px'
-    });
-
-    // Additional observer to watch for scroll changes affecting overlay visibility
-    const specsScrollObserver = new IntersectionObserver((entries) => {
-        const container = document.getElementById('techSpecsContainer');
-        if (!container) return;
-
-        const allOverlays = container.querySelectorAll('.message-bubble');
-        let anyOverlayOutOfView = false;
-
-        allOverlays.forEach(overlay => {
-            const rect = overlay.getBoundingClientRect();
-            const isFullyVisible = rect.top >= 0 && 
-                                 rect.left >= 0 && 
-                                 rect.bottom <= window.innerHeight && 
-                                 rect.right <= window.innerWidth;
-            if (!isFullyVisible && overlay.style.opacity !== '0') {
-                anyOverlayOutOfView = true;
-            }
-        });
-
-        if (anyOverlayOutOfView) {
-            hideSpecsBubbles();
-        }
-    }, {
-        threshold: [0, 1.0],
-        rootMargin: '0px'
-    });
-
-    // Observer for diagnostics section
-    const diagnosticsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateTaskOverlays();
-                // Repeat animation every 7 seconds
-                setInterval(animateTaskOverlays, 7000);
-                diagnosticsObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observer for warranty section
-    const warrantyObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                startWarrantyFloating();
-                warrantyObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Start observing the containers
-    const techSpecsContainer = document.getElementById('techSpecsContainer');
-    const diagnosticContainer = document.getElementById('diagnosticContainer');
-    const warrantyContainer = document.getElementById('warrantyContainer');
-
-    if (techSpecsContainer) {
-        // Find the background image within the specs container
-        const specsBackgroundImg = techSpecsContainer.querySelector('img[src*="dipstick"]');
-        if (specsBackgroundImg) {
-            specsObserver.observe(specsBackgroundImg);
-            // Also observe all overlay elements for scroll detection
-            const allOverlays = techSpecsContainer.querySelectorAll('.message-bubble');
-            allOverlays.forEach(overlay => {
-                specsScrollObserver.observe(overlay);
-            });
-        } else {
-            // Fallback to container if no background image found
-            specsObserver.observe(techSpecsContainer);
-        }
-    }
-
-    if (diagnosticContainer) {
-        diagnosticsObserver.observe(diagnosticContainer);
-    }
-
-    if (warrantyContainer) {
-        warrantyObserver.observe(warrantyContainer);
-    }
-
-    // Video-Timer Sync - Simple Button Triggered Version
-    function setupVideoTimerSync() {
-        // Specifically target the story video in the container with the timer
-        const storyVideo = document.querySelector('video[src*="update story.mov"], video source[src*="update story.mov"]');
-        const actualVideo = storyVideo ? storyVideo.parentElement.tagName === 'VIDEO' ? storyVideo.parentElement : storyVideo : null;
-        const timerIframe = document.querySelector('iframe[src*="timer.html"]');
-
-        console.log('Story video found:', actualVideo);
-        console.log('Timer iframe found:', timerIframe);
-
-        if (!actualVideo || !timerIframe) {
-            console.log('Video or timer not found, retrying...');
-            setTimeout(setupVideoTimerSync, 1000);
-            return;
-        }
-
-        // Send message to timer iframe
-        function sendTimerMessage(message) {
-            try {
-                timerIframe.contentWindow.postMessage(message, '*');
-            } catch (error) {
-                console.error('Error sending message to timer:', error);
-            }
-        }
-
-        // Start sequence: play video and timer simultaneously immediately
-        function startSequence() {
-            console.log('Button pressed, starting immediately');
-            console.log('Video element:', actualVideo);
-
-            // Set flag to allow this video to play
-            window.buttonVideoPlaying = true;
-
-            // Remove autoplay and loop to prevent conflicts
-            actualVideo.removeAttribute('autoplay');
-            actualVideo.removeAttribute('loop');
-            actualVideo.currentTime = 0;
-            actualVideo.muted = true;
-
-            // Add event listener to stop video after one play cycle
-            const handleVideoEnd = () => {
-                console.log('Video finished one play cycle, stopping');
-                actualVideo.pause();
-                window.buttonVideoPlaying = false; // Reset flag
-                actualVideo.removeEventListener('ended', handleVideoEnd);
-            };
-            actualVideo.addEventListener('ended', handleVideoEnd);
-
-            // Force play the video immediately
-            const playPromise = actualVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log('Video started successfully');
-                }).catch(error => {
-                    console.error('Error playing video:', error);
-                    window.buttonVideoPlaying = false; // Reset flag on error
-                });
-            }
-
-            sendTimerMessage('startTimer');
-        }
-
-        // Listen for timer stopping at 1.671 (no additional actions needed)
-        window.addEventListener('message', (event) => {
-            if (event.data === 'timerStopped') {
-                console.log('Timer stopped at 1.671');
-                // Timer stops automatically, no other actions needed
-            }
-        });
-
-        // Initialize video to first frame
-        actualVideo.currentTime = 0;
-        actualVideo.pause();
-        actualVideo.muted = true;
-        actualVideo.removeAttribute('autoplay');
-        sendTimerMessage('resetTimer');
-
-        // Expose controls globally for button access
-        window.videoTimerControls = {
-            start: startSequence
-        };
-    }
-
-    // Initialize video-timer sync only
-    setTimeout(setupVideoTimerSync, 500);
-
-    // Contact modal functionality
-    const contactModal = document.getElementById('contactModal');
-    const closeModal = document.getElementById('closeModal');
-    const contactLinks = document.querySelectorAll('a[href="#contact"], a[href="#support"]');
-
-    if (contactModal && closeModal) {
-        contactLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                contactModal.classList.remove('hidden');
-            });
-        });
-
-        closeModal.addEventListener('click', function() {
-            contactModal.classList.add('hidden');
-        });
-
-        contactModal.addEventListener('click', function(e) {
-            if (e.target === contactModal) {
-                contactModal.classList.add('hidden');
-            }
-        });
-    }
 });

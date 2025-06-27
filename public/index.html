@@ -469,6 +469,72 @@
             animation: float3 5.5s ease-in-out infinite !important;
         }
 
+        /* Floating animation for specs containers - slower, gentler movement */
+        @keyframes specFloat1 {
+            0% {
+                transform: translateY(0px) translateX(0px);
+            }
+            12% {
+                transform: translateY(-1px) translateX(1px);
+            }
+            25% {
+                transform: translateY(-3px) translateX(-0.5px);
+            }
+            38% {
+                transform: translateY(-1px) translateX(2px);
+            }
+            50% {
+                transform: translateY(-4px) translateX(-1px);
+            }
+            62% {
+                transform: translateY(-0.5px) translateX(1.5px);
+            }
+            75% {
+                transform: translateY(-2.5px) translateX(-1.5px);
+            }
+            88% {
+                transform: translateY(-1px) translateX(0.5px);
+            }
+            100% {
+                transform: translateY(0px) translateX(0px);
+            }
+        }
+
+        @keyframes specFloat2 {
+            0% {
+                transform: translateY(0px) translateX(0px);
+            }
+            15% {
+                transform: translateY(-2px) translateX(-1.5px);
+            }
+            30% {
+                transform: translateY(-1px) translateX(0.5px);
+            }
+            45% {
+                transform: translateY(-3.5px) translateX(1.5px);
+            }
+            60% {
+                transform: translateY(-1.5px) translateX(-1px);
+            }
+            75% {
+                transform: translateY(-3px) translateX(1px);
+            }
+            90% {
+                transform: translateY(-0.5px) translateX(-0.5px);
+            }
+            100% {
+                transform: translateY(0px) translateX(0px);
+            }
+        }
+
+        .floating {
+            animation: specFloat1 12s ease-in-out infinite;
+        }
+
+        #a2Bubble.floating {
+            animation: specFloat2 11s ease-in-out infinite;
+        }
+
         /* Specs Overlay Positioning - Larger sizes for better readability */
         .specs-q1 {
             left: 2%;
@@ -497,7 +563,7 @@
         .specs-a2 {
             right: 3%;
             bottom: 8%;
-            width: 55%;
+            width: 66%; /* 82.5% * 0.8 = 66% */
             height: auto;
             z-index: 14;
         }
@@ -553,7 +619,7 @@
             .specs-a2 {
                 right: 4%;
                 bottom: 12%;
-                width: 52%;
+                width: 62.4%; /* 78% * 0.8 = 62.4% */
             }
         }
 
@@ -579,7 +645,7 @@
             .specs-a2 {
                 right: 6%;
                 bottom: 15%;
-                width: 48%;
+                width: 57.6%; /* 72% * 0.8 = 57.6% */
             }
         }
 
@@ -605,7 +671,7 @@
             .specs-a2 {
                 right: 8%;
                 bottom: 17%;
-                width: 45%;
+                width: 54%; /* 67.5% * 0.8 = 54% */
             }
         }
 
@@ -789,21 +855,6 @@
             }
         }
 
-        /* Click indicators animation */
-        .click-indicator {
-            animation: pulse 1.5s infinite alternate;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        @keyframes pulse {
-            0% {
-                opacity: 0.7;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
         /* Dramatic hover states for clickable questions */
         .clickable-question {
             transition: all 0.3s ease;
@@ -876,11 +927,11 @@
                 width: 150px !important;
                 height: 3px !important;
             }
-            
+
             .voice-line {
                 height: 1.5px !important;
             }
-            
+
             @keyframes voicePulse {
                 0%, 100% {
                     height: 1.5px;
@@ -902,6 +953,33 @@
                     opacity: 0.8;
                     transform: scaleX(0.95);
                 }
+            }
+        }
+
+        /* Floating animations for specs answer bubbles */
+        .specs-a1.floating {
+            animation: specsFloat1 4s ease-in-out infinite;
+        }
+
+        .specs-a2.floating {
+            animation: specsFloat2 5s ease-in-out infinite;
+        }
+
+        @keyframes specsFloat1 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes specsFloat2 {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
             }
         }
 
@@ -994,7 +1072,7 @@
             transform: scale(1.0);
             color: #4A5568; /* Standard gray color */
             text-shadow: none;
-          }
+                    }
           25% {
             /* Growth reduced from 1.6 to 1.3 */
             transform: scale(1.3); 
@@ -1008,7 +1086,7 @@
           }
         }
 
-        
+
 
     </style>
 </head>
@@ -1028,7 +1106,7 @@
 
                 <!-- Login and Join Waitlist Buttons (Right Side) -->
                 <div class="flex space-x-6">
-                    <a href="#waitlist-form"
+                    <a href="#waitlist-form" data-smooth-scroll
                        class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                         Book Demo
                     </a>
@@ -1057,7 +1135,7 @@
                                     Fewer audits, <span style="background: linear-gradient(45deg, #FF4500, #FF8C69); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">more warranty revenue<span style="background: linear-gradient(45deg, #FF4500, #FF8C69); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">.</span></span>
                                 </h1>
                             </div>
-                            
+
                             <!-- The Visualizer Container - moved inside hero overlay -->
                             <div id="waveform" class="waveform-container z-20 mb-8">
                                 <!-- Waveform bars will be inserted here by JavaScript -->
@@ -1074,132 +1152,142 @@
         </section>
     </div>
 
-    <section id="features" class="py-16 sm:py-24 bg-white"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
+    <section id="features" class="py-5 sm:py-7 bg-white"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> 
 
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
-                <!-- Left phone image -->
-                <div class="w-full md:w-1/5 flex justify-center">
-                    <img src="/product3d/left-phone-only.png" alt="RO-bot Dashboard Interface" class="w-1/2 md:w-full max-w-xs object-contain"/>
+            <div class="flex flex-col md:flex-row items-center gap-8 mb-4">
+                <!-- Left phone image - 1/3 width -->
+                <div class="w-full md:w-1/3 flex justify-center" style="height: 80%; max-height: 400px;">
+                    <img src="/product3d/left-phone-only.png" alt="RO-bot Dashboard Interface" class="w-1/64 md:w-1/32 max-w-xs object-contain"/>
                 </div>
 
-                <!-- Center text content -->
-                <div class="w-full md:w-3/5 flex flex-col justify-center text-center px-4">
-                    <h2 class="font-montserrat font-bold text-brand-dark tracking-tight">
+                <!-- Text content - 2/3 width -->
+                <div class="w-full md:w-2/3 flex flex-col justify-center">
+                    <h2 class="font-montserrat font-bold text-brand-dark tracking-tight text-left">
                         <span class="text-4xl sm:text-5xl lg:text-6xl">Meet RO-bot</span><br>
                         <span class="text-2xl sm:text-3xl lg:text-4xl font-extralight">Your AI Co-Pilot for Smarter Repairs & Smoother Warranty Claims</span>
                     </h2>
-                    <p class="text-lg text-brand-dark opacity-90 leading-relaxed mt-4">
+                    <p class="text-lg text-brand-dark opacity-90 leading-relaxed mt-4 text-left">
                         Techs that use RO-bot work smarter. They stay more focused, and crank through more jobs in a day without sacrificing quality. They earn more, boost shop productivity, and improve warranty claim approval rates.
                     </p>
-                    <div class="mt-12">
-                        <a href="#waitlist-form"
-                           class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange font-semibold px-6 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
-                            Book Your Demo
-                        </a>
-                    </div>
-                </div>
 
-                <!-- Right phone image -->
-                <div class="w-full md:w-1/5 flex justify-center">
-                    <img src="/product3d/right-phone-only.png" alt="RO-bot Chat Interface" class="w-1/2 md:w-full max-w-xs object-contain"/>
                 </div>
             </div>
 
-        <div class="space-y-24">
-
-            <!-- Feature 1: 5-Second Stories -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-1 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
-                    <img src="story/typing.png" alt="Voice recording interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
-                    <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
-                    <video muted playsinline class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain rounded-lg" style="z-index: 1; mix-blend-mode: screen; opacity: 0.7; width: 60vw; max-width: 400px; height: auto; max-height: 60vh;" src="story/update_story.mov"></video>
-                    <iframe src="story/timer.html" class="absolute top-4 right-4 w-32 h-20 border-0 rounded-lg bg-transparent" style="z-index: 2;" scrolling="no"></iframe>
-                    <button id="writeStoryBtn" class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105" style="z-index: 3; background-color: #3C82F6; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;">
-                        Write Story
-                    </button>
-                </div>
-                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">5-Second Stories</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Techs capture findings, error codes, and part numbers with quick voice notes and zero typing. RO-bot makes sense of everything when it's time to build the full story and writes it in clear, customer-friendly language. RO-bot requires zero DMS integration so you can be up and running in minutes, not weeks.
-                    </p>
-                </div>
+            <!-- Centered Book Demo Button -->
+            <div class="text-center mt-12">
+                <a href="#waitlist-form" data-smooth-scroll
+                   class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange font-semibold px-6 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
+                    Book Your Demo
+                </a>
             </div>
 
-            <!-- Feature 2: Cleaner Warranty Claims -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-2">
-                    <div class="w-full h-[425px] overflow-hidden relative rounded-lg" id="warrantyContainer">
-                        <img src="Warranty/warranty.png" alt="Warranty claims interface" class="w-full h-full object-cover rounded-lg">
-                        <div class="warranty-overlay" data-animation-order="1"><img src="Warranty/advisor580x490.png" alt="Advisor Notes"></div>
-                        <div class="warranty-overlay" data-animation-order="2"><img src="Warranty/complaint708x462.png" alt="Customer Complaint"></div>
-                        <div class="warranty-overlay" data-animation-order="3"><img src="Warranty/Diag813x379.png" alt="Diagnostics"></div>
-                        <div class="warranty-overlay" data-animation-order="4"><img src="Warranty/technician744x500.png" alt="Tech Notes"></div>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-1">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Cleaner Warranty Claims, Faster Approvals</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Stop leaving warranty dollars on the table. RO-bot helps techs gather the right info, organizes it cleanly, and writes stories that are more likely to meet OEM standards—reducing rejections and speeding up payment.
-                    </p>
-                </div>
+    </section>
+
+    <!-- Company Logos Section -->
+    <section class="py-2 pb-8" style="background-color: #F2F2F2;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-2">
+                <h2 class="text-xl sm:text-2xl font-montserrat font-semibold text-brand-dark mt-8 mb-8">
+                    Trusted by technicians working on every major brand
+                </h2>
             </div>
 
-            <!-- Feature 3: Specs At Your Fingertips -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 md:order-1">
-                    <div class="w-full h-[425px] overflow-visible relative">
-                        <div id="techSpecsContainer" class="relative w-full h-full">
-                            <img src="specs/2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
-                            <div class="absolute specs-q1 opacity-0 message-bubble clickable-question" id="q1Bubble" data-answer="a1Bubble" style="transform: translateY(10px);"><img src="specs/Q1_920x412.png" alt="Torque spec question"></div>
-                            <div class="absolute specs-a1 opacity-0 message-bubble answer-bubble" id="a1Bubble" style="transform: translateY(10px);"><img src="specs/A1_1542x755.png" alt="Torque specs answer"></div>
-                            <div class="absolute specs-q2 opacity-0 message-bubble clickable-question" id="q2Bubble" data-answer="a2Bubble" style="transform: translateY(10px);"><img src="specs/Q2_638xx412.png" alt="Oil capacity question"></div>
-                            <div class="absolute specs-a2 opacity-0 message-bubble answer-bubble" id="a2Bubble" style="transform: translateY(10px);"><img src="specs/A2_1316x412.png" alt="Oil capacity answer"></div>
-                        </div>
+            <div class="logo-carousel-container">
+                <div class="logo-carousel-track">
+                    <!-- First set of logos -->
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
                     </div>
-                </div>
-                <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0 md:order-2">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Specs At Your Fingertips</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Quit searching for vehicle information buried in different websites and portals. Just ask RO-bot for torque specs, fluid capacities, TSB summaries, etc. Get exactly the info you need in seconds, right on your phone.
-                    </p>
-                </div>
-            </div>
-
-
-            <!-- Feature 4 -->
-            <div class="flex flex-col md:flex-row items-center gap-x-12">
-                <div class="w-full md:w-1/2 order-1 md:order-2 mt-8 md:mt-0">
-                    <div class="bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;" id="diagnosticContainer">
-                        <img src="tasks/warning3.png" alt="AI-powered diagnostic guidance interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
-
-                        <div id="chat-overlay" class="absolute inset-0 bg-black transition-opacity duration-500 ease-in-out opacity-0" style="z-index: 1;"></div>
-
-                        <div id="chat-demo-container" class="absolute inset-0 flex flex-col justify-between p-2 text-white" style="z-index: 2;">
-                            <div id="chat-log" class="flex-grow space-y-3 p-2 overflow-y-auto">
-                                </div>
-                        </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
                     </div>
-                    <div id="choices-wrapper" class="pt-4 flex items-center" style="gap: 20px;">
-                        <h4 id="choices-heading" class="text-lg text-brand-dark opacity-80 leading-relaxed opacity-100 whitespace-nowrap">Try It! 👉</h4>
-                        <div id="choice-bubbles" class="flex justify-center items-center" style="gap: 5px;">
-                            </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
                     </div>
-                </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                    </div>
 
-                <div class="w-full md:w-1/2 space-y-4 order-2 md:order-1 mt-8 md:mt-0">
-                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Smarter Diagnostics, Less Guesswork</h3>
-                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
-                        Tricky diagnostics don't have to slow you down. RO-bot suggests next steps based on error codes, symptoms, and vehicle history—helping techs work through complex problems faster and with more confidence.
-                    </p>
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
+                    </div>
+                    <div class="logo-carousel-slide">
+                        <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+                    </div>
                 </div>
             </div>
         </div>
+
     </section>
 
-
-
-    <!-- Problem Statistics Section -->
+    <!-- Problem Statistics Section - MOVED HERE -->
     <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -1260,130 +1348,106 @@
         </div>
     </section>
 
-    <!-- RO-bot Description Section -->
-    <section class="py-16 sm:py-24 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="w-full text-center">
-                <p class="max-w-4xl mx-auto text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-relaxed text-brand-dark opacity-90">
-                    <strong>RO-bot is the world's first AI co-pilot for auto repair technicians.</strong>
-                </p>
-                <div class="max-w-2xl mx-auto mt-8 text-lg sm:text-xl leading-relaxed text-brand-dark opacity-90 text-left">
-                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Voice-first interactions</div>
-                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Pristine repair stories in under 5 seconds</div>
-                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Diagnostics and technical specifications at your fingertips</div>
-                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Higher claims acceptance rates and warranty revenue</div>
-                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Happier technicians, making more money</div>
-                    <div style="margin-left: 1.2em; text-indent: -1.2em;">→ Fewer OEM warranty headaches</div>
-                </div>
-                <div class="mt-8 mb-16 sm:mb-20 md:mb-24" style="margin-top: calc(2rem + 11px);">
-                     <a href="#waitlist-form"
-                       class="inline-block bg-brand-orange text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-orange focus:ring-offset-brand-green font-semibold px-8 py-3 rounded-lg text-lg transition duration-150 ease-in-out shadow-lg transform hover:scale-105">
-                        Book Your Demo
-                     </a>
-                </div>
+    <section id="solution-features" class="py-16 sm:py-24 bg-white">
+        <div class="max-w-5xl mx-auto px-1 sm:px-2 lg:px-4">
+        <div class="space-y-24">
 
-                <!-- Horizontal Divider -->
-                <div class="flex justify-center mb-12">
-                    <div class="h-0.5 bg-gray-400" style="width: 800px;"></div>
+            <!-- Feature 1: 5-Second Stories -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 md:order-1 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
+                    <img src="story/typing.png" alt="Voice recording interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+                    <div class="absolute inset-0 bg-black rounded-lg" style="opacity: 0.25; z-index: 0.5;"></div>
+                    <video muted playsinline class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain rounded-lg" style="z-index: 1; mix-blend-mode: screen; opacity: 0.7; width: 60vw; max-width: 400px; height: auto; max-height: 60vh;" src="story/update_story.mov"></video>
+                    <iframe src="story/timer.html" class="absolute top-4 right-4 w-32 h-20 border-0 rounded-lg bg-transparent" style="z-index: 2;" scrolling="no"></iframe>
+                    <button id="writeStoryBtn" class="absolute left-1/2 transform -translate-x-1/2 text-white font-semibold rounded-lg transition duration-150 ease-in-out shadow-lg hover:scale-105" style="z-index: 3; background-color: #3C82F6; bottom: 40px; padding: 13.2px 26.4px; font-size: 1.1rem;">
+                        Write Story
+                    </button>
                 </div>
-
-                <!-- Company Logos Section -->
-                <div class="text-center mb-12">
-                    <h2 class="text-2xl font-montserrat font-semibold text-brand-dark mb-8">
-                        Trusted by technicians working on every major brand
-                    </h2>
+                <div class="w-full md:w-1/3 space-y-4 mt-8 md:mt-0 md:order-2">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">5-Second Stories</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Technicians capture findings, error codes, and part numbers with quick voice notes (and zero typing). RO-bot makes sense of it all, converting jargon to plain english, and writing repair stories in clear, customer-friendly language. RO-bot requires zero DMS integration so you can be up and running in minutes, not weeks.
+                    </p>
                 </div>
+            </div>
 
-                <div class="logo-carousel-container mb-16">
-                    <div class="logo-carousel-track">
-                        <!-- First set of logos -->
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
-                        </div>
+            <!-- Feature 2: Cleaner Warranty Claims -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 md:order-2">
+                    <div class="w-full h-[425px] overflow-hidden relative rounded-lg" id="warrantyContainer">
+                        <img src="Warranty/warranty.png" alt="Warranty claims interface" class="w-full h-full object-cover rounded-lg">
+                        <div class="warranty-overlay" data-animation-order="1"><img src="Warranty/advisor580x490.png" alt="Advisor Notes"></div>
+                        <div class="warranty-overlay" data-animation-order="2"><img src="Warranty/complaint708x462.png" alt="Customer Complaint"></div>
+                        <div class="warranty-overlay" data-animation-order="3"><img src="Warranty/Diag813x379.png" alt="Diagnostics"></div>
+                        <div class="warranty-overlay" data-animation-order="4"><img src="Warranty/technician744x500.png" alt="Tech Notes"></div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/3 space-y-4 mt-8 md:mt-0 md:order-1">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Cleaner Warranty Claims, Faster Approvals</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Stop leaving warranty dollars on the table. RO-bot helps gather the right info, organizes it cleanly, and writes stories that are more likely to meet OEM standards—reducing rejections and speeding up payment.
+                    </p>
+                </div>
+            </div>
 
-                        <!-- Duplicate set for seamless loop -->
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/toyota.png" alt="Toyota" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/honda.png" alt="Honda" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/ford.png" alt="Ford" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/chevy.png" alt="Chevrolet" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/nissan.png" alt="Nissan" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/BMW.png" alt="BMW" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/audi.png" alt="Audi" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/VW.png" alt="Volkswagen" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/dodge.png" alt="Dodge" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/jeep.png" alt="Jeep" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/GMC.png" alt="GMC" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/buick.png" alt="Buick" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/cadillac.png" alt="Cadillac" class="logo-carousel-img">
-                        </div>
-                        <div class="logo-carousel-slide">
-                            <img src="/OEM logos/volvo.png" alt="Volvo" class="logo-carousel-img">
+            <!-- Feature 3: Specs At Your Fingertips -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <div class="w-full md:w-1/2 md:order-1">
+                    <div class="w-full h-[425px] overflow-visible relative">
+                        <div id="techSpecsContainer" class="relative w-full h-full">
+                            <img src="specs/2_dipstick.webp" id="dipstickImage" class="w-full h-full object-cover absolute inset-0 rounded-lg" alt="Engine bay background">
+                            <div class="absolute message-bubble answer-bubble floating" id="a1Bubble" style="background: rgba(255, 255, 255, 0.7); padding: 16px; border-radius: 12px; max-width: 280px;">
+                                <div class="font-montserrat">
+                                    <div class="font-bold text-brand-dark mb-2">Oil capacity:</div>
+                                    <div class="text-brand-dark text-sm leading-relaxed">
+                                        With filter change: 4.6 quarts<br>
+                                        Without filter change: 4.2 quarts
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute message-bubble answer-bubble floating" id="a2Bubble" style="background: rgba(255, 255, 255, 0.7); padding: 16px; border-radius: 12px; max-width: 300px;">
+                                <div class="font-montserrat">
+                                    <div class="font-bold text-brand-dark mb-2">Engine block torque specs:</div>
+                                    <div class="text-brand-dark text-sm leading-relaxed">
+                                        Main bearing cap bolts: 48 ft-lbs<br>
+                                        Connecting rod bolts: 34 ft-lbs<br>
+                                        Cylinder head bolts: 29 ft-lbs, then 90°
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="w-full md:w-1/3 space-y-4 mt-8 md:mt-0 md:order-2">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Specs At Your Fingertips</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Quit searching for repair information buried in different websites and portals. RO-bot instantly serves up torque specs, fluid capacities, TSB summaries, etc. — no need to Google or navigate your manufacturer service portal.
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- Feature 4: Smarter Diagnostics (Autoplay) -->
+            <div class="flex flex-col md:flex-row items-center gap-x-12">
+                <!-- Container for the autoplay demo -->
+                <div id="diagnosticContainer" class="w-full md:w-1/2 order-1 md:order-2 mt-8 md:mt-0 bg-black p-8 rounded-lg relative overflow-hidden" style="height: 400px;">
+                    <!-- Background Image -->
+                    <img src="tasks/warning3.png" alt="AI-powered diagnostic guidance interface" class="w-full h-full object-cover rounded-lg shadow-xl" style="transform-origin: center; transform: scale(1.3); z-index: 0;">
+
+                    <!-- Dark overlay for better text readability -->
+                    <div class="absolute inset-0 bg-black bg-opacity-50 rounded-lg"></div>
+
+                    <!-- Chat Messages Container for Autoplay -->
+                    <div class="absolute flex flex-col justify-center items-center p-6 space-y-4 overflow-y-auto" id="chatMessagesContainer" style="top: 0; left: 0; right: 0; height: 90%;">
+                        <!-- Messages will be dynamically added here during autoplay -->
+                    </div>
+                </div>
+                <!-- Text Description -->
+                <div class="w-full md:w-1/3 space-y-4 order-2 md:order-1 mt-8 md:mt-0">
+                    <h3 class="text-2xl font-montserrat font-semibold text-brand-dark text-left">Smarter Diagnostics, Less Guesswork</h3>
+                    <p class="text-lg text-brand-dark opacity-80 leading-relaxed text-left">
+                        Tricky diagnostics don't have to slow you down. RO-bot suggests next steps based on error codes, symptoms, and vehicle repair patterns—helping techs work through complex repairs faster and with more confidence.
+                    </p>
                 </div>
             </div>
         </div>
@@ -1391,8 +1455,10 @@
 
 
 
+
+
     <!-- CTA Section -->
-    <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
+    <section id="waitlist-form" class="py-16 sm:py-24" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight">
                 Ready to Transform Your Shop?
@@ -1401,7 +1467,7 @@
                 Join the forward-thinking dealerships using RO-bot to free up more wrench time, boost job throughput, and maximize warranty claim revenue.
             </p>
 
-            <div id="waitlist-form" class="max-w-md mx-auto">
+            <div class="max-w-md mx-auto">
                 <form action="https://formspree.io/f/mrbqydnq" method="POST" class="space-y-4">
                     <input type="hidden" name="_subject" value="New RO-bot Waitlist Signup">
                     <input type="hidden" name="_next" value="https://ro-bot.io/thank-you">
@@ -1451,8 +1517,9 @@
                 <div class="space-y-4">
                     <h3 class="text-white font-semibold text-lg">Product</h3>
                     <ul class="space-y-3">
-                        <li><a href="#features" class="text-brand-silver hover:text-white text-sm transition duration-150">Features</a></li>
+                        <li><a href="#solution-features" data-smooth-scroll class="text-brand-silver hover:text-white text-sm transition duration-150">Features</a></li>
                         <li><a href="#top" class="text-brand-silver hover:text-white text-sm transition duration-150">Testimonials</a></li>
+                        <li><a href="https://celestial-xenon-221.notion.site/RO-bot-Setup-1f2d29c34d6480078746e6c15ad834f7?source=copy_link" target="_blank" rel="noopener noreferrer" class="text-brand-silver hover:text-white text-sm transition duration-150">Setup</a></li>
                     </ul>
                 </div>
 
@@ -1461,8 +1528,8 @@
                     <h3 class="text-white font-semibold text-lg">Resources</h3>
                     <ul class="space-y-3">
                         <li><a href="#top" class="text-brand-silver hover:text-white text-sm transition duration-150">Blog</a></li>
-                        <li><a href="#support" class="text-brand-silver hover:text-white text-sm transition duration-150">Support</a></li>
-                        <li><a href="#contact" class="text-brand-silver hover:text-white text-sm transition duration-150">Contact</a></li>
+                        <li><a href="#" onclick="document.getElementById('contactModal').classList.remove('hidden')" class="text-brand-silver hover:text-white text-sm transition duration-150">Support</a></li>
+                        <li><a href="mailto:hello@ro-bot.io" class="text-brand-silver hover:text-white text-sm transition duration-150">Contact</a>
                     </ul>
                 </div>
 
@@ -1490,7 +1557,7 @@
                         </a>
                         <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="Twitter">
                             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.3488.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
                             </svg>
                         </a>
                         <a href="#" class="text-brand-silver hover:text-white transition duration-150" aria-label="LinkedIn">
@@ -1517,7 +1584,7 @@
             </div>
             <form action="https://formspree.io/f/mrbqydnq" method="POST" class="space-y-4">
                 <input type="hidden" name="_subject" value="Contact from RO-bot Website">
-                <input type="hidden" name="_next" value="https://ro-bot.io">
+                <input type="hidden" name="_next" value="https://ro-bot.io/thank-you.html">
 
                 <div>
                     <input type="text" name="name" placeholder="Your Name" required
@@ -1542,7 +1609,7 @@
         </div>
     </div>
 
-    
+
     <script src="script.js"></script>
 
 </body>
