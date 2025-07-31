@@ -74,7 +74,7 @@ app.get("/blog", (req, res) => {
   const posts = getAllPosts();
   const categories = [...new Set(posts.map(post => post.category))];
   const selectedCategory = req.query.category;
-  
+
   const filteredPosts = selectedCategory 
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
@@ -90,228 +90,443 @@ app.get("/blog", (req, res) => {
     <link rel="stylesheet" href="/out.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
-        
-        /* Blog-specific styles matching main site aesthetic */
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #0F1108;
+            background: #ffffff;
+        }
+
+        /* Header styling to match main site */
+        .site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(42, 157, 143, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: #0F1108;
+        }
+
+        /* Hero section with gradient matching main site */
+        .hero-section {
+            background: linear-gradient(135deg, #2A9D8F 0%, #1a7a6e 50%, #0F1108 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            margin-bottom: 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Main content section */
+        .content-section {
+            background: #f8faf9;
+            min-height: 100vh;
+            padding: 4rem 0;
+        }
+
+        /* Filter section */
+        .filter-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .filter-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #0F1108;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .filter-select {
+            background: white;
+            border: 2px solid rgba(42, 157, 143, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0F1108;
+            min-width: 250px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(42, 157, 143, 0.08);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #2A9D8F;
+            box-shadow: 0 4px 25px rgba(42, 157, 143, 0.2);
+        }
+
+        /* Blog grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
+            }
+        }
+
+        /* Blog cards matching main site aesthetic */
         .blog-card {
-            background: rgba(255, 255, 255, 0.98);
-            border: 1px solid rgba(42, 157, 143, 0.08);
+            background: white;
             border-radius: 20px;
             padding: 2.5rem;
-            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 40px rgba(15, 17, 8, 0.08);
+            border: 1px solid rgba(42, 157, 143, 0.05);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(42, 157, 143, 0.06), 0 1px 3px rgba(0, 0, 0, 0.05);
+            height: fit-content;
         }
-        
-        .blog-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(42, 157, 143, 0.18), 0 8px 20px rgba(0, 0, 0, 0.08);
-            border-color: rgba(42, 157, 143, 0.25);
-        }
-        
+
         .blog-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #2a9d8f, #20b2aa, #264653);
-            opacity: 0;
-            transition: all 0.4s ease;
-            border-radius: 20px 20px 0 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2A9D8F, #1a7a6e);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
         }
-        
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(15, 17, 8, 0.15);
+            border-color: rgba(42, 157, 143, 0.2);
+        }
+
         .blog-card:hover::before {
-            opacity: 1;
+            transform: scaleX(1);
         }
-        
-        .blog-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-            pointer-events: none;
+
+        /* Card header */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
-        
-        .blog-card:hover::after {
-            left: 100%;
-        }
-        
+
         .category-badge {
             display: inline-flex;
             align-items: center;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
-        
+
         .category-technology {
-            background: linear-gradient(135deg, #2a9d8f, #20b2aa);
+            background: linear-gradient(135deg, #2A9D8F, #1a7a6e);
             color: white;
-            box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
         }
-        
+
         .category-business {
-            background: linear-gradient(135deg, #264653, #2a9d8f);
+            background: linear-gradient(135deg, #0F1108, #2A9D8F);
             color: white;
-            box-shadow: 0 4px 15px rgba(38, 70, 83, 0.3);
         }
-        
+
         .category-innovation {
-            background: linear-gradient(135deg, #f4a261, #e76f51);
+            background: linear-gradient(135deg, #C63006, #e74c3c);
             color: white;
-            box-shadow: 0 4px 15px rgba(244, 162, 97, 0.3);
         }
-        
+
         .category-general {
             background: linear-gradient(135deg, #6c757d, #495057);
             color: white;
-            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
         }
-        
-        .filter-select {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid rgba(42, 157, 143, 0.2);
-            border-radius: 12px;
-            padding: 0.75rem 1rem;
+
+        .post-date {
+            font-size: 0.9rem;
+            color: #666;
             font-weight: 500;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
         }
-        
-        .filter-select:focus {
-            outline: none;
-            border-color: #2a9d8f;
-            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+
+        /* Card content */
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: #0F1108;
+            margin-bottom: 1rem;
+            line-height: 1.3;
         }
-        
+
+        .card-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .card-title a:hover {
+            color: #2A9D8F;
+        }
+
+        .card-excerpt {
+            color: #4a5568;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Tags */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
         .tag-pill {
             background: rgba(42, 157, 143, 0.1);
-            color: #264653;
-            padding: 0.25rem 0.75rem;
-            border-radius: 16px;
-            font-size: 0.75rem;
+            color: #0F1108;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 500;
             border: 1px solid rgba(42, 157, 143, 0.2);
             transition: all 0.2s ease;
         }
-        
+
         .tag-pill:hover {
             background: rgba(42, 157, 143, 0.2);
-            border-color: rgba(42, 157, 143, 0.4);
+            transform: translateY(-1px);
         }
-        
+
+        /* Read more button */
         .read-more-btn {
-            background: linear-gradient(135deg, #2a9d8f, #20b2aa);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            font-size: 0.875rem;
-        }
-        
-        .read-more-btn:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 25px rgba(42, 157, 143, 0.3);
-            text-decoration: none;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, #2A9D8F, #1a7a6e);
             color: white;
+            padding: 0.875rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(42, 157, 143, 0.3);
+        }
+
+        .read-more-btn:hover {
+            transform: translateX(4px);
+            box-shadow: 0 6px 30px rgba(42, 157, 143, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .read-more-btn svg {
+            transition: transform 0.3s ease;
+        }
+
+        .read-more-btn:hover svg {
+            transform: translateX(3px);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6c757d;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.75rem;
+            color: #0F1108;
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-content {
+                padding: 4rem 0;
+            }
+
+            .blog-card {
+                padding: 2rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-select {
+                min-width: 200px;
+            }
+
+            .blog-card {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
-<body class="font-sans" style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); min-height: 100vh;">
+<body>
     <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+    <header class="site-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex justify-between items-center">
                 <div class="flex items-center">
                     <img src="/RObot logos/generated-icon.png" alt="RO-bot" class="h-10 w-10 mr-3">
-                    <span class="font-montserrat font-bold text-2xl text-brand-dark">RO-bot</span>
+                    <span class="logo-text">RO-bot</span>
                 </div>
                 <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="text-brand-dark hover:text-brand-green transition-colors font-medium">Home</a>
-                    <a href="/blog" class="text-brand-green font-semibold border-b-2 border-brand-green pb-1">Blog</a>
+                    <a href="/" class="text-gray-600 hover:text-brand-green transition-colors font-medium">Home</a>
+                    <a href="/blog" class="text-brand-green font-semibold">Blog</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="py-20" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="font-montserrat font-bold text-5xl sm:text-6xl lg:text-7xl text-white mb-6 tracking-tight">
-                RO-bot <span style="background: linear-gradient(45deg, #f4a261, #e76f51); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Insights</span>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Industry <span style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Insights</span>
             </h1>
-            <p class="text-xl sm:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed font-light">
-                Stay ahead with the latest in automotive technology, AI diagnostics, and repair efficiency insights from industry experts.
+            <p class="hero-subtitle">
+                Stay ahead with expert insights on automotive technology, AI diagnostics, and repair efficiency from industry leaders.
             </p>
         </div>
     </section>
 
-    <!-- Blog Content -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Category Filter -->
-            <div class="mb-12 text-center">
-                <label for="category-filter" class="block text-lg font-semibold text-brand-dark mb-4 font-montserrat">Explore by Category</label>
+    <!-- Main Content -->
+    <section class="content-section">
+        <div class="max-w-7xl mx-auto">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <label for="category-filter" class="filter-label">Explore by Category</label>
                 <select id="category-filter" onchange="filterByCategory(this.value)" class="filter-select">
                     <option value="">All Categories</option>
                     ${categories.map(cat => `<option value="${cat}" ${selectedCategory === cat ? 'selected' : ''}>${cat}</option>`).join('')}
                 </select>
             </div>
 
-            <!-- Posts Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                ${filteredPosts.map(post => `
-                    <article class="blog-card group">
-                        <div class="flex items-center justify-between mb-6">
-                            <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
-                            <time class="text-sm text-gray-500 font-medium">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
-                        </div>
-                        
-                        <h2 class="font-montserrat font-bold text-2xl mb-4 text-brand-dark leading-tight">
-                            <a href="/blog/${post.slug}" class="hover:text-brand-green transition-colors">${post.title}</a>
-                        </h2>
-                        
-                        <p class="text-gray-600 mb-6 leading-relaxed text-base">${post.excerpt}</p>
-                        
-                        ${post.tags && post.tags.length > 0 ? `
-                            <div class="flex flex-wrap gap-2 mb-6">
-                                ${post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('')}
+            <!-- Blog Grid -->
+            ${filteredPosts.length > 0 ? `
+                <div class="blog-grid">
+                    ${filteredPosts.map(post => `
+                        <article class="blog-card">
+                            <div class="card-header">
+                                <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
+                                <time class="post-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
                             </div>
-                        ` : ''}
-                        
-                        <a href="/blog/${post.slug}" class="read-more-btn">
-                            Read Article
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
-                        </a>
-                    </article>
-                `).join('')}
-            </div>
-            
-            ${filteredPosts.length === 0 ? `
-                <div class="text-center py-16">
-                    <div class="text-gray-400 text-6xl mb-4">📝</div>
-                    <h3 class="font-montserrat font-semibold text-2xl text-gray-600 mb-2">No posts found</h3>
-                    <p class="text-gray-500">Try adjusting your category filter.</p>
+
+                            <h2 class="card-title">
+                                <a href="/blog/${post.slug}">${post.title}</a>
+                            </h2>
+
+                            <p class="card-excerpt">${post.excerpt}</p>
+
+                            ${post.tags && post.tags.length > 0 ? `
+                                <div class="tags-container">
+                                    ${post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('')}
+                                </div>
+                            ` : ''}
+
+                            <a href="/blog/${post.slug}" class="read-more-btn">
+                                Read Full Article
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </article>
+                    `).join('')}
                 </div>
-            ` : ''}
+            ` : `
+                <div class="empty-state">
+                    <div class="icon">📝</div>
+                    <h3>No articles found</h3>
+                    <p>Try selecting a different category to see more content.</p>
+                </div>
+            `}
         </div>
     </section>
 
@@ -329,7 +544,7 @@ app.get("/blog", (req, res) => {
 </body>
 </html>
   `;
-  
+
   res.send(html);
 });
 
