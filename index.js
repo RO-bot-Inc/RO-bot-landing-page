@@ -214,26 +214,10 @@ app.get("/blog", (req, res) => {
             height: fit-content;
         }
 
-        .blog-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2A9D8F, #1a7a6e);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
         .blog-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 60px rgba(15, 17, 8, 0.15);
             border-color: rgba(42, 157, 143, 0.2);
-        }
-
-        .blog-card:hover::before {
-            transform: scaleX(1);
         }
 
         /* Card header */
