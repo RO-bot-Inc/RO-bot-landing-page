@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - RO-bot AI Co-Pilot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="/browser.svg" type="image/svg+xml">
+</head>
+<body class="bg-white font-sans text-brand-dark antialiased">
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Logo (Left Side) -->
+                <div class="flex-shrink-0">
+                    <a href="/" title="RO-bot Home">
+                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                    </a>
+                </div>
+                
+                <!-- Login and Join Waitlist Buttons + Hamburger Menu (Right Side) -->
+                <div class="flex items-center space-x-6">
+                    <a href="/#waitlist-form"
+                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Book Demo
+                    </a>
+                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
+                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Login
+                    </a>
+                    
+                    <!-- Hamburger Menu Button -->
+                    <button id="hamburger-btn" class="hamburger-menu-btn" aria-label="Open menu">
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                        <div class="hamburger-line"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hamburger Menu Overlay -->
+    <div id="hamburger-overlay" class="hamburger-overlay">
+        <div class="hamburger-menu">
+            <div class="hamburger-header">
+                <img class="h-10 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                <button id="hamburger-close" class="hamburger-close-btn" aria-label="Close menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="hamburger-nav">
+                <a href="/book-demo" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">📅</span>
+                    Book a Demo
+                </a>
+                <a href="/about" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">ℹ️</span>
+                    About
+                </a>
+                <a href="/blog" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">📝</span>
+                    Blog
+                </a>
+                <a href="/support" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">🔧</span>
+                    Support
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="py-16 sm:py-24" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-montserrat font-bold text-white mb-6 tracking-tight">
+                    About RO-bot
+                </h1>
+                <p class="text-lg sm:text-xl text-white opacity-90 leading-relaxed mb-10 max-w-2xl mx-auto">
+                    Revolutionizing automotive service with AI-powered assistance for technicians.
+                </p>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="prose prose-lg max-w-none">
+                    <h2 class="text-2xl font-montserrat font-bold text-brand-dark mb-6">Our Mission</h2>
+                    <p class="text-lg text-brand-dark opacity-90 leading-relaxed mb-8">
+                        At RO-bot, we're on a mission to transform the automotive service industry by empowering technicians with AI-powered tools that increase efficiency, improve accuracy, and reduce administrative burden.
+                    </p>
+
+                    <h2 class="text-2xl font-montserrat font-bold text-brand-dark mb-6">The Problem We Solve</h2>
+                    <p class="text-lg text-brand-dark opacity-90 leading-relaxed mb-8">
+                        Automotive technicians spend too much time on paperwork and searching for information, taking valuable time away from what they do best - fixing cars. Our AI co-pilot streamlines these processes, allowing techs to focus on repairs while ensuring comprehensive documentation and improved warranty claim success rates.
+                    </p>
+
+                    <h2 class="text-2xl font-montserrat font-bold text-brand-dark mb-6">Our Solution</h2>
+                    <p class="text-lg text-brand-dark opacity-90 leading-relaxed mb-8">
+                        RO-bot provides voice-driven documentation, instant access to technical specifications, intelligent diagnostic assistance, and automated warranty claim preparation - all designed to work seamlessly with existing workflows without requiring DMS integration.
+                    </p>
+
+                    <div class="bg-gray-50 p-8 rounded-lg mb-8">
+                        <h3 class="text-xl font-montserrat font-semibold text-brand-dark mb-4">Ready to Learn More?</h3>
+                        <p class="text-brand-dark opacity-90 mb-4">
+                            Discover how RO-bot can transform your automotive service operations.
+                        </p>
+                        <a href="/book-demo" class="inline-block bg-brand-orange text-white hover:bg-opacity-90 font-semibold px-6 py-3 rounded-lg transition duration-150 ease-in-out">
+                            Book a Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

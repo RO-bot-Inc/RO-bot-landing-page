@@ -433,6 +433,135 @@ app.get("/blog", (req, res) => {
                 padding: 1.5rem;
             }
         }
+
+        /* Hamburger menu styles */
+        .hamburger-button {
+            display: block;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 60; /* Ensure it's above the overlay */
+        }
+
+        .hamburger-icon, .hamburger-icon::before, .hamburger-icon::after {
+            display: block;
+            background-color: #2A9D8F;
+            position: absolute;
+            height: 3px;
+            width: 25px;
+            transition: transform 300ms ease-in-out;
+        }
+
+        .hamburger-icon::before {
+            content: '';
+            margin-top: -8px;
+        }
+
+        .hamburger-icon::after {
+            content: '';
+            margin-top: 8px;
+        }
+
+        .hamburger-button.active .hamburger-icon {
+            background-color: transparent;
+        }
+
+        .hamburger-button.active .hamburger-icon::before {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .hamburger-button.active .hamburger-icon::after {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Overlay styles */
+        .hamburger-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            display: flex;
+            justify-content: flex-start;
+            align-items: stretch;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s ease-out 0.3s, opacity 0.3s ease-in-out;
+        }
+
+        .hamburger-overlay.active {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s ease-out 0s, opacity 0.3s ease-in-out;
+        }
+
+        /* Menu styles */
+        .hamburger-menu {
+            background-color: #fff;
+            width: 320px;
+            height: 100%;
+            box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hamburger-overlay.active .hamburger-menu {
+            transform: translateX(0);
+        }
+
+        .hamburger-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hamburger-close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-nav {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hamburger-nav-item {
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hamburger-nav-item:hover {
+            background-color: #edf2f7;
+        }
+
+        .hamburger-nav-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
     </style>
 </head>
 <body>
@@ -460,9 +589,48 @@ app.get("/blog", (req, res) => {
                     </a>
                 </div>
 
+                <!-- Hamburger Menu Button -->
+                <button id="hamburger-btn" class="hamburger-button" aria-label="Open menu">
+                    <span class="hamburger-icon"></span>
+                </button>
+
             </div>
         </div>
     </nav>
+
+    <!-- Hamburger Menu Overlay -->
+    <div id="hamburger-overlay" class="hamburger-overlay">
+        <div class="hamburger-menu">
+            <div class="hamburger-header">
+                <img class="h-10 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                <button id="hamburger-close" class="hamburger-close-btn" aria-label="Close menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="hamburger-nav">
+                <a href="/book-demo" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">📅</span>
+                    Book a Demo
+                </a>
+                <a href="/about" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">ℹ️</span>
+                    About
+                </a>
+                <a href="/blog" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">📝</span>
+                    Blog
+                </a>
+                <a href="/support" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">🔧</span>
+                    Support
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <main>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -539,6 +707,48 @@ app.get("/blog", (req, res) => {
             }
             window.location.href = url.toString();
         }
+
+        // Hamburger Menu Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const hamburgerClose = document.getElementById('hamburger-close');
+            const hamburgerOverlay = document.getElementById('hamburger-overlay');
+            const body = document.body;
+
+            if (!hamburgerBtn || !hamburgerClose || !hamburgerOverlay) return;
+
+            function openMenu() {
+                hamburgerBtn.classList.add('active');
+                hamburgerOverlay.classList.add('active');
+                body.classList.add('hamburger-open');
+            }
+
+            function closeMenu() {
+                hamburgerBtn.classList.remove('active');
+                hamburgerOverlay.classList.remove('active');
+                body.classList.remove('hamburger-open');
+            }
+
+            hamburgerBtn.addEventListener('click', openMenu);
+            hamburgerClose.addEventListener('click', closeMenu);
+
+            hamburgerOverlay.addEventListener('click', (e) => {
+                if (e.target === hamburgerOverlay) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && hamburgerOverlay.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+
+            const navItems = document.querySelectorAll('.hamburger-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', closeMenu);
+            });
+        });
     </script>
 </body>
 </html>
@@ -775,6 +985,135 @@ app.get("/blog/:slug", (req, res) => {
         .related-card:hover::before {
             opacity: 1;
         }
+
+        /* Hamburger menu styles */
+        .hamburger-button {
+            display: block;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 60; /* Ensure it's above the overlay */
+        }
+
+        .hamburger-icon, .hamburger-icon::before, .hamburger-icon::after {
+            display: block;
+            background-color: #2A9D8F;
+            position: absolute;
+            height: 3px;
+            width: 25px;
+            transition: transform 300ms ease-in-out;
+        }
+
+        .hamburger-icon::before {
+            content: '';
+            margin-top: -8px;
+        }
+
+        .hamburger-icon::after {
+            content: '';
+            margin-top: 8px;
+        }
+
+        .hamburger-button.active .hamburger-icon {
+            background-color: transparent;
+        }
+
+        .hamburger-button.active .hamburger-icon::before {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .hamburger-button.active .hamburger-icon::after {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Overlay styles */
+        .hamburger-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            display: flex;
+            justify-content: flex-start;
+            align-items: stretch;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s ease-out 0.3s, opacity 0.3s ease-in-out;
+        }
+
+        .hamburger-overlay.active {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s ease-out 0s, opacity 0.3s ease-in-out;
+        }
+
+        /* Menu styles */
+        .hamburger-menu {
+            background-color: #fff;
+            width: 320px;
+            height: 100%;
+            box-shadow: 2px 0px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hamburger-overlay.active .hamburger-menu {
+            transform: translateX(0);
+        }
+
+        .hamburger-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hamburger-close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-nav {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hamburger-nav-item {
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: #2d3748;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .hamburger-nav-item:hover {
+            background-color: #edf2f7;
+        }
+
+        .hamburger-nav-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
     </style>
 </head>
 <body class="font-sans" style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); min-height: 100vh;">
@@ -802,9 +1141,48 @@ app.get("/blog/:slug", (req, res) => {
                     </a>
                 </div>
 
+                <!-- Hamburger Menu Button -->
+                <button id="hamburger-btn" class="hamburger-button" aria-label="Open menu">
+                    <span class="hamburger-icon"></span>
+                </button>
+
             </div>
         </div>
     </nav>
+
+    <!-- Hamburger Menu Overlay -->
+    <div id="hamburger-overlay" class="hamburger-overlay">
+        <div class="hamburger-menu">
+            <div class="hamburger-header">
+                <img class="h-10 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
+                <button id="hamburger-close" class="hamburger-close-btn" aria-label="Close menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="hamburger-nav">
+                <a href="/book-demo" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">📅</span>
+                    Book a Demo
+                </a>
+                <a href="/about" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">ℹ️</span>
+                    About
+                </a>
+                <a href="/blog" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">📝</span>
+                    Blog
+                </a>
+                <a href="/support" class="hamburger-nav-item">
+                    <span class="hamburger-nav-icon">🔧</span>
+                    Support
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <main>
 
     <!-- Breadcrumb -->
     <div class="py-6" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);">
@@ -882,6 +1260,50 @@ app.get("/blog/:slug", (req, res) => {
             Back to All Articles
         </a>
     </div>
+
+    <script>
+        // Hamburger Menu Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const hamburgerClose = document.getElementById('hamburger-close');
+            const hamburgerOverlay = document.getElementById('hamburger-overlay');
+            const body = document.body;
+
+            if (!hamburgerBtn || !hamburgerClose || !hamburgerOverlay) return;
+
+            function openMenu() {
+                hamburgerBtn.classList.add('active');
+                hamburgerOverlay.classList.add('active');
+                body.classList.add('hamburger-open');
+            }
+
+            function closeMenu() {
+                hamburgerBtn.classList.remove('active');
+                hamburgerOverlay.classList.remove('active');
+                body.classList.remove('hamburger-open');
+            }
+
+            hamburgerBtn.addEventListener('click', openMenu);
+            hamburgerClose.addEventListener('click', closeMenu);
+
+            hamburgerOverlay.addEventListener('click', (e) => {
+                if (e.target === hamburgerOverlay) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && hamburgerOverlay.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+
+            const navItems = document.querySelectorAll('.hamburger-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', closeMenu);
+            });
+        });
+    </script>
 </body>
 </html>
   `;
