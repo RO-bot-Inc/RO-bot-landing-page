@@ -1311,6 +1311,23 @@ app.get("/blog/:slug", (req, res) => {
   res.send(html);
 });
 
+// Serve individual pages
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'about.html'));
+});
+
+app.get('/blog', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'blog.html'));
+});
+
+app.get('/book-demo', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'book-demo.html'));
+});
+
+app.get('/support', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'support.html'));
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`)
