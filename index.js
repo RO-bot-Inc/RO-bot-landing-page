@@ -23,27 +23,26 @@ app.get("/", (req,res) => {
 // Helper function to read all blog posts
 function getAllPosts() {
   const postsDir = path.join(__dirname, 'blog-posts');
-  console.log('Posts directory:', postsDir);
   
   if (!fs.existsSync(postsDir)) {
-    console.log('Posts directory does not exist');
     return [];
   }
   
   const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
-  console.log('Found markdown files:', files);
   
   return files.map(file => {
     const filePath = path.join(postsDir, file);
-    console.log('Reading file:', filePath);
-    
     const content = fs.readFileSync(filePath, 'utf8');
-    console.log('Raw content length:', content.length);
-    console.log('First 200 chars:', content.substring(0, 200));
     
-    const parsed = fm(content);
-    console.log('Parsed attributes:', parsed.attributes);
-    console.log('Parsed body length:', parsed.body.length);
+    // Clean up the content - remove any leading/trailing whitespace
+    const cleanContent = content.trim();
+    
+    // Parse frontmatter
+    const parsed = fm(cleanContent);
+    
+    // Create clean excerpt from body if no excerpt in frontmatter
+    const bodyText = parsed.body.replace(/^#.*$/gm, '').replace(/\n+/g, ' ').trim();
+    const cleanExcerpt = parsed.attributes.excerpt || bodyText.substring(0, 200) + '...';
     
     const post = {
       title: parsed.attributes.title || 'Untitled',
@@ -51,19 +50,10 @@ function getAllPosts() {
       date: parsed.attributes.date || new Date().toISOString(),
       category: parsed.attributes.category || 'General',
       tags: parsed.attributes.tags || [],
-      excerpt: parsed.attributes.excerpt || parsed.body.substring(0, 200) + '...',
+      excerpt: cleanExcerpt,
       content: parsed.body,
       filename: file
     };
-    
-    console.log('Final post object:', {
-      title: post.title,
-      slug: post.slug,
-      date: post.date,
-      category: post.category,
-      tags: post.tags,
-      excerpt: post.excerpt
-    });
     
     return post;
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -81,29 +71,13 @@ function getRelatedPosts(currentPost, allPosts, limit = 3) {
 
 // Blog index route
 app.get("/blog", (req, res) => {
-  console.log('=== Blog Index Route ===');
   const posts = getAllPosts();
-  console.log('Number of posts loaded:', posts.length);
-  
   const categories = [...new Set(posts.map(post => post.category))];
-  console.log('Categories found:', categories);
-  
   const selectedCategory = req.query.category;
-  console.log('Selected category:', selectedCategory);
   
   const filteredPosts = selectedCategory 
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
-    
-  console.log('Filtered posts count:', filteredPosts.length);
-  if (filteredPosts.length > 0) {
-    console.log('First filtered post:', {
-      title: filteredPosts[0].title,
-      slug: filteredPosts[0].slug,
-      date: filteredPosts[0].date,
-      category: filteredPosts[0].category
-    });
-  }
 
   const html = `
 <!DOCTYPE html>
@@ -119,20 +93,21 @@ app.get("/blog", (req, res) => {
         
         /* Blog-specific styles matching main site aesthetic */
         .blog-card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(42, 157, 143, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(42, 157, 143, 0.08);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 30px rgba(42, 157, 143, 0.06), 0 1px 3px rgba(0, 0, 0, 0.05);
         }
         
         .blog-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(42, 157, 143, 0.15);
-            border-color: rgba(42, 157, 143, 0.3);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(42, 157, 143, 0.18), 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-color: rgba(42, 157, 143, 0.25);
         }
         
         .blog-card::before {
@@ -141,14 +116,31 @@ app.get("/blog", (req, res) => {
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2a9d8f, #264653);
+            height: 5px;
+            background: linear-gradient(90deg, #2a9d8f, #20b2aa, #264653);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.4s ease;
+            border-radius: 20px 20px 0 0;
         }
         
         .blog-card:hover::before {
             opacity: 1;
+        }
+        
+        .blog-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        
+        .blog-card:hover::after {
+            left: 100%;
         }
         
         .category-badge {
@@ -343,14 +335,8 @@ app.get("/blog", (req, res) => {
 
 // Individual blog post route
 app.get("/blog/:slug", (req, res) => {
-  console.log('=== Individual Post Route ===');
-  console.log('Requested slug:', req.params.slug);
-  
   const posts = getAllPosts();
-  console.log('Available slugs:', posts.map(p => p.slug));
-  
   const post = posts.find(p => p.slug === req.params.slug);
-  console.log('Found post:', post ? post.title : 'NOT FOUND');
   
   if (!post) {
     return res.status(404).send('Post not found');
