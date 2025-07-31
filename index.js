@@ -208,7 +208,7 @@ app.get("/blog", (req, res) => {
             padding: 2.5rem;
             box-shadow: 0 8px 40px rgba(15, 17, 8, 0.08);
             border: 1px solid rgba(42, 157, 143, 0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             overflow: hidden;
             height: fit-content;
