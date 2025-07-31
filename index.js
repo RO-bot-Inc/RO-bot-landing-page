@@ -181,39 +181,7 @@ app.get("/blog", (req, res) => {
             padding: 4rem 0;
         }
 
-        /* Filter section */
-        .filter-section {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .filter-label {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-            font-size: 1.25rem;
-            color: #0F1108;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .filter-select {
-            background: white;
-            border: 2px solid rgba(42, 157, 143, 0.2);
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #0F1108;
-            min-width: 250px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(42, 157, 143, 0.08);
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: #2A9D8F;
-            box-shadow: 0 4px 25px rgba(42, 157, 143, 0.2);
-        }
+        
 
         /* Blog grid */
         .blog-grid {
@@ -451,10 +419,6 @@ app.get("/blog", (req, res) => {
         }
 
         @media (max-width: 480px) {
-            .filter-select {
-                min-width: 200px;
-            }
-
             .blog-card {
                 padding: 1.5rem;
             }
@@ -505,14 +469,7 @@ app.get("/blog", (req, res) => {
     <!-- Main Content -->
     <section class="content-section">
         <div class="max-w-7xl mx-auto">
-            <!-- Filter Section -->
-            <div class="filter-section">
-                <label for="category-filter" class="filter-label">Explore by Category</label>
-                <select id="category-filter" onchange="filterByCategory(this.value)" class="filter-select">
-                    <option value="">All Categories</option>
-                    ${categories.map(cat => `<option value="${cat}" ${selectedCategory === cat ? 'selected' : ''}>${cat}</option>`).join('')}
-                </select>
-            </div>
+            
 
             <!-- Blog Grid -->
             ${filteredPosts.length > 0 ? `
@@ -555,17 +512,7 @@ app.get("/blog", (req, res) => {
         </div>
     </section>
 
-    <script>
-        function filterByCategory(category) {
-            const url = new URL(window.location);
-            if (category) {
-                url.searchParams.set('category', category);
-            } else {
-                url.searchParams.delete('category');
-            }
-            window.location.href = url.toString();
-        }
-    </script>
+    
 </body>
 </html>
   `;
