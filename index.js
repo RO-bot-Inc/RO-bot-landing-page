@@ -98,23 +98,36 @@ app.get("/blog", (req, res) => {
             background: #ffffff;
         }
 
-        /* Header styling to match main site */
-        .site-header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(42, 157, 143, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: all 0.3s ease;
+        /* Brand colors for navigation buttons */
+        .bg-brand-orange {
+            background-color: #C63006;
         }
 
-        .logo-text {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 1.75rem;
-            color: #0F1108;
+        .hover\:bg-white:hover {
+            background-color: white;
         }
+
+        .hover\:text-brand-orange:hover {
+            color: #C63006;
+        }
+
+        .border-brand-orange {
+            border-color: #C63006;
+        }
+
+        .bg-brand-green {
+            background-color: #2A9D8F;
+        }
+
+        .hover\:text-brand-green:hover {
+            color: #2A9D8F;
+        }
+
+        .border-brand-green {
+            border-color: #2A9D8F;
+        }
+
+        
 
         /* Hero section with gradient matching main site */
         .hero-section {
@@ -449,21 +462,33 @@ app.get("/blog", (req, res) => {
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="site-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center">
-                    <img src="/RObot logos/generated-icon.png" alt="RO-bot" class="h-10 w-10 mr-3">
-                    <span class="logo-text">RO-bot</span>
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+
+                <!-- Logo (Left Side) -->
+                <div class="flex-shrink-0">
+                    <a href="/" title="RO-bot Home">
+                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                    </a>
                 </div>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="text-gray-600 hover:text-brand-green transition-colors font-medium">Home</a>
-                    <a href="/blog" class="text-brand-green font-semibold">Blog</a>
-                </nav>
+
+                <!-- Login and Join Waitlist Buttons (Right Side) -->
+                <div class="flex space-x-6">
+                    <a href="/#waitlist-form"
+                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Book Demo
+                    </a>
+                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
+                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                        Login
+                    </a>
+                </div>
+
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero-section">
