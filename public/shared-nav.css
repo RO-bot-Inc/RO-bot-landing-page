@@ -1,9 +1,16 @@
+
 /* Universal Navigation Styles */
 
 /* Hamburger Icon Container */
 .hamburger-menu {
     position: relative;
     z-index: 60;
+    transition: all 0.3s ease;
+}
+
+.hamburger-menu:hover {
+    background-color: #f3f4f6;
+    transform: scale(1.05);
 }
 
 .hamburger-icon {
@@ -29,6 +36,7 @@
 /* Hamburger Animation to X */
 .hamburger-menu.active .hamburger-line:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
+    background-color: #ef4444;
 }
 
 .hamburger-menu.active .hamburger-line:nth-child(2) {
@@ -38,27 +46,36 @@
 
 .hamburger-menu.active .hamburger-line:nth-child(3) {
     transform: rotate(-45deg) translate(6px, -6px);
+    background-color: #ef4444;
+}
+
+/* Hamburger hover effect when active (X state) */
+.hamburger-menu.active:hover {
+    background-color: #fee2e2;
 }
 
 /* Hamburger Dropdown Menu */
 .hamburger-dropdown {
-    transform: scale(0.95);
+    transform: translateY(-10px) scale(0.95);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: top right;
     pointer-events: none;
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
 }
 
 .hamburger-dropdown.show {
-    transform: scale(1);
+    transform: translateY(0) scale(1);
     opacity: 1;
     pointer-events: auto;
 }
 
 /* Menu Items */
 .hamburger-menu-item {
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f9fafb;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .hamburger-menu-item:last-child {
@@ -67,6 +84,17 @@
 
 .hamburger-menu-item:hover {
     transform: translateX(-4px);
+    background-color: #f9fafb;
+}
+
+.hamburger-menu-item:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.hamburger-menu-item:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 /* Smooth scroll for navigation links */
@@ -96,6 +124,26 @@ html {
     .hamburger-dropdown {
         right: 1rem;
         left: 1rem;
-        min-width: auto;
+        width: auto;
     }
+    
+    .hamburger-menu-item {
+        text-align: center;
+    }
+}
+
+/* Additional polish effects */
+.hamburger-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-bottom: none;
+    border-right: none;
+    transform: rotate(45deg);
+    z-index: -1;
 }
