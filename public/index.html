@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <link href="shared-nav.css" rel="stylesheet">
     <link rel="icon" href="/browser.svg" type="image/svg+xml"> <link rel="shortcut icon" href="/browser.png" type="image/png"> <link rel="apple-touch-icon" href="/iPhone.png"> <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" sizes="32x32" href="/Android.png"> <link rel="icon" type="image/png" sizes="16x16" href="/Android.png">
     <style>
@@ -1093,35 +1094,8 @@
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
 
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm"> <!-- Sticky positioning with backdrop blur -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <!-- Container -->
-            <div class="flex items-center justify-between h-16 sm:h-20"> <!-- Flex layout, vertical align center, space elements apart, height -->
-
-                <!-- Logo (Left Side) -->
-                <div class="flex-shrink-0">
-                    <a href="#" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
-                </div>
-
-                <!-- Navigation Links (Center) -->
-
-                <!-- Login and Join Waitlist Buttons (Right Side) -->
-                <div class="flex space-x-6">
-                    <a href="#waitlist-form" data-smooth-scroll
-                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Book Demo
-                    </a>
-                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
-                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Login
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </nav>
+    <!-- Universal Navigation -->
+    <div id="universal-nav"></div>
 
     <main>
     <div class="bg-white">
@@ -1603,7 +1577,19 @@
     </div>
 
 
+    <script src="shared-nav.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Load universal navigation
+        fetch('/shared-nav.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('universal-nav').innerHTML = html;
+                // Re-run navigation initialization after loading
+                const event = new Event('DOMContentLoaded');
+                document.dispatchEvent(event);
+            });
+    </script>
 
 </body>
 </html>

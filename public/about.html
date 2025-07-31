@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - RO-bot</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="shared-nav.css" rel="stylesheet">
+</head>
+<body class="bg-white font-sans text-brand-dark antialiased">
+    <!-- Universal Navigation -->
+    <div id="universal-nav"></div>
+
+    <main>
+        <section class="py-16 sm:py-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl sm:text-4xl font-montserrat font-bold text-brand-dark mb-6">About RO-bot</h1>
+                <p class="text-lg text-brand-dark opacity-90 leading-relaxed mb-8">
+                    RO-bot is revolutionizing the automotive service industry with AI-powered assistance for technicians.
+                    Our mission is to help service professionals work smarter, faster, and more efficiently while improving
+                    warranty claim success rates.
+                </p>
+                <p class="text-lg text-brand-dark opacity-90 leading-relaxed">
+                    By combining voice technology, intelligent diagnostics, and seamless workflow integration, 
+                    RO-bot transforms the way technicians interact with repair information and documentation.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="shared-nav.js"></script>
+    <script>
+        // Load universal navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/shared-nav.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('universal-nav').innerHTML = html;
+                });
+        });
+    </script>
+</body>
+</html>

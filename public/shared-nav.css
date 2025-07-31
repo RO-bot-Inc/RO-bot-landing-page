@@ -1,0 +1,121 @@
+
+/* Universal Navigation Styles */
+
+/* Hamburger Icon Styles */
+.hamburger-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 60;
+}
+
+.hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+}
+
+.hamburger-line {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #374151;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Hamburger Animation States */
+.hamburger-menu.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Hamburger Menu Panel */
+.hamburger-panel {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    z-index: 55;
+    padding-top: 80px;
+}
+
+.hamburger-panel.active {
+    right: 0;
+}
+
+.hamburger-panel-content {
+    padding: 2rem;
+}
+
+.hamburger-menu-item {
+    display: block;
+    padding: 1rem 0;
+    color: #374151;
+    text-decoration: none;
+    font-size: 1.125rem;
+    font-weight: 500;
+    border-bottom: 1px solid #f3f4f6;
+    transition: color 0.2s ease;
+}
+
+.hamburger-menu-item:hover {
+    color: #2a9d8f;
+}
+
+.hamburger-menu-item:last-child {
+    border-bottom: none;
+}
+
+/* Hamburger Overlay */
+.hamburger-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 50;
+}
+
+.hamburger-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .hamburger-panel {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .hamburger-panel.active {
+        right: 0;
+    }
+}
+
+/* Smooth scroll for navigation links */
+html {
+    scroll-behavior: smooth;
+}

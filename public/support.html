@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - RO-bot</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="shared-nav.css" rel="stylesheet">
+</head>
+<body class="bg-white font-sans text-brand-dark antialiased">
+    <!-- Universal Navigation -->
+    <div id="universal-nav"></div>
+
+    <main>
+        <section class="py-16 sm:py-24">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl sm:text-4xl font-montserrat font-bold text-brand-dark mb-6">Support</h1>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-brand-dark mb-4">Get Help</h3>
+                        <p class="text-brand-dark opacity-80 mb-4">
+                            Need assistance with RO-bot? We're here to help you get the most out of your AI co-pilot.
+                        </p>
+                        <a href="mailto:hello@ro-bot.io" class="text-brand-orange hover:underline">
+                            Contact Support
+                        </a>
+                    </div>
+                    
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-xl font-semibold text-brand-dark mb-4">Documentation</h3>
+                        <p class="text-brand-dark opacity-80 mb-4">
+                            Learn how to set up and use RO-bot effectively in your service environment.
+                        </p>
+                        <a href="https://celestial-xenon-221.notion.site/RO-bot-Setup-1f2d29c34d6480078746e6c15ad834f7" target="_blank" rel="noopener noreferrer" class="text-brand-orange hover:underline">
+                            View Setup Guide
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="shared-nav.js"></script>
+    <script>
+        // Load universal navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/shared-nav.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('universal-nav').innerHTML = html;
+                });
+        });
+    </script>
+</body>
+</html>
