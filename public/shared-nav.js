@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const hamburgerOverlay = document.getElementById('hamburger-overlay');
-    
+
     if (hamburgerBtn && hamburgerMenu && hamburgerOverlay) {
         // Toggle hamburger menu
         hamburgerBtn.addEventListener('click', function() {
@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', function() {
     smoothScrollLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
-            
+
             // Only handle internal anchor links
             if (href && href.startsWith('#')) {
                 e.preventDefault();
                 const targetId = href.substring(1);
                 const targetElement = document.getElementById(targetId);
-                
+
                 if (targetElement) {
                     targetElement.scrollIntoView({
                         behavior: 'smooth',
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         hamburgerBtn.classList.toggle('active');
         hamburgerMenu.classList.toggle('active');
         hamburgerOverlay.classList.toggle('active');
-        
+
         // Prevent body scroll when menu is open
         if (hamburgerMenu.classList.contains('active')) {
             document.body.style.overflow = 'hidden';
@@ -87,5 +87,23 @@ document.addEventListener('DOMContentLoaded', function() {
         hamburgerMenu.classList.remove('active');
         hamburgerOverlay.classList.remove('active');
         document.body.style.overflow = '';
+    }
+});
+// Hamburger menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (hamburgerBtn && mobileMenu) {
+        hamburgerBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburgerBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
     }
 });
