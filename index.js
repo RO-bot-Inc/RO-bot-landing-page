@@ -23,27 +23,27 @@ app.get("/", (req,res) => {
 // Helper function to read all blog posts
 function getAllPosts() {
   const postsDir = path.join(__dirname, 'blog-posts');
-  
+
   if (!fs.existsSync(postsDir)) {
     return [];
   }
-  
+
   const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
-  
+
   return files.map(file => {
     const filePath = path.join(postsDir, file);
     const content = fs.readFileSync(filePath, 'utf8');
-    
+
     // Clean up the content - remove any leading/trailing whitespace
     const cleanContent = content.trim();
-    
+
     // Parse frontmatter
     const parsed = fm(cleanContent);
-    
+
     // Create clean excerpt from body if no excerpt in frontmatter
     const bodyText = parsed.body.replace(/^#.*$/gm, '').replace(/\n+/g, ' ').trim();
     const cleanExcerpt = parsed.attributes.excerpt || bodyText.substring(0, 200) + '...';
-    
+
     const post = {
       title: parsed.attributes.title || 'Untitled',
       slug: parsed.attributes.slug || file.replace('.md', ''),
@@ -54,7 +54,7 @@ function getAllPosts() {
       content: parsed.body,
       filename: file
     };
-    
+
     return post;
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
 }
@@ -62,7 +62,7 @@ function getAllPosts() {
 // Helper function to get related posts
 function getRelatedPosts(currentPost, allPosts, limit = 3) {
   if (!currentPost.tags) return [];
-  
+
   return allPosts
     .filter(post => post.slug !== currentPost.slug)
     .filter(post => post.tags && post.tags.some(tag => currentPost.tags.includes(tag)))
@@ -127,7 +127,7 @@ app.get("/blog", (req, res) => {
             border-color: #2A9D8F;
         }
 
-        
+
 
         /* Hero section with gradient matching main site */
         .hero-section {
@@ -551,11 +551,11 @@ app.get("/blog", (req, res) => {
 app.get("/blog/:slug", (req, res) => {
   const posts = getAllPosts();
   const post = posts.find(p => p.slug === req.params.slug);
-  
+
   if (!post) {
     return res.status(404).send('Post not found');
   }
-  
+
   const relatedPosts = getRelatedPosts(post, posts);
   const renderedContent = md.render(post.content);
 
@@ -570,7 +570,7 @@ app.get("/blog/:slug", (req, res) => {
     <link rel="stylesheet" href="/out.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
-        
+
         /* Brand colors for navigation buttons */
         .bg-brand-orange {
             background-color: #C63006;
@@ -599,13 +599,13 @@ app.get("/blog/:slug", (req, res) => {
         .border-brand-green {
             border-color: #2A9D8F;
         }
-        
+
         .prose {
             max-width: none;
             color: #374151;
             line-height: 1.75;
         }
-        
+
         .prose img {
             max-width: 100%;
             height: auto;
@@ -613,7 +613,7 @@ app.get("/blog/:slug", (req, res) => {
             margin: 2.5rem 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
-        
+
         .prose h1 {
             font-size: 2.5rem;
             font-weight: 800;
@@ -622,7 +622,7 @@ app.get("/blog/:slug", (req, res) => {
             font-family: 'Montserrat';
             line-height: 1.2;
         }
-        
+
         .prose h2 {
             font-size: 2rem;
             font-weight: 700;
@@ -632,7 +632,7 @@ app.get("/blog/:slug", (req, res) => {
             position: relative;
             padding-bottom: 0.5rem;
         }
-        
+
         .prose h2::after {
             content: '';
             position: absolute;
@@ -643,7 +643,7 @@ app.get("/blog/:slug", (req, res) => {
             background: linear-gradient(90deg, #2a9d8f, #20b2aa);
             border-radius: 2px;
         }
-        
+
         .prose h3 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -651,36 +651,36 @@ app.get("/blog/:slug", (req, res) => {
             color: #2a9d8f;
             font-family: 'Montserrat';
         }
-        
+
         .prose p {
             margin: 1.5rem 0;
             line-height: 1.8;
             color: #4a5568;
             font-size: 1.1rem;
         }
-        
+
         .prose ul, .prose ol {
             margin: 1.5rem 0;
             padding-left: 2rem;
         }
-        
+
         .prose li {
             margin: 0.75rem 0;
             line-height: 1.7;
         }
-        
+
         .prose a {
             color: #2a9d8f;
             text-decoration: none;
             border-bottom: 2px solid transparent;
             transition: all 0.2s ease;
         }
-        
+
         .prose a:hover {
             color: #264653;
             border-bottom-color: #2a9d8f;
         }
-        
+
         .prose blockquote {
             border-left: 4px solid #2a9d8f;
             background: rgba(42, 157, 143, 0.05);
@@ -689,7 +689,7 @@ app.get("/blog/:slug", (req, res) => {
             border-radius: 0 8px 8px 0;
             font-style: italic;
         }
-        
+
         .prose code {
             background: rgba(42, 157, 143, 0.1);
             color: #264653;
@@ -697,7 +697,7 @@ app.get("/blog/:slug", (req, res) => {
             border-radius: 4px;
             font-size: 0.9em;
         }
-        
+
         .category-badge {
             display: inline-flex;
             align-items: center;
@@ -708,31 +708,31 @@ app.get("/blog/:slug", (req, res) => {
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .category-technology {
             background: linear-gradient(135deg, #2a9d8f, #20b2aa);
             color: white;
             box-shadow: 0 4px 15px rgba(42, 157, 143, 0.3);
         }
-        
+
         .category-business {
             background: linear-gradient(135deg, #264653, #2a9d8f);
             color: white;
             box-shadow: 0 4px 15px rgba(38, 70, 83, 0.3);
         }
-        
+
         .category-innovation {
             background: linear-gradient(135deg, #f4a261, #e76f51);
             color: white;
             box-shadow: 0 4px 15px rgba(244, 162, 97, 0.3);
         }
-        
+
         .category-general {
             background: linear-gradient(135deg, #6c757d, #495057);
             color: white;
             box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
         }
-        
+
         .tag-pill {
             background: rgba(42, 157, 143, 0.1);
             color: #264653;
@@ -742,7 +742,7 @@ app.get("/blog/:slug", (req, res) => {
             font-weight: 500;
             border: 1px solid rgba(42, 157, 143, 0.2);
         }
-        
+
         .related-card {
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(42, 157, 143, 0.1);
@@ -753,7 +753,7 @@ app.get("/blog/:slug", (req, res) => {
             position: relative;
             overflow: hidden;
         }
-        
+
         .related-card::before {
             content: '';
             position: absolute;
@@ -765,13 +765,13 @@ app.get("/blog/:slug", (req, res) => {
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
+
         .related-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(42, 157, 143, 0.15);
             border-color: rgba(42, 157, 143, 0.3);
         }
-        
+
         .related-card:hover::before {
             opacity: 1;
         }
@@ -786,7 +786,7 @@ app.get("/blog/:slug", (req, res) => {
                 <!-- Logo (Left Side) -->
                 <div class="flex-shrink-0">
                     <a href="/" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
+                        <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
                     </a>
                 </div>
 
@@ -828,11 +828,11 @@ app.get("/blog/:slug", (req, res) => {
                     <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
                     <time class="text-gray-500 font-medium">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
                 </div>
-                
+
                 <h1 class="font-montserrat font-bold text-4xl sm:text-5xl lg:text-6xl text-brand-dark mb-6 leading-tight">${post.title}</h1>
-                
+
                 <p class="text-xl sm:text-2xl text-gray-600 leading-relaxed mb-6 font-light">${post.excerpt}</p>
-                
+
                 ${post.tags && post.tags.length > 0 ? `
                     <div class="flex flex-wrap gap-3">
                         ${post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('')}
@@ -885,7 +885,7 @@ app.get("/blog/:slug", (req, res) => {
 </body>
 </html>
   `;
-  
+
   res.send(html);
 });
 
