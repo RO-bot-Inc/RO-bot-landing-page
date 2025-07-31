@@ -1520,3 +1520,5 @@ video {
     line-height: 1.25;
   }
 }
+
+/* Removing blog-specific navigation styles to eliminate duplicate navigation on blog pages. */
