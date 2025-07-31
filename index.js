@@ -23,20 +23,44 @@ app.get("/", (req,res) => {
 // Helper function to read all blog posts
 function getAllPosts() {
   const postsDir = path.join(__dirname, 'blog-posts');
+  console.log('Posts directory:', postsDir);
+  
   if (!fs.existsSync(postsDir)) {
+    console.log('Posts directory does not exist');
     return [];
   }
   
   const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
+  console.log('Found markdown files:', files);
   
   return files.map(file => {
-    const content = fs.readFileSync(path.join(postsDir, file), 'utf8');
+    const filePath = path.join(postsDir, file);
+    console.log('Reading file:', filePath);
+    
+    const content = fs.readFileSync(filePath, 'utf8');
+    console.log('Raw content length:', content.length);
+    console.log('First 200 chars:', content.substring(0, 200));
+    
     const parsed = fm(content);
-    return {
+    console.log('Parsed attributes:', parsed.attributes);
+    console.log('Parsed body length:', parsed.body.length);
+    
+    const post = {
       ...parsed.attributes,
       content: parsed.body,
       filename: file
     };
+    
+    console.log('Final post object:', {
+      title: post.title,
+      slug: post.slug,
+      date: post.date,
+      category: post.category,
+      tags: post.tags,
+      excerpt: post.excerpt
+    });
+    
+    return post;
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
@@ -52,13 +76,29 @@ function getRelatedPosts(currentPost, allPosts, limit = 3) {
 
 // Blog index route
 app.get("/blog", (req, res) => {
+  console.log('=== Blog Index Route ===');
   const posts = getAllPosts();
+  console.log('Number of posts loaded:', posts.length);
+  
   const categories = [...new Set(posts.map(post => post.category))];
+  console.log('Categories found:', categories);
+  
   const selectedCategory = req.query.category;
+  console.log('Selected category:', selectedCategory);
   
   const filteredPosts = selectedCategory 
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
+    
+  console.log('Filtered posts count:', filteredPosts.length);
+  if (filteredPosts.length > 0) {
+    console.log('First filtered post:', {
+      title: filteredPosts[0].title,
+      slug: filteredPosts[0].slug,
+      date: filteredPosts[0].date,
+      category: filteredPosts[0].category
+    });
+  }
 
   const html = `
 <!DOCTYPE html>
@@ -154,8 +194,14 @@ app.get("/blog", (req, res) => {
 
 // Individual blog post route
 app.get("/blog/:slug", (req, res) => {
+  console.log('=== Individual Post Route ===');
+  console.log('Requested slug:', req.params.slug);
+  
   const posts = getAllPosts();
+  console.log('Available slugs:', posts.map(p => p.slug));
+  
   const post = posts.find(p => p.slug === req.params.slug);
+  console.log('Found post:', post ? post.title : 'NOT FOUND');
   
   if (!post) {
     return res.status(404).send('Post not found');
