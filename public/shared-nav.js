@@ -1,21 +1,24 @@
 
+
 // Universal Navigation JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     // Hamburger menu functionality
     const hamburgerBtn = document.getElementById('hamburger-btn');
-    const hamburgerMenu = document.getElementById('hamburger-menu');
-    const hamburgerOverlay = document.getElementById('hamburger-overlay');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-    if (hamburgerBtn && hamburgerMenu && hamburgerOverlay) {
+    if (hamburgerBtn && mobileMenu) {
         // Toggle hamburger menu
-        hamburgerBtn.addEventListener('click', function() {
+        hamburgerBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
             toggleHamburgerMenu();
         });
 
-        // Close menu when clicking overlay
-        hamburgerOverlay.addEventListener('click', function() {
-            closeHamburgerMenu();
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburgerBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+                closeHamburgerMenu();
+            }
         });
 
         // Close menu when clicking menu items
@@ -35,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Smooth scroll functionality for anchor links
-    const smoothScrollLinks = document.querySelectorAll('[data-smooth-scroll]');
+    const smoothScrollLinks = document.querySelectorAll('a[href*="#"]');
     smoothScrollLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -70,40 +73,39 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function toggleHamburgerMenu() {
-        hamburgerBtn.classList.toggle('active');
-        hamburgerMenu.classList.toggle('active');
-        hamburgerOverlay.classList.toggle('active');
-
-        // Prevent body scroll when menu is open
-        if (hamburgerMenu.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
+        const isActive = hamburgerBtn.classList.contains('active');
+        
+        if (isActive) {
+            closeHamburgerMenu();
         } else {
-            document.body.style.overflow = '';
+            openHamburgerMenu();
         }
+    }
+
+    function openHamburgerMenu() {
+        hamburgerBtn.classList.add('active');
+        mobileMenu.classList.remove('hidden');
+        
+        // Small delay to ensure the element is visible before animating
+        setTimeout(() => {
+            mobileMenu.classList.add('show');
+        }, 10);
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = 'hidden';
     }
 
     function closeHamburgerMenu() {
         hamburgerBtn.classList.remove('active');
-        hamburgerMenu.classList.remove('active');
-        hamburgerOverlay.classList.remove('active');
+        mobileMenu.classList.remove('show');
+        
+        // Wait for animation to complete before hiding
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300);
+        
+        // Restore body scroll
         document.body.style.overflow = '';
     }
 });
-// Hamburger menu functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const hamburgerBtn = document.getElementById('hamburger-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
 
-    if (hamburgerBtn && mobileMenu) {
-        hamburgerBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!hamburgerBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-    }
-});
