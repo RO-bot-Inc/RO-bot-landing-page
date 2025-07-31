@@ -433,8 +433,6 @@ app.get("/blog", (req, res) => {
                 padding: 1.5rem;
             }
         }
-
-        
     </style>
 </head>
 <body>
@@ -462,48 +460,9 @@ app.get("/blog", (req, res) => {
                     </a>
                 </div>
 
-                <!-- Hamburger Menu Button -->
-                <button id="hamburger-btn" class="hamburger-button" aria-label="Open menu">
-                    <span class="hamburger-icon"></span>
-                </button>
-
             </div>
         </div>
     </nav>
-
-    <!-- Hamburger Menu Overlay -->
-    <div id="hamburger-overlay" class="hamburger-overlay">
-        <div class="hamburger-menu">
-            <div class="hamburger-header">
-                <img class="h-10 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
-                <button id="hamburger-close" class="hamburger-close-btn" aria-label="Close menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <nav class="hamburger-nav">
-                <a href="/book-demo" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">📅</span>
-                    Book a Demo
-                </a>
-                <a href="/about" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">ℹ️</span>
-                    About
-                </a>
-                <a href="/blog" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">📝</span>
-                    Blog
-                </a>
-                <a href="/support" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">🔧</span>
-                    Support
-                </a>
-            </nav>
-        </div>
-    </div>
-
-    <main>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -580,48 +539,6 @@ app.get("/blog", (req, res) => {
             }
             window.location.href = url.toString();
         }
-
-        // Hamburger Menu Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const hamburgerClose = document.getElementById('hamburger-close');
-            const hamburgerOverlay = document.getElementById('hamburger-overlay');
-            const body = document.body;
-
-            if (!hamburgerBtn || !hamburgerClose || !hamburgerOverlay) return;
-
-            function openMenu() {
-                hamburgerBtn.classList.add('active');
-                hamburgerOverlay.classList.add('active');
-                body.classList.add('hamburger-open');
-            }
-
-            function closeMenu() {
-                hamburgerBtn.classList.remove('active');
-                hamburgerOverlay.classList.remove('active');
-                body.classList.remove('hamburger-open');
-            }
-
-            hamburgerBtn.addEventListener('click', openMenu);
-            hamburgerClose.addEventListener('click', closeMenu);
-
-            hamburgerOverlay.addEventListener('click', (e) => {
-                if (e.target === hamburgerOverlay) {
-                    closeMenu();
-                }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && hamburgerOverlay.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
-
-            const navItems = document.querySelectorAll('.hamburger-nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', closeMenu);
-            });
-        });
     </script>
 </body>
 </html>
@@ -858,8 +775,6 @@ app.get("/blog/:slug", (req, res) => {
         .related-card:hover::before {
             opacity: 1;
         }
-
-        
     </style>
 </head>
 <body class="font-sans" style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); min-height: 100vh;">
@@ -887,48 +802,9 @@ app.get("/blog/:slug", (req, res) => {
                     </a>
                 </div>
 
-                <!-- Hamburger Menu Button -->
-                <button id="hamburger-btn" class="hamburger-button" aria-label="Open menu">
-                    <span class="hamburger-icon"></span>
-                </button>
-
             </div>
         </div>
     </nav>
-
-    <!-- Hamburger Menu Overlay -->
-    <div id="hamburger-overlay" class="hamburger-overlay">
-        <div class="hamburger-menu">
-            <div class="hamburger-header">
-                <img class="h-10 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
-                <button id="hamburger-close" class="hamburger-close-btn" aria-label="Close menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <nav class="hamburger-nav">
-                <a href="/book-demo" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">📅</span>
-                    Book a Demo
-                </a>
-                <a href="/about" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">ℹ️</span>
-                    About
-                </a>
-                <a href="/blog" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">📝</span>
-                    Blog
-                </a>
-                <a href="/support" class="hamburger-nav-item">
-                    <span class="hamburger-nav-icon">🔧</span>
-                    Support
-                </a>
-            </nav>
-        </div>
-    </div>
-
-    <main>
 
     <!-- Breadcrumb -->
     <div class="py-6" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);">
@@ -1006,72 +882,11 @@ app.get("/blog/:slug", (req, res) => {
             Back to All Articles
         </a>
     </div>
-
-    <script>
-        // Hamburger Menu Functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const hamburgerClose = document.getElementById('hamburger-close');
-            const hamburgerOverlay = document.getElementById('hamburger-overlay');
-            const body = document.body;
-
-            if (!hamburgerBtn || !hamburgerClose || !hamburgerOverlay) return;
-
-            function openMenu() {
-                hamburgerBtn.classList.add('active');
-                hamburgerOverlay.classList.add('active');
-                body.classList.add('hamburger-open');
-            }
-
-            function closeMenu() {
-                hamburgerBtn.classList.remove('active');
-                hamburgerOverlay.classList.remove('active');
-                body.classList.remove('hamburger-open');
-            }
-
-            hamburgerBtn.addEventListener('click', openMenu);
-            hamburgerClose.addEventListener('click', closeMenu);
-
-            hamburgerOverlay.addEventListener('click', (e) => {
-                if (e.target === hamburgerOverlay) {
-                    closeMenu();
-                }
-            });
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && hamburgerOverlay.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
-
-            const navItems = document.querySelectorAll('.hamburger-nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', closeMenu);
-            });
-        });
-    </script>
 </body>
 </html>
   `;
 
   res.send(html);
-});
-
-// Serve individual pages
-app.get('/about', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'about.html'));
-});
-
-app.get('/blog', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'blog.html'));
-});
-
-app.get('/book-demo', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'book-demo.html'));
-});
-
-app.get('/support', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'support.html'));
 });
 
 const PORT = process.env.PORT || 5000;

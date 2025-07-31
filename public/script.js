@@ -523,8 +523,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    
-
     // --- Smooth Scroll Handler ---
     function setupSmoothScroll() {
         const smoothScrollLinks = document.querySelectorAll('a[data-smooth-scroll]');
