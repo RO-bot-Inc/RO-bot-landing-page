@@ -3,7 +3,7 @@ const path = require("path")
 const express = require("express")
 const fs = require('fs');
 const MarkdownIt = require('markdown-it');
-const fm = require('front-matter');
+const matter = require('gray-matter');
 const app = express()
 
 const md = new MarkdownIt();
@@ -41,14 +41,19 @@ function getAllPosts() {
     console.log('Raw content length:', content.length);
     console.log('First 200 chars:', content.substring(0, 200));
     
-    const parsed = fm(content);
-    console.log('Parsed attributes:', parsed.attributes);
-    console.log('Parsed body length:', parsed.body.length);
+    const parsed = matter(content);
+    console.log('Parsed frontmatter:', parsed.data);
+    console.log('Parsed body length:', parsed.content.length);;
     
-    const post = {
-      ...parsed.attributes,
-      content: parsed.body,
-      filename: file
+        const post = {
+          title: parsed.data.title || 'Untitled',
+          slug: parsed.data.slug || file.replace('.md', ''),
+          date: parsed.data.date || new Date().toISOString(),
+          category: parsed.data.category || 'General',
+          tags: parsed.data.tags || [],
+          excerpt: parsed.data.excerpt || parsed.content.substring(0, 200) + '...',
+          content: parsed.content,
+          filename: file
     };
     
     console.log('Final post object:', {
