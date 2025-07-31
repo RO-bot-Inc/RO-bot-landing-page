@@ -151,7 +151,7 @@ app.get("/blog", (req, res) => {
             position: relative;
             z-index: 2;
             text-align: center;
-            padding: 6rem 0;
+            padding: 4rem 0;
         }
 
         .hero-title {
