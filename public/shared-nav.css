@@ -226,3 +226,10 @@ html {
 #mobile-menu.hidden {
     display: none !important;
 }
+
+/* Force sticky positioning - override Tailwind issues */
+nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+}
