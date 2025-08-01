@@ -2,20 +2,20 @@
 
 /* Ensure parent containers support sticky positioning */
 html, body {
-    height: auto !important;
+    height: auto;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
-/* Force sticky positioning with highest specificity */
+/* Ensure sticky positioning works */
 nav.sticky,
 nav[class*="sticky"],
 .sticky {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 50 !important;
-    display: block !important;
-    width: 100% !important;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: block;
+    width: 100%;
 }
 
 /* Hamburger Icon Container */
