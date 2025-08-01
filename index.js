@@ -452,7 +452,7 @@ app.get("/blog", (req, res) => {
                 <!-- Login and Join Waitlist Buttons (Right Side) -->
                 <div class="flex space-x-6">
                     <a href="/#waitlist-form"
-                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                       class="bg-white text-brand-orange hover:bg-brand-orange hover:text-white border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                         Book Demo
                     </a>
                     <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
@@ -795,7 +795,7 @@ app.get("/blog/:slug", (req, res) => {
                 <!-- Login and Join Waitlist Buttons (Right Side) -->
                 <div class="flex space-x-6">
                     <a href="/#waitlist-form"
-                       class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                       class="bg-white text-brand-orange hover:bg-brand-orange hover:text-white border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                         Book Demo
                     </a>
                     <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
