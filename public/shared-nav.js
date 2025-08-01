@@ -6,9 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Hamburger menu functionality
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    
-    // Get body-scroll-lock library
-    const scrollLock = window.bodyScrollLock;
 
     if (hamburgerBtn && mobileMenu) {
         // Toggle hamburger menu
@@ -92,12 +89,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openHamburgerMenu() {
+        // Store current scroll position
+        const scrollY = window.scrollY;
+        
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('show');
         
-        // Use body-scroll-lock to prevent scrolling
-        scrollLock.disableBodyScroll(mobileMenu);
+        // Prevent body scroll while preserving position
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
     }
 
     function closeHamburgerMenu() {
@@ -105,8 +107,21 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('show');
         mobileMenu.classList.add('hidden');
         
-        // Re-enable scrolling
-        scrollLock.enableBodyScroll(mobileMenu);
+        // Get the stored scroll position
+        const scrollY = parseInt(document.body.style.top || '0') * -1;
+        
+        // CRITICAL: Set scroll position BEFORE removing fixed position
+        // This uses scrollTo with behavior: 'instant' to ensure no animation
+        window.scrollTo({
+            top: scrollY,
+            left: 0,
+            behavior: 'instant'
+        });
+        
+        // NOW remove the fixed positioning after scroll is set
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
     }
 });
 
