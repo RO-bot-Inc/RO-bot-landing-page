@@ -1138,20 +1138,25 @@ line-height: 1.4;
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
                 
-                <!-- Logo (Left Side) -->
-                <div class="flex-shrink-0">
-                    <a href="/" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
+                <!-- Logo and Navigation Links (Left Side) -->
+                <div class="flex items-center space-x-8">
+                    <div class="flex-shrink-0">
+                        <a href="/" title="RO-bot Home">
+                            <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
+                        </a>
+                    </div>
+                    <!-- Navigation Links -->
+                    <div class="hidden md:flex items-center space-x-6">
+                        <a href="/about" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">About</a>
+                        <a href="/blog" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Blog</a>
+                        <a href="/support" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Support</a>
+                    </div>
                 </div>
                 
-                <!-- Desktop Navigation (hidden on mobile) -->
+                <!-- Action Buttons (Right Side) -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="/about" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">About</a>
-                    <a href="/blog" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Blog</a>
-                    <a href="/support" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Support</a>
                     <a href="/#waitlist-form" class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">Book Demo</a>
-                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">Login</a>
+                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Login</a>
                 </div>
                 
                 <!-- Mobile menu button -->
