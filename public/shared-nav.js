@@ -89,17 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openHamburgerMenu() {
-        // Store current scroll position
-        const scrollY = window.scrollY;
-        
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('show');
         
-        // Prevent body scroll while preserving position
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.width = '100%';
+        // Prevent scrolling without changing position
+        document.body.style.overflow = 'hidden';
+        
+        // For iOS Safari compatibility, also set on html
+        document.documentElement.style.overflow = 'hidden';
     }
 
     function closeHamburgerMenu() {
@@ -107,20 +105,9 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('show');
         mobileMenu.classList.add('hidden');
         
-        // Get the stored scroll position BEFORE removing fixed positioning
-        const scrollY = document.body.style.top;
-        
-        // Parse the scroll value while we still have it
-        const scrollPosition = parseInt(scrollY || '0') * -1;
-        
-        // Remove the fixed positioning
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        
-        // Immediately restore scroll position in the same execution cycle
-        // This prevents the visual jump
-        window.scrollTo(0, scrollPosition);
+        // Re-enable scrolling
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
     }
 });
 
