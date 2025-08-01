@@ -55,13 +55,14 @@
 
 /* Hamburger Dropdown Menu */
 .hamburger-dropdown {
-    transform: translateY(-10px) scale(0.95);
+    transform: translateY(0px) scale(0.95);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: top right;
     pointer-events: none;
     box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     border: 1px solid #e5e7eb;
+    margin-top: 10px;
 }
 
 .hamburger-dropdown.show {
