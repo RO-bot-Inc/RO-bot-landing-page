@@ -1104,6 +1104,18 @@
             .then(html => {
                 document.getElementById('navigation-container').innerHTML = html;
                 
+                // Ensure sticky positioning works AFTER navigation is loaded
+                const nav = document.querySelector('nav');
+                if (nav) {
+                    nav.style.position = 'sticky';
+                    nav.style.top = '0';
+                    nav.style.width = '100%';
+                    nav.style.zIndex = '50';
+                    nav.style.backgroundColor = 'white';
+                    nav.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                    console.log('Navigation set to sticky positioning AFTER loading');
+                }
+                
                 // Load navigation JavaScript after HTML is inserted
                 const script = document.createElement('script');
                 script.src = '/shared-nav.js';

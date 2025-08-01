@@ -1,4 +1,3 @@
-
 /* Universal Navigation Styles */
 
 /* Ensure parent containers support sticky positioning */
@@ -9,12 +8,14 @@ html, body {
 }
 
 /* Ensure sticky positioning works */
-nav {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 50 !important;
-    display: block !important;
-    width: 100% !important;
+nav.sticky,
+nav[class*="sticky"],
+.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: block;
+    width: 100%;
 }
 
 /* Hamburger Icon Container */
@@ -208,7 +209,6 @@ html {
     transform: rotate(45deg);
     z-index: -1;
 }
-
 /* Hamburger menu show/hide animations */
 #mobile-menu {
     opacity: 0;
