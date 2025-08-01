@@ -2,6 +2,14 @@
 
 // Universal Navigation JavaScript
 
+// Temporary check - remove after verification
+if (typeof window.bodyScrollLock !== 'undefined') {
+    console.log('✓ body-scroll-lock library loaded successfully');
+    console.log('Available methods:', Object.keys(window.bodyScrollLock));
+} else {
+    console.error('✗ body-scroll-lock library not loaded');
+}
+
 // BACKUP - Original functions preserved for rollback
 function openHamburgerMenu_BACKUP() {
     // Store current scroll position
