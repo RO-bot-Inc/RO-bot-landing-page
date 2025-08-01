@@ -38,6 +38,4 @@
     });
 
     
-});
-
 // Sticky positioning is now handled in index.html after navigation loads
