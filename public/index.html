@@ -14,8 +14,12 @@
     <style>
         /* Prevent horizontal overflow on mobile */
         html, body {
-            overflow-x: hidden;
+            overflow-x: visible;
             max-width: 100%;
+            height: auto;
+        }
+        body {
+            overflow-y: visible !important;
         }
 
         /* Ensure all content respects viewport width */
@@ -1095,7 +1099,7 @@
 <body class="bg-white font-sans text-brand-dark antialiased">
 
     <!-- Universal Sticky Navigation Component - Final Hybrid Version -->
-    <nav class="sticky top-0 z-50 bg-white shadow-sm">
+    <nav class="sticky top-0 z-50 bg-white shadow-sm" style="position: sticky !important; top: 0 !important; z-index: 50 !important;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
 
