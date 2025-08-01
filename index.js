@@ -846,8 +846,6 @@ app.get("/blog/:slug", (req, res) => {
             <div class="prose">
                 ${renderedContent}
             </div>
-        ```text
-
         </div>
     </article>
 
