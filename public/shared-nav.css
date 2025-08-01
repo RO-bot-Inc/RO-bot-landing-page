@@ -122,10 +122,9 @@ html {
 /* Mobile responsiveness */
 @media (max-width: 640px) {
     .hamburger-dropdown {
-        right: 0;
-        left: auto;
-        width: 200px;
-        min-width: 200px;
+        right: 1rem;
+        left: 1rem;
+        width: auto;
     }
     
     .hamburger-menu-item {
@@ -133,7 +132,7 @@ html {
     }
 }
 
-/* Additional polish effects - arrow pointing to hamburger button */
+/* Additional polish effects */
 .hamburger-dropdown::before {
     content: '';
     position: absolute;

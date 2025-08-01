@@ -609,12 +609,8 @@ video {
   top: 0px;
 }
 
-.top-full {
-  top: 100%;
-}
-
-.right-0 {
-  right: 0px;
+.top-16 {
+  top: 4rem;
 }
 
 .isolate {
@@ -777,10 +773,6 @@ video {
 
 .w-auto {
   width: auto;
-}
-
-.w-48 {
-  width: 12rem;
 }
 
 .max-w-4xl {
