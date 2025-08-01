@@ -88,6 +88,7 @@ app.get("/blog", (req, res) => {
     <title>Blog - RO-bot AI Co-Pilot</title>
     <meta name="description" content="Stay updated with the latest in automotive technology, AI diagnostics, and repair efficiency with RO-bot's blog.">
     <link rel="stylesheet" href="/out.css">
+    <link rel="stylesheet" href="/shared-nav.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
@@ -568,6 +569,7 @@ app.get("/blog/:slug", (req, res) => {
     <title>${post.title} - RO-bot Blog</title>
     <meta name="description" content="${post.excerpt}">
     <link rel="stylesheet" href="/out.css">
+    <link rel="stylesheet" href="/shared-nav.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
@@ -844,6 +846,8 @@ app.get("/blog/:slug", (req, res) => {
             <div class="prose">
                 ${renderedContent}
             </div>
+        ```text
+
         </div>
     </article>
 
