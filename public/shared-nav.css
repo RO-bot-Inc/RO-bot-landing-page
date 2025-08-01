@@ -5,6 +5,14 @@
     position: relative;
     z-index: 60;
     transition: all 0.3s ease;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.hamburger-menu:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
 .hamburger-menu:hover {
