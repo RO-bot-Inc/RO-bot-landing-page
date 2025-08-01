@@ -89,13 +89,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openHamburgerMenu() {
+        // Store current scroll position
+        const scrollY = window.scrollY;
+        
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('show');
         
-        // Simply prevent scrolling without changing position
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
+        // Prevent body scroll while preserving position
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.width = '100%';
     }
 
     function closeHamburgerMenu() {
@@ -103,9 +107,16 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('show');
         mobileMenu.classList.add('hidden');
         
-        // Restore scrolling
-        document.documentElement.style.overflow = '';
-        document.body.style.overflow = '';
+        // Restore body scroll and position
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        
+        // Restore scroll position
+        if (scrollY) {
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
     }
 });
 
