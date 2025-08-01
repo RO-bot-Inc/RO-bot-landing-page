@@ -1,5 +1,3 @@
-
-
 // Universal Navigation JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -78,16 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function toggleHamburgerMenu() {
-        const isActive = hamburgerBtn.classList.contains('active');
-        
-        if (isActive) {
-            closeHamburgerMenu();
-        } else {
-            openHamburgerMenu();
-        }
-    }
-
     function openHamburgerMenu() {
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
@@ -106,5 +94,3 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 });
-
-// Sticky positioning is now handled in index.html after navigation loads

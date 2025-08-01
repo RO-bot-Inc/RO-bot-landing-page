@@ -25,7 +25,22 @@
         });
     </script>
     <!-- Universal Navigation -->
-    <div id="universal-nav"></div>
+    <div id="navigation-container"></div>
+    
+    <script>
+        // Load shared navigation
+        fetch('/shared-nav.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navigation-container').innerHTML = html;
+                
+                // Load navigation JavaScript after HTML is inserted
+                const script = document.createElement('script');
+                script.src = '/shared-nav.js';
+                document.head.appendChild(script);
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
 
     <main>
         <section class="py-16 sm:py-24">
