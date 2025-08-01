@@ -228,8 +228,17 @@ html {
 }
 
 /* Force sticky positioning - override Tailwind issues */
-nav {
+nav.sticky,
+nav[class*="sticky"] {
     position: sticky !important;
     top: 0 !important;
     z-index: 50 !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Ensure sticky works on main page specifically */
+body nav.sticky {
+    position: sticky !important;
+    top: 0 !important;
 }
