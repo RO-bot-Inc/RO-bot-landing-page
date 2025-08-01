@@ -2,14 +2,6 @@
 
 // Universal Navigation JavaScript
 
-// Temporary check - remove after verification
-if (typeof window.bodyScrollLock !== 'undefined') {
-    console.log('✓ body-scroll-lock library loaded successfully');
-    console.log('Available methods:', Object.keys(window.bodyScrollLock));
-} else {
-    console.error('✗ body-scroll-lock library not loaded');
-}
-
 // BACKUP - Original functions preserved for rollback
 function openHamburgerMenu_BACKUP() {
     // Store current scroll position
@@ -134,17 +126,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openHamburgerMenu() {
-        // Store current scroll position
-        const scrollY = window.scrollY;
-        
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('show');
         
-        // Prevent body scroll while preserving position
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.width = '100%';
+        // Use body-scroll-lock to prevent scrolling
+        if (window.bodyScrollLock && window.bodyScrollLock.disableBodyScroll) {
+            window.bodyScrollLock.disableBodyScroll(mobileMenu);
+        }
     }
 
     function closeHamburgerMenu() {
@@ -152,21 +141,10 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('show');
         mobileMenu.classList.add('hidden');
         
-        // Get the stored scroll position
-        const scrollY = parseInt(document.body.style.top || '0') * -1;
-        
-        // CRITICAL: Set scroll position BEFORE removing fixed position
-        // This uses scrollTo with behavior: 'instant' to ensure no animation
-        window.scrollTo({
-            top: scrollY,
-            left: 0,
-            behavior: 'instant'
-        });
-        
-        // NOW remove the fixed positioning after scroll is set
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
+        // Re-enable scrolling
+        if (window.bodyScrollLock && window.bodyScrollLock.enableBodyScroll) {
+            window.bodyScrollLock.enableBodyScroll(mobileMenu);
+        }
     }
 });
 
