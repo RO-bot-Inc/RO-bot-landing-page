@@ -20,33 +20,34 @@
                            class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                             Login
                         </a>
-                        <!-- Hamburger Menu Button -->
-                        <button id="hamburger-btn" class="hamburger-menu ml-4 p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 relative">
-                            <div class="hamburger-icon">
-                                <span class="hamburger-line"></span>
-                                <span class="hamburger-line"></span>
-                                <span class="hamburger-line"></span>
+                        <!-- Hamburger Menu Container -->
+                        <div class="relative">
+                            <button id="hamburger-btn" class="hamburger-menu ml-4 p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+                                <div class="hamburger-icon">
+                                    <span class="hamburger-line"></span>
+                                    <span class="hamburger-line"></span>
+                                    <span class="hamburger-line"></span>
+                                </div>
+                            </button>
+                            <!-- Hamburger Menu Dropdown -->
+                            <div id="mobile-menu" class="hamburger-dropdown hidden absolute top-full right-0 bg-white shadow-xl rounded-lg border border-gray-200 w-48 z-50">
+                                <div class="py-2">
+                                    <a href="/#waitlist-form" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-orange hover:bg-gray-50 transition-all">
+                                        <span class="font-medium">Book a Demo</span>
+                                    </a>
+                                    <a href="/about" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-green hover:bg-gray-50 transition-all">
+                                        <span class="font-medium">About</span>
+                                    </a>
+                                    <a href="/blog" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-green hover:bg-gray-50 transition-all">
+                                        <span class="font-medium">Blog</span>
+                                    </a>
+                                    <a href="/support" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-green hover:bg-gray-50 transition-all">
+                                        <span class="font-medium">Support</span>
+                                    </a>
+                                </div>
                             </div>
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
 </nav>
-
-<!-- Hamburger Menu Dropdown -->
-<div id="mobile-menu" class="hamburger-dropdown hidden absolute top-16 right-4 bg-white shadow-xl rounded-lg border border-gray-200 w-48 z-50">
-    <div class="py-2">
-        <a href="/#waitlist-form" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-orange hover:bg-gray-50 transition-all">
-            <span class="font-medium">Book a Demo</span>
-        </a>
-        <a href="/about" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-green hover:bg-gray-50 transition-all">
-            <span class="font-medium">About</span>
-        </a>
-        <a href="/blog" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-green hover:bg-gray-50 transition-all">
-            <span class="font-medium">Blog</span>
-        </a>
-        <a href="/support" class="hamburger-menu-item block px-4 py-3 text-right text-gray-700 hover:text-brand-green hover:bg-gray-50 transition-all">
-            <span class="font-medium">Support</span>
-        </a>
-    </div>
-</div>
