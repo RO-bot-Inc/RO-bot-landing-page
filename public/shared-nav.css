@@ -1,11 +1,18 @@
-/* Debug CSS - Remove after testing */
+/* Universal Navigation Styles */
+
+/* Ensure parent containers support sticky positioning */
+html, body {
+    height: auto !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Force sticky positioning with higher specificity */
 nav.sticky {
     position: sticky !important;
     top: 0 !important;
-    background: red !important; /* Temporary - makes it obvious if sticky is working */
+    z-index: 50 !important;
 }
-
-/* Universal Navigation Styles */
 
 /* Hamburger Icon Container */
 .hamburger-menu {
