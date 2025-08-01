@@ -1094,21 +1094,22 @@
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
 
-    <!-- Universal Navigation -->
-    <!-- Universal Sticky Navigation Component -->
-    <!-- Universal Navigation -->
-    <nav class="sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-
-                <!-- Logo (Left Side) -->
-                <div class="flex-shrink-0">
-                    <a href="/" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
-                </div>
-
-                <!-- Navigation Buttons + Hamburger Menu (Right Side) -->
+    <!-- Load Universal Navigation -->
+    <div id="navigation-container"></div>
+    
+    <script>
+        // Load shared navigation
+        fetch('/shared-nav.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('navigation-container').innerHTML = html;
+                // Load navigation JavaScript after HTML is inserted
+                const script = document.createElement('script');
+                script.src = '/shared-nav.js';
+                document.head.appendChild(script);
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
                         <div class="flex items-center space-x-6">
                             <a href="/#waitlist-form"
                                class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">

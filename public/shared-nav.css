@@ -7,11 +7,15 @@ html, body {
     overflow-y: auto;
 }
 
-/* Force sticky positioning with higher specificity */
-nav.sticky {
+/* Force sticky positioning with highest specificity */
+nav.sticky,
+nav[class*="sticky"],
+.sticky {
     position: sticky !important;
     top: 0 !important;
-    z-index: 50 !important;
+    z-index: 1000 !important;
+    display: block !important;
+    width: 100% !important;
 }
 
 /* Hamburger Icon Container */
