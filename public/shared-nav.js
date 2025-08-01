@@ -107,16 +107,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Ensure sticky navigation works properly
-document.addEventListener('DOMContentLoaded', function() {
-    const nav = document.querySelector('nav');
-    if (nav) {
-        nav.style.position = 'sticky';
-        nav.style.top = '0';
-        nav.style.width = '100%';
-        nav.style.zIndex = '50';
-        nav.style.backgroundColor = 'white';
-        nav.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
-        console.log('Navigation set to sticky positioning');
-    }
-});
+// Sticky positioning is now handled in index.html after navigation loads
