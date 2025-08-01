@@ -132,6 +132,30 @@ html {
     }
 }
 
+/* Small tablets */
+@media (min-width: 641px) and (max-width: 768px) {
+    .hamburger-dropdown {
+        width: 224px;
+        min-width: 224px;
+    }
+}
+
+/* Medium tablets and small desktops */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hamburger-dropdown {
+        width: 256px;
+        min-width: 256px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+    .hamburger-dropdown {
+        width: 288px;
+        min-width: 288px;
+    }
+}
+
 /* Ensure dropdown positioning works on all screen sizes */
 @media (max-width: 480px) {
     .hamburger-dropdown {
