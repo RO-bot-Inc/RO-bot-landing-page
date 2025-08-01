@@ -1092,7 +1092,14 @@
           }
         }
 
-
+        /* Prevent Book Demo button text wrapping on mobile */
+        @media (max-width: 640px) {
+            .bg-brand-orange {
+                font-size: 12px !important;
+                padding: 8px 12px !important;
+                white-space: nowrap !important;
+            }
+        }
 
     </style>
 </head>
