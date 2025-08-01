@@ -123,8 +123,8 @@ html {
     .hamburger-dropdown {
         right: 0;
         left: auto;
-        width: 200px;
-        min-width: 200px;
+        width: 176px;
+        min-width: 176px;
     }
 
     .hamburger-menu-item {
@@ -135,8 +135,8 @@ html {
 /* Ensure dropdown positioning works on all screen sizes */
 @media (max-width: 480px) {
     .hamburger-dropdown {
-        right: -16px;
-        width: 180px;
+        right: -8px;
+        width: 168px;
     }
 }
 
