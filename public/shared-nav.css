@@ -121,7 +121,7 @@ html {
 /* Mobile responsiveness */
 @media (max-width: 640px) {
     .hamburger-dropdown {
-        right: 0;
+        right: -8px;
         left: auto;
         width: 176px;
         min-width: 176px;
@@ -135,6 +135,7 @@ html {
 /* Small tablets */
 @media (min-width: 641px) and (max-width: 768px) {
     .hamburger-dropdown {
+        right: -8px;
         width: 224px;
         min-width: 224px;
     }
@@ -143,6 +144,7 @@ html {
 /* Medium tablets and small desktops */
 @media (min-width: 769px) and (max-width: 1024px) {
     .hamburger-dropdown {
+        right: -8px;
         width: 256px;
         min-width: 256px;
     }
@@ -151,6 +153,7 @@ html {
 /* Large screens */
 @media (min-width: 1025px) {
     .hamburger-dropdown {
+        right: -8px;
         width: 288px;
         min-width: 288px;
     }
