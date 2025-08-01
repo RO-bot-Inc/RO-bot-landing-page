@@ -1100,42 +1100,42 @@
                 padding: 8px 12px !important;
                 white-space: nowrap !important;
             }
-            
+
             /* Fix mobile navigation spacing and alignment */
             nav .max-w-7xl {
                 padding-left: 1rem !important;
                 padding-right: 0.75rem !important; /* Reduced right padding to prevent hamburger cutoff */
             }
-            
+
             /* Ensure button group aligns properly with hamburger */
             nav .flex.items-center.space-x-6 {
                 gap: 0.75rem !important; /* Reduced gap on mobile */
             }
-            
+
             /* Hamburger menu positioning fix */
             .hamburger-menu {
                 margin-left: 0.5rem !important;
                 margin-right: 0 !important;
             }
-            
+
             /* Adjust navigation button sizes for mobile */
             nav a[class*="bg-brand-"] {
                 padding: 0.5rem 0.75rem !important;
                 font-size: 0.875rem !important;
             }
         }
-        
+
         /* Small mobile screens - additional fixes */
         @media (max-width: 480px) {
             nav .max-w-7xl {
                 padding-left: 0.75rem !important;
                 padding-right: 0.5rem !important;
             }
-            
+
             nav .flex.items-center.space-x-6 {
                 gap: 0.5rem !important;
             }
-            
+
             /* Further reduce button padding on very small screens */
             nav a[class*="bg-brand-"] {
                 padding: 0.4rem 0.6rem !important;
@@ -1149,7 +1149,7 @@
 
     <!-- Universal Sticky Navigation Component - Final Hybrid Version -->
     <nav class="sticky top-0 z-50 bg-white shadow-sm" style="position: sticky !important; top: 0 !important; z-index: 50 !important;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
 
                 <!-- Logo (Left Side) -->
@@ -1160,7 +1160,7 @@
                 </div>
 
                 <!-- Navigation Buttons + Hamburger Menu (Right Side) -->
-                <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-3 sm:space-x-6">
                     <a href="/#waitlist-form"
                        class="bg-brand-orange text-white hover:bg-white hover:text-brand-orange border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                         Book Demo
@@ -1169,18 +1169,18 @@
                        class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
                         Login
                     </a>
-                    
+
                     <!-- Hamburger Menu Container -->
                     <div class="relative">
                         <!-- Hamburger Menu Button -->
-                        <button id="hamburger-btn" class="hamburger-menu ml-4 p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+                        <button id="hamburger-btn" class="hamburger-menu ml-2 p-2 rounded-md hover:bg-gray-100 focus:outline-none">
                             <div class="hamburger-icon">
                                 <span class="hamburger-line"></span>
                                 <span class="hamburger-line"></span>
                                 <span class="hamburger-line"></span>
                             </div>
                         </button>
-                        
+
                         <!-- Hamburger Menu Dropdown -->
                         <div id="mobile-menu" class="hamburger-dropdown hidden absolute top-full right-0 bg-white shadow-xl rounded-lg border border-gray-200 w-44 sm:w-56 md:w-64 lg:w-72 z-50">
                             <div class="py-1">
@@ -1687,7 +1687,7 @@
 
     <script src="shared-nav.js"></script>
     <script src="script.js"></script>
-    
+
 
 </body>
 </html>
