@@ -107,16 +107,20 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('show');
         mobileMenu.classList.add('hidden');
         
-        // Restore body scroll and position
+        // Get the stored scroll position BEFORE removing fixed positioning
         const scrollY = document.body.style.top;
+        
+        // Parse the scroll value while we still have it
+        const scrollPosition = parseInt(scrollY || '0') * -1;
+        
+        // Remove the fixed positioning
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.width = '';
         
-        // Restore scroll position
-        if (scrollY) {
-            window.scrollTo(0, parseInt(scrollY || '0') * -1);
-        }
+        // Immediately restore scroll position in the same execution cycle
+        // This prevents the visual jump
+        window.scrollTo(0, scrollPosition);
     }
 });
 
