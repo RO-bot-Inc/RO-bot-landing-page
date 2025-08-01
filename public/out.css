@@ -1451,8 +1451,8 @@ video {
     height: 3.5rem;
   }
 
-  .sm\:w-52 {
-    width: 13rem;
+  .sm\:w-56 {
+    width: 14rem;
   }
 
   .sm\:max-w-lg {
@@ -1534,8 +1534,8 @@ video {
     width: 50%;
   }
 
-  .md\:w-56 {
-    width: 14rem;
+  .md\:w-64 {
+    width: 16rem;
   }
 
   .md\:max-w-2xl {
@@ -1570,6 +1570,10 @@ video {
 }
 
 @media (min-width: 1024px) {
+  .lg\:w-72 {
+    width: 18rem;
+  }
+
   .lg\:max-w-3xl {
     max-width: 48rem;
   }
