@@ -1,3 +1,10 @@
+/* Debug CSS - Remove after testing */
+nav.sticky {
+    position: sticky !important;
+    top: 0 !important;
+    background: red !important; /* Temporary - makes it obvious if sticky is working */
+}
+
 /* Universal Navigation Styles */
 
 /* Hamburger Icon Container */
