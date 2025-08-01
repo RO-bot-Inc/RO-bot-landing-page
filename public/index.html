@@ -1092,12 +1092,54 @@
           }
         }
 
-        /* Prevent Book Demo button text wrapping on mobile */
+        /* Mobile navigation fixes */
         @media (max-width: 640px) {
+            /* Prevent Book Demo button text wrapping on mobile */
             .bg-brand-orange {
                 font-size: 12px !important;
                 padding: 8px 12px !important;
                 white-space: nowrap !important;
+            }
+            
+            /* Fix mobile navigation spacing and alignment */
+            nav .max-w-7xl {
+                padding-left: 1rem !important;
+                padding-right: 0.75rem !important; /* Reduced right padding to prevent hamburger cutoff */
+            }
+            
+            /* Ensure button group aligns properly with hamburger */
+            nav .flex.items-center.space-x-6 {
+                gap: 0.75rem !important; /* Reduced gap on mobile */
+            }
+            
+            /* Hamburger menu positioning fix */
+            .hamburger-menu {
+                margin-left: 0.5rem !important;
+                margin-right: 0 !important;
+            }
+            
+            /* Adjust navigation button sizes for mobile */
+            nav a[class*="bg-brand-"] {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.875rem !important;
+            }
+        }
+        
+        /* Small mobile screens - additional fixes */
+        @media (max-width: 480px) {
+            nav .max-w-7xl {
+                padding-left: 0.75rem !important;
+                padding-right: 0.5rem !important;
+            }
+            
+            nav .flex.items-center.space-x-6 {
+                gap: 0.5rem !important;
+            }
+            
+            /* Further reduce button padding on very small screens */
+            nav a[class*="bg-brand-"] {
+                padding: 0.4rem 0.6rem !important;
+                font-size: 0.8rem !important;
             }
         }
 
