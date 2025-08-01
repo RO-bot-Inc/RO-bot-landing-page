@@ -1,4 +1,3 @@
-
 /* Universal Navigation Styles */
 
 /* Hamburger Icon Container */
@@ -122,13 +121,22 @@ html {
 /* Mobile responsiveness */
 @media (max-width: 640px) {
     .hamburger-dropdown {
-        right: 1rem;
-        left: 1rem;
-        width: auto;
+        right: 0;
+        left: auto;
+        width: 200px;
+        min-width: 200px;
     }
-    
+
     .hamburger-menu-item {
         text-align: center;
+    }
+}
+
+/* Ensure dropdown positioning works on all screen sizes */
+@media (max-width: 480px) {
+    .hamburger-dropdown {
+        right: -16px;
+        width: 180px;
     }
 }
 
