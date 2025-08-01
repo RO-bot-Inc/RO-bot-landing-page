@@ -126,24 +126,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function openHamburgerMenu() {
+        console.log('Opening menu...');
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('show');
         
         // Use body-scroll-lock to prevent scrolling
         if (window.bodyScrollLock && window.bodyScrollLock.disableBodyScroll) {
+            console.log('✓ Disabling body scroll');
             window.bodyScrollLock.disableBodyScroll(mobileMenu);
+        } else {
+            console.log('✗ body-scroll-lock not available');
         }
     }
 
     function closeHamburgerMenu() {
+        console.log('Closing menu...');
         hamburgerBtn.classList.remove('active');
         mobileMenu.classList.remove('show');
         mobileMenu.classList.add('hidden');
         
         // Re-enable scrolling
         if (window.bodyScrollLock && window.bodyScrollLock.enableBodyScroll) {
+            console.log('✓ Enabling body scroll');
             window.bodyScrollLock.enableBodyScroll(mobileMenu);
+        } else {
+            console.log('✗ body-scroll-lock not available');
         }
     }
 });
