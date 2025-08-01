@@ -131,10 +131,23 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenu.classList.remove('hidden');
         mobileMenu.classList.add('show');
         
-        // Use body-scroll-lock to prevent scrolling
+        // Use body-scroll-lock with reserveScrollBarGap option to prevent layout shift
         if (window.bodyScrollLock && window.bodyScrollLock.disableBodyScroll) {
             console.log('✓ Disabling body scroll');
-            window.bodyScrollLock.disableBodyScroll(mobileMenu);
+            // Pass options to preserve the scrollbar gap and allow touch move on nav
+            window.bodyScrollLock.disableBodyScroll(document.body, {
+                reserveScrollBarGap: true,
+                allowTouchMove: (el) => {
+                    // Allow scrolling on the nav element itself
+                    while (el && el !== document.body) {
+                        if (el.tagName === 'NAV') {
+                            return true;
+                        }
+                        el = el.parentElement;
+                    }
+                    return false;
+                }
+            });
         } else {
             console.log('✗ body-scroll-lock not available');
         }
@@ -149,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Re-enable scrolling
         if (window.bodyScrollLock && window.bodyScrollLock.enableBodyScroll) {
             console.log('✓ Enabling body scroll');
-            window.bodyScrollLock.enableBodyScroll(mobileMenu);
+            window.bodyScrollLock.enableBodyScroll(document.body);
         } else {
             console.log('✗ body-scroll-lock not available');
         }
