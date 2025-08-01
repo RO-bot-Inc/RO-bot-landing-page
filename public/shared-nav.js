@@ -9,10 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (hamburgerBtn && mobileMenu) {
         // Toggle hamburger menu
-        hamburgerBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleHamburgerMenu();
-        });
+        hamburgerBtn.onclick = function() {
+            console.log('Hamburger clicked!');
+            const isActive = hamburgerBtn.classList.contains('active');
+
+            if (isActive) {
+                closeHamburgerMenu();
+            } else {
+                openHamburgerMenu();
+            }
+        };
 
         // Close menu when clicking outside
         document.addEventListener('click', function(event) {
@@ -85,12 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function openHamburgerMenu() {
         hamburgerBtn.classList.add('active');
         mobileMenu.classList.remove('hidden');
-        
-        // Small delay to ensure the element is visible before animating
-        setTimeout(() => {
-            mobileMenu.classList.add('show');
-        }, 10);
-        
+        mobileMenu.classList.add('show');
+
         // Prevent body scroll when menu is open
         document.body.style.overflow = 'hidden';
     }
@@ -98,12 +100,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function closeHamburgerMenu() {
         hamburgerBtn.classList.remove('active');
         mobileMenu.classList.remove('show');
-        
-        // Wait for animation to complete before hiding
-        setTimeout(() => {
-            mobileMenu.classList.add('hidden');
-        }, 300);
-        
+        mobileMenu.classList.add('hidden');
+
         // Restore body scroll
         document.body.style.overflow = '';
     }

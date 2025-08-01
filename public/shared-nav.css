@@ -209,3 +209,20 @@ html {
     transform: rotate(45deg);
     z-index: -1;
 }
+/* Hamburger menu show/hide animations */
+#mobile-menu {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+    transition: all 0.3s ease-out;
+}
+
+#mobile-menu.show {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
+    display: block !important;
+}
+
+/* Ensure hidden state works */
+#mobile-menu.hidden {
+    display: none !important;
+}
