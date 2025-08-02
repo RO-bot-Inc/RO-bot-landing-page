@@ -18,7 +18,7 @@
         </div>
 
         <!-- Mobile menu button -->
-        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none ml-auto">
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
             <svg x-show="!mobileMenuOpen" class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
@@ -27,6 +27,7 @@
             </svg>
         </button>
     </div>
+</nav>
 
     <!-- Mobile menu (full screen overlay) -->
     <div x-show="mobileMenuOpen" 
@@ -38,10 +39,10 @@
          x-transition:leave-end="opacity-0"
          @click.away="mobileMenuOpen = false"
          @keydown.escape.window="mobileMenuOpen = false"
-         class="fixed inset-0 bg-white z-[100] md:hidden">
+         class="fixed inset-0 bg-white z-[999999] md:hidden overflow-y-auto">
 
         <!-- Mobile menu header -->
-        <div class="flex items-center justify-between p-4 border-b">
+        <div class="flex items-center justify-between p-4 border-b border-gray-200">
             <div class="flex-shrink-0">
                 <a href="/" title="RO-bot Home">
                     <img class="h-12 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
@@ -55,12 +56,16 @@
         </div>
 
         <!-- Mobile menu links -->
-        <div class="px-4 py-6 space-y-4">
-            <a href="/about" @click="mobileMenuOpen = false" class="block text-lg text-gray-900 hover:text-brand-green py-2 transition duration-150 ease-in-out">About</a>
-            <a href="/blog" @click="mobileMenuOpen = false" class="block text-lg text-gray-900 hover:text-brand-green py-2 transition duration-150 ease-in-out">Blog</a>
-            <a href="/support" @click="mobileMenuOpen = false" class="block text-lg text-gray-900 hover:text-brand-green py-2 transition duration-150 ease-in-out">Support</a>
-            <a href="/#waitlist-form" @click="mobileMenuOpen = false" class="block bg-brand-orange text-white text-center py-3 rounded-md hover:bg-opacity-90 transition duration-150 ease-in-out">Book Demo</a>
-            <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" @click="mobileMenuOpen = false" class="block text-lg text-gray-900 hover:text-brand-green py-2 text-center transition duration-150 ease-in-out">Login</a>
+        <div class="px-6 py-8">
+            <div class="space-y-6">
+                <a href="/about" @click="mobileMenuOpen = false" class="block text-2xl text-gray-900 hover:text-brand-green transition-colors">About</a>
+                <a href="/blog" @click="mobileMenuOpen = false" class="block text-2xl text-gray-900 hover:text-brand-green transition-colors">Blog</a>
+                <a href="/support" @click="mobileMenuOpen = false" class="block text-2xl text-gray-900 hover:text-brand-green transition-colors">Support</a>
+
+                <div class="pt-6 space-y-4">
+                    <a href="/#waitlist-form" @click="mobileMenuOpen = false" class="block w-full bg-brand-orange text-white text-center py-4 rounded-md text-lg font-medium hover:bg-opacity-90 transition-all">Book Demo</a>
+                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" @click="mobileMenuOpen = false" class="block text-xl text-gray-900 hover:text-brand-green text-center transition-colors">Login</a>
+                </div>
+            </div>
         </div>
     </div>
-</nav>

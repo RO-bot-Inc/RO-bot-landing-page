@@ -86,3 +86,61 @@
         max-width: 100%;
     }
 }
+
+/* Mobile hamburger alignment */
+@media (max-width: 768px) {
+    .nav-grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        height: 4rem;
+    }
+
+    /* Make hamburger button align to the right and move down */
+    .nav-grid > button {
+        grid-column: 2;
+        justify-self: end;
+        transform: translateY(8px);  /* Move hamburger down */
+    }
+
+    /* Center logo vertically on mobile */
+    .logo-container {
+        transform: none;
+        align-items: center;
+    }
+}
+
+/* Force mobile menu visibility */
+.fixed.inset-0 {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+}
+
+.bg-white {
+    background-color: white !important;
+}
+
+/* Ensure high z-index */
+.z-\[100\] {
+    z-index: 100 !important;
+}
+
+/* Fix mobile menu z-index layering */
+nav {
+    z-index: 9999 !important;
+}
+
+/* Ensure mobile menu overlay is above everything */
+div[x-show="mobileMenuOpen"] {
+    z-index: 10000 !important;
+    position: fixed !important;
+    background-color: white !important;
+}
+
+/* Make sure the nav stays on top when sticky */
+.sticky {
+    z-index: 9999 !important;
+}

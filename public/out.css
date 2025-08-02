@@ -625,6 +625,10 @@ video {
   z-index: 50;
 }
 
+.z-\[100\] {
+  z-index: 100;
+}
+
 .order-1 {
   order: 1;
 }
@@ -689,6 +693,10 @@ video {
 
 .ml-8 {
   margin-left: 2rem;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 
 .mb-1 {
@@ -876,10 +884,6 @@ video {
 
 .self-start {
   align-self: flex-start;
-}
-
-.justify-self-end {
-  justify-self: end;
 }
 
 .overflow-hidden {
