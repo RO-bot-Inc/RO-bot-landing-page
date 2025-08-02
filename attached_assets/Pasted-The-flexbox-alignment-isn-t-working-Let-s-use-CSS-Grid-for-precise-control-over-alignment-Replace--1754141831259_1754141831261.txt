@@ -1,0 +1,65 @@
+The flexbox alignment isn't working. Let's use CSS Grid for precise control over alignment.
+Replace the navigation structure in navigation-component.html with this grid-based approach:
+html<style>
+    .nav-grid {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: end;
+        height: 5rem;
+        padding-bottom: 1rem;
+    }
+    
+    .nav-links {
+        display: flex;
+        align-items: baseline;
+        gap: 2rem;
+        justify-content: flex-end;
+        margin-right: 2rem;
+    }
+    
+    .nav-actions {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+    }
+    
+    /* Adjust button to align text baseline with links */
+    .book-demo-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1.25rem;
+        line-height: 1;
+    }
+</style>
+
+<nav class="sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm" x-data="{ mobileMenuOpen: false }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="nav-grid">
+            <!-- Logo -->
+            <a href="/" class="flex items-center">
+                <img src="/robo.png" alt="RO-bot" class="h-12 w-auto mr-3">
+                <span class="text-2xl font-bold text-gray-900">RO-bot</span>
+            </a>
+            
+            <!-- Center nav links -->
+            <div class="nav-links hidden md:flex">
+                <a href="/about" class="text-gray-700 hover:text-gray-900 transition-colors">About</a>
+                <a href="/blog" class="text-gray-700 hover:text-gray-900 transition-colors">Blog</a>
+                <a href="/support" class="text-gray-700 hover:text-gray-900 transition-colors">Support</a>
+            </div>
+            
+            <!-- Right side actions -->
+            <div class="nav-actions hidden md:flex">
+                <a href="/login" class="text-gray-700 hover:text-gray-900 transition-colors">Login</a>
+                <a href="/book-demo" class="book-demo-btn bg-brand-orange text-white rounded-md hover:bg-orange-700 transition-all">Book Demo</a>
+            </div>
+            
+            <!-- Mobile button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden">
+                <!-- SVGs here -->
+            </button>
+        </div>
+    </div>
+    
+    <!-- Mobile menu stays the same -->
+</nav>
