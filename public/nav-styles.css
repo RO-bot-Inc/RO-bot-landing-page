@@ -28,54 +28,54 @@
     background-color: #C63006;
 }
 
-/* CSS Grid Navigation Layout */
-.nav-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: end;
-    height: 5rem;
-    padding-bottom: 1rem;
-    position: relative;
-    max-width: 80rem;
-    margin: 0 auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+/* CSS Grid Navigation Layout - Desktop only */
+@media (min-width: 768px) {
+    .nav-grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: end;
+        height: 5rem;
+        padding-bottom: 1rem;
+        position: relative;
+        max-width: 80rem;
+        margin: 0 auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 
+    /* Navigation container */
+    .nav-links-container {
+        display: flex;
+        items-align: baseline;
+        gap: 2rem;
+        justify-content: flex-end;
+    }
 
+    /* Text baseline adjustment - all text links align to red line */
+    .nav-grid a:not(.book-demo-btn) {
+        line-height: 1;
+        display: inline-block;
+        transform: translateY(11px); /* Adjust to align with red line */
+    }
 
-/* Navigation container */
-.nav-links-container {
-    display: flex;
-    items-align: baseline;
-    gap: 2rem;
-    justify-content: flex-end;
-}
+    /* Logo container aligned to baseline */
+    .logo-container {
+        display: flex;
+        align-items: flex-end;
+        transform: translateY(-2px);
+    }
 
-/* Text baseline adjustment - all text links align to red line */
-.nav-grid a:not(.book-demo-btn) {
-    line-height: 1;
-    display: inline-block;
-    transform: translateY(11px); /* Adjust to align with red line */
-}
-
-/* Logo container aligned to baseline */
-.logo-container {
-    display: flex;
-    align-items: flex-end;
-    transform: translateY(-2px);
-}
-
-/* Adjust button to align bottom border with red line */
-.book-demo-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.375rem 1.25rem;
-    line-height: 1;
-    border: 2px solid #C63006;
-    border-radius: 0.375rem;
-    transition: all 0.15s ease-in-out;
-    transform: translateY(3px); /* Align bottom border with red line */
+    /* Adjust button to align bottom border with red line */
+    .book-demo-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.375rem 1.25rem;
+        line-height: 1;
+        border: 2px solid #C63006;
+        border-radius: 0.375rem;
+        transition: all 0.15s ease-in-out;
+        transform: translateY(3px); /* Align bottom border with red line */
+    }
 }
 
 /* Mobile navigation fixes */
