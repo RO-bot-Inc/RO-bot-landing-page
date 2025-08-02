@@ -1,0 +1,17 @@
+
+This directory will contain images and media files for blog posts.
+
+Recommended structure:
+/public/blog-assets/
+  ├── ai-powered-diagnostics/
+  │   ├── hero-image.jpg
+  │   └── diagnostic-screen.png
+  ├── roi-digital-repair/
+  │   ├── roi-chart.png
+  │   └── productivity-graph.jpg
+  └── voice-technology-service-bay/
+      ├── technician-voice.jpg
+      └── voice-interface.png
+
+To reference images in markdown posts, use:
+![Alt text](/blog-assets/post-slug/image.png)

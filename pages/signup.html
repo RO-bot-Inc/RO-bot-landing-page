@@ -7,22 +7,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@400&display=swap" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <link href="/style.css" rel="stylesheet">
+    <link href="/shared-nav.css" rel="stylesheet">
     <link rel="icon" href="/browser.svg" type="image/svg+xml">
+    <script src="/shared-nav.js"></script>
     <script src="/script.js"></script>
 </head>
 <body class="bg-brand-light font-sans text-brand-dark antialiased">
-    <nav class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <div class="flex-shrink-0">
-                    <a href="/" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <script>
+        // Load universal navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/shared-nav.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('universal-nav').innerHTML = html;
+                });
+        });
+    </script>
+    <!-- Universal Navigation -->
+    <div id="universal-nav"></div>
 
     <main>
         <section class="py-16 sm:py-24">

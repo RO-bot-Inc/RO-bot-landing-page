@@ -1,0 +1,195 @@
+/* Universal Navigation Styles */
+
+/* Ensure parent containers support sticky positioning */
+html, body {
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Ensure sticky positioning works */
+nav.sticky,
+nav[class*="sticky"],
+.sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: block;
+    width: 100%;
+}
+
+/* Alpine.js navigation - minimal custom styles needed */
+
+.hamburger-menu.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+    background-color: #ef4444;
+}
+
+/* Hamburger hover effect when active (X state) */
+.hamburger-menu.active:hover {
+    background-color: #fee2e2;
+}
+
+/* Hamburger Dropdown Menu */
+.hamburger-dropdown {
+    transform: translateY(0px) scale(0.95);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top right;
+    pointer-events: none;
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    margin-top: 10px;
+}
+
+.hamburger-dropdown.show {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Menu Items */
+.hamburger-menu-item {
+    border-bottom: 1px solid #f9fafb;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.hamburger-menu-item:last-child {
+    border-bottom: none;
+}
+
+.hamburger-menu-item:hover {
+    transform: translateX(-4px);
+    background-color: #f9fafb;
+}
+
+.hamburger-menu-item:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.hamburger-menu-item:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* Smooth scroll for navigation links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Brand colors */
+.text-brand-orange {
+    color: #C63006;
+}
+
+.text-brand-green {
+    color: #2a9d8f;
+}
+
+.hover\:text-brand-orange:hover {
+    color: #C63006;
+}
+
+.hover\:text-brand-green:hover {
+    color: #2a9d8f;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+    .hamburger-dropdown {
+        right: -8px;
+        left: auto;
+        width: 176px;
+        min-width: 176px;
+    }
+
+    .hamburger-menu-item {
+        text-align: center;
+    }
+}
+
+/* Small tablets */
+@media (min-width: 641px) and (max-width: 768px) {
+    .hamburger-dropdown {
+        right: -8px;
+        width: 224px;
+        min-width: 224px;
+    }
+}
+
+/* Medium tablets and small desktops */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hamburger-dropdown {
+        right: -8px;
+        width: 256px;
+        min-width: 256px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+    .hamburger-dropdown {
+        right: -8px;
+        width: 288px;
+        min-width: 288px;
+    }
+}
+
+/* Ensure dropdown positioning works on all screen sizes */
+@media (max-width: 480px) {
+    .hamburger-dropdown {
+        right: -8px;
+        width: 168px;
+    }
+}
+
+/* Additional polish effects */
+.hamburger-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-bottom: none;
+    border-right: none;
+    transform: rotate(45deg);
+    z-index: -1;
+}
+/* Hamburger menu show/hide animations */
+#mobile-menu {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+    transition: all 0.3s ease-out;
+}
+
+#mobile-menu.show {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
+    display: block !important;
+}
+
+/* Ensure hidden state works */
+#mobile-menu.hidden {
+    display: none !important;
+}
+
+/* Force sticky positioning - override Tailwind issues */
+nav.sticky,
+nav[class*="sticky"] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Ensure sticky works on main page specifically */
+body nav.sticky {
+    position: sticky !important;
+    top: 0 !important;
+}
