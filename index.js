@@ -1,3 +1,4 @@
+javascript
 const { exec } = require('child_process');
 const path = require("path")
 const express = require("express")
@@ -89,6 +90,7 @@ app.get("/blog", (req, res) => {
     <meta name="description" content="Stay updated with the latest in automotive technology, AI diagnostics, and repair efficiency with RO-bot's blog.">
     <link rel="stylesheet" href="/out.css">
     <link rel="stylesheet" href="/shared-nav.css">
+    <link rel="stylesheet" href="/nav-styles.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
