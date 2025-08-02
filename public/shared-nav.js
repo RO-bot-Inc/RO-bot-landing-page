@@ -38,3 +38,23 @@
     });
 
 // Sticky positioning is now handled in index.html after navigation loads
+
+// Fix Book Demo button hover state
+document.addEventListener('DOMContentLoaded', function() {
+    const bookDemoButtons = document.querySelectorAll('a[href="/#waitlist-form"]');
+    
+    bookDemoButtons.forEach(button => {
+        // Only apply to buttons with the brand-orange classes
+        if (button.classList.contains('text-brand-orange')) {
+            button.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#C63006';
+                this.style.color = 'white';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+                this.style.color = '';
+            });
+        }
+    });
+});
