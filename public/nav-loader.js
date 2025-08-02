@@ -17,37 +17,21 @@ document.addEventListener('DOMContentLoaded', async function() {
                     // Force the initial state to be closed
                     alpineComponent.setAttribute('x-data', '{ mobileMenuOpen: false }');
                     window.Alpine.initTree(alpineComponent);
-                } else if (alpineComponent) {
-                    // If Alpine isn't ready yet, try again in a moment
-                    setTimeout(initializeNav, 100);
                 }
             };
             
-            // Multiple initialization strategies for reliability
+            // If Alpine is already loaded, initialize immediately
             if (window.Alpine) {
-                // Alpine is already loaded
-                setTimeout(initializeNav, 50);
+                initializeNav();
             } else {
-                // Wait for Alpine to load with multiple fallbacks
+                // Otherwise, wait for Alpine to load
                 document.addEventListener('alpine:init', initializeNav);
+                // Also try when the script loads (for defer scripts)
                 window.addEventListener('load', () => {
-                    setTimeout(() => {
-                        if (window.Alpine) {
-                            initializeNav();
-                        }
-                    }, 100);
-                });
-                // Additional fallback - check periodically for Alpine
-                let attempts = 0;
-                const checkAlpine = setInterval(() => {
-                    if (window.Alpine || attempts > 50) {
-                        clearInterval(checkAlpine);
-                        if (window.Alpine) {
-                            initializeNav();
-                        }
+                    if (window.Alpine) {
+                        initializeNav();
                     }
-                    attempts++;
-                }, 100);
+                });
             }
             
         } catch (error) {
