@@ -50,16 +50,8 @@
         </section>
     </main>
 
-    <script src="shared-nav.js"></script>
-    <script>
-        // Load universal navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/shared-nav.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('universal-nav').innerHTML = html;
-                });
-        });
-    </script>
+    <!-- Navigation -->
+    <div id="navigation-placeholder"></div>
+    <script src="/nav-loader.js"></script>
 </body>
 </html>

@@ -9,8 +9,9 @@
     <link href="shared-nav.css" rel="stylesheet">
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
-    <!-- Universal Navigation -->
-    <div id="universal-nav"></div>
+    <!-- Navigation -->
+    <div id="navigation-placeholder"></div>
+    <script src="/nav-loader.js"></script>
 
     <main>
         <section class="py-16 sm:py-24">
@@ -29,16 +30,6 @@
         </section>
     </main>
 
-    <script src="shared-nav.js"></script>
-    <script>
-        // Load universal navigation
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/shared-nav.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('universal-nav').innerHTML = html;
-                });
-        });
-    </script>
+    
 </body>
 </html>

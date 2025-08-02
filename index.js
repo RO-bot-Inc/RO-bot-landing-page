@@ -437,33 +437,9 @@ app.get("/blog", (req, res) => {
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-
-                <!-- Logo (Left Side) -->
-                <div class="flex-shrink-0">
-                    <a href="/" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
-                </div>
-
-                <!-- Login and Join Waitlist Buttons (Right Side) -->
-                <div class="flex space-x-6">
-                    <a href="/#waitlist-form"
-                       class="bg-white text-brand-orange hover:bg-brand-orange hover:text-white border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Book Demo
-                    </a>
-                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
-                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Login
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </nav>
+    <!-- Navigation -->
+    <div id="navigation-placeholder"></div>
+    <script src="/nav-loader.js"></script>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -780,33 +756,9 @@ app.get("/blog/:slug", (req, res) => {
     </style>
 </head>
 <body class="font-sans" style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); min-height: 100vh;">
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-
-                <!-- Logo (Left Side) -->
-                <div class="flex-shrink-0">
-                    <a href="/" title="RO-bot Home">
-                        <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
-                    </a>
-                </div>
-
-                <!-- Login and Join Waitlist Buttons (Right Side) -->
-                <div class="flex space-x-6">
-                    <a href="/#waitlist-form"
-                       class="bg-white text-brand-orange hover:bg-brand-orange hover:text-white border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Book Demo
-                    </a>
-                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer"
-                       class="bg-brand-green text-white hover:bg-white hover:text-brand-green border-2 border-brand-green font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                        Login
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </nav>
+    <!-- Navigation -->
+    <div id="navigation-placeholder"></div>
+    <script src="/nav-loader.js"></script>
 
     <!-- Breadcrumb -->
     <div class="py-6" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);">
