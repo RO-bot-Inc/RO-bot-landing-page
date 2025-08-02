@@ -439,6 +439,9 @@ app.get("/blog", (req, res) => {
 <body>
     <!-- Navigation -->
     <div id="navigation-placeholder"></div>
+    <!-- Alpine MUST load first -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Then load navigation after Alpine -->
     <script src="/nav-loader.js"></script>
 
     <!-- Hero Section -->
@@ -758,6 +761,9 @@ app.get("/blog/:slug", (req, res) => {
 <body class="font-sans" style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); min-height: 100vh;">
     <!-- Navigation -->
     <div id="navigation-placeholder"></div>
+    <!-- Alpine MUST load first -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Then load navigation after Alpine -->
     <script src="/nav-loader.js"></script>
 
     <!-- Breadcrumb -->
