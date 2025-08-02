@@ -1,34 +1,124 @@
 
+<style>
+/* Brand colors for navigation */
+.text-brand-orange {
+    color: #C63006;
+}
+
+.text-brand-green {
+    color: #2a9d8f;
+}
+
+.hover\:text-brand-orange:hover {
+    color: #C63006;
+}
+
+.hover\:text-brand-green:hover {
+    color: #2a9d8f;
+}
+
+.bg-brand-orange {
+    background-color: #C63006;
+}
+
+.border-brand-orange {
+    border-color: #C63006;
+}
+
+.hover\:bg-brand-orange:hover {
+    background-color: #C63006;
+}
+
+/* CSS Grid Navigation Layout */
+.nav-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: end;
+    height: 5rem;
+    padding-bottom: 1rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    justify-content: flex-end;
+    margin-right: 2rem;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+/* Adjust button to align text baseline with links */
+.book-demo-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    line-height: 1;
+    border: 2px solid #C63006;
+    font-medium: true;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+    transition: all 0.15s ease-in-out;
+}
+
+/* Mobile navigation fixes */
+@media (max-width: 640px) {
+    /* Prevent Book Demo button text wrapping on mobile */
+    .bg-brand-orange {
+        font-size: 12px !important;
+        padding: 8px 12px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Fix mobile navigation spacing and alignment */
+    nav .max-w-7xl {
+        padding-left: 1rem !important;
+        padding-right: 0.75rem !important;
+    }
+}
+
+/* Small mobile screens - additional fixes */
+@media (max-width: 480px) {
+    nav .max-w-7xl {
+        padding-left: 0.75rem !important;
+        padding-right: 0.5rem !important;
+    }
+}
+
+/* Force gap between navigation buttons */
+nav a[href*="waitlist-form"] {
+    margin-right: 12px !important;
+}
+</style>
+
 <!-- Canonical Navigation Component - Alpine.js powered -->
 <nav class="sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm" x-data="{ mobileMenuOpen: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between h-20">
+        <div class="nav-grid">
+            <!-- Logo -->
+            <a href="/" title="RO-bot Home" class="flex items-center">
+                <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
+            </a>
             
-            <!-- Logo container with baseline alignment -->
-            <div class="pb-6">
-                <a href="/" title="RO-bot Home" class="flex items-center">
-                    <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
-                </a>
+            <!-- Center nav links -->
+            <div class="nav-links hidden md:flex">
+                <a href="/about" class="text-gray-700 hover:text-brand-green transition-colors">About</a>
+                <a href="/blog" class="text-gray-700 hover:text-brand-green transition-colors">Blog</a>
+                <a href="/support" class="text-gray-700 hover:text-brand-green transition-colors">Support</a>
             </div>
             
-            <!-- Desktop Navigation and Actions -->
-            <div class="hidden md:flex items-end pb-6">
-                <!-- Navigation links - aligned to baseline -->
-                <div class="flex items-baseline space-x-8 mr-8">
-                    <a href="/about" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">About</a>
-                    <a href="/blog" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Blog</a>
-                    <a href="/support" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Support</a>
-                </div>
-                
-                <!-- Action buttons - aligned to same baseline -->
-                <div class="flex items-baseline space-x-4">
-                    <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Login</a>
-                    <a href="/#waitlist-form" class="bg-white text-brand-orange hover:bg-brand-orange hover:text-white border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out inline-block">Book Demo</a>
-                </div>
+            <!-- Right side actions -->
+            <div class="nav-actions hidden md:flex">
+                <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-brand-green transition-colors">Login</a>
+                <a href="/#waitlist-form" class="book-demo-btn bg-white text-brand-orange hover:bg-brand-orange hover:text-white">Book Demo</a>
             </div>
             
             <!-- Mobile menu button -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden pb-6 flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
                 <svg x-show="!mobileMenuOpen" class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -75,63 +165,3 @@
         </div>
     </div>
 </nav>
-
-<style>
-/* Brand colors for navigation */
-.text-brand-orange {
-    color: #C63006;
-}
-
-.text-brand-green {
-    color: #2a9d8f;
-}
-
-.hover\:text-brand-orange:hover {
-    color: #C63006;
-}
-
-.hover\:text-brand-green:hover {
-    color: #2a9d8f;
-}
-
-.bg-brand-orange {
-    background-color: #C63006;
-}
-
-.border-brand-orange {
-    border-color: #C63006;
-}
-
-.hover\:bg-brand-orange:hover {
-    background-color: #C63006;
-}
-
-/* Mobile navigation fixes */
-@media (max-width: 640px) {
-    /* Prevent Book Demo button text wrapping on mobile */
-    .bg-brand-orange {
-        font-size: 12px !important;
-        padding: 8px 12px !important;
-        white-space: nowrap !important;
-    }
-
-    /* Fix mobile navigation spacing and alignment */
-    nav .max-w-7xl {
-        padding-left: 1rem !important;
-        padding-right: 0.75rem !important;
-    }
-}
-
-/* Small mobile screens - additional fixes */
-@media (max-width: 480px) {
-    nav .max-w-7xl {
-        padding-left: 0.75rem !important;
-        padding-right: 0.5rem !important;
-    }
-}
-
-/* Force gap between navigation buttons */
-nav a[href*="waitlist-form"] {
-    margin-right: 12px !important;
-}
-</style>
