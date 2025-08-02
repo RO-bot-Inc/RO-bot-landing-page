@@ -2,33 +2,33 @@
 <!-- Canonical Navigation Component - Alpine.js powered -->
 <nav class="sticky top-0 z-50 bg-white shadow-sm backdrop-blur-sm" x-data="{ mobileMenuOpen: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-stretch justify-between h-20">
+        <div class="flex items-end justify-between h-20 pb-3">
             
             <!-- Logo container -->
-            <div class="flex items-center">
-                <a href="/" title="RO-bot Home" class="flex items-center">
+            <div class="flex items-end">
+                <a href="/" title="RO-bot Home" class="flex items-end">
                     <img class="h-12 sm:h-14 w-auto" src="/Color logo - no background.svg" alt="RO-bot Logo">
                 </a>
             </div>
             
             <!-- Desktop Navigation and Actions combined -->
-            <div class="hidden md:flex items-center">
+            <div class="hidden md:flex items-end">
                 <!-- Navigation links -->
-                <div class="flex items-center space-x-8 mr-8">
+                <div class="flex items-end space-x-8 mr-8">
                     <a href="/about" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">About</a>
                     <a href="/blog" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Blog</a>
                     <a href="/support" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Support</a>
                 </div>
                 
                 <!-- Action buttons -->
-                <div class="flex items-center space-x-4">
+                <div class="flex items-end space-x-4">
                     <a href="https://app.ro-bot.io" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-brand-green transition duration-150 ease-in-out">Login</a>
                     <a href="/#waitlist-form" class="bg-white text-brand-orange hover:bg-brand-orange hover:text-white border-2 border-brand-orange font-medium px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">Book Demo</a>
                 </div>
             </div>
             
             <!-- Mobile menu button -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden flex items-center p-2 rounded-md hover:bg-gray-100 focus:outline-none">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden flex items-end p-2 rounded-md hover:bg-gray-100 focus:outline-none"></button>
                 <svg x-show="!mobileMenuOpen" class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
