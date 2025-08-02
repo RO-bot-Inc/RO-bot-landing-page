@@ -82,6 +82,7 @@
 @media (max-width: 768px) {
     .nav-grid {
         padding-left: 1rem;
-        padding-right: 0.75rem;
+        padding-right: 1rem;
+        max-width: 100%;
     }
 }
