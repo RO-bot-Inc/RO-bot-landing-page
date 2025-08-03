@@ -41,6 +41,22 @@ function getAllPosts() {
     // Parse frontmatter
     const parsed = fm(cleanContent);
 
+    // Extract first image from markdown content
+    const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/;
+    const imageMatch = parsed.body.match(imageRegex);
+    let keyImage = null;
+    let keyImageAlt = null;
+
+    if (imageMatch) {
+      keyImageAlt = imageMatch[1] || 'Blog post image';
+      keyImage = imageMatch[2];
+      
+      // Handle relative paths - prepend /blog-assets/ if the path doesn't start with http or /
+      if (keyImage && !keyImage.startsWith('http') && !keyImage.startsWith('/')) {
+        keyImage = `/blog-assets/${keyImage}`;
+      }
+    }
+
     // Create clean excerpt from body if no excerpt in frontmatter
     const bodyText = parsed.body.replace(/^#.*$/gm, '').replace(/\n+/g, ' ').trim();
     const cleanExcerpt = parsed.attributes.excerpt || bodyText.substring(0, 200) + '...';
@@ -53,7 +69,9 @@ function getAllPosts() {
       tags: parsed.attributes.tags || [],
       excerpt: cleanExcerpt,
       content: parsed.body,
-      filename: file
+      filename: file,
+      keyImage: keyImage,
+      keyImageAlt: keyImageAlt
     };
 
     return post;
@@ -240,7 +258,7 @@ app.get("/blog", (req, res) => {
         .blog-card {
             background: white;
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 0;
             box-shadow: 0 8px 40px rgba(15, 17, 8, 0.08);
             border: 1px solid rgba(42, 157, 143, 0.05);
             transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -253,6 +271,30 @@ app.get("/blog", (req, res) => {
             transform: translateY(-8px);
             box-shadow: 0 20px 60px rgba(15, 17, 8, 0.15);
             border-color: rgba(42, 157, 143, 0.2);
+        }
+
+        /* Card image styling */
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        /* Card content container */
+        .card-content {
+            padding: 2.5rem;
         }
 
         /* Card header */
@@ -412,7 +454,7 @@ app.get("/blog", (req, res) => {
                 padding: 4rem 0;
             }
 
-            .blog-card {
+            .card-content {
                 padding: 2rem;
             }
 
@@ -432,7 +474,7 @@ app.get("/blog", (req, res) => {
                 min-width: 200px;
             }
 
-            .blog-card {
+            .card-content {
                 padding: 1.5rem;
             }
         }
@@ -475,29 +517,37 @@ app.get("/blog", (req, res) => {
                 <div class="blog-grid">
                     ${filteredPosts.map(post => `
                         <article class="blog-card">
-                            <div class="card-header">
-                                <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
-                                <time class="post-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
-                            </div>
-
-                            <h2 class="card-title">
-                                <a href="/blog/${post.slug}">${post.title}</a>
-                            </h2>
-
-                            <p class="card-excerpt">${post.excerpt}</p>
-
-                            ${post.tags && post.tags.length > 0 ? `
-                                <div class="tags-container">
-                                    ${post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('')}
+                            ${post.keyImage ? `
+                                <div class="card-image">
+                                    <img src="${post.keyImage}" alt="${post.keyImageAlt}" loading="lazy" decoding="async">
                                 </div>
                             ` : ''}
+                            
+                            <div class="card-content">
+                                <div class="card-header">
+                                    <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
+                                    <time class="post-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+                                </div>
 
-                            <a href="/blog/${post.slug}" class="read-more-btn">
-                                Read Full Article
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                                </svg>
-                            </a>
+                                <h2 class="card-title">
+                                    <a href="/blog/${post.slug}">${post.title}</a>
+                                </h2>
+
+                                <p class="card-excerpt">${post.excerpt}</p>
+
+                                ${post.tags && post.tags.length > 0 ? `
+                                    <div class="tags-container">
+                                        ${post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+
+                                <a href="/blog/${post.slug}" class="read-more-btn">
+                                    Read Full Article
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                            </div>
                         </article>
                     `).join('')}
                 </div>
