@@ -5,11 +5,10 @@ date: "2025-05-20"
 category: "Industry Insights"
 tags: ["Documentation", "AI", "Efficiency", "Technician Workflow", "Voice Technology"]
 excerpt: "Skilled automotive technicians spend 30% of their time on screens instead of turning wrenches. Here's how voice-first AI technology is finally changing that."
-featured_image: "![Technician writing up a story](/blog-assets/1_why-auto-techs-hate-paperwork/technician-computer-paperwork.jpg)"
 
 ---
 
-![Technician writing up a story](/blog-assets/1_why-auto-techs-hate-paperwork/technician-computer-paperwork.jpg)
+![Technician writing up a story](/blog-assets/1-why-auto-techs-hate-paperwork/technician-computer-paperwork.jpg)
 
 It's 4:17 PM on a Friday. Your hands are covered in grease, you've just figured out the problem that's been stumping you all afternoon, and there's one more car in the queue before you can head home.
 
@@ -79,12 +78,11 @@ That's technology that adapts to how technicians actually work, instead of forci
 
 The service department is on the verge of a revolution. Voice-first AI assistants designed specifically for the shop floor are emerging, and early adopters are seeing dramatic improvements in both efficiency and job satisfaction.
 
-Imagine technicians who can:
-
-- Document repairs in real-time without stopping work
-- Generate warranty-compliant reports automatically
-- Focus 100% of their attention on the actual repair
-- Go home on time because documentation happens as they work
+**Imagine technicians who can:**
+- • Document repairs in real-time without stopping work
+- • Generate warranty-compliant reports automatically
+- • Focus 100% of their attention on the actual repair
+- • Go home on time because documentation happens as they work
 
 AI can't eliminate technicians (for one thing, they have hands); but it can eliminate the administrative burden that keeps them from doing what they do best.
 
