@@ -9,6 +9,7 @@ const app = express()
 const md = new MarkdownIt();
 
 app.use(express.static(path.join(__dirname, "public")))
+app.use('/blog-assets', express.static(path.join(__dirname, 'public/blog-assets')))
 
 app.get("/", (req,res) => {
   exec('npx tailwindcss -i ./input.css -o ./public/out.css', (err, stdout, stderr) => {
