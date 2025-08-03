@@ -254,6 +254,20 @@ app.get("/blog", (req, res) => {
             }
         }
 
+        /* Blog card link wrapper */
+        .blog-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .blog-card-link:focus {
+            outline: 3px solid rgba(42, 157, 143, 0.5);
+            outline-offset: 4px;
+            border-radius: 20px;
+        }
+
         /* Blog cards matching main site aesthetic */
         .blog-card {
             background: white;
@@ -265,9 +279,10 @@ app.get("/blog", (req, res) => {
             position: relative;
             overflow: hidden;
             height: fit-content;
+            cursor: pointer;
         }
 
-        .blog-card:hover {
+        .blog-card-link:hover .blog-card {
             transform: translateY(-8px);
             box-shadow: 0 20px 60px rgba(15, 17, 8, 0.15);
             border-color: rgba(42, 157, 143, 0.2);
@@ -288,7 +303,7 @@ app.get("/blog", (req, res) => {
             transition: transform 0.3s ease;
         }
 
-        .blog-card:hover .card-image img {
+        .blog-card-link:hover .card-image img {
             transform: scale(1.05);
         }
 
@@ -341,15 +356,10 @@ app.get("/blog", (req, res) => {
             color: #0F1108;
             margin-bottom: 1rem;
             line-height: 1.3;
-        }
-
-        .card-title a {
-            color: inherit;
-            text-decoration: none;
             transition: color 0.3s ease;
         }
 
-        .card-title a:hover {
+        .blog-card-link:hover .card-title {
             color: #2A9D8F;
         }
 
@@ -394,23 +404,21 @@ app.get("/blog", (req, res) => {
             padding: 0.875rem 2rem;
             border-radius: 30px;
             font-weight: 600;
-            text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 20px rgba(42, 157, 143, 0.3);
+            pointer-events: none;
         }
 
-        .read-more-btn:hover {
+        .blog-card-link:hover .read-more-btn {
             transform: translateX(4px);
             box-shadow: 0 6px 30px rgba(42, 157, 143, 0.4);
-            color: white;
-            text-decoration: none;
         }
 
         .read-more-btn svg {
             transition: transform 0.3s ease;
         }
 
-        .read-more-btn:hover svg {
+        .blog-card-link:hover .read-more-btn svg {
             transform: translateX(3px);
         }
 
@@ -516,33 +524,33 @@ app.get("/blog", (req, res) => {
             ${filteredPosts.length > 0 ? `
                 <div class="blog-grid">
                     ${filteredPosts.map(post => `
-                        <article class="blog-card">
-                            ${post.keyImage ? `
-                                <div class="card-image">
-                                    <img src="${post.keyImage}" alt="${post.keyImageAlt}" loading="lazy" decoding="async">
+                        <a href="/blog/${post.slug}" class="blog-card-link">
+                            <article class="blog-card">
+                                ${post.keyImage ? `
+                                    <div class="card-image">
+                                        <img src="${post.keyImage}" alt="${post.keyImageAlt}" loading="lazy" decoding="async">
+                                    </div>
+                                ` : ''}
+                                
+                                <div class="card-content">
+                                    <div class="card-header">
+                                        <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
+                                        <time class="post-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+                                    </div>
+
+                                    <h2 class="card-title">${post.title}</h2>
+
+                                    <p class="card-excerpt">${post.excerpt}</p>
+
+                                    <span class="read-more-btn">
+                                        Read Full Article
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                                        </svg>
+                                    </span>
                                 </div>
-                            ` : ''}
-                            
-                            <div class="card-content">
-                                <div class="card-header">
-                                    <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
-                                    <time class="post-date">${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
-                                </div>
-
-                                <h2 class="card-title">
-                                    <a href="/blog/${post.slug}">${post.title}</a>
-                                </h2>
-
-                                <p class="card-excerpt">${post.excerpt}</p>
-
-                                <a href="/blog/${post.slug}" class="read-more-btn">
-                                    Read Full Article
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </article>
+                            </article>
+                        </a>
                     `).join('')}
                 </div>
             ` : `
