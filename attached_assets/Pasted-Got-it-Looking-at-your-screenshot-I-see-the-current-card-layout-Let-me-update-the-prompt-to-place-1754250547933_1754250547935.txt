@@ -1,0 +1,89 @@
+Got it! Looking at your screenshot, I see the current card layout. Let me update the prompt to place the image above the headline:
+
+Prompt for Replit Agent:
+Add key images to blog cards on the blog index page by extracting the first image from each blog post's markdown content. The image should appear at the very top of each card, above the category badge and headline.
+Requirements:
+
+Image Extraction Logic:
+
+Parse each blog post's markdown content to find image references: ![alt text](image-path)
+Extract the first image found in the post (if any)
+Use the image path and alt text for the blog card
+
+
+Update getAllPosts() function in index.js:
+
+Add regex pattern to find markdown images: /!\[([^\]]*)\]\(([^)]+)\)/
+Extract first image URL and alt text from post content
+Add keyImage and keyImageAlt fields to the post object
+
+
+Update Blog Card HTML Template Structure:
+html<article class="blog-card">
+  ${post.keyImage ? `
+    <div class="card-image">
+      <img src="${post.keyImage}" alt="${post.keyImageAlt}" loading="lazy">
+    </div>
+  ` : ''}
+  <div class="card-content">
+    <div class="card-header">
+      <span class="category-badge">${post.category}</span>
+      <time class="post-date">${formattedDate}</time>
+    </div>
+    <h2 class="card-title">
+      <a href="/blog/${post.slug}">${post.title}</a>
+    </h2>
+    <!-- rest of existing content -->
+  </div>
+</article>
+
+Add CSS Styling:
+css.blog-card {
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  margin: -20px -20px 20px -20px; /* Negative margins to reach card edges */
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 0 20px 20px 20px;
+}
+
+Performance & Edge Cases:
+
+Add loading="lazy" and decoding="async" to images
+Handle posts with no images (maintain current design)
+Add error handling for broken images
+Ensure the glassmorphism background still works with images
+
+
+Mobile Responsiveness:
+
+Ensure images scale properly on all screen sizes
+Maintain card padding and spacing on mobile
+Test that touch interactions work smoothly
+
+
+
+Note: Since the image will be at the very top of the card, adjust the card's border-radius so the image corners match the card's rounded corners using border-radius: 20px 20px 0 0 on the image container.
+Testing:
+
+Verify images appear above the headline and category badge
+Ensure the glassmorphism effect still looks good with images
+Test responsive behavior across devices
+Confirm posts without images maintain their current appearance
