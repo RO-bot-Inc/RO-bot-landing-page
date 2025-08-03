@@ -770,7 +770,7 @@ app.get("/blog/:slug", (req, res) => {
     <script src="/nav-loader.js"></script>
 
     <!-- Breadcrumb -->
-    <div class="py-6" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);">
+    <div class="py-8 pt-12" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="text-sm font-medium">
                 <a href="/" class="text-gray-500 hover:text-brand-green transition-colors">Home</a>
