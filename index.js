@@ -535,12 +535,6 @@ app.get("/blog", (req, res) => {
 
                                 <p class="card-excerpt">${post.excerpt}</p>
 
-                                ${post.tags && post.tags.length > 0 ? `
-                                    <div class="tags-container">
-                                        ${post.tags.map(tag => `<span class="tag-pill">${tag}</span>`).join('')}
-                                    </div>
-                                ` : ''}
-
                                 <a href="/blog/${post.slug}" class="read-more-btn">
                                     Read Full Article
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
