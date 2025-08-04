@@ -541,13 +541,6 @@ app.get("/blog", (req, res) => {
                                     <h2 class="card-title">${post.title}</h2>
 
                                     <p class="card-excerpt">${post.excerpt}</p>
-
-                                    <span class="read-more-btn">
-                                        Read Full Article
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                                        </svg>
-                                    </span>
                                 </div>
                             </article>
                         </a>
