@@ -831,7 +831,7 @@ app.get("/blog/:slug", (req, res) => {
     <!-- Back to Blog -->
     <div class="py-12 text-center">
         <a href="/blog" class="inline-flex flex-col items-center gap-4 transition-all duration-300 hover:transform hover:scale-105">
-            <img src="/RObot logos/iPhone.png" alt="RO-bot Logo" class="w-16 h-16 object-contain">
+            <img src="/RObot logos/head only.png" alt="RO-bot Logo" class="w-16 h-16 object-contain">
             <span class="text-gray-700 font-semibold text-lg">All Articles</span>
         </a>
     </div>
