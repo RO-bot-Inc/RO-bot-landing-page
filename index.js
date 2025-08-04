@@ -1,3 +1,4 @@
+javascript
 const { exec } = require('child_process');
 const path = require("path")
 const express = require("express")
@@ -50,7 +51,7 @@ function getAllPosts() {
     if (imageMatch) {
       keyImageAlt = imageMatch[1] || 'Blog post image';
       keyImage = imageMatch[2];
-      
+
       // Handle relative paths - prepend /blog-assets/ if the path doesn't start with http or /
       if (keyImage && !keyImage.startsWith('http') && !keyImage.startsWith('/')) {
         keyImage = `/blog-assets/${keyImage}`;
@@ -109,6 +110,7 @@ app.get("/blog", (req, res) => {
     <link rel="stylesheet" href="/out.css">
     <link rel="stylesheet" href="/shared-nav.css">
     <link rel="stylesheet" href="/nav-styles.css">
+    <link rel="stylesheet" href="/style.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
 
@@ -488,7 +490,7 @@ app.get("/blog", (req, res) => {
                                         <img src="${post.keyImage}" alt="${post.keyImageAlt}" loading="lazy" decoding="async">
                                     </div>
                                 ` : ''}
-                                
+
                                 <div class="card-content">
                                     <div class="card-header">
                                         <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
@@ -513,7 +515,7 @@ app.get("/blog", (req, res) => {
         </div>
     </section>
 
-    
+
 </body>
 </html>
   `;
@@ -846,6 +848,7 @@ app.get("/blog/:slug", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(```text
+PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`)
 })
