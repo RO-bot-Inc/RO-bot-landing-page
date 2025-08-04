@@ -149,25 +149,6 @@ app.get("/blog", (req, res) => {
             border-color: #2A9D8F;
         }
 
-        /* Mobile navigation fixes */
-        @media (max-width: 640px) {
-            .bg-brand-orange {
-                font-size: 12px !important;
-                padding: 8px 12px !important;
-                white-space: nowrap !important;
-            }
-            
-            nav .max-w-7xl {
-                padding-left: 1rem !important;
-                padding-right: 0.75rem !important;
-            }
-        }
-
-        /* Force gap between navigation buttons */
-        nav a[href*="waitlist-form"] {
-            margin-right: 12px !important;
-        }
-
         /* Hero section with gradient matching main site */
         .hero-section {
             background: linear-gradient(135deg, #2A9D8F 0%, #1a7a6e 50%, #0F1108 100%);
@@ -592,25 +573,6 @@ app.get("/blog/:slug", (req, res) => {
 
         .border-brand-green {
             border-color: #2A9D8F;
-        }
-
-        /* Mobile navigation fixes */
-        @media (max-width: 640px) {
-            .bg-brand-orange {
-                font-size: 12px !important;
-                padding: 8px 12px !important;
-                white-space: nowrap !important;
-            }
-            
-            nav .max-w-7xl {
-                padding-left: 1rem !important;
-                padding-right: 0.75rem !important;
-            }
-        }
-
-        /* Force gap between navigation buttons */
-        nav a[href*="waitlist-form"] {
-            margin-right: 12px !important;
         }
 
         .prose {
