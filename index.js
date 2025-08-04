@@ -466,10 +466,10 @@ app.get("/blog", (req, res) => {
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="hero-title">
-                Industry <span style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Insights</span>
+                The <span style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">RO-Bot</span> Briefing
             </h1>
             <p class="hero-subtitle">
-                Stay ahead with expert insights on automotive technology, AI diagnostics, and repair efficiency from industry leaders.
+                Fueling fixed‑ops success, one RO at a time.
             </p>
         </div>
     </section>
