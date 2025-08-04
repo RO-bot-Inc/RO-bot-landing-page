@@ -50,7 +50,7 @@ function getAllPosts() {
     if (imageMatch) {
       keyImageAlt = imageMatch[1] || 'Blog post image';
       keyImage = imageMatch[2];
-      
+
       // Handle relative paths - prepend /blog-assets/ if the path doesn't start with http or /
       if (keyImage && !keyImage.startsWith('http') && !keyImage.startsWith('/')) {
         keyImage = `/blog-assets/${keyImage}`;
@@ -488,7 +488,7 @@ app.get("/blog", (req, res) => {
                                         <img src="${post.keyImage}" alt="${post.keyImageAlt}" loading="lazy" decoding="async">
                                     </div>
                                 ` : ''}
-                                
+
                                 <div class="card-content">
                                     <div class="card-header">
                                         <span class="category-badge category-${post.category.toLowerCase()}">${post.category}</span>
@@ -513,7 +513,7 @@ app.get("/blog", (req, res) => {
         </div>
     </section>
 
-    
+
 </body>
 </html>
   `;
@@ -832,10 +832,10 @@ app.get("/blog/:slug", (req, res) => {
 <div class="h-20"></div>
 
     <!-- Back to Blog -->
-    <div class="pt-16 pb-12 text-center mt-20">
-        <a href="/blog" class="inline-flex flex-col items-center gap-4 transition-all duration-300 hover:transform hover:scale-105">
-            <img src="/RObot logos/head only.png" alt="RO-bot Logo" style="width: 1.5rem; height: 1.5rem; object-fit: contain; margin: 0 auto;" class="flex-shrink-0">
-            <span class="text-gray-700 font-semibold text-lg">All Articles</span>
+    <div class="pt-16 pb-12 text-center">
+        <a href="/blog" class="inline-flex flex-col items-center gap-3 py-6 px-8 transition-all duration-200 hover:bg-gray-50 hover:transform hover:translateY(-2px) rounded-xl group">
+            <img src="/RObot logos/head only.png" alt="RO-bot Logo" style="width: 1.5rem; height: 1.5rem; object-fit: contain;" class="flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
+            <span class="text-gray-700 font-semibold text-lg transition-colors duration-200 group-hover:text-brand-green">All Articles</span>
         </a>
     </div>
 </body>
