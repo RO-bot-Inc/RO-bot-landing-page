@@ -259,7 +259,7 @@ app.get("/blog", (req, res) => {
             text-decoration: none;
             color: inherit;
             display: block;
-            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .blog-card-link:focus {
@@ -275,7 +275,7 @@ app.get("/blog", (req, res) => {
             padding: 0;
             box-shadow: 0 8px 40px rgba(15, 17, 8, 0.08);
             border: 1px solid rgba(42, 157, 143, 0.05);
-            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             height: fit-content;
@@ -283,9 +283,9 @@ app.get("/blog", (req, res) => {
         }
 
         .blog-card-link:hover .blog-card {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(15, 17, 8, 0.15);
-            border-color: rgba(42, 157, 143, 0.2);
+            transform: translateY(-12px);
+            box-shadow: 0 25px 70px rgba(15, 17, 8, 0.18);
+            border-color: rgba(42, 157, 143, 0.25);
         }
 
         /* Card image styling */
@@ -300,11 +300,11 @@ app.get("/blog", (req, res) => {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .blog-card-link:hover .card-image img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         /* Card content container */
@@ -356,7 +356,7 @@ app.get("/blog", (req, res) => {
             color: #0F1108;
             margin-bottom: 1rem;
             line-height: 1.3;
-            transition: color 0.3s ease;
+            transition: color 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .blog-card-link:hover .card-title {
