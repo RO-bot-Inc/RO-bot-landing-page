@@ -830,11 +830,9 @@ app.get("/blog/:slug", (req, res) => {
 
     <!-- Back to Blog -->
     <div class="py-12 text-center">
-        <a href="/blog" class="inline-flex items-center gap-3 text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:transform hover:scale-105" style="background: linear-gradient(135deg, #2a9d8f, #264653); box-shadow: 0 8px 25px rgba(42, 157, 143, 0.3);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            Back to All Articles
+        <a href="/blog" class="inline-flex flex-col items-center gap-4 transition-all duration-300 hover:transform hover:scale-105">
+            <img src="/RObot logos/iPhone.png" alt="RO-bot Logo" class="w-16 h-16 object-contain">
+            <span class="text-gray-700 font-semibold text-lg">All Articles</span>
         </a>
     </div>
 </body>
