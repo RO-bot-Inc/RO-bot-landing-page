@@ -466,7 +466,7 @@ app.get("/blog", (req, res) => {
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="hero-title">
-                The RO-Bot Briefing
+                Wrench Time Reports
             </h1>
             <p class="hero-subtitle">
                 Fueling fixed‑ops success, one RO at a time.
