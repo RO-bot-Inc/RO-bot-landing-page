@@ -828,8 +828,11 @@ app.get("/blog/:slug", (req, res) => {
     </section>
     ` : ''}
 
+<!-- Add this before the Back to Blog comment -->
+<div class="h-20"></div>
+
     <!-- Back to Blog -->
-    <div class="pt-16 pb-12 text-center">
+    <div class="pt-16 pb-12 text-center mt-20">
         <a href="/blog" class="inline-flex flex-col items-center gap-4 transition-all duration-300 hover:transform hover:scale-105">
             <img src="/RObot logos/head only.png" alt="RO-bot Logo" style="width: 1.5rem; height: 1.5rem; object-fit: contain; margin: 0 auto;" class="flex-shrink-0">
             <span class="text-gray-700 font-semibold text-lg">All Articles</span>
