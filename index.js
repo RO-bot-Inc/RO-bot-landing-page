@@ -466,7 +466,7 @@ app.get("/blog", (req, res) => {
     <section class="hero-section">
         <div class="hero-content">
             <h1 class="hero-title">
-                The <span style="background: linear-gradient(45deg, #C63006, #ff6b6b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">RO-Bot</span> Briefing
+                The RO-Bot Briefing
             </h1>
             <p class="hero-subtitle">
                 Fueling fixed‑ops success, one RO at a time.
