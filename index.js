@@ -828,6 +828,9 @@ app.get("/blog/:slug", (req, res) => {
     </section>
     ` : ''}
 
+<!-- Add this before the Back to Blog comment -->
+<div class="h-20"></div>
+
     <!-- Back to Blog -->
     <div class="pt-16 pb-12 text-center">
         <a href="/blog" class="inline-flex flex-col items-center gap-4 transition-all duration-300 hover:transform hover:scale-105">
