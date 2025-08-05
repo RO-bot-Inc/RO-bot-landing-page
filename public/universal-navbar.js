@@ -134,8 +134,11 @@
           <a href="/#waitlist-form" class="book-demo">Book Demo</a>
         </div>
         <button class="mobile-menu-btn" id="mobile-menu-btn">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" id="hamburger-icon">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" id="close-icon" style="display: none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
@@ -148,5 +151,17 @@
   // Simple mobile menu toggle
   document.getElementById('mobile-menu-btn').addEventListener('click', function() {
     document.getElementById('nav-links').classList.toggle('show');
+    
+    // Toggle between hamburger and X icons
+    const hamburger = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    if (document.getElementById('nav-links').classList.contains('show')) {
+      hamburger.style.display = 'none';
+      closeIcon.style.display = 'block';
+    } else {
+      hamburger.style.display = 'block';
+      closeIcon.style.display = 'none';
+    }
   });
 })();
