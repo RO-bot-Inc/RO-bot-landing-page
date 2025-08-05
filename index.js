@@ -94,7 +94,7 @@ app.get("/blog", (req, res) => {
   const categories = [...new Set(posts.map(post => post.category))];
   const selectedCategory = req.query.category;
 
-  const filteredPosts = selectedCategory 
+  const filteredPosts = selectedCategory
     ? posts.filter(post => post.category === selectedCategory)
     : posts;
 
@@ -107,8 +107,6 @@ app.get("/blog", (req, res) => {
     <title>Blog - RO-bot AI Co-Pilot</title>
     <meta name="description" content="Stay updated with the latest in automotive technology, AI diagnostics, and repair efficiency with RO-bot's blog.">
     <link rel="stylesheet" href="/out.css">
-    <link rel="stylesheet" href="/shared-nav.css">
-    <link rel="stylesheet" href="/nav-styles.css">
     <link rel="stylesheet" href="/style.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
@@ -118,35 +116,6 @@ app.get("/blog", (req, res) => {
             line-height: 1.6;
             color: #0F1108;
             background: #ffffff;
-        }
-
-        /* Brand colors for navigation buttons */
-        .bg-brand-orange {
-            background-color: #C63006;
-        }
-
-        .hover\:bg-white:hover {
-            background-color: white;
-        }
-
-        .hover\:text-brand-orange:hover {
-            color: #C63006;
-        }
-
-        .border-brand-orange {
-            border-color: #C63006;
-        }
-
-        .bg-brand-green {
-            background-color: #2A9D8F;
-        }
-
-        .hover\:text-brand-green:hover {
-            color: #2A9D8F;
-        }
-
-        .border-brand-green {
-            border-color: #2A9D8F;
         }
 
         /* Hero section with gradient matching main site */
@@ -454,13 +423,6 @@ app.get("/blog", (req, res) => {
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <div id="navigation-placeholder"></div>
-    <!-- Alpine MUST load first -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Then load navigation after Alpine -->
-    <script src="/nav-loader.js"></script>
-
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-content">
@@ -511,8 +473,6 @@ app.get("/blog", (req, res) => {
             `}
         </div>
     </section>
-
-
 </body>
 </html>
   `;
@@ -541,39 +501,8 @@ app.get("/blog/:slug", (req, res) => {
     <title>${post.title} - RO-bot Blog</title>
     <meta name="description" content="${post.excerpt}">
     <link rel="stylesheet" href="/out.css">
-    <link rel="stylesheet" href="/shared-nav.css">
-    <link rel="stylesheet" href="/nav-styles.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
-
-        /* Brand colors for navigation buttons */
-        .bg-brand-orange {
-            background-color: #C63006;
-        }
-
-        .hover\:bg-white:hover {
-            background-color: white;
-        }
-
-        .hover\:text-brand-orange:hover {
-            color: #C63006;
-        }
-
-        .border-brand-orange {
-            border-color: #C63006;
-        }
-
-        .bg-brand-green {
-            background-color: #2A9D8F;
-        }
-
-        .hover\:text-brand-green:hover {
-            color: #2A9D8F;
-        }
-
-        .border-brand-green {
-            border-color: #2A9D8F;
-        }
 
         .prose {
             max-width: none;
@@ -753,13 +682,6 @@ app.get("/blog/:slug", (req, res) => {
     </style>
 </head>
 <body class="font-sans" style="background: linear-gradient(135deg, #f8fffe 0%, #e8f5f3 100%); min-height: 100vh;">
-    <!-- Navigation -->
-    <div id="navigation-placeholder"></div>
-    <!-- Alpine MUST load first -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Then load navigation after Alpine -->
-    <script src="/nav-loader.js"></script>
-
     <!-- Breadcrumb -->
     <div class="py-8" style="margin-top: 20px; background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px);">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
