@@ -125,7 +125,6 @@
       <div class="nav-container">
         <a href="/" class="logo">
           <img src="/Color logo - no background.svg" alt="RO-bot">
-          <span>RO-bot</span>
         </a>
         <div class="nav-links" id="nav-links">
           <a href="/about">About</a>
