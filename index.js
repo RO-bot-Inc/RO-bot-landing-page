@@ -473,6 +473,7 @@ app.get("/blog", (req, res) => {
             `}
         </div>
     </section>
+<script src="/universal-navbar.js"></script>
 </body>
 </html>
   `;
@@ -759,6 +760,7 @@ app.get("/blog/:slug", (req, res) => {
             <span class="text-gray-700 font-semibold text-lg">All Articles</span>
         </a>
     </div>
+<script src="/universal-navbar.js"></script>
 </body>
 </html>
   `;
