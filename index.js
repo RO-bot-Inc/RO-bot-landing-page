@@ -21,10 +21,6 @@ app.get("/", (req,res) => {
   res.sendFile(path.join(__dirname, "public/index.html"))
 })
 
-app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/about.html"))
-})
-
 // Helper function to read all blog posts
 function getAllPosts() {
   const postsDir = path.join(__dirname, 'blog-posts');
