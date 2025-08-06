@@ -1,43 +1,144 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - RO-bot</title>
+    <title>About - RO-bot | AI Co-Pilot for Automotive Technicians</title>
+    <meta name="description" content="Learn how RO-bot is building the AI co-pilot that gives technicians their time back and helps shops capture lost warranty revenue.">
+    
+    <!-- Existing CSS files -->
     <link href="style.css" rel="stylesheet">
     <link href="shared-nav.css" rel="stylesheet">
-
-    <!-- Google tag (gtag.js) -->
+    
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-28WMV6CTFP');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-28WMV6CTFP');
     </script>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
 
-
     <main>
-        <section class="py-16 sm:py-24">
+        <!-- Hero Section -->
+        <section class="py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <p class="text-brand-green uppercase tracking-wider text-sm font-semibold mb-4">ABOUT RO-BOT</p>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-montserrat font-bold mb-8 max-w-4xl mx-auto leading-tight">
+                    We're building the AI co-pilot that gives technicians their time back and helps shops capture lost warranty revenue.
+                </h1>
+                <div class="mt-12 mb-12">
+                    <div class="text-5xl sm:text-6xl lg:text-7xl font-montserrat font-bold space-y-4">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <span class="text-brand-dark">WRENCHES</span>
+                            <span class="text-brand-green text-6xl">></span>
+                            <span class="text-gray-400">KEYBOARDS</span>
+                        </div>
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <span class="text-brand-dark">REVENUE</span>
+                            <span class="text-brand-green text-6xl">></span>
+                            <span class="text-gray-400">AUDITS</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="/book-demo" class="inline-block bg-brand-orange text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                    GET A DEMO →
+                </a>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-montserrat font-bold text-center mb-12">The Problems in Plain Sight</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                        <div class="text-5xl font-montserrat font-bold text-brand-orange mb-2">$200k</div>
+                        <p class="text-gray-600">Avg Annual Warranty Revenue Lost</p>
+                    </div>
+                    <div class="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                        <div class="text-5xl font-montserrat font-bold text-brand-orange mb-2">12%</div>
+                        <p class="text-gray-600">Warranty Denial Rate</p>
+                    </div>
+                    <div class="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
+                        <div class="text-5xl font-montserrat font-bold text-brand-orange mb-2">30%</div>
+                        <p class="text-gray-600">Technician Time on Screens</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="py-16 bg-gray-50">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl sm:text-4xl font-montserrat font-bold text-brand-dark mb-6">About RO-bot</h1>
-                <p class="text-lg text-brand-dark opacity-90 leading-relaxed mb-8">
-                    RO-bot is revolutionizing the automotive service industry with AI-powered assistance for technicians.
-                    Our mission is to help service professionals work smarter, faster, and more efficiently while improving
-                    warranty claim success rates.
+                <h2 class="text-4xl font-montserrat font-bold mb-8">Built for the Shop Floor</h2>
+                <p class="text-lg mb-8 leading-relaxed text-brand-dark opacity-90">
+                    Hundreds of conversations with automotive technicians, service managers and warranty administrators revealed a broken system that nobody likes but everyone accepts.
                 </p>
-                <p class="text-lg text-brand-dark opacity-90 leading-relaxed">
-                    By combining voice technology, intelligent diagnostics, and seamless workflow integration, 
-                    RO-bot transforms the way technicians interact with repair information and documentation.
+                <p class="text-lg mb-8 leading-relaxed text-brand-dark opacity-90">
+                    Technicians spend about 30% of their time on a screen. 12% of warranty work gets denied by manufacturers, costing the average dealership $200k annually in lost revenue.
                 </p>
+                
+                <div class="bg-gray-100 border-l-4 border-brand-green p-6 my-12 rounded-r-lg">
+                    <p class="text-xl italic mb-4 text-brand-dark">
+                        "Technicians have the hardest job in the store, and we give them some of the worst software to deal with."
+                    </p>
+                    <p class="text-sm text-gray-600">- Service Manager, 20+ years</p>
+                </div>
+                
+                <p class="text-lg mb-8 leading-relaxed text-brand-dark opacity-90">
+                    It's no wonder repair stories and warranty documentation result in so many denied claims and manufacturer audits.
+                </p>
+                <p class="text-lg mb-8 leading-relaxed text-brand-dark opacity-90">
+                    That's why we're building RO-bot. We allow technicians to keep their hands on their tools and use their voice to document their work as they go. We're helping technicians save 30-40 minutes a day (2+ hours of productive time per week!), and reducing warranty denials from 12% to under 3%.
+                </p>
+                <p class="text-lg leading-relaxed text-brand-dark opacity-90">
+                    This is just the beginning. Follow our journey as we transform automotive service and show what happens when dealerships embrace AI.
+                </p>
+            </div>
+        </section>
+
+        <!-- Beliefs Section -->
+        <section class="py-16 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-4xl font-montserrat font-bold text-center mb-12">What We Believe</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-8 bg-gradient-to-br from-brand-green to-teal-600 text-white rounded-lg shadow-lg transform hover:scale-105 transition-all">
+                        <div class="text-4xl font-montserrat font-bold mb-4">1</div>
+                        <h3 class="text-2xl font-montserrat font-semibold mb-4">Technicians Deserve Better Tools</h3>
+                        <p class="leading-relaxed">The automotive industry runs on the expertise of skilled professionals. They deserve tools and technology that respect their craft.</p>
+                    </div>
+                    <div class="p-8 bg-gradient-to-br from-brand-orange to-red-600 text-white rounded-lg shadow-lg transform hover:scale-105 transition-all">
+                        <div class="text-4xl font-montserrat font-bold mb-4">2</div>
+                        <h3 class="text-2xl font-montserrat font-semibold mb-4">Voice is the Natural Interface</h3>
+                        <p class="leading-relaxed">When your hands are busy and your laptop is over on the workbench, voice interactions are the natural solution.</p>
+                    </div>
+                    <div class="p-8 bg-gradient-to-br from-gray-700 to-brand-dark text-white rounded-lg shadow-lg transform hover:scale-105 transition-all">
+                        <div class="text-4xl font-montserrat font-bold mb-4">3</div>
+                        <h3 class="text-2xl font-montserrat font-semibold mb-4">Documentation Should Be Effortless</h3>
+                        <p class="leading-relaxed">Great repairs shouldn't suffer from poor documentation. We believe capturing work accurately should be as natural as doing the work itself.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-20 bg-brand-dark text-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-montserrat font-bold mb-4">Ready to Transform Your Shop?</h2>
+                <p class="text-xl mb-8 text-gray-300 leading-relaxed">
+                    Join forward-thinking shops boosting warranty revenue and giving techs more productive time.
+                </p>
+                <a href="/book-demo" class="inline-block bg-brand-orange text-white px-10 py-4 rounded-lg font-semibold text-lg hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                    BOOK YOUR DEMO →
+                </a>
             </div>
         </section>
     </main>
 
-
-<script src="universal-navbar.js"></script>
+    <script src="universal-navbar.js"></script>
 </body>
 </html>
