@@ -3,41 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - RO-bot</title>
+    <title>About - RO-bot | AI Co-Pilot for Automotive Technicians</title>
+    <meta name="description" content="Learn how RO-bot is building the AI co-pilot that gives technicians their time back and helps shops capture lost warranty revenue.">
+
+    <!-- Existing CSS files -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <link href="shared-nav.css" rel="stylesheet">
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-28WMV6CTFP');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-28WMV6CTFP');
     </script>
+
+    <style>
+        /* Page-specific styles */
+        .hero-section {
+            background: #0F1108;
+            padding: 120px 20px 100px;
+            text-align: center;
+        }
+
+        .hero-tag {
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 5vw, 64px);
+            line-height: 1.1;
+            font-weight: 300;
+            max-width: 900px;
+            margin: 0 auto 30px;
+            color: #ffffff;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #d1d5db;
+            font-weight: 400;
+        }
+
+        .stats-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .stats-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 50px;
+            color: #0F1108;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #C63006;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .story-section {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-title {
+            font-size: 40px;
+            margin-bottom: 30px;
+            color: #0F1108;
+        }
+
+        .story-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #4b5563;
+            margin-bottom: 24px;
+        }
+
+        .image-with-quote {
+            position: relative;
+            height: 500px;
+            background: url('/about/technician-under-truck.jpg') center/cover;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .quote-overlay {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+            z-index: 1;
+            padding: 30px;
+        }
+
+        .quote-text {
+            font-size: 24px;
+            font-style: italic;
+            color: #ffffff;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .quote-attribution {
+            color: #e5e7eb;
+            font-size: 16px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .beliefs-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .beliefs-title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 50px;
+            color: #0F1108;
+        }
+
+        .beliefs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .belief-card {
+            padding: 40px 30px;
+            border-radius: 16px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2A9D8F, #1a7468);
+        }
+
+        .belief-number {
+            font-size: 60px;
+            font-weight: 800;
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        .belief-card h3 {
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .belief-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .cta-section {
+            padding: 100px 20px;
+            background: #0F1108;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-title {
+            font-size: 44px;
+            margin-bottom: 20px;
+        }
+
+        .cta-subtitle {
+            font-size: 20px;
+            color: #9ca3af;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #C63006;
+            color: white;
+            padding: 16px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            transition: opacity 0.3s;
+        }
+
+        .cta-button:hover {
+            opacity: 0.9;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 20px 60px;
+            }
+
+            .stats-grid,
+            .beliefs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-title {
+                font-size: 32px;
+            }
+
+            .image-with-quote {
+                height: 400px;
+            }
+
+            .quote-overlay {
+                left: 20px;
+                right: 20px;
+                bottom: 20px;
+                padding: 20px;
+            }
+
+            .quote-text {
+                font-size: 20px;
+            }
+        }
+    </style>
 </head>
 <body class="bg-white font-sans text-brand-dark antialiased">
 
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-tag">ABOUT US</div>
+        <h1 class="hero-title">We're in business to help technicians do their best work</h1>
+        <p class="hero-subtitle">
+            RO-bot is the AI co-pilot that gives technicians their time back and helps shops capture lost warranty revenue. 
+            RO-bot streamlines warranty claims by going straight to the source of the problem: technician documentation. 
+            Dealerships that use RO-bot reduce warranty audits and claims denials. They increase revenue and technician job satisfaction.
+        </p>
+    </section>
 
-    <main>
-        <section class="py-16 sm:py-24">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h1 class="text-3xl sm:text-4xl font-montserrat font-bold text-brand-dark mb-6">About RO-bot</h1>
-                <p class="text-lg text-brand-dark opacity-90 leading-relaxed mb-8">
-                    RO-bot is revolutionizing the automotive service industry with AI-powered assistance for technicians.
-                    Our mission is to help service professionals work smarter, faster, and more efficiently while improving
-                    warranty claim success rates.
-                </p>
-                <p class="text-lg text-brand-dark opacity-90 leading-relaxed">
-                    By combining voice technology, intelligent diagnostics, and seamless workflow integration, 
-                    RO-bot transforms the way technicians interact with repair information and documentation.
-                </p>
+    <!-- STATS SECTION -->
+    <section class="stats-section">
+        <h2 class="stats-title">The Problems in Plain Sight</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">$200k</div>
+                <div class="stat-label">Avg Annual Warranty Revenue Lost</div>
             </div>
-        </section>
-    </main>
+            <div class="stat-card">
+                <div class="stat-number">12%</div>
+                <div class="stat-label">Warranty Denial Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30%</div>
+                <div class="stat-label">Technician Time on Screens</div>
+            </div>
+        </div>
+    </section>
 
+    <!-- STORY SECTION -->
+    <section class="story-section">
+        <div class="story-content">
+            <h2 class="story-title">Built for the Shop Floor</h2>
 
-<script src="universal-navbar.js"></script>
+            <p class="story-text">
+                Hundreds of conversations with automotive technicians, service managers and warranty administrators 
+                revealed a broken system that nobody likes but everyone accepts.
+            </p>
+
+            <p class="story-text">
+                Technicians spend about 30% of their time on a screen. 12% of warranty work gets denied by manufacturers, 
+                costing the average dealership $200k annually in lost revenue.
+            </p>
+
+            <!-- Image with Quote Overlay -->
+            <div class="image-with-quote">
+                <div class="quote-overlay">
+                    <div class="quote-text">
+                        "Technicians have the hardest job in the store, and we give them some of the worst software to deal with."
+                    </div>
+                    <div class="quote-attribution">— Service Manager, 20+ years</div>
+                </div>
+            </div>
+
+            <p class="story-text">
+                It's no wonder repair stories and warranty documentation result in so many denied claims and manufacturer audits.
+            </p>
+
+            <p class="story-text">
+                That's why we're building RO-bot. We allow technicians to keep their hands on their tools and use their 
+                voice to document their work as they go. We're helping technicians save 30-40 minutes a day 
+                (2+ hours of productive time per week!), and reducing warranty denials from 12% to under 3%.
+            </p>
+
+            <p class="story-text">
+                This is just the beginning. Follow our journey as we transform automotive service and show what happens 
+                when dealerships embrace AI.
+            </p>
+        </div>
+    </section>
+
+    <!-- BELIEFS SECTION -->
+    <section class="beliefs-section">
+        <h2 class="beliefs-title">What We Believe</h2>
+        <div class="beliefs-grid">
+            <div class="belief-card">
+                <div class="belief-number">1</div>
+                <h3>Technicians Deserve Better Tools</h3>
+                <p>The automotive industry runs on the expertise of skilled professionals. They deserve tools and technology that respect their craft.</p>
+            </div>
+            <div class="belief-card">
+                <div class="belief-number">2</div>
+                <h3>Voice is the Natural Interface</h3>
+                <p>When your hands are busy and your laptop is over on the workbench, voice interactions are the natural solution.</p>
+            </div>
+            <div class="belief-card">
+                <div class="belief-number">3</div>
+                <h3>Documentation Should Be Effortless</h3>
+                <p>Great repairs shouldn't suffer from poor documentation. We believe capturing work accurately should be as natural as doing the work itself.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <h2 class="cta-title">Ready to Transform Your Shop?</h2>
+        <p class="cta-subtitle">
+            Join forward-thinking shops boosting warranty revenue and giving techs more productive time.
+        </p>
+        <a href="/book-demo" class="cta-button">BOOK YOUR DEMO →</a>
+    </section>
+
+    <!-- Universal navbar injection -->
+    <script src="universal-navbar.js"></script>
 </body>
 </html>
