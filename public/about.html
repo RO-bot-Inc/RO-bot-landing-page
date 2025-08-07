@@ -136,11 +136,12 @@
 
         .quote-overlay {
             position: absolute;
-            bottom: 40px;
-            left: 40px;
+            top: 80px;
             right: 40px;
+            left: 50%;  /* Start from middle of image */
             z-index: 1;
             padding: 30px;
+            max-width: 600px;  /* Constrain width */
         }
 
         .quote-text {
@@ -261,10 +262,11 @@
             }
 
             .quote-overlay {
-                left: 20px;
-                right: 20px;
-                bottom: 20px;
-                padding: 20px;
+            left: 40%;  /* Keep it on the right side on mobile too */
+            right: 20px;
+            bottom: 20px;
+            padding: 20px;
+            max-width: none;  /* Remove max-width constraint */
             }
 
             .quote-text {
