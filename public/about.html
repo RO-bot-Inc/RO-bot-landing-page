@@ -371,13 +371,51 @@
         </div>
     </section>
 
-    <!-- CTA SECTION -->
+    <!-- CTA SECTION WITH FORM -->
     <section class="cta-section">
-        <h2 class="cta-title">Ready to Transform Your Shop?</h2>
-        <p class="cta-subtitle">
-            Join forward-thinking shops boosting warranty revenue and giving techs more productive time.
-        </p>
-        <a href="/book-demo" class="cta-button">BOOK YOUR DEMO →</a>
+        <div style="max-width: 700px; margin: 0 auto;">
+            <h2 class="cta-title">Ready to Transform Your Shop?</h2>
+            <p class="cta-subtitle" style="margin-bottom: 40px;">
+                Join the forward-thinking dealerships using RO-bot to free up more wrench time, 
+                boost job throughput, and maximize warranty claim revenue.
+            </p>
+
+            <!-- Form -->
+            <form action="https://formspree.io/f/mrbqydnq" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
+                <input 
+                    type="text" 
+                    name="name" 
+                    placeholder="Your Name" 
+                    required
+                    style="padding: 16px 20px; border-radius: 8px; border: none; font-size: 16px; background: white;"
+                >
+                <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Your Email" 
+                    required
+                    style="padding: 16px 20px; border-radius: 8px; border: none; font-size: 16px; background: white;"
+                >
+                <input 
+                    type="text" 
+                    name="shop" 
+                    placeholder="Shop/Dealership Name" 
+                    style="padding: 16px 20px; border-radius: 8px; border: none; font-size: 16px; background: white;"
+                >
+                <button 
+                    type="submit"
+                    style="padding: 16px 20px; background: #C63006; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: opacity 0.3s;"
+                    onmouseover="this.style.opacity='0.9'"
+                    onmouseout="this.style.opacity='1'"
+                >
+                    Book Your Demo
+                </button>
+            </form>
+
+            <p style="color: #9ca3af; margin-top: 20px; font-size: 14px;">
+                No spam, ever.
+            </p>
+        </div>
     </section>
 
     <!-- Universal navbar injection -->
