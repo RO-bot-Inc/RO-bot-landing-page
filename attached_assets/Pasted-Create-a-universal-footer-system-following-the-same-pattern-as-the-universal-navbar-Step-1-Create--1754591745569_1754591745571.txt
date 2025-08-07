@@ -1,0 +1,164 @@
+Create a universal footer system following the same pattern as the universal navbar.
+Step 1: Create /public/universal-footer.js with this content:
+javascript// Universal Footer - Just include this script on any page
+(function() {
+  // Inline styles for the footer
+  const footerStyles = `
+    <style>
+      #universal-footer {
+        background: #0F1108;
+        color: #B0AEC2;
+        padding: 64px 20px;
+        font-family: 'Roboto', sans-serif;
+      }
+      #universal-footer .footer-container {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      #universal-footer .footer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 32px;
+        margin-bottom: 48px;
+      }
+      #universal-footer h3 {
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 16px;
+        font-family: 'Montserrat', sans-serif;
+      }
+      #universal-footer p {
+        color: #B0AEC2;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 12px;
+      }
+      #universal-footer ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      #universal-footer li {
+        margin-bottom: 12px;
+      }
+      #universal-footer a {
+        color: #B0AEC2;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.15s;
+      }
+      #universal-footer a:hover {
+        color: white;
+      }
+      #universal-footer .footer-bottom {
+        border-top: 1px solid #374151;
+        padding-top: 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      #universal-footer .copyright {
+        color: #B0AEC2;
+        font-size: 14px;
+      }
+      @media (max-width: 768px) {
+        #universal-footer .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        #universal-footer .footer-bottom {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  `;
+
+  const footerHTML = footerStyles + `
+    <footer id="universal-footer">
+      <div class="footer-container">
+        <div class="footer-grid">
+          <!-- RO-bot -->
+          <div>
+            <h3>RO-bot</h3>
+            <p>AI-powered assistance for automotive technicians.</p>
+            <p>hello@ro-bot.io</p>
+          </div>
+          
+          <!-- Product -->
+          <div>
+            <h3>Product</h3>
+            <ul>
+              <li><a href="/#solution-features">Features</a></li>
+              <li><a href="/#testimonials">Testimonials</a></li>
+              <li><a href="https://celestial-xenon-221.notion.site/RO-bot-Setup-1f2d29c34d6480078746e6c15ad834f7" target="_blank" rel="noopener noreferrer">Setup</a></li>
+            </ul>
+          </div>
+          
+          <!-- Resources -->
+          <div>
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="/blog">Blog</a></li>
+              <li><a href="/support">Support</a></li>
+              <li><a href="mailto:hello@ro-bot.io">Contact</a></li>
+            </ul>
+          </div>
+          
+          <!-- Legal -->
+          <div>
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Bottom section -->
+        <div class="footer-bottom">
+          <div class="copyright">
+            © 2025 RO-bot. All rights reserved.
+          </div>
+          <div>
+            <a href="https://www.linkedin.com/company/ro-bot" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <svg style="height: 20px; width: 20px; fill: currentColor;" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  `;
+
+  // Insert footer at the end of body
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.insertAdjacentHTML('beforeend', footerHTML);
+  });
+})();
+Step 2: Add the footer to all pages that need it
+Add this line right before </body> on these pages:
+
+/public/about.html
+/public/support.html
+/public/book-demo.html
+
+html<script src="/universal-footer.js"></script>
+</body>
+Step 3: Update the main page (/public/index.html)
+
+Remove the existing footer HTML completely
+Add the universal footer script before </body>:
+
+html<script src="/universal-footer.js"></script>
+</body>
+Important changes made:
+
+Removed the contact modal trigger (page-specific feature)
+Changed smooth scroll links to direct page anchors
+Used inline styles instead of Tailwind classes for consistency
+Made all links work across different pages
+Added proper LinkedIn URL placeholder
