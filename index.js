@@ -108,7 +108,7 @@ app.get("/blog", (req, res) => {
     <meta name="description" content="Stay updated with the latest in automotive technology, AI diagnostics, and repair efficiency with RO-bot's blog.">
     <link rel="stylesheet" href="/out.css">
     <link rel="stylesheet" href="/style.css">
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
     <script>
@@ -512,7 +512,7 @@ app.get("/blog/:slug", (req, res) => {
     <title>${post.title} - RO-bot Blog</title>
     <meta name="description" content="${post.excerpt}">
     <link rel="stylesheet" href="/out.css">
-    
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
     <script>
@@ -786,6 +786,16 @@ app.get("/blog/:slug", (req, res) => {
   `;
 
   res.send(html);
+});
+
+// About page route
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'about.html'));
+});
+
+// Catch-all route - redirect to home
+app.get('*', (req, res) => {
+    res.redirect('/');
 });
 
 const PORT = process.env.PORT || 5000;
