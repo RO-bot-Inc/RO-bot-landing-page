@@ -1,0 +1,214 @@
+# Privacy Policy
+
+**Effective Date: June 1, 2025**  
+
+## Introduction
+
+RO-bot, Inc. ("RO-bot," "we," "us," or "our") respects your privacy and is committed to protecting the personal information of our users, including automotive technicians, service managers, dealership staff, and other authorized users of our AI-powered automotive service documentation platform (the "Service").
+
+This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application, web application, and related services. Please read this policy carefully to understand our practices regarding your information.
+
+By using RO-bot, you agree to the collection and use of information in accordance with this Privacy Policy. If you do not agree with the terms of this Privacy Policy, please do not access or use the Service.
+
+## Information We Collect
+
+### Information You Provide Directly
+
+**Account Information**
+- Name and job title
+- Email address
+- Phone number
+- Dealership or shop name and address
+- User credentials (username and password)
+
+**Service Data**
+- Voice recordings and transcriptions
+- Repair order documentation
+- Vehicle identification numbers (VINs)
+- Diagnostic trouble codes (DTCs)
+- Technical service bulletins (TSBs) accessed
+- Parts and warranty information
+- Customer vehicle information (make, model, year)
+
+**Communication Data**
+- Support requests and correspondence
+- Feedback and survey responses
+- Training and onboarding communications
+
+### Information Collected Automatically
+
+**Device Information**
+- Device type, model, and operating system
+- Unique device identifiers
+- IP address
+- Browser type and version
+- Mobile network information
+
+**Usage Information**
+- Features used and actions taken within the Service
+- Date and time of access
+- Duration of use sessions
+- Search queries within the platform
+- Error logs and performance data
+
+**Location Information**
+- General geographic location based on IP address
+- Precise location (only when you grant permission for specific features)
+
+### Information from Third Parties
+
+We may receive information about you from:
+- Your employer (dealership or service center)
+- Third-party integrations (dealer management systems, OEM databases)
+- Business partners and service providers
+
+## How We Use Your Information
+
+We use the collected information to:
+
+### Provide and Improve Our Service
+- Enable voice-to-text documentation features
+- Process and store repair orders
+- Match repairs with relevant TSBs and warranty procedures
+- Provide AI-powered diagnostic assistance
+- Maintain and improve Service performance
+
+### Business Operations
+- Create and manage user accounts
+- Provide customer support
+- Send service-related communications
+- Process payments and subscriptions
+- Conduct analytics and measure performance
+
+### Legal and Safety
+- Comply with legal obligations
+- Enforce our terms and policies
+- Protect against fraud and unauthorized use
+- Ensure the safety and security of our Service
+
+### Communications
+- Send technical notices and updates
+- Respond to your inquiries
+- Provide training and onboarding materials
+- Share product updates and new features (with your consent)
+
+## How We Share Your Information
+
+We do not sell, trade, or rent your personal information. We may share your information in the following circumstances:
+
+### With Your Organization
+- Administrators within your dealership or service center
+- As directed by your employer for business purposes
+
+### Service Providers
+We share information with third-party vendors who perform services on our behalf:
+- Cloud hosting providers (data storage)
+- Analytics services
+- Payment processors
+- Communication platforms
+- Technical support tools
+
+### Business Transfers
+If RO-bot is involved in a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction. We will notify you of any change in ownership or control.
+
+### Legal Requirements
+We may disclose your information if required to do so by law or in response to:
+- Court orders or subpoenas
+- Government requests
+- Legal process or litigation
+- Protection of our rights, property, or safety
+
+### Aggregated Information
+We may share aggregated, anonymized data that cannot identify you personally for industry research, benchmarking, or marketing purposes.
+
+## Data Security
+
+We implement appropriate technical and organizational measures to protect your information, including:
+
+- Encryption of data in transit and at rest
+- Secure cloud infrastructure with regular backups
+- Access controls and authentication requirements
+- Regular security assessments and updates
+- Employee training on data protection
+- Incident response procedures
+
+While we strive to protect your information, no method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security.
+
+## Data Retention
+
+We retain your information for as long as necessary to:
+- Provide our Service to you
+- Comply with legal obligations
+- Resolve disputes
+- Enforce our agreements
+
+When you or your organization terminates use of our Service, we will delete or anonymize your personal information within 90 days, unless we are required to retain it for legal purposes.
+
+## Your Rights and Choices
+
+### Access and Correction
+You may access and update your account information through the Service settings or by contacting us.
+
+### Data Portability
+You may request a copy of your personal information in a structured, commonly used format.
+
+### Deletion
+You may request deletion of your personal information, subject to certain exceptions required for legal or business purposes.
+
+### Opt-Out
+You may opt out of:
+- Marketing communications (through unsubscribe links or settings)
+- Certain data collection through device settings
+- Cookies and similar technologies through browser settings
+
+### Do Not Track
+Our Service does not currently respond to Do Not Track signals.
+
+## International Data Transfers
+
+RO-bot is based in the United States. If you access our Service from outside the United States, your information will be transferred to and processed in the United States. By using our Service, you consent to this transfer.
+
+## Children's Privacy
+
+Our Service is not intended for individuals under 18 years of age. We do not knowingly collect personal information from children. If we become aware that we have collected information from a child under 18, we will take steps to delete such information.
+
+## Third-Party Links
+
+Our Service may contain links to third-party websites or services. We are not responsible for the privacy practices of these third parties. We encourage you to review their privacy policies.
+
+## California Privacy Rights
+
+California residents have additional rights under the California Consumer Privacy Act (CCPA), including:
+- Right to know what personal information is collected
+- Right to know if personal information is sold or disclosed
+- Right to opt-out of the sale of personal information
+- Right to non-discrimination for exercising privacy rights
+
+To exercise these rights, please contact us using the information below.
+
+## Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time. We will notify you of any material changes by:
+- Posting the new Privacy Policy on this page
+- Updating the "Last Updated" date
+- Sending an email notification (for material changes)
+
+Your continued use of the Service after changes constitutes acceptance of the revised Privacy Policy.
+
+## Contact Information
+
+If you have questions or concerns about this Privacy Policy or our privacy practices, please contact us at:
+
+**RO-bot, Inc.**  
+Email: hello@ro-bot.io
+
+For technical support, please contact: support@ro-bot.io
+
+## Compliance
+
+This Privacy Policy is designed to comply with applicable privacy laws and regulations, including:
+- General Data Protection Regulation (GDPR)
+- California Consumer Privacy Act (CCPA)
+- Other applicable state and federal privacy laws
+
+We regularly review and update our privacy practices to ensure ongoing compliance.
