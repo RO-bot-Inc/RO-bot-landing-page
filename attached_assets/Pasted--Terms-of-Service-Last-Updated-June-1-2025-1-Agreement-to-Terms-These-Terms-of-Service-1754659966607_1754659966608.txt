@@ -1,0 +1,261 @@
+# Terms of Service
+
+**Last Updated: June 1, 2025**
+
+## 1. Agreement to Terms
+
+These Terms of Service ("Terms") constitute a legally binding agreement between you (whether as an individual or on behalf of an entity) and RO-bot, Inc. ("RO-bot," "we," "us," or "our") concerning your access to and use of the RO-bot AI-powered automotive service documentation platform, including our mobile application, web application, and related services (collectively, the "Service").
+
+By accessing or using the Service, you agree to be bound by these Terms. If you disagree with any part of these Terms, you may not access or use the Service.
+
+If you are using the Service on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms.
+
+## 2. Description of Service
+
+RO-bot provides an AI-powered co-pilot platform for automotive technicians and service centers that includes:
+- Voice-driven documentation and transcription
+- AI-assisted diagnostics and repair documentation
+- VIN scanning and vehicle identification
+- Warranty compliance documentation
+- Technical service bulletin (TSB) matching
+- Integration with dealer management systems
+- Knowledge base and repair procedure access
+
+## 3. Account Registration and Security
+
+### Account Creation
+To use the Service, you must:
+- Register for an account using accurate and complete information
+- Be at least 18 years old
+- Be authorized by your employer if using the Service for business purposes
+- Maintain the security of your account credentials
+- Promptly notify us of any unauthorized access or security breach
+
+### Account Responsibilities
+You are responsible for:
+- All activities that occur under your account
+- Maintaining the confidentiality of your login credentials
+- Ensuring your use complies with your employer's policies
+- Updating your account information to keep it current
+
+### Account Termination
+We reserve the right to suspend or terminate accounts that:
+- Violate these Terms
+- Remain inactive for extended periods
+- Engage in fraudulent or harmful activities
+- Are subject to employer termination requests
+
+## 4. Acceptable Use Policy
+
+### Permitted Use
+You may use the Service only for lawful purposes and in accordance with these Terms. You agree to use the Service:
+- For legitimate automotive repair and service documentation
+- In compliance with all applicable laws and regulations
+- In accordance with your employer's policies and procedures
+- With respect for the intellectual property rights of others
+
+### Prohibited Use
+You may not:
+- Use the Service for any illegal or unauthorized purpose
+- Violate any laws in your jurisdiction
+- Transmit any malicious code, viruses, or harmful data
+- Attempt to gain unauthorized access to any part of the Service
+- Interfere with or disrupt the Service or servers
+- Copy, modify, or create derivative works of the Service
+- Reverse engineer or attempt to extract the source code
+- Use the Service to collect or store personal data without authorization
+- Resell, sublicense, or transfer your access to others
+- Use automated systems or software to extract data from the Service
+- Impersonate another person or misrepresent your affiliation
+- Use the Service in any way that could damage our reputation
+
+## 5. Subscription and Payment
+
+### Subscription Plans
+The Service is offered through various subscription plans. Your specific plan details, including features, user limits, and pricing, will be outlined in your subscription agreement or order form.
+
+### Payment Terms
+- Payment is due according to the billing cycle selected (monthly or annual)
+- All fees are non-refundable except as required by law
+- We may modify pricing with 30 days' notice for monthly plans or at renewal for annual plans
+- Your organization is responsible for all applicable taxes
+
+### Free Trials
+If we offer a free trial:
+- No payment information may be required initially
+- The trial will automatically expire after the specified period
+- Conversion to a paid subscription requires explicit authorization
+
+## 6. Intellectual Property Rights
+
+### Our Property
+The Service, including all content, features, and functionality, is owned by RO-bot, Inc. and is protected by United States and international copyright, trademark, patent, trade secret, and other intellectual property laws.
+
+### Your License to Use
+Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service for your authorized business purposes.
+
+### Your Content
+You retain ownership of any repair documentation, voice recordings, and other content you create using the Service ("User Content"). By using the Service, you grant us a worldwide, non-exclusive license to use, process, and store your User Content solely to provide and improve the Service.
+
+### Feedback
+Any feedback, suggestions, or improvements you provide about the Service become our property and may be used without compensation or attribution.
+
+## 7. Data Processing and Privacy
+
+### Privacy Policy
+Your use of the Service is also governed by our Privacy Policy, which is incorporated into these Terms by reference.
+
+### Data Processing
+By using the Service, you acknowledge that:
+- We process data as described in our Privacy Policy
+- Voice recordings are processed to provide transcription services
+- Repair data may be anonymized and aggregated for analytics
+- Your employer may have access to your usage data and content
+
+### Data Accuracy
+You represent and warrant that all information you provide is accurate, current, and complete.
+
+## 8. Third-Party Services and Content
+
+### Integrations
+The Service may integrate with third-party services (dealer management systems, OEM databases, etc.). Your use of these integrations is subject to the third party's terms and policies.
+
+### Third-Party Content
+The Service may display content from third parties (TSBs, repair procedures, etc.). We do not guarantee the accuracy or completeness of such content.
+
+### Links
+The Service may contain links to third-party websites. We are not responsible for the content or practices of these sites.
+
+## 9. Disclaimers and Warranties
+
+### Service Disclaimer
+THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ACCURACY.
+
+### No Guarantee
+We do not guarantee that:
+- The Service will be uninterrupted or error-free
+- Defects will be corrected promptly
+- The Service is free of viruses or harmful components
+- Results from the Service will be accurate or reliable
+- AI-generated content will be completely accurate
+
+### Professional Advice
+The Service does not provide professional automotive advice. All repair decisions should be made by qualified technicians based on their professional judgment.
+
+## 10. Limitation of Liability
+
+### Maximum Liability
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, RO-BOT'S TOTAL LIABILITY FOR ANY CLAIMS ARISING FROM OR RELATED TO THESE TERMS OR THE SERVICE SHALL NOT EXCEED THE AMOUNT YOU PAID TO RO-BOT IN THE 12 MONTHS PRECEDING THE CLAIM.
+
+### Excluded Damages
+IN NO EVENT SHALL RO-BOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, USE, OR GOODWILL.
+
+### Essential Purpose
+THESE LIMITATIONS APPLY EVEN IF RO-BOT HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES AND EVEN IF A REMEDY FAILS OF ITS ESSENTIAL PURPOSE.
+
+## 11. Indemnification
+
+You agree to indemnify, defend, and hold harmless RO-bot, Inc., its officers, directors, employees, agents, and affiliates from and against any claims, liabilities, damages, losses, costs, or expenses (including reasonable attorneys' fees) arising from:
+- Your use of the Service
+- Your violation of these Terms
+- Your violation of any rights of another party
+- Your User Content
+- Any misrepresentation by you
+
+## 12. Modifications to Service and Terms
+
+### Service Changes
+We reserve the right to modify, suspend, or discontinue the Service (or any part thereof) at any time with reasonable notice.
+
+### Terms Changes
+We may modify these Terms at any time. Material changes will be notified via:
+- Email to your registered address
+- Prominent notice within the Service
+- Update to the "Last Updated" date
+
+Your continued use after changes constitutes acceptance of the modified Terms.
+
+## 13. Termination
+
+### By You
+You may terminate your account at any time by:
+- Using the account deletion feature in the Service
+- Contacting us at support@ro-bot.io
+- Having your authorized administrator remove your access
+
+### By Us
+We may terminate or suspend your access immediately, without prior notice, for:
+- Violation of these Terms
+- Request by your employer
+- Extended inactivity
+- Non-payment (for paid accounts)
+- Legal or regulatory requirements
+
+### Effect of Termination
+Upon termination:
+- Your right to use the Service ceases immediately
+- We may delete your account and associated data after 90 days
+- Provisions that should survive termination will remain in effect
+
+## 14. Governing Law and Disputes
+
+### Governing Law
+These Terms are governed by the laws of the State of Delaware, without regard to its conflict of law provisions.
+
+### Informal Resolution
+Before filing a claim, you agree to try to resolve disputes informally by contacting us at hello@ro-bot.io.
+
+### Arbitration
+Any disputes not resolved informally within 30 days shall be resolved through binding arbitration in accordance with the American Arbitration Association's Commercial Arbitration Rules.
+
+### Class Action Waiver
+You agree to resolve disputes with us on an individual basis and waive your right to participate in a class action lawsuit or class-wide arbitration.
+
+### Venue
+Any legal proceedings not subject to arbitration shall be brought in the federal or state courts located in Delaware.
+
+## 15. General Provisions
+
+### Entire Agreement
+These Terms, together with our Privacy Policy and any subscription agreements, constitute the entire agreement between you and RO-bot regarding the Service.
+
+### Severability
+If any provision of these Terms is found to be unenforceable, the remaining provisions will continue in full force and effect.
+
+### Waiver
+Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights.
+
+### Assignment
+You may not assign or transfer these Terms without our prior written consent. We may assign our rights and obligations without restriction.
+
+### Force Majeure
+Neither party shall be liable for any failure or delay in performance due to circumstances beyond their reasonable control.
+
+### Notices
+Legal notices to us should be sent to hello@ro-bot.io. We will send notices to your registered email address.
+
+### Relationship
+Nothing in these Terms creates a partnership, joint venture, employment, or agency relationship between you and RO-bot.
+
+### Export Compliance
+You agree to comply with all applicable export and re-export control laws and regulations.
+
+### Government Users
+If you are a U.S. government end user, the Service is a "Commercial Item" as defined in 48 C.F.R. §2.101.
+
+## 16. Contact Information
+
+For questions about these Terms of Service, please contact us at:
+
+**RO-bot, Inc.**  
+Email: hello@ro-bot.io
+
+For technical support: support@ro-bot.io
+
+## 17. Definitions
+
+- **"Service"**: The RO-bot platform, including all applications and services
+- **"User Content"**: Any content you create, upload, or transmit through the Service
+- **"Organization"**: The dealership, service center, or business entity you represent
+- **"Subscription"**: Your paid or trial access to the Service
+- **"AI"**: Artificial intelligence features and capabilities within the Service
