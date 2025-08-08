@@ -128,8 +128,8 @@
           <div class="footer-section">
             <h3>Legal</h3>
             <ul>
-              <li><a href="#top">Privacy Policy</a></li>
-              <li><a href="#top">Terms of Service</a></li>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Service</a></li>
             </ul>
           </div>
         </div>
