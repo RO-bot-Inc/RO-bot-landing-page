@@ -484,6 +484,7 @@ app.get("/blog", (req, res) => {
         </div>
     </section>
 <script src="/universal-navbar.js"></script>
+<script src="/universal-footer.js"></script>
 </body>
 </html>
   `;
