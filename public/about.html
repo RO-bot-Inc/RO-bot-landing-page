@@ -1,5 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+    <style>
+        /* Fix white border without breaking layout */
+        html {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Fix navbar spacing to match main page */
+        #universal-navbar {
+            margin: 0 !important;
+        }
+
+        /* Fix any top margin on first element after navbar */
+        body > *:nth-child(2) {
+            margin-top: 0 !important;
+        }
+    </style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -441,5 +463,6 @@
 
     <!-- Universal navbar injection -->
     <script src="/universal-navbar.js"></script>
+    <script src="/universal-footer.js"></script>
 </body>
 </html>
