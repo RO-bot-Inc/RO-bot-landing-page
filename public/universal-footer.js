@@ -110,7 +110,7 @@
             <h3>Product</h3>
             <ul>
               <li><a href="/#solution-features">Features</a></li>
-              <li><a href="/#top">Testimonials</a></li>
+              <li><a href="/about">About</a></li>
               <li><a href="https://celestial-xenon-221.notion.site/RO-bot-Setup-1f2d29c34d6480078746e6c15ad834f7" target="_blank" rel="noopener noreferrer">Setup</a></li>
             </ul>
           </div>
