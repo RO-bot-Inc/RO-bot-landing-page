@@ -795,6 +795,11 @@ app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'about.html'));
 });
 
+// Privacy policy route
+app.get('/privacy', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
 // Catch-all route - redirect to home
 app.get('*', (req, res) => {
     res.redirect('/');
