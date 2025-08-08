@@ -129,7 +129,6 @@
         <div class="nav-links" id="nav-links">
           <a href="/about">About</a>
           <a href="/blog">Blog</a>
-          <a href="/support">Support</a>
           <a href="https://app.ro-bot.io">Login</a>
           <a href="/#waitlist-form" class="book-demo">Book Demo</a>
         </div>
