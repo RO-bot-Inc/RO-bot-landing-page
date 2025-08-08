@@ -781,6 +781,7 @@ app.get("/blog/:slug", (req, res) => {
         </a>
     </div>
 <script src="/universal-navbar.js"></script>
+<script src="/universal-footer.js"></script>
 </body>
 </html>
   `;
