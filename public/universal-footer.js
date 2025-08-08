@@ -120,7 +120,7 @@
             <h3>Resources</h3>
             <ul>
               <li><a href="/blog">Blog</a></li>
-              <li><a href="/support">Support</a></li>
+              <li><a href="/#waitlist-form">Support</a></li>
               <li><a href="mailto:hello@ro-bot.io">Contact</a></li>
             </ul>
           </div>
