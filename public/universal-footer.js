@@ -165,7 +165,6 @@
             © 2025 RO-bot. All rights reserved.
           </div>
           <div class="location-info">
-            <img src="/misc assets/north_carolina_silhouette_64758B_padded.svg" alt="North Carolina" class="nc-icon">
             RO-bot is proudly built in Durham, North Carolina
           </div>
           <div class="social-links">
