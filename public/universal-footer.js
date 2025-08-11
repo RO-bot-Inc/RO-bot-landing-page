@@ -83,6 +83,7 @@
       #universal-footer .social-links {
         display: flex;
         gap: 1rem;
+        justify-self: end;
       }
       #universal-footer .social-links a {
         color: #64758B;
