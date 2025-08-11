@@ -77,8 +77,8 @@
         justify-self: center;
       }
       #universal-footer .nc-icon {
-        height: 1rem;
-        width: 1rem;
+        height: 2rem;
+        width: 2rem;
       }
       #universal-footer .social-links {
         display: flex;
