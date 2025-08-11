@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 36" width="128" height="36">
+  <!-- Minimal, icon-style silhouette of North Carolina: white fill, no stroke -->
+  <path fill="#FFFFFF" d="
+    M2,20
+    L10,17
+    L18,16
+    L27,14
+    L36,13
+    L46,12
+    L55,10
+    L66,9
+    L76,10
+    L86,12
+    L96,13
+    L108,15
+    L116,18
+    L126,22
+    L117,23
+    L108,24
+    L100,25
+    L92,27
+    L83,28
+    L74,29
+    L65,31
+    L58,32
+    L50,31
+    L41,30
+    L34,29
+    L26,28
+    L19,26
+    L12,24
+    Z" />
+</svg>
