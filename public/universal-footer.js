@@ -64,6 +64,25 @@
         flex-wrap: wrap;
         gap: 1rem;
       }
+      #universal-footer .footer-bottom-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        flex: 1;
+        justify-content: center;
+      }
+      #universal-footer .location-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #64758B;
+        font-size: 0.875rem;
+      }
+      #universal-footer .nc-icon {
+        height: 1rem;
+        width: 1rem;
+      }
       #universal-footer .copyright {
         color: #64758B;
         font-size: 0.875rem;
@@ -92,6 +111,12 @@
           flex-direction: column;
           text-align: center;
           gap: 1rem;
+        }
+        #universal-footer .footer-bottom-content {
+          order: 1;
+        }
+        #universal-footer .social-links {
+          order: 2;
         }
       }
     </style>
@@ -136,8 +161,14 @@
 
         <!-- Bottom section -->
         <div class="footer-bottom">
-          <div class="copyright">
-            © 2025 RO-bot. All rights reserved.
+          <div class="footer-bottom-content">
+            <div class="copyright">
+              © 2025 RO-bot. All rights reserved.
+            </div>
+            <div class="location-info">
+              <img src="/misc assets/north_carolina_icon.svg" alt="North Carolina" class="nc-icon">
+              RO-bot is proudly built in Durham, North Carolina
+            </div>
           </div>
           <div class="social-links">
             <a href="#" aria-label="LinkedIn">
