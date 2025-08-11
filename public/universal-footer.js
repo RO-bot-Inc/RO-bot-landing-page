@@ -58,19 +58,15 @@
       #universal-footer .footer-bottom {
         border-top: 1px solid #374151;
         padding-top: 2rem;
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
         align-items: center;
-        flex-wrap: wrap;
         gap: 1rem;
       }
-      #universal-footer .footer-bottom-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.5rem;
-        flex: 1;
-        justify-content: center;
+      #universal-footer .copyright {
+        color: #64758B;
+        font-size: 0.875rem;
+        justify-self: start;
       }
       #universal-footer .location-info {
         display: flex;
@@ -78,14 +74,11 @@
         gap: 0.5rem;
         color: #64758B;
         font-size: 0.875rem;
+        justify-self: center;
       }
       #universal-footer .nc-icon {
         height: 1rem;
         width: 1rem;
-      }
-      #universal-footer .copyright {
-        color: #64758B;
-        font-size: 0.875rem;
       }
       #universal-footer .social-links {
         display: flex;
@@ -108,15 +101,21 @@
           grid-template-columns: 1fr;
         }
         #universal-footer .footer-bottom {
-          flex-direction: column;
+          grid-template-columns: 1fr;
           text-align: center;
           gap: 1rem;
         }
-        #universal-footer .footer-bottom-content {
+        #universal-footer .copyright {
+          justify-self: center;
           order: 1;
         }
-        #universal-footer .social-links {
+        #universal-footer .location-info {
+          justify-self: center;
           order: 2;
+        }
+        #universal-footer .social-links {
+          justify-self: center;
+          order: 3;
         }
       }
     </style>
@@ -161,14 +160,12 @@
 
         <!-- Bottom section -->
         <div class="footer-bottom">
-          <div class="footer-bottom-content">
-            <div class="copyright">
-              © 2025 RO-bot. All rights reserved.
-            </div>
-            <div class="location-info">
-              <img src="/misc assets/north_carolina_icon.svg" alt="North Carolina" class="nc-icon">
-              RO-bot is proudly built in Durham, North Carolina
-            </div>
+          <div class="copyright">
+            © 2025 RO-bot. All rights reserved.
+          </div>
+          <div class="location-info">
+            <img src="/misc assets/north_carolina_icon.svg" alt="North Carolina" class="nc-icon">
+            RO-bot is proudly built in Durham, North Carolina
           </div>
           <div class="social-links">
             <a href="#" aria-label="LinkedIn">
