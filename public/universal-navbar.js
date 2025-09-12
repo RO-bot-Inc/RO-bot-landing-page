@@ -130,7 +130,7 @@
           <a href="/about">About</a>
           <a href="/blog">Blog</a>
           <a href="https://app.ro-bot.io">Login</a>
-          <a href="/#waitlist-form" class="book-demo">Book Demo</a>
+          <a href="/#waitlist-form" class="book-demo">Request Invite →</a>
         </div>
         <button class="mobile-menu-btn" id="mobile-menu-btn">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" id="hamburger-icon">
