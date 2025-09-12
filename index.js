@@ -1,4 +1,3 @@
-const { exec } = require('child_process');
 const path = require("path")
 const express = require("express")
 const fs = require('fs');
@@ -12,12 +11,6 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use('/blog-assets', express.static(path.join(__dirname, 'public/blog-assets')))
 
 app.get("/", (req,res) => {
-  exec('npx tailwindcss -i ./input.css -o ./public/out.css', (err, stdout, stderr) => {
-    if (err) {
-      console.error('Error building CSS:', err);
-      return;
-    }
-  });
   res.sendFile(path.join(__dirname, "public/index.html"))
 })
 
