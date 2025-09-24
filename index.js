@@ -507,6 +507,11 @@ app.get("/blog/:slug", (req, res) => {
     <meta name="description" content="${post.excerpt}">
     <link rel="stylesheet" href="/out.css">
 
+    <!-- Favicon -->
+    <link rel="icon" href="/browser.svg" type="image/svg+xml">
+    <link rel="shortcut icon" href="/browser.png" type="image/png">
+    <link rel="apple-touch-icon" href="/RObot logos/iPhone.png">
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
     <script>
