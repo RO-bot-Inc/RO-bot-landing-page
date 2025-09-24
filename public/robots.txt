@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Sitemap: https://ro-bot.io/sitemap.xml
+
+# Allow Google to access favicon
+User-agent: Googlebot
+Allow: /favicon.ico
+Allow: /browser.png

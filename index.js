@@ -102,10 +102,10 @@ app.get("/blog", (req, res) => {
     <link rel="stylesheet" href="/out.css">
     <link rel="stylesheet" href="/style.css">
 
-    <!-- Favicon -->
-    <link rel="icon" href="/browser.svg" type="image/svg+xml">
-    <link rel="icon" href="/browser.png" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <!-- Google-optimized favicon tags -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/browser.png" sizes="192x192">
+    <meta name="theme-color" content="#10b981">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
@@ -512,10 +512,10 @@ app.get("/blog/:slug", (req, res) => {
     <meta name="description" content="${post.excerpt}">
     <link rel="stylesheet" href="/out.css">
 
-    <!-- Favicon -->
-    <link rel="icon" href="/browser.svg" type="image/svg+xml">
-    <link rel="icon" href="/browser.png" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+    <!-- Google-optimized favicon tags -->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/browser.png" sizes="192x192">
+    <meta name="theme-color" content="#10b981">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
