@@ -224,22 +224,49 @@
 </section>
 
 <script>
-  // MPI animation: toggle between voice notes and findings applied
-  const before = document.getElementById('mpi-before');
-  const after = document.getElementById('mpi-after');
-  if (before && after) {
-    let showing = 'before';
-    setInterval(() => {
-      if (showing === 'before') {
-        before.style.opacity = '0';
-        after.style.opacity = '1';
-        showing = 'after';
-      } else {
-        before.style.opacity = '1';
-        after.style.opacity = '0';
-        showing = 'before';
-      }
-    }, 3000);
+  // MPI animation: scroll-triggered toggle between voice notes and findings applied
+  const mpiBefore = document.getElementById('mpi-before');
+  const mpiAfter = document.getElementById('mpi-after');
+  const mpiContainer = document.getElementById('mpi-animation');
+
+  let mpiRunId = 0;
+
+  function resetMpi() {
+    if (mpiBefore) mpiBefore.style.opacity = '1';
+    if (mpiAfter) mpiAfter.style.opacity = '0';
+  }
+
+  async function runMpiLoop(id) {
+    while (id === mpiRunId) {
+      // Show "before" for 3s
+      await sleep(3000);
+      if (id !== mpiRunId) return;
+      // Swap to "after"
+      if (mpiBefore) mpiBefore.style.opacity = '0';
+      if (mpiAfter) mpiAfter.style.opacity = '1';
+      // Hold "after" for 3s
+      await sleep(3000);
+      if (id !== mpiRunId) return;
+      // Swap back to "before"
+      if (mpiBefore) mpiBefore.style.opacity = '1';
+      if (mpiAfter) mpiAfter.style.opacity = '0';
+    }
+  }
+
+  if (mpiContainer) {
+    const mpiObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        mpiRunId++;
+        resetMpi();
+        if (entry.isIntersecting) {
+          const id = mpiRunId;
+          sleep(800).then(() => {
+            if (id === mpiRunId) runMpiLoop(id);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    mpiObserver.observe(mpiContainer);
   }
 
   // R.O. bot stacked card demo animation
