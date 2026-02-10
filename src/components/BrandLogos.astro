@@ -1,0 +1,36 @@
+---
+const logos = [
+  { name: 'Toyota', file: 'Toyota.png' },
+  { name: 'Honda', file: 'Honda.png' },
+  { name: 'Ford', file: 'Ford.png' },
+  { name: 'Chevy', file: 'Chevy.png' },
+  { name: 'Nissan', file: 'Nissan.png' },
+  { name: 'BMW', file: 'BMW.png' },
+  { name: 'Audi', file: 'Audi.png' },
+  { name: 'VW', file: 'VW.png' },
+  { name: 'Dodge', file: 'Dodge.png' },
+  { name: 'Jeep', file: 'Jeep.png' },
+  { name: 'GMC', file: 'GMC.png' },
+  { name: 'Buick', file: 'Buick.png' },
+  { name: 'Cadillac', file: 'Cadillac.png' },
+  { name: 'Volvo', file: 'Volvo.png' },
+];
+---
+
+<section class="py-16 bg-white border-t border-gray-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p class="text-center text-sm text-gray-400 mb-8 uppercase tracking-wider font-medium">
+      Works with every manufacturer
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+      {logos.map(logo => (
+        <img
+          src={`/OEM logos/${logo.file}`}
+          alt={logo.name}
+          class="h-8 md:h-10 object-contain opacity-50 hover:opacity-80 transition-opacity grayscale"
+          loading="lazy"
+        >
+      ))}
+    </div>
+  </div>
+</section>

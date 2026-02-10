@@ -1,0 +1,124 @@
+<section id="solution" class="py-20 md:py-28 bg-surface">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section heading -->
+    <div class="max-w-3xl mx-auto text-center mb-20">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-navy mb-6">
+        Faster Techs. Better Documentation. More Revenue Per RO.
+      </h2>
+      <p class="text-lg text-gray-600 leading-relaxed">
+        RO-bot gives your technicians voice-first AI tools across the entire service workflow.
+        They talk instead of type. AI handles the rest.
+      </p>
+    </div>
+
+    <!-- Pillar 1: Find More Work -->
+    <div class="mb-24">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-teal font-bold text-sm uppercase tracking-wider">Find More Work</span>
+          <h3 class="text-2xl md:text-3xl font-bold text-navy mt-3 mb-4">
+            Voice-First Multi-Point Inspections
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Techs call out findings as they go. No clipboard, no buttons, no skipped items. Voice-first MPI means higher completion rates, which means more opportunities discovered on every vehicle that rolls through your shop.
+          </p>
+          <p class="text-gray-500 text-sm">
+            Dealers who enforced MPIs on 100% of vehicles saw a +59% increase in customer-paid gross profit in just 7 months.
+            <span class="text-gray-400">CBT News</span>
+          </p>
+        </div>
+        <!-- MPI Animation -->
+        <div class="flex justify-center">
+          <div class="relative" id="mpi-animation">
+            <img
+              src="/MPI-screens/tires_voicenotes.PNG"
+              alt="MPI with voice notes"
+              class="w-64 md:w-72 rounded-3xl shadow-2xl transition-opacity duration-700"
+              id="mpi-before"
+            >
+            <img
+              src="/MPI-screens/tires_findings_applied.PNG"
+              alt="MPI with findings applied"
+              class="w-64 md:w-72 rounded-3xl shadow-2xl absolute inset-0 opacity-0 transition-opacity duration-700"
+              id="mpi-after"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 2: Sell More Work -->
+    <div class="mb-24">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1 flex justify-center">
+          <img
+            src="/teleprompter-screens/calipers.PNG"
+            alt="AI-guided video inspection teleprompter"
+            class="w-64 md:w-72 rounded-3xl shadow-2xl"
+            loading="lazy"
+          >
+        </div>
+        <div class="order-1 md:order-2">
+          <span class="text-teal font-bold text-sm uppercase tracking-wider">Sell More Work</span>
+          <h3 class="text-2xl md:text-3xl font-bold text-navy mt-3 mb-4">
+            AI-Guided Video Inspections
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Inspection videos that customers actually watch and approve. RO-bot plans the shot list and guides the tech with an on-screen teleprompter, so every video is clear, professional, and focused on what the customer needs to understand.
+          </p>
+          <p class="text-gray-500 text-sm">
+            Customers who receive video of their vehicle issues are 3x more likely to approve recommended repairs.
+            <span class="text-gray-400">JD Power</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pillar 3: Get Paid for More Work -->
+    <div>
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-teal font-bold text-sm uppercase tracking-wider">Get Paid for More Work</span>
+          <h3 class="text-2xl md:text-3xl font-bold text-navy mt-3 mb-4">
+            AI-Powered 3Cs Documentation
+          </h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Techs talk. RO-bot writes. Voice notes become professional, warranty-compliant repair stories in seconds. Every story gets graded on 7 criteria so techs know exactly how to improve, and managers get visibility into documentation quality across the shop.
+          </p>
+          <p class="text-gray-500 text-sm">
+            Processing claims consumes 14-16% of warranty gross profits.
+            <span class="text-gray-400">AutoTalk</span>
+          </p>
+        </div>
+        <div class="flex justify-center">
+          <img
+            src="/report-card-screens/desktop_B_highlighted.png"
+            alt="RO-bot report card grading a repair story"
+            class="w-full max-w-lg rounded-2xl shadow-2xl"
+            loading="lazy"
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // MPI animation: toggle between voice notes and findings applied
+  const before = document.getElementById('mpi-before');
+  const after = document.getElementById('mpi-after');
+  if (before && after) {
+    let showing = 'before';
+    setInterval(() => {
+      if (showing === 'before') {
+        before.style.opacity = '0';
+        after.style.opacity = '1';
+        showing = 'after';
+      } else {
+        before.style.opacity = '1';
+        after.style.opacity = '0';
+        showing = 'before';
+      }
+    }, 3000);
+  }
+</script>

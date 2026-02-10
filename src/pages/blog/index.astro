@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+<BaseLayout title="Blog - RO-bot" description="Insights on automotive service technology, voice-first AI, and shop productivity from the RO-bot team.">
+
+  <section class="bg-navy pt-28 pb-12 md:pt-36 md:pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Blog</h1>
+      <p class="text-lg text-muted">Insights on automotive service, voice-first AI, and shop floor productivity.</p>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map(post => (
+          <a href={`/blog/${post.slug}`} class="group block bg-surface rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow">
+            <div class="p-6">
+              <span class="text-teal text-xs font-bold uppercase tracking-wider">{post.data.category}</span>
+              <h2 class="text-xl font-bold text-navy mt-2 mb-3 group-hover:text-teal transition-colors leading-snug">
+                {post.data.title}
+              </h2>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">{post.data.excerpt}</p>
+              <time class="text-gray-400 text-xs">
+                {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-navy/95 backdrop-blur-sm border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-2">
+        <img src="/head only.svg" alt="RO-bot" class="h-8 w-8">
+        <span class="text-white font-bold text-lg">RO-bot</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="/#solution" class="text-sm text-white/70 hover:text-white transition-colors">Product</a>
+        <a href="/#proof" class="text-sm text-white/70 hover:text-white transition-colors">Results</a>
+        <a href="/blog" class="text-sm text-white/70 hover:text-white transition-colors">Blog</a>
+        <a href="/about" class="text-sm text-white/70 hover:text-white transition-colors">About</a>
+        <a href="/support" class="text-sm text-white/70 hover:text-white transition-colors">Support</a>
+        <a href="https://app.ro-bot.io" target="_blank" rel="noopener" class="text-sm text-white/70 hover:text-white transition-colors">Log In</a>
+        <a href="/book-demo" class="bg-teal hover:bg-teal-dark text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors">
+          Book Your Demo
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="mobile-menu-btn" class="md:hidden text-white" aria-label="Open menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-navy border-t border-white/10">
+    <div class="px-4 py-4 space-y-3">
+      <a href="/#solution" class="block text-white/70 hover:text-white transition-colors">Product</a>
+      <a href="/#proof" class="block text-white/70 hover:text-white transition-colors">Results</a>
+      <a href="/blog" class="block text-white/70 hover:text-white transition-colors">Blog</a>
+      <a href="/about" class="block text-white/70 hover:text-white transition-colors">About</a>
+      <a href="/support" class="block text-white/70 hover:text-white transition-colors">Support</a>
+      <a href="https://app.ro-bot.io" target="_blank" rel="noopener" class="block text-white/70 hover:text-white transition-colors">Log In</a>
+      <a href="/book-demo" class="block bg-teal text-white text-center font-semibold px-5 py-2 rounded-lg">
+        Book Your Demo
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>
