@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Book Your Demo - RO-bot" description="See how RO-bot can help your service department find more work, sell more work, and get paid for more work.">
+
+  <section class="bg-navy pt-28 pb-20 md:pt-36 md:pb-28">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+        Book Your RO-bot Demo
+      </h1>
+      <p class="text-lg text-muted mb-10">
+        See how RO-bot works with your team's real workflow. 15 minutes is all it takes.
+      </p>
+
+      <div class="max-w-md mx-auto">
+        <form name="demo-request" method="POST" data-netlify="true" action="/thank-you" class="space-y-4">
+          <input type="hidden" name="form-name" value="demo-request">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required
+            class="w-full px-5 py-3 rounded-lg text-navy bg-white border-0 focus:outline-none focus:ring-2 focus:ring-teal"
+          >
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            required
+            class="w-full px-5 py-3 rounded-lg text-navy bg-white border-0 focus:outline-none focus:ring-2 focus:ring-teal"
+          >
+          <input
+            type="text"
+            name="dealership"
+            placeholder="Shop / Dealership Name"
+            class="w-full px-5 py-3 rounded-lg text-navy bg-white border-0 focus:outline-none focus:ring-2 focus:ring-teal"
+          >
+          <button
+            type="submit"
+            class="w-full bg-teal hover:bg-teal-dark text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
+          >
+            Book Your Demo
+          </button>
+        </form>
+        <p class="text-muted/60 text-sm mt-4">No spam, ever.</p>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

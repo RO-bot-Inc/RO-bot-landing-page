@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About - RO-bot" description="Learn how RO-bot is building voice-first AI tools that help automotive technicians do their best work.">
+
+  <!-- Hero -->
+  <section class="bg-navy pt-28 pb-16 md:pt-36 md:pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <p class="text-teal-light text-sm uppercase tracking-widest font-medium mb-6">About Us</p>
+      <h1 class="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+        We're in business to help technicians do their best work
+      </h1>
+      <p class="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
+        RO-bot is a voice-first AI platform that gives technicians their time back and helps service departments capture revenue they're leaving on the table.
+      </p>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="py-20 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-navy mb-8">Built for the Shop Floor</h2>
+
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        Hundreds of conversations with automotive technicians, service managers, and warranty administrators
+        revealed a broken system that nobody likes but everyone accepts.
+      </p>
+
+      <div class="relative h-80 md:h-96 rounded-2xl overflow-hidden my-10">
+        <img src="/about/technician-under-truck.jpg" alt="Technician working under vehicle" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-navy/70"></div>
+        <div class="absolute top-1/2 -translate-y-1/2 right-6 md:right-12 max-w-sm">
+          <p class="text-xl md:text-2xl italic text-white leading-snug mb-3" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5)">
+            "Technicians have the hardest job in the store, and we give them some of the worst software to deal with."
+          </p>
+          <p class="text-white/70 text-sm" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5)">Service Manager, 20+ years</p>
+        </div>
+      </div>
+
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        Techs spend about 30% of their time on a screen. 61 out of 100 vehicles leave with zero additional service recommendations. 30% of warranty claims fail on first submission due to incomplete documentation.
+      </p>
+
+      <p class="text-lg text-gray-600 leading-relaxed mb-6">
+        That's why we're building RO-bot. We let technicians keep their hands on their tools and use their voice to document their work as they go. We're building voice-first AI tools across the entire service workflow: inspections, video, and documentation.
+      </p>
+
+      <p class="text-lg text-gray-600 leading-relaxed">
+        This is just the beginning. Follow our journey as we transform automotive service.
+      </p>
+    </div>
+  </section>
+
+  <!-- Beliefs -->
+  <section class="py-20 bg-surface">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-navy text-center mb-12">What We Believe</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-navy rounded-2xl p-8 text-white">
+          <div class="text-5xl font-extrabold text-teal/30 mb-4">1</div>
+          <h3 class="text-xl font-bold mb-3">Technicians Deserve Better Tools</h3>
+          <p class="text-white/70 leading-relaxed">
+            The automotive industry runs on the expertise of skilled professionals. They deserve tools and technology that respect their craft.
+          </p>
+        </div>
+        <div class="bg-navy rounded-2xl p-8 text-white">
+          <div class="text-5xl font-extrabold text-teal/30 mb-4">2</div>
+          <h3 class="text-xl font-bold mb-3">Voice Is the Natural Interface</h3>
+          <p class="text-white/70 leading-relaxed">
+            When your hands are busy and your laptop is over on the workbench, voice interactions are the natural solution.
+          </p>
+        </div>
+        <div class="bg-navy rounded-2xl p-8 text-white">
+          <div class="text-5xl font-extrabold text-teal/30 mb-4">3</div>
+          <h3 class="text-xl font-bold mb-3">Documentation Should Be Effortless</h3>
+          <p class="text-white/70 leading-relaxed">
+            Great repairs shouldn't suffer from poor documentation. Capturing work accurately should be as natural as doing the work itself.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-navy text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-extrabold text-white mb-4">Ready to See RO-bot in Action?</h2>
+      <p class="text-muted text-lg mb-8">Book a 15-minute demo and see how it works with your team.</p>
+      <a href="/book-demo" class="inline-block bg-teal hover:bg-teal-dark text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
+        Book Your Demo
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
