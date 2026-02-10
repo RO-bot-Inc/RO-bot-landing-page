@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RO-bot Website Redesign: Color + Typography Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Outfit:wght@400;500;600;700;800&family=Source+Sans+3:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F5F5F5;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    .page-header {
+      background: #1a1a1a;
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    .page-header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { font-size: 16px; color: #999; }
+
+    .section-divider {
+      text-align: center;
+      padding: 60px 40px 30px;
+    }
+    .section-divider h2 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+    }
+    .section-divider p {
+      font-size: 16px;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 40px 60px;
+    }
+
+    .palette-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .palette-label {
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
+    }
+    .palette-label h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .palette-label p { font-size: 14px; color: #666; }
+
+    .swatches {
+      display: flex;
+      padding: 24px 32px;
+      gap: 12px;
+    }
+    .swatch {
+      flex: 1;
+      text-align: center;
+    }
+    .swatch-color {
+      height: 64px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .swatch-name { font-size: 11px; font-weight: 600; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+    .swatch-hex { font-size: 12px; color: #999; font-family: monospace; }
+
+    /* Mini mockup sections */
+    .mockup-hero {
+      padding: 48px 32px;
+      text-align: center;
+    }
+    .mockup-hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .mockup-hero p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 24px;
+      line-height: 1.5;
+    }
+    .mockup-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 32px;
+    }
+    .stat-card {
+      padding: 28px 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .mockup-pillar {
+      padding: 32px;
+    }
+    .pillar-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .pillar-card {
+      padding: 28px 24px;
+      border-radius: 12px;
+    }
+    .pillar-tag {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+    .pillar-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .pillar-card p {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ---- PALETTE A: Jobber-Inspired Green ---- */
+    .pa .mockup-hero { background: #FFFFFF; }
+    .pa .mockup-hero h1 { color: #0B1F33; }
+    .pa .mockup-hero p { color: #4A5568; }
+    .pa .mockup-btn { background: #00875A; color: white; }
+    .pa .stat-card { background: #F0FAF6; }
+    .pa .stat-number { color: #00875A; }
+    .pa .stat-label { color: #4A5568; }
+    .pa .pillar-card { background: #F7F9FC; border: 1px solid #E2E8F0; }
+    .pa .pillar-tag { color: #00875A; }
+    .pa .pillar-card h3 { color: #0B1F33; }
+    .pa .pillar-card p { color: #4A5568; }
+
+    /* ---- PALETTE B: Confident Navy + Teal ---- */
+    .pb .mockup-hero { background: #0F2137; }
+    .pb .mockup-hero h1 { color: #FFFFFF; }
+    .pb .mockup-hero p { color: #A0B3C6; }
+    .pb .mockup-btn { background: #2A9D8F; color: white; }
+    .pb .stat-card { background: #0F2137; }
+    .pb .stat-number { color: #2DD4BF; }
+    .pb .stat-label { color: #A0B3C6; }
+    .pb .pillar-card { background: #FFFFFF; border: 1px solid #E2E8F0; }
+    .pb .pillar-tag { color: #2A9D8F; }
+    .pb .pillar-card h3 { color: #0F2137; }
+    .pb .pillar-card p { color: #4A5568; }
+
+    /* ---- PALETTE C: Clean Slate + Blue ---- */
+    .pc .mockup-hero { background: #FFFFFF; }
+    .pc .mockup-hero h1 { color: #111827; }
+    .pc .mockup-hero p { color: #6B7280; }
+    .pc .mockup-btn { background: #2563EB; color: white; }
+    .pc .stat-card { background: #EFF6FF; }
+    .pc .stat-number { color: #2563EB; }
+    .pc .stat-label { color: #4B5563; }
+    .pc .pillar-card { background: #F9FAFB; border: 1px solid #E5E7EB; }
+    .pc .pillar-tag { color: #2563EB; }
+    .pc .pillar-card h3 { color: #111827; }
+    .pc .pillar-card p { color: #6B7280; }
+
+    /* ---- PALETTE D: Warm Charcoal + Amber ---- */
+    .pd .mockup-hero { background: #1C1917; }
+    .pd .mockup-hero h1 { color: #FAFAF9; }
+    .pd .mockup-hero p { color: #A8A29E; }
+    .pd .mockup-btn { background: #D97706; color: white; }
+    .pd .stat-card { background: #1C1917; }
+    .pd .stat-number { color: #F59E0B; }
+    .pd .stat-label { color: #A8A29E; }
+    .pd .pillar-card { background: #FAFAF9; border: 1px solid #E7E5E4; }
+    .pd .pillar-tag { color: #B45309; }
+    .pd .pillar-card h3 { color: #1C1917; }
+    .pd .pillar-card p { color: #57534E; }
+
+    /* ---- PALETTE E: Forest + White ---- */
+    .pe .mockup-hero { background: #F8FAF9; }
+    .pe .mockup-hero h1 { color: #14342B; }
+    .pe .mockup-hero p { color: #4B6358; }
+    .pe .mockup-btn { background: #16A34A; color: white; }
+    .pe .stat-card { background: #ECFDF5; }
+    .pe .stat-number { color: #15803D; }
+    .pe .stat-label { color: #4B6358; }
+    .pe .pillar-card { background: #FFFFFF; border: 1px solid #D1E7DD; }
+    .pe .pillar-tag { color: #16A34A; }
+    .pe .pillar-card h3 { color: #14342B; }
+    .pe .pillar-card p { color: #4B6358; }
+
+    /* ======== TYPOGRAPHY SECTION ======== */
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 40px 60px;
+    }
+
+    .type-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .type-label {
+      padding: 24px 32px;
+      border-bottom: 1px solid #eee;
+    }
+    .type-label h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .type-label p { font-size: 14px; color: #666; }
+    .type-label .type-tags { margin-top: 8px; display: flex; gap: 8px; }
+    .type-label .type-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+      background: #F0F0F0;
+      color: #555;
+    }
+
+    .type-sample {
+      padding: 40px 32px;
+    }
+    .type-sample .hero-headline {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.12;
+      color: #111;
+      margin-bottom: 16px;
+      max-width: 700px;
+    }
+    .type-sample .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+    .type-sample .section-head {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 12px;
+      margin-top: 32px;
+    }
+    .type-sample .body-text {
+      font-size: 16px;
+      color: #444;
+      line-height: 1.6;
+      max-width: 600px;
+      margin-bottom: 16px;
+    }
+    .type-sample .stat-preview {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    .type-sample .stat-preview .stat-num {
+      font-size: 48px;
+      font-weight: 800;
+      color: #00875A;
+      line-height: 1;
+    }
+    .type-sample .stat-preview .stat-desc {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .type-sample .pillar-name {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #00875A;
+      margin-top: 28px;
+      margin-bottom: 8px;
+    }
+    .type-sample .pillar-head {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 8px;
+    }
+    .type-sample .pillar-body {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.5;
+      max-width: 500px;
+    }
+
+    /* Font family overrides */
+    .tf-a .hero-headline, .tf-a .section-head, .tf-a .pillar-head, .tf-a .stat-num { font-family: 'Inter', sans-serif; }
+    .tf-a .hero-sub, .tf-a .body-text, .tf-a .pillar-body, .tf-a .stat-desc, .tf-a .pillar-name { font-family: 'Inter', sans-serif; }
+
+    .tf-b .hero-headline, .tf-b .section-head, .tf-b .pillar-head, .tf-b .stat-num { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tf-b .hero-sub, .tf-b .body-text, .tf-b .pillar-body, .tf-b .stat-desc, .tf-b .pillar-name { font-family: 'Inter', sans-serif; }
+
+    .tf-c .hero-headline, .tf-c .section-head, .tf-c .pillar-head, .tf-c .stat-num { font-family: 'DM Sans', sans-serif; }
+    .tf-c .hero-sub, .tf-c .body-text, .tf-c .pillar-body, .tf-c .stat-desc, .tf-c .pillar-name { font-family: 'DM Sans', sans-serif; }
+
+    .tf-d .hero-headline, .tf-d .section-head, .tf-d .pillar-head, .tf-d .stat-num { font-family: 'Outfit', sans-serif; }
+    .tf-d .hero-sub, .tf-d .body-text, .tf-d .pillar-body, .tf-d .stat-desc, .tf-d .pillar-name { font-family: 'Source Sans 3', sans-serif; }
+
+    .tf-e .hero-headline, .tf-e .section-head, .tf-e .pillar-head, .tf-e .stat-num { font-family: 'Manrope', sans-serif; }
+    .tf-e .hero-sub, .tf-e .body-text, .tf-e .pillar-body, .tf-e .stat-desc, .tf-e .pillar-name { font-family: 'Inter', sans-serif; }
+
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>RO-bot Website Redesign: Visual Review</h1>
+    <p>Color palettes and typography options, shown with real site content</p>
+  </div>
+
+  <!-- ==================== COLOR PALETTES ==================== -->
+  <div class="section-divider">
+    <h2>Color Palettes</h2>
+    <p>Each palette is shown applied to the hero, problem stats, and pillar cards using actual site copy.</p>
+  </div>
+
+  <div class="palette-grid">
+
+    <!-- PALETTE A -->
+    <div class="palette-card">
+      <div class="palette-label">
+        <h3>A. Jobber-Inspired Green</h3>
+        <p>Clean, professional, spacious. Direct reference to the design model. White backgrounds, green accents, dark navy text.</p>
+      </div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#0B1F33"></div><div class="swatch-name">Text</div><div class="swatch-hex">#0B1F33</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#00875A"></div><div class="swatch-name">Primary</div><div class="swatch-hex">#00875A</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#4A5568"></div><div class="swatch-name">Body</div><div class="swatch-hex">#4A5568</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F0FAF6"></div><div class="swatch-name">Tint</div><div class="swatch-hex">#F0FAF6</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F7F9FC"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#F7F9FC</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF; border: 1px solid #ddd"></div><div class="swatch-name">Background</div><div class="swatch-hex">#FFFFFF</div></div>
+      </div>
+      <div class="pa">
+        <div class="mockup-hero">
+          <h1>Turn Every Technician Into Your Most Productive, Most Profitable Tech</h1>
+          <p>Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</p>
+          <button class="mockup-btn">Book Your Demo</button>
+        </div>
+        <div class="mockup-stats">
+          <div class="stat-card"><div class="stat-number">61 / 100</div><div class="stat-label">vehicles leave with zero additional service recommendations</div></div>
+          <div class="stat-card"><div class="stat-number">75%</div><div class="stat-label">of recommended work declined without video</div></div>
+          <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">of warranty claims fail on first submission</div></div>
+        </div>
+        <div class="mockup-pillar">
+          <div class="pillar-row">
+            <div class="pillar-card">
+              <div class="pillar-tag">Find More Work</div>
+              <h3>Voice-First Multi-Point Inspections</h3>
+              <p>Techs call out findings as they go. No clipboard, no buttons, no skipped items.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Sell More Work</div>
+              <h3>AI-Guided Video Inspections</h3>
+              <p>RO-bot plans the shot list and guides the tech with an on-screen teleprompter.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Get Paid for More Work</div>
+              <h3>AI-Powered 3Cs Documentation</h3>
+              <p>Techs talk. RO-bot writes. Voice notes become warranty-compliant repair stories in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PALETTE B -->
+    <div class="palette-card">
+      <div class="palette-label">
+        <h3>B. Confident Navy + Teal</h3>
+        <p>Evolves the current brand teal into a more sophisticated palette. Dark hero, teal accents, high contrast. Feels premium and automotive.</p>
+      </div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#0F2137"></div><div class="swatch-name">Dark</div><div class="swatch-hex">#0F2137</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2A9D8F"></div><div class="swatch-name">Primary</div><div class="swatch-hex">#2A9D8F</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2DD4BF"></div><div class="swatch-name">Accent</div><div class="swatch-hex">#2DD4BF</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#A0B3C6"></div><div class="swatch-name">Muted</div><div class="swatch-hex">#A0B3C6</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E2E8F0"></div><div class="swatch-name">Border</div><div class="swatch-hex">#E2E8F0</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF; border: 1px solid #ddd"></div><div class="swatch-name">Background</div><div class="swatch-hex">#FFFFFF</div></div>
+      </div>
+      <div class="pb">
+        <div class="mockup-hero">
+          <h1>Turn Every Technician Into Your Most Productive, Most Profitable Tech</h1>
+          <p>Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</p>
+          <button class="mockup-btn">Book Your Demo</button>
+        </div>
+        <div class="mockup-stats">
+          <div class="stat-card"><div class="stat-number">61 / 100</div><div class="stat-label">vehicles leave with zero additional service recommendations</div></div>
+          <div class="stat-card"><div class="stat-number">75%</div><div class="stat-label">of recommended work declined without video</div></div>
+          <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">of warranty claims fail on first submission</div></div>
+        </div>
+        <div class="mockup-pillar">
+          <div class="pillar-row">
+            <div class="pillar-card">
+              <div class="pillar-tag">Find More Work</div>
+              <h3>Voice-First Multi-Point Inspections</h3>
+              <p>Techs call out findings as they go. No clipboard, no buttons, no skipped items.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Sell More Work</div>
+              <h3>AI-Guided Video Inspections</h3>
+              <p>RO-bot plans the shot list and guides the tech with an on-screen teleprompter.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Get Paid for More Work</div>
+              <h3>AI-Powered 3Cs Documentation</h3>
+              <p>Techs talk. RO-bot writes. Voice notes become warranty-compliant repair stories in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PALETTE C -->
+    <div class="palette-card">
+      <div class="palette-label">
+        <h3>C. Clean Slate + Blue</h3>
+        <p>Neutral, modern SaaS feel. Blue primary avoids automotive cliches while staying professional. Similar to Linear, Vercel, Stripe.</p>
+      </div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#111827"></div><div class="swatch-name">Text</div><div class="swatch-hex">#111827</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2563EB"></div><div class="swatch-name">Primary</div><div class="swatch-hex">#2563EB</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#6B7280"></div><div class="swatch-name">Body</div><div class="swatch-hex">#6B7280</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#EFF6FF"></div><div class="swatch-name">Tint</div><div class="swatch-hex">#EFF6FF</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F9FAFB"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#F9FAFB</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFFFFF; border: 1px solid #ddd"></div><div class="swatch-name">Background</div><div class="swatch-hex">#FFFFFF</div></div>
+      </div>
+      <div class="pc">
+        <div class="mockup-hero">
+          <h1>Turn Every Technician Into Your Most Productive, Most Profitable Tech</h1>
+          <p>Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</p>
+          <button class="mockup-btn">Book Your Demo</button>
+        </div>
+        <div class="mockup-stats">
+          <div class="stat-card"><div class="stat-number">61 / 100</div><div class="stat-label">vehicles leave with zero additional service recommendations</div></div>
+          <div class="stat-card"><div class="stat-number">75%</div><div class="stat-label">of recommended work declined without video</div></div>
+          <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">of warranty claims fail on first submission</div></div>
+        </div>
+        <div class="mockup-pillar">
+          <div class="pillar-row">
+            <div class="pillar-card">
+              <div class="pillar-tag">Find More Work</div>
+              <h3>Voice-First Multi-Point Inspections</h3>
+              <p>Techs call out findings as they go. No clipboard, no buttons, no skipped items.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Sell More Work</div>
+              <h3>AI-Guided Video Inspections</h3>
+              <p>RO-bot plans the shot list and guides the tech with an on-screen teleprompter.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Get Paid for More Work</div>
+              <h3>AI-Powered 3Cs Documentation</h3>
+              <p>Techs talk. RO-bot writes. Voice notes become warranty-compliant repair stories in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PALETTE D -->
+    <div class="palette-card">
+      <div class="palette-label">
+        <h3>D. Warm Charcoal + Amber</h3>
+        <p>Bold, warm, industrial. The amber accent feels like a shop floor warning light. High contrast, high confidence. Stands out from every competitor.</p>
+      </div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#1C1917"></div><div class="swatch-name">Dark</div><div class="swatch-hex">#1C1917</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#D97706"></div><div class="swatch-name">Primary</div><div class="swatch-hex">#D97706</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F59E0B"></div><div class="swatch-name">Accent</div><div class="swatch-hex">#F59E0B</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#A8A29E"></div><div class="swatch-name">Muted</div><div class="swatch-hex">#A8A29E</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E7E5E4"></div><div class="swatch-name">Border</div><div class="swatch-hex">#E7E5E4</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FAFAF9; border: 1px solid #ddd"></div><div class="swatch-name">Background</div><div class="swatch-hex">#FAFAF9</div></div>
+      </div>
+      <div class="pd">
+        <div class="mockup-hero">
+          <h1>Turn Every Technician Into Your Most Productive, Most Profitable Tech</h1>
+          <p>Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</p>
+          <button class="mockup-btn">Book Your Demo</button>
+        </div>
+        <div class="mockup-stats">
+          <div class="stat-card"><div class="stat-number">61 / 100</div><div class="stat-label">vehicles leave with zero additional service recommendations</div></div>
+          <div class="stat-card"><div class="stat-number">75%</div><div class="stat-label">of recommended work declined without video</div></div>
+          <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">of warranty claims fail on first submission</div></div>
+        </div>
+        <div class="mockup-pillar">
+          <div class="pillar-row">
+            <div class="pillar-card">
+              <div class="pillar-tag">Find More Work</div>
+              <h3>Voice-First Multi-Point Inspections</h3>
+              <p>Techs call out findings as they go. No clipboard, no buttons, no skipped items.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Sell More Work</div>
+              <h3>AI-Guided Video Inspections</h3>
+              <p>RO-bot plans the shot list and guides the tech with an on-screen teleprompter.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Get Paid for More Work</div>
+              <h3>AI-Powered 3Cs Documentation</h3>
+              <p>Techs talk. RO-bot writes. Voice notes become warranty-compliant repair stories in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PALETTE E -->
+    <div class="palette-card">
+      <div class="palette-label">
+        <h3>E. Forest + White</h3>
+        <p>Light, airy, nature-inspired. Deep forest greens with bright white space. Feels trustworthy and grounded without being corporate.</p>
+      </div>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#14342B"></div><div class="swatch-name">Text</div><div class="swatch-hex">#14342B</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#16A34A"></div><div class="swatch-name">Primary</div><div class="swatch-hex">#16A34A</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#4B6358"></div><div class="swatch-name">Body</div><div class="swatch-hex">#4B6358</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#ECFDF5"></div><div class="swatch-name">Tint</div><div class="swatch-hex">#ECFDF5</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#D1E7DD"></div><div class="swatch-name">Border</div><div class="swatch-hex">#D1E7DD</div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F8FAF9; border: 1px solid #ddd"></div><div class="swatch-name">Background</div><div class="swatch-hex">#F8FAF9</div></div>
+      </div>
+      <div class="pe">
+        <div class="mockup-hero">
+          <h1>Turn Every Technician Into Your Most Productive, Most Profitable Tech</h1>
+          <p>Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</p>
+          <button class="mockup-btn">Book Your Demo</button>
+        </div>
+        <div class="mockup-stats">
+          <div class="stat-card"><div class="stat-number">61 / 100</div><div class="stat-label">vehicles leave with zero additional service recommendations</div></div>
+          <div class="stat-card"><div class="stat-number">75%</div><div class="stat-label">of recommended work declined without video</div></div>
+          <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">of warranty claims fail on first submission</div></div>
+        </div>
+        <div class="mockup-pillar">
+          <div class="pillar-row">
+            <div class="pillar-card">
+              <div class="pillar-tag">Find More Work</div>
+              <h3>Voice-First Multi-Point Inspections</h3>
+              <p>Techs call out findings as they go. No clipboard, no buttons, no skipped items.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Sell More Work</div>
+              <h3>AI-Guided Video Inspections</h3>
+              <p>RO-bot plans the shot list and guides the tech with an on-screen teleprompter.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="pillar-tag">Get Paid for More Work</div>
+              <h3>AI-Powered 3Cs Documentation</h3>
+              <p>Techs talk. RO-bot writes. Voice notes become warranty-compliant repair stories in seconds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== TYPOGRAPHY ==================== -->
+  <div class="section-divider">
+    <h2>Typography Pairings</h2>
+    <p>Each option shows headlines, body text, stats, and pillar labels using the actual site copy. All shown with Palette A colors for consistency.</p>
+  </div>
+
+  <div class="type-grid">
+
+    <!-- TYPE A -->
+    <div class="type-card">
+      <div class="type-label">
+        <h3>A. Inter / Inter</h3>
+        <p>One family for everything. Clean, neutral, highly legible at all sizes. The "safe" choice that never looks wrong.</p>
+        <div class="type-tags">
+          <span class="type-tag">Versatile</span>
+          <span class="type-tag">Google Fonts</span>
+          <span class="type-tag">Used by: Linear, Vercel, Raycast</span>
+        </div>
+      </div>
+      <div class="type-sample tf-a">
+        <div class="hero-headline">Turn Every Technician Into Your Most Productive, Most Profitable Tech</div>
+        <div class="hero-sub">Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</div>
+        <div class="section-head">Your Service Department Is Leaving Money on the Table</div>
+        <div class="body-text">Rushed inspections mean missed findings. Findings that never get discovered are revenue that never gets recommended. Techs spend 45+ minutes a day typing stories. That's billable time lost.</div>
+        <div class="stat-preview">
+          <div><div class="stat-num">61/100</div><div class="stat-desc">vehicles leave with zero<br>recommendations</div></div>
+          <div><div class="stat-num">75%</div><div class="stat-desc">of recommended work<br>declined without video</div></div>
+          <div><div class="stat-num">30%</div><div class="stat-desc">of warranty claims fail<br>on first submission</div></div>
+        </div>
+        <div class="pillar-name">Find More Work</div>
+        <div class="pillar-head">Voice-First Multi-Point Inspections</div>
+        <div class="pillar-body">Techs call out findings as they go. No clipboard, no buttons, no skipped items. Voice-first MPI means higher completion rates, which means more opportunities discovered on every vehicle.</div>
+      </div>
+    </div>
+
+    <!-- TYPE B -->
+    <div class="type-card">
+      <div class="type-label">
+        <h3>B. Plus Jakarta Sans / Inter</h3>
+        <p>Jakarta for headlines adds warmth and personality without being quirky. Inter body keeps readability. Feels modern and approachable.</p>
+        <div class="type-tags">
+          <span class="type-tag">Warm</span>
+          <span class="type-tag">Google Fonts</span>
+          <span class="type-tag">Used by: Jobber (close match), Notion</span>
+        </div>
+      </div>
+      <div class="type-sample tf-b">
+        <div class="hero-headline">Turn Every Technician Into Your Most Productive, Most Profitable Tech</div>
+        <div class="hero-sub">Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</div>
+        <div class="section-head">Your Service Department Is Leaving Money on the Table</div>
+        <div class="body-text">Rushed inspections mean missed findings. Findings that never get discovered are revenue that never gets recommended. Techs spend 45+ minutes a day typing stories. That's billable time lost.</div>
+        <div class="stat-preview">
+          <div><div class="stat-num">61/100</div><div class="stat-desc">vehicles leave with zero<br>recommendations</div></div>
+          <div><div class="stat-num">75%</div><div class="stat-desc">of recommended work<br>declined without video</div></div>
+          <div><div class="stat-num">30%</div><div class="stat-desc">of warranty claims fail<br>on first submission</div></div>
+        </div>
+        <div class="pillar-name">Find More Work</div>
+        <div class="pillar-head">Voice-First Multi-Point Inspections</div>
+        <div class="pillar-body">Techs call out findings as they go. No clipboard, no buttons, no skipped items. Voice-first MPI means higher completion rates, which means more opportunities discovered on every vehicle.</div>
+      </div>
+    </div>
+
+    <!-- TYPE C -->
+    <div class="type-card">
+      <div class="type-label">
+        <h3>C. DM Sans / DM Sans</h3>
+        <p>Geometric, slightly rounded. Feels friendly and modern. Works well at large headline sizes. Single family keeps it simple.</p>
+        <div class="type-tags">
+          <span class="type-tag">Geometric</span>
+          <span class="type-tag">Google Fonts</span>
+          <span class="type-tag">Used by: Stripe (similar), Framer</span>
+        </div>
+      </div>
+      <div class="type-sample tf-c">
+        <div class="hero-headline">Turn Every Technician Into Your Most Productive, Most Profitable Tech</div>
+        <div class="hero-sub">Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</div>
+        <div class="section-head">Your Service Department Is Leaving Money on the Table</div>
+        <div class="body-text">Rushed inspections mean missed findings. Findings that never get discovered are revenue that never gets recommended. Techs spend 45+ minutes a day typing stories. That's billable time lost.</div>
+        <div class="stat-preview">
+          <div><div class="stat-num">61/100</div><div class="stat-desc">vehicles leave with zero<br>recommendations</div></div>
+          <div><div class="stat-num">75%</div><div class="stat-desc">of recommended work<br>declined without video</div></div>
+          <div><div class="stat-num">30%</div><div class="stat-desc">of warranty claims fail<br>on first submission</div></div>
+        </div>
+        <div class="pillar-name">Find More Work</div>
+        <div class="pillar-head">Voice-First Multi-Point Inspections</div>
+        <div class="pillar-body">Techs call out findings as they go. No clipboard, no buttons, no skipped items. Voice-first MPI means higher completion rates, which means more opportunities discovered on every vehicle.</div>
+      </div>
+    </div>
+
+    <!-- TYPE D -->
+    <div class="type-card">
+      <div class="type-label">
+        <h3>D. Outfit / Source Sans 3</h3>
+        <p>Outfit headlines are bold and geometric with a modern edge. Source Sans body is Adobe's workhorse, optimized for screen reading.</p>
+        <div class="type-tags">
+          <span class="type-tag">Bold</span>
+          <span class="type-tag">Google Fonts</span>
+          <span class="type-tag">Used by: Modern SaaS / startup sites</span>
+        </div>
+      </div>
+      <div class="type-sample tf-d">
+        <div class="hero-headline">Turn Every Technician Into Your Most Productive, Most Profitable Tech</div>
+        <div class="hero-sub">Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</div>
+        <div class="section-head">Your Service Department Is Leaving Money on the Table</div>
+        <div class="body-text">Rushed inspections mean missed findings. Findings that never get discovered are revenue that never gets recommended. Techs spend 45+ minutes a day typing stories. That's billable time lost.</div>
+        <div class="stat-preview">
+          <div><div class="stat-num">61/100</div><div class="stat-desc">vehicles leave with zero<br>recommendations</div></div>
+          <div><div class="stat-num">75%</div><div class="stat-desc">of recommended work<br>declined without video</div></div>
+          <div><div class="stat-num">30%</div><div class="stat-desc">of warranty claims fail<br>on first submission</div></div>
+        </div>
+        <div class="pillar-name">Find More Work</div>
+        <div class="pillar-head">Voice-First Multi-Point Inspections</div>
+        <div class="pillar-body">Techs call out findings as they go. No clipboard, no buttons, no skipped items. Voice-first MPI means higher completion rates, which means more opportunities discovered on every vehicle.</div>
+      </div>
+    </div>
+
+    <!-- TYPE E -->
+    <div class="type-card">
+      <div class="type-label">
+        <h3>E. Manrope / Inter</h3>
+        <p>Manrope headlines have a distinctive, slightly condensed character. Feels confident and direct without being harsh. Inter body for readability.</p>
+        <div class="type-tags">
+          <span class="type-tag">Distinctive</span>
+          <span class="type-tag">Google Fonts</span>
+          <span class="type-tag">Used by: Pitch, Railway apps</span>
+        </div>
+      </div>
+      <div class="type-sample tf-e">
+        <div class="hero-headline">Turn Every Technician Into Your Most Productive, Most Profitable Tech</div>
+        <div class="hero-sub">Voice-first AI that helps your techs find more work, sell more work, and get paid for more work.</div>
+        <div class="section-head">Your Service Department Is Leaving Money on the Table</div>
+        <div class="body-text">Rushed inspections mean missed findings. Findings that never get discovered are revenue that never gets recommended. Techs spend 45+ minutes a day typing stories. That's billable time lost.</div>
+        <div class="stat-preview">
+          <div><div class="stat-num">61/100</div><div class="stat-desc">vehicles leave with zero<br>recommendations</div></div>
+          <div><div class="stat-num">75%</div><div class="stat-desc">of recommended work<br>declined without video</div></div>
+          <div><div class="stat-num">30%</div><div class="stat-desc">of warranty claims fail<br>on first submission</div></div>
+        </div>
+        <div class="pillar-name">Find More Work</div>
+        <div class="pillar-head">Voice-First Multi-Point Inspections</div>
+        <div class="pillar-body">Techs call out findings as they go. No clipboard, no buttons, no skipped items. Voice-first MPI means higher completion rates, which means more opportunities discovered on every vehicle.</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
