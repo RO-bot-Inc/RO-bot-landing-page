@@ -259,7 +259,22 @@
   const gradingSpinner = document.getElementById('grading-spinner');
   const gradeContent = document.getElementById('grade-content');
 
-  const voiceContent = "Ok, I verified the overheating issue, let it idle for about ten minutes and yeah the gauge climbed right up. The water pump's leaking from the weep hole. Uh, the thermostat was also... actually it was working but not perfect so I'm replacing that. I put in the new pump and thermostat, refilled the coolant, let it run for uh... fifteen minutes. No leaks, temp is good.";
+  // Voice transcript with per-word delay (ms AFTER this word appears).
+  // Bursts of fast words (~80-120ms), natural pauses at commas/periods (~400-600ms),
+  // longer hesitations at "Uh," and "..." (~700-900ms).
+  const voiceScript = [
+    ["Ok,", 350], ["I", 80], ["verified", 100], ["the", 70], ["overheating", 120], ["issue,", 450],
+    ["let", 90], ["it", 70], ["idle", 110], ["for", 80], ["about", 100], ["ten", 90], ["minutes", 130],
+    ["and", 100], ["yeah", 120], ["the", 70], ["gauge", 110], ["climbed", 100], ["right", 80], ["up.", 600],
+    ["The", 100], ["water", 90], ["pump's", 110], ["leaking", 100], ["from", 80], ["the", 70], ["weep", 110], ["hole.", 700],
+    ["Uh,", 800], ["the", 90], ["thermostat", 120], ["was", 80], ["also...", 900],
+    ["actually", 110], ["it", 70], ["was", 80], ["working", 100], ["but", 90], ["not", 80], ["perfect", 120],
+    ["so", 90], ["I'm", 80], ["replacing", 110], ["that.", 550],
+    ["I", 80], ["put", 70], ["in", 60], ["the", 70], ["new", 80], ["pump", 90], ["and", 70], ["thermostat,", 400],
+    ["refilled", 110], ["the", 70], ["coolant,", 450],
+    ["let", 80], ["it", 70], ["run", 80], ["for", 80], ["uh...", 850], ["fifteen", 120], ["minutes.", 600],
+    ["No", 90], ["leaks,", 350], ["temp", 100], ["is", 70], ["good.", 300],
+  ];
 
   let demoObserved = false;
   const demoObserver = new IntersectionObserver((entries) => {
@@ -311,14 +326,16 @@
   async function runDemo() {
     let elapsed = 0;
 
-    // Phase 1: Voice recording on card 1
+    // Phase 1: Voice recording on card 1 (natural pacing)
     if (waveformEl) waveformEl.classList.add('waveform-active');
-    const words = voiceContent.split(' ');
-    for (let i = 0; i < words.length; i++) {
-      if (voiceTextEl) voiceTextEl.textContent = words.slice(0, i + 1).join(' ');
-      elapsed += 150;
+    let transcript = '';
+    for (let i = 0; i < voiceScript.length; i++) {
+      const [word, delay] = voiceScript[i];
+      transcript += (i > 0 ? ' ' : '') + word;
+      if (voiceTextEl) voiceTextEl.textContent = transcript;
+      elapsed += delay;
       updateTimer(elapsed);
-      await sleep(150);
+      await sleep(delay);
     }
     if (waveformEl) waveformEl.classList.remove('waveform-active');
     if (recDot) recDot.classList.remove('animate-pulse');
