@@ -276,12 +276,19 @@
     ["No", 90], ["leaks,", 350], ["temp", 100], ["is", 70], ["good.", 300],
   ];
 
-  let demoObserved = false;
+  let runId = 0; // incremented on each start; stale loops check this to self-cancel
+
   const demoObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !demoObserved) {
-        demoObserved = true;
-        runDemoLoop();
+      if (entry.isIntersecting) {
+        // Cancel any running animation, reset, then start fresh
+        runId++;
+        resetDemo();
+        startAfterDelay(runId);
+      } else {
+        // Scrolled away: cancel running animation
+        runId++;
+        resetDemo();
       }
     });
   }, { threshold: 0.3 });
@@ -289,15 +296,29 @@
   const demoContainer = document.getElementById('robo-demo');
   if (demoContainer) demoObserver.observe(demoContainer);
 
-  async function runDemoLoop() {
-    while (true) {
-      await runDemo();
+  async function startAfterDelay(id) {
+    await sleep(800);
+    if (id !== runId) return; // cancelled
+    runDemoLoop(id);
+  }
+
+  async function runDemoLoop(id) {
+    while (id === runId) {
+      await runDemo(id);
+      if (id !== runId) return;
       await sleep(5000);
+      if (id !== runId) return;
       resetDemo();
     }
   }
 
   function resetDemo() {
+    // Disable transitions so reset is instant
+    const cards = [cardRecording, cardWriting, cardGrading];
+    cards.forEach(c => { if (c) c.style.transition = 'none'; });
+    if (writingSpinner) writingSpinner.style.transition = 'none';
+    if (gradingSpinner) gradingSpinner.style.transition = 'none';
+
     // Reset recording card
     if (voiceTextEl) voiceTextEl.textContent = '';
     updateTimer(0);
@@ -321,15 +342,23 @@
     // Reset spinner overlays (visible, covering content)
     if (writingSpinner) { writingSpinner.style.opacity = '1'; writingSpinner.style.pointerEvents = 'auto'; }
     if (gradingSpinner) { gradingSpinner.style.opacity = '1'; gradingSpinner.style.pointerEvents = 'auto'; }
+
+    // Re-enable transitions on next frame
+    requestAnimationFrame(() => {
+      cards.forEach(c => { if (c) c.style.transition = ''; });
+      if (writingSpinner) writingSpinner.style.transition = '';
+      if (gradingSpinner) gradingSpinner.style.transition = '';
+    });
   }
 
-  async function runDemo() {
+  async function runDemo(id) {
     let elapsed = 0;
 
     // Phase 1: Voice recording on card 1 (natural pacing)
     if (waveformEl) waveformEl.classList.add('waveform-active');
     let transcript = '';
     for (let i = 0; i < voiceScript.length; i++) {
+      if (id !== runId) return;
       const [word, delay] = voiceScript[i];
       transcript += (i > 0 ? ' ' : '') + word;
       if (voiceTextEl) voiceTextEl.textContent = transcript;
@@ -337,12 +366,14 @@
       updateTimer(elapsed);
       await sleep(delay);
     }
+    if (id !== runId) return;
     if (waveformEl) waveformEl.classList.remove('waveform-active');
     if (recDot) recDot.classList.remove('animate-pulse');
     if (recLabel) recLabel.textContent = 'Done';
     await sleep(500); elapsed += 500; updateTimer(elapsed);
 
     // Phase 2: Drop card 2 into position (writing spinner visible)
+    if (id !== runId) return;
     if (cardWriting) {
       cardWriting.style.opacity = '1';
       cardWriting.style.transform = 'translateY(0)';
@@ -350,10 +381,12 @@
     await sleep(3000); elapsed += 3000; updateTimer(elapsed);
 
     // Phase 3: Fade out writing spinner to reveal 3Cs story
+    if (id !== runId) return;
     if (writingSpinner) { writingSpinner.style.opacity = '0'; writingSpinner.style.pointerEvents = 'none'; }
     await sleep(2500); elapsed += 2500; updateTimer(elapsed);
 
     // Phase 4: Drop card 3 into position (grading spinner visible)
+    if (id !== runId) return;
     if (cardGrading) {
       cardGrading.style.opacity = '1';
       cardGrading.style.transform = 'translateY(0)';
@@ -361,6 +394,7 @@
     await sleep(3000); elapsed += 3000; updateTimer(elapsed);
 
     // Phase 5: Fade out grading spinner to reveal grade
+    if (id !== runId) return;
     if (gradingSpinner) { gradingSpinner.style.opacity = '0'; gradingSpinner.style.pointerEvents = 'none'; }
     elapsed += 500; updateTimer(elapsed);
   }
