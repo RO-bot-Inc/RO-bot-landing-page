@@ -91,10 +91,10 @@
           </p>
         </div>
         <div class="flex justify-center" id="robo-demo">
-          <!-- Fixed-height container for stacked cards -->
-          <div class="relative w-full" style="height: 420px;">
-            <!-- Card 1: Recording -->
-            <div id="card-recording" class="demo-card absolute inset-x-0 top-0 bg-white rounded-2xl p-5 md:p-6 border border-teal/20 shadow-lg transition-all duration-700 opacity-100" style="z-index: 3;">
+          <!-- Fixed-size container for stacked cards with 20px offsets -->
+          <div class="relative w-full" style="height: 380px;">
+            <!-- Card 1: Recording (top-left, fixed size) -->
+            <div id="card-recording" class="demo-card absolute bg-white rounded-2xl p-5 md:p-6 border border-teal/20 shadow-lg opacity-100" style="top: 0; left: 0; right: 40px; height: 190px; z-index: 3; overflow: hidden;">
               <div class="flex items-center justify-between mb-4">
                 <h4 class="font-bold text-navy text-sm">Voice Capture</h4>
                 <span class="text-xs font-mono text-teal" id="demo-timer">0:00</span>
@@ -130,69 +130,75 @@
                   <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
                   <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
                 </div>
-                <div class="bg-gray-50 rounded-lg border border-gray-200 p-3 text-xs text-gray-600 italic min-h-[60px]">
+                <div class="bg-gray-50 rounded-lg border border-gray-200 p-3 text-xs text-gray-600 italic h-[60px] overflow-hidden">
                   <span id="voice-text"></span>
                 </div>
               </div>
             </div>
 
-            <!-- Card 2: Writing / 3Cs Story -->
-            <div id="card-writing" class="demo-card absolute inset-x-0 bg-white rounded-2xl p-5 md:p-6 border border-teal/20 shadow-lg transition-all duration-700 opacity-0" style="top: 8px; z-index: 2;">
+            <!-- Card 2: Writing / 3Cs Story (offset 20px down & right, fixed size) -->
+            <div id="card-writing" class="demo-card absolute bg-white rounded-2xl p-5 md:p-6 border border-teal/20 shadow-lg opacity-0" style="top: 20px; left: 20px; right: 20px; height: 290px; z-index: 2; overflow: hidden;">
               <div class="flex items-center justify-between mb-4">
                 <h4 class="font-bold text-navy text-sm">3Cs Story</h4>
                 <span class="text-xs font-mono text-teal demo-timer-mirror">0:00</span>
               </div>
-              <!-- Writing spinner (shown first) -->
-              <div id="writing-spinner" class="flex items-center gap-3 p-3">
-                <div class="w-4 h-4 border-2 border-teal border-t-transparent rounded-full animate-spin"></div>
-                <span class="text-xs text-gray-500">Writing 3Cs story...</span>
-              </div>
-              <!-- 3Cs content (revealed after spinner) -->
-              <div id="story-content" class="hidden">
-                <div class="space-y-2">
-                  <div class="bg-gray-50 rounded-lg p-2.5 border-l-4 border-blue-500">
-                    <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Complaint</div>
-                    <p class="text-xs text-gray-700 leading-snug">Customer states the vehicle is overheating.</p>
+              <!-- Content area (relative, for spinner overlay) -->
+              <div class="relative">
+                <!-- 3Cs content (always rendered, determines card size) -->
+                <div id="story-content">
+                  <div class="space-y-2">
+                    <div class="bg-gray-50 rounded-lg p-2.5 border-l-4 border-blue-500">
+                      <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Complaint</div>
+                      <p class="text-xs text-gray-700 leading-snug">Customer states the vehicle is overheating.</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-2.5 border-l-4 border-blue-500">
+                      <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Cause</div>
+                      <p class="text-xs text-gray-700 leading-snug">Customer concern regarding vehicle overheating verified. The engine was observed reaching elevated temperatures after approximately ten minutes at idle. Inspection of the cooling system revealed coolant leaking from the water pump weep hole, indicating internal seal failure.</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-2.5 border-l-4 border-blue-500">
+                      <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Correction</div>
+                      <p class="text-xs text-gray-700 leading-snug">Replaced the water pump due to weep hole seal failure. Replaced the thermostat as a preventive measure. Refilled the cooling system with manufacturer-specified coolant and performed a full system bleed. Confirmed no leaks and temperature within normal range.</p>
+                    </div>
                   </div>
-                  <div class="bg-gray-50 rounded-lg p-2.5 border-l-4 border-blue-500">
-                    <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Cause</div>
-                    <p class="text-xs text-gray-700 leading-snug">Customer concern regarding vehicle overheating verified. The engine was observed reaching elevated temperatures after approximately ten minutes at idle. Inspection of the cooling system revealed coolant leaking from the water pump weep hole, indicating internal seal failure.</p>
-                  </div>
-                  <div class="bg-gray-50 rounded-lg p-2.5 border-l-4 border-blue-500">
-                    <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Correction</div>
-                    <p class="text-xs text-gray-700 leading-snug">Replaced the water pump due to weep hole seal failure. Replaced the thermostat as a preventive measure. Refilled the cooling system with manufacturer-specified coolant and performed a full system bleed. Confirmed no leaks and temperature within normal range.</p>
-                  </div>
+                </div>
+                <!-- Writing spinner overlay (covers content until done) -->
+                <div id="writing-spinner" class="absolute inset-0 bg-white flex items-center gap-3 p-3">
+                  <div class="w-4 h-4 border-2 border-teal border-t-transparent rounded-full animate-spin"></div>
+                  <span class="text-xs text-gray-500">Writing 3Cs story...</span>
                 </div>
               </div>
             </div>
 
-            <!-- Card 3: Grading / Grade -->
-            <div id="card-grading" class="demo-card absolute inset-x-0 bg-white rounded-2xl p-5 md:p-6 border border-teal/20 shadow-lg transition-all duration-700 opacity-0" style="top: 16px; z-index: 1;">
+            <!-- Card 3: Grading / Grade (offset 40px down & right, fixed size) -->
+            <div id="card-grading" class="demo-card absolute bg-white rounded-2xl p-5 md:p-6 border border-teal/20 shadow-lg opacity-0" style="top: 40px; left: 40px; right: 0; height: 230px; z-index: 1; overflow: hidden;">
               <div class="flex items-center justify-between mb-4">
                 <h4 class="font-bold text-navy text-sm">Story Grade</h4>
                 <span class="text-xs font-mono text-teal demo-timer-mirror">0:00</span>
               </div>
-              <!-- Grading spinner (shown first) -->
-              <div id="grading-spinner" class="flex items-center gap-3 p-3">
-                <div class="w-4 h-4 border-2 border-teal border-t-transparent rounded-full animate-spin"></div>
-                <span class="text-xs text-gray-500">Grading story...</span>
-              </div>
-              <!-- Grade content (revealed after spinner) -->
-              <div id="grade-content" class="hidden">
-                <div class="bg-gray-50 rounded-lg p-3 border border-teal/20">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class="text-xs text-gray-500">Overall Story Grade</span>
-                    <span class="text-xl font-extrabold text-teal">A-</span>
+              <!-- Content area (relative, for spinner overlay) -->
+              <div class="relative">
+                <!-- Grade content (always rendered, determines card size) -->
+                <div id="grade-content">
+                  <div class="bg-gray-50 rounded-lg p-3 border border-teal/20">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-xs text-gray-500">Overall Story Grade</span>
+                      <span class="text-xl font-extrabold text-teal">A-</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Customer Complaint</div>
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Complaint Verification</div>
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-yellow-100 text-yellow-700 font-bold flex items-center justify-center text-[10px]">B</span> Diagnostics Performed</div>
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Component Involved</div>
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Root Cause</div>
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Repair Action</div>
+                      <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-yellow-100 text-yellow-700 font-bold flex items-center justify-center text-[10px]">B</span> Final Verification</div>
+                    </div>
                   </div>
-                  <div class="grid grid-cols-2 gap-1.5 text-[11px]">
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Customer Complaint</div>
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Complaint Verification</div>
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-yellow-100 text-yellow-700 font-bold flex items-center justify-center text-[10px]">B</span> Diagnostics Performed</div>
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Component Involved</div>
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Root Cause</div>
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Repair Action</div>
-                    <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-yellow-100 text-yellow-700 font-bold flex items-center justify-center text-[10px]">B</span> Final Verification</div>
-                  </div>
+                </div>
+                <!-- Grading spinner overlay (covers content until done) -->
+                <div id="grading-spinner" class="absolute inset-0 bg-white flex items-center gap-3 p-3">
+                  <div class="w-4 h-4 border-2 border-teal border-t-transparent rounded-full animate-spin"></div>
+                  <span class="text-xs text-gray-500">Grading story...</span>
                 </div>
               </div>
             </div>
@@ -284,11 +290,9 @@
       cardGrading.style.zIndex = '1';
     }
 
-    // Reset inner states
-    show(writingSpinner);
-    hide(storyContent);
-    show(gradingSpinner);
-    hide(gradeContent);
+    // Reset spinner overlays (visible, covering content)
+    if (writingSpinner) { writingSpinner.style.opacity = '1'; writingSpinner.style.pointerEvents = 'auto'; }
+    if (gradingSpinner) { gradingSpinner.style.opacity = '1'; gradingSpinner.style.pointerEvents = 'auto'; }
   }
 
   async function runDemo() {
@@ -315,9 +319,8 @@
     }
     await sleep(2000); elapsed += 2000; updateTimer(elapsed);
 
-    // Phase 3: Reveal 3Cs story content
-    hide(writingSpinner);
-    show(storyContent);
+    // Phase 3: Fade out writing spinner to reveal 3Cs story
+    if (writingSpinner) { writingSpinner.style.opacity = '0'; writingSpinner.style.pointerEvents = 'none'; }
     await sleep(2500); elapsed += 2500; updateTimer(elapsed);
 
     // Phase 4: Slide card 3 in on top (grading spinner visible)
@@ -327,14 +330,11 @@
     }
     await sleep(1500); elapsed += 1500; updateTimer(elapsed);
 
-    // Phase 5: Reveal grade content
-    hide(gradingSpinner);
-    show(gradeContent);
+    // Phase 5: Fade out grading spinner to reveal grade
+    if (gradingSpinner) { gradingSpinner.style.opacity = '0'; gradingSpinner.style.pointerEvents = 'none'; }
     elapsed += 500; updateTimer(elapsed);
   }
 
-  function show(el) { if (el) el.classList.remove('hidden'); }
-  function hide(el) { if (el) el.classList.add('hidden'); }
   function updateTimer(ms) {
     const s = Math.floor(ms / 1000);
     const t = `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
@@ -346,7 +346,10 @@
 
 <style>
   .demo-card {
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transition: opacity 0.7s ease;
+  }
+  #writing-spinner, #grading-spinner {
+    transition: opacity 0.5s ease;
   }
   @keyframes waveform-pulse {
     0%, 100% { height: 4px; }
