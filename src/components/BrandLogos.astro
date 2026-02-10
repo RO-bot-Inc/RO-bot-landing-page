@@ -1,36 +1,57 @@
 ---
 const logos = [
-  { name: 'Toyota', file: 'Toyota.png' },
-  { name: 'Honda', file: 'Honda.png' },
-  { name: 'Ford', file: 'Ford.png' },
-  { name: 'Chevy', file: 'Chevy.png' },
-  { name: 'Nissan', file: 'Nissan.png' },
+  { name: 'Toyota', file: 'toyota.png' },
+  { name: 'Honda', file: 'honda.png' },
+  { name: 'Ford', file: 'ford.png' },
+  { name: 'Chevy', file: 'chevy.png' },
+  { name: 'Nissan', file: 'nissan.png' },
   { name: 'BMW', file: 'BMW.png' },
-  { name: 'Audi', file: 'Audi.png' },
+  { name: 'Audi', file: 'audi.png' },
   { name: 'VW', file: 'VW.png' },
-  { name: 'Dodge', file: 'Dodge.png' },
-  { name: 'Jeep', file: 'Jeep.png' },
+  { name: 'Dodge', file: 'dodge.png' },
+  { name: 'Jeep', file: 'jeep.png' },
   { name: 'GMC', file: 'GMC.png' },
-  { name: 'Buick', file: 'Buick.png' },
-  { name: 'Cadillac', file: 'Cadillac.png' },
-  { name: 'Volvo', file: 'Volvo.png' },
+  { name: 'Buick', file: 'buick.png' },
+  { name: 'Cadillac', file: 'cadillac.png' },
+  { name: 'Volvo', file: 'volvo.png' },
 ];
 ---
 
 <section class="py-16 bg-white border-t border-gray-100">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <p class="text-center text-sm text-gray-400 mb-8 uppercase tracking-wider font-medium">
-      Works with every manufacturer
+      Works with every major OEM
     </p>
-    <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
+  </div>
+  <div class="marquee-container overflow-hidden">
+    <div class="marquee-track flex items-center gap-16">
       {logos.map(logo => (
         <img
           src={`/OEM logos/${logo.file}`}
           alt={logo.name}
-          class="h-8 md:h-10 object-contain opacity-50 hover:opacity-80 transition-opacity grayscale"
+          class="h-8 md:h-10 object-contain opacity-40 grayscale flex-shrink-0"
+          loading="lazy"
+        >
+      ))}
+      {logos.map(logo => (
+        <img
+          src={`/OEM logos/${logo.file}`}
+          alt={logo.name}
+          class="h-8 md:h-10 object-contain opacity-40 grayscale flex-shrink-0"
           loading="lazy"
         >
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
