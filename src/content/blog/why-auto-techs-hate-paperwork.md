@@ -34,7 +34,7 @@ It's like hiring a surgeon and making them spend a third of their day filling ou
 
 ## The Hidden Cost of "Efficiency"
 
-The real tragedy isn't just the time lost—it's everything that comes with it.
+The real tragedy isn't just the time lost. It's everything that comes with it.
 
 **Technician burnout is real.** When skilled professionals spend more time fighting software than practicing their craft, job satisfaction plummets. Great techs leave for shops with fewer headaches, or they leave the industry entirely.
 
@@ -94,4 +94,4 @@ The question isn't whether AI-native, voice-first tools will become standard in 
 
 ---
 
-**About the Author:** Dave is the founder of RO-bot, an AI co-pilot designed specifically for automotive technicians. After hundreds of conversations with service professionals across the industry, he started RO-bot to free technicians' hands from the shackles of bad software.
+**About the Author:** Dave is the founder of R.O. bot, an AI co-pilot designed specifically for automotive technicians. After hundreds of conversations with service professionals across the industry, he started R.O. bot to free technicians' hands from the shackles of bad software.

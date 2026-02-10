@@ -62,4 +62,4 @@ Industry data shows that shops implementing comprehensive digital solutions typi
 
 The question isn't whether digital repair solutions provide positive ROI – it's whether shop owners can afford to wait any longer to implement them.
 
-*Discover how RO-bot's AI-powered platform can transform your shop's profitability. Calculate your potential ROI with our diagnostic efficiency assessment.*
+*Discover how R.O. bot's AI-powered platform can transform your shop's profitability. Calculate your potential ROI with our diagnostic efficiency assessment.*
