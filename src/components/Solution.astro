@@ -90,13 +90,103 @@
             <span class="text-gray-400">AutoTalk</span>
           </p>
         </div>
-        <div class="flex justify-center">
-          <img
-            src="/report-card-screens/desktop_B_highlighted.png"
-            alt="R.O. bot report card grading a repair story"
-            class="w-full max-w-lg rounded-2xl shadow-2xl"
-            loading="lazy"
-          >
+        <div class="flex justify-center" id="robo-demo">
+          <div class="bg-white rounded-2xl p-5 md:p-6 border border-teal/20 w-full">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-bold text-navy text-sm">With R.O. bot</h4>
+              <span class="text-xs font-mono text-teal" id="demo-timer">0:00</span>
+            </div>
+
+            <!-- Phase 1: Voice recording -->
+            <div id="phase-voice" class="mb-3">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" id="rec-dot"></div>
+                <span class="text-xs text-gray-500" id="rec-label">Recording...</span>
+              </div>
+              <div class="flex items-center gap-[3px] h-6 mb-2" id="waveform">
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+                <div class="waveform-bar w-1 bg-teal/60 rounded-full"></div>
+              </div>
+              <div class="bg-gray-50 rounded-lg border border-gray-200 p-3 text-xs text-gray-600 italic min-h-[60px]">
+                <span id="voice-text"></span>
+              </div>
+            </div>
+
+            <!-- Phase 2: Writing spinner -->
+            <div id="phase-writing" class="hidden">
+              <div class="flex items-center gap-3 p-3">
+                <div class="w-4 h-4 border-2 border-teal border-t-transparent rounded-full animate-spin"></div>
+                <span class="text-xs text-gray-500">Writing 3Cs story...</span>
+              </div>
+            </div>
+
+            <!-- Phase 3: 3Cs story -->
+            <div id="phase-story" class="hidden">
+              <div class="space-y-2">
+                <div class="bg-gray-50 rounded-lg p-3 border-l-4 border-blue-500">
+                  <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">Complaint</div>
+                  <p class="text-xs text-gray-700">Customer states the vehicle is overheating.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3 border-l-4 border-blue-500">
+                  <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">Cause</div>
+                  <p class="text-xs text-gray-700">Customer concern regarding vehicle overheating verified. The engine was observed reaching elevated temperatures after approximately ten minutes at idle. Inspection of the cooling system revealed coolant leaking from the water pump weep hole, indicating internal seal failure. The thermostat was also inspected and found to be functioning intermittently.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3 border-l-4 border-blue-500">
+                  <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-1">Correction</div>
+                  <p class="text-xs text-gray-700">Replaced the water pump due to weep hole seal failure. Replaced the thermostat as a preventive measure given its intermittent operation. Refilled the cooling system with manufacturer-specified coolant and performed a full system bleed. Ran the engine at operating temperature for fifteen minutes. Confirmed no leaks present and temperature gauge reading within normal range.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 4: Grading spinner -->
+            <div id="phase-grading" class="hidden">
+              <div class="flex items-center gap-3 p-3">
+                <div class="w-4 h-4 border-2 border-teal border-t-transparent rounded-full animate-spin"></div>
+                <span class="text-xs text-gray-500">Grading story...</span>
+              </div>
+            </div>
+
+            <!-- Phase 5: Grade card -->
+            <div id="phase-grade" class="hidden mt-3">
+              <div class="bg-gray-50 rounded-lg p-3 border border-teal/20">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs text-gray-500">Overall Story Grade</span>
+                  <span class="text-xl font-extrabold text-teal">A-</span>
+                </div>
+                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Customer Complaint</div>
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Complaint Verification</div>
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-yellow-100 text-yellow-700 font-bold flex items-center justify-center text-[10px]">B</span> Diagnostics Performed</div>
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Component Involved</div>
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Root Cause</div>
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-green-100 text-green-700 font-bold flex items-center justify-center text-[10px]">A</span> Repair Action</div>
+                  <div class="flex items-center gap-1.5"><span class="w-5 h-5 rounded bg-yellow-100 text-yellow-700 font-bold flex items-center justify-center text-[10px]">B</span> Final Verification</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -121,4 +211,128 @@
       }
     }, 3000);
   }
+
+  // R.O. bot demo animation
+  const voiceTextEl = document.getElementById('voice-text');
+  const timerEl = document.getElementById('demo-timer');
+  const waveformEl = document.getElementById('waveform');
+  const recDot = document.getElementById('rec-dot');
+  const recLabel = document.getElementById('rec-label');
+
+  const phaseVoice = document.getElementById('phase-voice');
+  const phaseWriting = document.getElementById('phase-writing');
+  const phaseStory = document.getElementById('phase-story');
+  const phaseGrading = document.getElementById('phase-grading');
+  const phaseGrade = document.getElementById('phase-grade');
+
+  const voiceContent = "Ok, I verified the overheating issue, let it idle for about ten minutes and yeah the gauge climbed right up. The water pump's leaking from the weep hole. Uh, the thermostat was also... actually it was working but not perfect so I'm replacing that. I put in the new pump and thermostat, refilled the coolant, let it run for uh... fifteen minutes. No leaks, temp is good.";
+
+  let demoObserved = false;
+  const demoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !demoObserved) {
+        demoObserved = true;
+        runDemoLoop();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const demoContainer = document.getElementById('robo-demo');
+  if (demoContainer) demoObserver.observe(demoContainer);
+
+  async function runDemoLoop() {
+    while (true) {
+      await runDemo();
+      await sleep(3000);
+      resetDemo();
+    }
+  }
+
+  function resetDemo() {
+    if (voiceTextEl) voiceTextEl.textContent = '';
+    if (timerEl) timerEl.textContent = '0:00';
+    if (waveformEl) waveformEl.classList.remove('waveform-active');
+    if (recDot) recDot.classList.add('animate-pulse');
+    if (recLabel) recLabel.textContent = 'Recording...';
+    show(phaseVoice);
+    hide(phaseWriting);
+    hide(phaseStory);
+    hide(phaseGrading);
+    hide(phaseGrade);
+  }
+
+  async function runDemo() {
+    let elapsed = 0;
+    if (waveformEl) waveformEl.classList.add('waveform-active');
+    const words = voiceContent.split(' ');
+    for (let i = 0; i < words.length; i++) {
+      if (voiceTextEl) voiceTextEl.textContent = words.slice(0, i + 1).join(' ');
+      elapsed += 150;
+      updateTimer(elapsed);
+      await sleep(150);
+    }
+    if (waveformEl) waveformEl.classList.remove('waveform-active');
+    if (recDot) recDot.classList.remove('animate-pulse');
+    if (recLabel) recLabel.textContent = 'Done';
+    await sleep(500); elapsed += 500; updateTimer(elapsed);
+
+    hide(phaseVoice); show(phaseWriting);
+    await sleep(2000); elapsed += 2000; updateTimer(elapsed);
+
+    hide(phaseWriting); show(phaseStory);
+    await sleep(2000); elapsed += 2000; updateTimer(elapsed);
+
+    show(phaseGrading);
+    await sleep(1500); elapsed += 1500; updateTimer(elapsed);
+
+    hide(phaseGrading); show(phaseGrade);
+    elapsed += 500; updateTimer(elapsed);
+  }
+
+  function show(el) { if (el) el.classList.remove('hidden'); }
+  function hide(el) { if (el) el.classList.add('hidden'); }
+  function updateTimer(ms) {
+    if (!timerEl) return;
+    const s = Math.floor(ms / 1000);
+    timerEl.textContent = `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
+  }
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
+
+<style>
+  @keyframes waveform-pulse {
+    0%, 100% { height: 4px; }
+    50% { height: 22px; }
+  }
+  .waveform-bar {
+    height: 4px;
+    transition: height 0.15s ease;
+  }
+  .waveform-active .waveform-bar {
+    animation: waveform-pulse 0.6s ease-in-out infinite;
+  }
+  .waveform-active .waveform-bar:nth-child(1) { animation-delay: 0.00s; }
+  .waveform-active .waveform-bar:nth-child(2) { animation-delay: 0.05s; }
+  .waveform-active .waveform-bar:nth-child(3) { animation-delay: 0.10s; }
+  .waveform-active .waveform-bar:nth-child(4) { animation-delay: 0.15s; }
+  .waveform-active .waveform-bar:nth-child(5) { animation-delay: 0.20s; }
+  .waveform-active .waveform-bar:nth-child(6) { animation-delay: 0.25s; }
+  .waveform-active .waveform-bar:nth-child(7) { animation-delay: 0.30s; }
+  .waveform-active .waveform-bar:nth-child(8) { animation-delay: 0.35s; }
+  .waveform-active .waveform-bar:nth-child(9) { animation-delay: 0.40s; }
+  .waveform-active .waveform-bar:nth-child(10) { animation-delay: 0.45s; }
+  .waveform-active .waveform-bar:nth-child(11) { animation-delay: 0.50s; }
+  .waveform-active .waveform-bar:nth-child(12) { animation-delay: 0.55s; }
+  .waveform-active .waveform-bar:nth-child(13) { animation-delay: 0.60s; }
+  .waveform-active .waveform-bar:nth-child(14) { animation-delay: 0.65s; }
+  .waveform-active .waveform-bar:nth-child(15) { animation-delay: 0.70s; }
+  .waveform-active .waveform-bar:nth-child(16) { animation-delay: 0.75s; }
+  .waveform-active .waveform-bar:nth-child(17) { animation-delay: 0.80s; }
+  .waveform-active .waveform-bar:nth-child(18) { animation-delay: 0.85s; }
+  .waveform-active .waveform-bar:nth-child(19) { animation-delay: 0.90s; }
+  .waveform-active .waveform-bar:nth-child(20) { animation-delay: 0.95s; }
+  .waveform-active .waveform-bar:nth-child(21) { animation-delay: 1.00s; }
+  .waveform-active .waveform-bar:nth-child(22) { animation-delay: 1.05s; }
+  .waveform-active .waveform-bar:nth-child(23) { animation-delay: 1.10s; }
+  .waveform-active .waveform-bar:nth-child(24) { animation-delay: 1.15s; }
+</style>
