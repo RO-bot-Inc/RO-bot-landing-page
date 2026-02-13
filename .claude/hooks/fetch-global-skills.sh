@@ -4,8 +4,9 @@
 
 set -euo pipefail
 
-# Output async mode for faster session start
-echo '{"async": true, "asyncTimeout": 60000}'
+# Run synchronously to ensure skills are available before Claude Code
+# scans for them. Async mode caused skills to be missed when the clone
+# hadn't finished before discovery ran.
 
 # PAT for authenticated access (scoped to claude-skills repo only)
 # Reads from: 1) CLAUDE_SKILLS_PAT env var, or 2) ~/.claude/secrets/skills-pat file
