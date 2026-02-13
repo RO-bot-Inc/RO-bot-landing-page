@@ -340,7 +340,29 @@ Before any deploy:
 
 ---
 
-## Part 9: Reference Documents
+## Part 9: Technical Gotchas & Patterns
+
+### CSS/Tailwind
+- **ID selectors starting with digits are invalid CSS** - `#3cs` won't work. Use Tailwind classes like `scroll-mt-28` directly on elements instead.
+- **ESM config files need ESM imports** - `tailwind.config.mjs` requires `import x from 'pkg'`, not `require('pkg')`.
+
+### Astro Build
+- **public/ files override generated pages** - If `/public/privacy.html` exists, it will override `/src/pages/privacy.astro`. Delete old static files when migrating.
+- **Check build output** - `head -60 dist/page/index.html` to verify correct content before deploying.
+
+### Netlify Deployment
+- **CLI deploys can be overwritten by GitHub auto-deploy** - Always commit and push after verifying CLI deploy works.
+- **Form detection requires re-deploy** - After enabling form detection in Netlify dashboard, trigger a new deploy.
+
+### Debugging Deploy Issues
+1. Check built output: `head dist/page/index.html`
+2. Check live content: `curl -sL https://site.com/page | head -30`
+3. Compare for mismatches
+4. Search for conflicting files: `find public -name "*.html"`
+
+---
+
+## Part 10: Reference Documents
 
 These documents contain the full strategic context:
 
