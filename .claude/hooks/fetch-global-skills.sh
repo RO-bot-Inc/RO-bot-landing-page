@@ -8,7 +8,16 @@ set -euo pipefail
 echo '{"async": true, "asyncTimeout": 60000}'
 
 # PAT for authenticated access (scoped to claude-skills repo only)
-GITHUB_PAT="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"
+# Reads from: 1) CLAUDE_SKILLS_PAT env var, or 2) ~/.claude/secrets/skills-pat file
+SECRETS_FILE="$HOME/.claude/secrets/skills-pat"
+if [ -n "${CLAUDE_SKILLS_PAT:-}" ]; then
+  GITHUB_PAT="$CLAUDE_SKILLS_PAT"
+elif [ -f "$SECRETS_FILE" ]; then
+  GITHUB_PAT="$(tr -d '[:space:]' < "$SECRETS_FILE")"
+else
+  echo "Error: No PAT found. Set CLAUDE_SKILLS_PAT env var or create $SECRETS_FILE" >&2
+  exit 1
+fi
 SKILLS_REPO="https://${GITHUB_PAT}@github.com/dsonders/claude-skills.git"
 SKILLS_DIR="$HOME/.claude/skills"
 
