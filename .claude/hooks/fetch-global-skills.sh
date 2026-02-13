@@ -8,7 +8,8 @@ set -euo pipefail
 echo '{"async": true, "asyncTimeout": 60000}'
 
 # PAT for authenticated access (scoped to claude-skills repo only)
-GITHUB_PAT="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"
+# Set CLAUDE_SKILLS_PAT in your environment (e.g. shell profile or CI secrets)
+GITHUB_PAT="${CLAUDE_SKILLS_PAT:?CLAUDE_SKILLS_PAT environment variable is not set}"
 SKILLS_REPO="https://${GITHUB_PAT}@github.com/dsonders/claude-skills.git"
 SKILLS_DIR="$HOME/.claude/skills"
 
