@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import ScrollAnimations from '../components/ScrollAnimations.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -39,5 +40,6 @@ const { title, description = 'R.O. bot is voice-first AI that helps your techs f
     <slot />
   </main>
   <Footer />
+  <ScrollAnimations />
 </body>
 </html>

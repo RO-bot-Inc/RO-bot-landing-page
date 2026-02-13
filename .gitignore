@@ -2,3 +2,6 @@ node_modules/
 dist/
 .astro/
 .claude/secrets/
+
+# Local Netlify folder
+.netlify

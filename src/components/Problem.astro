@@ -2,40 +2,199 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Section heading -->
     <div class="max-w-3xl mx-auto text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-navy mb-6">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-navy mb-6 animate-on-scroll">
         Your Service Department Is Leaving Money on the Table
       </h2>
-      <p class="text-xl text-gray-600 leading-relaxed">
+      <p class="text-xl text-gray-600 leading-relaxed animate-on-scroll stagger-2">
         Revenue leaks from your service workflow at every stage. Rushed inspections mean missed findings.
         Unclear videos mean declined work. Poor documentation means denied claims. It adds up fast.
       </p>
     </div>
 
-    <!-- Stats strip -->
+    <!-- Stats strip with flip cards -->
     <div class="grid md:grid-cols-3 gap-6">
-      <div class="bg-surface rounded-2xl p-8 text-center border border-gray-100">
-        <div class="text-4xl md:text-5xl font-extrabold text-teal mb-3">61 / 100</div>
-        <p class="text-gray-600 leading-relaxed">
-          vehicles leave with zero additional service recommendations
-        </p>
-        <span class="text-xs text-gray-400 mt-2 block">CBT News</span>
+      <!-- Card 1: 61/100 -> FIND MORE WORK -->
+      <div class="flip-card animate-on-scroll stagger-1" data-flip-card data-flip-text="FIND MORE WORK">
+        <div class="flip-card-inner">
+          <div class="flip-card-front bg-surface rounded-2xl p-8 text-center border border-gray-100">
+            <div class="text-4xl md:text-5xl font-extrabold text-teal mb-3">
+              <span data-counter="61" data-counter-duration="2000">0</span> / 100
+            </div>
+            <p class="text-gray-600 leading-relaxed">
+              vehicles leave with zero additional service recommendations
+            </p>
+            <span class="text-xs text-gray-400 mt-2 block">CBT News</span>
+          </div>
+          <div class="flip-card-back bg-teal rounded-2xl p-8 text-center flex items-center justify-center">
+            <span class="text-2xl md:text-3xl font-extrabold text-white tracking-wide">FIND MORE WORK</span>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-surface rounded-2xl p-8 text-center border border-gray-100">
-        <div class="text-4xl md:text-5xl font-extrabold text-teal mb-3">75%</div>
-        <p class="text-gray-600 leading-relaxed">
-          of recommended work declined by customers without video
-        </p>
-        <span class="text-xs text-gray-400 mt-2 block">Fi Magazine</span>
+      <!-- Card 2: 75% -> SELL MORE WORK -->
+      <div class="flip-card animate-on-scroll stagger-2" data-flip-card data-flip-text="SELL MORE WORK">
+        <div class="flip-card-inner">
+          <div class="flip-card-front bg-surface rounded-2xl p-8 text-center border border-gray-100">
+            <div class="text-4xl md:text-5xl font-extrabold text-teal mb-3">
+              <span data-counter="75" data-counter-suffix="%" data-counter-duration="2000">0%</span>
+            </div>
+            <p class="text-gray-600 leading-relaxed">
+              of recommended work declined by customers without video
+            </p>
+            <span class="text-xs text-gray-400 mt-2 block">Fi Magazine</span>
+          </div>
+          <div class="flip-card-back bg-teal rounded-2xl p-8 text-center flex items-center justify-center">
+            <span class="text-2xl md:text-3xl font-extrabold text-white tracking-wide">SELL MORE WORK</span>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-surface rounded-2xl p-8 text-center border border-gray-100">
-        <div class="text-4xl md:text-5xl font-extrabold text-teal mb-3">30%</div>
-        <p class="text-gray-600 leading-relaxed">
-          of warranty claims fail on first submission due to incomplete documentation
-        </p>
-        <span class="text-xs text-gray-400 mt-2 block">Atheer</span>
+      <!-- Card 3: 30% -> GET PAID FOR MORE WORK -->
+      <div class="flip-card animate-on-scroll stagger-3" data-flip-card data-flip-text="GET PAID FOR MORE WORK">
+        <div class="flip-card-inner">
+          <div class="flip-card-front bg-surface rounded-2xl p-8 text-center border border-gray-100">
+            <div class="text-4xl md:text-5xl font-extrabold text-teal mb-3">
+              <span data-counter="30" data-counter-suffix="%" data-counter-duration="2000">0%</span>
+            </div>
+            <p class="text-gray-600 leading-relaxed">
+              of warranty claims fail on first submission due to incomplete documentation
+            </p>
+            <span class="text-xs text-gray-400 mt-2 block">Atheer</span>
+          </div>
+          <div class="flip-card-back bg-teal rounded-2xl p-8 text-center flex items-center justify-center">
+            <span class="text-2xl md:text-3xl font-extrabold text-white tracking-wide">GET PAID FOR MORE WORK</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .flip-card {
+    perspective: 1000px;
+    height: 220px;
+    cursor: pointer;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateX(-180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateX(180deg);
+  }
+
+  /* Ensure text stays crisp during animation */
+  .flip-card-inner,
+  .flip-card-front,
+  .flip-card-back {
+    -webkit-font-smoothing: antialiased;
+  }
+</style>
+
+<script>
+  // Flip card animation when cards reach top half of viewport (reversible) + hover toggle
+  (function() {
+    const flipCards = document.querySelectorAll('[data-flip-card]');
+    if (flipCards.length === 0) return;
+
+    // Skip if user prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    // Track scroll-determined state for each card
+    const scrollState = new Map<Element, boolean>();
+    let ticking = false;
+
+    function getScrollState(card: Element): boolean {
+      const viewportHeight = window.innerHeight;
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.top + rect.height / 2;
+      return cardCenter < viewportHeight / 2 && cardCenter > 0;
+    }
+
+    function applyFlipState(card: Element, shouldBeFlipped: boolean) {
+      if (shouldBeFlipped && !card.classList.contains('flipped')) {
+        card.classList.add('flipped');
+      } else if (!shouldBeFlipped && card.classList.contains('flipped')) {
+        card.classList.remove('flipped');
+      }
+    }
+
+    function checkFlipCards() {
+      const viewportHeight = window.innerHeight;
+
+      flipCards.forEach((card, index) => {
+        // Skip if card is being hovered
+        if (card.classList.contains('hover-active')) return;
+
+        const shouldBeFlipped = getScrollState(card);
+        scrollState.set(card, shouldBeFlipped);
+
+        if (shouldBeFlipped && !card.classList.contains('flipped')) {
+          setTimeout(() => {
+            if (!card.classList.contains('hover-active')) {
+              card.classList.add('flipped');
+            }
+          }, index * 150);
+        } else if (!shouldBeFlipped && card.classList.contains('flipped')) {
+          const reverseIndex = flipCards.length - 1 - index;
+          setTimeout(() => {
+            if (!card.classList.contains('hover-active')) {
+              card.classList.remove('flipped');
+            }
+          }, reverseIndex * 150);
+        }
+      });
+    }
+
+    // Add hover handlers to each card
+    flipCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.classList.add('hover-active');
+        // Toggle to opposite of current state
+        const isCurrentlyFlipped = card.classList.contains('flipped');
+        applyFlipState(card, !isCurrentlyFlipped);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('hover-active');
+        // Return to scroll-determined state
+        const shouldBeFlipped = getScrollState(card);
+        applyFlipState(card, shouldBeFlipped);
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          checkFlipCards();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial check
+    checkFlipCards();
+  })();
+</script>
