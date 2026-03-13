@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Chrome Extension Privacy Policy - R.O. bot" description="Privacy policy for the RO-bot for myKaarma Chrome extension.">
+
+  <section class="bg-navy pt-28 pb-12 md:pt-36 md:pb-16 text-center">
+    <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-2">Chrome Extension Privacy Policy</h1>
+    <p class="text-muted">RO-bot for myKaarma &mdash; Last Updated: March 13, 2026</p>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-lg prose-gray max-w-none">
+
+      <h2>What This Extension Does</h2>
+      <p>RO-bot for myKaarma is a Chrome extension that reads repair order data from myKaarma web pages and syncs it to your RO-bot account. The extension is read-only — it does not modify any data in myKaarma.</p>
+
+      <h2>Data We Read</h2>
+      <p>When you navigate to a repair order in myKaarma, the extension reads the following from the page:</p>
+      <ul>
+        <li>Repair order metadata: RO number, tag number, open date, status</li>
+        <li>Vehicle information: VIN, year/make/model</li>
+        <li>People: service advisor name, technician name, customer name</li>
+        <li>Complaint lines: recommendation titles and op codes</li>
+      </ul>
+      <p>This data is only read from pages on <code>app.mykaarma.com</code>. The extension does not read data from any other websites.</p>
+
+      <h2>Where Data Is Sent</h2>
+      <p>Scraped repair order data is sent exclusively to RO-bot servers at <code>app.ro-bot.io</code>, under your authenticated RO-bot account. Data is transmitted over HTTPS.</p>
+      <p><strong>We do not send data to any third parties.</strong></p>
+
+      <h2>Data Stored Locally</h2>
+      <p>The extension stores the following in Chrome's local storage:</p>
+      <ul>
+        <li>Your RO-bot pairing credentials (API key, user ID, organization ID)</li>
+        <li>Sync status (last sync time, current RO number)</li>
+      </ul>
+      <p>This data stays on your computer and is only transmitted to RO-bot servers for authentication.</p>
+
+      <h2>Permissions</h2>
+      <ul>
+        <li><strong>storage</strong> — Store pairing credentials and sync state locally</li>
+        <li><strong>activeTab / tabs</strong> — Detect when a myKaarma tab is active</li>
+        <li><strong>Host permission (app.mykaarma.com)</strong> — Read repair order data from myKaarma pages</li>
+      </ul>
+
+      <h2>What We Don't Do</h2>
+      <ul>
+        <li>We do not collect browsing history</li>
+        <li>We do not track your activity outside of myKaarma</li>
+        <li>We do not sell or share data with third parties</li>
+        <li>We do not modify any data in myKaarma</li>
+        <li>We do not collect personal information beyond what is visible on myKaarma repair orders</li>
+      </ul>
+
+      <h2>Unpairing and Data Deletion</h2>
+      <p>You can unpair the extension at any time by clicking the extension icon and selecting "Unpair this browser." This removes all locally stored credentials. To remove synced data from RO-bot, contact support.</p>
+
+      <h2>Contact</h2>
+      <div class="bg-surface rounded-2xl p-6 border border-gray-100 not-prose">
+        <h3 class="font-bold text-navy mb-2">Questions About This Privacy Policy?</h3>
+        <p class="text-gray-600">R.O. bot, Inc.</p>
+        <p class="text-gray-600">Email: <a href="mailto:support@ro-bot.io" class="text-teal hover:text-teal-dark">support@ro-bot.io</a></p>
+      </div>
+
+      <p class="text-sm text-gray-500 mt-8">This policy applies only to the RO-bot for myKaarma Chrome extension. For the full R.O. bot platform privacy policy, see <a href="/privacy">ro-bot.io/privacy</a>.</p>
+
+    </div>
+  </section>
+
+</BaseLayout>
