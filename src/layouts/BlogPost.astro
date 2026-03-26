@@ -14,9 +14,43 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+
+const isoDate = new Date(date).toISOString();
+const canonicalPath = `/blog/${Astro.url.pathname.split('/blog/')[1] || ''}`;
+
+const blogPostingSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": excerpt,
+  "datePublished": isoDate,
+  "dateModified": isoDate,
+  "author": {
+    "@type": "Person",
+    "name": "Dave Sonders"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "R.O. bot",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ro-bot.io/browser.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://ro-bot.io${canonicalPath}`
+  }
+};
 ---
 
-<BaseLayout title={`${title} - R.O. bot Blog`} description={excerpt}>
+<BaseLayout
+  title={`${title} - R.O. bot Blog`}
+  description={excerpt}
+  ogType="article"
+  canonicalPath={canonicalPath}
+  schemaJson={blogPostingSchema}
+>
 
   <article>
     <header class="bg-navy pt-28 pb-12 md:pt-36 md:pb-16">

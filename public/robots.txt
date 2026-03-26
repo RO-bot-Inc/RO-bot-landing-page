@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://ro-bot.io/sitemap.xml
+Sitemap: https://ro-bot.io/sitemap-index.xml
 
 # Allow Google to access favicon
 User-agent: Googlebot

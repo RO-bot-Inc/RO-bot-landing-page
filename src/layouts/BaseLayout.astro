@@ -7,9 +7,28 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonicalPath?: string;
+  schemaJson?: object | object[];
 }
 
-const { title, description = 'R.O. bot is voice-first AI that helps your techs find more work, sell more work, and get paid for more work.' } = Astro.props;
+const {
+  title,
+  description = 'R.O. bot is voice-first AI that helps your techs find more work, sell more work, and get paid for more work.',
+  ogImage = '/browser.png',
+  ogType = 'website',
+  canonicalPath,
+  schemaJson,
+} = Astro.props;
+
+const siteUrl = 'https://ro-bot.io';
+const canonicalUrl = canonicalPath ? `${siteUrl}${canonicalPath}` : new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+const schemaScripts = schemaJson
+  ? (Array.isArray(schemaJson) ? schemaJson : [schemaJson])
+  : [];
 ---
 
 <!DOCTYPE html>
@@ -19,6 +38,28 @@ const { title, description = 'R.O. bot is voice-first AI that helps your techs f
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
   <meta name="description" content={description}>
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href={canonicalUrl}>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content={ogImageUrl}>
+  <meta property="og:url" content={canonicalUrl}>
+  <meta property="og:type" content={ogType}>
+  <meta property="og:site_name" content="R.O. bot">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={ogImageUrl}>
+
+  <!-- JSON-LD Schema -->
+  {schemaScripts.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
 
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/browser.png" sizes="192x192">
