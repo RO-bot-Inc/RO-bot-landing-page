@@ -74,7 +74,7 @@ The enthusiasm from our beta group has translated into a flood of feature reques
 
 ## Join the Movement
 
-We launched this beta to prove out the core value of R.O. bot. What we didn't expect was to convert skeptics into evangelists. These beta customers are becoming partners in building the future of the product, and we're so grateful for their support.
+We launched this beta to prove out the core value of R.O. bot. What we didn't expect was to convert skeptics into evangelists. These beta customers are becoming partners in building the future of the product, and we're so grateful for their support. For the business case behind why shops are making the switch, read [The ROI of Digital Repair Solutions](/blog/roi-digital-repair).
 
 Many of our beta testers started as skeptics because they've seen it all before. But R.O. bot is different. We started with a simple premise: make something that technicians will actually want to use. 
 
@@ -82,7 +82,7 @@ Many of our beta testers started as skeptics because they've seen it all before.
 
 ---
 
-*Want to join our growing community of early adopters? We're selectively adding shops that are ready to experience the future of service documentation. [Schedule a meeting](https://ro-bot.io/beta) and see why skeptics are becoming believers.*
+*Want to see why skeptics are becoming believers? [Book a demo](/book-demo) and experience R.O. bot's [voice-first tools](/product) with your own workflow.*
 
 
 ---

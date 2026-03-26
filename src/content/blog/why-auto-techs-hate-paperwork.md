@@ -70,7 +70,7 @@ How would a technician naturally communicate the status of a repair job to a col
 
 Now imagine if you could just… say that. Out loud. While you work. And have it automatically transformed into clean, professional documentation that satisfies customers, managers, and warranty administrators.
 
-That's not science fiction anymore. **Voice-first AI technology is finally sophisticated enough to understand automotive context, terminology, and workflows.** It can distinguish between diagnostic steps and repair procedures. It knows the difference between part numbers and labor codes. It can even format everything according to manufacturer requirements.
+That's not science fiction anymore. **Voice-first AI technology is finally sophisticated enough to understand automotive context, terminology, and workflows. Learn more about how [voice technology is changing the service bay](/blog/voice-technology-service-bay).** It can distinguish between diagnostic steps and repair procedures. It knows the difference between part numbers and labor codes. It can even format everything according to manufacturer requirements.
 
 That's technology that adapts to how technicians actually work, instead of forcing technicians to adapt to how computers want to be used.
 
@@ -90,7 +90,7 @@ AI can't eliminate technicians (for one thing, they have hands); but it can elim
 
 The question isn't whether AI-native, voice-first tools will become standard in automotive service. It's whether your shop will be an early adopter or a late follower.
 
-*Want to learn more about how AI co-pilots are transforming automotive workflows? [Book a demo](https://ro-bot.io/#waitlist-form) to see this technology in action. And follow our journey as we document the future of automotive service.*
+*Want to see how voice-first AI works in practice? [Book a demo](/book-demo) to see R.O. bot in action. Or read what happened when real technicians tried it: [From Skeptics to Believers](/blog/from-skeptics-to-believers-beta-feedback).*
 
 ---
 

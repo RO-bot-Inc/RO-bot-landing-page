@@ -1,0 +1,247 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "R.O. bot",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "iOS, Android, Web",
+  "description": "Voice-first AI platform for automotive service departments. Three tools that help technicians find more work, sell more work, and get paid for more work.",
+  "offers": {
+    "@type": "Offer",
+    "category": "Subscription"
+  }
+};
+---
+
+<BaseLayout
+  title="Product - R.O. bot | Voice-First AI Tools for Service Departments"
+  description="Three voice-first AI tools for automotive service departments: AI-powered 3Cs documentation, AI-guided video inspections, and voice-first multi-point inspections."
+  canonicalPath="/product"
+  schemaJson={productSchema}
+>
+
+  <!-- Hero -->
+  <section class="bg-navy pt-28 pb-16 md:pt-36 md:pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+        Voice-First AI Tools for Every Stage of the Service Workflow
+      </h1>
+      <p class="text-lg text-muted leading-relaxed max-w-2xl mx-auto mb-8">
+        R.O. bot gives your technicians three tools that replace typing with talking. They find more work, sell more work, and get paid for more work.
+      </p>
+      <a href="/book-demo" class="inline-block bg-teal hover:bg-teal-dark text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
+        Book Your Demo
+      </a>
+    </div>
+  </section>
+
+  <!-- Pillar 1: 3Cs Documentation -->
+  <section id="3cs" class="py-20 md:py-28 bg-white scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-teal font-bold text-sm uppercase tracking-wider">Get Paid for More Work</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-navy mt-3 mb-5">
+            AI-Powered 3Cs Documentation
+          </h2>
+          <p class="text-xl text-gray-600 leading-relaxed mb-6">
+            Techs talk, R.O. bot writes. Voice notes become professional, warranty-compliant repair stories in seconds. Every story gets graded on 7 criteria so techs know exactly where to improve.
+          </p>
+
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">Save 5-35 minutes per RO</p>
+                <p class="text-gray-600 text-sm">No more hunting-and-pecking on a keyboard. Techs record a voice note and R.O. bot generates a complete Complaint, Cause, and Correction story.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">7-criteria AI grading</p>
+                <p class="text-gray-600 text-sm">Every story is scored for completeness, OEM compliance, and clarity. The grader flags missing information before it becomes a denial.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">Fewer warranty denials</p>
+                <p class="text-gray-600 text-sm">12% of warranty claims get denied industry-wide. The #1 cause is bad documentation. R.O. bot catches those gaps before submission.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-teal/10 rounded-xl p-5 mb-6">
+            <p class="text-sm text-gray-600 mb-1">Industry stat</p>
+            <p class="text-lg font-bold text-navy">Dealerships lose 5-10% of warranty revenue due to documentation issues alone.</p>
+          </div>
+
+          <div class="flex flex-wrap gap-4">
+            <a href="/book-demo" class="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors">
+              See 3Cs documentation in action
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/blog/why-auto-techs-hate-paperwork" class="inline-flex items-center gap-2 text-gray-500 hover:text-navy font-medium transition-colors text-sm">
+              Read: Why techs hate paperwork
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <img src="/report-card-screens/desktop_A_highlighted.png" alt="R.O. bot story grading report card showing A grade across 7 criteria" class="rounded-2xl shadow-lg max-w-full">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillar 2: Video Inspections -->
+  <section id="video" class="py-20 md:py-28 bg-surface scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="order-2 md:order-1 flex justify-center">
+          <img src="/hero/inspection.png" alt="R.O. bot AI-guided video inspection on mobile device" class="rounded-2xl shadow-lg max-w-full">
+        </div>
+        <div class="order-1 md:order-2">
+          <span class="text-teal font-bold text-sm uppercase tracking-wider">Sell More Work</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-navy mt-3 mb-5">
+            AI-Guided Video Inspections
+          </h2>
+          <p class="text-xl text-gray-600 leading-relaxed mb-6">
+            An on-screen teleprompter guides technicians through recording vehicle inspection videos. It tells them what to show and what to say, so every video is clear, professional, and persuasive.
+          </p>
+
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">Higher customer approval rates</p>
+                <p class="text-gray-600 text-sm">When customers can see the problem clearly and hear a confident explanation, they approve more recommended work.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">No guessing what to say</p>
+                <p class="text-gray-600 text-sm">The teleprompter provides a shot list and talking points. Even newer techs create professional videos on their first try.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">Consistent quality across the team</p>
+                <p class="text-gray-600 text-sm">Every tech follows the same guided process, so video quality doesn't depend on who's behind the camera.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-teal/10 rounded-xl p-5 mb-6">
+            <p class="text-sm text-gray-600 mb-1">Industry stat</p>
+            <p class="text-lg font-bold text-navy">30-40% of recommended work gets declined by customers, often because they don't understand the repair.</p>
+          </div>
+
+          <a href="/book-demo" class="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors">
+            See video inspections in action
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillar 3: Multi-Point Inspections -->
+  <section id="mpi" class="py-20 md:py-28 bg-white scroll-mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-teal font-bold text-sm uppercase tracking-wider">Find More Work</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-navy mt-3 mb-5">
+            Voice-First Multi-Point Inspections
+          </h2>
+          <p class="text-xl text-gray-600 leading-relaxed mb-6">
+            Techs call out findings as they go. No clipboard, no buttons, no stopping work to tap a screen. Voice-first MPI means higher completion rates and more issues discovered on every vehicle.
+          </p>
+
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">More findings per inspection</p>
+                <p class="text-gray-600 text-sm">When the inspection doesn't interrupt the workflow, techs are more thorough. More findings means more opportunities for customer-pay and warranty work.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">Higher completion rates</p>
+                <p class="text-gray-600 text-sm">Voice-first means no reason to skip points. Techs complete the full inspection because it doesn't slow them down.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-teal mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <div>
+                <p class="font-semibold text-navy">Zero clipboard</p>
+                <p class="text-gray-600 text-sm">No paper forms, no tablet apps with tiny buttons. Just a tech, their voice, and the vehicle in front of them.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-teal/10 rounded-xl p-5 mb-6">
+            <p class="text-sm text-gray-600 mb-1">Industry stat</p>
+            <p class="text-lg font-bold text-navy">61 out of 100 vehicles leave with zero additional service recommendations. Most of those had findings that were never captured.</p>
+          </div>
+
+          <a href="/book-demo" class="inline-flex items-center gap-2 text-teal font-semibold hover:text-teal-dark transition-colors">
+            See voice-first MPI in action
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="flex justify-center">
+          <img src="/product3d/left-phone-only.png" alt="R.O. bot multi-point inspection on mobile phone" class="max-w-xs">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-20 md:py-28 bg-surface">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-navy text-center mb-4">Works With Your Existing Setup</h2>
+      <p class="text-xl text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        R.O. bot works alongside your current DMS. No integration project, no IT involvement, no waiting.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-14 h-14 rounded-full bg-teal/10 text-teal font-extrabold text-xl flex items-center justify-center mx-auto mb-5">1</div>
+          <h3 class="font-bold text-navy text-lg mb-2">Sign Up</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">R.O. bot works on any phone, tablet, or computer. Your team can be using it today.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-14 h-14 rounded-full bg-teal/10 text-teal font-extrabold text-xl flex items-center justify-center mx-auto mb-5">2</div>
+          <h3 class="font-bold text-navy text-lg mb-2">Techs Record Voice Notes</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">As they work, techs describe what they find and what they did. Natural conversation, not forms.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-14 h-14 rounded-full bg-teal/10 text-teal font-extrabold text-xl flex items-center justify-center mx-auto mb-5">3</div>
+          <h3 class="font-bold text-navy text-lg mb-2">R.O. bot Handles the Rest</h3>
+          <p class="text-gray-600 text-sm leading-relaxed">AI generates graded 3Cs stories, inspection reports, and video walkthroughs. Copy into your DMS and move on.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-navy text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-extrabold text-white mb-4">Every RO Has More Revenue In It</h2>
+      <p class="text-muted text-lg mb-8">Book a 15-minute demo and see how R.O. bot works with your team's real workflow.</p>
+      <a href="/book-demo" class="inline-block bg-teal hover:bg-teal-dark text-white font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
+        Book Your Demo
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>

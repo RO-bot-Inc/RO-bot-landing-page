@@ -2,8 +2,9 @@
 
 Based on the Majentics analysis (Human 77, SEO 66, AI Engines 78, AI Agents 72) and independent site audit conducted March 2026.
 
-## Completed (Quick Wins)
+## Completed
 
+### Quick Wins (Session 1)
 - [x] OG tags + Twitter cards on all pages (BaseLayout.astro)
 - [x] Canonical URLs on all pages (BaseLayout.astro)
 - [x] Organization + SoftwareApplication JSON-LD schema (index.astro)
@@ -13,62 +14,24 @@ Based on the Majentics analysis (Human 77, SEO 66, AI Engines 78, AI Agents 72) 
 - [x] LinkedIn link in footer (Footer.astro)
 - [x] robots.txt updated to reference sitemap-index.xml
 
----
-
-## Short-Term (This Sprint)
-
-### 1. Create standalone /product page
-
-**Why:** High-value SEO target. Right now "Product" in the nav scrolls to /#solution. A standalone page can rank for "automotive service AI", "voice-first MPI software", "dealership technician app".
-
-**Files to create/change:**
-- Create `src/pages/product.astro`
-- Update `src/components/Navbar.astro` to link to `/product` instead of `/#solution`
-
-**Acceptance criteria:**
-- Dedicated page with its own title, meta description, and canonical URL
-- Three sections matching the three pillars (3Cs, Video, MPI) with deeper content than homepage
-- Product JSON-LD schema
-- Internal links to blog posts under each pillar
-- CTA at the bottom
+### Short-Term (Session 2)
+- [x] Standalone /product page with all three pillars, Product schema, internal links to blog posts
+- [x] Pricing page (demo-focused, no numbers, ROI framing)
+- [x] Founder bio + headshot on About page with LinkedIn link
+- [x] Blog SEO optimization: fixed banned words, broken links, added 2+ internal links per post
+- [x] Nav updated: Product and Pricing links, mobile menu updated
+- [x] Footer updated: Product links to /product page, Pricing link added
+- [x] LinkedIn URL corrected to linkedin.com/company/ro-bot/ across footer and schema
 
 ---
 
-### 2. Optimize existing blog posts for SEO
+## Remaining Short-Term
 
-**Why:** Five posts exist but none are optimized for search. Meta descriptions exist (via excerpt), but posts lack keyword targeting, internal links, and structured content.
-
-**Files to change:**
-- `src/content/blog/*.md` (all 5 posts)
-
-**Acceptance criteria:**
-- Each post has a primary target keyword in the title, first paragraph, and at least one subheading
-- Each post has 2+ internal links (to other blog posts, product page, or homepage sections)
-- Each post has a clear CTA at the end (already exists in BlogPost layout)
-- Excerpts reviewed and tightened for search snippet display
-
----
-
-### 3. Add DMS compatibility / integrations page
-
-**Why:** "Does it work with my DMS?" is the #1 pre-purchase technical question. This page is also a strong SEO target for queries like "CDK integration technician tools".
-
-**Files to create/change:**
-- Create `src/pages/integrations.astro`
-- Update `src/components/Navbar.astro` and `src/components/Footer.astro` with link
-
-**Acceptance criteria:**
-- Lists compatible DMS platforms (CDK, Reynolds, Tekion, DealerSocket, PBS, etc.)
-- Clarifies that R.O. bot works independently of DMS (no integration required to start)
-- Explains copy/paste workflow and any planned direct integrations
-- Has its own meta description and OG tags
-- CTA at the bottom
-
----
-
-### 4. Replace Notion support page with hosted content
+### 1. Replace Notion support page with hosted content
 
 **Why:** Linking to an external Notion doc signals "early-stage startup." Hosting support content on ro-bot.io also captures SEO value from how-to searches.
+
+**Blocked on:** Need Notion doc content from Dave (can't fetch programmatically).
 
 **Files to change:**
 - Rewrite `src/pages/support.astro` to include setup guide, FAQ, and contact info directly
@@ -81,48 +44,17 @@ Based on the Majentics analysis (Human 77, SEO 66, AI Engines 78, AI Agents 72) 
 
 ---
 
-### 5. Add founder bio to About page
+### 2. Add YouTube and other social links once accounts exist
 
-**Why:** No team info = no E-E-A-T signal. Prospects need to know who built the product.
-
-**Files to change:**
-- `src/pages/about.astro`
-
-**Acceptance criteria:**
-- Founder name, photo, and brief bio (automotive industry experience, what led to building R.O. bot)
-- Person JSON-LD schema
-- Professional headshot (needs asset from Dave)
-
----
-
-### 6. Add social media links across the site
-
-**Why:** Missing social links hurts E-E-A-T and brand verification. LinkedIn is the primary channel for reaching fixed ops directors.
+**Why:** Missing social links hurts E-E-A-T and brand verification.
 
 **Files to change:**
-- `src/components/Footer.astro` (LinkedIn done, add others as accounts are created)
-- `src/components/Navbar.astro` (optional)
+- `src/components/Footer.astro`
+- Organization schema sameAs array in `src/pages/index.astro`
 
 **Acceptance criteria:**
-- LinkedIn link in footer (done)
 - YouTube link added once channel exists
 - Social links match sameAs array in Organization schema
-
----
-
-### 7. Create a pricing page (even placeholder)
-
-**Why:** "RO-bot pricing" is a high-intent search query getting zero results from the site. Even a "Contact us for pricing" page captures that traffic.
-
-**Files to create:**
-- Create `src/pages/pricing.astro`
-- Add link in Navbar and Footer
-
-**Acceptance criteria:**
-- Page exists at /pricing
-- Communicates the general model (per-store subscription) without specific numbers if preferred
-- "Talk to us" CTA leading to /book-demo
-- Has its own title, meta description
 
 ---
 
@@ -218,18 +150,14 @@ Based on the Majentics analysis (Human 77, SEO 66, AI Engines 78, AI Agents 72) 
 
 ---
 
-## Priority Matrix
+## Priority Matrix (Remaining Items)
 
-| Item | Effort | Impact | Addresses |
-|---|---|---|---|
-| Standalone /product page | Medium | High | SEO, Conversion |
-| Blog SEO optimization | Low-Medium | High | SEO, AEO |
-| DMS integrations page | Medium | High | Conversion, SEO |
-| Replace Notion support page | Medium | Medium | Conversion, SEO |
-| Founder bio on About page | Low | Medium | E-E-A-T, Trust |
-| Pricing page (placeholder) | Low | Medium | SEO, Conversion |
-| Named case study | Medium | Very High | Conversion, AEO, Trust |
-| ROI calculator / demo video | Medium | High | Conversion |
-| Middle-of-funnel lead capture | Medium | High | Lead gen |
-| Blog cadence 2x/month | Ongoing | High | SEO, AEO |
-| Help center rebuild | High | Medium | SEO, Trust |
+| Item | Effort | Impact | Addresses | Status |
+|---|---|---|---|---|
+| Replace Notion support page | Medium | Medium | Conversion, SEO | Blocked (need Notion content) |
+| Add social links (YouTube etc.) | Low | Medium | E-E-A-T | Blocked (need accounts) |
+| Named case study | Medium | Very High | Conversion, AEO, Trust | Needs customer data |
+| ROI calculator / demo video | Medium | High | Conversion | Roadmap |
+| Middle-of-funnel lead capture | Medium | High | Lead gen | Roadmap |
+| Blog cadence 2x/month | Ongoing | High | SEO, AEO | Ongoing |
+| Help center rebuild | High | Medium | SEO, Trust | Roadmap |

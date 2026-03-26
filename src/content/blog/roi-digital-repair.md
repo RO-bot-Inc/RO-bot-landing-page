@@ -18,7 +18,7 @@ Many shop owners underestimate the true cost of traditional repair processes. Be
 
 **Diagnostic Time Overruns**: When technicians spend excessive time researching problems or pursuing incorrect diagnostic paths, labor costs spiral while bay utilization drops. A diagnostic that should take 30 minutes but stretches to 2 hours represents not just lost profit on that job, but missed opportunities for additional work.
 
-**Warranty Claim Rejections**: Poorly documented repairs or missed diagnostic steps often result in warranty claim denials. When a $1,200 transmission repair gets rejected due to insufficient documentation, the shop absorbs the entire cost while the customer may question the quality of work.
+**Warranty Claim Rejections**: Poorly documented repairs or missed diagnostic steps often result in warranty claim denials. When a $1,200 transmission repair gets rejected due to insufficient documentation, the shop absorbs the entire cost while the customer may question the quality of work. This is [the core documentation problem](/blog/why-auto-techs-hate-paperwork) holding most shops back.
 
 **Rework and Comebacks**: Incomplete initial diagnostics frequently lead to customers returning with the same or related problems. Each comeback represents negative profit and damaged customer relationships.
 
@@ -62,4 +62,6 @@ Industry data shows that shops implementing comprehensive digital solutions typi
 
 The question isn't whether digital repair solutions provide positive ROI – it's whether shop owners can afford to wait any longer to implement them.
 
-*Discover how R.O. bot's AI-powered platform can transform your shop's profitability. Calculate your potential ROI with our diagnostic efficiency assessment.*
+See what real technicians say about making the switch to [voice-first AI tools](/blog/from-skeptics-to-believers-beta-feedback), and learn how [voice technology in the service bay](/blog/voice-technology-service-bay) is driving these results.
+
+*Ready to see the ROI for your shop? [Book a demo](/book-demo) and we'll walk through R.O. bot's [voice-first tools](/product) with your team's real workflow.*
