@@ -72,9 +72,9 @@ Then AI structures that recording into a properly formatted 3C story with the de
 
 The result is not a transcript. It is a structured document that connects complaint to cause to correction, fills in the specific details that reviewers look for, and follows the format that gets claims approved on the first pass.
 
-R.O. bot does exactly this. A tech spends 30 seconds talking through the repair and gets back a complete, graded warranty story.
+RO.bot does exactly this. A tech spends 30 seconds talking through the repair and gets back a complete, graded warranty story.
 
-![R.O. bot report card showing story grade and criteria scores](/blog-assets/3-reduce-warranty-claim-denials/report-card-mobile.png)
+![RO.bot report card showing story grade and criteria scores](/blog-assets/3-reduce-warranty-claim-denials/report-card-mobile.png)
  The grading system scores each story against the criteria OEMs use to evaluate claims, so your service manager can spot weak documentation before it ships to the manufacturer. Not after it comes back denied.
 
 You can see how shops are putting this into practice in our [beta feedback roundup](/blog/from-skeptics-to-believers-beta-feedback).
@@ -91,6 +91,6 @@ The [return on better documentation](/blog/roi-digital-repair) is one of the cle
 
 Every denied warranty claim represents work your tech already performed, a repair your shop already completed, and revenue your dealership already earned. The only thing standing between you and that money is the documentation.
 
-RO-bot's voice-first 3Cs documentation helps your techs produce complete, properly structured warranty stories in seconds instead of minutes. No typing. No training techs to write differently. Just better documentation from day one.
+RO.bot's voice-first 3Cs documentation helps your techs produce complete, properly structured warranty stories in seconds instead of minutes. No typing. No training techs to write differently. Just better documentation from day one.
 
 **[Book a demo](/book-demo)** and we will walk you through exactly how it works with your team's real workflow. Fifteen minutes. No pressure. Just a look at what your warranty recovery could look like when every story is complete the first time.

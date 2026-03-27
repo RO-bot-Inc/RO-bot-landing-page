@@ -89,8 +89,8 @@ AI can't eliminate technicians (for one thing, they have hands); but it can elim
 
 The question isn't whether AI-native, voice-first tools will become standard in automotive service. It's whether your shop will be an early adopter or a late follower.
 
-*Want to see how voice-first AI works in practice? [Book a demo](/book-demo) to see R.O. bot in action. Or read what happened when real technicians tried it: [From Skeptics to Believers](/blog/from-skeptics-to-believers-beta-feedback).*
+*Want to see how voice-first AI works in practice? [Book a demo](/book-demo) to see RO.bot in action. Or read what happened when real technicians tried it: [From Skeptics to Believers](/blog/from-skeptics-to-believers-beta-feedback).*
 
 ---
 
-**About the Author:** Dave is the founder of R.O. bot, an AI co-pilot designed specifically for automotive technicians. After hundreds of conversations with service professionals across the industry, he started R.O. bot to free technicians' hands from the shackles of bad software.
+**About the Author:** Dave is the founder of RO.bot, an AI co-pilot designed specifically for automotive technicians. After hundreds of conversations with service professionals across the industry, he started RO.bot to free technicians' hands from the shackles of bad software.

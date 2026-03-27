@@ -19,7 +19,7 @@ Traditional solutions have included ruggedized tablets and washable keyboards, b
 
 Voice interaction aligns perfectly with how technicians naturally work and communicate. When diagnosing a complex problem, technicians often talk through their thought process, discussing symptoms and potential causes with colleagues. Voice-enabled tools simply extend this natural behavior to include AI-powered assistance. This is why [technicians overwhelmingly prefer voice-first tools](/blog/from-skeptics-to-believers-beta-feedback) over traditional screen-based software.
 
-Consider a technician working under the hood of a vehicle, identifying an unusual noise. Instead of stopping to research the problem, they can simply say: "R.O. bot, I'm hearing a rattling noise from the passenger side when the engine is at idle. What should I check first?" The system can provide immediate, relevant guidance without requiring the technician to move from their position or clean their hands.
+Consider a technician working under the hood of a vehicle, identifying an unusual noise. Instead of stopping to research the problem, they can simply say: "RO.bot, I'm hearing a rattling noise from the passenger side when the engine is at idle. What should I check first?" The system can provide immediate, relevant guidance without requiring the technician to move from their position or clean their hands.
 
 ## Beyond Convenience: Safety and Efficiency
 
@@ -27,7 +27,7 @@ Voice technology offers benefits that extend far beyond simple convenience:
 
 **Enhanced Safety**: Keeping hands free and eyes focused on the work reduces the risk of accidents. Technicians don't need to look away from potentially dangerous equipment to consult diagnostic information.
 
-**Improved Documentation**: Voice commands enable real-time documentation of findings and procedures. As technicians discover issues, they can immediately log them without interrupting their workflow: "R.O. bot, note that the brake fluid level is low and the fluid appears contaminated."
+**Improved Documentation**: Voice commands enable real-time documentation of findings and procedures. As technicians discover issues, they can immediately log them without interrupting their workflow: "RO.bot, note that the brake fluid level is low and the fluid appears contaminated."
 
 **Faster Information Access**: Speaking is typically faster than typing, especially for technicians wearing gloves or working in awkward positions. Quick access to technical specifications, torque values, or procedure steps keeps work flowing smoothly.
 
@@ -55,4 +55,4 @@ Voice technology represents a fundamental shift toward more natural, efficient h
 
 To understand the full impact of voice-first tools on shop economics, read [The ROI of Digital Repair Solutions](/blog/roi-digital-repair). And to see how voice technology is eliminating [the documentation burden that technicians hate most](/blog/why-auto-techs-hate-paperwork), check out our deep dive on the topic.
 
-*Ready to see voice-first AI in your service bay? [Book a demo](/book-demo) to experience R.O. bot's [voice-first tools](/product) in action.*
+*Ready to see voice-first AI in your service bay? [Book a demo](/book-demo) to experience RO.bot's [voice-first tools](/product) in action.*

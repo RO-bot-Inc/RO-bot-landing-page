@@ -59,7 +59,7 @@ This is the same [interface problem that plagues every screen-based tool](/blog/
 
 The fix is not a better tablet form. It is removing the tablet from the equation entirely.
 
-![R.O. bot MPI summary showing findings and voice notes](/blog-assets/4-mpi-completion-rate-revenue/mpi-summary.png)
+![RO.bot MPI summary showing findings and voice notes](/blog-assets/4-mpi-completion-rate-revenue/mpi-summary.png)
 
 A [voice-first MPI](/product#mpi) lets the tech speak their findings as they discover them. Standing at the wheel, they say what they see. Under the hood, they call out what they find. On the lift, they describe the condition of every component as they look at it. The inspection happens in real time, inside the natural flow of the work, not as a separate task bolted on after the fact.
 

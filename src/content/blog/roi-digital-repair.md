@@ -61,4 +61,4 @@ The question isn't whether digital repair solutions provide positive ROI – it'
 
 See what real technicians say about making the switch to [voice-first AI tools](/blog/from-skeptics-to-believers-beta-feedback), and learn how [voice technology in the service bay](/blog/voice-technology-service-bay) is driving these results.
 
-*Ready to see the ROI for your shop? [Book a demo](/book-demo) and we'll walk through R.O. bot's [voice-first tools](/product) with your team's real workflow.*
+*Ready to see the ROI for your shop? [Book a demo](/book-demo) and we'll walk through RO.bot's [voice-first tools](/product) with your team's real workflow.*

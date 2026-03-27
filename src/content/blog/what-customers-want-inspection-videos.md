@@ -62,15 +62,15 @@ This is where the process usually breaks down. You train the team on video best 
 
 ## How AI-Guided Video Inspections Change the Math
 
-R.O. bot's [AI-guided video inspection tool](/product#video) puts an on-screen teleprompter directly in the tech's recording view. Instead of guessing what to say or trying to remember a five-step framework while lying on a creeper, the tech sees prompts in real time: show the problem, explain what it is, compare to good condition, explain the consequence, state your recommendation.
+RO.bot's [AI-guided video inspection tool](/product#video) puts an on-screen teleprompter directly in the tech's recording view. Instead of guessing what to say or trying to remember a five-step framework while lying on a creeper, the tech sees prompts in real time: show the problem, explain what it is, compare to good condition, explain the consequence, state your recommendation.
 
-![R.O. bot recording view with teleprompter prompts for brake caliper inspection](/blog-assets/5-what-customers-want-inspection-videos/recording-view.png)
+![RO.bot recording view with teleprompter prompts for brake caliper inspection](/blog-assets/5-what-customers-want-inspection-videos/recording-view.png)
 
 The teleprompter adapts to the specific concern the tech is recording. A brake video gets different prompts than a suspension video. The tech does not have to think about structure. They just follow the prompts and talk about what they know: the vehicle in front of them.
 
 The result is a video that covers every element customers need to make a decision. Every time. Not just when your best communicator happens to be on that RO.
 
-This is the "Sell More Work" piece of the [R.O. bot value framework](/blog/roi-digital-repair). Finding work matters. Getting paid for work matters. But if the customer declines the work because the video did not communicate the problem clearly, none of that matters. Better videos are the bridge between discovered work and approved work.
+This is the "Sell More Work" piece of the [RO.bot value framework](/blog/roi-digital-repair). Finding work matters. Getting paid for work matters. But if the customer declines the work because the video did not communicate the problem clearly, none of that matters. Better videos are the bridge between discovered work and approved work.
 
 ## The Bottom Line for Service Managers
 

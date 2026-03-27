@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import Problem from '../components/Problem.astro';
 import Solution from '../components/Solution.astro';
 import HowItWorks from '../components/HowItWorks.astro';
+import Testimonial from '../components/Testimonial.astro';
 import CTA from '../components/CTA.astro';
 import BrandLogos from '../components/BrandLogos.astro';
 import FAQ from '../components/FAQ.astro';
@@ -11,7 +12,7 @@ import FAQ from '../components/FAQ.astro';
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "R.O. bot",
+  "name": "RO.bot",
   "url": "https://ro-bot.io",
   "logo": "https://ro-bot.io/browser.png",
   "description": "Voice-first AI platform that helps automotive service departments find more work, sell more work, and get paid for more work.",
@@ -29,7 +30,7 @@ const organizationSchema = {
 const softwareSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "R.O. bot",
+  "name": "RO.bot",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "iOS, Android",
   "description": "Voice-first AI platform for automotive service departments. Helps technicians document repairs, conduct inspections, and create video walkthroughs using voice instead of typing.",
@@ -50,42 +51,42 @@ const faqSchema = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "How does R.O. bot help technicians work faster?",
+      "name": "How does RO.bot help technicians work faster?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "R.O. bot uses voice-first AI so technicians can document repairs, complete multi-point inspections, and create video walkthroughs by speaking instead of typing. This saves 30+ minutes per day on documentation and keeps techs focused on wrench time."
+        "text": "RO.bot uses voice-first AI so technicians can document repairs, complete multi-point inspections, and create video walkthroughs by speaking instead of typing. This saves 30+ minutes per day on documentation and keeps techs focused on wrench time."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does it take to set up R.O. bot?",
+      "name": "How long does it take to set up RO.bot?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "R.O. bot can be up and running in about 10 minutes. Technicians download the app on their phone, and they can start recording voice notes right away. No DMS integration is required to get started."
+        "text": "RO.bot can be up and running in about 10 minutes. Technicians download the app on their phone, and they can start recording voice notes right away. No DMS integration is required to get started."
       }
     },
     {
       "@type": "Question",
-      "name": "Does R.O. bot require a DMS integration?",
+      "name": "Does RO.bot require a DMS integration?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. R.O. bot works independently of your DMS. Technicians use the mobile app to record voice notes, and R.O. bot generates documentation that can be copied into any system. No IT involvement or DMS integration is needed."
+        "text": "No. RO.bot works independently of your DMS. Technicians use the mobile app to record voice notes, and RO.bot generates documentation that can be copied into any system. No IT involvement or DMS integration is needed."
       }
     },
     {
       "@type": "Question",
-      "name": "How does R.O. bot reduce warranty claim denials?",
+      "name": "How does RO.bot reduce warranty claim denials?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "R.O. bot generates complete 3Cs documentation (Complaint, Cause, Correction) from technician voice notes and grades each story against OEM standards. This ensures every claim has thorough, properly structured documentation before submission, reducing denials caused by incomplete or vague write-ups."
+        "text": "RO.bot generates complete 3Cs documentation (Complaint, Cause, Correction) from technician voice notes and grades each story against OEM standards. This ensures every claim has thorough, properly structured documentation before submission, reducing denials caused by incomplete or vague write-ups."
       }
     },
     {
       "@type": "Question",
-      "name": "What makes R.O. bot different from other service department tools?",
+      "name": "What makes RO.bot different from other service department tools?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "R.O. bot is voice-first, meaning technicians never have to stop working to type. It covers the full service workflow: multi-point inspections, AI-guided video inspections, and 3Cs documentation. Most tools require screen time. R.O. bot replaces it with voice."
+        "text": "RO.bot is voice-first, meaning technicians never have to stop working to type. It covers the full service workflow: multi-point inspections, AI-guided video inspections, and 3Cs documentation. Most tools require screen time. RO.bot replaces it with voice."
       }
     },
     {
@@ -93,7 +94,7 @@ const faqSchema = {
       "name": "How does the AI-guided video inspection work?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "R.O. bot provides an on-screen teleprompter that guides technicians through recording vehicle inspection videos. It tells them what to show and what to say, so every video is clear, professional, and more likely to result in customer approval of recommended work."
+        "text": "RO.bot provides an on-screen teleprompter that guides technicians through recording vehicle inspection videos. It tells them what to show and what to say, so every video is clear, professional, and more likely to result in customer approval of recommended work."
       }
     }
   ]
@@ -101,7 +102,7 @@ const faqSchema = {
 ---
 
 <BaseLayout
-  title="R.O. bot | Voice-First AI for Automotive Service Departments"
+  title="RO.bot | Voice-First AI for Automotive Service Departments"
   canonicalPath="/"
   schemaJson={[organizationSchema, softwareSchema, faqSchema]}
 >
@@ -109,6 +110,7 @@ const faqSchema = {
   <Problem />
   <Solution />
   <HowItWorks />
+  <Testimonial />
   <CTA />
   <FAQ />
   <BrandLogos />
