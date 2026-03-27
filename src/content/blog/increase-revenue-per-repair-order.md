@@ -1,6 +1,5 @@
 ---
 title: "How to Increase Revenue Per Repair Order Without Adding Staff"
-slug: "increase-revenue-per-repair-order"
 date: "2026-03-20"
 category: "Business"
 tags: ["Revenue", "Repair Orders", "Fixed Ops", "Efficiency", "Service Department"]

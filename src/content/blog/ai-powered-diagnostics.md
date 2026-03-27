@@ -1,7 +1,6 @@
 
 ---
 title: "How AI-Powered Diagnostics Are Changing Automotive Repair"
-slug: "ai-powered-diagnostics"
 date: "2025-01-30"
 category: "Technology"
 tags: ["AI", "Diagnostics", "Efficiency", "Technology"]

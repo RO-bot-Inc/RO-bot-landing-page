@@ -1,7 +1,6 @@
 
 ---
 title: "The ROI of Digital Repair Solutions: Why Smart Shops Are Making the Switch"
-slug: "roi-digital-repair"
 date: "2025-01-28"
 category: "Business"
 tags: ["ROI", "Business", "Efficiency", "Profitability"]

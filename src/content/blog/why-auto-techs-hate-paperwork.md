@@ -1,6 +1,5 @@
 ---
 title: "Why Auto Techs Hate Paperwork, and How We Can Finally Get Rid of It"
-slug: "why-auto-techs-hate-paperwork"
 date: "2025-05-20"
 category: "Industry Insights"
 tags: ["Documentation", "AI", "Efficiency", "Technician Workflow", "Voice Technology"]

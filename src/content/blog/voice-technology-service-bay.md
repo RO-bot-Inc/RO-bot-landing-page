@@ -1,7 +1,6 @@
 
 ---
 title: "Voice Technology in the Service Bay: Hands-Free Efficiency for Modern Technicians"
-slug: "voice-technology-service-bay"
 date: "2025-01-25"
 category: "Innovation"
 tags: ["Voice Technology", "Innovation", "Workflow", "Safety"]

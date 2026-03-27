@@ -1,6 +1,5 @@
 ---
 title: "From Skeptics to Believers: What Our Beta Testers Are Saying About R.O. bot"
-slug: "from-skeptics-to-believers-beta-feedback"
 date: "2025-06-02"
 category: "Customer Stories"
 tags: ["Beta Testing", "Customer Feedback", "Voice Technology", "Product Development"]

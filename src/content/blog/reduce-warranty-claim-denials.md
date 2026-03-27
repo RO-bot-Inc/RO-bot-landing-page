@@ -1,6 +1,5 @@
 ---
 title: "How to Reduce Warranty Claim Denials at Your Dealership"
-slug: "reduce-warranty-claim-denials"
 date: "2026-03-26"
 category: "Warranty"
 tags: ["Warranty Claims", "Documentation", "3Cs", "Fixed Ops", "Revenue Recovery"]

@@ -1,6 +1,5 @@
 ---
 title: "What Hundreds of Technician Conversations Taught Us About Building Better Tools"
-slug: "what-technician-conversations-taught-us"
 date: "2026-03-18"
 category: "Founder"
 tags: ["Product Development", "Technician Feedback", "Founder", "Voice Technology"]

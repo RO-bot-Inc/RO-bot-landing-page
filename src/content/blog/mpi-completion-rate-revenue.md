@@ -1,7 +1,6 @@
 
 ---
 title: "Your MPI Completion Rate Is Your Biggest Revenue Leak"
-slug: "mpi-completion-rate-revenue"
 date: "2026-03-24"
 category: "Multi-Point Inspections"
 tags: ["MPI", "Inspections", "Revenue", "Fixed Ops", "Service Department"]

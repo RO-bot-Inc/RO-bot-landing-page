@@ -1,6 +1,5 @@
 ---
 title: "What Customers Actually Want to See in an Inspection Video"
-slug: "what-customers-want-inspection-videos"
 date: "2026-03-22"
 category: "Video Inspections"
 tags: ["Video Inspections", "Customer Approval", "Service Advisor", "Revenue"]
