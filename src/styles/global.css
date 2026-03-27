@@ -15,6 +15,24 @@
 
 }
 
+/* Blog prose: ensure hero images are full width and centered */
+.prose img {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Blog prose: constrain portrait/vertical product screenshots */
+.prose img[src*="report-card-mobile"],
+.prose img[src*="mpi-summary"],
+.prose img[src*="teleprompter.png"],
+.prose img[src*="recording-view"] {
+  max-width: 300px;
+  width: auto;
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
 /* Scroll Animation System */
 @layer utilities {
   /* Fade up animation - initial state */
