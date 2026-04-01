@@ -1,14 +1,27 @@
-# RO-bot Website Development Context for Claude Code
+# RO.bot Website Development Context for Claude Code
 
-**Last Updated:** February 8, 2026
+**Last Updated:** March 29, 2026
 **CEO/Founder:** Dave
 **Project:** ro-bot.io marketing website redesign
 
 ---
 
+## Brand Name
+
+The product brand name is **RO.bot** (with a period, no hyphen). Use "RO.bot" in all user-facing copy.
+
+- **Brand/product name:** RO.bot
+- **Legal entity:** RO-bot Inc.
+- **Domain:** ro-bot.io
+- **Blog header:** RO.blog
+
+Do not use "R.O. bot", "R.O.bot", "RO-bot", or "Ro-bot" in site copy.
+
+---
+
 ## Quick Start
 
-This is the marketing website for RO-bot, an AI-powered platform for automotive service departments. The website's job is to convert Fixed Ops Directors and Service Managers into demo requests.
+This is the marketing website for RO.bot, an AI-powered platform for automotive service departments. The website's job is to convert Fixed Ops Directors and Service Managers into demo requests.
 
 **Before diving in, Dave will tell you:**
 - What page or section we're working on
@@ -25,8 +38,8 @@ This is the marketing website for RO-bot, an AI-powered platform for automotive 
 
 ro-bot.io is a marketing site that serves buyers arriving through two paths:
 
-1. **Specific pain:** They clicked an ad or blog post about a specific problem (warranty denials, story writing time, inspection completion rates). They need to see that RO-bot solves their problem.
-2. **General discovery:** They heard about RO-bot from a colleague, a 20 Group meeting, or an influencer. They need to understand what RO-bot is.
+1. **Specific pain:** They clicked an ad or blog post about a specific problem (warranty denials, story writing time, inspection completion rates). They need to see that RO.bot solves their problem.
+2. **General discovery:** They heard about RO.bot from a colleague, a 20 Group meeting, or an influencer. They need to understand what RO.bot is.
 
 Both paths lead to one conversion goal: **Book a Demo.**
 
@@ -55,7 +68,7 @@ Both paths lead to one conversion goal: **Book a Demo.**
 
 **Secondary buyer:** Service Manager
 - Operational focus: tech productivity and daily workflow
-- Often the champion who brings RO-bot to the Fixed Ops Director
+- Often the champion who brings RO.bot to the Fixed Ops Director
 
 **The user (not the buyer):** Automotive technician
 - Under 35, tech-comfortable
@@ -146,7 +159,7 @@ TBD - To be finalized. Direction: clean sans-serif. Professional but not corpora
 
 **Headline:** Turn Every Technician Into Your Most Productive, Most Profitable Tech
 
-**Subhead:** RO-bot is voice-first AI that helps your techs find more work, sell more work, and get paid for more work.
+**Subhead:** RO.bot is voice-first AI that helps your techs find more work, sell more work, and get paid for more work.
 
 **CTA:** Book Your Demo
 
@@ -178,7 +191,7 @@ Three sub-sections:
 
 - Time savings: "30+ minutes per day saved on story writing"
 - Quality: Report card screenshot showing grading
-- Speed contrast: "45 minutes typing vs. seconds with RO-bot"
+- Speed contrast: "45 minutes typing vs. seconds with RO.bot"
 - User/manager quotes from pilot shops (as available)
 
 ### Section 5: How It Works
@@ -188,13 +201,13 @@ Three sub-sections:
 Three steps:
 1. Download the app. No DMS integration required.
 2. Techs record voice notes while they work.
-3. RO-bot handles the rest.
+3. RO.bot handles the rest.
 
 ### Section 6: CTA
 
 **Headline:** Every RO Has More Revenue In It. Let Us Show You How Much.
 
-**Subhead:** Book a 15-minute demo and see how RO-bot works with your team's real workflow.
+**Subhead:** Book a 15-minute demo and see how RO.bot works with your team's real workflow.
 
 **Form:** Name, Email, Shop/Dealership Name
 
@@ -241,14 +254,14 @@ Three steps:
 2. **Voice-to-story animation/video:** Tech speaks, waveform, finished graded story appears
 3. **Report card screenshot:** 7-criteria grading with color-coded letter grades (strongest proof asset)
 4. **MPI mobile screenshot:** Color-coded carousel with status cards
-5. **Before/after story:** Hand-typed tech story vs. RO-bot generated story side-by-side
+5. **Before/after story:** Hand-typed tech story vs. RO.bot generated story side-by-side
 6. **Video teleprompter screenshot:** Guided recording overlay with shot list
 7. **Owner page screenshot:** Customer-facing vehicle health report
 8. **Technician tracker screenshot:** Performance dashboard for managers
 
 ### Asset Sources
 
-Screenshots come from the main RO-bot app (separate repo). Coordinate with Dave to capture current production UI.
+Screenshots come from the main RO.bot app (separate repo). Coordinate with Dave to capture current production UI.
 
 ### What to Keep from Current Site
 
@@ -380,7 +393,7 @@ These documents contain the full strategic context:
 ### Tier 1: Proven Winners
 - "Shops lose work when customers don't understand repairs" (revenue/video)
 - "Techs lose nearly an hour a day on paperwork" (time/productivity)
-- "45 minutes typing stories. Zero minutes with RO-bot." (speed contrast)
+- "45 minutes typing stories. Zero minutes with RO.bot." (speed contrast)
 - "Turn every technician into your most productive, most profitable tech" (platform)
 - "Every RO has more revenue in it" (revenue umbrella)
 
