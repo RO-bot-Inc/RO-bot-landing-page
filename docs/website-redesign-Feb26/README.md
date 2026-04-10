@@ -21,7 +21,7 @@ npm run dev
 
 ## Key Files
 
-- `Claude.md` - Full development context for Claude Code sessions
+- `CLAUDE.md` - Full development context for Claude Code sessions
 - `DECISIONS.md` - Design and technical decisions log from planning session
 
 ## Reference Documents

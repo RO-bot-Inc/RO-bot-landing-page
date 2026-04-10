@@ -92,7 +92,7 @@ Decisions made during the planning session on February 8, 2026.
 - Weekly cadence, 800-1200 words per post
 - Each post maps to one pillar, targets one audience
 - 3Cs content first (strongest proof), then Video, then MPI
-- See content calendar in Claude.md
+- See `CLAUDE.md` Part 7 for writing guidelines and the `ro-bot-blog-post` skill for the full workflow
 
 ---
 
