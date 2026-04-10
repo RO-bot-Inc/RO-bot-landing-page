@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 .claude/secrets/
+.claude/worktrees/
 
 # Local Netlify folder
 .netlify
