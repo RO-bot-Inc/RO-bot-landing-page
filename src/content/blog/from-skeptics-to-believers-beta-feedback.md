@@ -4,6 +4,8 @@ date: "2025-06-02"
 category: "Customer Stories"
 tags: ["Beta Testing", "Customer Feedback", "Voice Technology", "Product Development"]
 excerpt: "How voice-first technology is winning over auto technicians, one RO at a time."
+primaryKeyword: "voice ai for auto technicians"
+secondaryKeywords: ["automotive technician app", "service department technology", "voice first technician tools"]
 ---
 
 

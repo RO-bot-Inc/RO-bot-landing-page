@@ -4,6 +4,8 @@ date: "2026-04-10"
 category: "Warranty"
 tags: ["Warranty Claims", "Audit", "3Cs", "Documentation", "Fixed Ops"]
 excerpt: "By the time the audit letter shows up, it's already too late to fix your stories. Here is what auditors flag, and what to do before they come looking."
+primaryKeyword: "warranty audit"
+secondaryKeywords: ["warranty claim audit preparation", "3cs documentation audit", "manufacturer warranty audit"]
 ---
 
 <div class="not-prose my-8 mx-auto max-w-full md:max-w-[50%]">

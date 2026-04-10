@@ -4,6 +4,8 @@ date: "2026-03-18"
 category: "Founder"
 tags: ["Product Development", "Technician Feedback", "Founder", "Voice Technology"]
 excerpt: "We spent months on shop floors before writing a single line of code. Here are the five things we heard over and over that shaped how we built RO.bot."
+primaryKeyword: "building tools for auto technicians"
+secondaryKeywords: ["automotive technician feedback", "service department product design", "technician workflow research"]
 ---
 
 ![Technician leaning over an engine with phone in hand](/blog-assets/7-what-technician-conversations-taught-us/technician-engine-phone.png)

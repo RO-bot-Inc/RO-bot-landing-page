@@ -4,6 +4,8 @@ date: "2026-03-22"
 category: "Video Inspections"
 tags: ["Video Inspections", "Customer Approval", "Service Advisor", "Revenue"]
 excerpt: "30-40% of recommended work gets declined. Most of the time, the customer just did not understand what they were looking at. Better videos fix that."
+primaryKeyword: "video inspection customer approval"
+secondaryKeywords: ["dealership inspection videos", "service advisor video inspection", "automotive video inspection"]
 ---
 
 ![Technician holding phone to record a video inspection in a service bay](/blog-assets/5-what-customers-want-inspection-videos/tech-with-phone.png)

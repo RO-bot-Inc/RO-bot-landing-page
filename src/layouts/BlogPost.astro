@@ -1,30 +1,60 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 
+interface FAQ {
+  question: string;
+  answer: string;
+}
+
 interface Props {
   title: string;
   date: string;
   category: string;
   excerpt: string;
+  metaDescription?: string;
+  ogImage?: string;
+  updatedDate?: string;
+  faqs?: FAQ[];
 }
 
-const { title, date, category, excerpt } = Astro.props;
+const {
+  title,
+  date,
+  category,
+  excerpt,
+  metaDescription,
+  ogImage,
+  updatedDate,
+  faqs,
+} = Astro.props;
+
+const description = metaDescription || excerpt;
+
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
 
+const formattedUpdatedDate = updatedDate
+  ? new Date(updatedDate).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+
 const isoDate = new Date(date).toISOString();
+const isoUpdatedDate = updatedDate ? new Date(updatedDate).toISOString() : isoDate;
 const canonicalPath = `/blog/${Astro.url.pathname.split('/blog/')[1] || ''}`;
 
 const blogPostingSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   "headline": title,
-  "description": excerpt,
+  "description": description,
   "datePublished": isoDate,
-  "dateModified": isoDate,
+  "dateModified": isoUpdatedDate,
   "author": {
     "@type": "Person",
     "name": "Dave Sonders"
@@ -42,14 +72,32 @@ const blogPostingSchema = {
     "@id": `https://ro-bot.io${canonicalPath}`
   }
 };
+
+const faqSchema = faqs && faqs.length > 0
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer,
+        },
+      })),
+    }
+  : null;
+
+const schemaJson = faqSchema ? [blogPostingSchema, faqSchema] : blogPostingSchema;
 ---
 
 <BaseLayout
   title={`${title} - RO.bot Blog`}
-  description={excerpt}
+  description={description}
+  ogImage={ogImage}
   ogType="article"
   canonicalPath={canonicalPath}
-  schemaJson={blogPostingSchema}
+  schemaJson={schemaJson}
 >
 
   <article>
@@ -57,7 +105,15 @@ const blogPostingSchema = {
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <span class="text-teal-light text-sm font-medium uppercase tracking-wider">{category}</span>
         <h1 class="text-3xl md:text-4xl font-extrabold text-white mt-3 mb-4 leading-tight">{title}</h1>
-        <time class="text-muted text-sm">{formattedDate}</time>
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-muted text-sm">
+          <time datetime={isoDate}>{formattedDate}</time>
+          {formattedUpdatedDate && formattedUpdatedDate !== formattedDate && (
+            <>
+              <span class="opacity-50">·</span>
+              <span>Updated {formattedUpdatedDate}</span>
+            </>
+          )}
+        </div>
       </div>
     </header>
 

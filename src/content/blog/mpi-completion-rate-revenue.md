@@ -5,6 +5,8 @@ date: "2026-03-24"
 category: "Multi-Point Inspections"
 tags: ["MPI", "Inspections", "Revenue", "Fixed Ops", "Service Department"]
 excerpt: "61 out of 100 vehicles leave your shop with zero additional service recommendations. Most of those had findings that were never captured."
+primaryKeyword: "mpi completion rate"
+secondaryKeywords: ["multi point inspection completion", "service department mpi", "automotive mpi best practices"]
 ---
 
 ![Service bay with vehicles on lifts](/blog-assets/4-mpi-completion-rate-revenue/service-bay-cropped.webp)

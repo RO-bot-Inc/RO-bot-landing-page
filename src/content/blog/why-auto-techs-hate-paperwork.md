@@ -4,6 +4,8 @@ date: "2025-05-20"
 category: "Industry Insights"
 tags: ["Documentation", "AI", "Efficiency", "Technician Workflow", "Voice Technology"]
 excerpt: "Skilled automotive technicians spend 30% of their time on screens instead of turning wrenches. Here's how voice-first AI technology is finally changing that."
+primaryKeyword: "auto technician paperwork"
+secondaryKeywords: ["reduce technician documentation time", "voice documentation automotive", "tech productivity shop"]
 
 ---
 
