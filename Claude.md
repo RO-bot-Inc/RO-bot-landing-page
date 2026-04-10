@@ -283,33 +283,36 @@ Screenshots come from the main RO.bot app (separate repo). Coordinate with Dave 
 
 ### Structure
 
-Blog posts are markdown files in `src/content/`. Each post maps to one of the three pillars and targets a specific audience.
+Blog posts are markdown files in `src/content/blog/`. Each post maps to one of the three pillars and targets a specific audience. Hero images and other assets live in `public/blog-assets/{N}-{slug}/`, numbered sequentially.
 
 ### Post Frontmatter
+
+Schema is defined in `src/content/config.ts`. Required and optional fields:
 
 ```yaml
 ---
 title: "Post Title"
-description: "SEO meta description"
-publishDate: 2026-02-15
-pillar: "3cs" | "video" | "mpi" | "founder"
-audience: "fixed-ops" | "service-manager" | "technician" | "broad"
-author: "Dave Sonders"
+date: "2026-04-10"
+category: "Warranty"
+tags: ["Warranty", "3Cs", "Fixed Ops"]
+excerpt: "1-2 sentence hook shown on the blog index and used as fallback for meta description."
+# Optional SEO/AEO fields
+metaDescription: "150-160 char click-through optimized description. Falls back to excerpt if omitted."
+ogImage: "/blog-assets/N-slug/og-image.jpg"  # Falls back to site default if omitted
+primaryKeyword: "main target keyword"
+secondaryKeywords: ["supporting keyword 1", "supporting keyword 2"]
+updatedDate: "2026-05-01"  # Only set when the post is genuinely revised
+faqs:
+  - question: "What is X?"
+    answer: "X is..."
 ---
 ```
 
-### Content Calendar (First 8 Weeks)
+When `faqs` is set, `BlogPost.astro` automatically renders FAQ schema.org markup for rich results.
 
-| Week | Post | Pillar | Audience |
-|------|------|--------|----------|
-| 1 | What a C+ Repair Story Is Costing Your Dealership | 3Cs | Fixed Ops Directors |
-| 2 | We Timed How Long Techs Spend Writing Stories | 3Cs | Service Managers |
-| 3 | 40% of Inspection Videos Never Reach the Customer | Video | Fixed Ops Directors |
-| 4 | What 500+ Technician Conversations Taught Me | Founder | Broad |
-| 5 | The Real Cost of 'Good Enough' Documentation | 3Cs | Fixed Ops Directors |
-| 6 | What Customers Actually Want in an Inspection Video | Video | Service Managers |
-| 7 | Your MPI Completion Rate Is Your Biggest Revenue Leak | MPI | Fixed Ops Directors |
-| 8 | Why Your Best Tech's Stories Still Get Rejected | 3Cs | Service Managers |
+### Workflow
+
+The full end-to-end workflow for creating a new post (ideation, drafting, hero image via Nano Banana, infographic design, SEO/AEO optimization, two-way internal linking, distribution drafts, deploy) is captured in the `ro-bot-blog-post` skill. Invoke it when starting a new post.
 
 ### Writing Guidelines
 
