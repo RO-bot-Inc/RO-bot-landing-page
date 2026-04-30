@@ -4,3 +4,27 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+[[redirects]]
+  from = "https://getro.bot/*"
+  to = "https://ro-bot.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://getro.bot/*"
+  to = "https://ro-bot.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.getro.bot/*"
+  to = "https://ro-bot.io/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.getro.bot/*"
+  to = "https://ro-bot.io/:splat"
+  status = 301
+  force = true
