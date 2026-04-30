@@ -263,20 +263,6 @@ Three steps:
 
 Screenshots come from the main RO.bot app (separate repo). Coordinate with Dave to capture current production UI.
 
-### What to Keep from Current Site
-
-- "Book Your Demo" CTA structure and form
-- Brand logos (Honda, Ford, Chevy, etc.) showing cross-manufacturer support
-- Footer structure and legal pages
-- Domain and any existing SEO equity
-
-### What to Remove from Current Site
-
-- "Specs At Your Fingertips" section (feature no longer in product)
-- "Smarter Diagnostics, Less Guesswork" section (feature no longer in product)
-- Exclusive warranty-only positioning
-- "AI Co-Pilot for Automotive Technicians" tagline (too vague)
-
 ---
 
 ## Part 7: Blog (Wrench Time Reports)
@@ -365,6 +351,7 @@ Before any deploy:
 ### Astro Build
 - **public/ files override generated pages** - If `/public/privacy.html` exists, it will override `/src/pages/privacy.astro`. Delete old static files when migrating.
 - **Check build output** - `head -60 dist/page/index.html` to verify correct content before deploying.
+- **Inline `<script>` tags MUST use `is:inline` if they define globals** - Astro/Vite auto-bundles inline scripts as `type="module"`, which scopes `function`/`var` declarations away from `window` and minifies identifiers. Breaks every third-party tracking pixel, chat widget, and analytics snippet (GA4, GTM, Meta, Reddit, LinkedIn, Hotjar, Intercom, Segment, etc.). Symptom: `typeof window.gtag === "undefined"` in production. See `docs/lessons-learned/astro-inline-script-bundling.md`.
 
 ### Netlify Deployment
 - **CLI deploys can be overwritten by GitHub auto-deploy** - Always commit and push after verifying CLI deploy works.
