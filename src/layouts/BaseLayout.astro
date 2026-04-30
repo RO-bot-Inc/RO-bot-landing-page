@@ -66,6 +66,13 @@ const schemaScripts = schemaJson
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#2A9D8F">
 
+  <!-- Reddit Pixel — u/RO_bot_app, installed 2026-04-30 -->
+  <script is:inline>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    rdt('init', 'a2_ixjabrppuuln');
+    rdt('track', 'PageVisit');
+  </script>
+
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-28WMV6CTFP"></script>
   <script>
