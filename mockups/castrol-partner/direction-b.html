@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Direction B · Rep Field Guide</title>
+<style>
+  :root {
+    --ink: #11161d;
+    --ink-2: #2a3442;
+    --muted: #6b7585;
+    --rule: #dde3eb;
+    --bg: #eef1f5;
+    --paper: #ffffff;
+    --hi: #ffd400;       /* hi-vis yellow, like a tech vest */
+    --hi-ink: #1a1a1a;
+    --red: #c8332b;
+    --green: #1f8a4c;
+    --blue: #1e5fc8;
+    --tan: #f3ede1;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage { padding: 32px 24px 80px; }
+  .toolbar {
+    max-width: 8.5in; margin: 0 auto 16px;
+    display: flex; gap: 12px; align-items: center; color: var(--muted); font-size: 12px;
+  }
+  .toolbar a { color: var(--blue); text-decoration: none; }
+  .toolbar .pill { background: #fff; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; }
+
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 12px 40px rgba(15,23,42,.10);
+    border-radius: 6px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* HEADER bar, feels like a clipboard / work order */
+  .topbar {
+    background: var(--hi); color: var(--hi-ink);
+    padding: 10px 0.5in;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 3px solid #000;
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .topbar strong { letter-spacing: .12em; }
+
+  .body { padding: 18px 0.5in 0.4in; }
+
+  .h-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; }
+  h1 {
+    font-size: 28px; line-height: 1.05; margin: 4px 0 4px;
+    letter-spacing: -0.01em; font-weight: 800;
+  }
+  h1 small { display: block; font-size: 12.5px; font-weight: 500; letter-spacing: .02em; color: var(--muted); margin-top: 4px; }
+  .stamp {
+    border: 2px solid var(--red); color: var(--red);
+    padding: 4px 10px; font-weight: 800; font-size: 10.5px; letter-spacing: .14em;
+    transform: rotate(-3deg); text-transform: uppercase; white-space: nowrap;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  h2 {
+    font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+    margin: 20px 0 10px; font-weight: 800; color: var(--ink);
+    border-top: 2px solid var(--ink); padding-top: 8px;
+  }
+  h2 .sub { font-weight: 500; color: var(--muted); letter-spacing: .04em; text-transform: none; margin-left: 8px; font-size: 11.5px; }
+
+  /* Sniff test */
+  .sniff { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; }
+  .sniff .card {
+    border: 1px solid var(--rule); border-left: 4px solid var(--blue);
+    padding: 10px 12px 12px; border-radius: 0 6px 6px 0; background: #fbfcff;
+  }
+  .sniff .card.video   { border-left-color: var(--red); }
+  .sniff .card.stories { border-left-color: #b87a00; }
+  .sniff .card.mpi     { border-left-color: var(--green); }
+  .sniff .card.champ   { border-left-color: #000; background: #faf6e8; }
+  .quote {
+    display: block; font-style: italic; font-size: 12px; color: var(--ink-2);
+    line-height: 1.45; margin: 2px 0;
+  }
+  .quote::before { content: "“"; }
+  .quote::after  { content: "”"; }
+  .arrow {
+    margin-top: 8px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .arrow.video   { color: var(--red); }
+  .arrow.stories { color: #b87a00; }
+  .arrow.mpi     { color: var(--green); }
+  .arrow.champ   { color: #000; }
+
+  /* 30s pitch */
+  .pitch {
+    background: #0f1722; color: #f3f6fb; border-radius: 8px;
+    padding: 14px 16px; font-size: 13px; line-height: 1.5;
+    position: relative;
+  }
+  .pitch .label {
+    position: absolute; top: -10px; left: 12px; background: var(--hi); color: #000;
+    padding: 2px 8px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    border-radius: 3px; font-weight: 800;
+  }
+  .pitch em { color: #ffd400; font-style: normal; font-weight: 600; }
+
+  /* Modules: three boxes */
+  .mods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .mod {
+    border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px;
+    background: #fff;
+  }
+  .mod-head { display:flex; align-items:center; gap:8px; margin-bottom: 4px; }
+  .mod-tag {
+    width: 22px; height: 22px; border-radius: 4px; display:grid; place-items:center;
+    color: #fff; font-weight: 800; font-size: 11px;
+  }
+  .mod.stories .mod-tag { background: #b87a00; }
+  .mod.mpi     .mod-tag { background: var(--green); }
+  .mod.video   .mod-tag { background: var(--red); }
+  .mod-name { font-weight: 800; font-size: 13.5px; letter-spacing: .01em; }
+  .mod-line { font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
+  .mod-bullets { margin: 6px 0 0; padding-left: 14px; font-size: 11px; color: var(--muted); line-height: 1.45; }
+  .mod-bullets li { margin-bottom: 2px; }
+  .mod-replace {
+    margin-top: 8px; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600;
+  }
+  .mod-replace b { color: var(--ink); }
+
+  /* Pilot signals: checklist */
+  .pilot {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px;
+  }
+  .row {
+    display: grid; grid-template-columns: 18px 1fr 1.4fr; gap: 8px;
+    align-items: start;
+    padding: 6px 0; border-bottom: 1px dashed var(--rule); font-size: 11.5px;
+  }
+  .row:last-child { border-bottom: 0; }
+  .check {
+    width: 14px; height: 14px; border: 1.5px solid var(--ink); border-radius: 3px; margin-top: 2px;
+  }
+  .row b { font-weight: 700; color: var(--ink); }
+  .row span { color: var(--muted); }
+
+  /* Next step strip */
+  .next {
+    background: var(--tan); border: 1px solid #e3d9c2; border-radius: 6px;
+    padding: 10px 14px; display: flex; gap: 14px; align-items: center; font-size: 12px; color: var(--ink-2);
+  }
+  .next b { color: var(--ink); }
+  .next .num {
+    width: 22px; height: 22px; background: #000; color: #fff; border-radius: 50%;
+    display:grid; place-items:center; font-weight: 800; font-size: 11px; flex: 0 0 22px;
+  }
+
+  .footer {
+    margin-top: 18px; border-top: 1px solid var(--rule); padding-top: 8px;
+    font-size: 10px; color: var(--muted); display: flex; justify-content: space-between;
+    font-family: "JetBrains Mono", ui-monospace, monospace; letter-spacing: .04em;
+  }
+
+  @media print {
+    @page { size: letter; margin: 0; }
+    html, body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none !important; }
+    .stage { padding: 0 !important; background: #fff !important; }
+    .page {
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+      min-height: auto !important;
+      page-break-after: avoid;
+    }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+<div class="toolbar">
+  <a href="index.html">← All mockups</a>
+  <span class="pill">Direction B · Rep Field Guide</span>
+  <span style="margin-left:auto">Designed for the rep, not the executive</span>
+</div>
+
+<div class="page">
+
+  <div class="topbar">
+    <span><strong>RO.bot</strong> &nbsp;×&nbsp; Castrol</span>
+    <span>Field Guide · Castrol Internal only</span>
+  </div>
+
+  <div class="body">
+
+    <div class="h-row">
+      <div>
+        <h1>Find shops that need this.<small>A 60-second guide for the rep walking into the bay.</small></h1>
+      </div>
+      <div class="stamp">Pilot Recruiting</div>
+    </div>
+
+    <h2>What to listen for <span class="sub">If a shop owner or manager says any two of these, it's worth a conversation.</span></h2>
+
+    <div class="sniff">
+      <div class="card video">
+        <div class="quote">Our customers don't trust the recommendations.</div>
+        <div class="quote">The dealership is stealing our customer-pay.</div>
+        <div class="quote">We're terrible at selling video work.</div>
+        <div class="arrow video">→ Talk about: VIDEO</div>
+      </div>
+      <div class="card stories">
+        <div class="quote">My techs spend half the day typing.</div>
+        <div class="quote">The writeups on our ROs are garbage.</div>
+        <div class="quote">I can't read what my own techs wrote.</div>
+        <div class="arrow stories">→ Talk about: WRITEUPS</div>
+      </div>
+      <div class="card mpi">
+        <div class="quote">Our MPIs are inconsistent.</div>
+        <div class="quote">Techs are skipping the inspection.</div>
+        <div class="quote">We know there's more we should be finding.</div>
+        <div class="arrow mpi">→ Talk about: MPI</div>
+      </div>
+      <div class="card champ">
+        <div class="quote">I want to be the most modern shop in town.</div>
+        <div class="quote">The kids coming up don't want to write.</div>
+        <div class="quote">I'm losing techs to the dealership.</div>
+        <div class="arrow champ">→ This is a CHAMPION SHOP. Talk about all three.</div>
+      </div>
+    </div>
+
+    <h2>The 30-second pitch</h2>
+    <div class="pitch">
+      <span class="label">Say this out loud</span>
+      "It's a <em>voice-first</em> app built for technicians. Techs talk while they work, the app does the writeup, builds the inspection report, and produces a customer-ready video. Shops use it to <em>win more work</em> and <em>free up wasted time</em>."
+    </div>
+
+    <h2>The three modules <span class="sub">Standalone or stacked. Most independents start with one.</span></h2>
+    <div class="mods">
+      <div class="mod stories">
+        <div class="mod-head"><div class="mod-tag">W</div><div class="mod-name">Writeups</div></div>
+        <div class="mod-line">Tech talks, RO.bot writes the 3Cs. Saves 30+ min/tech/day.</div>
+        <ul class="mod-bullets">
+          <li>Voice-to-writeup</li>
+          <li>AI grading</li>
+          <li>Voice edit</li>
+          <li>3 writing styles</li>
+        </ul>
+        <div class="mod-replace"><b>Replaces:</b> hand-typing</div>
+      </div>
+      <div class="mod mpi">
+        <div class="mod-head"><div class="mod-tag">M</div><div class="mod-name">MPI</div></div>
+        <div class="mod-line">Voice-first multi-point inspection. Color-coded, photo-attached, customer-facing report.</div>
+        <ul class="mod-bullets">
+          <li>Voice-driven status</li>
+          <li>Photos</li>
+          <li>Videos</li>
+          <li>Digital customer report</li>
+        </ul>
+        <div class="mod-replace"><b>Replaces:</b> clipboards</div>
+      </div>
+      <div class="mod video">
+        <div class="mod-head"><div class="mod-tag">V</div><div class="mod-name">Video</div></div>
+        <div class="mod-line">AI-guided customer walkarounds. Tech follows shot list, RO.bot helps narrate.</div>
+        <ul class="mod-bullets">
+          <li>Teleprompter overlay</li>
+          <li>Shot-list prompts</li>
+          <li>Customer-shareable link</li>
+        </ul>
+        <div class="mod-replace"><b>Replaces:</b> awkward selfie videos</div>
+      </div>
+    </div>
+
+    <h2>What makes a good pilot shop</h2>
+    <div class="pilot">
+      <div class="row"><div class="check"></div><b>5–15 bays</b><span>Big enough to see real numbers, small enough to move fast.</span></div>
+      <div class="row"><div class="check"></div><b>Key contact identified</b><span>Owner-operator or strong service manager. Tech curious. Will champion the pilot inside the shop and give weekly feedback.</span></div>
+      <div class="row"><div class="check"></div><b>Driving distance from RTP</b><span>Dave can be on-site for setup and check-ins.</span></div>
+    </div>
+
+    <h2>Next step</h2>
+    <div class="next">
+      <div class="num">1</div>
+      <div>Found a candidate? <b>Intro the rep, the owner, and Dave</b> for a 60-minute discovery call. No selling, just value mapping. Pilot scoping follows that conversation.</div>
+    </div>
+
+    <div class="footer">
+      <span>RO.bot · Internal field guide · Not for distribution outside Castrol</span>
+      <span>1 of 1</span>
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

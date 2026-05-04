@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Direction A · Classic Enablement One-Pager</title>
+<style>
+  :root {
+    --ink: #0f1722;
+    --ink-2: #2b3849;
+    --muted: #5b6878;
+    --rule: #e3e8ef;
+    --bg: #f5f7fa;
+    --paper: #ffffff;
+    --accent: #1f4ed8;
+    --accent-soft: #eaf0ff;
+    --green: #0e7c47;
+    --green-soft: #e6f4ec;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  .stage { padding: 32px 24px 80px; }
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 12px 40px rgba(15,23,42,.10);
+    border-radius: 8px;
+    padding: 0.55in 0.6in;
+    position: relative;
+  }
+  .toolbar {
+    max-width: 8.5in;
+    margin: 0 auto 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .toolbar a { color: var(--accent); text-decoration: none; }
+  .toolbar .pill { background: #fff; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; }
+
+  /* HEADER */
+  .head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    border-bottom: 1px solid var(--rule); padding-bottom: 14px; margin-bottom: 22px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .brand-mark {
+    width: 28px; height: 28px; border-radius: 7px; background: var(--ink);
+    color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px;
+    letter-spacing: .02em;
+  }
+  .brand-name { font-weight: 700; font-size: 15px; letter-spacing: .01em; }
+  .meta { text-align: right; font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .meta strong { color: var(--ink-2); }
+
+  h1 { font-size: 26px; line-height: 1.15; margin: 6px 0 6px; letter-spacing: -0.01em; }
+  .kicker { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .lede { font-size: 13.5px; color: var(--ink-2); max-width: 6.4in; line-height: 1.5; margin: 0 0 22px; }
+
+  h2 {
+    font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-2); margin: 22px 0 10px; font-weight: 700;
+  }
+
+  /* PAINS */
+  .pains { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .pain {
+    border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px;
+    background: #fbfcfe;
+  }
+  .pain-num {
+    display: inline-block; width: 20px; height: 20px; border-radius: 4px;
+    background: var(--ink); color: #fff; font-size: 11px; font-weight: 700;
+    text-align: center; line-height: 20px; margin-right: 6px; vertical-align: 1px;
+  }
+  .pain-title { font-weight: 600; font-size: 12.5px; }
+  .pain-body { color: var(--ink-2); font-size: 11.5px; line-height: 1.45; margin-top: 4px; }
+
+  /* VALUE PROP */
+  .vp { background: var(--accent-soft); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 12px 14px; }
+  .vp p { margin: 0; font-size: 12.5px; color: var(--ink-2); line-height: 1.55; }
+  .vp p + p { margin-top: 6px; }
+  .vp strong { color: var(--accent); }
+
+  /* MODULE TABLE */
+  table.modules { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  table.modules th, table.modules td {
+    text-align: left; padding: 8px 10px; vertical-align: top; border-bottom: 1px solid var(--rule);
+  }
+  table.modules thead th {
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+    border-bottom: 1px solid var(--ink-2); font-weight: 600; padding-bottom: 6px;
+  }
+  table.modules tbody td.mod { font-weight: 700; color: var(--ink); width: 1.15in; }
+  table.modules tbody td.fit { color: var(--muted); width: 1.55in; font-style: italic; }
+  table.modules tbody tr:last-child td { border-bottom: 0; }
+
+  /* KPIs */
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .kpi { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; }
+  .kpi .num { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; color: var(--green); }
+  .kpi .lbl { font-size: 10.5px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+
+  /* PILOT */
+  .pilot-heads { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin: 38px 0 10px; align-items: end; }
+  .pilot-heads h2 { margin: 0; }
+  .pilot { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; align-items: start; }
+  .pilot ul { margin: 0; padding-left: 16px; font-size: 11.5px; color: var(--ink-2); line-height: 1.55; }
+  .pilot ul li { margin-bottom: 3px; }
+  .next-card {
+    border: 1px dashed var(--ink-2); border-radius: 6px; padding: 12px 14px; background: #fafcff;
+  }
+  .next-card .step { display: flex; gap: 8px; margin-bottom: 6px; font-size: 11.5px; color: var(--ink-2); }
+  .next-card .step b { color: var(--ink); }
+  .next-card .step::before {
+    content: ""; flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+    margin-top: 5px;
+  }
+
+  .footnote {
+    margin-top: 22px; padding-top: 10px; border-top: 1px solid var(--rule);
+    font-size: 10px; color: var(--muted); display: flex; justify-content: space-between;
+  }
+
+  @media print {
+    @page { size: letter; margin: 0.55in 0.6in; }
+    html, body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none !important; }
+    .stage { padding: 0 !important; background: #fff !important; }
+    .page {
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      min-height: auto !important;
+    }
+    .print-page {
+      display: flex !important;
+      flex-direction: column !important;
+      min-height: calc(11in - 1.1in) !important;
+    }
+    .print-page.break { page-break-before: always; break-before: page; }
+    .print-page > .footnote { margin-top: auto !important; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+<div class="toolbar">
+  <a href="index.html">← All mockups</a>
+  <span class="pill">Direction A · Classic Enablement One-Pager</span>
+  <span style="margin-left:auto">Print to PDF for sharing</span>
+</div>
+
+<div class="page">
+
+  <div class="print-page">
+
+  <div class="head">
+    <div class="brand">
+      <div class="brand-mark">RO</div>
+      <div>
+        <div class="brand-name">RO.bot × Castrol</div>
+        <div style="font-size:10.5px;color:var(--muted)">Partner Enablement · Independent Shop Channel</div>
+      </div>
+    </div>
+    <div class="meta">
+      <div>Castrol Internal only</div>
+    </div>
+  </div>
+
+  <div class="kicker">RO.bot for Independent Shops</div>
+  <h1>Turn every technician into your most productive, most profitable tech.</h1>
+  <p class="lede">A voice-first AI platform built for the shop floor. Techs talk while they work; RO.bot does the writeup, builds the inspection report, and produces a customer-ready video. Shops use it to win more work and free up wasted time.</p>
+
+  <h2>What's broken in the shop today</h2>
+  <div class="pains">
+    <div class="pain">
+      <div><span class="pain-num">1</span><span class="pain-title">Customers don't trust the recommendation</span></div>
+      <div class="pain-body">Tech finds $1,800 of work; customer hears "they're upselling me" and approves $400. Customer-pay approval sits at 30–40% industry-wide.</div>
+    </div>
+    <div class="pain">
+      <div><span class="pain-num">2</span><span class="pain-title">Techs lose an hour+ a day to paperwork</span></div>
+      <div class="pain-body">Hand-typed writeups, shorthand, "see attached." Across six techs, that's two cars a day of lost capacity.</div>
+    </div>
+    <div class="pain">
+      <div><span class="pain-num">3</span><span class="pain-title">Inspections get rushed or skipped</span></div>
+      <div class="pain-body">When MPI is a clipboard or a form to fill out, techs cut corners. Findings get missed. Recommendations never reach the customer.</div>
+    </div>
+    <div class="pain">
+      <div><span class="pain-num">4</span><span class="pain-title">Shops don't show their work</span></div>
+      <div class="pain-body">No video, no photos, no record of what was actually inspected. Hard to defend a recommendation. Hard to build a reputation.</div>
+    </div>
+  </div>
+
+  <h2>Value proposition</h2>
+  <div class="vp">
+    <p><strong>Trust:</strong> seeing is believing; customers approve more work because they don't feel like they are just being upsold.</p>
+    <p><strong>Throughput:</strong> less typing means more wrench time in every bay.</p>
+    <p><strong>Revenue per RO:</strong> more findings discovered, more work recommended, more work approved.</p>
+  </div>
+
+  <h2>The three modules</h2>
+  <table class="modules">
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>What it does</th>
+        <th>Key features</th>
+        <th>Best fit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mod">Writeups</td>
+        <td>Tech speaks their notes verbally. RO.bot writes complete, graded, custom-ready write-ups.</td>
+        <td>Voice-to-writeup · AI grading · voice edit · 3 writing styles</td>
+        <td class="fit">Shops where techs lose 35+ min/day doing writeups.</td>
+      </tr>
+      <tr>
+        <td class="mod">MPI</td>
+        <td>Voice-first multi-point inspection.</td>
+        <td>Voice-driven status · photos · videos · digital customer report</td>
+        <td class="fit">Shops with low MPI completion or low recommendation approval.</td>
+      </tr>
+      <tr>
+        <td class="mod">Video</td>
+        <td>AI-guided customer video walkarounds. Tech follows a shot list with on-screen narration.</td>
+        <td>Teleprompter · shot list · customer-shareable link · branded player</td>
+        <td class="fit">Shops looking to boost trust and transparency.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footnote">
+    <span>RO.bot · ro-bot.io · Partner enablement · Not for distribution outside Castrol</span>
+    <span>Page 1 / 2</span>
+  </div>
+
+  </div><!-- /print-page -->
+
+  <div class="print-page break">
+
+  <h2>KPIs we expect to move</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="num">↓ 30 min</div><div class="lbl">Documentation time, per tech per day</div></div>
+    <div class="kpi"><div class="num">+10–20 pts</div><div class="lbl">Customer approval rate</div></div>
+    <div class="kpi"><div class="num">90%+</div><div class="lbl">MPI completion rate</div></div>
+    <div class="kpi"><div class="num">+1–2 jobs</div><div class="lbl">Throughput per shop per day</div></div>
+  </div>
+
+  <div class="pilot-heads">
+    <h2>What a good pilot shop looks like</h2>
+    <h2>Next steps</h2>
+  </div>
+  <div class="pilot">
+    <ul>
+      <li>5–15 bays.</li>
+      <li>Key contact: owner-operator or strong service manager. Tech curious. Will champion the pilot inside the shop; give weekly feedback.</li>
+      <li>Driving distance from Raleigh-Durham preferred.</li>
+    </ul>
+    <div class="next-card">
+      <div class="step"><div><b>1.</b> Castrol identifies 2–3 candidate shops using "what's broken" signals above.</div></div>
+      <div class="step"><div><b>2.</b> Joint discovery call: rep + owner + Dave (60 min). No selling, just value mapping.</div></div>
+      <div class="step"><div><b>3.</b> Scope a 60 day pilot with success metrics agreed up-front.</div></div>
+      <div class="step"><div><b>4.</b> Pricing decisions follow the pilot, informed by observed value.</div></div>
+    </div>
+  </div>
+
+  <div class="footnote">
+    <span>RO.bot · ro-bot.io · Partner enablement · Not for distribution outside Castrol</span>
+    <span>Page 2 / 2</span>
+  </div>
+
+  </div><!-- /print-page -->
+
+
+</div>
+</div>
+
+</body>
+</html>

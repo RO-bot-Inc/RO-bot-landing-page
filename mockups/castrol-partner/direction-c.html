@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Direction C · The Money Map</title>
+<style>
+  :root {
+    --ink: #0b1220;
+    --ink-2: #2a3445;
+    --muted: #5a6577;
+    --rule: #e5e9f0;
+    --bg: #eef2f7;
+    --paper: #fbfaf6;       /* warm off-white, editorial */
+    --leak1: #e08e0b;       /* amber: missed work */
+    --leak2: #c8332b;       /* red: declined work */
+    --leak3: #1f8a4c;       /* green: wrench time */
+    --pipe: #1f2a3a;
+    --serif: "Source Serif Pro", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage { padding: 32px 24px 80px; }
+  .toolbar {
+    max-width: 8.5in; margin: 0 auto 16px;
+    display: flex; gap: 12px; align-items: center; color: var(--muted); font-size: 12px;
+  }
+  .toolbar a { color: var(--leak2); text-decoration: none; }
+  .toolbar .pill { background: #fff; border: 1px solid var(--rule); border-radius: 999px; padding: 4px 10px; }
+
+  .page {
+    width: 8.5in; min-height: 11in; margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 1px 2px rgba(15,23,42,.05), 0 14px 44px rgba(15,23,42,.12);
+    border-radius: 4px;
+    padding: 0.55in 0.6in 0.5in;
+    position: relative;
+  }
+
+  /* Editorial header */
+  .masthead {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 22px;
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .masthead .vol { color: var(--muted); }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: 40px; line-height: 1.02;
+    letter-spacing: -0.015em; margin: 0 0 6px;
+    font-weight: 700;
+  }
+  .deck {
+    font-family: var(--serif);
+    font-size: 16px; line-height: 1.4; font-style: italic;
+    color: var(--ink-2); max-width: 6in; margin: 0 0 24px;
+  }
+
+  /* Pipe diagram */
+  .pipe-wrap {
+    border: 1px solid var(--rule);
+    background: #fff;
+    border-radius: 6px;
+    padding: 22px 18px 18px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .pipe-title {
+    font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px; font-weight: 700;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .pipe {
+    position: relative;
+    height: 64px;
+    margin: 0 6px 56px;
+  }
+  .pipe-bar {
+    position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+    height: 22px; background: var(--pipe);
+    border-radius: 11px;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.08);
+  }
+  .pipe-stage {
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    color: #fff; font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    white-space: nowrap;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .pipe-stage.start, .pipe-stage.end {
+    background: var(--ink); padding: 4px 8px; border-radius: 4px;
+  }
+  .leak {
+    position: absolute; top: 50%;
+    width: 0; height: 0; border-left: 9px solid transparent; border-right: 9px solid transparent;
+    border-top: 14px solid var(--leak1);
+    transform: translate(-50%, 6px);
+  }
+  .leak.l2 { border-top-color: var(--leak2); }
+  .leak.l3 { border-top-color: var(--leak3); }
+  .leak-label {
+    position: absolute; top: calc(50% + 26px);
+    transform: translateX(-50%);
+    text-align: center; width: 130px;
+  }
+  .leak-num {
+    display: inline-block; padding: 2px 8px; border-radius: 999px;
+    font-size: 10px; font-weight: 800; letter-spacing: .12em;
+    color: #fff; background: var(--leak1);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .leak-label.l2 .leak-num { background: var(--leak2); }
+  .leak-label.l3 .leak-num { background: var(--leak3); }
+  .leak-name { display:block; font-weight: 700; font-size: 12px; margin-top: 4px; color: var(--ink); }
+  .leak-where { display:block; font-size: 11px; color: var(--muted); font-style: italic; }
+
+  /* Three leak articles */
+  .articles { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .article {
+    border-left: 4px solid var(--leak1);
+    background: #fff; border-radius: 0 6px 6px 0; padding: 12px 14px 14px;
+    border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    display: grid; grid-template-columns: 90px 1fr auto; gap: 14px; align-items: start;
+  }
+  .article.l2 { border-left-color: var(--leak2); }
+  .article.l3 { border-left-color: var(--leak3); }
+  .leak-badge {
+    text-align: center;
+  }
+  .leak-badge .num {
+    font-family: var(--serif); font-size: 36px; line-height: 1; color: var(--leak1); font-weight: 700;
+  }
+  .article.l2 .leak-badge .num { color: var(--leak2); }
+  .article.l3 .leak-badge .num { color: var(--leak3); }
+  .leak-badge .lab {
+    display: block; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); font-family: "JetBrains Mono", ui-monospace, monospace; margin-top: 4px;
+  }
+  .article h3 {
+    font-family: var(--serif); font-size: 18px; margin: 0 0 4px; line-height: 1.15;
+    font-weight: 700;
+  }
+  .article .where {
+    font-size: 11px; color: var(--muted); font-style: italic; margin-bottom: 8px;
+  }
+  .article .row {
+    display: grid; grid-template-columns: 60px 1fr; gap: 8px; font-size: 11.5px;
+    line-height: 1.45; color: var(--ink-2); margin-bottom: 4px;
+  }
+  .article .row b {
+    font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    font-family: "JetBrains Mono", ui-monospace, monospace; padding-top: 2px;
+    font-weight: 700;
+  }
+  .module-tag {
+    border: 1.5px solid var(--leak1); color: var(--leak1);
+    padding: 6px 10px; border-radius: 4px; text-align: center; font-weight: 800;
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase; min-width: 92px;
+  }
+  .article.l2 .module-tag { border-color: var(--leak2); color: var(--leak2); }
+  .article.l3 .module-tag { border-color: var(--leak3); color: var(--leak3); }
+  .module-tag small { display: block; font-size: 9px; color: var(--muted); font-weight: 600; letter-spacing: .1em; margin-top: 3px; }
+
+  /* Glance table */
+  h2 {
+    font-family: var(--serif);
+    font-size: 14px; letter-spacing: 0;
+    margin: 22px 0 8px; font-weight: 700;
+    border-top: 1px solid var(--ink-2); padding-top: 8px;
+  }
+  table.glance { width: 100%; border-collapse: collapse; font-size: 11.5px; background: #fff; border-radius: 6px; overflow: hidden; }
+  table.glance th, table.glance td {
+    text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top;
+  }
+  table.glance thead th {
+    background: #f4efe3; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-2); font-weight: 700;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  table.glance tbody td:first-child { font-weight: 700; }
+  table.glance tbody tr.stories td:first-child { color: var(--leak3); }
+  table.glance tbody tr.mpi td:first-child { color: var(--leak1); }
+  table.glance tbody tr.video td:first-child { color: var(--leak2); }
+  table.glance tbody tr:last-child td { border-bottom: 0; }
+
+  /* Pilot + measure side-by-side */
+  .bottom { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; margin-top: 14px; }
+  .bottom.solo { grid-template-columns: 1fr; }
+  .bottom.solo .kpi-list { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .bottom.solo .kpi-list li { text-align: center; }
+  .panel {
+    background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px;
+  }
+  .panel h3 {
+    font-family: var(--serif); font-size: 14px; margin: 0 0 6px; font-weight: 700;
+  }
+  .panel ul { margin: 0; padding-left: 16px; font-size: 11.5px; color: var(--ink-2); line-height: 1.55; }
+  .panel ul li { margin-bottom: 3px; }
+  .kpi-list { display: grid; grid-template-columns: 1fr; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .kpi-list li {
+    border-left: 3px solid var(--ink); padding: 4px 8px; font-size: 11.5px; color: var(--ink-2);
+    background: #faf7ee;
+  }
+
+  .footer {
+    margin-top: 16px; padding-top: 10px; border-top: 2px solid var(--ink);
+    font-size: 10px; color: var(--muted); display: flex; justify-content: space-between;
+    font-family: "JetBrains Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  @media print {
+    @page { size: letter; margin: 0; }
+    html, body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .toolbar { display: none !important; }
+    .stage { padding: 0 !important; background: #fff !important; }
+    .page {
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+      min-height: auto !important;
+      page-break-after: avoid;
+    }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+<div class="toolbar">
+  <a href="index.html">← All mockups</a>
+  <span class="pill">Direction C · The Money Map</span>
+  <span style="margin-left:auto">Narrative-driven, framework-led</span>
+</div>
+
+<div class="page">
+
+  <div class="masthead">
+    <span>RO.bot × Castrol · Internal Briefing</span>
+    <span class="vol">Castrol Internal only</span>
+  </div>
+
+  <h1>Where the Money Leaks</h1>
+  <p class="deck">Every repair order leaks money at three predictable points. RO.bot is a voice-first AI platform that patches all three. This is how the modules map to the leaks, and why an independent shop should care.</p>
+
+  <div class="pipe-wrap">
+    <div class="pipe-title">A single RO, end to end</div>
+    <div class="pipe">
+      <div class="pipe-bar"></div>
+      <div class="pipe-stage start" style="left: 0%;">Customer arrives</div>
+      <div class="pipe-stage end"   style="left: 100%;">Payment</div>
+
+      <div class="leak"    style="left: 28%;"></div>
+      <div class="leak l2" style="left: 56%;"></div>
+      <div class="leak l3" style="left: 84%;"></div>
+
+      <div class="leak-label"    style="left: 28%;"><span class="leak-num">LEAK 1</span><span class="leak-name">Missed Work</span><span class="leak-where">at the inspection</span></div>
+      <div class="leak-label l2" style="left: 56%;"><span class="leak-num">LEAK 2</span><span class="leak-name">Declined Work</span><span class="leak-where">at the recommendation</span></div>
+      <div class="leak-label l3" style="left: 84%;"><span class="leak-num">LEAK 3</span><span class="leak-name">Lost Wrench Time</span><span class="leak-where">at documentation</span></div>
+    </div>
+  </div>
+
+  <div class="articles">
+
+    <div class="article">
+      <div class="leak-badge"><div class="num">01</div><span class="lab">Missed Work</span></div>
+      <div>
+        <h3>The inspection that never happened.</h3>
+        <div class="where">Tech is rushed. MPI gets half-filled. Findings get missed. The Advisor never gets the chance to recommend the work, let alone sell it.</div>
+        <div class="row"><b>Cost</b><span>$105+ in work per RO.</span></div>
+        <div class="row"><b>Patch</b><span>Voice-first MPI on the tech's phone. Tech talks while they inspect. Completion rates climb above 90%.</span></div>
+      </div>
+      <div class="module-tag">MPI<small>Module</small></div>
+    </div>
+
+    <div class="article l2">
+      <div class="leak-badge"><div class="num">02</div><span class="lab">Declined Work</span></div>
+      <div>
+        <h3>The recommendation the customer didn't believe.</h3>
+        <div class="where">Tech finds $1,800 of work. Service writer hands the customer a piece of paper with parts codes. Customer thinks they're being upsold. They approve $400.</div>
+        <div class="row"><b>Cost</b><span>30–40% of recommended work declined. Thousands per week in walked-away revenue.</span></div>
+        <div class="row"><b>Patch</b><span>AI-guided video walkaround. Tech narrates with a teleprompter. Customer gets a link. They watch. They understand. They approve more.</span></div>
+      </div>
+      <div class="module-tag">Video<small>Module</small></div>
+    </div>
+
+    <div class="article l3">
+      <div class="leak-badge"><div class="num">03</div><span class="lab">Lost Wrench Time</span></div>
+      <div>
+        <h3>The valuable minutes a tech spends typing instead of fixing.</h3>
+        <div class="where">5 minutes here, 5 minutes there, between jobs. About 35 minutes per tech across the day. Across 6 techs, ~3.5 hours of lost labor.</div>
+        <div class="row"><b>Cost</b><span>At $100/hr, that's $350/day. ~$87K/year. A car or two per day.</span></div>
+        <div class="row"><b>Patch</b><span>Tech speaks their notes verbally. RO.bot writes complete, graded, customer-ready writeups. Tech is back on a car in under a minute.</span></div>
+      </div>
+      <div class="module-tag">Writeups<small>Module</small></div>
+    </div>
+
+  </div>
+
+  <h2>The three modules at a glance</h2>
+  <table class="glance">
+    <thead>
+      <tr><th>Module</th><th>Patches</th><th>Headline result</th><th>Standalone?</th></tr>
+    </thead>
+    <tbody>
+      <tr class="stories"><td>Writeups</td><td>Leak #3: Lost Wrench Time</td><td>35 min → 5 min on writeups</td><td>Yes</td></tr>
+      <tr class="mpi"><td>MPI</td><td>Leak #1: Missed Work</td><td>90%+ MPI completion</td><td>Yes</td></tr>
+      <tr class="video"><td>Video</td><td>Leak #2: Declined Work</td><td>+10–20 pts customer approval</td><td>Yes</td></tr>
+    </tbody>
+  </table>
+
+  <div class="bottom solo">
+    <div class="panel">
+      <h3>What we'll measure together</h3>
+      <ul class="kpi-list">
+        <li>Bay throughput (cars/day)</li>
+        <li>Customer approval rate</li>
+        <li>MPI completion rate</li>
+        <li>Writeup time per RO</li>
+        <li>Owner NPS at 30 / 60 / 90 days</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>RO.bot · Internal partner briefing</span>
+    <span>Not for distribution outside Castrol</span>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
