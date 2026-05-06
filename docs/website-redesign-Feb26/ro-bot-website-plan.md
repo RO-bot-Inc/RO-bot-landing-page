@@ -193,7 +193,7 @@ Inspection videos that customers actually watch and approve. RO-bot plans the sh
 **Pillar 3: Get Paid for More Work**
 AI-Powered 3Cs Documentation
 
-Techs talk. RO-bot writes. Voice notes become professional, warranty-compliant repair stories in seconds. Every story gets graded on 7 criteria so techs know exactly how to improve, and managers get visibility into documentation quality across the shop.
+Techs talk. RO-bot writes. Voice notes become professional, warranty-compliant repair stories in seconds. Every story gets graded on 6 criteria so techs know exactly how to improve, and managers get visibility into documentation quality across the shop.
 
 *Visual: Show the report card UI. This is a "magic moment" -- the grading feature is visually compelling and immediately communicable. Consider an animation or before/after showing a voice note transforming into a graded story.*
 
