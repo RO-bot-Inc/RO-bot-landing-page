@@ -36,7 +36,7 @@ One tech writes detailed, structured stories with measurements and root cause ex
 
 The problem is obvious once you see it: documentation quality depends entirely on each individual tech's willingness and ability to type. There is no standardization layer. No quality floor.
 
-This is why RO.bot grades every story against seven criteria before it goes to the advisor. Not to punish anyone, but to create a consistent baseline. When a C+ story gets flagged, the tech can add the missing detail with a quick voice note instead of rewriting the whole thing. The [report card feature](/product) raises the floor without slowing anyone down.
+This is why RO.bot grades every story against six criteria before it goes to the advisor. Not to punish anyone, but to create a consistent baseline. When a C+ story gets flagged, the tech can add the missing detail with a quick voice note instead of rewriting the whole thing. The [report card feature](/product) raises the floor without slowing anyone down.
 
 ## 3. Their Software Was Built for Desks, Not Shop Floors.
 
