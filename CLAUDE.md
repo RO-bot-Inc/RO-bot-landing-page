@@ -1,12 +1,36 @@
 # RO.bot Website Development Context for Claude Code
 
-**Last Updated:** March 29, 2026
+**Last Updated:** 2026-05-05
 **CEO/Founder:** Dave
-**Project:** ro-bot.io marketing website redesign
+**Project:** ro-bot.io marketing website
+**Deployed on:** Netlify. (App is on Replit; data on Firebase. See `../shared/deployment.md`.)
+
+---
+
+## Read this BEFORE writing user-facing copy
+
+Before drafting or revising any user-facing copy, page, or blog post that mentions a product feature, count, mode, or workflow name, read **`../shared/product-facts.md`**. If a fact in that file looks wrong, **stop and ask Dave** — do not propagate stale numbers from older docs or blog posts.
+
+(Concrete example: the warranty story rubric grades **6 elements**, not 7. Multiple older docs and one blog post still say "7 criteria" or "seven criteria" — those are stale and listed in `../shared/product-facts.md`.)
+
+---
+
+## Shared Knowledge (cross-subproject)
+
+This subproject (`website/`) sits inside the consolidated `/ro-bot/` workspace alongside `app/` and `GTM/`. Cross-cutting facts live in `../shared/`:
+
+- **`../shared/product-facts.md`** — feature facts, grading counts, pillar names. Single source of truth for copy.
+- **`../shared/brand.md`** — RO.bot vs RO-bot Inc., banned words, voice/tone (canonical version of the brand-name and banned-words sections below).
+- **`../shared/deployment.md`** — Netlify, Replit, Firebase, analytics IDs.
+- **`../shared/lessons-learned/INDEX.md`** — cross-project engineering patterns (includes the Astro inline-script bundling lesson).
+
+When pulling code or screenshots from `../app/`, read `../app/CLAUDE.md` first for that subproject's rules.
 
 ---
 
 ## Brand Name
+
+> Canonical version: **`../shared/brand.md`**. The summary below is for quick reference; if it conflicts with shared, shared wins.
 
 The product brand name is **RO.bot** (with a period, no hyphen). Use "RO.bot" in all user-facing copy.
 
@@ -261,7 +285,7 @@ Three steps:
 
 ### Asset Sources
 
-Screenshots come from the main RO.bot app (separate repo). Coordinate with Dave to capture current production UI.
+Screenshots come from the main RO.bot app at **`../app/`** (sibling subproject in the consolidated workspace). When you need a current production screenshot, run the app locally from `../app/` and capture, or coordinate with Dave for production state.
 
 ---
 
@@ -369,12 +393,13 @@ Before any deploy:
 
 These documents contain the full strategic context:
 
-- **Website Positioning & Plan:** `docs/marketing/ro-bot-website-plan.md` (in main app repo)
+- **Website Positioning & Plan:** `../app/docs/marketing/ro-bot-website-plan.md`
   - Dunford positioning framework, value pillars, homepage structure, visual asset list, validation checklist
-- **Marketing Strategy:** `docs/marketing/ro-bot-marketing-strategy.md` (in main app repo)
+- **Marketing Strategy:** `../app/docs/marketing/ro-bot-marketing-strategy.md`
   - Funnel design, hook messages by pillar, content calendar, LinkedIn strategy, measurement plan
 - **Ad Test Data:** Appendix in the website plan doc
   - 14-execution Facebook test results. Revenue framing (167) and speed contrast (150) are top performers.
+- **GTM workspace:** `../GTM/` — Reddit voice guides, content briefs, keyword maps, ad pattern catalog. Pull voice/tone references from there when writing for Reddit-adjacent audiences.
 
 ---
 
