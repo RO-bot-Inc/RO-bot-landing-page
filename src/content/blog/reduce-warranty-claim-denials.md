@@ -46,7 +46,7 @@ Think about what you are asking a technician to do. They just spent 45 minutes d
 
 Then you ask them to sit down at a keyboard and type it out. [Most techs lose close to an hour a day on this kind of paperwork](/blog/why-auto-techs-hate-paperwork). They are rushing to get to the next car. They are pecking at a screen with greasy fingers. They condense 45 minutes of skilled diagnostic work into two sentences because that is all they have time for.
 
-The knowledge is there. The documentation process just does not capture it.
+The knowledge is there. The documentation process just does not capture it. And when a denied claim means the tech ate the labor on real work, [the documentation problem becomes a retention problem too](/blog/automotive-technician-retention).
 
 ## What Good Warranty Documentation Looks Like
 
