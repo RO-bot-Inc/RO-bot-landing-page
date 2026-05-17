@@ -1,57 +1,74 @@
 #!/bin/bash
-# Claude Code Statusline - Shows context window usage
-# Reads JSON from stdin and displays formatted status
+# Claude Code Statusline
+# Line 1: ctx: <pct>% (<used>/<total>) | <git-branch> | <model>
+# Line 2: permission mode indicator
 
 # Read JSON from stdin
 json=$(cat)
 
-# Check if jq is available
+# Require jq
 if ! command -v jq &> /dev/null; then
-    echo "ctx: N/A (jq required)"
+    printf "ctx: N/A (jq required)\n"
     exit 0
 fi
 
-# Parse context window info from JSON
-# The JSON structure includes context_window with token information
-context_used=$(echo "$json" | jq -r '.context_window.current_usage.input_tokens // .cwd_tokens // 0' 2>/dev/null)
-context_max=$(echo "$json" | jq -r '.context_window.context_window_size // 200000' 2>/dev/null)
-model=$(echo "$json" | jq -r '.model // "unknown"' 2>/dev/null)
+# --- ANSI colors (using printf-safe octal escapes) ---
+GREEN='\033[32m'
+GRAY='\033[90m'
+CYAN='\033[36m'
+RED='\033[91m'
+RESET='\033[0m'
 
-# Calculate percentage if we have valid numbers
-if [[ "$context_used" =~ ^[0-9]+$ ]] && [[ "$context_max" =~ ^[0-9]+$ ]] && [ "$context_max" -gt 0 ]; then
-    percentage=$((context_used * 100 / context_max))
+# --- Parse JSON fields ---
+used_pct=$(echo "$json" | jq -r '.context_window.used_percentage // empty' 2>/dev/null)
+total_input=$(echo "$json" | jq -r '.context_window.total_input_tokens // empty' 2>/dev/null)
+ctx_size=$(echo "$json" | jq -r '.context_window.context_window_size // empty' 2>/dev/null)
+model_name=$(echo "$json" | jq -r '.model.display_name // .model.id // "unknown"' 2>/dev/null)
 
-    # Format token count for readability (K for thousands)
-    if [ "$context_used" -ge 1000 ]; then
-        used_formatted="$((context_used / 1000))K"
-    else
-        used_formatted="$context_used"
+# --- Git branch (walk up from CWD to find .git/HEAD; avoids spawning git for speed) ---
+git_branch="no-branch"
+dir="$PWD"
+while [ "$dir" != "/" ] && [ -n "$dir" ]; do
+    if [ -f "$dir/.git/HEAD" ]; then
+        ref=$(cat "$dir/.git/HEAD")
+        if [[ "$ref" == ref:* ]]; then
+            git_branch="${ref#ref: refs/heads/}"
+        else
+            git_branch="${ref:0:7}"
+        fi
+        break
     fi
+    dir=$(dirname "$dir")
+done
 
-    if [ "$context_max" -ge 1000 ]; then
-        max_formatted="$((context_max / 1000))K"
+# --- Format token counts as K ---
+fmt_k() {
+    local n="$1"
+    if [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -ge 1000 ]; then
+        echo "$((n / 1000))K"
     else
-        max_formatted="$context_max"
+        echo "${n:-?}"
     fi
+}
+used_fmt=$(fmt_k "$total_input")
+total_fmt=$(fmt_k "$ctx_size")
 
-    # Color coding based on usage
-    # Green < 50%, Yellow 50-80%, Red > 80%
-    if [ "$percentage" -lt 50 ]; then
-        color="\033[32m"  # Green
-    elif [ "$percentage" -lt 80 ]; then
-        color="\033[33m"  # Yellow
-    else
-        color="\033[31m"  # Red
-    fi
-    reset="\033[0m"
-
-    # Build status line
-    echo -e "${color}ctx: ${percentage}%${reset} (${used_formatted}/${max_formatted}) | ${model}"
+# --- Build Line 1 ---
+if [[ "$used_pct" =~ ^[0-9] ]]; then
+    pct_int=$(printf '%.0f' "$used_pct")
+    printf "${GRAY}ctx: ${GREEN}${pct_int}%%${GRAY} (${used_fmt}/${total_fmt}) | ${CYAN}${git_branch}${GRAY} | ${model_name}${RESET}\n"
 else
-    # Fallback if parsing fails - show model at minimum
-    if [ "$model" != "null" ] && [ "$model" != "unknown" ]; then
-        echo "ctx: -- | ${model}"
-    else
-        echo "ctx: --"
-    fi
+    # No context data yet (before first API call)
+    printf "${GRAY}ctx: --% (--/$(fmt_k "$ctx_size")) | ${CYAN}${git_branch}${GRAY} | ${model_name}${RESET}\n"
 fi
+
+# --- Line 2: permission mode ---
+# Claude Code does not expose permission mode in the JSON, so we describe the
+# current mode by checking for bypass-permissions flags in the process list.
+# The displayed text mirrors what Claude Code itself shows in the UI.
+if pgrep -f -- "--dangerously-skip-permissions" > /dev/null 2>&1; then
+    perm_label="bypass permissions on (shift+tab to cycle)"
+else
+    perm_label="default permissions (shift+tab to cycle)"
+fi
+printf "${RED}▶▶ ${perm_label}${RESET}\n"
