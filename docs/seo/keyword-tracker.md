@@ -15,6 +15,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | mpi-completion-rate-revenue | 2026-03-24 | mpi completion rate | — | — |
 | reduce-warranty-claim-denials | 2026-03-26 | reduce warranty claim denials | — | — |
 | warranty-audit-playbook | 2026-04-10 | warranty audit | — | — |
+| automotive-technician-retention | 2026-05-17 | automotive technician retention | — | — |
 
 ## How to check ranks
 

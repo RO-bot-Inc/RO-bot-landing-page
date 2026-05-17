@@ -98,6 +98,8 @@ The math on warranty documentation is brutal, and most Fixed Ops Directors have 
 
 The industry average warranty claim denial rate is around 12%. For dealers with documentation problems, it runs 15% to 20% or higher. The money in the chart above isn't new revenue. It's work your techs already did. You just need to get paid for it.
 
+And when the shop doesn't get paid for that work, the tech doesn't either. That makes weak documentation [a retention problem, not just a revenue problem](/blog/automotive-technician-retention) — and the warranty-pay tax falls hardest on the A-techs you can least afford to lose.
+
 ## What to do before the letter shows up
 
 The only real fix for warranty documentation is to capture it at the point of work, not from memory at the end of the day. That means giving techs a way to describe the repair while they're still standing at the car, while the details are still fresh, without asking them to stop and type.
