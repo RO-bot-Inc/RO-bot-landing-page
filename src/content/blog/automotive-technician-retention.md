@@ -1,5 +1,5 @@
 ---
-title: "Your A-Techs Aren't Leaving for the Money. They're Leaving the Dispatch."
+title: "Your A-Techs Aren't Leaving for a $5k raise."
 date: "2026-05-17"
 category: "Industry Insights"
 tags: ["Technician Retention", "Workforce", "Fixed Ops", "Dispatch", "Service Department"]
