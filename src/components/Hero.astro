@@ -1,7 +1,7 @@
 <section class="relative bg-navy pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden">
   <!-- Background image with parallax (slowest - furthest layer) -->
   <div class="absolute inset-0 opacity-20" data-parallax-bg data-parallax-speed="0.15">
-    <img src="/hero/inspection.png" alt="" class="w-full h-full object-cover scale-110" loading="eager">
+    <img src="/hero/inspection.webp" alt="" width="1600" height="915" class="w-full h-full object-cover scale-110" loading="eager" decoding="async">
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,11 +23,15 @@
       <div class="flex justify-center">
         <div class="relative animate-scale-in">
           <img
-            src="/product3d/left-phone-only.png"
+            src="/product3d/left-phone-only.webp"
             alt="RO.bot app on phone"
+            width="640"
+            height="1185"
             class="w-64 md:w-80 drop-shadow-2xl"
             data-parallax data-parallax-speed="-0.28"
             loading="eager"
+            fetchpriority="high"
+            decoding="async"
           >
 
           <!-- Voice transcript card (single unit, consistent 70% opacity) -->

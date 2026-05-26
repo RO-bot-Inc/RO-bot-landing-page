@@ -1,19 +1,19 @@
 ---
 const logos = [
-  { name: 'Toyota', file: 'toyota.png' },
-  { name: 'Honda', file: 'honda.png' },
-  { name: 'Ford', file: 'ford.png' },
-  { name: 'Chevy', file: 'chevy.png' },
-  { name: 'Nissan', file: 'nissan.png' },
-  { name: 'BMW', file: 'BMW.png' },
-  { name: 'Audi', file: 'audi.png' },
-  { name: 'VW', file: 'VW.png' },
-  { name: 'Dodge', file: 'dodge.png' },
-  { name: 'Jeep', file: 'jeep.png' },
-  { name: 'GMC', file: 'GMC.png' },
-  { name: 'Buick', file: 'buick.png' },
-  { name: 'Cadillac', file: 'cadillac.png' },
-  { name: 'Volvo', file: 'volvo.png' },
+  { name: 'Toyota',   file: 'toyota.webp',   w: 240, h: 160 },
+  { name: 'Honda',    file: 'honda.webp',    w: 240, h: 180 },
+  { name: 'Ford',     file: 'ford.webp',     w: 240, h: 160 },
+  { name: 'Chevy',    file: 'chevy.webp',    w: 240, h: 69  },
+  { name: 'Nissan',   file: 'nissan.webp',   w: 240, h: 240 },
+  { name: 'BMW',      file: 'BMW.webp',      w: 240, h: 240 },
+  { name: 'Audi',     file: 'audi.webp',     w: 240, h: 136 },
+  { name: 'VW',       file: 'VW.webp',       w: 240, h: 180 },
+  { name: 'Dodge',    file: 'dodge.webp',    w: 240, h: 240 },
+  { name: 'Jeep',     file: 'jeep.webp',     w: 240, h: 240 },
+  { name: 'GMC',      file: 'GMC.webp',      w: 240, h: 135 },
+  { name: 'Buick',    file: 'buick.webp',    w: 240, h: 135 },
+  { name: 'Cadillac', file: 'cadillac.webp', w: 240, h: 234 },
+  { name: 'Volvo',    file: 'volvo.webp',    w: 240, h: 240 },
 ];
 ---
 
@@ -24,34 +24,43 @@ const logos = [
     </p>
   </div>
   <div class="marquee-container overflow-hidden animate-fade-in stagger-2">
-    <div class="marquee-track flex items-center gap-16">
-      {logos.map(logo => (
-        <img
-          src={`/OEM logos/${logo.file}`}
-          alt={logo.name}
-          class="h-8 md:h-10 object-contain opacity-40 grayscale flex-shrink-0"
-          loading="lazy"
+    <div class="marquee-track flex w-max">
+      {[0, 1, 2].map(i => (
+        <div
+          class="marquee-group flex items-center gap-16 pr-16 flex-shrink-0"
+          aria-hidden={i === 0 ? undefined : 'true'}
         >
-      ))}
-      {logos.map(logo => (
-        <img
-          src={`/OEM logos/${logo.file}`}
-          alt={logo.name}
-          class="h-8 md:h-10 object-contain opacity-40 grayscale flex-shrink-0"
-          loading="lazy"
-        >
+          {logos.map(logo => (
+            <img
+              src={`/OEM logos/${logo.file}`}
+              alt={logo.name}
+              width={logo.w}
+              height={logo.h}
+              class="h-8 md:h-10 w-auto object-contain opacity-40 grayscale flex-shrink-0"
+              loading="lazy"
+              decoding="async"
+            >
+          ))}
+        </div>
       ))}
     </div>
   </div>
 </section>
 
 <style>
+  /*
+   * Seamless marquee. Three identical groups so that on viewports wider than
+   * one group (~1715px — i.e., most desktops) the track still fills the screen
+   * at the loop point. The animation translates by exactly one group-width per
+   * cycle, so group N+1 takes group N's position seamlessly: with 3 groups,
+   * that's translateX(-33.333%). Visible coverage extends up to ~2× group-width
+   * (~3430px) — enough for any realistic browser viewport including 4K.
+   */
   .marquee-track {
     animation: marquee 56s linear infinite;
-    width: max-content;
   }
   @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.333%); }
   }
 </style>
