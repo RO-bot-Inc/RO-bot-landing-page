@@ -11,6 +11,7 @@ interface Props {
   ogType?: string;
   canonicalPath?: string;
   schemaJson?: object | object[];
+  preloadImage?: string;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   ogType = 'website',
   canonicalPath,
   schemaJson,
+  preloadImage,
 } = Astro.props;
 
 const siteUrl = 'https://ro-bot.io';
@@ -55,6 +57,11 @@ const schemaScripts = schemaJson
   <meta name="twitter:title" content={title}>
   <meta name="twitter:description" content={description}>
   <meta name="twitter:image" content={ogImageUrl}>
+
+  <!-- LCP image preload (set per-page when an above-the-fold image is the LCP) -->
+  {preloadImage && (
+    <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />
+  )}
 
   <!-- JSON-LD Schema -->
   {schemaScripts.map((schema) => (
