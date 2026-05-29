@@ -1,6 +1,6 @@
 # Existing Posts Promotion Plan
 
-Framework + schedule for promoting the 12 existing blog posts under the new brand's social handles (LinkedIn, Instagram, Facebook) after rebrand day.
+Framework + schedule for promoting the 13 existing blog posts under the new brand's social handles (LinkedIn, Instagram, Facebook) after rebrand day.
 
 **Status as of 2026-05-17:** Framework only. New brand name, voice, visual identity, and social handles are all TBD. Per-post copy gets drafted closer to each post's slot, once we know the new brand voice.
 
@@ -8,7 +8,7 @@ Framework + schedule for promoting the 12 existing blog posts under the new bran
 
 ## Strategy
 
-The new social handles will launch with zero history. Backfilling with 12 pieces of already-validated content gives the new accounts a credibility foundation and a content cadence from day one. Goal: 8-12 weeks of staggered releases, themed by product pillar so the narrative arc tells a coherent story to new followers.
+The new social handles will launch with zero history. Backfilling with 13 pieces of already-validated content gives the new accounts a credibility foundation and a content cadence from day one. Goal: 8-12 weeks of staggered releases, themed by product pillar so the narrative arc tells a coherent story to new followers.
 
 ### Channel mix (default per post, override case by case)
 
@@ -26,7 +26,7 @@ Group posts by product pillar / narrative beat so a new follower binging the fee
 |---|---|---|
 | **A. Origin + thesis** | what-technician-conversations-taught-us, from-skeptics-to-believers-beta-feedback, why-auto-techs-hate-paperwork | Why we built this. Who we listened to. What changed when they tried it. |
 | **B. Find More Work** (MPI) | mpi-completion-rate-revenue, what-customers-want-inspection-videos | The inspection gap and the video-approval problem. |
-| **C. Sell More Work** (revenue) | increase-revenue-per-repair-order, voice-technology-service-bay | How to grow RO value without growing car count. |
+| **C. Sell More Work** (revenue) | increase-revenue-per-repair-order, effective-labor-rate, voice-technology-service-bay | How to grow RO value without growing car count. |
 | **D. Get Paid for More Work** (warranty) | reduce-warranty-claim-denials, warranty-audit-playbook, automotive-technician-retention | The warranty documentation tax, the audit risk, and how it ties to retention. |
 | **E. Industry / category** | ai-powered-diagnostics, roi-digital-repair | Macro framing for the category we operate in. |
 
@@ -44,6 +44,7 @@ Group posts by product pillar / narrative beat so a new follower binging the fee
 | mpi-completion-rate-revenue | 2026-03-24 | B — Find More | R+3 | LI, IG, FB | Hero done; needs pull-quote card | Start the MPI cluster after warranty. |
 | what-customers-want-inspection-videos | 2026-03-22 | B — Find More | R+4 | LI, IG, FB | Hero done; needs pull-quote card | Closes the MPI cluster. |
 | increase-revenue-per-repair-order | 2026-03-20 | C — Sell More | R+5 | LI, IG, FB | Hero done; needs pull-quote card | |
+| effective-labor-rate | 2026-05-29 | C — Sell More | R+5 | LI, IG, FB, email | Hero + distribution doc done | Freshest buyer-facing piece (Fixed Ops Director). Could lead the whole arc or anchor the revenue cluster; pair with increase-revenue. |
 | what-technician-conversations-taught-us | 2026-03-18 | A — Origin | R+6 | LI, IG, FB | Hero done; needs pull-quote card | Founder-voice post; consider Dave's personal LI in addition to brand account. |
 | from-skeptics-to-believers-beta-feedback | 2025-06-02 | A — Origin | R+7 | LI, IG, FB | Hero done; needs pull-quote card | Pair with founder post. |
 | why-auto-techs-hate-paperwork | 2025-05-20 | A — Origin | R+8 | LI, IG, FB | Hero done; needs pull-quote card | Closes the origin cluster. |

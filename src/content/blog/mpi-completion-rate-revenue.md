@@ -77,7 +77,7 @@ The shops that have moved to voice-first inspections are seeing completion rates
 
 ## This Is the "Find More Work" Problem
 
-Your techs are already looking at every vehicle. They already have the knowledge to identify what needs attention. The gap is not in their skills. It is in the capture process.
+Your techs are already looking at every vehicle. They already have the knowledge to identify what needs attention. The gap is not in their skills. It is in the capture process. And that gap shows up directly in your numbers: every uncaptured finding is a billable hour that never reaches the RO, a quiet drag on your [effective labor rate](/blog/effective-labor-rate).
 
 When you [calculate the full ROI of improving your inspection workflow](/blog/roi-digital-repair), MPI completion is almost always the single biggest lever. It sits at the top of the revenue funnel. Every downstream number, customer-pay recommendations, approval rates, deferred work follow-ups, warranty documentation, depends on what gets captured during the inspection.
 

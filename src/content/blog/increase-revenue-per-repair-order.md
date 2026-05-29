@@ -60,7 +60,7 @@ The result: fewer denials, fewer resubmissions, and more revenue captured on war
 
 Each of these levers works on its own. But when you pull all three at the same time, the gains compound.
 
-More completed inspections surface more findings. Better videos convert more of those findings into approved work. Stronger documentation captures more revenue on both customer-pay and warranty ROs.
+More completed inspections surface more findings. Better videos convert more of those findings into approved work. Stronger documentation captures more revenue on both customer-pay and warranty ROs. Each of those also adds billable hours to the ticket, which is the cleanest way to lift your [effective labor rate](/blog/effective-labor-rate) without touching your posted door rate.
 
 Go back to the math. That $50 per RO is not some fantasy number. If better inspections uncover one additional finding per vehicle, and better videos convert even a fraction of previously declined work, and fewer warranty claims get kicked back, $50 per RO is conservative.
 
