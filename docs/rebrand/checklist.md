@@ -75,9 +75,11 @@ Known files (as of 2026-05-17 — re-run grep on the day to catch new additions)
 - [ ] `src/content/blog/reduce-warranty-claim-denials.md`
 - [ ] `src/content/blog/warranty-audit-playbook.md`
 - [ ] `src/content/blog/automotive-technician-retention.md`
+- [ ] `src/content/blog/effective-labor-rate.md`
 
 **Distribution docs (already-drafted promo copy needs updated brand voice + handles):**
 - [ ] `docs/distribution/automotive-technician-retention.md`
+- [ ] `docs/distribution/effective-labor-rate.md`
 
 ## 4. Visual assets
 
