@@ -15,7 +15,7 @@ faqs:
   - question: "How do I increase my effective labor rate?"
     answer: "You can raise the posted rate, but the durable gains come from protecting the labor line (discount parts before labor), getting your warranty reimbursement up to your retail rate, and selling more billable hours per RO through complete inspections and recommended work that customers actually approve."
   - question: "Does warranty work lower effective labor rate?"
-    answer: "Yes. Factory warranty typically reimburses below your retail door rate, and third-party extended warranties are usually worse, capping diagnostic time and paying late. A heavy warranty mix structurally lowers your blended effective rate. Every US state now requires manufacturers to reimburse warranty labor at your retail rate, but you have to document and prove that rate to claim it."
+    answer: "Yes. Factory warranty typically reimburses below your retail door rate, and third-party extended warranties are usually worse, capping diagnostic time and paying late. A heavy warranty mix structurally lowers your blended effective rate. Most states now require manufacturers to reimburse warranty labor at or near your retail rate, but you have to document and prove that rate to claim it."
 ---
 
 <div class="not-prose my-8">
@@ -80,7 +80,7 @@ Here is the part most vendors get wrong. They blame slow techs. The bay matters,
 You have two levers: charge more per hour, or sell more hours. Raising the posted rate works until customers push back, and plenty of shops quietly pad book time instead of touching the sign. The more durable gains come from plugging the leaks above.
 
 1. **Protect the labor line.** Coach advisors to discount parts before labor and to quote in whole jobs, not in hours they can shave off to hit a number.
-2. **Get your warranty rate up to retail.** This is the lever most shops underuse. Every US state now requires manufacturers to reimburse warranty labor at the retail rate you charge cash customers, but the burden is on you to prove that rate, usually by submitting a sample of around 100 recent customer-pay ROs ([Bass Sox Mercer](https://bsm-law.com/optimize-your-revenue-from-reimbursed-service-work/), [Withum](https://www.withum.com/resources/warranty-reimbursement-laws-its-time-for-an-update/)). Clean, consistent documentation is what wins that submission.
+2. **Get your warranty rate up to retail.** This is the lever most shops underuse. Most states now require manufacturers to reimburse warranty labor at or near the retail rate you charge cash customers, but the burden is on you to prove that rate, usually by submitting a sample of around 100 recent customer-pay ROs ([Bass Sox Mercer](https://bsm-law.com/optimize-your-revenue-from-reimbursed-service-work/), [Withum](https://www.withum.com/resources/warranty-reimbursement-laws-its-time-for-an-update/)). Clean, consistent documentation is what wins that submission.
 3. **Fix the mix by capturing more billable hours.** A complete inspection turns a one-line oil change into a multi-line ticket. That is the same leak covered in [why your MPI completion rate is your biggest revenue leak](/blog/mpi-completion-rate-revenue), and it is the fastest way to lift hours per RO without touching your rate.
 4. **Convert more of what you recommend.** Showing a customer the worn part beats reading it off a sheet, and approved work is billable work. It also ties straight into [getting more revenue out of every RO that already comes through your door](/blog/increase-revenue-per-repair-order).
 
