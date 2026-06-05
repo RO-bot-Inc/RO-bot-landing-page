@@ -90,6 +90,6 @@ RO.bot does not set your labor rate, and it will not stop an advisor from discou
 
 - **Voice-first MPI** lets techs speak findings instead of skipping the clipboard, so more real work lands on the RO and your mix improves.
 - **AI-guided video inspections** put the problem on the customer's screen, so more of what you recommend gets approved instead of declined.
-- **AI-written 3Cs stories** hold up under review, so [denied warranty claims](/blog/reduce-warranty-claim-denials) stop clawing back hours you already flagged. The same clean customer-pay documentation is what you need to support a retail warranty-rate submission.
+- **AI-written 3Cs stories** hold up under review, so [denied warranty claims](/blog/reduce-warranty-claim-denials) stop clawing back hours you already flagged. The same clean customer-pay documentation is what you need to [support a retail warranty-rate submission](/blog/warranty-labor-rate-reimbursement).
 
 Your door rate is a marketing number. Your effective labor rate is the truth. The shops that close the gap are not the ones with the biggest sign out front. They are the ones that capture every billable hour and protect it all the way to the cashier.

@@ -17,6 +17,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | warranty-audit-playbook | 2026-04-10 | warranty audit | — | — |
 | automotive-technician-retention | 2026-05-17 | automotive technician retention | — | — |
 | effective-labor-rate | 2026-05-29 | effective labor rate | — | — |
+| warranty-labor-rate-reimbursement | 2026-06-05 | warranty labor rate | — | — |
 
 ## How to check ranks
 

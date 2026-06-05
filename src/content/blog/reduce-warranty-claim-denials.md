@@ -91,7 +91,7 @@ The [return on better documentation](/blog/roi-digital-repair) is one of the cle
 
 ## Start Getting Paid for the Work You Already Do
 
-Every denied warranty claim represents work your tech already performed, a repair your shop already completed, and revenue your dealership already earned. The only thing standing between you and that money is the documentation.
+Every denied warranty claim represents work your tech already performed, a repair your shop already completed, and revenue your dealership already earned. The only thing standing between you and that money is the documentation. That same documentation also sets what the work pays, because it is the basis for [raising your warranty labor rate to retail](/blog/warranty-labor-rate-reimbursement).
 
 RO.bot's voice-first 3Cs documentation helps your techs produce complete, properly structured warranty stories in seconds instead of minutes. No typing. No training techs to write differently. Just better documentation from day one.
 
