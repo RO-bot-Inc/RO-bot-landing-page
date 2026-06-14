@@ -54,8 +54,9 @@ jobs:
 
       # Docs-only PRs (plans, governance md) are reviewed but NOT hard-blocked:
       # a plan shouldn't be gated on an implementation-design debate. Codex still
-      # posts findings as advisory. "Docs" = under docs/ or a top-level governance
-      # .md (README/CLAUDE/AGENTS). src/content, .html, any code path → blocks.
+      # posts findings as advisory. "Docs" = doc/mock files ONLY: top-level
+      # README/CLAUDE/AGENTS, or under docs/ with a doc extension (.md/.mdx/.txt,
+      # mock .html/images). Code under docs/, src/content, app files → block.
       - name: Detect docs-only PR
         id: scope
         if: steps.secret.outputs.has_key == 'true'
@@ -65,7 +66,9 @@ jobs:
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             case "$f" in
-              docs/*|README.md|CLAUDE.md|AGENTS.md) ;;
+              README.md|CLAUDE.md|AGENTS.md) ;;
+              docs/*.md|docs/*.mdx|docs/*.txt) ;;
+              docs/*.html|docs/*.png|docs/*.jpg|docs/*.jpeg|docs/*.gif|docs/*.svg|docs/*.webp) ;;
               *) docs_only=false ;;
             esac
           done <<< "$changed"
