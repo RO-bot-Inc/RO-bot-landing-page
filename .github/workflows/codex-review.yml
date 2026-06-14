@@ -1,0 +1,94 @@
+name: Codex Review
+
+# Independent, adversarial PR review by OpenAI Codex for the RO.bot landing site.
+# Posts findings as a PR comment and BLOCKS the merge on P0/P1 findings (this
+# job, once marked a required status check, gates GitHub auto-merge).
+#
+# Codex (`codex exec`) automatically reads AGENTS.md if present.
+#
+# Inert until OPENAI_API_KEY is added in repo secrets: with no key the job
+# skips and reports success, so it can be landed and made a required check
+# WITHOUT halting merges before it is wired up.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: codex-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  codex-review:
+    name: Codex Review
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Check for OPENAI_API_KEY
+        id: secret
+        run: |
+          if [ -n "${{ secrets.OPENAI_API_KEY }}" ]; then
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::OPENAI_API_KEY not set — Codex review skipped. Add it in Settings → Secrets and variables → Actions to enable."
+          fi
+
+      - name: Checkout PR head
+        if: steps.secret.outputs.has_key == 'true'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Compute PR diff
+        if: steps.secret.outputs.has_key == 'true'
+        run: |
+          git diff ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} > pr.diff
+          echo "Diff: $(wc -l < pr.diff) lines changed"
+
+      - name: Codex review
+        id: codex
+        if: steps.secret.outputs.has_key == 'true'
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/prompts/review.md
+          output-file: codex-output.md
+
+      - name: Post review comment
+        if: always() && steps.secret.outputs.has_key == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body;
+            try {
+              body = fs.readFileSync('codex-output.md', 'utf8').trim();
+            } catch (e) {
+              body = '_Codex did not produce output (the review step may have errored). The job will fail closed; see the run logs._';
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🤖 Codex independent review\n\n${body}`,
+            });
+
+      - name: Enforce verdict (block on P0/P1)
+        if: steps.secret.outputs.has_key == 'true'
+        run: |
+          if [ ! -f codex-output.md ]; then
+            echo "::warning::No Codex output to evaluate — not blocking."
+            exit 0
+          fi
+          if grep -qiE 'CODEX_REVIEW_VERDICT:[[:space:]]*BLOCK' codex-output.md; then
+            echo "::error::Codex flagged P0/P1 issue(s). Merge blocked — see the Codex review comment on the PR."
+            exit 1
+          fi
+          echo "Codex review: no blocking (P0/P1) findings."
