@@ -93,7 +93,11 @@ jobs:
           prompt-file: .github/codex/prompts/review.md
           output-file: codex-output.md
 
-      - name: Post review comment
+      # Comment ONLY when there's something to act on — a BLOCK, advisory
+      # findings, or a review error. A clean PASS posts nothing, so it doesn't
+      # email the PR author (comments on your own PR are participating
+      # notifications that the "failed-workflows-only" setting can't filter).
+      - name: Post review comment (only when actionable)
         if: always() && steps.secret.outputs.has_key == 'true'
         uses: actions/github-script@v7
         env:
@@ -101,12 +105,25 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            let body;
-            try {
-              body = fs.readFileSync('codex-output.md', 'utf8').trim();
-            } catch (e) {
-              body = '_Codex did not produce output (the review step may have errored). The job will fail closed; see the run logs._';
+            let body = null;
+            try { body = fs.readFileSync('codex-output.md', 'utf8').trim(); } catch (e) {}
+
+            // No output = the review step errored (a problem) → always surface it.
+            if (!body) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+                body: '## 🤖 Codex independent review\n\n_Codex produced no output — the review step likely errored. The job fails closed; see the run logs._',
+              });
+              return;
             }
+
+            // Clean PASS with no findings → stay silent (no comment, no email).
+            const actionable = /CODEX_REVIEW_VERDICT:\s*BLOCK/i.test(body) || /\*\*\[P[0-9]/.test(body);
+            if (!actionable) {
+              core.info('Codex: clean pass, no findings — skipping PR comment to avoid notification noise.');
+              return;
+            }
+
             const advisory = process.env.DOCS_ONLY === 'true'
               ? '> ℹ️ **Advisory only** — docs-only PR, so Codex findings do not block the merge.\n\n'
               : '';
