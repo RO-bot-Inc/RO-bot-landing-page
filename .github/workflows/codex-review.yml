@@ -52,6 +52,16 @@ jobs:
           git diff ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} > pr.diff
           echo "Diff: $(wc -l < pr.diff) lines changed"
 
+      # A PR whose branch predates this workflow won't have the prompt in its
+      # head tree — codex-action then ENOENTs on prompt-file and fails closed,
+      # blocking the PR. Restore it from the base commit (always current on main)
+      # so every PR gets reviewed regardless of branch age.
+      - name: Ensure review config present (robust to pre-gate branches)
+        if: steps.secret.outputs.has_key == 'true'
+        run: |
+          mkdir -p .github/codex/prompts
+          git show "${{ github.event.pull_request.base.sha }}:.github/codex/prompts/review.md" > .github/codex/prompts/review.md
+
       - name: Codex review
         id: codex
         if: steps.secret.outputs.has_key == 'true'
