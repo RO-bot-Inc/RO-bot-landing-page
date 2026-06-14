@@ -52,10 +52,11 @@ jobs:
           git diff ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} > pr.diff
           echo "Diff: $(wc -l < pr.diff) lines changed"
 
-      # Docs-only PRs (plans, governance md) are reviewed but NOT hard-blocked:
-      # a plan shouldn't be gated on an implementation-design debate. Codex still
-      # posts findings as advisory. "Docs" = under docs/ or a top-level governance
-      # .md (README/CLAUDE/AGENTS). src/content, .html, any code path → blocks.
+      # Docs-only PRs (plans, mocks) are reviewed but NOT hard-blocked: a plan
+      # shouldn't be gated on an implementation-design debate. Codex still posts
+      # findings as advisory. "Docs" = ONLY files under docs/ with a doc/mock
+      # extension (.md/.mdx/.txt/.html/images). Governance files (CLAUDE/AGENTS),
+      # code under docs/, src/content, app files → block normally.
       - name: Detect docs-only PR
         id: scope
         if: steps.secret.outputs.has_key == 'true'
@@ -65,7 +66,8 @@ jobs:
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             case "$f" in
-              docs/*|README.md|CLAUDE.md|AGENTS.md) ;;
+              docs/*.md|docs/*.mdx|docs/*.txt) ;;
+              docs/*.html|docs/*.png|docs/*.jpg|docs/*.jpeg|docs/*.gif|docs/*.svg|docs/*.webp) ;;
               *) docs_only=false ;;
             esac
           done <<< "$changed"
