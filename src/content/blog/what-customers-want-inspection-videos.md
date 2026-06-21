@@ -78,6 +78,6 @@ This is the "Sell More Work" piece of the [RO.bot value framework](/blog/roi-dig
 
 You do not need your techs to become filmmakers. You need a consistent process that helps every tech on your team produce a clear, persuasive 30-second video. When customers understand what they are looking at, they approve more work. When they approve more work, your revenue per RO goes up without adding a single bay or a single technician.
 
-Look at your declined-work numbers this month. Ask yourself how many of those were a communication problem, not a pricing problem. The answer will tell you exactly how much better videos are worth to your shop.
+Look at your declined-work numbers this month. Ask yourself how many of those were a communication problem, not a pricing problem. The answer will tell you exactly how much better videos are worth to your shop. And for the declined work that was not a video problem, the money is still on the table, [most of it is recoverable with documented, well-timed follow-up](/blog/recover-declined-service-work).
 
 Ready to see how AI-guided video inspections work in your shop? [Book a demo](/book-demo) and we will walk you through it with your team's real workflow.
