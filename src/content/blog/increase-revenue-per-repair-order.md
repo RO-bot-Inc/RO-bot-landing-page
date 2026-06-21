@@ -42,7 +42,7 @@ Think about it from their perspective. They get a phone call saying they need a 
 
 Video inspections change that equation. When a customer can see the cracked bushing, hear the tech explain what it does and why it matters, approval rates climb. But most shops struggle with video adoption because techs do not know what to say on camera, recordings are inconsistent, and the whole process feels like one more thing piled onto an already full day.
 
-[What customers actually want in an inspection video](/blog/what-customers-want-inspection-videos) is straightforward: a clear explanation they can trust. When techs get guided prompts that walk them through each shot and each talking point, videos become consistent, professional, and persuasive. More approved work means more dollars per RO. That is the second lever.
+[What customers actually want in an inspection video](/blog/what-customers-want-inspection-videos) is straightforward: a clear explanation they can trust. When techs get guided prompts that walk them through each shot and each talking point, videos become consistent, professional, and persuasive. And the work a customer still declines at the counter is not necessarily lost, [it is the cheapest revenue in your store to recover later](/blog/recover-declined-service-work) when the recommendation was documented well enough to re-quote. More approved work means more dollars per RO. That is the second lever.
 
 ## Lever 3: Get Paid for the Work You Do
 

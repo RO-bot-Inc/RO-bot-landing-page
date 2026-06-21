@@ -18,6 +18,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | automotive-technician-retention | 2026-05-17 | automotive technician retention | — | — |
 | effective-labor-rate | 2026-05-29 | effective labor rate | — | — |
 | warranty-labor-rate-reimbursement | 2026-06-05 | warranty labor rate | — | — |
+| recover-declined-service-work | 2026-06-20 | declined service work follow up | — | — |
 
 ## How to check ranks
 
