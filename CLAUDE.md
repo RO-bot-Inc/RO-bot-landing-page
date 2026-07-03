@@ -138,7 +138,7 @@ public/
 | Marketing strategy (funnel, content calendar, LinkedIn plan) | `../app/docs/marketing/ro-bot-marketing-strategy.md` |
 | Visual assets priority order (for hero, product shots, etc.) | `docs/visual-assets-priority.md` |
 | Blog post end-to-end workflow | `/ro-bot-blog-post` skill |
-| Blog post frontmatter schema | `src/content/config.ts` (canonical) |
+| Blog post frontmatter schema | `src/content.config.ts` (canonical) |
 | GTM context (Reddit voice, ad patterns, content briefs) | `../GTM/` |
 | Ad test data appendix | `../app/docs/marketing/ro-bot-website-plan.md` (revenue framing #167 + speed contrast #150 lead) |
 
