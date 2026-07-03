@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import { visit } from 'unist-util-visit';
 
@@ -16,8 +15,11 @@ function rehypeOpenLinksInNewTab() {
 
 export default defineConfig({
   site: 'https://ro-bot.io',
+  // Astro 7 changed the compressHTML default to 'jsx', which collapses
+  // whitespace between adjacent inline elements. Pin to the prior default so
+  // copy spacing is preserved exactly as it rendered pre-upgrade.
+  compressHTML: true,
   integrations: [
-    tailwind(),
     sitemap({
       filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you'),
     }),
