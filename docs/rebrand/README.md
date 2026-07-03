@@ -1,6 +1,6 @@
 # Rebrand Planning
 
-**Status:** Pending. As of **2026-05-17**, Dave is preparing to rebrand the company within a few weeks. The new name is **not yet finalized**.
+**Status:** Active. As of **2026-07-03**, the new name is **locked: Ronin**. Domains locked: **getronin.app** (marketing), **app.getronin.app** (app), with getronin.io + ronin.repair redirecting. Trademark clearance is in progress. The cross-workstream source of truth now lives at `../../../shared/rebrand/master-plan.md`; `checklist.md` here has the resolved names/domains baked in.
 
 ## What lives here
 
