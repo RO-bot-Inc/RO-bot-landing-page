@@ -2,11 +2,15 @@
 
 Worked top to bottom on rebrand day. Cross off each item as you go. Open one PR for the full cutover so the deploy is atomic.
 
-**Definitions**
-- `{NEW_NAME}` — the new product/brand name (e.g., "RO.bot" today)
-- `{NEW_LEGAL}` — new legal entity (e.g., "RO-bot Inc." today)
-- `{NEW_DOMAIN}` — new primary domain (e.g., "ro-bot.io" today)
-- `{NEW_BLOG_HEADER}` — new blog header label (e.g., "RO.blog" today)
+> **Values locked 2026-07-03** (baked into this checklist below). Cross-workstream source of truth: `../../../shared/rebrand/master-plan.md`. Re-run the grep in §3 on cutover day to catch any files added since.
+
+**Resolved values**
+- **Brand / product name:** **Ronin** — prose form "Ronin" (title case, no period); logo wordmark "RONIN" (all caps). Old forms to remove: RO.bot, RO-bot, ro-bot, RO.blog.
+- **Legal entity:** **RO-bot, Inc.** — *unchanged.* DBA-vs-rename is decision **D1 (still open)**; legal-entity references in `privacy`/`terms` stay "RO-bot, Inc." until/unless D1 flips to a rename.
+- **Primary marketing domain:** **getronin.app** (was ro-bot.io)
+- **App domain:** **app.getronin.app** (was app.ro-bot.io)
+- **Redirects:** getronin.io + ronin.repair → 301 → getronin.app
+- **Blog header label:** **TBD** — recommend "Ronin Blog" (replacing "RO.blog"); the blog index is also titled "Wrench Time Reports" — confirm with Dave whether that name stays. Placeholder below uses "Ronin Blog."
 
 ---
 
@@ -19,7 +23,7 @@ After these two land, the rest of the checklist references the new names from th
 
 ## 2. Astro config + package metadata
 
-- [ ] **`../../astro.config.mjs`** — update `site: 'https://{NEW_DOMAIN}'`.
+- [ ] **`../../astro.config.mjs`** — update `site: 'https://getronin.app'`.
 - [ ] **`../../package.json`** — update `name`, `homepage`, `repository` URL if applicable.
 - [ ] **`../../public/manifest.json`** — update `name`, `short_name`, `description`, icon paths, theme/background colors if changing.
 
@@ -107,19 +111,19 @@ Known files (as of 2026-05-17 — re-run grep on the day to catch new additions)
 
 These live outside the website repo but need updating on rebrand day for the cutover to be complete.
 
-- [ ] **DNS / domain** — `{NEW_DOMAIN}` purchased, registered, and pointed at Netlify.
-- [ ] **Netlify** — new site name (if changing), updated env vars, 301 redirects from `ro-bot.io/*` to `{NEW_DOMAIN}/*` if the old domain stays parked.
+- [ ] **DNS / domain** — `getronin.app` purchased, registered, and pointed at Netlify.
+- [ ] **Netlify** — new site name (if changing), updated env vars, 301 redirects from `ro-bot.io/*` to `getronin.app/*` if the old domain stays parked.
 - [ ] **Google Analytics / GA4** — new property or rename existing; update measurement ID in code if it changes.
 - [ ] **Google Search Console** — verify new domain, request indexing of new URLs, set up redirects.
 - [ ] **Email** — update sender names and reply-to addresses for Netlify Forms / any transactional email.
-- [ ] **Social handles** — create new LinkedIn / Instagram / Facebook / Twitter handles under `{NEW_NAME}`. See `existing-posts-promotion-plan.md` for the backfill schedule.
+- [ ] **Social handles** — create new LinkedIn / Instagram / Facebook / Twitter handles under `Ronin`. See `existing-posts-promotion-plan.md` for the backfill schedule.
 - [ ] **GitHub repos** — rename `RO-bot-Inc/RO-bot-landing-page` if the org/repo name should change. Update any links in docs.
 - [ ] **App / GTM repos** — same rebrand sweep needed in `../../../app/` and `../../../GTM/`. Coordinate timing.
 - [ ] **Customer-facing emails / templates** in the app — out of scope for website, but flag to the app rebrand work.
 
 ## 8. Verification (post-deploy)
 
-- [ ] **`curl -sL https://{NEW_DOMAIN}/ | head -30`** — confirm new brand renders, no stale references.
+- [ ] **`curl -sL https://getronin.app/ | head -30`** — confirm new brand renders, no stale references.
 - [ ] **Build search**: `grep -rn "ro-bot\.io\|RO\.bot\|RO-bot\|RO\.blog" dist/` returns nothing.
 - [ ] **Sitemap renders at `/sitemap-index.xml`** with the new domain.
 - [ ] **Blog post links** still work (no broken internal links after edits).

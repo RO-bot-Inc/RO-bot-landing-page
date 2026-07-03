@@ -2,7 +2,7 @@
 
 Framework + schedule for promoting the 13 existing blog posts under the new brand's social handles (LinkedIn, Instagram, Facebook) after rebrand day.
 
-**Status as of 2026-05-17:** Framework only. New brand name, voice, visual identity, and social handles are all TBD. Per-post copy gets drafted closer to each post's slot, once we know the new brand voice.
+**Status as of 2026-07-03:** New brand name locked = **Ronin**; social handle = **@getronin** (see `../../../shared/rebrand/social-handles-pack.md`). Voice and visual identity (palette D6) still finalizing. Per-post copy gets drafted closer to each post's slot, once the brand voice is set.
 
 ---
 
