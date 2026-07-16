@@ -30,18 +30,19 @@ const {
 
 const description = metaDescription || excerpt;
 
-const formattedDate = new Date(date).toLocaleDateString('en-US', {
+// Frontmatter dates are bare YYYY-MM-DD, which parse as UTC midnight. Format in UTC
+// so the rendered date matches the frontmatter instead of rolling back a day west of Greenwich.
+const dateFormat = {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
-});
+  timeZone: 'UTC',
+} as const;
+
+const formattedDate = new Date(date).toLocaleDateString('en-US', dateFormat);
 
 const formattedUpdatedDate = updatedDate
-  ? new Date(updatedDate).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
+  ? new Date(updatedDate).toLocaleDateString('en-US', dateFormat)
   : null;
 
 const isoDate = new Date(date).toISOString();

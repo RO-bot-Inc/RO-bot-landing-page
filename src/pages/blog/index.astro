@@ -5,6 +5,15 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
   (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
+
+// Frontmatter dates are bare YYYY-MM-DD, which parse as UTC midnight. Format in UTC
+// so the rendered date matches the frontmatter instead of rolling back a day west of Greenwich.
+const dateFormat = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+} as const;
 ---
 
 <BaseLayout title="Blog - RO.bot" description="Insights on automotive service technology, voice-first AI, and shop productivity from the RO.bot team.">
@@ -28,7 +37,7 @@ const posts = (await getCollection('blog')).sort(
               </h2>
               <p class="text-gray-600 text-sm leading-relaxed mb-4">{post.data.excerpt}</p>
               <time class="text-gray-400 text-xs">
-                {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                {new Date(post.data.date).toLocaleDateString('en-US', dateFormat)}
               </time>
             </div>
           </a>
