@@ -19,6 +19,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | effective-labor-rate | 2026-05-29 | effective labor rate | — | — |
 | warranty-labor-rate-reimbursement | 2026-06-05 | warranty labor rate | — | — |
 | recover-declined-service-work | 2026-06-20 | declined service work follow up | — | — |
+| warranty-diagnostic-time | 2026-07-16 | warranty diagnostic time | — | — |
 
 ## How to check ranks
 

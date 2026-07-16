@@ -54,6 +54,8 @@ A good warranty story tells a small story. Customer said X, tech checked Y, tech
 
 The most common missing step is the verification. The story ends with "replaced part" and never mentions that the tech confirmed the fix. To an auditor, a repair that wasn't verified wasn't really completed.
 
+The steps are also what you bill against. Undocumented diagnosis isn't just an audit risk, it's [warranty diagnostic time you can't get paid for](/blog/warranty-diagnostic-time).
+
 ### 5. Stories written from memory
 
 You can tell when a tech wrote a story three hours after the job was done. The details are smoothed over. The specifics get replaced with generalities. The language sounds like a tech trying to remember what happened, not describe what happened.
