@@ -64,6 +64,26 @@
   [headers.values]
     Cache-Control = "public, max-age=2592000"
 
+# Dead URL from the pre-Astro beta-signup era. It was the sole "Not found (404)"
+# in Search Console (last crawled Feb 2026, no such page exists in this repo).
+# Point it at the closest current intent instead of leaving it dead.
+[[redirects]]
+  from = "/beta"
+  to = "/book-demo/"
+  status = 301
+
+[[redirects]]
+  from = "/beta/*"
+  to = "/book-demo/"
+  status = 301
+
+# robots.txt advertises /sitemap-index.xml, but crawlers and SEO tools probe the
+# conventional /sitemap.xml first, which 404s.
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+
 [[redirects]]
   from = "https://getro.bot/*"
   to = "https://ro-bot.io/:splat"
