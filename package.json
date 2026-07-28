@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "rm -rf node_modules/.astro && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
