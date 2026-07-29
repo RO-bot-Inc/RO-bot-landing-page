@@ -117,6 +117,8 @@ public/
 - **`public/` files override generated pages** — if `public/privacy.html` exists, it overrides `src/pages/privacy.astro`. Delete old static files when migrating.
 - **Verify build output** — `head -60 dist/page/index.html` before deploying.
 - **`is:inline` on globals-defining scripts** — see RULE #4.
+- **Internal links need a trailing slash** — pages are served at `/about/`; linking to `/about` makes Googlebot follow every internal link into a 301. Markdown is auto-normalized by `rehypeLinkPolicy`, so this only applies to hand-written `.astro` hrefs.
+- **Markdown pipeline changes need `node_modules/.astro` cleared** (the `build` script does it) — `rm -rf .astro` is a decoy and the stale render fails silently. See `docs/lessons-learned/astro-content-layer-cache.md`.
 
 ### Netlify Deployment
 - **CLI deploys can be overwritten by GitHub auto-deploy.** Always commit and push after a verified CLI deploy.
@@ -158,13 +160,3 @@ public/
 - "Better stories. Zero typing." (3Cs shorthand)
 - "12% of warranty claims get denied. The #1 cause is bad documentation."
 - "Faster techs. Better documentation. More revenue per RO."
-
----
-
-## Final Reminders (compressed)
-
-1. Read `../shared/product-facts.md` before any user-facing copy. Never propagate stale numbers.
-2. Read `../shared/brand.md` for brand-name and banned-words decisions.
-3. Mobile-first. Single CTA per section. Outcome over feature.
-4. Astro: `is:inline` on any global-defining `<script>` tag. No exceptions.
-5. New branch per session; PR per logical change; let Dave merge.
