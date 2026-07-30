@@ -84,26 +84,52 @@
   to = "/sitemap-index.xml"
   status = 301
 
+# Rebrand cutover 2026-07-30: every legacy domain 301s straight to tenthgear.ai
+# (single hop — getro.bot no longer chains through ro-bot.io).
+[[redirects]]
+  from = "https://ro-bot.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://ro-bot.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.ro-bot.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.ro-bot.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "https://getro.bot/*"
-  to = "https://ro-bot.io/:splat"
+  to = "https://tenthgear.ai/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "http://getro.bot/*"
-  to = "https://ro-bot.io/:splat"
+  to = "https://tenthgear.ai/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "https://www.getro.bot/*"
-  to = "https://ro-bot.io/:splat"
+  to = "https://tenthgear.ai/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "http://www.getro.bot/*"
-  to = "https://ro-bot.io/:splat"
+  to = "https://tenthgear.ai/:splat"
   status = 301
   force = true
