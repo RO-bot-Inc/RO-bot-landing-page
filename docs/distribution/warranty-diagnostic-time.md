@@ -1,6 +1,6 @@
 # Distribution: Who Eats Your Warranty Diagnostic Time?
 
-**Post URL (after deploy):** https://ro-bot.io/blog/warranty-diagnostic-time
+**Post URL (after deploy):** https://tenthgear.ai/blog/warranty-diagnostic-time
 **Publish date:** 2026-07-16
 **Primary keyword:** warranty diagnostic time
 **Secondary keywords:** no problem found warranty, diagnostic time reimbursement, getting paid for diagnostic time
@@ -45,7 +45,7 @@ Full post in the comments.
 **First comment (after posting):**
 
 ```
-https://ro-bot.io/blog/warranty-diagnostic-time
+https://tenthgear.ai/blog/warranty-diagnostic-time
 ```
 
 **Suggested timing:** Tuesday or Wednesday, 7-9 AM ET. Same window that worked for the labor rate post.
@@ -68,7 +68,7 @@ The part worth your attention is what is happening in state legislatures. The wa
 
 The new post covers who pays, what you can actually bill in five common situations, and a short checklist worth running this week. Start with your franchise's current no-problem-found policy. Most managers cannot state it from memory, and it is costing them.
 
-Read it: https://ro-bot.io/blog/warranty-diagnostic-time
+Read it: https://tenthgear.ai/blog/warranty-diagnostic-time
 
 — Dave
 
@@ -87,7 +87,7 @@ Unsubscribe: [unsubscribe-link]
 - Big quote in white, large display sans-serif:
   > "Documentation cannot create coverage. But missing documentation can kill an otherwise payable claim."
 - Below the quote, smaller white text: "Read the post →" with the URL
-- RO.bot logo bottom-right in teal
+- TenthGear logo bottom-right in teal
 - 1:1 aspect ratio for IG / LinkedIn carousel-friendly
 
 This is the most screenshot-worthy line in the post because it concedes something. It reads as credible rather than as vendor copy, which is exactly why it travels.

@@ -1,6 +1,6 @@
 # Distribution: Why Your Effective Labor Rate Is Lower Than Your Door Rate
 
-**Post URL (after deploy):** https://ro-bot.io/blog/effective-labor-rate
+**Post URL (after deploy):** https://tenthgear.ai/blog/effective-labor-rate
 **Publish date:** 2026-05-29
 **Primary keyword:** effective labor rate
 **Audience:** Fixed Ops Directors, Service Managers, dealer-group operators
@@ -46,7 +46,7 @@ Full post in the comments.
 **First comment (after posting):**
 
 ```
-https://ro-bot.io/blog/effective-labor-rate
+https://tenthgear.ai/blog/effective-labor-rate
 ```
 
 **Suggested timing:** Tuesday or Wednesday, 7-9 AM ET. Fixed Ops Directors check LinkedIn before their morning huddle.
@@ -69,7 +69,7 @@ It is not mostly the bay. The rate leaks at the write-up, where discounts come s
 
 The new post walks through all four leaks, and the three you can actually close. One of them is money most shops leave on the table: every state now requires manufacturers to reimburse warranty labor at your retail rate, but you have to document and prove that rate to claim it.
 
-Read it: https://ro-bot.io/blog/effective-labor-rate
+Read it: https://tenthgear.ai/blog/effective-labor-rate
 
 — Dave
 
@@ -88,7 +88,7 @@ Unsubscribe: [unsubscribe-link]
 - Big quote in white, large display sans-serif:
   > "Your door rate is a marketing number. Your effective labor rate is the truth."
 - Below the quote, smaller white text: "Read the post →" with the URL
-- RO.bot logo bottom-right in teal
+- TenthGear logo bottom-right in teal
 - 1:1 aspect ratio for IG / LinkedIn carousel-friendly
 
 **Alternate pull quote cards (if doing a 2-3 card carousel):**

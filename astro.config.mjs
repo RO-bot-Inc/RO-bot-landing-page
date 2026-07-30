@@ -44,7 +44,7 @@ function rehypeLinkPolicy() {
 }
 
 export default defineConfig({
-  site: 'https://ro-bot.io',
+  site: 'https://tenthgear.ai',
   // Astro 7 changed the compressHTML default to 'jsx', which collapses
   // whitespace between adjacent inline elements. Pin to the prior default so
   // copy spacing is preserved exactly as it rendered pre-upgrade.

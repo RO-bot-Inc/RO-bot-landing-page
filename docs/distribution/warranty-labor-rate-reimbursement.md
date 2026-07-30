@@ -1,6 +1,6 @@
 # Distribution: How to Increase Your Warranty Labor Rate to Retail
 
-**Post URL (after deploy):** https://ro-bot.io/blog/warranty-labor-rate-reimbursement
+**Post URL (after deploy):** https://tenthgear.ai/blog/warranty-labor-rate-reimbursement
 **Publish date:** 2026-06-05
 **Primary keyword:** warranty labor rate
 **Secondary keywords:** retail warranty reimbursement, warranty labor rate increase, customer-pay repair orders
@@ -43,7 +43,7 @@ Full post in the comments.
 **First comment (after posting):**
 
 ```
-https://ro-bot.io/blog/warranty-labor-rate-reimbursement
+https://tenthgear.ai/blog/warranty-labor-rate-reimbursement
 ```
 
 **Suggested timing:** Tuesday or Wednesday, 7-9 AM ET. Fixed Ops Directors check LinkedIn before their morning huddle.
@@ -68,7 +68,7 @@ That is where most submissions live or die. The sample only proves a rate as hig
 
 The new post walks through how the submission works and what protects it.
 
-Read it: https://ro-bot.io/blog/warranty-labor-rate-reimbursement
+Read it: https://tenthgear.ai/blog/warranty-labor-rate-reimbursement
 
 — Dave
 
@@ -87,7 +87,7 @@ Unsubscribe: [unsubscribe-link]
 - Big quote in white, large display sans-serif:
   > "The rate you can claim is the rate you actually document."
 - Below the quote, smaller white text: "Read the post →" with the URL
-- RO.bot logo bottom-right in teal
+- TenthGear logo bottom-right in teal
 - 1:1 aspect ratio for IG / LinkedIn carousel-friendly
 
 **Alternate pull quote cards (if doing a 2-3 card carousel):**

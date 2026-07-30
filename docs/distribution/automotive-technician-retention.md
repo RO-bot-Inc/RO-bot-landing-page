@@ -1,6 +1,6 @@
 # Distribution: Your A-Techs Aren't Leaving for the Money. They're Leaving the Dispatch.
 
-**Post URL (after deploy):** https://ro-bot.io/blog/automotive-technician-retention
+**Post URL (after deploy):** https://tenthgear.ai/blog/automotive-technician-retention
 **Publish date:** 2026-05-17
 **Primary keyword:** automotive technician retention
 **Audience:** Fixed Ops Directors, Service Managers, dealer-group operators
@@ -17,7 +17,7 @@
 1. Take a screenshot of the reel at the "POV: YOU'RE 6 HOURS INTO A 30 MINUTE JOB" frame (the brake rotor / tech-inside-the-rotor frame is the strongest single still).
 2. Crop out the @handle and the "today was long day" caption.
 3. Use that still as the LinkedIn post visual.
-4. If we have an IG business account that can repost with permission, do that as a reel-format post on RO.bot's IG with our own caption underneath.
+4. If we have an IG business account that can repost with permission, do that as a reel-format post on TenthGear's IG with our own caption underneath.
 
 **Rights note:** Do not embed or repost without attribution permission. Quoting and linking is fine. If we screenshot, treat as fair-use commentary (we are using the meme to illustrate an editorial point in our own piece) and link back to the original in the post body, which we already do.
 
@@ -57,7 +57,7 @@ Full post in the comments.
 **First comment (after posting):**
 
 ```
-https://ro-bot.io/blog/automotive-technician-retention
+https://tenthgear.ai/blog/automotive-technician-retention
 ```
 
 **Suggested timing:** Tuesday or Wednesday, 7-9 AM ET. Fixed Ops Directors check LinkedIn before their morning huddle.
@@ -84,7 +84,7 @@ Flat-rate volatility. Warranty-heavy dispatch killing income on your best techs.
 
 The new post walks through what each of those looks like on the bench, and the 90-day play for fixing the cheapest one first.
 
-Read it: https://ro-bot.io/blog/automotive-technician-retention
+Read it: https://tenthgear.ai/blog/automotive-technician-retention
 
 — Dave
 
@@ -103,7 +103,7 @@ Unsubscribe: [unsubscribe-link]
 - Big quote in white, large display sans-serif:
   > "Your A-techs aren't leaving for the money. They're leaving the dispatch."
 - Below the quote, smaller white text: "Read the post →" with the URL
-- RO.bot logo bottom-right in teal
+- TenthGear logo bottom-right in teal
 - 1:1 aspect ratio for IG / LinkedIn carousel-friendly
 
 **Alternate pull quote cards (if doing a 2-3 card carousel):**
