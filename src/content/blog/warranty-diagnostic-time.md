@@ -239,9 +239,9 @@ Both techs did the same work and reached the same conclusion. Only one of them l
   </ul>
 </div>
 
-## Where RO.bot fits
+## Where TenthGear fits
 
-RO.bot will not set your allowance, win your rate case, or make a non-covered repair covered. It works on the one input you actually own, which is the record your tech leaves behind.
+TenthGear will not set your allowance, win your rate case, or make a non-covered repair covered. It works on the one input you actually own, which is the record your tech leaves behind.
 
 The tech talks through what they did, the conditions, the tests, the readings, and the story comes out written in the order a warranty administrator reads it. Every diagnostic warranty story gets graded against six criteria before it ships, and one of them is the diagnostic approach: does the story show the tests that led to the cause?
 

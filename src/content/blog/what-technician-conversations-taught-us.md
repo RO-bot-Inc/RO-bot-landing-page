@@ -3,14 +3,14 @@ title: "What Hundreds of Technician Conversations Taught Us About Building Bette
 date: "2026-03-18"
 category: "Founder"
 tags: ["Product Development", "Technician Feedback", "Founder", "Voice Technology"]
-excerpt: "We spent months on shop floors before writing a single line of code. Here are the five things we heard over and over that shaped how we built RO.bot."
+excerpt: "We spent months on shop floors before writing a single line of code. Here are the five things we heard over and over that shaped how we built TenthGear."
 primaryKeyword: "building tools for auto technicians"
 secondaryKeywords: ["automotive technician feedback", "service department product design", "technician workflow research"]
 ---
 
 ![Technician leaning over an engine with phone in hand](/blog-assets/7-what-technician-conversations-taught-us/technician-engine-phone.png)
 
-Before we wrote a single line of code for RO.bot, I spent months in service departments. Not watching from the service drive. In the bays. Standing next to lifts, listening to compressors cycle, trying not to trip over drain pans.
+Before we wrote a single line of code for TenthGear, I spent months in service departments. Not watching from the service drive. In the bays. Standing next to lifts, listening to compressors cycle, trying not to trip over drain pans.
 
 I talked to techs between jobs. I sat with service advisors during morning dispatches. I watched warranty admins fight through denial queues at the end of the month. I bought a lot of coffee and asked a lot of questions.
 
@@ -26,7 +26,7 @@ Then I would watch that same tech sit down at a terminal and type a three-line s
 
 It was not a knowledge problem. It was a medium problem. These are professionals who think and communicate verbally. They trained that way, they diagnose that way, and they explain repairs to each other that way. Asking them to switch to a keyboard and a tiny text box strips out everything that makes their communication effective.
 
-That insight became the foundation of RO.bot. [Voice-first, not voice-optional](/product). The tech talks. The AI writes. The story captures what the tech actually knows, not the condensed version they can manage to type between jobs.
+That insight became the foundation of TenthGear. [Voice-first, not voice-optional](/product). The tech talks. The AI writes. The story captures what the tech actually knows, not the condensed version they can manage to type between jobs.
 
 ## 2. Documentation Quality Varies Wildly, Even in the Same Shop.
 
@@ -36,7 +36,7 @@ One tech writes detailed, structured stories with measurements and root cause ex
 
 The problem is obvious once you see it: documentation quality depends entirely on each individual tech's willingness and ability to type. There is no standardization layer. No quality floor.
 
-This is why RO.bot grades every story against six criteria before it goes to the advisor. Not to punish anyone, but to create a consistent baseline. When a C+ story gets flagged, the tech can add the missing detail with a quick voice note instead of rewriting the whole thing. The [report card feature](/product) raises the floor without slowing anyone down.
+This is why TenthGear grades every story against six criteria before it goes to the advisor. Not to punish anyone, but to create a consistent baseline. When a C+ story gets flagged, the tech can add the missing detail with a quick voice note instead of rewriting the whole thing. The [report card feature](/product) raises the floor without slowing anyone down.
 
 ## 3. Their Software Was Built for Desks, Not Shop Floors.
 
@@ -46,7 +46,7 @@ Tiny text fields. Multi-step workflows that require a mouse. Screens designed fo
 
 The people building these tools had never stood in a bay. You can tell.
 
-We built RO.bot for the shop floor first. Large touch targets. Voice input as the primary interaction. A mobile interface that assumes you have one hand free at best. Every screen was tested by actual technicians in actual bays before we shipped it. You can [read about their feedback](/blog/from-skeptics-to-believers-beta-feedback) from our beta program.
+We built TenthGear for the shop floor first. Large touch targets. Voice input as the primary interaction. A mobile interface that assumes you have one hand free at best. Every screen was tested by actual technicians in actual bays before we shipped it. You can [read about their feedback](/blog/from-skeptics-to-believers-beta-feedback) from our beta program.
 
 ## 4. Warranty Denials Frustrate Everyone, But Nobody Knows How to Fix the Root Cause.
 
@@ -54,7 +54,7 @@ Warranty admins know their denial rates. Service managers know their denial rate
 
 The root cause is not laziness or ignorance. It is a workflow problem. By the time a warranty admin catches a weak story, the tech has moved on to the next job. Rework means pulling the tech off a bay, asking them to remember details from hours or days ago, and rewriting something they already spent time on once. Most shops just submit what they have and hope for the best.
 
-RO.bot addresses this at the point of creation, not after the fact. The AI structures the story to warranty standards while the tech is still at the vehicle. Measurements, root cause, correction steps. All captured from the tech's voice, formatted correctly the first time. The grading system catches gaps before the story leaves the tech's hands, not after it has been denied.
+TenthGear addresses this at the point of creation, not after the fact. The AI structures the story to warranty standards while the tech is still at the vehicle. Measurements, root cause, correction steps. All captured from the tech's voice, formatted correctly the first time. The grading system catches gaps before the story leaves the tech's hands, not after it has been denied.
 
 If you want to understand [why techs resist the current documentation process](/blog/why-auto-techs-hate-paperwork), we wrote about that in detail.
 
@@ -66,7 +66,7 @@ Every tech I talked to understood the connection between documentation and pay. 
 
 They are not resistant to technology. They are resistant to technology that creates more work without a clear payoff. Give a tech a tool that saves them 30 minutes of typing per day and puts more hours on their paycheck, and they will use it. Every single day.
 
-That is why we designed RO.bot around technician outcomes, not just management reporting. Yes, managers get the dashboards and the analytics. But the tech gets the immediate, tangible benefit: less time typing, more wrench time, better documentation that leads to fewer comebacks and more approved work.
+That is why we designed TenthGear around technician outcomes, not just management reporting. Yes, managers get the dashboards and the analytics. But the tech gets the immediate, tangible benefit: less time typing, more wrench time, better documentation that leads to fewer comebacks and more approved work.
 
 ## What This Means for How We Build
 
@@ -76,4 +76,4 @@ We are still visiting shops. Still having these conversations. The product has c
 
 If any of this sounds familiar, if you are dealing with inconsistent documentation, high denial rates, or techs who are great at their craft but struggle with the paperwork side, I would love to show you what we built. [Book a demo](/book-demo) and I will walk you through it personally.
 
-You can also learn more about [why we started RO.bot](/about) and the problem we set out to fix.
+You can also learn more about [why we started TenthGear](/about) and the problem we set out to fix.

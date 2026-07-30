@@ -1,7 +1,7 @@
-# RO.bot Website — Claude Code Instructions
+# TenthGear Website — Claude Code Instructions
 
 **Owner:** Dave (CEO/founder).
-**Project:** ro-bot.io marketing website.
+**Project:** tenthgear.ai marketing website.
 **Stack:** Astro (static site, zero JS by default) + Tailwind CSS + Markdown blog posts.
 **Deployed on:** Netlify. (App is on Replit; data on Firebase. See `../shared/deployment.md`.)
 **Your role:** Implementation partner. Dave handles strategy and positioning. You build and refine.
@@ -21,7 +21,7 @@ Before drafting or revising any user-facing copy, page, or blog post that mentio
 This subproject sits inside `/ro-bot/` alongside `app/` and `GTM/`. Cross-cutting facts live in `../shared/`:
 
 - **`../shared/product-facts.md`** — feature facts, grading counts, pillar names, AI mode names. Source of truth for copy.
-- **`../shared/brand.md`** — RO.bot vs RO-bot Inc., banned words, voice & tone, formatting rules. Canonical for all website copy decisions.
+- **`../shared/brand.md`** — TenthGear vs RO-bot, Inc., banned words, voice & tone, formatting rules. Canonical for all website copy decisions.
 - **`../shared/deployment.md`** — Netlify, Replit, Firebase, analytics IDs, accounts.
 - **`../shared/lessons-learned/INDEX.md`** — cross-project engineering patterns (includes the Astro inline-script bundling lesson).
 
@@ -33,7 +33,7 @@ When pulling code or screenshots from `../app/`, read `../app/CLAUDE.md` first f
 
 **RULE #1 — `../shared/product-facts.md` is the source of truth for product facts.** Never write "7 criteria," "three pillars" details, mode names, or workflow names from memory or older docs. Read the file first.
 
-**RULE #2 — `../shared/brand.md` is the source of truth for brand & voice.** Brand-name conventions (RO.bot vs RO-bot vs ro-bot.io), banned words, voice/tone, formatting rules (no em/en dashes, no emojis, "AI" used sparingly) all live there.
+**RULE #2 — `../shared/brand.md` is the source of truth for brand & voice.** Brand-name conventions (TenthGear vs RO-bot, Inc. vs tenthgear.ai), banned words, voice/tone, formatting rules (no em/en dashes, no emojis, "AI" used sparingly) all live there.
 
 **RULE #3 — Mobile-first.** Design for phone screens first; expand to desktop. Buyers (Fixed Ops Directors) read on phones between meetings.
 
@@ -45,9 +45,9 @@ When pulling code or screenshots from `../app/`, read `../app/CLAUDE.md` first f
 
 ## Project Overview
 
-ro-bot.io serves buyers via two paths, both leading to one CTA: **Book a Demo.**
-1. **Specific pain:** they clicked an ad/post about warranty denials, story-writing time, inspection completion. Show RO.bot solves their problem.
-2. **General discovery:** they heard about RO.bot from a colleague, 20 Group, or influencer. Help them understand what it is.
+tenthgear.ai serves buyers via two paths, both leading to one CTA: **Book a Demo.**
+1. **Specific pain:** they clicked an ad/post about warranty denials, story-writing time, inspection completion. Show TenthGear solves their problem.
+2. **General discovery:** they heard about TenthGear from a colleague, 20 Group, or influencer. Help them understand what it is.
 
 **Positioning** — one-sentence: *"Turn every technician into your most productive, most profitable tech."* Category: voice-first AI platform for automotive service departments. Three-pillar value framework (canonical names + outcomes in `../shared/product-facts.md`).
 
@@ -64,7 +64,7 @@ ro-bot.io serves buyers via two paths, both leading to one CTA: **Book a Demo.**
 - **Deployment:** Netlify (with form detection enabled)
 - **Forms:** Netlify Forms
 - **Analytics:** Google Analytics with demo-request conversion tracking
-- **Domain:** ro-bot.io
+- **Domain:** tenthgear.ai
 
 ### Site Routes
 ```
@@ -126,7 +126,7 @@ public/
 
 ### Debugging deploy issues
 1. Check built output: `head dist/page/index.html`
-2. Check live: `curl -sL https://ro-bot.io/page | head -30`
+2. Check live: `curl -sL https://tenthgear.ai/page | head -30`
 3. Compare for mismatches.
 4. Search for conflicting files: `find public -name "*.html"`
 
@@ -151,7 +151,7 @@ public/
 ### Tier 1: proven winners
 - "Shops lose work when customers don't understand repairs" (revenue/video)
 - "Techs lose nearly an hour a day on paperwork" (time/productivity)
-- "45 minutes typing stories. Zero minutes with RO.bot." (speed contrast)
+- "45 minutes typing stories. Zero minutes with TenthGear." (speed contrast)
 - "Turn every technician into your most productive, most profitable tech" (platform)
 - "Every RO has more revenue in it" (revenue umbrella)
 

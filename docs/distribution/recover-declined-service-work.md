@@ -1,6 +1,6 @@
 # Distribution drafts — The Cheapest Revenue in Your Store Is Sitting in Declined Work
 
-Post URL: https://ro-bot.io/blog/recover-declined-service-work
+Post URL: https://tenthgear.ai/blog/recover-declined-service-work
 Published: 2026-06-20
 
 ---
@@ -20,7 +20,7 @@ Your shop already writes "customer declined" on the RO to cover itself. Point th
 New piece on where declined work goes, why it disappears, and the four steps to win it back. Link in the comments.
 
 **First comment:**
-Full post here: https://ro-bot.io/blog/recover-declined-service-work
+Full post here: https://tenthgear.ai/blog/recover-declined-service-work
 
 ---
 
@@ -37,7 +37,7 @@ Most of that work is recoverable. A customer who declines almost never means nev
 
 Our new piece breaks down why declined work disappears, what it is actually worth, and the four steps to win it back, starting with the one every shop skips.
 
-Read the post: https://ro-bot.io/blog/recover-declined-service-work
+Read the post: https://tenthgear.ai/blog/recover-declined-service-work
 
 —
 {{unsubscribe}} · RO-bot Inc.
@@ -49,12 +49,12 @@ Read the post: https://ro-bot.io/blog/recover-declined-service-work
 **Primary option (big-number card):**
 - Big number in navy (`#0F2137`): **$1.8M**
 - Context line under it: "in declined work a 10-store group can recover every year, with documented follow-up"
-- Small teal underline accent (`#2A9D8F`) and the RO.bot wordmark bottom-left
-- Footer microcopy: "ro-bot.io/blog"
+- Small teal underline accent (`#2A9D8F`) and the TenthGear wordmark bottom-left
+- Footer microcopy: "tenthgear.ai/blog"
 
 **Alternate (sentence card), if you'd rather lead with the idea than the number:**
 - Quote, set in navy on a white/surface background:
   "A note written to cover you reads 'declined brakes.' A note written to sell the job reads 'front pads at 3mm, customer driving 80 miles a day.' Same thirty seconds. One protects you. The other pays you."
-- RO.bot wordmark bottom-right.
+- TenthGear wordmark bottom-right.
 
 Both are a 5-minute build in Canva (square 1080x1080 for the feed, plus a 1200x628 variant for LinkedIn/email headers). Keep it flat, no gradients, per brand visual rules.

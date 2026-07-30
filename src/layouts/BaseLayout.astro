@@ -16,15 +16,15 @@ interface Props {
 
 const {
   title,
-  description = 'RO.bot is voice-first AI that helps your techs find more work, sell more work, and get paid for more work.',
-  ogImage = '/browser.png',
+  description = 'TenthGear is voice-first AI that helps your techs find more work, sell more work, and get paid for more work.',
+  ogImage = '/og-image.png',
   ogType = 'website',
   canonicalPath,
   schemaJson,
   preloadImage,
 } = Astro.props;
 
-const siteUrl = 'https://ro-bot.io';
+const siteUrl = 'https://tenthgear.ai';
 const canonicalUrl = canonicalPath ? `${siteUrl}${canonicalPath}` : new URL(Astro.url.pathname, siteUrl).href;
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
 
@@ -50,7 +50,7 @@ const schemaScripts = schemaJson
   <meta property="og:image" content={ogImageUrl}>
   <meta property="og:url" content={canonicalUrl}>
   <meta property="og:type" content={ogType}>
-  <meta property="og:site_name" content="RO.bot">
+  <meta property="og:site_name" content="TenthGear">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">

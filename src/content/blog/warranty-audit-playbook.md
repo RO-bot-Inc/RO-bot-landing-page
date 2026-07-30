@@ -106,7 +106,7 @@ And when the shop doesn't get paid for that work, the tech doesn't either. That 
 
 The only real fix for warranty documentation is to capture it at the point of work, not from memory at the end of the day. That means giving techs a way to describe the repair while they're still standing at the car, while the details are still fresh, without asking them to stop and type.
 
-That is the whole reason we built [RO.bot](/) the way we did. Techs talk through the job as they're doing it. The system writes the story in real time and grades it against the same criteria warranty auditors use. If the cause is missing, the tech sees it before the story leaves the bay. If the complaint and the correction don't match, the system catches it.
+That is the whole reason we built [TenthGear](/) the way we did. Techs talk through the job as they're doing it. The system writes the story in real time and grades it against the same criteria warranty auditors use. If the cause is missing, the tech sees it before the story leaves the bay. If the complaint and the correction don't match, the system catches it.
 
 You don't fix this problem by writing better stories at the end of the day. You fix it by never letting a weak story leave the bay. For more on what better 3Cs actually look like, see our earlier post on [how to reduce warranty claim denials](/blog/reduce-warranty-claim-denials).
 

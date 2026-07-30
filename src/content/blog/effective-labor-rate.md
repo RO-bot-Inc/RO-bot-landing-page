@@ -84,9 +84,9 @@ You have two levers: charge more per hour, or sell more hours. Raising the poste
 3. **Fix the mix by capturing more billable hours.** A complete inspection turns a one-line oil change into a multi-line ticket. That is the same leak covered in [why your MPI completion rate is your biggest revenue leak](/blog/mpi-completion-rate-revenue), and it is the fastest way to lift hours per RO without touching your rate.
 4. **Convert more of what you recommend.** Showing a customer the worn part beats reading it off a sheet, and approved work is billable work. It also ties straight into [getting more revenue out of every RO that already comes through your door](/blog/increase-revenue-per-repair-order).
 
-## Where RO.bot fits
+## Where TenthGear fits
 
-RO.bot does not set your labor rate, and it will not stop an advisor from discounting. What it does is attack the three leaks that come down to documentation and capture.
+TenthGear does not set your labor rate, and it will not stop an advisor from discounting. What it does is attack the three leaks that come down to documentation and capture.
 
 - **Voice-first MPI** lets techs speak findings instead of skipping the clipboard, so more real work lands on the RO and your mix improves.
 - **AI-guided video inspections** put the problem on the customer's screen, so more of what you recommend gets approved instead of declined.

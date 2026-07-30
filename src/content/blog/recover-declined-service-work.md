@@ -19,7 +19,7 @@ The tech found the worn control arm. The advisor wrote it up. The customer said 
 
 **The short version:** declined service work is the cheapest revenue you will ever recover, because the selling is already done. Most of it never gets a follow-up call, and the reason is rarely a lazy advisor. It is a recommendation documented too thin to pick back up sixty days later.
 
-That gap, between a recommendation made and a recommendation someone can act on two months later, is a documentation problem, not a discipline problem. It is the reason we built [RO.bot](/), and we will come back to what it changes. First, where the work goes.
+That gap, between a recommendation made and a recommendation someone can act on two months later, is a documentation problem, not a discipline problem. It is the reason we built [TenthGear](/), and we will come back to what it changes. First, where the work goes.
 
 Two terms, because shops use them loosely. **Declined services** are the repairs a customer said no to at the counter. **Deferred services** are the ones they said "not yet" to, the maintenance they plan to come back for. Both sit as lines on a closed RO, and both are worth money. Deferred is the easier of the two, because the customer already told you they intend to return.
 
@@ -97,7 +97,7 @@ Every one of those steps depends on the first one, and the first one is the one 
 
 Here is the part that should make this easy. Your shop already documents declines. Every tech who has been burned writes "customer advised, declined repair" on the RO to protect the shop if that car comes back on a hook. That instinct is correct. It is just aimed at the wrong target. A note written to cover you in a dispute reads "declined brakes." A note written to sell the job in sixty days reads "front pads at 3mm, customer driving 80 miles a day, declined today, recommend follow-up within 60 days." Same thirty seconds. One protects you. The other pays you.
 
-That is the problem [RO.bot](/) was built around. Techs talk through what they found while they are still standing at the car, and the system writes it down in their words, in detail, the first time. The same documentation discipline that makes a warranty story hold up makes a declined line recoverable sixty days later. A recommendation you can actually read is a recommendation you can actually sell.
+That is the problem [TenthGear](/) was built around. Techs talk through what they found while they are still standing at the car, and the system writes it down in their words, in detail, the first time. The same documentation discipline that makes a warranty story hold up makes a declined line recoverable sixty days later. A recommendation you can actually read is a recommendation you can actually sell.
 
 ## The list is already yours
 

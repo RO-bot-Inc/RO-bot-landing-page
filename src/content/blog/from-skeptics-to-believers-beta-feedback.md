@@ -1,5 +1,5 @@
 ---
-title: "From Skeptics to Believers: What Our Beta Testers Are Saying About RO.bot"
+title: "From Skeptics to Believers: What Our Beta Testers Are Saying About TenthGear"
 date: "2025-06-02"
 category: "Customer Stories"
 tags: ["Beta Testing", "Customer Feedback", "Voice Technology", "Product Development"]
@@ -11,7 +11,7 @@ secondaryKeywords: ["automotive technician app", "service department technology"
 
 ![Skeptical Service Manager](/blog-assets/2-from-skeptics-to-believers-beta-feedback/beta-service-manager.jpg)
 
-When we first started demoing RO.bot to auto technicians and service managers, the skepticism was palpable. "Another app?" "We spend too much time on screens as it is."
+When we first started demoing TenthGear to auto technicians and service managers, the skepticism was palpable. "Another app?" "We spend too much time on screens as it is."
 
 Then they actually tried it… 
 
@@ -31,7 +31,7 @@ What changed his mind? "I just tell it what I did and what I find. I don't worry
 
 Service managers have seen their share of failed technology rollouts. Laura, who manages a 10-bay shop, was particularly wary: "I've spent thousands on software that ended up gathering dust. My techs didn't use it because it was a hassle."
 
-Her experience with RO.bot has been different:
+Her experience with TenthGear has been different:
 
 "Usually, I have to force new software on them. With RO.bot, I've got guys on a waiting list to get onboarded. That's never happened before."
 
@@ -43,7 +43,7 @@ David, a warranty administrator, knows the pain of documentation better than mos
 
 His initial skepticism centered on accuracy: "Could AI understand the difference between fault codes? Could it understand what notes to include in a story and which ones to ignore?"
 
-After a month in beta, he saw the potential impact of rolling RO.bot out to the entire shop: "It's not just that it understands. It guides you. It knows what the manufacturer needs to see in the story. It's like having a warranty administrator right there with you, making sure you don't miss something."
+After a month in beta, he saw the potential impact of rolling TenthGear out to the entire shop: "It's not just that it understands. It guides you. It knows what the manufacturer needs to see in the story. It's like having a warranty administrator right there with you, making sure you don't miss something."
 
 His favorite moment? "One of the guys was working on an HVAC issue… putting voice notes into RO.bot, and it automatically pulled up a TSB. He didn't search for it or ask if there was one. The app just saw what he was working on and served it up. That's awesome."
 
@@ -57,7 +57,7 @@ His journey from skepticism to advocacy happened gradually. "At first, it felt a
 
 ## The Surprise Nobody Expected
 
-Perhaps the most interesting feedback has been about an unexpected benefit. Some of our beta testers have mentioned that RO.bot is helping them up their diagnostics game.
+Perhaps the most interesting feedback has been about an unexpected benefit. Some of our beta testers have mentioned that TenthGear is helping them up their diagnostics game.
 
 Laura observed, "My younger techs are learning faster because they're verbalizing their process and getting realtime suggestions about next steps. It's become an accidental training tool."
 
@@ -75,17 +75,17 @@ The enthusiasm from our beta group has translated into a flood of feature reques
 
 ## Join the Movement
 
-We launched this beta to prove out the core value of RO.bot. What we didn't expect was to convert skeptics into evangelists. These beta customers are becoming partners in building the future of the product, and we're so grateful for their support. For the business case behind why shops are making the switch, read [The ROI of Digital Repair Solutions](/blog/roi-digital-repair).
+We launched this beta to prove out the core value of TenthGear. What we didn't expect was to convert skeptics into evangelists. These beta customers are becoming partners in building the future of the product, and we're so grateful for their support. For the business case behind why shops are making the switch, read [The ROI of Digital Repair Solutions](/blog/roi-digital-repair).
 
-Many of our beta testers started as skeptics because they've seen it all before. But RO.bot is different. We started with a simple premise: make something that technicians will actually want to use. 
+Many of our beta testers started as skeptics because they've seen it all before. But TenthGear is different. We started with a simple premise: make something that technicians will actually want to use. 
 
 "It doesn't try to change how we work," Nick says. "It eliminates the part of my job that I really don't want to do."
 
 ---
 
-*Want to see why skeptics are becoming believers? [Book a demo](/book-demo) and experience RO.bot's [voice-first tools](/product) with your own workflow.*
+*Want to see why skeptics are becoming believers? [Book a demo](/book-demo) and experience TenthGear's [voice-first tools](/product) with your own workflow.*
 
 
 ---
 
-*About the Author: Dave is the founder of RO.bot, an AI co-pilot designed specifically for automotive technicians. After hundreds of conversations with service professionals across the industry, he started RO.bot to free technicians' hands from the shackles of bad software.*
+*About the Author: Dave is the founder of TenthGear, an AI co-pilot designed specifically for automotive technicians. After hundreds of conversations with service professionals across the industry, he started TenthGear to free technicians' hands from the shackles of bad software.*

@@ -25,7 +25,7 @@ This process, while thorough, can take significant time and may still lead to mi
 
 ## How AI Changes the Game
 
-AI-powered diagnostic systems like RO.bot analyze vast amounts of data in seconds, identifying patterns that might not be immediately obvious to human technicians. These systems don't replace the technician's expertise – they enhance it by providing intelligent insights and recommendations.
+AI-powered diagnostic systems like TenthGear analyze vast amounts of data in seconds, identifying patterns that might not be immediately obvious to human technicians. These systems don't replace the technician's expertise – they enhance it by providing intelligent insights and recommendations.
 
 When integrated into the diagnostic workflow, AI can:
 
@@ -49,4 +49,4 @@ The integration of AI into automotive repair represents more than just a technol
 
 For shops evaluating the business case for AI tools, the [ROI of digital repair solutions](/blog/roi-digital-repair) is becoming increasingly clear.
 
-*Ready to see AI-powered diagnostics in action? [Book a demo](/book-demo) to see how RO.bot helps technicians work smarter, not harder.*
+*Ready to see AI-powered diagnostics in action? [Book a demo](/book-demo) to see how TenthGear helps technicians work smarter, not harder.*
