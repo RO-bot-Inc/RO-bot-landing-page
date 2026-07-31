@@ -1,0 +1,34 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/davidsonders/ro-bot/website/.codex/hooks/session-start.sh'"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/davidsonders/ro-bot/website/.codex/hooks/fetch-global-skills.sh'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/Users/davidsonders/ro-bot/website/.codex/hooks/push-global-skills.sh'"
+          }
+        ]
+      }
+    ]
+  }
+}
