@@ -1,0 +1,105 @@
+---
+// Marks with dark or baked-white backgrounds are pre-composited onto white
+// circles (see public/dms-logos/); the rest are transparent and ride bare.
+const platforms = [
+  { name: 'Auto/Mate', file: 'automate.png', label: true, big: false },
+  { name: 'Tekion', file: 'tekion.png', label: true, big: false },
+  { name: 'CDK', file: 'cdk.png', label: false, big: true },
+  { name: 'Reynolds', file: 'reynolds.png', label: true, big: false },
+  { name: 'Dealertrack', file: 'dealertrack.png', label: true, big: false },
+  { name: 'PBS', file: 'pbs.png', label: true, big: false },
+  { name: 'Quorum', file: 'quorum.png', label: true, big: false },
+  { name: 'Autosoft', file: 'autosoft.png', label: true, big: false },
+  { name: 'DealerBuilt', file: 'dealerbuilt.png', label: true, big: false },
+  { name: 'Dominion', file: 'dominion.png', label: true, big: false },
+];
+---
+
+<section class="relative overflow-hidden py-14 md:py-20 bg-navy" style="background-image: linear-gradient(170deg, #142A41 0%, #0F2137 60%, #0A1728 100%);">
+  <!-- Teal seam at top -->
+  <div class="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-teal-light to-transparent" aria-hidden="true"></div>
+
+  <div class="relative">
+    <span class="block text-center text-sm font-bold uppercase tracking-wider text-teal-light mb-4 px-4">DMS Integrations</span>
+    <h2 class="text-3xl md:text-4xl font-extrabold text-white text-center mb-4 px-4">
+      Works With Your Existing DMS
+    </h2>
+    <p class="text-lg text-muted leading-relaxed text-center max-w-xl mx-auto mb-10 px-4">
+      TenthGear connects to the systems your stores already run. No rip-and-replace, no IT project.
+    </p>
+
+    <div class="dms-marquee relative overflow-hidden py-2">
+      <div class="dms-track flex w-max">
+        {[false, true].map((isDup) => (
+          platforms.map((p) => (
+            <div class={`flex items-center gap-2.5 mr-11 flex-shrink-0 ${isDup ? 'dms-dup' : ''}`} aria-hidden={isDup ? 'true' : undefined}>
+              <img
+                src={`/dms-logos/${p.file}`}
+                alt={isDup ? '' : `${p.name} logo`}
+                width="128"
+                height="128"
+                class={`object-contain ${p.big ? 'w-[2.52rem] h-[2.52rem]' : 'w-[2.1rem] h-[2.1rem]'}`}
+                loading="lazy"
+                decoding="async"
+              />
+              {p.label && <span class="font-bold text-[#C7D4E0] whitespace-nowrap">{p.name}</span>}
+            </div>
+          ))
+        ))}
+      </div>
+    </div>
+
+    <p class="text-center text-sm text-muted/60 leading-relaxed mt-10 px-4">
+      Don't see your DMS?<br>Ask us. The list keeps growing.
+    </p>
+  </div>
+</section>
+
+<style>
+  .dms-track {
+    animation: dms-scroll 30s linear infinite;
+  }
+  .dms-marquee:hover .dms-track {
+    animation-play-state: paused;
+  }
+  @keyframes dms-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  /* Edge fades so marks drift in and out instead of popping */
+  .dms-marquee::before,
+  .dms-marquee::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 90px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .dms-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, #10233A, transparent);
+  }
+  .dms-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, #0D1D31, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dms-track {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: auto;
+      row-gap: 1rem;
+      padding: 0 1.5rem;
+    }
+    .dms-marquee::before,
+    .dms-marquee::after {
+      display: none;
+    }
+    .dms-dup {
+      display: none;
+    }
+  }
+</style>
