@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="You're On The List - TenthGear">
+
+  <section class="bg-navy pt-28 pb-20 md:pt-36 md:pb-28 min-h-[60vh] flex items-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-teal/20 text-teal flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white mb-4">
+        You're on the list.
+      </h1>
+      <p class="text-lg text-muted mb-8">
+        The next report will hit your inbox when it goes live. In the meantime, the latest ones are on the blog.
+      </p>
+      <a href="/blog/" class="text-teal-light hover:text-teal transition-colors">
+        Read the latest posts
+      </a>
+    </div>
+  </section>
+
+</BaseLayout>
