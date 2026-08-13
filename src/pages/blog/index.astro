@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterCTA from '../../components/NewsletterCTA.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -45,5 +46,7 @@ const dateFormat = {
       </div>
     </div>
   </section>
+
+  <NewsletterCTA />
 
 </BaseLayout>

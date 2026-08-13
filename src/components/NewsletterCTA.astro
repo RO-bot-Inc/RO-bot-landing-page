@@ -1,0 +1,36 @@
+<section class="bg-navy border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div>
+      <p class="text-white font-bold text-lg">Ideas your service lane can use</p>
+      <p class="text-muted text-sm mt-1">One short email per post. No noise.</p>
+    </div>
+
+    <form
+      name="newsletter"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      action="/newsletter-thanks/"
+      class="flex flex-col sm:flex-row gap-3 w-full md:w-auto md:max-w-xl"
+    >
+      <input type="hidden" name="form-name" value="newsletter">
+      <p class="hidden" aria-hidden="true">
+        <label>Don't fill this out if you're human: <input name="bot-field"></label>
+      </p>
+      <input
+        type="email"
+        name="email"
+        required
+        placeholder="you@dealership.com"
+        aria-label="Email address"
+        class="w-full sm:w-72 px-5 py-3 rounded-lg text-navy bg-white border-0 focus:outline-none focus:ring-2 focus:ring-teal"
+      >
+      <button
+        type="submit"
+        class="bg-teal hover:bg-teal-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap"
+      >
+        Get the reports
+      </button>
+    </form>
+  </div>
+</section>
