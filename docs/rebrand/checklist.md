@@ -124,21 +124,26 @@ grep -rn "ro-bot\.io\|RO\.bot\|RO-bot\|RO\.blog\|ro\.bot" --include="*.astro" --
 - [ ] `docs/distribution/warranty-diagnostic-time.md`
 - [ ] `docs/distribution/warranty-labor-rate-reimbursement.md`
 
-## 4. Visual assets  🔴 blocked on master-plan Workstream 4
+## 4. Visual assets  ✅ mark swap DONE 2026-09-03 (Phase 1); palette = Phase 2
 
-- [ ] **Favicon** — `public/favicon.ico`. *(Note: there is no `favicon.svg` despite what the Ronin
-      checklist claimed. Consider adding one during regeneration.)*
-- [ ] **`public/browser.png`** + **`public/browser.svg`** — used as the `BlogPosting` publisher logo
-      in `src/layouts/BlogPost.astro` and allowlisted for Googlebot in `robots.txt`.
-- [ ] **`public/apple-touch-icon.png`**
-- [ ] **`public/RObot logos/`** — `Android.png`, `iPhone.png`, `head only.png`,
-      `generated-icon.png`. The folder name itself is brand-stale; rename it and update every
-      reference (see the manifest bug in §2).
-- [ ] **`public/Color logo - no background.svg`**
-- [ ] **Per-blog OG images** in `public/blog-assets/{N}-{slug}/` — only swap the ones with brand
-      chrome (logo overlay). Hero photos without brand chrome stay.
-- [ ] **About-page founder photo / brand imagery** — review for logo treatments.
-- [ ] Validate the new mark at **16–32px** before committing to it (favicon, tab, app icon).
+Final identity delivered 2026-09-03; every file below now comes from
+`../../shared/brand-assets/exports/` (generator: `brand-assets/generators/make_exports.py`).
+
+- [x] **Favicon** — `public/favicon.ico` (16/32/48 frames). No `favicon.svg` on the site; the app has one.
+- [x] **`public/browser.png`** — 192 px mark on white; still the `BlogPosting` publisher logo and the
+      `Organization` logo. `browser.svg` (unreferenced teal circle) deleted.
+- [x] **`public/apple-touch-icon.png`** — 180 px. Cache-busted `?v=2` in `BaseLayout.astro`.
+- [x] **`public/badge-192.png` / `badge-512.png`** — PWA icons, maskable-safe. `badge-white.svg` = tight-viewBox white mark (navbar, footer).
+- [x] **`public/og-image.png`** — horizontal lockup, 1200×630, regenerated.
+- [x] **`public/RObot logos/`** — `Android.png`, `iPhone.png`, `generated-icon.png` deleted (unreferenced).
+      `head only.png` KEPT: source for the rebrand blog hero generator. Folder rename deferred (only that one file left).
+- [x] **`public/Color logo - no background.svg`** — deleted (pre-robot design, unreferenced).
+- [x] **Rebrand post hero** — regenerated via `shared/rebrand/assets/generators/make_blog_hero.py`
+      (robot head → arrow → final vertical lockup). `tenthgear-logo.png` duplicate of og-image deleted.
+- [x] Validated the mark at **16–32 px** (`brand-assets/exports/social/legibility-16-32-48.png`).
+- [ ] **Per-blog OG images** with brand chrome — none found overriding `ogImage`; re-check when a post adds one.
+- [ ] **Phase 2: palette.** `tailwind.config.mjs` `navy`/`teal` (283 usages / 24 files), `global.css`,
+      re-derive from Palette C in `shared/brand.md`. Sequenced with typography.
 
 ## 5. Schema.org / SEO metadata
 

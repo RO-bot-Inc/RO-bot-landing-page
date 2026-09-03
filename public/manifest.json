@@ -24,8 +24,8 @@
       "platform": "web"
     }
   ],
-  "theme_color": "#2A9D8F",
-  "background_color": "#F4F4F9",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
   "display": "browser",
   "orientation": "portrait"
 }
