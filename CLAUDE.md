@@ -95,7 +95,9 @@ public/
 
 **Reference model:** Jobber (getjobber.com). Clean, professional, spacious; outcome-first messaging; product screenshots over abstract graphics; trades-professional audience.
 
-**Color palette + typography:** still being finalized. Direction: clean, confident, automotive-appropriate (not cliche); clean sans-serif, readable on mobile.
+**Logo:** final (2026-09-03). Masters and sized exports in `../shared/brand-assets/`; the site copies from `exports/`, never hand-exports. Navbar/footer use the white mark (`badge-white.svg`); default OG is the horizontal lockup.
+
+**Color palette:** Palette C is locked in `../shared/brand.md` (black, charcoal, greys, white, plus status red/yellow/green). The live Tailwind `navy`/`teal` theme is placeholder-grade and migrates in a separate Phase 2 pass. **Typography:** still open. Direction: clean, confident, automotive-appropriate (not cliche); clean sans-serif, readable on mobile.
 
 **Layout principles:**
 1. Mobile-first.

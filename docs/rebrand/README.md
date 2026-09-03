@@ -22,7 +22,7 @@ comms, DNS, design, and the app; this folder is website-only.
 ## Two things block the cutover, neither in this repo
 
 1. **`tenthgear.ai` has no A record** — nothing can be served on it.
-2. **No TenthGear visual identity exists** — no logo, no wordmark, no palette.
+2. ~~**No TenthGear visual identity exists** — no logo, no wordmark, no palette.~~ Placeholder mark bridged the cutover (2026-07-30); final logo + Palette C delivered 2026-09-03 and swapped in (`../../shared/brand-assets/`).
 
 A copy-only sweep can run ahead of both and deploy to the existing domain, at the cost of splitting
 the atomic deploy in two. Decide that deliberately rather than by accident.
