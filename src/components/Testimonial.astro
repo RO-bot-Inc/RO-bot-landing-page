@@ -152,6 +152,58 @@
           </div>
         </div>
       </div>
+
+      <!-- Third row: wide quote card + narrow quote card (same pattern as row one) -->
+      <div class="grid md:grid-cols-[1.7fr_1fr] gap-4 items-stretch mt-4">
+        <!-- Tanner Neal wide card (no dealership photo yet; navy gradient stands in) -->
+        <div class="relative rounded-2xl overflow-hidden bg-navy" style="background-image: linear-gradient(135deg, #1A3350 0%, #0F2137 55%, #0A1728 100%);">
+          <div class="absolute -right-20 -bottom-32 w-[360px] h-[360px] rounded-full border-[56px] border-teal-light/[0.08]" aria-hidden="true"></div>
+
+          <!-- Content -->
+          <div class="relative px-8 md:px-10 py-10 flex flex-col md:flex-row items-center gap-8 w-full md:min-h-[420px]">
+            <!-- Headshot -->
+            <div class="flex-shrink-0">
+              <div class="w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-white/20 shadow-xl overflow-hidden">
+                <img
+                  src="/images/tanner-neal-headshot.webp"
+                  alt="Tanner Neal"
+                  width="320"
+                  height="321"
+                  class="w-full h-full object-cover object-[center_18%]"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            <!-- Quote and attribution -->
+            <div class="text-center md:text-left">
+              <blockquote class="text-lg md:text-xl text-white/95 leading-relaxed mb-6">
+                "TenthGear has completely changed the way we communicate with our advisors, customers and warranty administrators. For our technicians it's effortless to make clear, concise and compliant stories. It helps everyone here spend more time serving our customers."
+              </blockquote>
+              <div>
+                <p class="font-bold text-white text-lg">Tanner Neal</p>
+                <p class="text-white/60">Fixed Ops Director, Mercedes-Benz of Lubbock</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Andrew Marshall quote card -->
+        <div class="flex flex-col bg-surface border border-navy rounded-2xl p-7">
+          <div class="text-5xl font-extrabold leading-none text-teal h-8" aria-hidden="true">&ldquo;</div>
+          <blockquote class="flex-1 text-lg font-medium text-navy leading-relaxed mt-2 mb-6">
+            The first time I saw it in action, I thought 'This story is just what I wanted to say, only better.' Now that I have used it for a while it seems to work even better for me.
+          </blockquote>
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-teal/15 border-2 border-teal/30 flex items-center justify-center font-bold text-teal-dark flex-shrink-0">AM</div>
+            <div>
+              <p class="font-bold text-navy">Andrew "Dawg" Marshall</p>
+              <p class="text-sm text-slate-500">Master Technician, Twin City Hyundai</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
