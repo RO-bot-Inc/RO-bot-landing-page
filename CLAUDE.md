@@ -119,7 +119,7 @@ public/
 - **`public/` files override generated pages** — if `public/privacy.html` exists, it overrides `src/pages/privacy.astro`. Delete old static files when migrating.
 - **Verify build output** — `head -60 dist/page/index.html` before deploying.
 - **`is:inline` on globals-defining scripts** — see RULE #4.
-- **Internal links need a trailing slash** — pages are served at `/about/`; linking to `/about` makes Googlebot follow every internal link into a 301. Markdown is auto-normalized by `rehypeLinkPolicy`, so this only applies to hand-written `.astro` hrefs.
+- **Internal hrefs and `canonicalPath` need a trailing slash** (`/about/`, never `/about`) — the bare form 301s. Markdown is normalized by `rehypeLinkPolicy`; hand-written `.astro` values are caught by `scripts/check-links.mjs`, which fails the build.
 - **Markdown pipeline changes need `node_modules/.astro` cleared** (the `build` script does it) — `rm -rf .astro` is a decoy and the stale render fails silently. See `docs/lessons-learned/astro-content-layer-cache.md`.
 
 ### Netlify Deployment
