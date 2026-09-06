@@ -1,7 +1,8 @@
 # Search Console indexing traps: self-inflicted redirects, lost referrers, and un-removable URLs
 
 **Status:** Shipped
-**Date:** 2026-07-28
+**Date:** 2026-07-28 (2nd hit 2026-09-06)
+<!-- recurrence: hits=2 prs=#62,#63,#89,#90 guard=scripts/check-links.mjs -->
 
 ## Context
 Google Search Console emailed two new "reasons preventing your pages from being indexed" for ro-bot.io: *Page with redirect* and *Not found (404)*. Pulling the actual URL lists (rather than guessing from the email) showed 10 unindexed pages, and **7 of the 10 traced to a single cause** — internal links written without trailing slashes. Fixed across the site; also found and fixed an analytics bug and an unprotected subdomain along the way.
@@ -25,10 +26,10 @@ Google Search Console emailed two new "reasons preventing your pages from being 
 - **Name:** Match internal links to the canonical URL form the host actually serves
 - **Use when:** Any static site where the generator emits directory-style URLs (`/about/index.html`) and the host 301s the bare path — Astro, Hugo, Eleventy, Jekyll on Netlify/Vercel/Cloudflare.
 - **Key insight:** Canonicals and sitemap being correct is not enough. If internal links point at the non-canonical form, the crawler follows *your own links* into a redirect on every page, and the duplicate can get independently indexed.
-- **Prevention:** Normalize in the markdown pipeline so content can't regress; hand-written template links need a lint or a convention. Verify with `grep` over the BUILT output, not the source.
+- **Prevention:** Normalize in the markdown pipeline so content can't regress. Hand-written template values need a *guard*, not a convention: the July note above said "need a lint or a convention", no lint shipped, and on 2026-09-06 the same class returned as `canonicalPath="/pricing"` (a canonical that 301s to itself; Search Console reported it as *Duplicate, Google chose different canonical than user*). `scripts/check-links.mjs` now runs after every build and fails it on a canonical/URL mismatch or a slash-less internal href.
 - **Admission check:** Cross-project (any static site + Search Console) ✓. Non-obvious (the `Disallow`-can't-remove trap is counterintuitive and the referrer loss is invisible) ✓.
 
 ## References
-- Code: `astro.config.mjs` (`rehypeLinkPolicy`), `netlify.toml` (redirects), `app/client/public/robots.txt`, `app/server/index.ts` (noindex middleware)
-- PRs: RO-bot-landing-page#62, #63; RObot_032025#1242
+- Code: `scripts/check-links.mjs` (post-build guard), `astro.config.mjs` (`rehypeLinkPolicy`), `netlify.toml` (redirects), `app/client/public/robots.txt`, `app/server/index.ts` (noindex middleware)
+- PRs: RO-bot-landing-page#62, #63 (2026-07); #89 canonical fix, #90 build guard (2026-09); RObot_032025#1242
 - Related: [`astro-content-layer-cache.md`](astro-content-layer-cache.md) — why the plugin fix silently no-opped at first
