@@ -1,7 +1,9 @@
-# RO.bot Website — Codex Instructions
+# TenthGear Website — Agent Instructions (shared)
+
+> **Shared rulebook for every coding agent in this directory** — Codex loads it natively, Claude Code imports it from `CLAUDE.md`. Everything above "Tool-specific" applies to both; apply only your own labeled section.
 
 **Owner:** Dave (CEO/founder).
-**Project:** ro-bot.io marketing website.
+**Project:** tenthgear.ai marketing website.
 **Stack:** Astro (static site, zero JS by default) + Tailwind CSS + Markdown blog posts.
 **Deployed on:** Netlify. (App is on Replit; data on Firebase. See `../shared/deployment.md`.)
 **Your role:** Implementation partner. Dave handles strategy and positioning. You build and refine.
@@ -21,7 +23,7 @@ Before drafting or revising any user-facing copy, page, or blog post that mentio
 This subproject sits inside `/ro-bot/` alongside `app/` and `GTM/`. Cross-cutting facts live in `../shared/`:
 
 - **`../shared/product-facts.md`** — feature facts, grading counts, pillar names, AI mode names. Source of truth for copy.
-- **`../shared/brand.md`** — RO.bot vs RO-bot Inc., banned words, voice & tone, formatting rules. Canonical for all website copy decisions.
+- **`../shared/brand.md`** — TenthGear vs RO-bot, Inc., banned words, voice & tone, formatting rules. Canonical for all website copy decisions.
 - **`../shared/deployment.md`** — Netlify, Replit, Firebase, analytics IDs, accounts.
 - **`../shared/lessons-learned/INDEX.md`** — cross-project engineering patterns (includes the Astro inline-script bundling lesson).
 
@@ -33,7 +35,7 @@ When pulling code or screenshots from `../app/`, read `../app/AGENTS.md` first f
 
 **RULE #1 — `../shared/product-facts.md` is the source of truth for product facts.** Never write "7 criteria," "three pillars" details, mode names, or workflow names from memory or older docs. Read the file first.
 
-**RULE #2 — `../shared/brand.md` is the source of truth for brand & voice.** Brand-name conventions (RO.bot vs RO-bot vs ro-bot.io), banned words, voice/tone, formatting rules (no em/en dashes, no emojis, "AI" used sparingly) all live there.
+**RULE #2 — `../shared/brand.md` is the source of truth for brand & voice.** Brand-name conventions (TenthGear vs RO-bot, Inc. vs tenthgear.ai), banned words, voice/tone, formatting rules (no em/en dashes, no emojis, "AI" used sparingly) all live there.
 
 **RULE #3 — Mobile-first.** Design for phone screens first; expand to desktop. Buyers (Fixed Ops Directors) read on phones between meetings.
 
@@ -45,9 +47,9 @@ When pulling code or screenshots from `../app/`, read `../app/AGENTS.md` first f
 
 ## Project Overview
 
-ro-bot.io serves buyers via two paths, both leading to one CTA: **Book a Demo.**
-1. **Specific pain:** they clicked an ad/post about warranty denials, story-writing time, inspection completion. Show RO.bot solves their problem.
-2. **General discovery:** they heard about RO.bot from a colleague, 20 Group, or influencer. Help them understand what it is.
+tenthgear.ai serves buyers via two paths, both leading to one CTA: **Book a Demo.**
+1. **Specific pain:** they clicked an ad/post about warranty denials, story-writing time, inspection completion. Show TenthGear solves their problem.
+2. **General discovery:** they heard about TenthGear from a colleague, 20 Group, or influencer. Help them understand what it is.
 
 **Positioning** — one-sentence: *"Turn every technician into your most productive, most profitable tech."* Category: voice-first AI platform for automotive service departments. Three-pillar value framework (canonical names + outcomes in `../shared/product-facts.md`).
 
@@ -64,7 +66,7 @@ ro-bot.io serves buyers via two paths, both leading to one CTA: **Book a Demo.**
 - **Deployment:** Netlify (with form detection enabled)
 - **Forms:** Netlify Forms
 - **Analytics:** Google Analytics with demo-request conversion tracking
-- **Domain:** ro-bot.io
+- **Domain:** tenthgear.ai
 
 ### Site Routes
 ```
@@ -95,7 +97,9 @@ public/
 
 **Reference model:** Jobber (getjobber.com). Clean, professional, spacious; outcome-first messaging; product screenshots over abstract graphics; trades-professional audience.
 
-**Color palette + typography:** still being finalized. Direction: clean, confident, automotive-appropriate (not cliche); clean sans-serif, readable on mobile.
+**Logo:** final (2026-09-03). Masters and sized exports in `../shared/brand-assets/`; the site copies from `exports/`, never hand-exports. Navbar/footer use the white mark (`badge-white.svg`); default OG is the horizontal lockup.
+
+**Color palette:** Palette C is locked in `../shared/brand.md` (black, charcoal, greys, white, plus status red/yellow/green). The live Tailwind `navy`/`teal` theme is placeholder-grade and migrates in a separate Phase 2 pass. **Typography:** still open. Direction: clean, confident, automotive-appropriate (not cliche); clean sans-serif, readable on mobile.
 
 **Layout principles:**
 1. Mobile-first.
@@ -117,6 +121,8 @@ public/
 - **`public/` files override generated pages** — if `public/privacy.html` exists, it overrides `src/pages/privacy.astro`. Delete old static files when migrating.
 - **Verify build output** — `head -60 dist/page/index.html` before deploying.
 - **`is:inline` on globals-defining scripts** — see RULE #4.
+- **Internal hrefs and `canonicalPath` need a trailing slash** (`/about/`, never `/about`) — the bare form 301s. Markdown is normalized by `rehypeLinkPolicy`; hand-written `.astro` values are caught by `scripts/check-links.mjs`, which fails the build.
+- **Markdown pipeline changes need `node_modules/.astro` cleared** (the `build` script does it) — `rm -rf .astro` is a decoy and the stale render fails silently. See `docs/lessons-learned/astro-content-layer-cache.md`.
 
 ### Netlify Deployment
 - **CLI deploys can be overwritten by GitHub auto-deploy.** Always commit and push after a verified CLI deploy.
@@ -124,7 +130,7 @@ public/
 
 ### Debugging deploy issues
 1. Check built output: `head dist/page/index.html`
-2. Check live: `curl -sL https://ro-bot.io/page | head -30`
+2. Check live: `curl -sL https://tenthgear.ai/page | head -30`
 3. Compare for mismatches.
 4. Search for conflicting files: `find public -name "*.html"`
 
@@ -137,8 +143,7 @@ public/
 | Homepage structure, full positioning plan | `../app/docs/marketing/ro-bot-website-plan.md` |
 | Marketing strategy (funnel, content calendar, LinkedIn plan) | `../app/docs/marketing/ro-bot-marketing-strategy.md` |
 | Visual assets priority order (for hero, product shots, etc.) | `docs/visual-assets-priority.md` |
-| Blog post end-to-end workflow | `/ro-bot-blog-post` skill |
-| Blog post frontmatter schema | `src/content/config.ts` (canonical) |
+| Blog post frontmatter schema | `src/content.config.ts` (canonical) |
 | GTM context (Reddit voice, ad patterns, content briefs) | `../GTM/` |
 | Ad test data appendix | `../app/docs/marketing/ro-bot-website-plan.md` (revenue framing #167 + speed contrast #150 lead) |
 
@@ -149,7 +154,7 @@ public/
 ### Tier 1: proven winners
 - "Shops lose work when customers don't understand repairs" (revenue/video)
 - "Techs lose nearly an hour a day on paperwork" (time/productivity)
-- "45 minutes typing stories. Zero minutes with RO.bot." (speed contrast)
+- "45 minutes typing stories. Zero minutes with TenthGear." (speed contrast)
 - "Turn every technician into your most productive, most profitable tech" (platform)
 - "Every RO has more revenue in it" (revenue umbrella)
 
@@ -161,10 +166,12 @@ public/
 
 ---
 
-## Final Reminders (compressed)
+## Tool-specific
 
-1. Read `../shared/product-facts.md` before any user-facing copy. Never propagate stale numbers.
-2. Read `../shared/brand.md` for brand-name and banned-words decisions.
-3. Mobile-first. Single CTA per section. Outcome over feature.
-4. Astro: `is:inline` on any global-defining `<script>` tag. No exceptions.
-5. New branch per session; PR per logical change; let Dave merge.
+### Codex-only
+
+(none yet — Claude Code skips this section)
+
+### Claude Code-only
+
+In `CLAUDE.md`, which imports this file.
