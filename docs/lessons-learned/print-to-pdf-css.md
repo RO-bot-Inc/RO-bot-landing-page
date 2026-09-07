@@ -59,4 +59,3 @@ Built three letter-size HTML one-pagers designed to be reviewed on screen and pr
 ## References
 - Code: `mockups/castrol-partner/direction-a.html` (canonical implementation)
 - Related: `mockups/castrol-partner/direction-b.html`, `direction-c.html`
-- Memory: `project_channel_partner_assets.md` for the asset templates themselves
