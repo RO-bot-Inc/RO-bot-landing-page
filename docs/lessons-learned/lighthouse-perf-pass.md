@@ -34,7 +34,7 @@ Shipped: 21 PNG/JPG → WebP at appropriate dimensions, hero video re-encoded 28
 
 ### N-Group Seamless CSS Marquee (CROSS-PROJECT — own file in shared/)
 
-See `../../shared/lessons-learned/n-group-css-marquee.md`.
+See `../../../shared/lessons-learned/n-group-css-marquee.md`.
 
 ### WebP Conversion Cheat Sheet (Astro-stack-specific)
 
