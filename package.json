@@ -6,7 +6,9 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "rm -rf node_modules/.astro && astro build && node scripts/check-links.mjs",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "newsletter:sync": "node --env-file=.env scripts/newsletter.mjs sync",
+    "newsletter:announce": "node --env-file=.env scripts/newsletter.mjs announce"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.1",
