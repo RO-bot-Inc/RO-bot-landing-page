@@ -304,7 +304,8 @@ const escapeHtml = (s) =>
 function render(draft, { forTest = false, slug } = {}) {
   // The site serves directory pages at /path/; a slash-less link 301s.
   const bare = `${SITE}/blog/${slug}`;
-  let text = draft.body.replace(new RegExp(`${bare.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![\w/-])`, 'g'), `${bare}/`);
+  const escapedBare = bare.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  let text = draft.body.replace(new RegExp(escapedBare + '(?![\\w/-])', 'g'), `${bare}/`);
   if (!text.includes(UNSUBSCRIBE_PLACEHOLDER)) text += `\n\n---\n${UNSUBSCRIBE_PLACEHOLDER}`;
   const unsubscribe = forTest ? `${SITE}/#test-unsubscribe-link` : UNSUBSCRIBE_TOKEN;
   text = text.replace(UNSUBSCRIBE_PLACEHOLDER, `Unsubscribe: ${unsubscribe}`);
