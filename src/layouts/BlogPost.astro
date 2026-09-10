@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import NewsletterCTA from '../components/NewsletterCTA.astro';
 
 interface FAQ {
   question: string;
@@ -124,6 +125,8 @@ const schemaJson = faqSchema ? [blogPostingSchema, faqSchema] : blogPostingSchem
       </div>
     </div>
   </article>
+
+  <NewsletterCTA />
 
   <section class="py-16 bg-surface text-center">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">

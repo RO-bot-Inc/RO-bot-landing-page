@@ -10,3 +10,7 @@ dist/
 # macOS
 .DS_Store
 **/.DS_Store
+
+# Local secrets (never committed)
+.env
+.env.*
