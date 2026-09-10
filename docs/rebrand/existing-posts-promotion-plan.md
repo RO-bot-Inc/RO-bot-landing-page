@@ -66,7 +66,7 @@ the whole point of a rebrand backfill.
 
 ## Per-post copy generation
 
-When each post comes up in the schedule, create or update `docs/distribution/{slug}.md` with the same structure as `docs/distribution/automotive-technician-retention.md`:
+When each post comes up in the schedule, create or update `docs/distribution/{slug}.md` with the same structure as `docs/distribution/archive/automotive-technician-retention.md`:
 
 - **Primary launch visual** (hero, pulled quote, IG reel, etc.)
 - **LinkedIn caption** under 1,200 chars, link in first comment

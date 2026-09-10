@@ -118,11 +118,11 @@ grep -rn "ro-bot\.io\|RO\.bot\|RO-bot\|RO\.blog\|ro\.bot" --include="*.astro" --
 `automotive-technician-retention.md`. (Both were on the Ronin checklist; they no longer match.)
 
 **Distribution docs — 5 now, was 2.** Already-drafted promo copy needs the new brand voice + handles:
-- [ ] `docs/distribution/automotive-technician-retention.md`
-- [ ] `docs/distribution/effective-labor-rate.md`
-- [ ] `docs/distribution/recover-declined-service-work.md`
-- [ ] `docs/distribution/warranty-diagnostic-time.md`
-- [ ] `docs/distribution/warranty-labor-rate-reimbursement.md`
+- [ ] `docs/distribution/archive/automotive-technician-retention.md`
+- [ ] `docs/distribution/archive/effective-labor-rate.md`
+- [ ] `docs/distribution/archive/recover-declined-service-work.md`
+- [ ] `docs/distribution/archive/warranty-diagnostic-time.md`
+- [ ] `docs/distribution/archive/warranty-labor-rate-reimbursement.md`
 
 ## 4. Visual assets  ✅ mark swap DONE 2026-09-03 (Phase 1); palette = Phase 2
 
