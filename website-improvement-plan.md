@@ -105,7 +105,7 @@ Based on the Majentics analysis (Human 77, SEO 66, AI Engines 78, AI Agents 72) 
 
 **Files to create:**
 - Landing page for the gated resource
-- Email integration (Formspree, ConvertKit, or similar)
+- Email capture already exists: the Netlify `newsletter` form feeds a Resend segment via `scripts/newsletter.mjs` (see `docs/newsletter-runbook.md`); a gated resource reuses that, no new ESP
 
 **Acceptance criteria:**
 - At least one downloadable resource available
