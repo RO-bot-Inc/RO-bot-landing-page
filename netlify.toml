@@ -133,3 +133,127 @@
   to = "https://tenthgear.ai/:splat"
   status = 301
   force = true
+
+# Alternate-spelling / alternate-TLD domains (registered at Porkbun, 2026-09-10):
+# 10thgear.ai, 10thgear.app, 10thgear.io, tenthgear.app, tenthgear.io.
+# Same shape as the legacy rules above — every host 301s straight to tenthgear.ai.
+
+[[redirects]]
+  from = "https://10thgear.ai/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://10thgear.ai/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.10thgear.ai/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.10thgear.ai/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://10thgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://10thgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.10thgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.10thgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://10thgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://10thgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.10thgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.10thgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://tenthgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://tenthgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.tenthgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.tenthgear.app/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://tenthgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://tenthgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.tenthgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.tenthgear.io/*"
+  to = "https://tenthgear.ai/:splat"
+  status = 301
+  force = true
