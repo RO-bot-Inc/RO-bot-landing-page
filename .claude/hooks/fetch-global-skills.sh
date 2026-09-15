@@ -8,8 +8,9 @@
 # the same clone (that is how the PAT was exposed on 2026-07-02, and this hook was
 # still re-embedding it until 2026-09-15). The remote stays a plain https URL.
 #
-# Failure policy: a pull that fails WARNS and keeps the local copy. It never
-# deletes a real clone — that would wipe local skills on an auth or network blip.
+# Failure policy: a pull that fails (auth, network, or a rebase conflict) aborts
+# any half-applied rebase, WARNS, and keeps the local copy. It never deletes a
+# real clone — that would wipe local skills on an auth or network blip.
 
 set -euo pipefail
 
@@ -51,8 +52,12 @@ mkdir -p "$HOME/.claude"
 if [ -d "$SKILLS_DIR/.git" ]; then
   cd "$SKILLS_DIR"
   git remote set-url origin "$SKILLS_REPO" 2>/dev/null || true
-  git_auth pull --rebase origin main >/dev/null 2>&1 \
-    || echo "Warning: Skills pull failed — kept local copy" >&2
+  if ! git_auth pull --rebase origin main >/dev/null 2>&1; then
+    # A conflicted rebase would leave the clone mid-rebase and the next add -A
+    # would stage conflict markers. Abort it; the local checkout is preserved.
+    git rebase --abort >/dev/null 2>&1 || true
+    echo "Warning: Skills pull failed — kept local copy" >&2
+  fi
 elif [ -d "$SKILLS_DIR" ]; then
   # A directory that is not a clone: move it aside rather than delete it.
   mv "$SKILLS_DIR" "$SKILLS_DIR.not-a-clone.$(date +%s)"

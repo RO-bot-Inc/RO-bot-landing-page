@@ -29,6 +29,12 @@ CRED_HELPER='!f() { printf "username=x-access-token\npassword=%s\n" "$GIT_SKILLS
 git_auth() { git -c credential.helper= -c "credential.helper=$CRED_HELPER" "$@"; }
 
 cd "$SKILLS_DIR"
+# Never commit from a clone that is mid-rebase or mid-merge: add -A would stage
+# conflict markers. Leave it for the next fetch to abort and warn.
+if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD ]; then
+  echo "Warning: Skills clone has an unfinished rebase/merge — not pushing" >&2
+  exit 0
+fi
 git remote set-url origin "$SKILLS_REPO" 2>/dev/null || true
 git config user.email "claude-code-web@dsonders.dev" 2>/dev/null || true
 git config user.name "Claude Code Web" 2>/dev/null || true
