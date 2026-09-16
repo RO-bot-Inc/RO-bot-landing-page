@@ -51,7 +51,7 @@ jobs:
     steps:
       - name: Read the bump's metadata
         id: meta
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
         with:
           github-token: ${{ github.token }}
 
