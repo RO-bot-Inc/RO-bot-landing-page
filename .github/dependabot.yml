@@ -1,0 +1,39 @@
+# Mirrors the app repo (RObot_032025) so both repos get the same weekly
+# patch-and-minor batch on the same day. Majors are ignored on purpose: a
+# major bump is a judgment call, opened by hand when wanted. Security fixes
+# still arrive whenever GitHub raises an alert, config or not.
+#
+# Dependabot-triggered workflow runs read secrets from the DEPENDABOT store
+# (Settings → Secrets and variables → Dependabot), not the Actions store.
+# OPENAI_API_KEY must exist there or the Codex review fails closed on these
+# PRs (codex-review.yml). Patch/minor PRs then arm their own auto-merge
+# (automerge-dependabot.yml).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    target-branch: main
+    labels:
+      - dependencies
+    groups:
+      patch-and-minor:
+        update-types:
+          - patch
+          - minor
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - github-actions

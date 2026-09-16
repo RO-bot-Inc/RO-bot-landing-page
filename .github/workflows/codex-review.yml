@@ -8,7 +8,8 @@ name: Codex Review
 #
 # Inert until OPENAI_API_KEY is added in repo secrets: with no key the job
 # skips and reports success, so it can be landed and made a required check
-# WITHOUT halting merges before it is wired up.
+# WITHOUT halting merges before it is wired up. The one exception is a
+# Dependabot PR, which fails closed without a key (see the first step).
 
 on:
   pull_request:
@@ -29,11 +30,21 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     steps:
+      # Dependabot-triggered runs read secrets from the DEPENDABOT secret
+      # store (Settings → Secrets → Dependabot), not the Actions store —
+      # OPENAI_API_KEY must exist in BOTH for every PR to be reviewed.
+      # Dependency bumps are production changes (package.json / lockfile =
+      # supply-chain surface), so unlike the bootstrap "inert until key
+      # added" path for human PRs, a Dependabot PR with no key FAILS CLOSED
+      # rather than silently merging unreviewed (mirrors the app repo).
       - name: Check for OPENAI_API_KEY
         id: secret
         run: |
           if [ -n "${{ secrets.OPENAI_API_KEY }}" ]; then
             echo "has_key=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.pull_request.user.login }}" = "dependabot[bot]" ]; then
+            echo "::error::OPENAI_API_KEY is not available to this Dependabot-triggered run — add it to the Dependabot secret store (Settings → Secrets and variables → Dependabot) so dependency PRs get an independent review. Failing closed."
+            exit 1
           else
             echo "has_key=false" >> "$GITHUB_OUTPUT"
             echo "::notice::OPENAI_API_KEY not set — Codex review skipped. Add it in Settings → Secrets and variables → Actions to enable."

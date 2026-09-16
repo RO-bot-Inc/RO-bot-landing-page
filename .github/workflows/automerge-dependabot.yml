@@ -1,0 +1,104 @@
+name: Auto-merge Dependabot PRs
+
+# Ported from the app repo (RObot_032025 #2012) so both repos treat a
+# Dependabot bump the same way. Without it a fully-green Dependabot PR sits
+# OPEN until a human types `gh pr merge --auto` — auto-merge is armed per-PR
+# and nothing arms Dependabot's.
+#
+# What it arms (ALL must hold, else it leaves the PR to a human):
+#   - opened by dependabot[bot] (the app login; nobody else can carry it)
+#   - fetch-metadata says the HIGHEST bump in the PR is semver-patch/minor.
+#     A "security" PR that bundles a MAJOR parent bump is NOT armed — that
+#     one is closed and overridden by hand (app #1751 is the worked example).
+#   - every changed file is a manifest Dependabot owns: package.json, the
+#     lockfile, or a workflow file (the github-actions ecosystem's `uses:`
+#     bumps). A stray file = block.
+#
+# The merge itself still waits on every required check — the Codex review
+# (whose Dependabot-store copy of OPENAI_API_KEY fails closed if missing)
+# and the Netlify deploy preview. Arming only removes the wait for a human.
+#
+# The arm is pinned to the evaluated head, and this job only ever DISABLES
+# an arm it made itself (enabledBy = github-actions).
+
+# `pull_request_target`, deliberately, and SAFELY: this job never checks out
+# or executes anything from the PR — it reads metadata through the API and
+# calls `gh pr merge`. Running in the base-branch context means (a) the token
+# is the base branch's write token on every Dependabot-triggered run, with no
+# dependence on how GitHub scopes a Dependabot `pull_request` token, and
+# (b) the arming logic is always MAIN's copy of this file — a Dependabot
+# `uses:` bump that touches this very workflow cannot change the rule that
+# arms it. ⛔ Never add an `actions/checkout` of the PR head (or any `run:`
+# over PR content) to this job: that is the pwn-request hole
+# pull_request_target is famous for, and the no-checkout design is what
+# makes it safe here.
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review, synchronize]
+
+concurrency:
+  group: automerge-dependabot-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  arm-dependabot:
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read the bump's metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ github.token }}
+
+      - name: Arm auto-merge for patch/minor manifest bumps
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+          DEPS: ${{ steps.meta.outputs.dependency-names }}
+        run: |
+          set -euo pipefail
+
+          leave_it() {
+            echo "::notice::$1 — leaving it to a human."
+            # Only undo an arm THIS backstop made (a PR that later grew out of
+            # scope) — never override a human arm.
+            ENABLED_BY="$(gh pr view "$PR" --repo "$REPO" --json autoMergeRequest --jq '.autoMergeRequest.enabledBy.login // ""')"
+            if echo "$ENABLED_BY" | grep -qi 'github-actions'; then
+              echo "::notice::The backstop had armed it earlier — disabling auto-merge."
+              gh pr merge "$PR" --repo "$REPO" --disable-auto
+            fi
+            exit 0
+          }
+
+          case "$UPDATE_TYPE" in
+            version-update:semver-patch|version-update:semver-minor) ;;
+            *) leave_it "Highest bump is '${UPDATE_TYPE:-unknown}' (deps: $DEPS), not patch/minor" ;;
+          esac
+
+          FILES="$(gh pr diff "$PR" --repo "$REPO" --name-only)"
+          if [ -z "$FILES" ]; then
+            leave_it "No changed files"
+          fi
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              package.json|package-lock.json) ;;
+              .github/workflows/*.yml|.github/workflows/*.yaml) ;;
+              *) leave_it "Changed file '$f' is not a Dependabot-owned manifest" ;;
+            esac
+          done <<< "$FILES"
+
+          echo "::notice::Dependabot $UPDATE_TYPE bump ($DEPS) — enabling squash auto-merge."
+          # Pinned to the evaluated head: if a commit raced in, the arm is
+          # rejected and the next run re-evaluates.
+          if ! gh pr merge "$PR" --repo "$REPO" --auto --squash --match-head-commit "$HEAD_SHA"; then
+            echo "::notice::Head moved since evaluation — not arming; a newer run will re-check."
+          fi
