@@ -6,17 +6,21 @@ import type { Config } from './config';
 
 const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/interactions';
 
-function prompt(direction: string, peopleCount: number, color: boolean): string {
+function prompt(direction: string, peopleCount: number, color: boolean, labels: string[]): string {
   const people = peopleCount === 1 ? 'the one person' : `all ${peopleCount} people`;
+  const lettering = labels.length
+    ? `The only lettering allowed anywhere in the image is these exact labels, in clean bold capitals, spelled exactly as written, each on the prop the scene calls for: ${labels.map((l) => `"${l}"`).join(', ')}. No other words, letters, or numbers anywhere.`
+    : 'No words, letters, or numbers anywhere in the image.';
   return [
-    `Edit this photo into a press photograph for a satirical newspaper front page. Scene: ${direction}`,
-    `Keep ${people} from the original photo. Each face must stay clearly recognizable as the same individual, with the same hair, glasses, facial hair, skin tone, and approximate pose and position relative to each other. Do not add any other people, and do not remove, merge, or duplicate anyone.`,
+    `Restage this photo as the lead press photograph of a satirical tabloid front page. It should be funny at a glance: one big absurd sight gag, exaggerated but played completely straight. It must look like a real photograph taken by a press photographer: photorealistic people, skin, fabric, and lighting. Not an illustration, cartoon, painting, or 3D render. Scene: ${direction}`,
+    `The cast is ${people} from the original photo and nobody else. Every face must stay clearly recognizable as the same individual: same facial features, hair, glasses, facial hair, and skin tone. You may change their poses, expressions, clothing, and positions so they act out the scene and react to the gag. Do not add other humans, and do not remove, merge, or duplicate anyone. Robots and machines are welcome.`,
     'Natural anatomy: two arms and two hands per person, five fingers per hand.',
-    'Keep the people large in the frame, in the lower two thirds, in a wide landscape composition with the scene visible around and behind them.',
-    'Absolutely no text, letters, numbers, words, signs, captions, logos, or watermarks anywhere in the image. Screens and signs are blank or show abstract shapes only.',
+    'Wide landscape composition. The people fill at least half the frame height, in the foreground, faces large, well lit, and unobstructed, with the gag clearly visible around them. Rich, specific, slightly-too-much background detail.',
+    lettering,
+    'Never show a blank white screen, empty sign, or empty frame. Screens and signs without a label show charts, icons, maps, or pictures. No logos, no watermarks, no captions, no newspaper layout.',
     color
-      ? 'Style: glossy, slightly cool-toned editorial photo of a near-future dealership, realistic lighting.'
-      : 'Style: gritty black-and-white newspaper photojournalism, high contrast, realistic lighting.',
+      ? 'Style: vivid, glossy, cinematic editorial photo of a science-fiction near future, dramatic lighting.'
+      : 'Style: punchy black-and-white tabloid photojournalism, high contrast, dramatic flash lighting.',
   ].join('\n');
 }
 
@@ -42,6 +46,7 @@ export async function restagePhoto(
   direction: string,
   peopleCount: number,
   color: boolean,
+  labels: string[],
   timeoutMs: number,
 ): Promise<string> {
   const res = await fetch(ENDPOINT, {
@@ -51,7 +56,7 @@ export async function restagePhoto(
     body: JSON.stringify({
       model: cfg.imageModel,
       input: [
-        { type: 'text', text: prompt(direction, peopleCount, color) },
+        { type: 'text', text: prompt(direction, peopleCount, color, labels) },
         { type: 'image', mime_type: 'image/jpeg', data: photoBase64 },
       ],
       response_format: { type: 'image', mime_type: 'image/jpeg', aspect_ratio: '16:9', image_size: '1K' },
@@ -87,7 +92,7 @@ export async function imageLooksRight(
               { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: imageBase64 } },
               {
                 type: 'text',
-                text: `Answer PASS or FAIL only. PASS if the image shows exactly ${peopleCount} ${peopleCount === 1 ? 'person' : 'people'} in the foreground, with no extra limbs, merged or badly distorted faces, and no large garbled lettering. Otherwise FAIL.`,
+                text: `Answer PASS or FAIL only. PASS if the image shows exactly ${peopleCount} ${peopleCount === 1 ? 'person' : 'people'} in the foreground, with no extra limbs, no merged or badly distorted faces, no misspelled or garbled lettering, and no large blank white screens, signs, or frames. Otherwise FAIL.`,
               },
             ],
           },

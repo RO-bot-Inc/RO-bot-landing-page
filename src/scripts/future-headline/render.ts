@@ -264,32 +264,19 @@ function drawCover(
   ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
 }
 
-function stamp(ctx: CanvasRenderingContext2D, kicker: string, x: number, y: number) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate((-4 * Math.PI) / 180);
-  ctx.scale(0.8, 0.8);
-  ctx.font = `400 50px ${HEAD}`;
-  const big = kicker.toUpperCase();
-  const bigW = ctx.measureText(big).width;
-  ctx.font = `400 26px ${HEAD}`;
-  const small = 'ORACLE OUTCOME:';
-  const smallW = ctx.measureText(small).width;
-  const w = Math.max(bigW, smallW) + 56;
-  const h = 126;
+// The oracle's verdict runs as a red kicker slug above the headline. It never
+// sits on the photo, which belongs to the people in it.
+const SLUG_H = 40;
+function slug(ctx: CanvasRenderingContext2D, kicker: string, x: number, y: number) {
+  const text = `ORACLE OUTCOME: ${kicker.toUpperCase()}`;
+  ctx.font = `400 25px ${HEAD}`;
+  const w = ctx.measureText(text).width + 28;
   ctx.fillStyle = RED;
-  ctx.fillRect(0, -h, w, h);
-  ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-  ctx.lineWidth = 3;
-  ctx.strokeRect(8, -h + 8, w - 16, h - 16);
+  ctx.fillRect(x, y, w, SLUG_H);
   ctx.fillStyle = '#fff';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'alphabetic';
-  ctx.font = `400 26px ${HEAD}`;
-  ctx.fillText(small, w / 2, -h + 46);
-  ctx.font = `400 50px ${HEAD}`;
-  ctx.fillText(big, w / 2, -24);
-  ctx.restore();
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText(text, x + 14, y + SLUG_H / 2 + 2);
 }
 
 export function renderFrontPage(
@@ -367,9 +354,11 @@ export function renderFrontPage(
     const size = Math.min(headline.size, punch.size);
     headline = fit(ctx, headText, HEAD, '400', inner, 2, size, 50);
     punch = fit(ctx, punchText, HEAD, '400', inner, 2, size, 50);
-    const textH = (headline.lines.length + punch.lines.length) * size * 1.1 + 14 + deckH;
+    const textH = SLUG_H + 4 + (headline.lines.length + punch.lines.length) * size * 1.1 + 14 + deckH;
     if (footY - 16 - (y + textH + 22) >= MIN_PHOTO_H) break;
   }
+  slug(ctx, tidy(story.kicker), M, y + 6);
+  y += SLUG_H + 4;
   y = drawLines(ctx, headline, HEAD, '400', M, y, 1.1, INK);
   y = drawLines(ctx, punch, HEAD, '400', M, y + 2, 1.1, RED);
   y = drawLines(ctx, deck, SERIF, '600', M, y + 12, 1.24, INK);
@@ -390,7 +379,6 @@ export function renderFrontPage(
     story.future_year - EVENT_YEAR >= 5,
     rand,
   );
-  stamp(ctx, tidy(story.kicker), M + 22, imgY + imgH - 4);
 
   // Footer
   ctx.fillStyle = YELLOW;

@@ -121,6 +121,7 @@ export default async (req: Request) => {
             draft.photo_direction,
             peopleCount || 2,
             color,
+            draft.prop_labels || [],
             Math.min(cfg.imageTimeoutMs, remaining - 2_000),
           );
           const canRetry = attempt === 1 && FUNCTION_BUDGET_MS - (Date.now() - started) > 30_000;

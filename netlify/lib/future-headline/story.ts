@@ -18,6 +18,7 @@ const StorySchema = z.object({
   deck: z.string(),
   kicker: z.string(),
   photo_direction: z.string(),
+  prop_labels: z.array(z.string()),
   alt_text: z.string(),
 });
 
@@ -49,7 +50,16 @@ Hard limits:
 - Nothing about injury, death, crime, fraud, layoffs of named roles, discrimination, intoxication, lawsuits against the people pictured, vehicle safety failures, politics, religion, or sex. Nobody pictured is accused of doing anything wrong. They are bystanders to the future.
 - Plain punctuation only. No em dashes, no en dashes, no emojis, no hashtags.
 
-photo_direction is a brief for an image-editing model that will restage the uploaded photo. Describe only the scene: setting, props, wardrobe, mood, and what the same people are doing, in one or two sentences. Set it in a dealership of the stated year. Do not ask for any text, signs, logos, or lettering in the image, and do not describe the people's physical traits.
+photo_direction is the brief for an image model that will restage the uploaded photo as the front page's lead photograph. The photo has to be as funny as the headline. A mundane dealership with the people standing in it is a failure.
+- Build it around ONE big, instantly readable sight gag that shows the punchline happening. Think of a staged press photo of something ridiculous: exaggerated, absurd, played completely straight, and still a real photograph.
+- The people from the photo are the cast, not bystanders in front of a backdrop. Give them something to do and a reaction that sells the joke: deadpan, smug, exhausted, horrified, over-celebrating. They can be re-posed, re-dressed, and handed props.
+- Fill the frame with specific, physical, slightly-too-much detail. Examples of the register: a humanoid robot in a blazer behind the service director's desk while the staff line up holding numbered tickets; a sedan seated at a conference table across from the team with a briefcase on its hood; a wall of 36 identical framed award photos of a server rack; staff buried to the shoulders in printouts while a tiny robot stamps each page; a parade float and confetti cannon for one approved warranty claim.
+- Make the future look like the future of the stated year: service robots, holographic boards, self-driving loaners, absurd amounts of screens. One year out is today plus clutter. Five years out is full science fiction.
+- Keep the people big in the frame and close to the camera; the gag happens around and behind them.
+- Two or three sentences, under 600 characters. Describe setting, the gag, props, wardrobe, and what each person is doing and feeling. Never describe the people's faces, bodies, age, gender, or ethnicity.
+- Do not ask for blank signs, blank screens, or empty frames. Anything that would carry words in real life either gets one of your prop_labels or shows pictures, charts, or icons.
+
+prop_labels is a list of zero to four short labels the image model will letter onto props, and they are part of the joke: the words on the plaque, the kiosk screen, the banner, the name tag, the stamp. Each is one to three words, max 22 characters, capitals, simple common words that are hard to misspell, letters and digits only. Mention in photo_direction which prop carries each label. Examples: "TAKE A NUMBER", "DENIED", "TICKET 412", "BEST EMPLOYEE", "HUMANS: WAIT HERE". Never a real brand, never TenthGear, never the headline.
 
 alt_text is one factual sentence describing the finished front page image for a screen reader.
 
@@ -60,6 +70,15 @@ function clamp(text: string, max: number): string {
   if (t.length <= max) return t;
   const cut = t.slice(0, max);
   return cut.slice(0, Math.max(cut.lastIndexOf(' '), max * 0.6)).replace(/[,;:]$/, '');
+}
+
+// Labels are the only model-written words that can reach the photo, so they
+// are held to a tiny alphabet and length before the image model sees them.
+function cleanLabels(labels: string[]): string[] {
+  return labels
+    .map((l) => l.toUpperCase().replace(/[^A-Z0-9 :#%!?.'-]/g, '').replace(/\s+/g, ' ').trim())
+    .filter((l) => l.length >= 2 && l.length <= 24 && !/TENTH\s*GEAR/.test(l))
+    .slice(0, 4);
 }
 
 export interface StoryInput {
@@ -110,7 +129,8 @@ export async function writeStory(
     punchline: clamp(out.punchline, LIMITS.punchline + 6),
     deck: clamp(out.deck, LIMITS.deck + 15),
     kicker: clamp(out.kicker, LIMITS.kicker + 4),
-    photo_direction: clamp(out.photo_direction, 420),
+    photo_direction: clamp(out.photo_direction, 700),
+    prop_labels: cleanLabels(out.prop_labels),
     alt_text: clamp(out.alt_text, 240),
     peopleCount: Math.max(1, Math.round(out.people_count)),
   };

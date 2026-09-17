@@ -7,6 +7,9 @@ export interface StoryDraft {
   deck: string;
   kicker: string;
   photo_direction: string;
+  // Exact words the image model may letter onto props. Everything else in the
+  // photo stays wordless. Headlines, dates, and logos are never in this list.
+  prop_labels?: string[];
   alt_text: string;
 }
 
