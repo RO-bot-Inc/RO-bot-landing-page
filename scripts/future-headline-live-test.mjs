@@ -45,7 +45,10 @@ for (const photo of photos) {
   let degraded = null;
   page.on('response', async (res) => {
     if (res.url().endsWith('/api/future-headline') && res.request().method() === 'POST' && res.ok()) {
-      degraded = (await res.json()).degraded;
+      const j = await res.json();
+      if ('story' in j) degraded = j.degraded;
+      else degraded = degraded || !j.image ? (j.image ? degraded : `image-miss(retry=${j.retry})`) : degraded;
+      if ('image' in j && j.image) degraded = false;
     }
   });
   await page.goto(`${base}/ai-summit/future-headline/`);

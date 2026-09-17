@@ -78,6 +78,7 @@ export async function imageLooksRight(
   cfg: Config,
   imageBase64: string,
   peopleCount: number,
+  timeoutMs = 7_000,
 ): Promise<boolean> {
   try {
     const client = new Anthropic({ apiKey: cfg.anthropicKey });
@@ -98,7 +99,7 @@ export async function imageLooksRight(
           },
         ],
       },
-      { timeout: 7_000, maxRetries: 0 },
+      { timeout: Math.min(7_000, timeoutMs), maxRetries: 0 },
     );
     const block = response.content.find((b) => b.type === 'text');
     return !(block && block.type === 'text' && /FAIL/i.test(block.text));

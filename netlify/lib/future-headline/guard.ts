@@ -37,6 +37,22 @@ export function checkToken(cfg: Config, token: unknown) {
   }
 }
 
+const TICKET_TTL_MS = 5 * 60_000;
+
+export function signTicket<T>(cfg: Config, data: T): string {
+  const payload = Buffer.from(JSON.stringify({ ...data, exp: Date.now() + TICKET_TTL_MS })).toString('base64url');
+  return `${payload}.${sign(cfg.signingSecret, payload)}`;
+}
+
+export function readTicket<T>(cfg: Config, ticket: unknown): T {
+  if (typeof ticket !== 'string') throw new FhError('rate_limited', 400);
+  const [payload, sig] = ticket.split('.');
+  if (!verify(cfg.signingSecret, payload, sig)) throw new FhError('rate_limited', 400);
+  const data = JSON.parse(Buffer.from(payload, 'base64url').toString());
+  if (!(data.exp > Date.now())) throw new FhError('rate_limited', 400);
+  return data as T;
+}
+
 export function sessionCount(cfg: Config, req: Request): number {
   const raw = (req.headers.get('cookie') || '')
     .split(';')

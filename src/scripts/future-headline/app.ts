@@ -10,10 +10,14 @@ import { canvasToBlob, loadAssets, renderFrontPage, type Story } from './render'
 
 type Screen = 'intro' | 'compose' | 'generating' | 'result';
 
-interface GenerateResponse {
+interface StoryResponse {
   story: Story;
-  image: string | null;
+  ticket: string | null;
   degraded: boolean;
+}
+
+interface GenerateResponse extends StoryResponse {
+  image: string | null;
 }
 
 const root = document.getElementById('fh') as HTMLElement;
@@ -222,6 +226,21 @@ function bucket(ms: number): string {
   return 'over_60s';
 }
 
+async function post(payload: Record<string, unknown>): Promise<Response> {
+  const ctrl = new AbortController();
+  const timeout = window.setTimeout(() => ctrl.abort(), 40_000);
+  try {
+    return await fetch(API_PATH, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      signal: ctrl.signal,
+      body: JSON.stringify(payload),
+    });
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
 async function generate() {
   const p = prediction();
   if (!state.photo || !p) return;
@@ -239,35 +258,39 @@ async function generate() {
     if (!navigator.onLine) throw new Error('offline');
     state.token = ''; // always mint a fresh one, the page may have sat open
     await ensureToken();
-    const ctrl = new AbortController();
-    const timeout = window.setTimeout(() => ctrl.abort(), 75_000);
-    let res: Response;
-    try {
-      res = await fetch(API_PATH, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        signal: ctrl.signal,
-        body: JSON.stringify({
-          token: state.token,
-          photo: state.photoData,
-          prediction: p.text,
-          preset_id: p.type === 'preset' ? state.presetId : null,
-          website: '', // honeypot, always empty from a real client
-        }),
-      });
-    } finally {
-      window.clearTimeout(timeout);
-    }
-    if (!res.ok) {
+    const first = await post({
+      token: state.token,
+      photo: state.photoData,
+      prediction: p.text,
+      preset_id: p.type === 'preset' ? state.presetId : null,
+      website: '', // honeypot, always empty from a real client
+    });
+    if (!first.ok) {
       let code = 'upstream';
       try {
-        code = (await res.json()).error || code;
+        code = (await first.json()).error || code;
       } catch {
-        if (res.status === 429) code = 'rate_limited';
+        if (first.status === 429) code = 'rate_limited';
       }
       throw new Error(code);
     }
-    const body = (await res.json()) as GenerateResponse;
+    const written = (await first.json()) as StoryResponse;
+
+    // Step 2: the restaged photo. Up to two tries. If both fail, the story is
+    // already in hand, so the page is printed with the attendee's own photo.
+    let image: string | null = null;
+    for (let attempt = 1; written.ticket && attempt <= 2 && !image; attempt++) {
+      try {
+        const res = await post({ step: 'image', token: state.token, photo: state.photoData, ticket: written.ticket, attempt });
+        if (!res.ok) continue; // a timed-out first try still earns a second
+        const out = (await res.json()) as { image: string | null; retry: boolean };
+        image = out.image;
+        if (!out.retry) break;
+      } catch {
+        if (!navigator.onLine) break;
+      }
+    }
+    const body: GenerateResponse = { ...written, image, degraded: written.degraded || (!!written.ticket && !image) };
     await compose(body);
     try {
       sessionStorage.setItem('fh_used', String(used() + 1));

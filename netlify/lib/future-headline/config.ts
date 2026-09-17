@@ -27,8 +27,8 @@ export function config() {
     dystopiaProbability: Math.min(1, Math.max(0, num('FH_DYSTOPIA_PROBABILITY', 0.5))),
     dailyCap: num('FH_DAILY_CAP', 400),
     sessionCap: num('FH_SESSION_CAP', 3),
-    textTimeoutMs: num('FH_TEXT_TIMEOUT_MS', 14_000),
-    imageTimeoutMs: num('FH_IMAGE_TIMEOUT_MS', 38_000),
+    textTimeoutMs: num('FH_TEXT_TIMEOUT_MS', 20_000),
+    imageTimeoutMs: num('FH_IMAGE_TIMEOUT_MS', 25_000),
     signingSecret:
       env('FH_SIGNING_SECRET') ||
       createHash('sha256').update(`fh:${anthropicKey || 'local-dev'}`).digest('hex'),
