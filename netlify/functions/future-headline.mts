@@ -114,7 +114,8 @@ export default async (req: Request) => {
     }
 
     const count = sessionCount(cfg, req);
-    if (count >= cfg.sessionCap) throw new FhError('session_cap', 429);
+    const demo = cfg.demoCode.length >= 8 && body.demo === cfg.demoCode;
+    if (!demo && count >= cfg.sessionCap) throw new FhError('session_cap', 429);
     const prediction = readPrediction(body.prediction, body.preset_id);
     await reserveDaily(cfg);
 
@@ -165,7 +166,7 @@ export default async (req: Request) => {
     console.log(
       `[future-headline] story mode=${cfg.mode} outcome=${outcome} year=${futureYear} degraded=${degraded} ms=${Date.now() - started}`,
     );
-    return json({ story, ticket, degraded, remaining: Math.max(0, cfg.sessionCap - count - 1) }, 200, { 'set-cookie': sessionCookie(cfg, count + 1) });
+    return json({ story, ticket, degraded, remaining: demo ? 99 : Math.max(0, cfg.sessionCap - count - 1) }, 200, { 'set-cookie': sessionCookie(cfg, count + 1) });
   } catch (err) {
     if (err instanceof FhError) {
       console.log(`[future-headline] rejected code=${err.code}`);

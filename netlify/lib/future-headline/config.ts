@@ -26,7 +26,9 @@ export function config() {
     imageModel: env('FH_IMAGE_MODEL') || 'gemini-3.1-flash-image',
     dystopiaProbability: Math.min(1, Math.max(0, num('FH_DYSTOPIA_PROBABILITY', 0.5))),
     dailyCap: num('FH_DAILY_CAP', 400),
-    sessionCap: num('FH_SESSION_CAP', 12),
+    sessionCap: num('FH_SESSION_CAP', 25),
+    // Dave's demo link: ?demo=<code> skips the per-browser cap. Daily cap still applies.
+    demoCode: env('FH_DEMO_CODE'),
     textTimeoutMs: num('FH_TEXT_TIMEOUT_MS', 20_000),
     imageTimeoutMs: num('FH_IMAGE_TIMEOUT_MS', 25_000),
     signingSecret:

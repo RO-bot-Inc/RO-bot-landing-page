@@ -73,6 +73,19 @@ function readUtm(): Record<string, string> {
 }
 const utm = readUtm();
 
+// Presenter link: ?demo=<code> is remembered for the tab and sent with each
+// request. The server decides whether it means anything.
+function readDemo(): string {
+  try {
+    const fromUrl = new URLSearchParams(location.search).get('demo');
+    if (fromUrl) sessionStorage.setItem('fh_demo', fromUrl.slice(0, 64));
+    return sessionStorage.getItem('fh_demo') || '';
+  } catch {
+    return new URLSearchParams(location.search).get('demo') || '';
+  }
+}
+const demo = readDemo();
+
 function track(event: string, params: Record<string, string | number> = {}) {
   try {
     // GA4 loads through GTM, so there is no global gtag(). Pushing a gtag-style
@@ -256,6 +269,7 @@ async function generate() {
       photo: state.photoData,
       prediction: p.text,
       preset_id: p.type === 'preset' ? state.presetId : null,
+      demo,
       website: '', // honeypot, always empty from a real client
     });
     if (!first.ok) {
