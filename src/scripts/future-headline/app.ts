@@ -4,7 +4,6 @@ import {
   MAX_PREDICTION_CHARS,
   MAX_UPLOAD_BYTES,
   PRESETS,
-  SESSION_CAP,
 } from './presets';
 import { canvasToBlob, loadAssets, renderFrontPage, type Story } from './render';
 
@@ -14,6 +13,7 @@ interface StoryResponse {
   story: Story;
   ticket: string | null;
   degraded: boolean;
+  remaining: number; // futures left this session; the server owns the cap
 }
 
 interface GenerateResponse extends StoryResponse {
@@ -46,6 +46,7 @@ const state = {
   story: null as Story | null,
   blob: null as Blob | null,
   url: '' as string,
+  remaining: 99,
 };
 
 // ---------------------------------------------------------------- analytics
@@ -97,14 +98,6 @@ function show(screen: Screen) {
   root.removeAttribute('data-failed');
   failBox.hidden = true;
   window.scrollTo(0, 0);
-}
-
-function used(): number {
-  try {
-    return Number(sessionStorage.getItem('fh_used') || 0);
-  } catch {
-    return 0;
-  }
 }
 
 function prediction(): { text: string; type: 'preset' | 'custom' } | null {
@@ -202,7 +195,7 @@ const ERRORS: Record<string, string> = {
   rate_limited: 'The oracle is swamped. Give it a few seconds, then try again.',
   capacity: 'The presses are at capacity for today. Try again in a bit.',
   disabled: 'The presses are paused right now. Check back shortly.',
-  session_cap: 'You have printed your three front pages for this session.',
+  session_cap: 'You have printed every front page this phone gets for now. The oracle needs a rest.',
   bad_photo: 'That photo did not make it through. Try again, or pick another photo.',
   unsafe: 'The oracle will not print that one. Try a different prediction or photo.',
   offline: 'You look offline. Your photo and prediction are saved. Try again when you have signal.',
@@ -292,11 +285,7 @@ async function generate() {
     }
     const body: GenerateResponse = { ...written, image, degraded: written.degraded || (!!written.ticket && !image) };
     await compose(body);
-    try {
-      sessionStorage.setItem('fh_used', String(used() + 1));
-    } catch {
-      /* private mode */
-    }
+    state.remaining = typeof written.remaining === 'number' ? written.remaining : state.remaining;
     track('future_headline_generation_complete', {
       outcome: body.story.outcome,
       future_year: body.story.future_year,
@@ -354,12 +343,15 @@ function showResult() {
   root.querySelector<HTMLElement>('[data-action="share"]')!.hidden = !canShare;
   root.querySelector<HTMLElement>('.actions')!.style.gridTemplateColumns = canShare ? '1fr 1fr' : '1fr';
 
-  const left = Math.max(0, SESSION_CAP - used());
+  // Only mention the limit when it is close, so it never reads as a meter.
+  const left = state.remaining;
   againBtn.disabled = left === 0;
   leftNote.textContent =
     left === 0
-      ? 'That was your third and final future for this session.'
-      : `${left} more ${left === 1 ? 'future' : 'futures'} left in this session.`;
+      ? 'That was your last future for now. The oracle needs a rest.'
+      : left <= 2
+        ? `${left} more ${left === 1 ? 'future' : 'futures'} left on this phone.`
+        : '';
 
   const q = new URLSearchParams(utm);
   leak.href = `/ai-summit/leak-test/${q.toString() ? `?${q}` : ''}`;

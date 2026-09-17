@@ -16,7 +16,7 @@ Product handoff: `../../gtm/campaigns/automotive-ai-summit-2026/future-headlines
 | Text adapter | `netlify/lib/future-headline/story.ts` | Claude, structured output, sees photo + prediction. |
 | Image adapter | `netlify/lib/future-headline/image.ts` | Gemini image edit, 16:9, plus a cheap head-count check and one retry. |
 | Story bank / mock adapter | `netlify/lib/future-headline/bank.ts` | Used when `FH_MODE=mock`, when keys are missing, and as the live fallback if the text model fails. |
-| Guards | `netlify/lib/future-headline/guard.ts` | Signed page token, signed session cookie (3 per session), daily cap counter in Netlify Blobs, origin check. Netlify per-IP rate limit is set in the function's `config`. |
+| Guards | `netlify/lib/future-headline/guard.ts` | Signed page token, signed session cookie (12 per browser), daily cap counter in Netlify Blobs, origin check. Netlify per-IP rate limit is set in the function's `config`. |
 
 Nothing is stored. The photo, prediction, and result exist only for the length of the request. The only persisted value is a per-day integer counter. Logs contain status codes, outcome, year, and timings, never user content.
 
@@ -34,7 +34,7 @@ Set these in Netlify: Site configuration -> Environment variables (scope: Functi
 | `FH_MODE` | no | `mock` forces the bank adapter. Unset = live when both keys exist. |
 | `FH_ENABLED` | no | `false` = kill switch. |
 | `FH_DAILY_CAP` | no | Default 400 generations per Eastern-time day. |
-| `FH_SESSION_CAP` | no | Default 3. |
+| `FH_SESSION_CAP` | no | Default 12 generations per browser per 12 hours (raised from the handoff's 3 by Dave, 2026-09-17). Server-enforced by signed cookie; the page reads the remaining count from the API. |
 | `FH_DYSTOPIA_PROBABILITY` | no | Default 0.5. |
 | `FH_TEXT_MODEL` | no | Default `claude-opus-5`. `claude-sonnet-5` is the faster, cheaper step-down if latency testing calls for it. |
 | `FH_IMAGE_MODEL` | no | Default `gemini-3.1-flash-image`. |

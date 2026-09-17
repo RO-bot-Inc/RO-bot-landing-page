@@ -17,5 +17,4 @@ export const PRESETS: Preset[] = [
 export const MAX_PREDICTION_CHARS = 120;
 export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 export const MAX_PHOTO_EDGE = 1536;
-export const SESSION_CAP = 3;
 export const API_PATH = '/api/future-headline';

@@ -165,7 +165,7 @@ export default async (req: Request) => {
     console.log(
       `[future-headline] story mode=${cfg.mode} outcome=${outcome} year=${futureYear} degraded=${degraded} ms=${Date.now() - started}`,
     );
-    return json({ story, ticket, degraded }, 200, { 'set-cookie': sessionCookie(cfg, count + 1) });
+    return json({ story, ticket, degraded, remaining: Math.max(0, cfg.sessionCap - count - 1) }, 200, { 'set-cookie': sessionCookie(cfg, count + 1) });
   } catch (err) {
     if (err instanceof FhError) {
       console.log(`[future-headline] rejected code=${err.code}`);
