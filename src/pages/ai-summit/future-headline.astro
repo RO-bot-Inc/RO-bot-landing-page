@@ -70,10 +70,10 @@ const canonical = 'https://tenthgear.ai/ai-summit/future-headline/';
         <img id="fh-preview" alt="Your photo" />
         <button type="button" class="btn-ghost" data-action="pick-photo">Replace photo</button>
       </div>
-      <h2 id="fh-h2">What happens next in automotive retail?</h2>
+      <h2 id="fh-h2">Make a prediction</h2>
       <div class="chips" role="group" aria-label="Pick a prediction">
         {PRESETS.map((p) => (
-          <button type="button" class="chip" data-preset={p.id} aria-pressed="false">{p.text}</button>
+          <button type="button" class="chip" data-preset={p.id} aria-pressed="false" hidden>{p.text}</button>
         ))}
       </div>
       <label class="own" for="fh-own">Or write your own</label>
@@ -107,7 +107,7 @@ const canonical = 'https://tenthgear.ai/ai-summit/future-headline/';
       <p class="fine center" id="fh-left"></p>
 
       <aside class="bridge">
-        <h2>Enough prophecy. Find a real leak.</h2>
+        <h2>Had enough future talk? <span class="bridge-line">See where your service revenue is leaking today.</span></h2>
         <p>Share 20 recent ROs. We&rsquo;ll show you where your process is losing time, revenue, or both.</p>
         <a class="btn btn-red" id="fh-leak" href="/ai-summit/leak-test/" data-action="leak-test">Get your complimentary RO Leak Test</a>
       </aside>
@@ -326,6 +326,7 @@ const canonical = 'https://tenthgear.ai/ai-summit/future-headline/';
     .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     .hint { font-size: 14px; color: var(--light); margin: 10px 0 0; text-align: center; }
     .bridge { margin-top: 34px; padding: 22px 0 8px; border-top: 2px solid #fff; }
+    .bridge-line { display: block; margin-top: 6px; color: var(--yellow); }
     .bridge p { color: var(--light); font-size: 16px; line-height: 1.45; margin: 0 0 16px; }
 
     @media (prefers-reduced-motion: reduce) {

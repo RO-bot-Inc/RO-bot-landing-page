@@ -4,6 +4,7 @@ import {
   MAX_PREDICTION_CHARS,
   MAX_UPLOAD_BYTES,
   PRESETS,
+  PRESETS_SHOWN,
 } from './presets';
 import { canvasToBlob, loadAssets, renderFrontPage, type Story } from './render';
 
@@ -37,6 +38,16 @@ const leak = $<HTMLAnchorElement>('fh-leak');
 const canvas = $<HTMLCanvasElement>('fh-canvas');
 const generateBtn = root.querySelector<HTMLButtonElement>('[data-action="generate"]')!;
 const chips = Array.from(root.querySelectorAll<HTMLButtonElement>('.chip'));
+
+// A fresh random handful of predictions on every page load.
+for (let i = chips.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [chips[i], chips[j]] = [chips[j], chips[i]];
+}
+chips.slice(0, PRESETS_SHOWN).forEach((chip) => {
+  chip.hidden = false;
+  chip.parentElement!.appendChild(chip); // shown in shuffled order
+});
 
 const state = {
   photo: null as HTMLCanvasElement | null, // normalized, EXIF-corrected, downscaled
@@ -200,7 +211,7 @@ const ORACLE_LINES = [
   'Reviewing the next five years of bad decisions...',
   'Checking whether the humans remain necessary...',
   'Preparing tomorrow’s front page...',
-  'Arguing with the future’s DMS...',
+  'Arguing with the DMS...',
   'Waiting for the ink to dry...',
 ];
 
