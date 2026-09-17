@@ -88,6 +88,7 @@ export default async (req: Request) => {
     let peopleCount = 0;
     let image: string | null = null;
     let degraded = false;
+    let textMs = 0;
 
     if (cfg.mode === 'mock') {
       draft = bankStory(prediction.presetId, outcome);
@@ -102,6 +103,7 @@ export default async (req: Request) => {
         });
         draft = written;
         peopleCount = written.peopleCount;
+        textMs = Date.now() - started;
       } catch (err) {
         if (err instanceof FhError) throw err;
         console.warn('[future-headline] text fallback', (err as Error).name);
@@ -145,7 +147,7 @@ export default async (req: Request) => {
     };
 
     console.log(
-      `[future-headline] ok mode=${cfg.mode} outcome=${outcome} year=${futureYear} degraded=${degraded} ms=${Date.now() - started}`,
+      `[future-headline] ok mode=${cfg.mode} outcome=${outcome} year=${futureYear} degraded=${degraded} text_ms=${textMs} ms=${Date.now() - started}`,
     );
     return json({ story, image, degraded }, 200, { 'set-cookie': sessionCookie(cfg, count + 1) });
   } catch (err) {

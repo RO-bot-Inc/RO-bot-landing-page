@@ -41,7 +41,8 @@ Hard limits:
 - headline: the setup, a flat news statement, max ${LIMITS.headline} characters.
 - punchline: the turn, max ${LIMITS.punchline} characters.
 - deck: one deadpan sentence that sharpens the joke, max ${LIMITS.deck} characters.
-- kicker: two to four words, max ${LIMITS.kicker} characters, a verdict stamp like "Painfully plausible".
+- kicker: two to four words, max ${LIMITS.kicker} characters. It is the oracle's verdict stamp on this specific story, and it is a second joke, so write a fresh one every time. Examples of the register: "Suspiciously rested", "Read receipts on", "Headcount: unclear", "Gracious in victory", "Zero kickbacks". Do not reuse "Painfully plausible".
+- Do not put the year in the headline. The dateline already carries it.
 - The page must clearly connect to the attendee's prediction.
 - Refer to the people only as "local team", "the group", "staff", "local manager", and so on. Never guess names, employers, age, gender, ethnicity, or anything else about who they are.
 - No real people, dealerships, dealer groups, OEMs, vendors, or products by name. Never mention TenthGear.

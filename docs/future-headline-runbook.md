@@ -47,7 +47,7 @@ Provider data terms, checked 2026-09-17 (re-verify before launch):
 - Gemini API paid tier: prompts and images are not used to improve products; logged for abuse monitoring for a limited period (55 days). https://ai.google.dev/gemini-api/terms
 - Anthropic API: not used for training; standard retention up to 30 days.
 
-**Not yet verified against live APIs** (no keys were available during the build): the exact Gemini Interactions response shape (the adapter searches the whole response for the image block), `messages.parse` structured output with an image input, real latency, and identity preservation on 3 to 6 person selfies. First task once keys exist: run the six-photo test below.
+**Live verification, 2026-09-17** (local `netlify dev`, six photos of 1, 2, and 4 people): 6 of 6 succeeded with no fallbacks, 16 to 28 seconds end to end (text step 6 to 11 s, image step 9 to 21 s). Head count held in all six. A photo with no people returns `bad_photo`; a prediction naming a real person or carrying a prompt injection returns `unsafe`. Gemini keys now start with `AQ.`, not `AIza`. The Gemini project is on prepay credits: when the balance hits zero the image step fails and the page degrades to the attendee's own photo, so top up before the event. Still unverified: real (non-illustrated) faces, and behavior from a deployed function rather than local dev. Re-run with `scripts/future-headline-live-test.mjs`.
 
 ## Kill switch
 

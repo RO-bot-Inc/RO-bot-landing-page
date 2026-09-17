@@ -126,10 +126,10 @@ function greedy(ctx: CanvasRenderingContext2D, words: string[], maxWidth: number
 
 // Greedy wrap, then rebalance so a tabloid headline never strands one word
 // on its last line: keep the line count, shrink the measure until it breaks.
-function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] {
+function wrap(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, balance: boolean): string[] {
   const words = text.split(' ');
   let best = greedy(ctx, words, maxWidth);
-  if (best.length < 2) return best;
+  if (best.length < 2 || !balance) return best;
   for (let w = maxWidth * 0.95; w > maxWidth * 0.45; w -= maxWidth * 0.05) {
     const trial = greedy(ctx, words, w);
     if (trial.length !== best.length) break;
@@ -154,15 +154,16 @@ function fit(
   maxLines: number,
   maxSize: number,
   minSize: number,
+  balance = true,
 ): Fit {
   for (let size = maxSize; size >= minSize; size -= 2) {
     ctx.font = `${weight} ${size}px ${family}`;
-    const lines = wrap(ctx, text, maxWidth);
+    const lines = wrap(ctx, text, maxWidth, balance);
     const widest = Math.max(...lines.map((l) => ctx.measureText(l).width));
     if (lines.length <= maxLines && widest <= maxWidth) return { size, lines };
   }
   ctx.font = `${weight} ${minSize}px ${family}`;
-  return { size: minSize, lines: wrap(ctx, text, maxWidth).slice(0, maxLines) };
+  return { size: minSize, lines: wrap(ctx, text, maxWidth, balance).slice(0, maxLines) };
 }
 
 function drawLines(
@@ -354,7 +355,8 @@ export function renderFrontPage(
   const MIN_PHOTO_H = 540;
   const headText = tidy(story.headline).toUpperCase();
   const punchText = tidy(story.punchline).toUpperCase();
-  const deck = fit(ctx, tidy(story.deck), SERIF, '600', inner, 3, 36, 24);
+  // Body copy runs the full measure; only headlines are balanced.
+  const deck = fit(ctx, tidy(story.deck), SERIF, '600', inner, 3, 36, 24, false);
   const deckH = deck.lines.length * deck.size * 1.24;
   let headline = fit(ctx, headText, HEAD, '400', inner, 2, 112, 50);
   let punch = fit(ctx, punchText, HEAD, '400', inner, 2, 112, 50);
