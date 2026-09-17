@@ -51,7 +51,7 @@ export default defineConfig({
   compressHTML: true,
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you'),
+      filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you') && !page.includes('/ai-summit/future-headline'),
     }),
   ],
   markdown: {

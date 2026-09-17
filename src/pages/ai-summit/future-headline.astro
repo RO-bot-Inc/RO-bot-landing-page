@@ -1,0 +1,337 @@
+---
+// Automotive AI Summit 2026: Future Headline experience.
+// Route is printed on the postcards and permanently locked. Do not rename.
+import { PRESETS } from '../../scripts/future-headline/presets';
+
+const title = 'Make Your Own Front Page | TenthGear';
+const description =
+  'Take a selfie. Make a prediction. See how the dealership of the future treats you.';
+const canonical = 'https://tenthgear.ai/ai-summit/future-headline/';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WXBWBW8X');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href={canonical}>
+  <meta property="og:title" content="Make Your Own Front Page">
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content="https://tenthgear.ai/og-image.png">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:site_name" content="TenthGear">
+  <meta name="theme-color" content="#000000">
+  <link rel="shortcut icon" href="/favicon.ico?v=2">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+  <link rel="preload" href="/fonts/future-headline/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXBWBW8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <main id="fh" data-screen="intro">
+    <header class="mast">
+      <img src="/ai-summit/tg-vertical-white.png" alt="TenthGear" width="116" height="32">
+      <span class="mast-title">Tomorrow&rsquo;s Dealer</span>
+      <span class="mast-flag">Summit Edition</span>
+    </header>
+
+    <!-- Screen 1: invitation -->
+    <section class="screen" data-name="intro" aria-labelledby="fh-h1">
+      <p class="dateline">Boston / September 24, 20??</p>
+      <h1 id="fh-h1">Make Your Own <span class="red">Front Page</span></h1>
+      <p class="deck">Take a selfie. Make a prediction. See how the dealership of the future treats you.</p>
+      <ul class="notes">
+        <li>Works with one person or a group.</li>
+        <li>Your result may be glorious. It may be a warning.</li>
+      </ul>
+      <div class="dock">
+        <button type="button" class="btn btn-yellow" data-action="pick-photo">Take or choose a photo</button>
+        <p class="fine">Use a photo you have permission to share. We send it to our AI providers only to create your front page. We do not keep it or add it to a public gallery. <a href="/privacy/">Privacy</a></p>
+      </div>
+    </section>
+
+    <!-- Screen 2: photo and prediction -->
+    <section class="screen" data-name="compose" aria-labelledby="fh-h2" hidden>
+      <div class="preview">
+        <img id="fh-preview" alt="Your photo" />
+        <button type="button" class="btn-ghost" data-action="pick-photo">Replace photo</button>
+      </div>
+      <h2 id="fh-h2">What happens next in automotive retail?</h2>
+      <div class="chips" role="group" aria-label="Pick a prediction">
+        {PRESETS.map((p) => (
+          <button type="button" class="chip" data-preset={p.id} aria-pressed="false">{p.text}</button>
+        ))}
+      </div>
+      <label class="own" for="fh-own">Or write your own</label>
+      <textarea id="fh-own" rows="2" maxlength="120" placeholder="By 2030, every loaner car will..." enterkeyhint="done"></textarea>
+      <div class="dock">
+        <button type="button" class="btn btn-yellow" data-action="generate" disabled>Show me the future</button>
+      </div>
+    </section>
+
+    <!-- Screen 3: generation -->
+    <section class="screen screen-center" data-name="generating" aria-live="polite" hidden>
+      <div class="press" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="oracle" id="fh-oracle">Consulting the service-lane oracle...</p>
+      <div class="fail" id="fh-fail" hidden>
+        <h2>The presses jammed.</h2>
+        <p id="fh-fail-msg">Something went wrong on our end. Your photo and prediction are still here.</p>
+        <button type="button" class="btn btn-yellow" data-action="retry">Try again</button>
+        <button type="button" class="btn-ghost" data-action="back">Change photo or prediction</button>
+      </div>
+    </section>
+
+    <!-- Screen 4: result -->
+    <section class="screen" data-name="result" hidden>
+      <img id="fh-result" class="result" alt="" />
+      <div class="actions">
+        <button type="button" class="btn btn-yellow" data-action="share">Share</button>
+        <a class="btn btn-white" id="fh-download" download="tomorrows-dealer-front-page.png" data-action="download">Download</a>
+      </div>
+      <p class="hint" id="fh-hint" hidden></p>
+      <button type="button" class="btn-ghost wide" data-action="again" id="fh-again">Try another future</button>
+      <p class="fine center" id="fh-left"></p>
+
+      <aside class="bridge">
+        <h2>Enough prophecy. Find a real leak.</h2>
+        <p>Share 20 recent ROs. We&rsquo;ll show you where your process is losing time, revenue, or both.</p>
+        <a class="btn btn-red" id="fh-leak" href="/ai-summit/leak-test/" data-action="leak-test">Get your complimentary RO Leak Test</a>
+      </aside>
+    </section>
+
+    <input id="fh-file" type="file" accept="image/*" hidden>
+    <canvas id="fh-canvas" hidden></canvas>
+  </main>
+
+  <script>
+    import '../../scripts/future-headline/app';
+  </script>
+
+  <style is:global>
+    @font-face {
+      font-family: 'FH Anton';
+      src: url('/fonts/future-headline/anton-400.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    :root {
+      --ink: #000;
+      --char: #333132;
+      --grey: #9b9799;
+      --light: #dedcdd;
+      --paper: #f3f0e8;
+      --red: #c8141e;
+      --yellow: #ffd23f;
+      --head: 'FH Anton', Impact, 'Arial Narrow Bold', sans-serif;
+      --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--body);
+      -webkit-font-smoothing: antialiased;
+    }
+    [hidden] { display: none !important; }
+    #fh {
+      max-width: 520px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: 0 16px calc(20px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+    .mast {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: calc(12px + env(safe-area-inset-top)) 0 10px;
+      border-bottom: 2px solid #fff;
+    }
+    .mast img { height: 24px; width: auto; }
+    .mast-title {
+      font-family: var(--head);
+      font-size: clamp(15px, 4.6vw, 20px);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+    .mast-flag {
+      background: var(--yellow);
+      color: var(--ink);
+      font-family: var(--head);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding: 4px 6px;
+    }
+    #fh[data-screen='result'] .mast-title,
+    #fh[data-screen='result'] .mast-flag { display: none; }
+
+    .screen { flex: 1; display: flex; flex-direction: column; padding-top: 14px; }
+    .screen-center { justify-content: center; align-items: center; text-align: center; }
+    .dateline {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin: 0 0 14px;
+    }
+    h1 {
+      font-family: var(--head);
+      font-weight: 400;
+      font-size: clamp(54px, 17.5vw, 96px);
+      line-height: 0.98;
+      text-transform: uppercase;
+      margin: 0 0 18px;
+    }
+    h1 .red { color: var(--red); display: block; }
+    h2 {
+      font-family: var(--head);
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin: 0 0 12px;
+    }
+    .deck { font-family: Georgia, 'Times New Roman', serif; font-size: 21px; line-height: 1.3; margin: 0 0 18px; }
+    .notes { list-style: none; margin: 0 0 20px; padding: 0; color: var(--light); font-size: 16px; }
+    .notes li { padding: 9px 0; border-top: 1px solid var(--char); }
+    .notes li:last-child { border-bottom: 1px solid var(--char); }
+
+    /* Primary actions sit at the bottom of the screen, inside thumb reach. */
+    .dock { margin-top: auto; padding-top: 12px; position: sticky; bottom: 0; background: linear-gradient(transparent, var(--ink) 18px); padding-bottom: 4px; }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 60px;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 4px;
+      font-family: var(--head);
+      font-size: 24px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus-visible, .chip:focus-visible, .btn-ghost:focus-visible, textarea:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+    .btn-yellow { background: var(--yellow); color: var(--ink); }
+    .btn-white { background: #fff; color: var(--ink); }
+    .btn-red { background: var(--red); color: #fff; font-size: 20px; }
+    .btn[disabled] { background: var(--char); color: var(--grey); cursor: not-allowed; }
+    .btn-ghost {
+      background: none;
+      border: 1px solid var(--grey);
+      color: #fff;
+      border-radius: 4px;
+      min-height: 44px;
+      padding: 8px 14px;
+      font: 600 15px var(--body);
+      cursor: pointer;
+    }
+    .btn-ghost.wide { width: 100%; margin-top: 10px; min-height: 52px; }
+    .fine { font-size: 12.5px; line-height: 1.45; color: var(--grey); margin: 10px 0 0; }
+    .fine a { color: var(--light); }
+    .center { text-align: center; }
+
+    .preview { position: relative; margin-bottom: 16px; background: var(--char); }
+    .preview img { display: block; width: 100%; height: 24dvh; object-fit: cover; object-position: 50% 30%; filter: grayscale(1) contrast(1.15); }
+    .preview .btn-ghost { position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.72); }
+    .chips { display: flex; flex-direction: column; gap: 8px; }
+    .chip {
+      text-align: left;
+      background: none;
+      color: #fff;
+      border: 1px solid var(--grey);
+      border-radius: 4px;
+      min-height: 48px;
+      padding: 10px 12px 10px 38px;
+      font: 500 16px/1.3 var(--body);
+      cursor: pointer;
+      position: relative;
+    }
+    .chip::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      margin-top: -8px;
+      border: 2px solid var(--grey);
+      border-radius: 50%;
+    }
+    .chip[aria-pressed='true'] { background: #fff; color: var(--ink); border-color: #fff; font-weight: 700; }
+    .chip[aria-pressed='true']::before { border-color: var(--ink); background: var(--ink); box-shadow: inset 0 0 0 3px #fff; }
+    .own { display: block; margin: 16px 0 6px; font-size: 14px; color: var(--light); }
+    textarea {
+      width: 100%;
+      background: #fff;
+      color: var(--ink);
+      border: 0;
+      border-radius: 4px;
+      padding: 12px;
+      font: 16px/1.35 var(--body);
+      resize: none;
+    }
+
+    .press { display: flex; gap: 10px; margin-bottom: 26px; }
+    .press span { width: 16px; height: 56px; background: #fff; animation: press 0.9s ease-in-out infinite; }
+    .press span:nth-child(2) { background: var(--red); animation-delay: 0.15s; }
+    .press span:nth-child(3) { background: var(--yellow); animation-delay: 0.3s; }
+    @keyframes press { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+    .oracle { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.3; max-width: 17em; margin: 0; min-height: 3.9em; }
+    .fail { display: flex; flex-direction: column; gap: 12px; align-items: stretch; width: 100%; }
+    .fail p { color: var(--light); margin: 0 0 6px; font-size: 16px; line-height: 1.4; }
+    #fh[data-failed] .press, #fh[data-failed] .oracle { display: none; }
+
+    .result {
+      display: block;
+      width: 100%;
+      max-height: calc(100dvh - 190px);
+      object-fit: contain;
+      aspect-ratio: 4 / 5;
+      background: var(--char);
+      -webkit-touch-callout: default;
+    }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .hint { font-size: 14px; color: var(--light); margin: 10px 0 0; text-align: center; }
+    .bridge { margin-top: 34px; padding: 22px 0 8px; border-top: 2px solid #fff; }
+    .bridge p { color: var(--light); font-size: 16px; line-height: 1.45; margin: 0 0 16px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .press span { animation: none; transform: none; }
+      .btn:active { transform: none; }
+    }
+  </style>
+</body>
+</html>

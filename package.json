@@ -11,13 +11,21 @@
     "newsletter:announce": "node --env-file=.env scripts/newsletter.mjs announce"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
     "@astrojs/markdown-remark": "^7.2.1",
     "@astrojs/sitemap": "^3.7.3",
+    "@netlify/blobs": "^10.7.13",
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^7.2.8",
     "autoprefixer": "^10.4.24",
     "sharp": "^0.35.4",
     "tailwindcss": "^3.4.17",
-    "unist-util-visit": "^5.1.0"
+    "unist-util-visit": "^5.1.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^6.0.0",
+    "@types/node": "^24.13.5",
+    "typescript": "^7.0.2"
   }
 }
