@@ -1,0 +1,371 @@
+---
+// Automotive AI Summit 2026: RO Leak Test landing and contact capture.
+// Route is printed on the postcards and permanently locked. Do not rename.
+// Every word on the phone path is approved copy from the storyboard
+// (gtm/campaigns/automotive-ai-summit-2026/ro-leak-test-storyboard).
+import { ROUTES } from '../../../scripts/leak-test/presets';
+
+const title = 'RO Leak Test | TenthGear';
+const description =
+  'Your revenue is leaking. Share 20 recent ROs and TenthGear will show you where your RO process is losing time, revenue, or both.';
+const canonical = 'https://tenthgear.ai/ai-summit/leak-test/';
+
+const testimonials = [
+  {
+    quote:
+      'My guys are really good at what they do. But TenthGear lets them spend more time turning wrenches and less time at a keyboard. And our warranty admin says their stories are better than ever. All of this equates to more gross in the end.',
+    name: 'Bob Sisk',
+    role: 'Service Manager, McGrath Audi of Morton Grove',
+  },
+  {
+    quote:
+      "The technicians love it because they don't have to take meticulous notes by hand or stop and walk over to a computer to type it all out. My warranty administrator and advisors also like it. Everything is already cleaned up, which eliminates the back-and-forth. It creates more clarity and allows everybody to deliver a better product faster.",
+    name: 'Christopher Noens',
+    role: 'Service Manager, Twin City Hyundai / Genesis of South Knoxville',
+  },
+  {
+    quote:
+      'The quality and consistency of our repair stories have improved significantly. That helps the advisor reviewing the RO, the customer deciding whether to approve the work, and it helps with our warranty claims process.',
+    name: 'Jaybee Bantug',
+    role: 'Service Manager, Kunes Hyundai of Sycamore',
+  },
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WXBWBW8X');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href={canonical}>
+  <meta property="og:title" content="Your revenue is leaking. Find the source with a complimentary RO Leak Test.">
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content="https://tenthgear.ai/og-image.png">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:site_name" content="TenthGear">
+  <meta name="theme-color" content="#f4f1ea">
+  <link rel="shortcut icon" href="/favicon.ico?v=2">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+  <link rel="preload" href="/fonts/future-headline/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXBWBW8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <main id="lt" data-screen="offer">
+    <header class="top">
+      <img src="/ai-summit/tg-horizontal-black.svg" alt="TenthGear" width="127" height="22">
+      <span class="eyebrow" id="lt-eyebrow">AI Summit 2026</span>
+    </header>
+
+    <!-- Frame 1: offer -->
+    <section class="screen" data-name="offer" aria-labelledby="lt-h1">
+      <h1 id="lt-h1">Your revenue is leaking.</h1>
+      <p class="sub">Find the source with a complimentary RO Leak Test.</p>
+      <div class="receipt" role="group" aria-label="What you get">
+        <div class="rh"><span>Service receipt</span><span>You get</span></div>
+        <div class="row"><b>Scorecard</b><span>Included</span></div>
+        <div class="row"><b>Evidence from your ROs</b><span>Included</span></div>
+        <div class="row"><b>Estimated impact</b><span>Included</span></div>
+        <div class="row"><b>What to fix first</b><span>Included</span></div>
+        <div class="tot"><span>Regular <s>$2,500</s></span><span class="stamp">Complimentary</span><span class="due">$0 due</span></div>
+      </div>
+      <p class="p">Share 20 recent ROs. We&rsquo;ll show you where your process is losing time, revenue, or both.</p>
+      <a class="btn btn-red" href="#enroll" id="lt-cta">Sign up for free leak test</a>
+      <p class="fine center">One minute on your phone now. Finish from your laptop when your ROs are handy.</p>
+    </section>
+
+    <!-- Frames 2 and 3: contact form, validation, human check -->
+    <section class="screen form-screen" data-name="form" id="enroll" aria-labelledby="lt-form-title">
+      <p class="eyebrow step" id="lt-step">Step 1 of 1 today</p>
+      <h2 id="lt-form-title">Where should we send your private link?</h2>
+      <form id="lt-form" novalidate autocomplete="on">
+        <div class="field">
+          <label for="lt-name">First and last name *</label>
+          <input id="lt-name" name="name" type="text" autocomplete="name" placeholder="Chris Alvarez" maxlength="80" required enterkeyhint="next">
+          <p class="errmsg" id="err-name" hidden></p>
+        </div>
+        <div class="field">
+          <label for="lt-email">Work email *</label>
+          <input id="lt-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="you@yourdealership.com" maxlength="120" required enterkeyhint="next">
+          <p class="errmsg" id="err-email" hidden></p>
+        </div>
+        <div class="field">
+          <label for="lt-dealership">Dealership or dealer group *</label>
+          <input id="lt-dealership" name="dealership" type="text" autocomplete="organization" placeholder="Alvarez Auto Group" maxlength="120" required enterkeyhint="next">
+          <p class="errmsg" id="err-dealership" hidden></p>
+        </div>
+        <div class="field">
+          <label for="lt-title">Job title *</label>
+          <input id="lt-title" name="title" type="text" autocomplete="organization-title" placeholder="Fixed Ops Director" maxlength="80" required enterkeyhint="done">
+          <p class="errmsg" id="err-title" hidden></p>
+        </div>
+
+        <button type="button" class="more" id="lt-more" aria-expanded="false" aria-controls="lt-optional">+ Add phone, DMS, or service-lane software (optional)</button>
+        <div id="lt-optional" hidden>
+          <div class="field">
+            <label for="lt-phone">Phone <i>(optional)</i></label>
+            <input id="lt-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="lt-dms">Current DMS <i>(optional)</i></label>
+            <input id="lt-dms" name="dms" type="text" autocomplete="off" placeholder="CDK, Reynolds, Dealertrack..." maxlength="80">
+          </div>
+          <div class="field">
+            <label for="lt-lane">Service-lane or MPI software <i>(optional)</i></label>
+            <textarea id="lt-lane" name="lane" rows="2" autocomplete="off" placeholder="Xtime, myKaarma, Dealer-FX... list everything you use" maxlength="300"></textarea>
+          </div>
+        </div>
+
+        <p class="hp" aria-hidden="true"><label>Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label></p>
+        <div id="lt-turnstile" class="turnstile"></div>
+
+        <div class="ts" id="lt-checking" hidden role="status">
+          <span class="sp" aria-hidden="true"></span>
+          <span><b>Checking that you&rsquo;re human.</b><br>Usually instant. No puzzles.</span>
+        </div>
+        <div class="box problem" id="lt-problem" hidden role="alert">
+          <b class="t" id="lt-problem-title"></b><span id="lt-problem-text"></span>
+        </div>
+
+        <button type="submit" class="btn btn-red" id="lt-submit" disabled>Enroll me</button>
+        <p class="fine">By submitting, you agree that TenthGear may contact you about this diagnostic.</p>
+      </form>
+    </section>
+
+    <!-- Frame 4: enrolled. The phone path ends here. -->
+    <section class="screen" data-name="enrolled" hidden aria-labelledby="lt-done">
+      <div class="ok" aria-hidden="true">&#10003;</div>
+      <h2 id="lt-done" class="big">You&rsquo;re in, <span id="lt-first">there</span>.</h2>
+      <p class="p">Your private link is on its way to <b id="lt-email-out"></b>. That&rsquo;s everything we need from you today.</p>
+      <div class="box">
+        <b class="t">What happens next</b>
+        <ul class="cl">
+          <li>Back at your desk, find our email and click the link.</li>
+          <li>You will need to share 20 recent ROs for this analysis.</li>
+        </ul>
+      </div>
+      <p class="fine center">Wrong email? <button type="button" class="linklike" id="lt-fix">Fix it</button></p>
+      <p class="fine center while">Enjoy the summit. While you&rsquo;re here:</p>
+      <a class="btn btn-yellow" id="lt-peek" href={ROUTES.futureHeadline}>Peek into the future</a>
+    </section>
+
+    <!-- Below the form, never above it -->
+    <div class="below" data-name="below">
+      <section class="sec" aria-labelledby="h-how">
+        <h2 id="h-how">How it works</h2>
+        <ol class="steps">
+          <li><b>Sign up here.</b> One minute, four questions. Your private link arrives by email.</li>
+          <li><b>Share 20 recent ROs from your laptop.</b> Add any MPI reports, inspection videos, or customer-facing materials you can put your hands on. No account, no password.</li>
+          <li><b>Book a 30 minute video call with the TenthGear team.</b> We review everything before we meet and walk you through what we found.</li>
+        </ol>
+      </section>
+
+      <section class="sec" aria-labelledby="h-leaks">
+        <h2 id="h-leaks">Find where revenue leaks out of your RO process.</h2>
+        <p>The leak test looks at the four places a service department loses time, revenue, or both.</p>
+        <ul class="leaks">
+          <li><b>Slow workflows.</b> Steps that cut shop throughput.</li>
+          <li><b>Missed work.</b> Services a vehicle needed that nobody identified or sold.</li>
+          <li><b>Declined work.</b> Identified services the customer never approved.</li>
+          <li><b>Warranty money left on the table.</b> Revenue lost in the claims process.</li>
+        </ul>
+        <p>You get a written scorecard, the evidence from your own ROs, estimated impact where the ROs support one, and what to fix first.</p>
+      </section>
+
+      <section class="sec" aria-labelledby="h-proof">
+        <h2 id="h-proof">What service leaders say</h2>
+        {testimonials.map((t) => (
+          <figure class="quote">
+            <blockquote>{t.quote}</blockquote>
+            <figcaption><b>{t.name}</b><br>{t.role}</figcaption>
+          </figure>
+        ))}
+      </section>
+
+      <section class="sec end" aria-labelledby="h-end">
+        <h2 id="h-end">Share 20 recent ROs. Find the first leak.</h2>
+        <a class="btn btn-red" href="#enroll">Sign up for free leak test</a>
+        <p class="fine center">Built for franchise dealership service departments.</p>
+      </section>
+
+      <footer class="foot">
+        <a href="/">TenthGear</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:dave@tenthgear.ai">dave@tenthgear.ai</a>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    import '../../../scripts/leak-test/app';
+  </script>
+
+  <style is:global>
+    @font-face {
+      font-family: 'LT Anton';
+      src: url('/fonts/future-headline/anton-400.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    :root {
+      --ink: #000;
+      --char: #333132;
+      --grey: #9b9799;
+      --light: #dedcdd;
+      --paper: #f4f1ea;
+      --red: #c8141e;
+      --yellow: #ffd23f;
+      --head: 'LT Anton', Impact, 'Arial Narrow Bold', sans-serif;
+      --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --serif: Georgia, 'Times New Roman', serif;
+      --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.45; -webkit-font-smoothing: antialiased; }
+    [hidden] { display: none !important; }
+    #lt { max-width: 520px; margin: 0 auto; padding: 0 20px calc(24px + env(safe-area-inset-bottom)); }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: calc(12px + env(safe-area-inset-top)) 0 10px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 14px;
+    }
+    .top img { height: 22px; width: auto; }
+    .eyebrow { font: 700 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
+    .screen { padding-bottom: 8px; }
+    h1 {
+      font-family: var(--head);
+      font-weight: 400;
+      font-size: clamp(44px, 13vw, 56px);
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--red);
+      margin: 4px 0 8px;
+    }
+    h2 { font-family: var(--head); font-weight: 400; font-size: 30px; line-height: 1.05; text-transform: uppercase; margin: 6px 0 12px; }
+    h2.big { font-size: 34px; }
+    .sub { font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.25; margin: 0 0 14px; }
+    .p { font-size: 16px; color: var(--char); margin: 0 0 14px; }
+    .p b { color: var(--ink); }
+    .fine { font-size: 12.5px; color: var(--char); margin: 10px 0 0; line-height: 1.4; }
+    .center { text-align: center; }
+    .fine a, .foot a { color: var(--ink); }
+
+    .receipt { background: #fff; border: 2px solid var(--ink); padding: 12px 14px; margin: 0 0 14px; font-family: var(--mono); font-size: 13px; text-transform: uppercase; }
+    .receipt .rh { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--ink); padding-bottom: 6px; margin-bottom: 6px; font-weight: 700; }
+    .receipt .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 4px 0; border-bottom: 1px dotted var(--grey); }
+    .receipt .row b { font-family: var(--head); font-weight: 400; font-size: 15px; }
+    .receipt .tot { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding-top: 8px; }
+    .receipt .tot span { white-space: nowrap; }
+    .receipt s { color: var(--red); }
+    .stamp { font-family: var(--head); color: var(--red); border: 3px solid var(--red); padding: 1px 6px; transform: rotate(-4deg); font-size: 14px; }
+    .due { font-family: var(--head); font-size: 22px; }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 56px;
+      padding: 8px 14px;
+      border: 0;
+      border-radius: 4px;
+      font-family: var(--head);
+      font-size: 21px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus-visible, input:focus-visible, textarea:focus-visible, .more:focus-visible, .linklike:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-yellow { background: var(--yellow); color: var(--ink); }
+    .btn[disabled] { background: var(--light); color: var(--grey); cursor: not-allowed; }
+    .btn.busy { background: var(--char); color: #fff; }
+
+    .form-screen { padding-top: 10px; border-top: 2px solid var(--ink); margin-top: 8px; scroll-margin-top: 8px; }
+    .step { margin: 0 0 4px; }
+    .field { margin-top: 12px; }
+    label { display: block; font: 600 13px var(--body); margin: 0 0 4px; }
+    label i { font-style: normal; font-weight: 400; color: var(--char); }
+    input, textarea {
+      width: 100%;
+      min-height: 46px;
+      border: 1.5px solid var(--ink);
+      border-radius: 4px;
+      background: #fff;
+      padding: 10px 12px;
+      font: 16px var(--body);
+      color: var(--ink);
+    }
+    textarea { resize: vertical; }
+    input::placeholder, textarea::placeholder { color: var(--grey); }
+    .field.bad input, .field.bad textarea { border-color: var(--red); border-width: 2.5px; }
+    .errmsg { color: var(--red); font: 600 12.5px var(--body); margin: 4px 0 0; }
+    .errmsg::before { content: '! '; font-weight: 800; }
+    .more { display: block; background: none; border: 0; padding: 0; margin: 14px 0 0; font: 600 14px var(--body); text-decoration: underline; color: var(--ink); cursor: pointer; text-align: left; }
+    .more[aria-expanded='true'] { display: none; }
+    .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .turnstile { margin-top: 12px; }
+    .turnstile:empty { margin: 0; }
+    .ts { border: 1px solid var(--grey); background: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; margin: 14px 0 0; }
+    .ts .sp { width: 18px; height: 18px; flex: none; border: 3px solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .box { background: #fff; border: 2px solid var(--ink); padding: 12px 14px; margin: 14px 0 0; font-size: 14px; }
+    .box b.t { font-family: var(--head); font-weight: 400; font-size: 16px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .box.problem { border-color: var(--red); }
+    #lt-submit { margin-top: 16px; }
+    ul.cl { margin: 6px 0 0; padding-left: 18px; color: var(--char); }
+    ul.cl li { margin-bottom: 4px; }
+
+    .ok { width: 54px; height: 54px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font: 700 28px var(--body); margin: 10px 0 12px; }
+    .linklike { background: none; border: 0; padding: 0; font: inherit; color: var(--ink); text-decoration: underline; cursor: pointer; }
+    .while { margin-top: 26px; margin-bottom: 8px; }
+
+    .below { margin-top: 34px; }
+    .sec { border-top: 2px solid var(--ink); padding: 20px 0 8px; }
+    .sec h2 { font-size: 26px; }
+    .sec p { font-size: 16px; color: var(--char); margin: 0 0 12px; }
+    .steps, .leaks { margin: 0 0 12px; padding: 0; list-style: none; counter-reset: step; }
+    .steps li, .leaks li { position: relative; padding: 10px 0 10px 40px; border-bottom: 1px solid var(--light); font-size: 15.5px; color: var(--char); }
+    .steps li b, .leaks li b { color: var(--ink); }
+    .steps li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 9px; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; font: 700 14px var(--body); display: flex; align-items: center; justify-content: center; }
+    .leaks li { padding-left: 0; }
+    .quote { margin: 0 0 14px; background: #fff; border: 2px solid var(--ink); padding: 14px 16px; }
+    .quote blockquote { margin: 0 0 10px; font-family: var(--serif); font-size: 16px; line-height: 1.4; }
+    .quote figcaption { font-size: 13px; color: var(--char); }
+    .quote figcaption b { color: var(--ink); }
+    .end h2 { font-size: 30px; }
+    .foot { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--light); font-size: 12.5px; color: var(--char); text-align: center; }
+
+    #lt[data-screen='enrolled'] .below { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .ts .sp { animation: none; }
+      .btn:active { transform: none; }
+    }
+    @media (min-width: 640px) {
+      #lt { max-width: 600px; }
+    }
+  </style>
+</body>
+</html>
