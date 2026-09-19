@@ -1,0 +1,157 @@
+---
+// The private resume page. The token arrives in the URL fragment and is moved
+// out of the address bar before any tag loads (see the first script). This
+// build validates the link and shows the two-card overview (storyboard frame
+// 7); uploads and booking are the next build.
+import { ROUTES } from '../../../scripts/leak-test/presets';
+
+const title = 'Your RO Leak Test | TenthGear';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script is:inline>
+    // Keep the private token out of analytics and referrers: stash it, then
+    // strip the fragment before GTM loads.
+    (function () {
+      try {
+        var h = location.hash.slice(1);
+        if (h) {
+          sessionStorage.setItem('lt_rt', h);
+          history.replaceState(null, '', location.pathname + location.search);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WXBWBW8X');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{title}</title>
+  <meta name="theme-color" content="#f4f1ea">
+  <link rel="shortcut icon" href="/favicon.ico?v=2">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+  <link rel="preload" href="/fonts/future-headline/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXBWBW8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <main id="rs" data-screen="loading">
+    <header class="top">
+      <img src="/ai-summit/tg-horizontal-black.svg" alt="TenthGear" width="127" height="22">
+      <span class="eyebrow" id="rs-eyebrow">RO Leak Test</span>
+    </header>
+
+    <section class="screen" data-name="loading" aria-live="polite">
+      <div class="ts"><span class="sp" aria-hidden="true"></span><span>Opening your private page.</span></div>
+    </section>
+
+    <!-- Frame 7: overview -->
+    <section class="screen" data-name="home" hidden>
+      <h1>Welcome back, <span id="rs-first"></span>.</h1>
+      <p class="p">Let&rsquo;s get this revenue leak test rolling...</p>
+      <div class="cards">
+        <div class="card">
+          <h2>Upload service materials <span class="pill go" id="rs-materials-pill">Not started</span></h2>
+          <p>This revenue leak test is only as good as the data you share.</p>
+          <ul class="cl"><li>ROs</li><li>MPI reports</li><li>Inspection videos</li><li>Customer-facing materials (quotes, reports, invoices)</li></ul>
+          <button type="button" class="btn sm" disabled>Add materials</button>
+        </div>
+        <div class="card">
+          <h2>Book your review session <span class="pill go" id="rs-booking-pill">Not booked</span></h2>
+          <p>Book a time to walk through the findings and discuss opportunities to get more revenue out of your existing process.</p>
+          <button type="button" class="btn sm dark" disabled>Pick a time</button>
+        </div>
+      </div>
+      <p class="fine dev">Preview build: your link works and this page knows who you are. Uploads and booking are the next build.</p>
+      <p class="fine">Private to <b id="rs-who"></b>. <button type="button" class="linklike" id="rs-notyou">Not you?</button></p>
+    </section>
+
+    <!-- Frame 16: invalid or expired link -->
+    <section class="screen" data-name="invalid" hidden>
+      <h1 class="sm">That link didn&rsquo;t open anything.</h1>
+      <p class="p">It may be mistyped or cut off, or it has expired. Links last 60 days. Your files and details are safe either way.</p>
+      <form id="rs-fresh" novalidate>
+        <label for="rs-email">Email you enrolled with</label>
+        <input id="rs-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" placeholder="you@yourdealership.com" maxlength="120" required>
+        <p class="hp" aria-hidden="true"><label>Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label></p>
+        <button type="submit" class="btn dark" id="rs-send">Email me a fresh link</button>
+      </form>
+      <p class="fine">If that address is enrolled, a new private link arrives in a minute. Not enrolled yet? <a href={ROUTES.landing}>Start here</a>. Stuck? <a href="mailto:support@tenthgear.ai">support@tenthgear.ai</a></p>
+    </section>
+
+    <section class="screen" data-name="sent" hidden aria-live="polite">
+      <div class="ok" aria-hidden="true">&#10003;</div>
+      <h1 class="sm">Check your inbox.</h1>
+      <p class="p">If that address is enrolled, a new private link arrives in a minute. The old link no longer works.</p>
+    </section>
+  </main>
+
+  <script>
+    import '../../../scripts/leak-test/resume';
+  </script>
+
+  <style is:global>
+    @font-face {
+      font-family: 'LT Anton';
+      src: url('/fonts/future-headline/anton-400.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    :root {
+      --ink: #000; --char: #333132; --grey: #9b9799; --light: #dedcdd; --paper: #f4f1ea;
+      --red: #c8141e; --yellow: #ffd23f;
+      --head: 'LT Anton', Impact, 'Arial Narrow Bold', sans-serif;
+      --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.45; -webkit-font-smoothing: antialiased; }
+    [hidden] { display: none !important; }
+    #rs { max-width: 760px; margin: 0 auto; padding: 0 20px calc(24px + env(safe-area-inset-bottom)); }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(12px + env(safe-area-inset-top)) 0 10px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+    .top img { height: 22px; width: auto; }
+    .eyebrow { font: 700 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
+    h1 { font-family: var(--head); font-weight: 400; font-size: 34px; line-height: 1.05; text-transform: uppercase; margin: 6px 0 4px; }
+    h1.sm { font-size: 30px; }
+    .p { font-size: 16px; color: var(--char); margin: 0 0 14px; }
+    .fine { font-size: 12.5px; color: var(--char); margin: 12px 0 0; line-height: 1.4; }
+    .fine a, .linklike { color: var(--ink); }
+    .fine.dev { background: var(--yellow); border: 2px solid var(--ink); padding: 8px 10px; color: var(--ink); }
+    .cards { display: grid; gap: 14px; margin-top: 10px; }
+    .card { background: #fff; border: 2px solid var(--ink); padding: 14px 16px; font-size: 14px; }
+    .card h2 { font-family: var(--head); font-weight: 400; font-size: 20px; text-transform: uppercase; margin: 0 0 6px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .card p { margin: 0 0 8px; }
+    .pill { font: 700 10.5px var(--mono); text-transform: uppercase; padding: 3px 8px; border-radius: 20px; border: 1.5px solid var(--ink); background: #fff; white-space: nowrap; }
+    .pill.go { background: var(--yellow); }
+    .pill.done { background: var(--ink); color: #fff; }
+    ul.cl { margin: 0 0 12px; padding-left: 18px; color: var(--char); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 8px 16px; border: 0; border-radius: 4px; background: var(--red); color: #fff; font-family: var(--head); font-size: 20px; letter-spacing: 0.02em; text-transform: uppercase; cursor: pointer; }
+    .btn.sm { width: auto; min-height: 42px; font-size: 16px; }
+    .btn.dark { background: var(--ink); }
+    .btn[disabled] { background: var(--light); color: var(--grey); cursor: not-allowed; }
+    .linklike { background: none; border: 0; padding: 0; font: inherit; text-decoration: underline; cursor: pointer; }
+    label { display: block; font: 600 13px var(--body); margin: 12px 0 4px; }
+    input { width: 100%; min-height: 46px; border: 1.5px solid var(--ink); border-radius: 4px; background: #fff; padding: 10px 12px; font: 16px var(--body); color: var(--ink); margin-bottom: 12px; }
+    .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .ts { border: 1px solid var(--grey); background: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; margin: 14px 0; }
+    .ts .sp { width: 18px; height: 18px; flex: none; border: 3px solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .ok { width: 54px; height: 54px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font: 700 28px var(--body); margin: 10px 0 12px; }
+    @media (min-width: 700px) { .cards { grid-template-columns: 1fr 1fr; } h1 { font-size: 40px; } }
+    @media (prefers-reduced-motion: reduce) { .ts .sp { animation: none; } }
+  </style>
+</body>
+</html>

@@ -1,0 +1,167 @@
+---
+// Automotive AI Summit 2026 hub. This URL is printed on both postcard sides
+// and on every generated front page, so it is a two-door page, never a
+// redirect. The QR codes go straight to each door; this serves typed visits.
+import { ROUTES } from '../../scripts/leak-test/presets';
+
+const title = 'Automotive AI Summit 2026 | TenthGear';
+const description = 'Two gifts from TenthGear for the Automotive AI Summit: a complimentary RO Leak Test and your own front page from the future.';
+const canonical = 'https://tenthgear.ai/ai-summit/';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WXBWBW8X');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href={canonical}>
+  <meta property="og:title" content="TenthGear at the Automotive AI Summit">
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content="https://tenthgear.ai/og-image.png">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:site_name" content="TenthGear">
+  <meta name="theme-color" content="#f4f1ea">
+  <link rel="shortcut icon" href="/favicon.ico?v=2">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+  <link rel="preload" href="/fonts/future-headline/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXBWBW8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <main id="hub">
+    <header class="top">
+      <img src="/ai-summit/tg-horizontal-black.svg" alt="TenthGear" width="127" height="22">
+      <span class="eyebrow">Automotive AI Summit 2026</span>
+    </header>
+
+    <h1>Two AI-enhanced gifts, from your friends at TenthGear...</h1>
+
+    <div class="doors">
+      <section class="door" aria-labelledby="door-leak">
+        <h2 id="door-leak" class="red">Your service revenue is leaking!</h2>
+        <p>Find the source with a complimentary RO Leak Test.</p>
+        <a class="btn btn-red" href={ROUTES.landing} data-door>Sign up for free leak test</a>
+      </section>
+
+      <section class="door door-dark" aria-labelledby="door-future">
+        <h2 id="door-future">Peek into the future!</h2>
+        <p>Take a selfie. Make a prediction. See what happens.</p>
+        <a class="btn btn-yellow" href={ROUTES.futureHeadline} data-door>Engage time machine</a>
+      </section>
+    </div>
+
+    <p class="fine">Met Dave at the summit? <a href="mailto:dave@tenthgear.ai">dave@tenthgear.ai</a></p>
+  </main>
+
+  <script is:inline>
+    // UTMs pass through to whichever door is tapped.
+    (function () {
+      var q = location.search;
+      if (!q || q.length < 2) return;
+      var doors = document.querySelectorAll('a[data-door]');
+      for (var i = 0; i < doors.length; i++) doors[i].setAttribute('href', doors[i].getAttribute('href') + q);
+    })();
+  </script>
+
+  <style is:global>
+    @font-face {
+      font-family: 'LT Anton';
+      src: url('/fonts/future-headline/anton-400.woff2') format('woff2');
+      font-weight: 400;
+      font-display: swap;
+    }
+    :root {
+      --ink: #000;
+      --char: #333132;
+      --grey: #9b9799;
+      --light: #dedcdd;
+      --paper: #f4f1ea;
+      --red: #c8141e;
+      --yellow: #ffd23f;
+      --head: 'LT Anton', Impact, 'Arial Narrow Bold', sans-serif;
+      --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --mono: ui-monospace, 'SF Mono', Menlo, 'Courier New', monospace;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.45; -webkit-font-smoothing: antialiased; }
+    #hub {
+      max-width: 520px;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding: 0 20px calc(24px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: calc(12px + env(safe-area-inset-top)) 0 10px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 18px;
+    }
+    .top img { height: 22px; width: auto; }
+    .eyebrow { font: 700 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); text-align: right; }
+    h1 {
+      font-family: var(--head);
+      font-weight: 400;
+      font-size: clamp(30px, 9vw, 38px);
+      line-height: 1;
+      text-transform: uppercase;
+      margin: 0 0 18px;
+    }
+    .doors { display: grid; gap: 14px; }
+    .door { border: 2px solid var(--ink); background: #fff; padding: 16px 16px 18px; }
+    .door-dark { background: var(--ink); color: #fff; }
+    .door h2 { font-family: var(--head); font-weight: 400; font-size: 26px; line-height: 1.05; text-transform: uppercase; margin: 0 0 6px; }
+    .door h2.red { color: var(--red); }
+    .door p { margin: 0 0 12px; font-size: 16px; }
+    .door-dark p { color: var(--light); }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 56px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-family: var(--head);
+      font-size: 21px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-yellow { background: var(--yellow); color: var(--ink); }
+    .fine { margin: auto 0 0; padding-top: 26px; font-size: 13px; color: var(--char); text-align: center; }
+    .fine a { color: var(--ink); }
+    @media (min-width: 640px) {
+      #hub { max-width: 620px; }
+      h1 { font-size: 44px; }
+      .doors { grid-template-columns: 1fr 1fr; align-items: stretch; }
+      .door { display: flex; flex-direction: column; }
+      .door .btn { margin-top: auto; }
+    }
+  </style>
+</body>
+</html>
