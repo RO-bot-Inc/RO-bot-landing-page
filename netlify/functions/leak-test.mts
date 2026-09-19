@@ -1,35 +1,52 @@
 // GET  /api/leak-test  -> signed page token, Turnstile site key, which integrations are live
-// POST /api/leak-test  { action: 'enroll' }      contact capture: captcha -> store -> email -> Notion -> notify Dave
-//                      { action: 'fix' }         enrolled screen corrects the contact; fresh link, old one revoked
-//                      { action: 'fresh-link' }  expired-link screen; same response whether or not the address is enrolled
-//                      { action: 'resume' }      validates a resume token and returns the intake's public state
+// POST /api/leak-test  { action }
+//   enroll          contact capture: captcha -> store -> email -> Notion -> notify Dave
+//   fix             enrolled screen corrects the contact; fresh link, old ones revoked
+//   fresh-link      expired-link screen; same response whether or not the address is enrolled
+//   resume          validates a resume token and returns the workspace state
+//   upload-start    checks type, size, and the 5 GB total, then opens a resumable
+//                   session in Cloud Storage for the browser to upload into directly
+//   upload-done     confirms the object landed with the declared size
+//   upload-remove   deletes a file
+//   save            links and notes (autosaved)
+//   materials-done  "Done sharing"
+//   booked          the Calendly embed reported event_scheduled
+//   admin-view      Dave's file page: intake plus ten-minute download links
+//   admin-revoke    kills every live resume link for an intake
 //
-// Files never pass through here. Logs carry ids, modes, and status codes, never contact details.
+// File bytes never pass through here. Logs carry ids, modes, and status codes, never contact details.
 import type { Config as FunctionConfig } from '@netlify/functions';
-import { FIELD_MAX, REQUIRED_FIELDS, ROUTES, UTM_KEYS, type ContactField } from '../../src/scripts/leak-test/presets';
-import { config as loadConfig, type Config } from '../lib/leak-test/config';
-import { enrollmentEmail, internalEmail, send } from '../lib/leak-test/email';
 import {
-  checkOrigin,
-  checkToken,
-  hashToken,
-  issueToken,
-  newIntakeId,
-  newResumeToken,
-  readTicket,
-  signTicket,
-} from '../lib/leak-test/guard';
-import { upsertRow } from '../lib/leak-test/notion';
+  CALENDLY_URL,
+  FIELD_MAX,
+  MAX_FILES,
+  MAX_INTAKE_BYTES,
+  MAX_LINKS,
+  MAX_LINK_CHARS,
+  MAX_NOTES_CHARS,
+  REQUIRED_FIELDS,
+  UTM_KEYS,
+  fileExtension,
+  rejectFile,
+  type ContactField,
+} from '../../src/scripts/leak-test/presets';
+import { config as loadConfig, type Config } from '../lib/leak-test/config';
+import { enrollmentEmail, internalEmail, send, type InternalKind } from '../lib/leak-test/email';
+import { Firestore } from '../lib/leak-test/firestore';
+import { Storage } from '../lib/leak-test/gcs';
+import { checkOrigin, checkToken, hashToken, issueToken, newIntakeId, readTicket, signTicket } from '../lib/leak-test/guard';
+import { adminLink, issueResumeToken, liveToken, publicOrigin, readAdminTicket, resumeLink } from '../lib/leak-test/links';
+import { updateProgress, upsertRow } from '../lib/leak-test/notion';
 import { normalizeEmail, openStore, type IntakeStore } from '../lib/leak-test/store';
-import { LtError, type Contact, type EmailLog, type Intake, type Source } from '../lib/leak-test/types';
+import { LtError, type Contact, type EmailLog, type Intake, type IntakeFile, type Source } from '../lib/leak-test/types';
 
 const TICKET_TTL_MS = 30 * 60_000; // how long the enrolled screen can still fix its email
+const UPLOAD_ACTIVE_MS = 15 * 60_000; // an upload in flight holds reminders this long past its last call
 const MAX_BODY_BYTES = 64_000;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 const TOKEN_RE = /^[A-Za-z0-9_-]{32}$/;
 
 type Body = Record<string, unknown>;
-type NotifyKind = Parameters<typeof internalEmail>[1];
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -42,6 +59,8 @@ const clean = (value: unknown, max: number) =>
     ? // eslint-disable-next-line no-control-regex
       value.replace(/[\x00-\x1f\x7f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max)
     : '';
+
+const nowIso = () => new Date().toISOString();
 
 function readContact(value: unknown): Contact {
   const raw = (value && typeof value === 'object' ? value : {}) as Body;
@@ -86,48 +105,43 @@ async function verifyCaptcha(cfg: Config, token: unknown, req: Request) {
   if (!data.success) throw new LtError('captcha', 400);
 }
 
-// A new token replaces the old one, so a link in the wrong inbox stops working.
-function issueResumeToken(cfg: Config, intake: Intake, now: string): string {
-  const token = newResumeToken();
-  intake.token = {
-    hash: hashToken(token),
-    issuedAt: now,
-    expiresAt: new Date(Date.parse(now) + cfg.tokenDays * 86_400_000).toISOString(),
-    revoked: false,
-  };
-  return token;
+const storage = (cfg: Config) => (cfg.uploads === 'gcs' ? new Storage(new Firestore(cfg.serviceAccount).sa, cfg.storageBucket) : null);
+
+async function notify(cfg: Config, req: Request, intake: Intake, kind: InternalKind) {
+  try {
+    await send(cfg, { from: cfg.fromSystem, to: cfg.notifyTo, ...internalEmail(intake, kind, adminLink(cfg, publicOrigin(cfg, req), intake)) });
+  } catch {
+    console.warn('[leak-test] notification failed');
+  }
+}
+
+async function syncNotion(cfg: Config, intake: Intake, logLine?: string) {
+  if (cfg.notion !== 'live') return;
+  try {
+    await updateProgress(cfg, intake, logLine);
+  } catch (err) {
+    console.warn('[leak-test] notion update failed', (err as Error).message);
+  }
 }
 
 // Email first (the enrolled screen promises it), then Notion with retry, then
 // Dave's notification regardless. Notion and the notification never block.
-async function deliver(
-  cfg: Config,
-  req: Request,
-  store: IntakeStore,
-  intake: Intake,
-  token: string,
-  kind: EmailLog['kind'],
-  notify: NotifyKind,
-) {
-  const origin = cfg.publicOrigin || new URL(req.url).origin;
-  const mail = enrollmentEmail(intake, `${origin}${ROUTES.resume}#${token}`);
+async function deliver(cfg: Config, req: Request, store: IntakeStore, intake: Intake, token: string, kind: EmailLog['kind'], notifyKind: InternalKind) {
+  const origin = publicOrigin(cfg, req);
+  const mail = enrollmentEmail(intake, resumeLink(origin, token));
   const id = await send(cfg, { from: cfg.fromDave, to: intake.contact.email, replyTo: 'dave@tenthgear.ai', ...mail });
-  const entry: EmailLog = { at: new Date().toISOString(), kind, subject: mail.subject, to: intake.contact.email, id };
+  const entry: EmailLog = { at: nowIso(), kind, subject: mail.subject, to: intake.contact.email, id };
   intake.emails.push(entry);
   if (cfg.notion === 'live') {
     try {
-      intake.notionPageId = await upsertRow(cfg, intake, entry);
+      intake.notionPageId = await upsertRow(cfg, intake, entry, adminLink(cfg, origin, intake));
     } catch (err) {
       console.warn('[leak-test] notion failed', (err as Error).message);
     }
   }
   intake.updatedAt = entry.at;
   await store.put(intake);
-  try {
-    await send(cfg, { from: cfg.fromSystem, to: cfg.notifyTo, ...internalEmail(intake, notify) });
-  } catch {
-    console.warn('[leak-test] notification failed');
-  }
+  await notify(cfg, req, intake, notifyKind);
 }
 
 const enrolledResponse = (cfg: Config, intake: Intake) =>
@@ -138,13 +152,14 @@ const enrolledResponse = (cfg: Config, intake: Intake) =>
     email: intake.contact.email,
   });
 
+// ------------------------------------------------------------ phone path
 async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   checkToken(cfg, body.token);
   const contact = readContact(body.contact);
   const source = readSource(body.source);
   await verifyCaptcha(cfg, body.turnstile, req);
 
-  const now = new Date().toISOString();
+  const now = nowIso();
   // Same address again means a fresh link, not a second intake. First-touch
   // attribution is kept.
   const existing = await store.byEmail(contact.email);
@@ -156,13 +171,19 @@ async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body)
         updatedAt: now,
         contact,
         source,
-        token: { hash: '', issuedAt: now, expiresAt: now, revoked: true },
+        tokens: [],
         materials: { status: 'not_started', files: 0, links: 0, notes: '', sentAt: null },
-        booking: { status: 'not_booked', at: null, eventUri: null },
+        files: [],
+        links: [],
+        booking: { status: 'not_booked', at: null, eventUri: null, inviteeUri: null },
+        lastActivityAt: now,
+        uploadActiveUntil: null,
+        reminders: {},
         notionPageId: null,
         emails: [],
+        purgedAt: null,
       };
-  const token = issueResumeToken(cfg, intake, now);
+  const token = issueResumeToken(cfg, intake, now, 'email', true);
   await store.put(intake);
   await deliver(cfg, req, store, intake, token, 'enrollment', existing ? 're-enrolled' : 'enrolled');
   console.log(`[leak-test] enrolled id=${intake.id} repeat=${!!existing} store=${cfg.store} email=${cfg.email} notion=${cfg.notion} captcha=${cfg.captcha}`);
@@ -174,9 +195,9 @@ async function fix(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   const intake = await store.get(id);
   if (!intake) throw new LtError('not_found', 404);
   intake.contact = readContact(body.contact);
-  const now = new Date().toISOString();
+  const now = nowIso();
   intake.updatedAt = now;
-  const token = issueResumeToken(cfg, intake, now);
+  const token = issueResumeToken(cfg, intake, now, 'email', true);
   await store.put(intake);
   await deliver(cfg, req, store, intake, token, 'email-fixed', 'email-fixed');
   console.log(`[leak-test] fixed id=${intake.id}`);
@@ -190,11 +211,11 @@ async function freshLink(cfg: Config, req: Request, store: IntakeStore, body: Bo
   const email = normalizeEmail(clean(body.email, FIELD_MAX.email));
   if (EMAIL_RE.test(email)) {
     const intake = await store.byEmail(email);
-    if (intake) {
+    if (intake && !intake.purgedAt) {
       try {
-        const now = new Date().toISOString();
+        const now = nowIso();
         intake.updatedAt = now;
-        const token = issueResumeToken(cfg, intake, now);
+        const token = issueResumeToken(cfg, intake, now, 'email', true);
         await store.put(intake);
         await deliver(cfg, req, store, intake, token, 'fresh-link', 'fresh-link');
         console.log(`[leak-test] fresh link id=${intake.id}`);
@@ -206,22 +227,232 @@ async function freshLink(cfg: Config, req: Request, store: IntakeStore, body: Bo
   return json({ ok: true });
 }
 
-async function resume(cfg: Config, store: IntakeStore, body: Body) {
+// ------------------------------------------------------------- workspace
+async function authed(store: IntakeStore, body: Body): Promise<Intake> {
   const token = typeof body.token === 'string' ? body.token : '';
   if (!TOKEN_RE.test(token)) throw new LtError('not_found', 404);
   const intake = await store.byTokenHash(hashToken(token));
-  if (!intake || intake.token.revoked) throw new LtError('not_found', 404);
-  if (Date.parse(intake.token.expiresAt) < Date.now()) throw new LtError('expired', 410);
+  if (!intake || !liveToken(intake, hashToken(token)) || intake.purgedAt) throw new LtError('not_found', 404);
+  return intake;
+}
+
+const usedBytes = (intake: Intake) => intake.files.reduce((n, f) => n + f.size, 0);
+
+function workspaceState(cfg: Config, intake: Intake) {
   const { contact, materials, booking } = intake;
+  return {
+    name: contact.name,
+    email: contact.email,
+    dealership: contact.dealership,
+    materials,
+    files: intake.files.map(({ id, name, size, status }) => ({ id, name, size, status })),
+    links: intake.links,
+    booking: {
+      status: booking.status,
+      at: booking.at,
+      // Calendly's reschedule page for this invitee, when the embed told us who they are.
+      rescheduleUrl: booking.inviteeUri ? `https://calendly.com/reschedulings/${booking.inviteeUri.split('/').pop()}` : null,
+    },
+    usedBytes: usedBytes(intake),
+    uploads: cfg.uploads,
+    calendly: CALENDLY_URL,
+  };
+}
+
+function touch(intake: Intake) {
+  intake.lastActivityAt = nowIso();
+  intake.updatedAt = intake.lastActivityAt;
+  if (intake.materials.status === 'not_started' && (intake.files.length || intake.links.length || intake.materials.notes)) {
+    intake.materials.status = 'in_progress';
+  }
+  intake.materials.files = intake.files.filter((f) => f.status === 'done').length;
+  intake.materials.links = intake.links.length;
+}
+
+async function resume(cfg: Config, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  return json({ intake: workspaceState(cfg, intake) });
+}
+
+async function uploadStart(cfg: Config, req: Request, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  const name = clean(body.name, 200) || 'file';
+  const size = Number(body.size);
+  const type = clean(body.type, 120) || 'application/octet-stream';
+  if (!Number.isInteger(size)) throw new LtError('invalid', 400);
+  if (rejectFile(name, size)) throw new LtError('bad_file', 400);
+  if (intake.files.length >= MAX_FILES) throw new LtError('too_large', 400);
+  if (usedBytes(intake) + size > MAX_INTAKE_BYTES) throw new LtError('too_large', 413);
+
+  const id = newIntakeId();
+  const safeName = `${id}.${fileExtension(name)}`;
+  const file: IntakeFile = {
+    id,
+    name,
+    size,
+    type,
+    object: `intakes/${intake.id}/${safeName}`,
+    status: 'pending',
+    createdAt: nowIso(),
+    doneAt: null,
+  };
+  const gcs = storage(cfg);
+  const uploadUrl = gcs ? await gcs.startResumable(file.object, type, size, req.headers.get('origin') || publicOrigin(cfg, req)) : null;
+  intake.files.push(file);
+  intake.uploadActiveUntil = new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString();
+  touch(intake);
+  await store.put(intake);
+  console.log(`[leak-test] upload start id=${intake.id} file=${id} bytes=${size} mode=${cfg.uploads}`);
+  return json({ fileId: id, uploadUrl, usedBytes: usedBytes(intake) });
+}
+
+async function uploadDone(cfg: Config, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  const file = intake.files.find((f) => f.id === body.fileId);
+  if (!file) throw new LtError('not_found', 404);
+  const gcs = storage(cfg);
+  if (gcs) {
+    const size = await gcs.size(file.object);
+    if (size !== file.size) throw new LtError('bad_file', 409);
+  }
+  file.status = 'done';
+  file.doneAt = nowIso();
+  intake.uploadActiveUntil = intake.files.some((f) => f.status === 'pending') ? new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString() : null;
+  touch(intake);
+  await store.put(intake);
+  await syncNotion(cfg, intake);
+  return json({ intake: workspaceState(cfg, intake) });
+}
+
+// Still uploading: keeps reminders away while a big transfer runs.
+async function uploadPing(cfg: Config, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  intake.uploadActiveUntil = new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString();
+  intake.lastActivityAt = nowIso();
+  await store.put(intake);
+  return json({ ok: true });
+}
+
+async function uploadRemove(cfg: Config, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  const file = intake.files.find((f) => f.id === body.fileId);
+  if (!file) return json({ intake: workspaceState(cfg, intake) });
+  const gcs = storage(cfg);
+  if (gcs) await gcs.remove(file.object);
+  intake.files = intake.files.filter((f) => f.id !== file.id);
+  touch(intake);
+  await store.put(intake);
+  await syncNotion(cfg, intake);
+  return json({ intake: workspaceState(cfg, intake) });
+}
+
+function readLinks(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const out: string[] = [];
+  for (const raw of value.slice(0, MAX_LINKS)) {
+    const s = clean(raw, MAX_LINK_CHARS);
+    if (!s) continue;
+    try {
+      const u = new URL(/^https?:\/\//i.test(s) ? s : `https://${s}`);
+      if (u.protocol === 'http:' || u.protocol === 'https:') out.push(u.href);
+    } catch {
+      /* not a link; dropped */
+    }
+  }
+  return out;
+}
+
+async function save(cfg: Config, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  intake.links = readLinks(body.links);
+  intake.materials.notes = typeof body.notes === 'string' ? body.notes.replace(/[^\S\n]+/g, ' ').trim().slice(0, MAX_NOTES_CHARS) : '';
+  touch(intake);
+  await store.put(intake);
+  await syncNotion(cfg, intake);
+  return json({ intake: workspaceState(cfg, intake) });
+}
+
+async function materialsDone(cfg: Config, req: Request, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  // Pending files are left out, as the confirmation dialog said.
+  intake.files = intake.files.filter((f) => f.status === 'done');
+  intake.materials.status = 'sent';
+  intake.materials.sentAt = nowIso();
+  touch(intake);
+  await store.put(intake);
+  await syncNotion(cfg, intake, `Materials sent: ${intake.materials.files} files, ${intake.materials.links} links${intake.materials.notes ? ', a note' : ''}.`);
+  await notify(cfg, req, intake, intake.booking.status === 'booked' ? 'all-set' : 'materials-sent');
+  console.log(`[leak-test] materials sent id=${intake.id} files=${intake.materials.files} links=${intake.materials.links}`);
+  return json({ intake: workspaceState(cfg, intake) });
+}
+
+async function calendlyStart(cfg: Config, eventUri: string): Promise<string | null> {
+  if (!cfg.calendlyToken) return null;
+  try {
+    const res = await fetch(eventUri, { headers: { authorization: `Bearer ${cfg.calendlyToken}` } });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { resource?: { start_time?: string } };
+    return data.resource?.start_time || null;
+  } catch {
+    return null;
+  }
+}
+
+async function booked(cfg: Config, req: Request, store: IntakeStore, body: Body) {
+  const intake = await authed(store, body);
+  const eventUri = clean(body.eventUri, 200);
+  const inviteeUri = clean(body.inviteeUri, 200);
+  if (!/^https:\/\/api\.calendly\.com\/scheduled_events\/[A-Za-z0-9-]+$/.test(eventUri)) throw new LtError('invalid', 400);
+  intake.booking = {
+    status: 'booked',
+    at: await calendlyStart(cfg, eventUri),
+    eventUri,
+    inviteeUri: /^https:\/\/api\.calendly\.com\//.test(inviteeUri) ? inviteeUri : null,
+  };
+  touch(intake);
+  await store.put(intake);
+  await syncNotion(cfg, intake, `Booked the review session${intake.booking.at ? ` for ${intake.booking.at}` : ''} (Calendly).`);
+  await notify(cfg, req, intake, intake.materials.status === 'sent' ? 'all-set' : 'booked');
+  console.log(`[leak-test] booked id=${intake.id} time=${intake.booking.at ? 'known' : 'unknown'}`);
+  return json({ intake: workspaceState(cfg, intake) });
+}
+
+// ----------------------------------------------------------------- admin
+async function adminView(cfg: Config, store: IntakeStore, body: Body) {
+  const id = readAdminTicket(cfg, body.ticket);
+  const intake = await store.get(id);
+  if (!intake) throw new LtError('not_found', 404);
+  const gcs = storage(cfg);
   return json({
     intake: {
-      name: contact.name,
-      email: contact.email,
-      dealership: contact.dealership,
-      materials: { status: materials.status, files: materials.files, links: materials.links },
-      booking: { status: booking.status, at: booking.at },
+      ...workspaceState(cfg, intake),
+      contact: intake.contact,
+      source: intake.source,
+      createdAt: intake.createdAt,
+      lastActivityAt: intake.lastActivityAt,
+      purgedAt: intake.purgedAt,
+      liveLinks: intake.tokens.filter((t) => !t.revoked).length,
+      emails: intake.emails,
+      files: intake.files.map((f) => ({
+        id: f.id,
+        name: f.name,
+        size: f.size,
+        status: f.status,
+        url: gcs && f.status === 'done' ? gcs.signedDownloadUrl(f.object, f.name) : null,
+      })),
     },
   });
+}
+
+async function adminRevoke(cfg: Config, store: IntakeStore, body: Body) {
+  const id = readAdminTicket(cfg, body.ticket);
+  const intake = await store.get(id);
+  if (!intake) throw new LtError('not_found', 404);
+  for (const t of intake.tokens) t.revoked = true;
+  intake.updatedAt = nowIso();
+  await store.put(intake);
+  console.log(`[leak-test] links revoked id=${intake.id}`);
+  return json({ ok: true });
 }
 
 export default async (req: Request) => {
@@ -234,7 +465,7 @@ export default async (req: Request) => {
       return json({
         token: issueToken(cfg),
         turnstileSiteKey: cfg.turnstileSiteKey,
-        mode: { store: cfg.store, email: cfg.email, notion: cfg.notion, captcha: cfg.captcha },
+        mode: { store: cfg.store, uploads: cfg.uploads, email: cfg.email, notion: cfg.notion, captcha: cfg.captcha },
       });
     }
     if (req.method !== 'POST') return json({ error: 'upstream' }, 405);
@@ -253,6 +484,24 @@ export default async (req: Request) => {
         return await freshLink(cfg, req, store, body);
       case 'resume':
         return await resume(cfg, store, body);
+      case 'upload-start':
+        return await uploadStart(cfg, req, store, body);
+      case 'upload-ping':
+        return await uploadPing(cfg, store, body);
+      case 'upload-done':
+        return await uploadDone(cfg, store, body);
+      case 'upload-remove':
+        return await uploadRemove(cfg, store, body);
+      case 'save':
+        return await save(cfg, store, body);
+      case 'materials-done':
+        return await materialsDone(cfg, req, store, body);
+      case 'booked':
+        return await booked(cfg, req, store, body);
+      case 'admin-view':
+        return await adminView(cfg, store, body);
+      case 'admin-revoke':
+        return await adminRevoke(cfg, store, body);
       default:
         throw new LtError('invalid', 400);
     }
@@ -268,6 +517,6 @@ export default async (req: Request) => {
 
 export const config: FunctionConfig = {
   path: '/api/leak-test',
-  // A whole conference can share one Wi-Fi IP address.
-  rateLimit: { windowLimit: 60, windowSize: 60, aggregateBy: ['ip', 'domain'] },
+  // A whole conference can share one Wi-Fi IP address; uploads ping often.
+  rateLimit: { windowLimit: 120, windowSize: 60, aggregateBy: ['ip', 'domain'] },
 };

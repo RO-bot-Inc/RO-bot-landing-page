@@ -12,8 +12,12 @@ Approved copy: `../../gtm/campaigns/automotive-ai-summit-2026/ro-leak-test-story
 |---|---|---|
 | Hub | `src/pages/ai-summit/index.astro` | Static. UTMs pass through to either door. Never a redirect. |
 | Landing + contact form + enrolled screen | `src/pages/ai-summit/leak-test/index.astro`, `src/scripts/leak-test/app.ts` | Frames 1 to 4. Form state lives in `localStorage` until enrollment succeeds; the enrolled screen in `sessionStorage`. |
-| Private resume page | `src/pages/ai-summit/leak-test/resume.astro`, `src/scripts/leak-test/resume.ts` | Token arrives in the URL fragment, is moved to `sessionStorage` and stripped from the address bar by an inline script that runs before GTM. `Referrer-Policy: no-referrer`. Frames 7 and 16. Uploads and booking: next build. |
-| API | `netlify/functions/leak-test.mts` at `/api/leak-test` | Function v2, no adapter. Actions: `enroll`, `fix`, `fresh-link`, `resume`. Per-IP rate limit in `config`. |
+| Private workspace | `src/pages/ai-summit/leak-test/resume.astro`, `src/scripts/leak-test/resume.ts` | Token arrives in the URL fragment, is moved to `sessionStorage` and stripped from the address bar by an inline script that runs before GTM. `Referrer-Policy: no-referrer`. Frames 7 to 16: overview with the three returning states, materials workspace (drop zone, links, notes, "Done sharing" confirm), Calendly inline embed with fallback link. `?view=book` or `?view=materials` opens a card directly (reminder links use it). |
+| Uploads | `netlify/lib/leak-test/gcs.ts` + the browser | The function checks type, size, and the 5 GB total, then opens a **resumable session** in Cloud Storage with the browser's `Origin`; the browser PUTs 8 MB chunks straight to `storage.googleapis.com`, pauses, resumes, and retries from the session. `upload-done` verifies the object size. Without a bucket (`uploads: mock`) the browser walks the bar and only metadata is kept. |
+| Dave's file page | `src/pages/ai-summit/leak-test/admin.astro`, `src/scripts/leak-test/admin.ts` | Frame 17. Signed link (`#ticket`, 400-day life) in the Notion row's "Open files" and in every notification. V4-signed download links, 10 minutes. "Revoke their links". No analytics. |
+| Reminders | `netlify/functions/leak-test-reminders.mts`, hourly | Contact-only at 48 h and 7 d; booked-only 24 h after last activity; materials-only 24 h after "Done sharing"; nothing once both are done. Skips intakes with an upload in flight or closed by Dave in Notion. Each reminder carries a fresh link that does not revoke the enrollment link. `LT_REMINDERS=false` pauses. Manual run: `npx -y netlify-cli functions:invoke leak-test-reminders`. |
+| Retention | `netlify/functions/leak-test-retention.mts`, daily | 60 days after the Delivered date Dave sets in Notion: files deleted from the bucket, links and notes cleared, every resume link revoked, log line on the Notion page. Contact details and the row stay. |
+| API | `netlify/functions/leak-test.mts` at `/api/leak-test` | Function v2, no adapter. Actions: `enroll`, `fix`, `fresh-link`, `resume`, `upload-start`, `upload-ping`, `upload-done`, `upload-remove`, `save`, `materials-done`, `booked`, `admin-view`, `admin-revoke`. Per-IP rate limit in `config`. |
 | Config and modes | `netlify/lib/leak-test/config.ts` | Each integration degrades to a stand-in when its secret is missing (see Modes). |
 | Guards | `netlify/lib/leak-test/guard.ts` | Signed page token, signed 30-minute "fix" ticket, origin check, resume token generation and hashing. |
 | Store | `netlify/lib/leak-test/store.ts`, `firestore.ts` | Firestore over REST with a service-account JWT (no firebase-admin). Netlify Blobs until the project exists. Memory for tests. |
@@ -23,9 +27,13 @@ Approved copy: `../../gtm/campaigns/automotive-ai-summit-2026/ro-leak-test-story
 
 ### Intake record
 
-One document per enrollee (`leak_test_intakes/<id>` in Firestore, `intake/<id>` in Blobs): contact, first-touch source (UTMs, landing path, phone or desktop), the **hash** of the resume token with issue and expiry dates, materials and booking state, the Notion page id, and an email log (kind, subject, Resend id). The token itself is never stored.
+One document per enrollee (`leak_test_intakes/<id>` in Firestore, `intake/<id>` in Blobs): contact, first-touch source (UTMs, landing path, phone or desktop), the **hashes** of the resume tokens with issue and expiry dates (several can be live: the enrollment link plus reminder links; "fresh link", "fix it", Dave's revoke, and retention kill them all), materials and booking state, file metadata (object name in the bucket, size, done or pending), links, notes, reminder timestamps, the Notion page id, and an email log (kind, subject, Resend id). Tokens themselves are never stored. Objects live at `intakes/<intake id>/<file id>.<ext>` in the bucket; the original file name is metadata only.
 
 Same email twice = same intake with a fresh link (old one revoked), not a duplicate row.
+
+### Booking
+
+The Calendly inline embed posts `calendly.event_scheduled` to the page; the page sends the event and invitee URIs to `booked`. That is the only booking signal (webhooks need a paid plan). With `CALENDLY_API_TOKEN` set, the function reads the appointment time from Calendly's API and the workspace, the Notion row, and the reminder copy show it; without it the intake only knows a booking happened. Cancellations and reschedules made in Calendly are not seen.
 
 ## Modes (what runs without keys)
 
@@ -48,7 +56,11 @@ Set in Netlify (Site configuration -> Environment variables). One context per `e
 | `RESEND_API_KEY` | yes | resend.com -> API keys. Sending permission, domain `tenthgear.ai` (verified 2026-08-02). The newsletter key in `website/.env` is full access and works for local tests. |
 | `NOTION_API_KEY` | yes | Internal integration "TenthGear Leak Test Intake", already connected to the database. |
 | `NOTION_DATA_SOURCE_ID` | no | Defaults to the RO Leak Test Intake data source `cc334923-33ba-4daa-be2a-873a65d0133b`. |
-| `LT_FIREBASE_SERVICE_ACCOUNT` | before uploads | The service-account JSON for the dedicated project, as one line. See Firebase below. |
+| `LT_FIREBASE_SERVICE_ACCOUNT` | before uploads | The service-account JSON for the dedicated project, as one line. See Firebase below. Turns on Firestore for intakes and Cloud Storage for uploads. |
+| `LT_STORAGE_BUCKET` | no | Defaults to `<project id>.firebasestorage.app`. Set it if the console shows a different default bucket name. |
+| `CALENDLY_API_TOKEN` | recommended | calendly.com -> Integrations & apps -> API & webhooks -> Personal access tokens -> Generate (free plan). Gives bookings a date and time. |
+| `LT_REMINDERS` | no | `false` pauses the hourly reminder job. |
+| `LT_RETENTION_DAYS` | no | Default 60. |
 | `LT_SIGNING_SECRET` | yes | `openssl rand -hex 32`. |
 | `LT_NOTIFY_TO` | no | Default `dave@tenthgear.ai`. |
 | `LT_PUBLIC_ORIGIN` | no | Default is the request origin, so previews mail preview links. Set to `https://tenthgear.ai` in production if links ever come out wrong. |
@@ -95,6 +107,8 @@ The page is live on tenthgear.ai since #111 merged (2026-09-19), so every key go
   3. Build -> Storage -> Get started, production mode, same location. New projects need the Blaze plan for Storage: upgrade, set a $25 budget alert.
   4. Gear -> Project settings -> Service accounts -> Generate new private key (downloads a JSON). Then:
   `! cd /Users/davidsonders/ro-bot/website && F=~/Downloads/tenthgear-leak-test-*.json && printf 'LT_FIREBASE_SERVICE_ACCOUNT=%s\n' "$(node -e 'process.stdout.write(JSON.stringify(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))))' $F)" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set LT_FIREBASE_SERVICE_ACCOUNT "$(grep '^LT_FIREBASE_SERVICE_ACCOUNT=' .env | cut -d= -f2-)" --context $c >/dev/null; done && mkdir -p ~/.config/tenthgear && mv $F ~/.config/tenthgear/ && echo set`
+- [ ] **3b. Calendly API token** (so bookings carry their date and time): calendly.com -> Integrations & apps -> API & webhooks -> Personal access tokens -> Generate token, name it `leak-test`. Then:
+  `! cd /Users/davidsonders/ro-bot/website && CAL='<token>' && printf 'CALENDLY_API_TOKEN=%s\n' "$CAL" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set CALENDLY_API_TOKEN "$CAL" --context $c >/dev/null; done; echo set`
 - [ ] **4. Redeploy after any of the above** (Claude can do this): Netlify -> Deploys -> Trigger deploy, or push any commit.
 
 Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-deploy (2026-09-19); step 1 overwrites it, which is fine.

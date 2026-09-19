@@ -1,9 +1,10 @@
 // Firestore over REST with a service-account JWT. No firebase-admin: it is
-// heavy, and the function only needs get, set, and one equality query.
+// heavy, and the function only needs get, set, list, and one equality query.
+// The same token also authorizes Cloud Storage (gcs.ts).
 import { createSign } from 'node:crypto';
 import { LtError } from './types';
 
-interface ServiceAccount {
+export interface ServiceAccount {
   project_id: string;
   client_email: string;
   private_key: string;
@@ -46,13 +47,13 @@ function decodeFields(fields: Record<string, Value>): Record<string, unknown> {
 
 let cached: { token: string; exp: number } | null = null;
 
-async function accessToken(sa: ServiceAccount): Promise<string> {
+export async function accessToken(sa: ServiceAccount): Promise<string> {
   if (cached && cached.exp > Date.now() + 60_000) return cached.token;
   const iat = Math.floor(Date.now() / 1000);
   const b64 = (o: unknown) => Buffer.from(JSON.stringify(o)).toString('base64url');
   const input = `${b64({ alg: 'RS256', typ: 'JWT' })}.${b64({
     iss: sa.client_email,
-    scope: 'https://www.googleapis.com/auth/datastore',
+    scope: 'https://www.googleapis.com/auth/datastore https://www.googleapis.com/auth/devstorage.read_write',
     aud: 'https://oauth2.googleapis.com/token',
     iat,
     exp: iat + 3600,
@@ -73,7 +74,7 @@ async function accessToken(sa: ServiceAccount): Promise<string> {
 }
 
 export class Firestore {
-  private sa: ServiceAccount;
+  readonly sa: ServiceAccount;
   private base: string;
 
   constructor(serviceAccountJson: string) {
@@ -109,16 +110,28 @@ export class Firestore {
     await this.call('PATCH', `/${collection}/${id}`, { fields: encodeFields(data) });
   }
 
-  async findOne<T>(collection: string, fieldPath: string, value: string): Promise<T | null> {
+  async findOne<T>(collection: string, fieldPath: string, value: string, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T | null> {
     const res = await this.call('POST', ':runQuery', {
       structuredQuery: {
         from: [{ collectionId: collection }],
-        where: { fieldFilter: { field: { fieldPath }, op: 'EQUAL', value: { stringValue: value } } },
+        where: { fieldFilter: { field: { fieldPath }, op, value: { stringValue: value } } },
         limit: 1,
       },
     });
     const rows = (await res.json()) as { document?: { fields: Record<string, Value> } }[];
     const doc = rows.find((r) => r.document)?.document;
     return doc ? (decodeFields(doc.fields || {}) as T) : null;
+  }
+
+  async list<T>(collection: string): Promise<T[]> {
+    const out: T[] = [];
+    let pageToken = '';
+    do {
+      const res = await this.call('GET', `/${collection}?pageSize=300${pageToken ? `&pageToken=${pageToken}` : ''}`);
+      const data = (await res.json()) as { documents?: { fields: Record<string, Value> }[]; nextPageToken?: string };
+      for (const doc of data.documents || []) out.push(decodeFields(doc.fields || {}) as T);
+      pageToken = data.nextPageToken || '';
+    } while (pageToken);
+    return out;
   }
 }

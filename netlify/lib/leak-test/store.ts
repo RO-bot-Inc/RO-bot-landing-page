@@ -12,27 +12,56 @@ export interface IntakeStore {
   put(intake: Intake): Promise<void>;
   byTokenHash(hash: string): Promise<Intake | null>;
   byEmail(email: string): Promise<Intake | null>;
+  list(): Promise<Intake[]>;
 }
 
 export const normalizeEmail = (email: string) => email.trim().toLowerCase();
 const emailKey = (email: string) => createHash('sha256').update(normalizeEmail(email)).digest('hex');
+
+// Records written by the first build predate the workspace fields.
+function withDefaults(raw: Record<string, unknown> | null): Intake | null {
+  if (!raw) return null;
+  const r = raw as unknown as Intake & { token?: Intake['tokens'][number] };
+  if (!r.tokens) r.tokens = r.token ? [{ ...r.token, purpose: 'email' }] : [];
+  delete r.token;
+  r.files ||= [];
+  r.links ||= [];
+  r.booking = { status: 'not_booked', at: null, eventUri: null, inviteeUri: null, ...(r.booking as Partial<Intake['booking']> | undefined) };
+  r.materials = { status: 'not_started', files: 0, links: 0, notes: '', sentAt: null, ...(r.materials as Partial<Intake['materials']> | undefined) };
+  r.lastActivityAt ||= r.updatedAt || r.createdAt;
+  r.uploadActiveUntil ??= null;
+  r.reminders ||= {};
+  r.emails ||= [];
+  r.notionPageId ??= null;
+  r.purgedAt ??= null;
+  return r;
+}
+
+const liveHashes = (intake: Intake) => intake.tokens.filter((t) => !t.revoked).map((t) => t.hash);
 
 class FirestoreStore implements IntakeStore {
   private db: Firestore;
   constructor(private cfg: Config) {
     this.db = new Firestore(cfg.serviceAccount);
   }
-  get(id: string) {
-    return this.db.get<Intake>(this.cfg.firestoreCollection, id);
+  async get(id: string) {
+    return withDefaults(await this.db.get(this.cfg.firestoreCollection, id));
   }
   put(intake: Intake) {
-    return this.db.set(this.cfg.firestoreCollection, intake.id, { ...intake, emailKey: emailKey(intake.contact.email) });
+    return this.db.set(this.cfg.firestoreCollection, intake.id, {
+      ...intake,
+      emailKey: emailKey(intake.contact.email),
+      tokenHashes: liveHashes(intake),
+    });
   }
-  byTokenHash(hash: string) {
-    return this.db.findOne<Intake>(this.cfg.firestoreCollection, 'token.hash', hash);
+  async byTokenHash(hash: string) {
+    return withDefaults(await this.db.findOne(this.cfg.firestoreCollection, 'tokenHashes', hash, 'ARRAY_CONTAINS'));
   }
-  byEmail(email: string) {
-    return this.db.findOne<Intake>(this.cfg.firestoreCollection, 'emailKey', emailKey(email));
+  async byEmail(email: string) {
+    return withDefaults(await this.db.findOne(this.cfg.firestoreCollection, 'emailKey', emailKey(email)));
+  }
+  async list() {
+    return (await this.db.list<Record<string, unknown>>(this.cfg.firestoreCollection)).map((r) => withDefaults(r)!);
   }
 }
 
@@ -40,11 +69,11 @@ class FirestoreStore implements IntakeStore {
 class BlobStore implements IntakeStore {
   private store = getStore({ name: 'leak-test', consistency: 'strong' });
   async get(id: string) {
-    return ((await this.store.get(`intake/${id}`, { type: 'json' })) as Intake | null) || null;
+    return withDefaults((await this.store.get(`intake/${id}`, { type: 'json' })) as Record<string, unknown> | null);
   }
   async put(intake: Intake) {
     await this.store.setJSON(`intake/${intake.id}`, intake);
-    await this.store.set(`token/${intake.token.hash}`, intake.id);
+    for (const hash of liveHashes(intake)) await this.store.set(`token/${hash}`, intake.id);
     await this.store.set(`email/${emailKey(intake.contact.email)}`, intake.id);
   }
   private async follow(key: string) {
@@ -55,28 +84,40 @@ class BlobStore implements IntakeStore {
   // email) can reach a record that no longer matches. Check before returning.
   async byTokenHash(hash: string) {
     const intake = await this.follow(`token/${hash}`);
-    return intake && intake.token.hash === hash ? intake : null;
+    return intake && liveHashes(intake).includes(hash) ? intake : null;
   }
   async byEmail(email: string) {
     const intake = await this.follow(`email/${emailKey(email)}`);
     return intake && normalizeEmail(intake.contact.email) === normalizeEmail(email) ? intake : null;
+  }
+  async list() {
+    const { blobs } = await this.store.list({ prefix: 'intake/' });
+    const out: Intake[] = [];
+    for (const b of blobs) {
+      const intake = await this.get(b.key.slice('intake/'.length));
+      if (intake) out.push(intake);
+    }
+    return out;
   }
 }
 
 const memory = new Map<string, Intake>();
 class MemoryStore implements IntakeStore {
   async get(id: string) {
-    return memory.get(id) || null;
+    return withDefaults(structuredClone(memory.get(id) || null) as Record<string, unknown> | null);
   }
   async put(intake: Intake) {
     memory.set(intake.id, structuredClone(intake));
   }
   async byTokenHash(hash: string) {
-    return [...memory.values()].find((i) => i.token.hash === hash) || null;
+    return [...memory.values()].find((i) => liveHashes(i).includes(hash)) || null;
   }
   async byEmail(email: string) {
     const key = normalizeEmail(email);
     return [...memory.values()].find((i) => normalizeEmail(i.contact.email) === key) || null;
+  }
+  async list() {
+    return [...memory.values()];
   }
 }
 

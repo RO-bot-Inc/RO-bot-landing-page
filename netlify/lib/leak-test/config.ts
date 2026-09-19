@@ -18,6 +18,14 @@ const derivedSecret = (seed: string) =>
 // The Notion database "RO Leak Test Intake" (data source id, not the page id).
 const NOTION_DATA_SOURCE_ID = 'cc334923-33ba-4daa-be2a-873a65d0133b';
 
+function projectId(serviceAccount: string): string {
+  try {
+    return (JSON.parse(serviceAccount) as { project_id?: string }).project_id || '';
+  } catch {
+    return '';
+  }
+}
+
 export function config() {
   const mock = env('LT_MODE') === 'mock';
   const resendKey = mock ? '' : env('RESEND_API_KEY');
@@ -26,12 +34,16 @@ export function config() {
   const serviceAccount = mock ? '' : env('LT_FIREBASE_SERVICE_ACCOUNT');
   const store: 'firestore' | 'blobs' | 'memory' =
     serviceAccount ? 'firestore' : env('LT_STORE') === 'memory' ? 'memory' : 'blobs';
+  const storageBucket = serviceAccount ? env('LT_STORAGE_BUCKET') || `${projectId(serviceAccount)}.firebasestorage.app` : '';
 
   return {
     // Kill switch. Set LT_ENABLED=false and redeploy to stop enrollments.
     enabled: env('LT_ENABLED') !== 'false',
     mock,
     store,
+    // Without a bucket the browser simulates the transfer and only metadata is kept.
+    uploads: storageBucket ? ('gcs' as const) : ('mock' as const),
+    storageBucket,
     email: resendKey ? ('resend' as const) : ('log' as const),
     notion: notionKey ? ('live' as const) : ('off' as const),
     captcha: turnstileSecret ? ('turnstile' as const) : ('off' as const),
@@ -41,14 +53,24 @@ export function config() {
     resendKey,
     notionKey,
     notionDataSourceId: env('NOTION_DATA_SOURCE_ID') || NOTION_DATA_SOURCE_ID,
+    // Optional. With it, a booking's date and time are read from Calendly;
+    // without it the intake only knows that a booking happened.
+    calendlyToken: mock ? '' : env('CALENDLY_API_TOKEN'),
     serviceAccount,
     firestoreCollection: env('LT_FIRESTORE_COLLECTION') || 'leak_test_intakes',
     notifyTo: env('LT_NOTIFY_TO') || 'dave@tenthgear.ai',
     fromDave: 'Dave Sonders <dave@tenthgear.ai>',
     fromSystem: 'RO Leak Test <notifications@tenthgear.ai>',
-    // Defaults to the request origin, so deploy previews mail preview links.
+    // Requests mail links on their own origin, so deploy previews mail preview
+    // links. Set LT_PUBLIC_ORIGIN to override.
     publicOrigin: env('LT_PUBLIC_ORIGIN'),
+    // Scheduled jobs have no request; production is tenthgear.ai, previews
+    // and branch deploys get Netlify's deploy URL.
+    jobOrigin: env('LT_PUBLIC_ORIGIN') || (env('CONTEXT') === 'production' ? 'https://tenthgear.ai' : env('DEPLOY_PRIME_URL') || env('URL')),
     tokenDays: num('LT_TOKEN_DAYS', 60),
+    retentionDays: num('LT_RETENTION_DAYS', 60),
+    // Reminders run from a scheduled function; LT_REMINDERS=false pauses them.
+    reminders: env('LT_REMINDERS') !== 'false',
     signingSecret: env('LT_SIGNING_SECRET') || derivedSecret(resendKey || 'local-dev'),
   };
 }
