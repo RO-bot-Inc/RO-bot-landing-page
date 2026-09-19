@@ -1,12 +1,19 @@
 // All tunables come from Netlify environment variables, so nothing here
 // needs a code change on event day. See docs/future-headline-runbook.md.
-import { createHash } from 'node:crypto';
+import { scryptSync } from 'node:crypto';
 
 const env = (name: string) => (process.env[name] || '').trim();
 const num = (name: string, fallback: number) => {
   const v = Number(env(name));
   return Number.isFinite(v) && env(name) !== '' ? v : fallback;
 };
+
+// Local-dev fallback only; every deployed context sets FH_SIGNING_SECRET.
+// Derived once per process with a real KDF rather than a bare hash of the
+// key (CodeQL js/insufficient-password-hash).
+let derived = '';
+const derivedSecret = (seed: string) =>
+  derived || (derived = scryptSync(seed, 'future-headline-signing', 32).toString('hex'));
 
 export function config() {
   const anthropicKey = env('ANTHROPIC_API_KEY');
@@ -31,9 +38,7 @@ export function config() {
     demoCode: env('FH_DEMO_CODE'),
     textTimeoutMs: num('FH_TEXT_TIMEOUT_MS', 20_000),
     imageTimeoutMs: num('FH_IMAGE_TIMEOUT_MS', 25_000),
-    signingSecret:
-      env('FH_SIGNING_SECRET') ||
-      createHash('sha256').update(`fh:${anthropicKey || 'local-dev'}`).digest('hex'),
+    signingSecret: env('FH_SIGNING_SECRET') || derivedSecret(anthropicKey || 'local-dev'),
   };
 }
 
