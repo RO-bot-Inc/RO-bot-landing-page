@@ -70,13 +70,13 @@ Nothing in the app's production Firebase project is touched.
 
 ```
 npm run build
-npx -y netlify-cli dev --offline --framework '#static' --dir dist --port 8899
+LT_MODE=mock npx -y netlify-cli dev --offline --framework '#static' --dir dist --port 8899
 open http://localhost:8899/ai-summit/leak-test/
 ```
 
-With no `.env`, everything runs in stand-in mode and the resume link prints in the terminal. Put real keys in `.env` (gitignored) to exercise Resend, Notion, or Turnstile.
+`netlify dev` loads `.env`, and `.env` holds the real Resend and Notion keys, so **`LT_MODE=mock` is not optional** for flow tests: without it every test enrollment sends real email and writes a Notion row (it happened once, 2026-09-19). Drop it only to exercise Resend, Notion, or Turnstile on purpose, with your own address.
 
-Flow test with screenshots: `node scripts/leak-test-flow.mjs` (Playwright from `../app/node_modules`; set `SERVER_LOG` to the netlify dev log to follow the emailed link).
+Flow test with screenshots: `SERVER_LOG=<netlify dev log> node scripts/leak-test-flow.mjs` (Playwright from `../app/node_modules`). The script refuses to run against a server in live email mode.
 
 ## Setup checklist (Dave's items; Claude cannot do these)
 
@@ -86,6 +86,7 @@ The page is live on tenthgear.ai since #111 merged (2026-09-19), so every key go
 
 - [ ] **1. Resend and Notion keys, plus a signing secret** (both keys are already in `website/.env`; then tell Claude: it redeploys and runs a real enrollment to your inbox, the Notion row, and the notification)
   `! cd /Users/davidsonders/ro-bot/website && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set RESEND_API_KEY "$(grep '^RESEND_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c; npx -y netlify-cli env:set NOTION_API_KEY "$(grep '^NOTION_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c; npx -y netlify-cli env:set LT_SIGNING_SECRET "$(openssl rand -hex 32)" --context $c; done`
+- [ ] **1b. Connect the Notion integration to the database.** The API answered `object_not_found ... make sure the database is shared with your integration "TenthGear Leak Test Intake"` (2026-09-19). Open **RO Leak Test Intake** in Notion -> `...` menu (top right) -> Connections -> add "TenthGear Leak Test Intake". No redeploy needed.
 - [ ] **2. Turnstile** (dash.cloudflare.com -> Turnstile -> Add widget; name `TenthGear Leak Test`; hostnames `tenthgear.ai`, `netlify.app`, `localhost`; mode Managed). Then, with the two keys it shows:
   `! cd /Users/davidsonders/ro-bot/website && SK='<site key>' SEC='<secret key>' && printf 'TURNSTILE_SITE_KEY=%s\nTURNSTILE_SECRET_KEY=%s\n' "$SK" "$SEC" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set TURNSTILE_SITE_KEY "$SK" --context $c; npx -y netlify-cli env:set TURNSTILE_SECRET_KEY "$SEC" --context $c; done`
 - [ ] **3. Dedicated Firebase project** (needed before the uploads build)
