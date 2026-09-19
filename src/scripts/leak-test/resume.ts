@@ -1,7 +1,7 @@
 // Private resume page: validate the token from session storage (the page's
 // first inline script moved it there from the URL fragment), then show the
 // overview, or the recovery screen with the fresh-link form.
-import { API_PATH } from './presets';
+import { API_PATH, CALENDLY_URL } from './presets';
 
 const TOKEN_KEY = 'lt_rt';
 const GA4_ID = 'G-28WMV6CTFP';
@@ -40,6 +40,10 @@ interface PublicIntake {
 function render(intake: PublicIntake) {
   $('rs-first').textContent = intake.name.trim().split(/\s+/)[0] || 'there';
   $('rs-who').textContent = `${intake.name}, ${intake.dealership}`;
+  // Calendly prefills from the query string. Booking detection (the embed's
+  // event_scheduled message) arrives with the upload workspace build.
+  const q = new URLSearchParams({ name: intake.name, email: intake.email });
+  $<HTMLAnchorElement>('rs-book').href = `${CALENDLY_URL}?${q}`;
   const m = $('rs-materials-pill');
   const b = $('rs-booking-pill');
   if (intake.materials.status === 'sent') {
@@ -98,19 +102,29 @@ $<HTMLFormElement>('rs-fresh').addEventListener('submit', async (e) => {
     return;
   }
   const btn = $<HTMLButtonElement>('rs-send');
+  const err = $('rs-fresh-err');
   btn.disabled = true;
+  err.hidden = true;
+  // The server answers the same way whether or not the address is enrolled;
+  // only a transport or server failure is reported, so a retry is possible.
+  let accepted = false;
   try {
-    const { token } = (await (await fetch(API_PATH, { cache: 'no-store' })).json()) as { token: string };
-    await fetch(API_PATH, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ action: 'fresh-link', token, email, website: '' }),
-    });
+    const cfg = await fetch(API_PATH, { cache: 'no-store' });
+    if (cfg.ok) {
+      const { token } = (await cfg.json()) as { token: string };
+      const res = await fetch(API_PATH, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'fresh-link', token, email, website: '' }),
+      });
+      accepted = res.ok;
+    }
   } catch {
-    /* the response is the same either way */
+    accepted = false;
   }
   btn.disabled = false;
-  show('sent');
+  if (accepted) show('sent');
+  else err.hidden = false;
 });
 
 // A second link opened in the same tab is only a hash change, so the head

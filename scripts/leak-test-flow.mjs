@@ -24,7 +24,14 @@ for (let i = 0; i < 60; i++) {
   } catch {}
   await new Promise((r) => setTimeout(r, 1000));
 }
-console.log('config:', await (await fetch(`${BASE}/api/leak-test`)).text());
+const cfg = await (await fetch(`${BASE}/api/leak-test`)).json();
+console.log('config:', JSON.stringify(cfg.mode));
+// The fake addresses below must never reach Resend. With keys in .env,
+// start the server as `LT_MODE=mock netlify dev ...` for this script.
+if (cfg.mode.email !== 'log') {
+  console.error('Server is in live email mode; refusing to enroll test addresses. Restart it with LT_MODE=mock.');
+  process.exit(2);
+}
 
 const browser = await chromium.launch();
 const phone = await browser.newContext({ ...devices['iPhone 14'], baseURL: BASE });
