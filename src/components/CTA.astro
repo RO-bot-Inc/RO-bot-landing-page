@@ -7,8 +7,11 @@
       Book a 15-minute demo and see how TenthGear works with your team's real workflow.
     </p>
 
-    <form name="demo-request" method="POST" data-netlify="true" action="/thank-you" class="max-w-md mx-auto space-y-4 animate-on-scroll stagger-3">
+    <form name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="max-w-md mx-auto space-y-4 animate-on-scroll stagger-3">
       <input type="hidden" name="form-name" value="demo-request">
+      <p class="hidden" aria-hidden="true">
+        <label>Don't fill this out if you're human: <input name="bot-field"></label>
+      </p>
       <input
         type="text"
         name="name"
