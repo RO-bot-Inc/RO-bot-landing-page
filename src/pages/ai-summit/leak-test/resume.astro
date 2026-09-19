@@ -3,7 +3,7 @@
 // out of the address bar before any tag loads (see the first script). This
 // build validates the link and shows the two-card overview (storyboard frame
 // 7); uploads and booking are the next build.
-import { ROUTES } from '../../../scripts/leak-test/presets';
+import { CALENDLY_URL, ROUTES } from '../../../scripts/leak-test/presets';
 
 const title = 'Your RO Leak Test | TenthGear';
 ---
@@ -67,15 +67,17 @@ const title = 'Your RO Leak Test | TenthGear';
           <h2>Upload service materials <span class="pill go" id="rs-materials-pill">Not started</span></h2>
           <p>This revenue leak test is only as good as the data you share.</p>
           <ul class="cl"><li>ROs</li><li>MPI reports</li><li>Inspection videos</li><li>Customer-facing materials (quotes, reports, invoices)</li></ul>
-          <button type="button" class="btn sm" disabled>Add materials</button>
+          <!-- Storyboard frame 7a, the approved contingency, until the upload workspace ships. -->
+          <p>Secure upload opens here shortly. We&rsquo;ll email you the moment it does. Need to send something sooner? Reply to Dave&rsquo;s email and he&rsquo;ll set you up.</p>
+          <a class="btn sm" id="rs-email-dave" href="mailto:dave@tenthgear.ai?subject=RO%20Leak%20Test%20materials">Email Dave</a>
         </div>
         <div class="card">
           <h2>Book your review session <span class="pill go" id="rs-booking-pill">Not booked</span></h2>
           <p>Book a time to walk through the findings and discuss opportunities to get more revenue out of your existing process.</p>
-          <button type="button" class="btn sm dark" disabled>Pick a time</button>
+          <p>30 minute video call with the TenthGear team.</p>
+          <a class="btn sm dark" id="rs-book" href={CALENDLY_URL} target="_blank" rel="noopener">Pick a time</a>
         </div>
       </div>
-      <p class="fine dev">Preview build: your link works and this page knows who you are. Uploads and booking are the next build.</p>
       <p class="fine">Private to <b id="rs-who"></b>. <button type="button" class="linklike" id="rs-notyou">Not you?</button></p>
     </section>
 
@@ -88,6 +90,7 @@ const title = 'Your RO Leak Test | TenthGear';
         <input id="rs-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" placeholder="you@yourdealership.com" maxlength="120" required>
         <p class="hp" aria-hidden="true"><label>Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label></p>
         <button type="submit" class="btn dark" id="rs-send">Email me a fresh link</button>
+        <p class="errmsg" id="rs-fresh-err" hidden role="alert">That didn&rsquo;t go through. Check your connection and try again.</p>
       </form>
       <p class="fine">If that address is enrolled, a new private link arrives in a minute. Not enrolled yet? <a href={ROUTES.landing}>Start here</a>. Stuck? <a href="mailto:support@tenthgear.ai">support@tenthgear.ai</a></p>
     </section>
@@ -146,6 +149,9 @@ const title = 'Your RO Leak Test | TenthGear';
     label { display: block; font: 600 13px var(--body); margin: 12px 0 4px; }
     input { width: 100%; min-height: 46px; border: 1.5px solid var(--ink); border-radius: 4px; background: #fff; padding: 10px 12px; font: 16px var(--body); color: var(--ink); margin-bottom: 12px; }
     .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+    .errmsg { color: var(--red); font: 600 12.5px var(--body); margin: 10px 0 0; }
+    .errmsg::before { content: '! '; font-weight: 800; }
+    a.btn { text-decoration: none; }
     .ts { border: 1px solid var(--grey); background: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; margin: 14px 0; }
     .ts .sp { width: 18px; height: 18px; flex: none; border: 3px solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }

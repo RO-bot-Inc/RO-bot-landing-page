@@ -95,22 +95,22 @@ const testimonials = [
       <form id="lt-form" novalidate autocomplete="on">
         <div class="field">
           <label for="lt-name">First and last name *</label>
-          <input id="lt-name" name="name" type="text" autocomplete="name" placeholder="Chris Alvarez" maxlength="80" required enterkeyhint="next">
+          <input id="lt-name" name="name" type="text" autocomplete="name" placeholder="Chris Alvarez" maxlength="80" required enterkeyhint="next" aria-describedby="err-name">
           <p class="errmsg" id="err-name" hidden></p>
         </div>
         <div class="field">
           <label for="lt-email">Work email *</label>
-          <input id="lt-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="you@yourdealership.com" maxlength="120" required enterkeyhint="next">
+          <input id="lt-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" placeholder="you@yourdealership.com" maxlength="120" required enterkeyhint="next" aria-describedby="err-email">
           <p class="errmsg" id="err-email" hidden></p>
         </div>
         <div class="field">
           <label for="lt-dealership">Dealership or dealer group *</label>
-          <input id="lt-dealership" name="dealership" type="text" autocomplete="organization" placeholder="Alvarez Auto Group" maxlength="120" required enterkeyhint="next">
+          <input id="lt-dealership" name="dealership" type="text" autocomplete="organization" placeholder="Alvarez Auto Group" maxlength="120" required enterkeyhint="next" aria-describedby="err-dealership">
           <p class="errmsg" id="err-dealership" hidden></p>
         </div>
         <div class="field">
           <label for="lt-title">Job title *</label>
-          <input id="lt-title" name="title" type="text" autocomplete="organization-title" placeholder="Fixed Ops Director" maxlength="80" required enterkeyhint="done">
+          <input id="lt-title" name="title" type="text" autocomplete="organization-title" placeholder="Fixed Ops Director" maxlength="80" required enterkeyhint="done" aria-describedby="err-title">
           <p class="errmsg" id="err-title" hidden></p>
         </div>
 
