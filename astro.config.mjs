@@ -51,12 +51,8 @@ export default defineConfig({
   compressHTML: true,
   integrations: [
     sitemap({
-<<<<<<< HEAD
       // Event pages are reached by QR code and printed URL, not by search.
       filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you') && !page.includes('/ai-summit/'),
-=======
-      filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you') && !page.includes('/ai-summit/future-headline'),
->>>>>>> origin/main
     }),
   ],
   markdown: {
