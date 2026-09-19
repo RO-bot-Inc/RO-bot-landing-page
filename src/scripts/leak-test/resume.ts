@@ -113,4 +113,19 @@ $<HTMLFormElement>('rs-fresh').addEventListener('submit', async (e) => {
   show('sent');
 });
 
+// A second link opened in the same tab is only a hash change, so the head
+// script does not run again. Stash and strip here, then start over.
+window.addEventListener('hashchange', () => {
+  const h = location.hash.slice(1);
+  if (!h) return;
+  try {
+    sessionStorage.setItem(TOKEN_KEY, h);
+  } catch {
+    /* ignore */
+  }
+  history.replaceState(null, '', location.pathname + location.search);
+  show('loading');
+  open();
+});
+
 open();
