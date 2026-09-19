@@ -56,7 +56,7 @@ for (const photo of photos) {
   await page.waitForSelector('[data-name="compose"]:not([hidden])');
   const custom = i % 2 === 1;
   if (custom) await page.fill('#fh-own', CUSTOM[(i >> 1) % CUSTOM.length]);
-  else await page.locator('.chip').nth(i % 6).click();
+  else await page.locator('.chip:not([hidden])').nth(i % 4).click();
 
   const started = Date.now();
   await page.click('[data-action="generate"]');
