@@ -80,21 +80,21 @@ Flow test with screenshots: `SERVER_LOG=<netlify dev log> node scripts/leak-test
 
 ## Setup checklist (Dave's items; Claude cannot do these)
 
-Type each `!` line in the Claude Code session. The `$(grep ...)` parts read a key out of `.env` so it never appears on screen. Tick the box in this file when done.
+Type each `!` line in the Claude Code session. The `$(grep ...)` parts read a key out of `.env`, and `>/dev/null` matters: **`netlify env:set` echoes the full value** on success, straight into the session transcript (it did once, 2026-09-19). Tick the box in this file when done.
 
 The page is live on tenthgear.ai since #111 merged (2026-09-19), so every key goes into all three contexts at once: production included.
 
-- [ ] **1. Resend and Notion keys, plus a signing secret** (both keys are already in `website/.env`; then tell Claude: it redeploys and runs a real enrollment to your inbox, the Notion row, and the notification)
-  `! cd /Users/davidsonders/ro-bot/website && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set RESEND_API_KEY "$(grep '^RESEND_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c; npx -y netlify-cli env:set NOTION_API_KEY "$(grep '^NOTION_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c; npx -y netlify-cli env:set LT_SIGNING_SECRET "$(openssl rand -hex 32)" --context $c; done`
-- [ ] **1b. Connect the Notion integration to the database.** The API answered `object_not_found ... make sure the database is shared with your integration "TenthGear Leak Test Intake"` (2026-09-19). Open **RO Leak Test Intake** in Notion -> `...` menu (top right) -> Connections -> add "TenthGear Leak Test Intake". No redeploy needed.
+- [x] **1. Resend and Notion keys, plus a signing secret** (done 2026-09-19; re-run after rotating a key)
+  `! cd /Users/davidsonders/ro-bot/website && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set RESEND_API_KEY "$(grep '^RESEND_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c >/dev/null; npx -y netlify-cli env:set NOTION_API_KEY "$(grep '^NOTION_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c >/dev/null; npx -y netlify-cli env:set LT_SIGNING_SECRET "$(openssl rand -hex 32)" --context $c >/dev/null; done; echo set`
+- [x] **1b. Connect the Notion integration to the database** (done 2026-09-19). If the API ever answers `object_not_found ... make sure the database is shared with your integration`, open **RO Leak Test Intake** in Notion -> `...` menu -> Connections -> add "TenthGear Leak Test Intake".
 - [ ] **2. Turnstile** (dash.cloudflare.com -> Turnstile -> Add widget; name `TenthGear Leak Test`; hostnames `tenthgear.ai`, `netlify.app`, `localhost`; mode Managed). Then, with the two keys it shows:
-  `! cd /Users/davidsonders/ro-bot/website && SK='<site key>' SEC='<secret key>' && printf 'TURNSTILE_SITE_KEY=%s\nTURNSTILE_SECRET_KEY=%s\n' "$SK" "$SEC" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set TURNSTILE_SITE_KEY "$SK" --context $c; npx -y netlify-cli env:set TURNSTILE_SECRET_KEY "$SEC" --context $c; done`
+  `! cd /Users/davidsonders/ro-bot/website && SK='<site key>' SEC='<secret key>' && printf 'TURNSTILE_SITE_KEY=%s\nTURNSTILE_SECRET_KEY=%s\n' "$SK" "$SEC" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set TURNSTILE_SITE_KEY "$SK" --context $c >/dev/null; npx -y netlify-cli env:set TURNSTILE_SECRET_KEY "$SEC" --context $c >/dev/null; done; echo set`
 - [ ] **3. Dedicated Firebase project** (needed before the uploads build)
   1. console.firebase.google.com -> Add project `tenthgear-leak-test`, Google Analytics off.
   2. Build -> Firestore Database -> Create, Standard edition, location `nam5 (United States)`, production mode.
   3. Build -> Storage -> Get started, production mode, same location. New projects need the Blaze plan for Storage: upgrade, set a $25 budget alert.
   4. Gear -> Project settings -> Service accounts -> Generate new private key (downloads a JSON). Then:
-  `! cd /Users/davidsonders/ro-bot/website && F=~/Downloads/tenthgear-leak-test-*.json && printf 'LT_FIREBASE_SERVICE_ACCOUNT=%s\n' "$(node -e 'process.stdout.write(JSON.stringify(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))))' $F)" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set LT_FIREBASE_SERVICE_ACCOUNT "$(grep '^LT_FIREBASE_SERVICE_ACCOUNT=' .env | cut -d= -f2-)" --context $c; done && mkdir -p ~/.config/tenthgear && mv $F ~/.config/tenthgear/`
+  `! cd /Users/davidsonders/ro-bot/website && F=~/Downloads/tenthgear-leak-test-*.json && printf 'LT_FIREBASE_SERVICE_ACCOUNT=%s\n' "$(node -e 'process.stdout.write(JSON.stringify(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))))' $F)" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set LT_FIREBASE_SERVICE_ACCOUNT "$(grep '^LT_FIREBASE_SERVICE_ACCOUNT=' .env | cut -d= -f2-)" --context $c >/dev/null; done && mkdir -p ~/.config/tenthgear && mv $F ~/.config/tenthgear/ && echo set`
 - [ ] **4. Redeploy after any of the above** (Claude can do this): Netlify -> Deploys -> Trigger deploy, or push any commit.
 
 Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-deploy (2026-09-19); step 1 overwrites it, which is fine.
