@@ -657,10 +657,18 @@ function openBooking() {
 // and, with an API token, reads the appointment time.
 window.addEventListener('message', async (e: MessageEvent) => {
   if (e.origin !== 'https://calendly.com') return;
-  const data = e.data as { event?: string; payload?: { event?: { uri?: string }; invitee?: { uri?: string } } };
+  const data = e.data as { event?: string; payload?: { event?: { uri?: string }; invitee?: { uri?: string }; height?: string } };
   if (data?.event === 'calendly.event_type_viewed') {
     calendlyReady = true;
     $('rs-cal-fallback').hidden = true;
+    return;
+  }
+  // The embed's iframe is height:100% of #rs-cal, so the box needs a definite
+  // height (CSS gives it 700px) and grows to what Calendly asks for: the phone
+  // layout stacks the month and the time list, and it reports every change.
+  if (data?.event === 'calendly.page_height') {
+    const px = parseInt(data.payload?.height || '', 10);
+    if (px >= 300 && px <= 4000) $('rs-cal').style.height = `${px}px`;
     return;
   }
   if (data?.event !== 'calendly.event_scheduled') return;
