@@ -263,9 +263,14 @@ async function captchaToken(): Promise<string> {
 }
 
 // ---------------------------------------------------------------------- api
+// The kill switch (LT_ENABLED=false) answers here already, before any POST,
+// so it must surface as "paused", not as a dropped connection.
 async function fetchConfig(): Promise<{ token: string; turnstileSiteKey: string }> {
   const res = await fetch(API_PATH, { cache: 'no-store' });
-  if (!res.ok) throw new Error(String(res.status));
+  if (!res.ok) {
+    const data = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error === 'disabled' ? 'disabled' : String(res.status));
+  }
   return res.json();
 }
 
@@ -374,8 +379,8 @@ form.addEventListener('submit', async (e) => {
     state.ticket = enrolled.ticket;
     resetTurnstile();
     showEnrolled(enrolled);
-  } catch {
-    showProblem('network');
+  } catch (e) {
+    showProblem(e instanceof Error && e.message === 'disabled' ? 'paused' : 'network');
   } finally {
     busy(false);
     refreshSubmit();
