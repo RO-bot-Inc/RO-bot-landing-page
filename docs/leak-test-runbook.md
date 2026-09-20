@@ -33,7 +33,7 @@ Same email twice = same intake with a fresh link (old one revoked), not a duplic
 
 Workspace mutations use conditional writes with retry (Blobs etag `onlyIfMatch`, Firestore `currentDocument.updateTime`), so two uploads finishing at once cannot overwrite each other; the browser also uploads one file at a time. The local `netlify dev` sandbox returns no etags, so there the write is unconditional.
 
-Netlify Blobs is one store for the whole site: deploy previews and production share intakes until Firestore takes over. Enrolling the same address on a preview refreshes the production intake's link.
+Firestore in the dedicated project is the store in every Netlify context since 2026-09-20 (Blobs only when the key is absent, i.e. local without `.env`). Previews and production share it: enrolling the same address on a preview refreshes the production intake's link, and preview links carry the preview host.
 
 ### Booking
 
@@ -83,6 +83,7 @@ Env var changes need a redeploy to reach functions.
 2. Build -> Firestore Database -> Create, production mode, `nam5` (US). Build -> Storage -> Get started, production mode (uploads, next build).
 3. Project settings -> Service accounts -> Generate new private key. Paste the JSON, minified to one line, as `LT_FIREBASE_SERVICE_ACCOUNT` (locally in `.env`; on Netlify per context).
 4. No indexes are needed for this build: the two lookups are single-field equality queries (`token.hash`, `emailKey`).
+5. Bucket lifecycle rule (set 2026-09-20): delete objects older than 180 days, the orphan backstop behind the 60-day retention job. Reapply with `gsutil lifecycle set <json> gs://tenthgear-leak-test.firebasestorage.app` using an isolated config (`BOTO_CONFIG` pointing at a file with `gs_service_key_file`, `CLOUDSDK_CONFIG` at an empty dir), because the machine's gcloud login makes plain `gsutil` refuse with "multiple types of configured credentials".
 
 Nothing in the app's production Firebase project is touched.
 
@@ -94,13 +95,15 @@ LT_MODE=mock npx -y netlify-cli dev --offline --framework '#static' --dir dist -
 open http://localhost:8899/ai-summit/leak-test/
 ```
 
-`netlify dev` loads `.env`, and `.env` holds the real Resend and Notion keys, so **`LT_MODE=mock` is not optional** for flow tests: without it every test enrollment sends real email and writes a Notion row (it happened once, 2026-09-19). Drop it only to exercise Resend, Notion, or Turnstile on purpose, with your own address.
+`netlify dev` loads `.env`, and `.env` holds the real Resend, Notion, Firebase, Calendly, and Turnstile keys, so **`LT_MODE=mock` is not optional** for flow tests: without it every test enrollment sends real email, writes a Notion row, and (since 2026-09-20) stores intakes in the production Firestore. Drop it only to exercise a live integration on purpose, with your own address. With Turnstile keys present the form cannot be submitted by a script at all (the widget challenges automation and the server rejects a missing token), so live-key runs are for the jobs: `npx -y netlify-cli functions:invoke leak-test-reminders --port 8899` and `leak-test-retention` (both verified against Firestore + Notion 2026-09-20: `sent=0`, `purged=0`).
 
 Flow test with screenshots: `SERVER_LOG=<netlify dev log> node scripts/leak-test-flow.mjs` (Playwright from `../app/node_modules`). The script refuses to run against a server in live email mode.
 
 ## Setup checklist (Dave's items; Claude cannot do these)
 
-Type each `!` line in the Claude Code session. The `$(grep ...)` parts read a key out of `.env`, and `>/dev/null` matters: **`netlify env:set` echoes the full value** on success, straight into the session transcript (it did once, 2026-09-19). Tick the box in this file when done.
+Type each `!` line in the Claude Code session. `>/dev/null` matters: **`netlify env:set` echoes the full value** on success, straight into the session transcript (it did once, 2026-09-19). Tick the box in this file when done.
+
+**`.env` must end with a newline before any `>> .env` append.** On 2026-09-20 it did not, and the Firebase JSON was glued onto the `NOTION_API_KEY` line: local Notion calls answered 401 and the local store stayed on Blobs while production was fine. Diagnostic (prints names and counts only): `grep -c '^LT_FIREBASE_SERVICE_ACCOUNT=' .env` should be 1. Claude cannot read `.env` (deny rule), so Dave runs the check.
 
 The page is live on tenthgear.ai since #111 merged (2026-09-19), so every key goes into all three contexts at once: production included.
 
@@ -126,10 +129,12 @@ Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-depl
 
 ## Launch checklist
 
-- [ ] Keys set in the deploy-preview context; a real enrollment lands in Dave's inbox, the Notion row appears, the notification arrives.
-- [ ] Turnstile renders invisibly on iPhone Safari and Android Chrome; a submit passes.
-- [ ] `/ai-summit/leak-test` (no slash) and `/ai-summit/leak-test/` both load.
-- [ ] Resume link from the email opens the private page on a different device; the address bar shows no token; GA4 DebugView shows `aas_resume_open` with no token in `page_location`.
+- [x] Keys set in every context; a real enrollment lands in Dave's inbox, the Notion row appears, the notification arrives (2026-09-20, iPhone Safari, PR #116 preview; real upload, chunked resume, V4 download, booking with time all verified the same day).
+- [x] Turnstile on iPhone Safari: non-interactive "checking, no puzzles" widget, submit passed (2026-09-20).
+- [ ] Turnstile on Android Chrome, real device on cellular (friends' test, brief sent 2026-09-20).
+- [x] `/ai-summit/leak-test` (301 to the slash form) and `/ai-summit/leak-test/` both load (2026-09-20).
+- [x] Resume link from the email opens the private page on a different device; the address bar shows no token (2026-09-20).
+- [ ] GA4 DebugView shows `aas_resume_open` with no token in `page_location`.
 - [ ] GA4 DebugView shows `aas_page_view`, `aas_qr_visit`, `aas_form_start`, `aas_contact_complete`.
 - [ ] Fresh-link screen sends a new link and the old one stops working.
 - [ ] Kill switch rehearsed once.
