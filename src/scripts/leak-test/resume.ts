@@ -253,8 +253,16 @@ function readLinks(): string[] {
 }
 
 let saveTimer = 0;
+// Edits since the last accepted save. While dirty, the inputs are the truth
+// and are never repopulated from the server; a save that lands after newer
+// typing does not clear the flag.
+let editSeq = 0;
+let savedSeq = 0;
+const dirty = () => editSeq !== savedSeq;
+
 function scheduleSave() {
   window.clearTimeout(saveTimer);
+  editSeq++;
   $('rs-saved').textContent = 'Saving...';
   saveTimer = window.setTimeout(saveNow, 1200);
 }
@@ -262,6 +270,7 @@ function scheduleSave() {
 // Resolves true only when the server accepted the links and notes.
 async function saveNow(): Promise<boolean> {
   window.clearTimeout(saveTimer);
+  const seq = editSeq;
   const links = readLinks();
   const notes = $<HTMLTextAreaElement>('rs-notes').value;
   if (!materialsStarted && links.length) startedMaterials('url');
@@ -274,9 +283,12 @@ async function saveNow(): Promise<boolean> {
   }
   if (ok && data) {
     ws = data.intake;
-    $('rs-saved').textContent = 'Saved. You can leave and come back.';
+    if (seq === editSeq) {
+      savedSeq = seq;
+      $('rs-saved').textContent = 'Saved. You can leave and come back.';
+    }
     renderHome();
-    return true;
+    return seq === editSeq;
   }
   $('rs-saved').textContent = "That didn't save. Check your connection; your text is still here.";
   return false;
@@ -516,9 +528,13 @@ async function sendMaterials() {
 function openMaterials() {
   if (!ws) return;
   renderFiles();
-  renderLinks();
-  $<HTMLTextAreaElement>('rs-notes').value = ws.materials.notes;
-  $('rs-saved').textContent = 'Everything saves as you go. You can leave and come back.';
+  // Unsaved typing (a pending or failed autosave) stays; only clean inputs
+  // are repopulated from the server.
+  if (!dirty()) {
+    renderLinks();
+    $<HTMLTextAreaElement>('rs-notes').value = ws.materials.notes;
+    $('rs-saved').textContent = 'Everything saves as you go. You can leave and come back.';
+  }
   show('materials');
 }
 
@@ -638,6 +654,8 @@ root.querySelectorAll<HTMLElement>('[data-go]').forEach((el) => {
       if (ws?.booking.status === 'booked' && ws.booking.rescheduleUrl) window.open(ws.booking.rescheduleUrl, '_blank', 'noopener');
       else openBooking();
     } else {
+      // Leaving the workspace flushes pending typing; the inputs keep it either way.
+      if (dirty()) void saveNow();
       renderHome();
       show('home');
     }
@@ -693,7 +711,7 @@ $('rs-notyou').addEventListener('click', () => {
   show('invalid');
 });
 window.addEventListener('beforeunload', (e) => {
-  if ([...transfers.values()].some((t) => t.state === 'uploading')) e.preventDefault();
+  if (dirty() || [...transfers.values()].some((t) => t.state === 'uploading')) e.preventDefault();
 });
 
 // ------------------------------------------------------------------ open

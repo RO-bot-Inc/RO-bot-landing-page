@@ -132,16 +132,21 @@ async function deliver(cfg: Config, req: Request, store: IntakeStore, intake: In
   const id = await send(cfg, { from: cfg.fromDave, to: intake.contact.email, replyTo: 'dave@tenthgear.ai', ...mail });
   const entry: EmailLog = { at: nowIso(), kind, subject: mail.subject, to: intake.contact.email, id };
   intake.emails.push(entry);
+  let pageId: string | null = null;
   if (cfg.notion === 'live') {
     try {
-      intake.notionPageId = await upsertRow(cfg, intake, entry, adminLink(cfg, origin, intake));
+      pageId = await upsertRow(cfg, intake, entry, adminLink(cfg, origin, intake));
     } catch (err) {
       console.warn('[leak-test] notion failed', (err as Error).message);
     }
   }
-  intake.updatedAt = entry.at;
-  await store.put(intake);
-  await notify(cfg, req, intake, notifyKind);
+  // Merge into the current record: the workspace may have moved on while the email went out.
+  const fresh = await store.update(intake.id, (i) => {
+    i.emails.push(entry);
+    if (pageId) i.notionPageId = pageId;
+    i.updatedAt = entry.at;
+  });
+  await notify(cfg, req, fresh, notifyKind);
 }
 
 const enrolledResponse = (cfg: Config, intake: Intake) =>
@@ -163,28 +168,36 @@ async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body)
   // Same address again means a fresh link, not a second intake. First-touch
   // attribution is kept.
   const existing = await store.byEmail(contact.email);
-  const intake: Intake = existing
-    ? { ...existing, contact, updatedAt: now }
-    : {
-        id: newIntakeId(),
-        createdAt: now,
-        updatedAt: now,
-        contact,
-        source,
-        tokens: [],
-        materials: { status: 'not_started', files: 0, links: 0, notes: '', sentAt: null },
-        files: [],
-        links: [],
-        booking: { status: 'not_booked', at: null, eventUri: null, inviteeUri: null },
-        lastActivityAt: now,
-        uploadActiveUntil: null,
-        reminders: {},
-        notionPageId: null,
-        emails: [],
-        purgedAt: null,
-      };
-  const token = issueResumeToken(cfg, intake, now, 'email', true);
-  await store.put(intake);
+  let token = '';
+  let intake: Intake;
+  if (existing) {
+    intake = await store.update(existing.id, (i) => {
+      i.contact = contact;
+      i.updatedAt = now;
+      token = issueResumeToken(cfg, i, now, 'email', true);
+    });
+  } else {
+    intake = {
+      id: newIntakeId(),
+      createdAt: now,
+      updatedAt: now,
+      contact,
+      source,
+      tokens: [],
+      materials: { status: 'not_started', files: 0, links: 0, notes: '', sentAt: null },
+      files: [],
+      links: [],
+      booking: { status: 'not_booked', at: null, eventUri: null, inviteeUri: null },
+      lastActivityAt: now,
+      uploadActiveUntil: null,
+      reminders: {},
+      notionPageId: null,
+      emails: [],
+      purgedAt: null,
+    };
+    token = issueResumeToken(cfg, intake, now, 'email', true);
+    await store.put(intake); // brand new record: nobody else can be writing it
+  }
   await deliver(cfg, req, store, intake, token, 'enrollment', existing ? 're-enrolled' : 'enrolled');
   console.log(`[leak-test] enrolled id=${intake.id} repeat=${!!existing} store=${cfg.store} email=${cfg.email} notion=${cfg.notion} captcha=${cfg.captcha}`);
   return enrolledResponse(cfg, intake);
@@ -192,13 +205,14 @@ async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body)
 
 async function fix(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   const { id } = readTicket<{ id: string }>(cfg, body.ticket);
-  const intake = await store.get(id);
-  if (!intake) throw new LtError('not_found', 404);
-  intake.contact = readContact(body.contact);
+  const contact = readContact(body.contact);
   const now = nowIso();
-  intake.updatedAt = now;
-  const token = issueResumeToken(cfg, intake, now, 'email', true);
-  await store.put(intake);
+  let token = '';
+  const intake = await store.update(id, (i) => {
+    i.contact = contact;
+    i.updatedAt = now;
+    token = issueResumeToken(cfg, i, now, 'email', true);
+  });
   await deliver(cfg, req, store, intake, token, 'email-fixed', 'email-fixed');
   console.log(`[leak-test] fixed id=${intake.id}`);
   return enrolledResponse(cfg, intake);
@@ -210,13 +224,15 @@ async function freshLink(cfg: Config, req: Request, store: IntakeStore, body: Bo
   checkToken(cfg, body.token);
   const email = normalizeEmail(clean(body.email, FIELD_MAX.email));
   if (EMAIL_RE.test(email)) {
-    const intake = await store.byEmail(email);
-    if (intake && !intake.purgedAt) {
+    const found = await store.byEmail(email);
+    if (found && !found.purgedAt) {
       try {
         const now = nowIso();
-        intake.updatedAt = now;
-        const token = issueResumeToken(cfg, intake, now, 'email', true);
-        await store.put(intake);
+        let token = '';
+        const intake = await store.update(found.id, (i) => {
+          i.updatedAt = now;
+          token = issueResumeToken(cfg, i, now, 'email', true);
+        });
         await deliver(cfg, req, store, intake, token, 'fresh-link', 'fresh-link');
         console.log(`[leak-test] fresh link id=${intake.id}`);
       } catch (err) {

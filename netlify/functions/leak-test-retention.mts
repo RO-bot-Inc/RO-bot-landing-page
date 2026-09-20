@@ -7,6 +7,7 @@ import { Firestore } from '../lib/leak-test/firestore';
 import { Storage } from '../lib/leak-test/gcs';
 import { deliveredRows, markPurged } from '../lib/leak-test/notion';
 import { openStore } from '../lib/leak-test/store';
+import { LtError } from '../lib/leak-test/types';
 
 export default async () => {
   const cfg = loadConfig();
@@ -21,19 +22,27 @@ export default async () => {
     const intake = await store.get(row.intakeId);
     if (!intake || intake.purgedAt) continue;
     try {
-      if (gcs) for (const f of intake.files) await gcs.remove(f.object);
-      intake.files = [];
-      intake.links = [];
-      intake.materials.notes = '';
-      intake.materials.links = 0;
-      for (const t of intake.tokens) t.revoked = true;
-      intake.purgedAt = new Date().toISOString();
-      intake.updatedAt = intake.purgedAt;
-      await store.put(intake);
+      // Close the intake first (conditionally, against the current record), so
+      // no upload can land after the objects are deleted; then delete the
+      // objects the closed record listed.
+      const closed = await store.update(intake.id, (i) => {
+        if (i.purgedAt) throw new LtError('invalid', 409);
+        for (const t of i.tokens) t.revoked = true;
+        i.purgedAt = new Date().toISOString();
+        i.updatedAt = i.purgedAt;
+      });
+      if (gcs) for (const f of closed.files) await gcs.remove(f.object);
+      await store.update(intake.id, (i) => {
+        i.files = [];
+        i.links = [];
+        i.materials.notes = '';
+        i.materials.links = 0;
+      });
       await markPurged(cfg, row.pageId).catch(() => console.warn('[leak-test] purge log failed'));
       purged++;
       console.log(`[leak-test] purged id=${intake.id}`);
     } catch (err) {
+      if (err instanceof LtError && err.status === 409) continue;
       console.error(`[leak-test] purge failed id=${intake.id}`, (err as Error).message);
     }
   }

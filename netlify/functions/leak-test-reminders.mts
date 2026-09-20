@@ -9,10 +9,11 @@
 import type { Config as FunctionConfig } from '@netlify/functions';
 import { config as loadConfig } from '../lib/leak-test/config';
 import { reminderEmail, send } from '../lib/leak-test/email';
+import { hashToken } from '../lib/leak-test/guard';
 import { issueResumeToken, publicOrigin, resumeLink } from '../lib/leak-test/links';
 import { closedIntakeIds, logReminder } from '../lib/leak-test/notion';
 import { openStore } from '../lib/leak-test/store';
-import type { EmailLog, Intake, ReminderKind } from '../lib/leak-test/types';
+import { LtError, type EmailLog, type Intake, type ReminderKind } from '../lib/leak-test/types';
 
 const H = 3_600_000;
 
@@ -50,23 +51,47 @@ export default async () => {
     if (!intake.tokens.some((t) => !t.revoked)) continue; // Dave revoked their links
     const kind = due(intake, now);
     if (!kind) continue;
+    const stamp = new Date().toISOString();
+    let token = '';
+    let fresh: Intake;
     try {
-      const stamp = new Date().toISOString();
-      const token = issueResumeToken(cfg, intake, stamp, 'reminder', false);
-      const mail = reminderEmail(kind, intake, resumeLink(origin, token, kind === 'reminder-materials-24h' ? 'book' : undefined));
-      const id = await send(cfg, { from: cfg.fromDave, to: intake.contact.email, replyTo: 'dave@tenthgear.ai', ...mail });
-      const entry: EmailLog = { at: stamp, kind, subject: mail.subject, to: intake.contact.email, id };
-      intake.emails.push(entry);
-      intake.reminders[kind] = stamp;
-      // The 7-day email supersedes a 48-hour one that never went out.
-      if (kind === 'reminder-contact-7d' && !intake.reminders['reminder-contact-48h']) intake.reminders['reminder-contact-48h'] = stamp;
-      intake.updatedAt = stamp;
-      await store.put(intake);
-      if (cfg.notion === 'live') await logReminder(cfg, intake, entry).catch(() => console.warn('[leak-test] reminder log failed'));
-      sent++;
-      console.log(`[leak-test] reminder ${kind} id=${intake.id}`);
+      // Claim the reminder against the CURRENT record: the listing above is a
+      // snapshot, and a fresh-link request or an upload may have landed since.
+      // The claim (timestamp plus a new token) is written first, conditionally;
+      // if the state moved on so the reminder is no longer due, nothing is written.
+      fresh = await store.update(intake.id, (i) => {
+        if (due(i, now) !== kind) throw new LtError('invalid', 409);
+        token = issueResumeToken(cfg, i, stamp, 'reminder', false);
+        i.reminders[kind] = stamp;
+        // The 7-day email supersedes a 48-hour one that never went out.
+        if (kind === 'reminder-contact-7d' && !i.reminders['reminder-contact-48h']) i.reminders['reminder-contact-48h'] = stamp;
+        i.updatedAt = stamp;
+      });
     } catch (err) {
-      console.error(`[leak-test] reminder failed id=${intake.id}`, (err as Error).message);
+      if (!(err instanceof LtError && err.status === 409)) console.error(`[leak-test] reminder claim failed id=${intake.id}`, (err as Error).message);
+      continue;
+    }
+    try {
+      const mail = reminderEmail(kind, fresh, resumeLink(origin, token, kind === 'reminder-materials-24h' ? 'book' : undefined));
+      const id = await send(cfg, { from: cfg.fromDave, to: fresh.contact.email, replyTo: 'dave@tenthgear.ai', ...mail });
+      const entry: EmailLog = { at: stamp, kind, subject: mail.subject, to: fresh.contact.email, id };
+      const logged = await store.update(fresh.id, (i) => {
+        i.emails.push(entry);
+      });
+      if (cfg.notion === 'live') await logReminder(cfg, logged, entry).catch(() => console.warn('[leak-test] reminder log failed'));
+      sent++;
+      console.log(`[leak-test] reminder ${kind} id=${fresh.id}`);
+    } catch (err) {
+      console.error(`[leak-test] reminder send failed id=${fresh.id}`, (err as Error).message);
+      // Release the claim so the next run tries again, and retire the unsent link.
+      const unsentHash = hashToken(token);
+      await store
+        .update(fresh.id, (i) => {
+          delete i.reminders[kind];
+          if (kind === 'reminder-contact-7d' && i.reminders['reminder-contact-48h'] === stamp) delete i.reminders['reminder-contact-48h'];
+          for (const t of i.tokens) if (t.hash === unsentHash) t.revoked = true;
+        })
+        .catch(() => console.error(`[leak-test] reminder release failed id=${fresh.id}`));
     }
   }
   console.log(`[leak-test] reminders run sent=${sent}`);

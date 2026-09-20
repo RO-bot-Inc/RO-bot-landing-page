@@ -75,7 +75,12 @@ class FirestoreStore implements IntakeStore {
     throw new LtError('upstream', 503);
   }
   async byTokenHash(hash: string) {
-    return withDefaults(await this.db.findOne(this.cfg.firestoreCollection, 'tokenHashes', hash, 'ARRAY_CONTAINS'));
+    // Records written before the tokens array existed carry a single
+    // `token.hash` and no `tokenHashes`; a link from that era must still open.
+    // withDefaults() migrates the shape once the record is loaded, and the
+    // next put/update writes the new fields.
+    const current = await this.db.findOne<Record<string, unknown>>(this.cfg.firestoreCollection, 'tokenHashes', hash, 'ARRAY_CONTAINS');
+    return withDefaults(current ?? (await this.db.findOne<Record<string, unknown>>(this.cfg.firestoreCollection, 'token.hash', hash)));
   }
   async byEmail(email: string) {
     return withDefaults(await this.db.findOne(this.cfg.firestoreCollection, 'emailKey', emailKey(email)));
