@@ -212,6 +212,7 @@ async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body)
       notionPageId: null,
       emails: [],
       purgedAt: null,
+      purgeLoggedAt: null,
     };
     token = issueResumeToken(cfg, intake, now, 'email', true);
     await store.put(intake); // brand new record: nobody else can be writing it

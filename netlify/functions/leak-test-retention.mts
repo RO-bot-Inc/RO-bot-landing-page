@@ -21,7 +21,9 @@ export default async () => {
     const intake = await store.get(row.intakeId);
     // "Purged" means finished, not started: a run that failed halfway is retried
     // until nothing is left on the record.
-    if (!intake || (intake.purgedAt && !intake.files.length && !intake.links.length && !intake.materials.notes)) continue;
+    if (!intake) continue;
+    const empty = intake.purgedAt && !intake.files.length && !intake.links.length && !intake.materials.notes;
+    if (empty && intake.purgeLoggedAt) continue;
     try {
       // Close the intake first (idempotent, against the current record) so no
       // participant write lands after the objects go; then delete objects one
@@ -51,7 +53,17 @@ export default async () => {
         console.error(`[leak-test] purge incomplete id=${intake.id} remaining=${cleared.files.length}; retried next run`);
         continue;
       }
-      await markPurged(cfg, row.pageId).catch(() => console.warn('[leak-test] purge log failed'));
+      // The Notion page still holds their notes until this lands; a failure
+      // here keeps the row eligible so the next run tries again.
+      try {
+        await markPurged(cfg, row.pageId);
+      } catch (err) {
+        console.error(`[leak-test] purge: Notion not updated id=${intake.id}; retried next run`, (err as Error).message);
+        continue;
+      }
+      await store.update(intake.id, (i) => {
+        i.purgeLoggedAt = new Date().toISOString();
+      });
       purged++;
       console.log(`[leak-test] purged id=${intake.id}`);
     } catch (err) {

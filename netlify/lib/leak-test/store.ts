@@ -44,6 +44,7 @@ function withDefaults(raw: Record<string, unknown> | null): Intake | null {
   r.emails ||= [];
   r.notionPageId ??= null;
   r.purgedAt ??= null;
+  r.purgeLoggedAt ??= null;
   return r;
 }
 

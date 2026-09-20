@@ -287,8 +287,17 @@ function scheduleSave() {
   saveTimer = window.setTimeout(saveNow, 1200);
 }
 
-// Resolves true only when the server accepted the links and notes.
-async function saveNow(): Promise<boolean> {
+// Resolves true only when the server accepted the links and notes. Saves run
+// one at a time, so an older request can never land after a newer one; a
+// call made while one is in flight waits for it and then sends the latest text.
+let saveChain: Promise<unknown> = Promise.resolve();
+function saveNow(): Promise<boolean> {
+  const run = saveChain.then(performSave);
+  saveChain = run.catch(() => undefined);
+  return run;
+}
+
+async function performSave(): Promise<boolean> {
   window.clearTimeout(saveTimer);
   const seq = editSeq;
   const links = readLinks();

@@ -74,8 +74,10 @@ export interface Intake {
   reminders: Partial<Record<ReminderKind, string>>;
   notionPageId: string | null;
   emails: EmailLog[];
-  // Set by the retention job once files, links, and notes are gone.
+  // Set by the retention job when the purge starts; the purge is finished
+  // only when the record is empty and the Notion page has been told.
   purgedAt: string | null;
+  purgeLoggedAt: string | null;
 }
 
 export class LtError extends Error {

@@ -37,7 +37,11 @@ Netlify Blobs is one store for the whole site: deploy previews and production sh
 
 ### Booking
 
-The Calendly inline embed posts `calendly.event_scheduled` to the page; the page sends the event and invitee URIs to `booked`. That is the only booking signal (webhooks need a paid plan). With `CALENDLY_API_TOKEN` set, the function reads the appointment time from Calendly's API and the workspace, the Notion row, and the reminder copy show it; without it the intake only knows a booking happened. Cancellations and reschedules made in Calendly are not seen.
+The Calendly inline embed posts `calendly.event_scheduled` to the page; the page sends the event and invitee URIs to `booked` (retried on outages, then kept in the browser and replayed on the next visit of the same intake). That is the only booking signal (webhooks need a paid plan). With `CALENDLY_API_TOKEN` set, the function reads the appointment time from Calendly's API and the workspace, the Notion row, and the reminder copy show it; without it the intake only knows a booking happened. **Not seen:** cancellations and reschedules made in Calendly, and bookings made through the fallback "open in a new tab" link (no message reaches the page). Follow-up once the API token exists: reconcile on resume by listing scheduled events for the participant's email.
+
+### Links, revoke, and closure
+
+A participant can hold several live links (enrollment plus reminders). "Fix it" on the enrolled screen (ten minutes, only before the workspace is used) and fresh-link retire the older links once the new email is out. Dave's **Revoke their links** kills every current link; the participant can still recover with fresh-link or by enrolling again with the same address, which is what revoke is for (a link in the wrong inbox). Only the retention purge closes an intake for good; the same address then starts a new one.
 
 ## Modes (what runs without keys)
 
