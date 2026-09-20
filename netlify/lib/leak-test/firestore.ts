@@ -120,17 +120,20 @@ export class Firestore {
     throw new LtError('upstream', 502);
   }
 
-  async findOne<T>(collection: string, fieldPath: string, value: string, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T | null> {
+  async findMany<T>(collection: string, fieldPath: string, value: string, limit: number, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T[]> {
     const res = await this.call('POST', ':runQuery', {
       structuredQuery: {
         from: [{ collectionId: collection }],
         where: { fieldFilter: { field: { fieldPath }, op, value: { stringValue: value } } },
-        limit: 1,
+        limit,
       },
     });
     const rows = (await res.json()) as { document?: { fields: Record<string, Value> } }[];
-    const doc = rows.find((r) => r.document)?.document;
-    return doc ? (decodeFields(doc.fields || {}) as T) : null;
+    return rows.filter((r) => r.document).map((r) => decodeFields(r.document!.fields || {}) as T);
+  }
+
+  async findOne<T>(collection: string, fieldPath: string, value: string, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T | null> {
+    return (await this.findMany<T>(collection, fieldPath, value, 1, op))[0] ?? null;
   }
 
   async list<T>(collection: string): Promise<T[]> {

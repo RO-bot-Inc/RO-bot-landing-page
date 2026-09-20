@@ -40,7 +40,7 @@ import { updateProgress, upsertRow } from '../lib/leak-test/notion';
 import { normalizeEmail, openStore, type IntakeStore } from '../lib/leak-test/store';
 import { LtError, type Contact, type EmailLog, type Intake, type IntakeFile, type Source } from '../lib/leak-test/types';
 
-const TICKET_TTL_MS = 30 * 60_000; // how long the enrolled screen can still fix its email
+const TICKET_TTL_MS = 10 * 60_000; // how long the enrolled screen can still fix a typo in its email
 const UPLOAD_ACTIVE_MS = 15 * 60_000; // an upload in flight holds reminders this long past its last call
 const MAX_BODY_BYTES = 64_000;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
@@ -142,14 +142,18 @@ async function deliver(cfg: Config, req: Request, store: IntakeStore, intake: In
   }
   // Merge into the current record: the workspace may have moved on while the
   // email went out. The email is already in the inbox, so a book-keeping
-  // failure here is logged, never surfaced as a failed enrollment.
+  // failure here is logged, never surfaced as a failed enrollment. Older
+  // links are retired only now, once the new one is demonstrably in an inbox;
+  // a Resend outage therefore never leaves a participant with no link at all.
   let fresh = intake;
   if (pageId) intake.notionPageId = pageId;
+  const keep = hashToken(token);
   try {
     fresh = await store.update(intake.id, (i) => {
       i.emails.push(entry);
       if (pageId) i.notionPageId = pageId;
       i.updatedAt = entry.at;
+      for (const t of i.tokens) if (t.hash !== keep && t.purpose === 'email') t.revoked = true;
     });
   } catch (err) {
     console.error(`[leak-test] email sent but not logged id=${intake.id}`, (err as Error).message);
@@ -175,18 +179,20 @@ async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body)
   const now = nowIso();
   // Same address again means a fresh link to the address already on file, not
   // a second intake: nothing the caller typed replaces what is there, and no
-  // fix ticket comes back. A purged or revoked intake is closed for good; the
-  // same address then starts a new one. First-touch attribution is kept.
+  // fix ticket comes back. Only a purged intake is closed for good (the same
+  // address then starts a new one); a revoke by Dave is undone by this, as it
+  // is by fresh-link, which is what revoke is for. First-touch attribution is
+  // kept. The previous link is retired in deliver(), after the new one is sent.
   const existing = await store.byEmail(contact.email);
   let token = '';
   let ticket = '';
   let intake: Intake;
-  const reuse = existing && isOpen(existing);
+  const reuse = existing && !existing.purgedAt;
   if (reuse) {
     intake = await store.update(existing.id, (i) => {
-      if (!isOpen(i)) throw new LtError('not_found', 404);
+      if (i.purgedAt) throw new LtError('not_found', 404);
       i.updatedAt = now;
-      token = issueResumeToken(cfg, i, now, 'email', true);
+      token = issueResumeToken(cfg, i, now, 'email', false);
     });
   } else {
     intake = {
@@ -219,6 +225,13 @@ async function enroll(cfg: Config, req: Request, store: IntakeStore, body: Body)
 // Same guards as enroll (page token, captcha) plus a ticket bound to the
 // intake AND the address it was created with: once the address has moved,
 // the ticket is spent, and a new one comes back bound to the new address.
+// A fix is a typo correction on the enrolled screen, so it is refused the
+// moment the intake shows any life beyond enrollment (a link was opened and
+// used, a booking exists): a ticket held by someone who pre-registered another
+// person's address cannot re-address a workspace that person has started using.
+const untouched = (i: Intake) =>
+  i.materials.status === 'not_started' && !i.files.length && !i.links.length && !i.materials.notes && i.booking.status !== 'booked';
+
 async function fix(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   checkToken(cfg, body.token);
   const claim = readTicket<{ id: string; email: string }>(cfg, body.ticket, 'fix');
@@ -227,9 +240,10 @@ async function fix(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   const now = nowIso();
   let token = '';
   const intake = await store.update(claim.id, (i) => {
-    if (!isOpen(i) || i.contact.email !== claim.email) throw new LtError('expired', 400);
+    if (!isOpen(i) || i.contact.email !== claim.email || !untouched(i)) throw new LtError('expired', 400);
     i.contact = contact;
     i.updatedAt = now;
+    // Older links die right here, not after the send: they point at an address that was wrong.
     token = issueResumeToken(cfg, i, now, 'email', true);
   });
   await deliver(cfg, req, store, intake, token, 'email-fixed', 'email-fixed');
@@ -244,15 +258,16 @@ async function freshLink(cfg: Config, req: Request, store: IntakeStore, body: Bo
   const email = normalizeEmail(clean(body.email, FIELD_MAX.email));
   if (EMAIL_RE.test(email)) {
     const found = await store.byEmail(email);
-    if (found && isOpen(found)) {
+    if (found && !found.purgedAt) {
       try {
         const now = nowIso();
         let token = '';
         const intake = await store.update(found.id, (i) => {
-          // Re-decided on the fresh copy: a revoke or purge since the lookup wins.
-          if (!isOpen(i)) throw new LtError('not_found', 404);
+          // Re-decided on the fresh copy: a purge since the lookup wins. A
+          // revoke does not: fresh-link is how a revoked participant recovers.
+          if (i.purgedAt) throw new LtError('not_found', 404);
           i.updatedAt = now;
-          token = issueResumeToken(cfg, i, now, 'email', true);
+          token = issueResumeToken(cfg, i, now, 'email', false);
         });
         await deliver(cfg, req, store, intake, token, 'fresh-link', 'fresh-link');
         console.log(`[leak-test] fresh link id=${intake.id}`);
@@ -285,6 +300,7 @@ const usedBytes = (intake: Intake) => intake.files.reduce((n, f) => n + f.size, 
 function workspaceState(cfg: Config, intake: Intake) {
   const { contact, materials, booking } = intake;
   return {
+    id: intake.id, // not a credential; lets the page key per-participant state
     name: contact.name,
     email: contact.email,
     dealership: contact.dealership,
@@ -394,13 +410,14 @@ async function uploadRemove(cfg: Config, store: IntakeStore, body: Body) {
   const { intake, hash } = await authed(store, body);
   const known = intake.files.find((f) => f.id === body.fileId);
   if (!known) return json({ intake: workspaceState(cfg, intake) });
-  const gcs = storage(cfg);
-  if (gcs) await gcs.remove(known.object);
+  // Row first, then object: a row must never outlive its object.
   const updated = await store.update(intake.id, (i) => {
     assertLive(i, hash);
     i.files = i.files.filter((f) => f.id !== known.id);
     touch(i);
   });
+  const gcs = storage(cfg);
+  if (gcs) await gcs.remove(known.object).catch(() => console.warn(`[leak-test] stray object kept file=${known.id}`));
   await syncNotion(cfg, updated);
   return json({ intake: workspaceState(cfg, updated) });
 }

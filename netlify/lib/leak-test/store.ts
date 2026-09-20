@@ -82,8 +82,13 @@ class FirestoreStore implements IntakeStore {
     const current = await this.db.findOne<Record<string, unknown>>(this.cfg.firestoreCollection, 'tokenHashes', hash, 'ARRAY_CONTAINS');
     return withDefaults(current ?? (await this.db.findOne<Record<string, unknown>>(this.cfg.firestoreCollection, 'token.hash', hash)));
   }
+  // Several records can carry one address (a purged intake and its successor).
+  // The open one wins, then the newest; no composite index needed.
   async byEmail(email: string) {
-    return withDefaults(await this.db.findOne(this.cfg.firestoreCollection, 'emailKey', emailKey(email)));
+    const rows = (await this.db.findMany<Record<string, unknown>>(this.cfg.firestoreCollection, 'emailKey', emailKey(email), 10))
+      .map((r) => withDefaults(r)!)
+      .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+    return rows.find((r) => !r.purgedAt) || rows[0] || null;
   }
   async list() {
     return (await this.db.list<Record<string, unknown>>(this.cfg.firestoreCollection)).map((r) => withDefaults(r)!);
@@ -93,16 +98,22 @@ class FirestoreStore implements IntakeStore {
 // Keys: intake/<id> holds the record; token/<hash> and email/<sha> point at an id.
 class BlobStore implements IntakeStore {
   private store = getStore({ name: 'leak-test', consistency: 'strong' });
-  private async index(intake: Intake) {
+  // Token pointers are always written. The email pointer is claimed by a new
+  // record (put) and otherwise only refreshed when it is absent or already
+  // ours, so a later write to a stale record (a purge, a second revoke) can
+  // never steal the address back from the record that now owns it.
+  private async index(intake: Intake, claimEmail: boolean) {
     for (const hash of liveHashes(intake)) await this.store.set(`token/${hash}`, intake.id);
-    await this.store.set(`email/${emailKey(intake.contact.email)}`, intake.id);
+    const key = `email/${emailKey(intake.contact.email)}`;
+    const current = claimEmail ? null : await this.store.get(key, { type: 'text' });
+    if (!current || current === intake.id) await this.store.set(key, intake.id);
   }
   async get(id: string) {
     return withDefaults((await this.store.get(`intake/${id}`, { type: 'json' })) as Record<string, unknown> | null);
   }
   async put(intake: Intake) {
     await this.store.setJSON(`intake/${intake.id}`, intake);
-    await this.index(intake);
+    await this.index(intake, true);
   }
   async update(id: string, mutate: (intake: Intake) => void) {
     for (let attempt = 1; attempt <= RETRIES; attempt++) {
@@ -112,9 +123,11 @@ class BlobStore implements IntakeStore {
       mutate(intake);
       // The local netlify dev sandbox returns no etag; there the write is
       // unconditional. Deployed Blobs always return one.
+      const before = (entry?.data as { contact?: { email?: string } } | null)?.contact?.email;
       const { modified } = await this.store.setJSON(`intake/${id}`, intake, entry?.etag ? { onlyIfMatch: entry.etag } : {});
       if (modified) {
-        await this.index(intake);
+        // An address change (fix-it) claims the new pointer outright.
+        await this.index(intake, before !== intake.contact.email);
         return intake;
       }
       await backoff(attempt);

@@ -17,6 +17,7 @@ interface FileRow {
   status: 'pending' | 'done';
 }
 interface Workspace {
+  id: string;
   name: string;
   email: string;
   dealership: string;
@@ -46,6 +47,14 @@ let token = '';
 let ws: Workspace | null = null;
 const transfers = new Map<string, Transfer>();
 let materialsStarted = false;
+
+// Server truth replaces the workspace, except the rows the browser itself
+// refused (a ZIP, an oversize file): those exist only here and keep their message.
+function adopt(intake: Workspace): Workspace {
+  const local = ws?.files.filter((f) => f.id.startsWith('local-')) || [];
+  ws = { ...intake, files: [...intake.files, ...local] };
+  return ws;
+}
 
 // ------------------------------------------------------------- utilities
 function show(screen: Screen) {
@@ -207,6 +216,7 @@ function renderFiles() {
     list.appendChild(li);
   }
   const pending = ws.files.filter((f) => f.status !== 'done' && transfers.get(f.id)?.state !== 'rejected').length;
+  $('rs-usage').hidden = ws.uploads === 'off';
   $('rs-usage').textContent = `${formatBytes(ws.usedBytes)} of ${formatBytes(MAX_INTAKE_BYTES)} used${pending ? ` · ${pending} still uploading` : ''} · Uploads keep going if you switch tabs. If your connection drops, Retry picks up where it left off.`;
 }
 
@@ -295,7 +305,7 @@ async function saveNow(): Promise<boolean> {
     // A response superseded by newer typing is not adopted: the inputs are
     // ahead of it, and the save they triggered lands next.
     if (seq === editSeq) {
-      ws = data.intake;
+      adopt(data.intake);
       savedSeq = seq;
       $('rs-saved').textContent = 'Saved. You can leave and come back.';
       renderHome();
@@ -434,7 +444,7 @@ async function runUpload(fileId: string) {
     } catch {
       /* fine */
     }
-    ws = data.intake;
+    adopt(data.intake);
   } catch (err) {
     if ((err as Error).name === 'AbortError') return; // paused
     t.state = 'failed';
@@ -505,7 +515,7 @@ async function removeFile(fileId: string) {
   const { ok, data } = await api<{ intake: Workspace }>({ action: 'upload-remove', fileId });
   if (ok) {
     forget();
-    ws = data.intake;
+    adopt(data.intake);
   } else {
     $('rs-saved').textContent = "That file wasn't removed. Check your connection and try again.";
   }
@@ -546,9 +556,9 @@ async function sendMaterials() {
     $('rs-saved').textContent = "That didn't go through. Check your connection and try Done sharing again.";
     return;
   }
-  ws = data.intake;
+  const sent = adopt(data.intake);
   for (const [id, t] of transfers) if (t.state !== 'done') transfers.delete(id);
-  track('aas_materials_complete', { file_count: ws.materials.files, url_count: ws.materials.links });
+  track('aas_materials_complete', { file_count: sent.materials.files, url_count: sent.materials.links });
   renderHome();
   show('home');
 }
@@ -588,7 +598,6 @@ function openBooking() {
   show('book');
   const fallback = $('rs-cal-fallback');
   fallback.hidden = true;
-  $('rs-book-err').hidden = true;
   calendlyReady = false;
   // The fallback stays available until the calendar itself says it rendered,
   // not merely until Calendly's script downloaded.
@@ -640,44 +649,67 @@ window.addEventListener('message', async (e: MessageEvent) => {
 // Calendly fires event_scheduled exactly once, after the meeting already exists
 // on Dave's calendar, so this write must land: retry, then keep it for the
 // next visit if it still cannot. The server side is idempotent.
+// The persisted replay is keyed to the intake it belongs to, so a shared
+// device (a booth laptop) never stamps one participant's booking on another.
 const BOOKED_KEY = 'lt_booked';
-async function recordBooking(payload: { eventUri: string; inviteeUri: string }): Promise<boolean> {
-  let r = await api<{ intake: Workspace }>({ action: 'booked', ...payload });
-  for (let attempt = 1; !r.ok && attempt <= 2; attempt++) {
-    await new Promise((s) => setTimeout(s, 800 * attempt));
-    r = await api<{ intake: Workspace }>({ action: 'booked', ...payload });
-  }
-  if (!r.ok) {
-    try {
-      localStorage.setItem(BOOKED_KEY, JSON.stringify(payload));
-    } catch {
-      /* the message below still tells them */
-    }
-    $('rs-book-err').hidden = false;
-    return false;
-  }
+const forgetBooking = () => {
   try {
     localStorage.removeItem(BOOKED_KEY);
   } catch {
     /* fine */
   }
-  ws = r.data.intake;
-  const days = ws.booking.at ? Math.max(0, Math.round((Date.parse(ws.booking.at) - Date.now()) / 86_400_000)) : -1;
+};
+// Only outages are worth retrying; a 4xx is final (bad payload, dead link).
+const transient = (status: number) => status === 0 || status === 429 || status >= 500;
+
+async function recordBooking(payload: { eventUri: string; inviteeUri: string }): Promise<boolean> {
+  if (!ws) return false;
+  let r = await api<{ intake: Workspace }>({ action: 'booked', ...payload });
+  for (let attempt = 1; !r.ok && transient(r.status) && attempt <= 2; attempt++) {
+    await new Promise((s) => setTimeout(s, 800 * attempt));
+    r = await api<{ intake: Workspace }>({ action: 'booked', ...payload });
+  }
+  if (!r.ok) {
+    if (transient(r.status)) {
+      try {
+        localStorage.setItem(BOOKED_KEY, JSON.stringify({ id: ws.id, payload }));
+      } catch {
+        /* the message still tells them */
+      }
+      $('rs-book-err').hidden = false;
+      $('rs-home-note').hidden = false;
+    } else {
+      forgetBooking();
+      track('aas_booking_record_failed', { status: r.status });
+    }
+    return false;
+  }
+  forgetBooking();
+  $('rs-home-note').hidden = true;
+  adopt(r.data.intake);
+  const days = ws!.booking.at ? Math.max(0, Math.round((Date.parse(ws!.booking.at) - Date.now()) / 86_400_000)) : -1;
   track('aas_booking_complete', { appointment_window: days < 0 ? 'unknown' : days <= 7 ? 'within_week' : days <= 14 ? 'two_weeks' : 'later' });
   renderHome();
   if (root.dataset.screen === 'book') window.setTimeout(() => show('home'), 1800);
   return true;
 }
 
-// A booking that could not be recorded last time is replayed on the next open.
+// A booking that could not be recorded last time is replayed on the next
+// open, for the same intake only.
 async function replayBooking() {
-  let pending: { eventUri: string; inviteeUri: string } | null = null;
+  let pending: { id: string; payload: { eventUri: string; inviteeUri: string } } | null = null;
   try {
     pending = JSON.parse(localStorage.getItem(BOOKED_KEY) || 'null');
   } catch {
     /* fine */
   }
-  if (pending && ws?.booking.status !== 'booked') await recordBooking(pending);
+  if (!pending || !ws) return;
+  if (pending.id !== ws.id) return; // someone else's; left for their next visit
+  if (ws.booking.status === 'booked') {
+    forgetBooking();
+    return;
+  }
+  await recordBooking(pending.payload);
 }
 
 // -------------------------------------------------------------- recovery
@@ -777,7 +809,9 @@ $('rs-notyou').addEventListener('click', () => {
   } catch {
     /* ignore */
   }
+  forgetBooking();
   token = '';
+  ws = null;
   show('invalid');
 });
 window.addEventListener('beforeunload', (e) => {
@@ -792,20 +826,22 @@ async function open() {
     /* ignore */
   }
   if (!token) return show('invalid');
+  let opened: Workspace;
   try {
     const { ok, data } = await api<{ intake: Workspace }>({ action: 'resume' });
     if (!ok) return show('invalid');
-    ws = data.intake;
+    ws = null; // a fresh open never inherits another participant's local rows
+    opened = adopt(data.intake);
   } catch {
     return show('invalid');
   }
-  materialsStarted = ws.materials.status !== 'not_started';
-  const remaining = [ws.materials.status !== 'sent' && 'materials', ws.booking.status !== 'booked' && 'booking'].filter(Boolean).join('+');
+  materialsStarted = opened.materials.status !== 'not_started';
+  const remaining = [opened.materials.status !== 'sent' && 'materials', opened.booking.status !== 'booked' && 'booking'].filter(Boolean).join('+');
   track('aas_resume_open', { remaining_actions: remaining || 'none' });
   await replayBooking();
   renderHome();
   const view = new URLSearchParams(location.search).get('view');
-  if (view === 'book' && ws.booking.status !== 'booked') openBooking();
+  if (view === 'book' && opened.booking.status !== 'booked') openBooking();
   else if (view === 'materials') openMaterials();
   else show('home');
 }

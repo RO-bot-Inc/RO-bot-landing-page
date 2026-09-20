@@ -20,7 +20,7 @@ interface AdminIntake {
   files: { id: string; name: string; size: number; status: string; url: string | null }[];
   links: string[];
   booking: { status: string; at: string | null };
-  uploads: 'gcs' | 'mock';
+  uploads: 'gcs' | 'mock' | 'off';
   emails: { at: string; kind: string; subject: string; to: string; id: string | null }[];
 }
 
@@ -87,7 +87,12 @@ function render(i: AdminIntake) {
 
   const files = $('ad-files');
   files.innerHTML = '';
-  $('ad-files-note').textContent = i.uploads === 'mock' ? 'No storage bucket is configured, so these rows are metadata only.' : 'Download links last 10 minutes. Reload for fresh ones.';
+  $('ad-files-note').textContent =
+    i.uploads === 'gcs'
+      ? 'Download links last 10 minutes. Reload for fresh ones.'
+      : i.uploads === 'mock'
+        ? 'Uploads are simulated on this deploy (no storage bucket): these rows are metadata only.'
+        : 'File upload is switched off on this deploy (no storage bucket yet): participants can only add links and a note.';
   if (!i.files.length) li(files, 'No files.');
   for (const f of i.files) {
     const el = document.createElement('li');
