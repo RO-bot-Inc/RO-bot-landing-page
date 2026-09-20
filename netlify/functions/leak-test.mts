@@ -153,7 +153,8 @@ async function deliver(cfg: Config, req: Request, store: IntakeStore, intake: In
       i.emails.push(entry);
       if (pageId) i.notionPageId = pageId;
       i.updatedAt = entry.at;
-      for (const t of i.tokens) if (t.hash !== keep && t.purpose === 'email') t.revoked = true;
+      // Every earlier link, reminders included: "the old link no longer works" is a promise.
+      for (const t of i.tokens) if (t.hash !== keep) t.revoked = true;
     });
   } catch (err) {
     console.error(`[leak-test] email sent but not logged id=${intake.id}`, (err as Error).message);

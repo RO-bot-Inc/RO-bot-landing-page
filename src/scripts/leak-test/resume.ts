@@ -566,7 +566,17 @@ async function sendMaterials() {
     return;
   }
   const sent = adopt(data.intake);
-  for (const [id, t] of transfers) if (t.state !== 'done') transfers.delete(id);
+  // Unfinished transfers were left out server-side; stop their bytes too.
+  for (const [id, t] of transfers) {
+    if (t.state === 'done') continue;
+    t.controller?.abort();
+    transfers.delete(id);
+    try {
+      localStorage.removeItem(SESSION_KEY(id));
+    } catch {
+      /* fine */
+    }
+  }
   track('aas_materials_complete', { file_count: sent.materials.files, url_count: sent.materials.links });
   renderHome();
   show('home');
@@ -812,15 +822,29 @@ $('rs-confirm-no').addEventListener('click', () => {
   // "Done sharing" had cancelled the pending autosave; re-arm it.
   if (dirty()) scheduleSave();
 });
+// Everything that belonged to the previous participant in this tab: in-flight
+// transfers, unsaved typing, timers, the booking replay.
+function resetSession() {
+  for (const t of transfers.values()) t.controller?.abort();
+  transfers.clear();
+  window.clearTimeout(saveTimer);
+  editSeq = savedSeq = 0;
+  $('rs-links').innerHTML = '';
+  $<HTMLTextAreaElement>('rs-notes').value = '';
+  $('rs-files').innerHTML = '';
+  $('rs-home-note').hidden = true;
+  forgetBooking();
+  token = '';
+  ws = null;
+}
+
 $('rs-notyou').addEventListener('click', () => {
   try {
     sessionStorage.removeItem(TOKEN_KEY);
   } catch {
     /* ignore */
   }
-  forgetBooking();
-  token = '';
-  ws = null;
+  resetSession();
   show('invalid');
 });
 window.addEventListener('beforeunload', (e) => {
@@ -866,6 +890,7 @@ window.addEventListener('hashchange', () => {
     /* ignore */
   }
   history.replaceState(null, '', location.pathname + location.search);
+  resetSession();
   show('loading');
   void open();
 });
