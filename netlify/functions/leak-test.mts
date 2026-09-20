@@ -31,7 +31,9 @@ import {
   type ContactField,
 } from '../../src/scripts/leak-test/presets';
 import { config as loadConfig, type Config } from '../lib/leak-test/config';
-import { enrollmentEmail, internalEmail, send, type InternalKind } from '../lib/leak-test/email';
+import { easternDateTime, enrollmentEmail, internalEmail, send, type InternalKind } from '../lib/leak-test/email';
+
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 's'}`;
 import { Firestore } from '../lib/leak-test/firestore';
 import { Storage } from '../lib/leak-test/gcs';
 import { checkOrigin, checkToken, hashToken, issueToken, newIntakeId, readTicket, signTicket } from '../lib/leak-test/guard';
@@ -470,7 +472,7 @@ async function materialsDone(cfg: Config, req: Request, store: IntakeStore, body
   // Their half-uploaded objects, if any landed, are not kept either.
   const gcs = storage(cfg);
   if (gcs) for (const f of dropped) await gcs.remove(f.object).catch(() => console.warn(`[leak-test] stray object kept file=${f.id}`));
-  await syncNotion(cfg, updated, `Materials sent: ${updated.materials.files} files, ${updated.materials.links} links${updated.materials.notes ? ', a note' : ''}.`);
+  await syncNotion(cfg, updated, `Materials sent: ${plural(updated.materials.files, 'file')}, ${plural(updated.materials.links, 'link')}${updated.materials.notes ? ', a note' : ''}.`);
   await notify(cfg, req, updated, updated.booking.status === 'booked' ? 'all-set' : 'materials-sent');
   console.log(`[leak-test] materials sent id=${updated.id} files=${updated.materials.files} links=${updated.materials.links}`);
   return json({ intake: workspaceState(cfg, updated) });
@@ -504,7 +506,7 @@ async function booked(cfg: Config, req: Request, store: IntakeStore, body: Body)
     i.booking = booking;
     touch(i);
   });
-  await syncNotion(cfg, updated, `Booked the review session${booking.at ? ` for ${booking.at}` : ''} (Calendly).`);
+  await syncNotion(cfg, updated, `Booked the review session${booking.at ? ` for ${easternDateTime(booking.at)}` : ''} (Calendly).`);
   await notify(cfg, req, updated, updated.materials.status === 'sent' ? 'all-set' : 'booked');
   console.log(`[leak-test] booked id=${updated.id} time=${booking.at ? 'known' : 'unknown'}`);
   return json({ intake: workspaceState(cfg, updated) });

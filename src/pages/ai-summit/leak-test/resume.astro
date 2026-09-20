@@ -98,7 +98,7 @@ const title = 'Your RO Leak Test | TenthGear';
       </div>
       <div class="box" id="rs-uploads-off" hidden>
         <b class="t">File upload isn&rsquo;t open yet</b>
-        Secure upload opens here shortly. Add customer-facing links and a note below now, or reply to Dave&rsquo;s email and he&rsquo;ll take your files another way.
+        Secure upload opens here shortly. Add customer-facing links and a note below now, or reply to your enrollment email and we&rsquo;ll take your files another way.
       </div>
       <p class="fine" id="rs-uploads-mock" hidden>Uploads are simulated on this preview: rows are recorded, no bytes are stored.</p>
       <input type="file" id="rs-file" multiple hidden>
@@ -258,7 +258,8 @@ const title = 'Your RO Leak Test | TenthGear';
     .scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 10; }
     .modal { background: #fff; border: 3px solid var(--ink); padding: 18px 20px; max-width: 460px; width: 100%; box-shadow: 8px 8px 0 var(--ink); font-size: 15px; }
     .modal h2 { font-size: 24px; }
-    .cal { min-height: 640px; background: #fff; border: 1.5px solid var(--grey); }
+    /* Definite height: Calendly's iframe is height:100% and collapses to 150px inside a min-height-only box. The script follows calendly.page_height from here. */
+    .cal { height: 700px; background: #fff; border: 1.5px solid var(--grey); }
     .ts { border: 1px solid var(--grey); background: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; margin: 14px 0; }
     .ts .sp { width: 18px; height: 18px; flex: none; border: 3px solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
