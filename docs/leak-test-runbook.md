@@ -107,7 +107,7 @@ The page is live on tenthgear.ai since #111 merged (2026-09-19), so every key go
 - [x] **1. Resend and Notion keys, plus a signing secret** (done 2026-09-19; re-run after rotating a key)
   `! cd /Users/davidsonders/ro-bot/website && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set RESEND_API_KEY "$(grep '^RESEND_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c >/dev/null; npx -y netlify-cli env:set NOTION_API_KEY "$(grep '^NOTION_API_KEY=' .env | cut -d= -f2- | tr -d '"')" --context $c >/dev/null; npx -y netlify-cli env:set LT_SIGNING_SECRET "$(openssl rand -hex 32)" --context $c >/dev/null; done; echo set`
 - [x] **1b. Connect the Notion integration to the database** (done 2026-09-19). If the API ever answers `object_not_found ... make sure the database is shared with your integration`, open **RO Leak Test Intake** in Notion -> `...` menu -> Connections -> add "TenthGear Leak Test Intake".
-- [ ] **2. Turnstile** (dash.cloudflare.com -> Turnstile -> Add widget; name `TenthGear Leak Test`; hostnames `tenthgear.ai`, `netlify.app`, `localhost`; mode Managed). Then, with the two keys it shows:
+- [x] **2. Turnstile** (done 2026-09-20, widget `TenthGear Leak Test`; dash.cloudflare.com -> Turnstile -> Add widget; name `TenthGear Leak Test`; hostnames `tenthgear.ai`, `netlify.app`, `localhost`; mode Managed). Then, with the two keys it shows:
   The site key is public (it ships in the page), so it can be typed; the secret goes through the clipboard. Copy the **secret key**, then with it still on the clipboard:
   `! cd /Users/davidsonders/ro-bot/website && SK='<site key>' && SEC="$(pbpaste | tr -d '[:space:]')" && printf 'TURNSTILE_SITE_KEY=%s\nTURNSTILE_SECRET_KEY=%s\n' "$SK" "$SEC" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set TURNSTILE_SITE_KEY "$SK" --context $c >/dev/null; npx -y netlify-cli env:set TURNSTILE_SECRET_KEY "$SEC" --context $c >/dev/null; done; echo set`
 - [x] **3. Dedicated Firebase project** (done 2026-09-20: project `tenthgear-leak-test`, Blaze with a $25 alert, Firestore `nam5`, bucket `tenthgear-leak-test.firebasestorage.app` in US-EAST1; key at `~/.config/tenthgear/`)
@@ -120,7 +120,7 @@ The page is live on tenthgear.ai since #111 merged (2026-09-19), so every key go
 - [x] **3b. Calendly API token** (done 2026-09-20, all Scheduling scopes + users:read) so bookings carry their date and time: calendly.com -> Integrations & apps -> API & webhooks -> Personal access tokens -> Generate token, name it `leak-test`, tick the Scheduling read scopes (all of Scheduling is fine). Copy the token, then, with it still on the clipboard:
   `! cd /Users/davidsonders/ro-bot/website && CAL="$(pbpaste | tr -d '[:space:]')" && printf 'CALENDLY_API_TOKEN=%s\n' "$CAL" >> .env && for c in deploy-preview branch-deploy production; do npx -y netlify-cli env:set CALENDLY_API_TOKEN "$CAL" --context $c >/dev/null; done; echo set`
   (`pbpaste` keeps the token out of the session transcript; a value typed into a `!` line is stored with the conversation.)
-- [ ] **4. Redeploy after any of the above** (Claude can do this): Netlify -> Deploys -> Trigger deploy, or push any commit.
+- [x] **4. Redeploy after any of the above** (preview redeployed 2026-09-20 via PR #116; production redeploys when it merges) (Claude can do this): Netlify -> Deploys -> Trigger deploy, or push any commit.
 
 Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-deploy (2026-09-19); step 1 overwrites it, which is fine.
 
