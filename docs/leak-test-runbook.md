@@ -37,7 +37,7 @@ Firestore in the dedicated project is the store in every Netlify context since 2
 
 ### Booking
 
-The Calendly inline embed posts `calendly.event_scheduled` to the page; the page sends the event and invitee URIs to `booked` (retried on outages, then kept in the browser and replayed on the next visit of the same intake). That is the only booking signal (webhooks need a paid plan). With `CALENDLY_API_TOKEN` set, the function reads the appointment time from Calendly's API and the workspace, the Notion row, and the reminder copy show it; without it the intake only knows a booking happened. **Not seen:** cancellations and reschedules made in Calendly, and bookings made through the fallback "open in a new tab" link (no message reaches the page). Follow-up once the API token exists: reconcile on resume by listing scheduled events for the participant's email.
+The Calendly inline embed posts `calendly.event_scheduled` to the page; the page sends the event and invitee URIs to `booked` (retried on outages, then kept in the browser and replayed on the next visit of the same intake). That is the only booking signal (webhooks need a paid plan). With `CALENDLY_API_TOKEN` set, the function reads the appointment time from Calendly's API and the workspace, the Notion row, and the reminder copy show it; without it the intake only knows a booking happened. Bookings made through the fallback "open in a new tab" link never reach the page, so `resume` on a not-booked intake asks Calendly (at most every ten minutes, `booking.checkedAt`) for the next active event under Dave's user with the participant's email (`/users/me`, `/scheduled_events?invitee_email=`, then `/invitees` for the reschedule link) and books the intake the same way the embed does, Notion and notification included; verified 2026-09-20. Any active upcoming event with that email counts, not only the Leak Test event type. **Still not seen:** cancellations and reschedules made in Calendly after a booking is recorded.
 
 ### Links, revoke, and closure
 
@@ -136,6 +136,6 @@ Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-depl
 - [x] Resume link from the email opens the private page on a different device; the address bar shows no token (2026-09-20).
 - [ ] GA4 DebugView shows `aas_resume_open` with no token in `page_location`.
 - [ ] GA4 DebugView shows `aas_page_view`, `aas_qr_visit`, `aas_form_start`, `aas_contact_complete`.
-- [ ] Fresh-link screen sends a new link and the old one stops working.
-- [ ] Kill switch rehearsed once.
+- [x] Fresh-link screen sends a new link and the old one stops working (2026-09-20, production).
+- [x] Kill switch rehearsed once (2026-09-20, deploy-preview context: API answers `disabled` 503, page shows "Enrollment is paused right now."; the page fix for that message is in #118). To use it for real: `npx -y netlify-cli env:set LT_ENABLED false --context production`, then trigger a production deploy; `env:unset` and redeploy to resume.
 - [ ] Physical postcard QR scanned on iPhone and Android, on cellular.

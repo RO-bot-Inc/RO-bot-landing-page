@@ -333,9 +333,66 @@ function touch(intake: Intake) {
   intake.materials.links = intake.links.length;
 }
 
-async function resume(cfg: Config, store: IntakeStore, body: Body) {
+async function resume(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   const { intake } = await authed(store, body);
-  return json({ intake: workspaceState(cfg, intake) });
+  return json({ intake: workspaceState(cfg, await reconcileBooking(cfg, req, store, intake)) });
+}
+
+// A booking made through the fallback "open in a new tab" link never reaches
+// the page, so a not-booked intake asks Calendly on each visit (at most every
+// ten minutes) for an upcoming active event with this participant's email.
+// Read-only against Calendly; any failure leaves the intake as it was.
+const RECONCILE_EVERY_MS = 10 * 60 * 1000;
+async function reconcileBooking(cfg: Config, req: Request, store: IntakeStore, intake: Intake): Promise<Intake> {
+  if (!cfg.calendlyToken || intake.booking.status === 'booked') return intake;
+  const checked = intake.booking.checkedAt ? Date.parse(intake.booking.checkedAt) : 0;
+  if (Date.now() - checked < RECONCILE_EVERY_MS) return intake;
+  const found = await calendlyFind(cfg, intake.contact.email);
+  let landed = false;
+  const updated = await store.update(intake.id, (i) => {
+    i.booking.checkedAt = nowIso();
+    if (found && i.booking.status !== 'booked') {
+      i.booking = { status: 'booked', at: found.at, eventUri: found.eventUri, inviteeUri: found.inviteeUri, checkedAt: i.booking.checkedAt };
+      touch(i);
+      landed = true;
+    }
+  });
+  if (landed) {
+    await syncNotion(cfg, updated, `Booked the review session for ${easternDateTime(updated.booking.at!)} (Calendly, found on a return visit).`);
+    await notify(cfg, req, updated, updated.materials.status === 'sent' ? 'all-set' : 'booked');
+    console.log(`[leak-test] booked id=${updated.id} time=known via=reconcile`);
+  }
+  return updated;
+}
+
+let calendlyUserUri = ''; // per function instance
+async function calendlyGet<T>(cfg: Config, url: string): Promise<T | null> {
+  try {
+    const res = await fetch(url, { headers: { authorization: `Bearer ${cfg.calendlyToken}` } });
+    if (!res.ok) {
+      console.log(`[leak-test] calendly ${res.status} ${url.replace(/\?.*/, '')}`);
+      return null;
+    }
+    return (await res.json()) as T;
+  } catch {
+    return null;
+  }
+}
+
+// The next active event Dave has with this email, or null.
+async function calendlyFind(cfg: Config, email: string): Promise<{ at: string; eventUri: string; inviteeUri: string | null } | null> {
+  if (!calendlyUserUri) {
+    const me = await calendlyGet<{ resource?: { uri?: string } }>(cfg, 'https://api.calendly.com/users/me');
+    calendlyUserUri = me?.resource?.uri || '';
+    if (!calendlyUserUri) return null;
+  }
+  const q = new URLSearchParams({ user: calendlyUserUri, invitee_email: email, status: 'active', min_start_time: nowIso(), sort: 'start_time:asc', count: '1' });
+  const events = await calendlyGet<{ collection?: { uri?: string; start_time?: string }[] }>(cfg, `https://api.calendly.com/scheduled_events?${q}`);
+  const ev = events?.collection?.[0];
+  if (!ev?.uri || !ev.start_time || !/^https:\/\/api\.calendly\.com\/scheduled_events\/[A-Za-z0-9-]+$/.test(ev.uri)) return null;
+  const invitees = await calendlyGet<{ collection?: { uri?: string; email?: string }[] }>(cfg, `${ev.uri}/invitees?${new URLSearchParams({ email, count: '1' })}`);
+  const inv = invitees?.collection?.[0]?.uri || null;
+  return { at: ev.start_time, eventUri: ev.uri, inviteeUri: inv && /^https:\/\/api\.calendly\.com\//.test(inv) ? inv : null };
 }
 
 async function uploadStart(cfg: Config, req: Request, store: IntakeStore, body: Body) {
@@ -577,7 +634,7 @@ export default async (req: Request) => {
       case 'fresh-link':
         return await freshLink(cfg, req, store, body);
       case 'resume':
-        return await resume(cfg, store, body);
+        return await resume(cfg, req, store, body);
       case 'upload-start':
         return await uploadStart(cfg, req, store, body);
       case 'upload-ping':

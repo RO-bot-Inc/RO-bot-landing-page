@@ -66,7 +66,9 @@ export interface Intake {
   };
   files: IntakeFile[];
   links: string[];
-  booking: { status: 'not_booked' | 'booked'; at: string | null; eventUri: string | null; inviteeUri: string | null };
+  // checkedAt: last time a not-booked intake asked Calendly for a booking made
+  // outside the embed (the fallback link); throttles the lookup.
+  booking: { status: 'not_booked' | 'booked'; at: string | null; eventUri: string | null; inviteeUri: string | null; checkedAt?: string | null };
   // Last participant action in the workspace; reminders key off it. An
   // upload in progress keeps uploadActiveUntil ahead of now.
   lastActivityAt: string;
