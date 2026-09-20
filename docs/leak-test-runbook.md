@@ -31,6 +31,10 @@ One document per enrollee (`leak_test_intakes/<id>` in Firestore, `intake/<id>` 
 
 Same email twice = same intake with a fresh link (old one revoked), not a duplicate row.
 
+Workspace mutations use conditional writes with retry (Blobs etag `onlyIfMatch`, Firestore `currentDocument.updateTime`), so two uploads finishing at once cannot overwrite each other; the browser also uploads one file at a time. The local `netlify dev` sandbox returns no etags, so there the write is unconditional.
+
+Netlify Blobs is one store for the whole site: deploy previews and production share intakes until Firestore takes over. Enrolling the same address on a preview refreshes the production intake's link.
+
 ### Booking
 
 The Calendly inline embed posts `calendly.event_scheduled` to the page; the page sends the event and invitee URIs to `booked`. That is the only booking signal (webhooks need a paid plan). With `CALENDLY_API_TOKEN` set, the function reads the appointment time from Calendly's API and the workspace, the Notion row, and the reminder copy show it; without it the intake only knows a booking happened. Cancellations and reschedules made in Calendly are not seen.

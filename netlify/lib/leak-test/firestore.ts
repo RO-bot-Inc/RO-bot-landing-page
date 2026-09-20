@@ -82,7 +82,7 @@ export class Firestore {
     this.base = `https://firestore.googleapis.com/v1/projects/${this.sa.project_id}/databases/(default)/documents`;
   }
 
-  private async call(method: string, path: string, body?: unknown): Promise<Response> {
+  private async call(method: string, path: string, body?: unknown, tolerate: number[] = [404]): Promise<Response> {
     const res = await fetch(`${this.base}${path}`, {
       method,
       headers: {
@@ -91,23 +91,33 @@ export class Firestore {
       },
       body: body === undefined ? undefined : JSON.stringify(body),
     });
-    if (!res.ok && res.status !== 404) {
+    if (!res.ok && !tolerate.includes(res.status)) {
       console.error('[leak-test] firestore', method, path, res.status);
       throw new LtError('upstream', 502);
     }
     return res;
   }
 
-  async get<T>(collection: string, id: string): Promise<T | null> {
+  // The document plus its server updateTime, the precondition for a safe rewrite.
+  async get<T>(collection: string, id: string): Promise<{ data: T; updateTime: string } | null> {
     const res = await this.call('GET', `/${collection}/${id}`);
     if (res.status === 404) return null;
-    const doc = (await res.json()) as { fields: Record<string, Value> };
-    return decodeFields(doc.fields || {}) as T;
+    const doc = (await res.json()) as { fields: Record<string, Value>; updateTime: string };
+    return { data: decodeFields(doc.fields || {}) as T, updateTime: doc.updateTime };
   }
 
-  // Whole-document write (create or replace).
-  async set(collection: string, id: string, data: Record<string, unknown>): Promise<void> {
-    await this.call('PATCH', `/${collection}/${id}`, { fields: encodeFields(data) });
+  // Whole-document write (create or replace). With ifUpdateTime, the write
+  // only happens when the document is still at that version; returns false
+  // when something else wrote first.
+  async set(collection: string, id: string, data: Record<string, unknown>, ifUpdateTime?: string): Promise<boolean> {
+    const precondition = ifUpdateTime ? `?currentDocument.updateTime=${encodeURIComponent(ifUpdateTime)}` : '';
+    const res = await this.call('PATCH', `/${collection}/${id}${precondition}`, { fields: encodeFields(data) }, ifUpdateTime ? [400, 409] : [404]);
+    if (res.ok) return true;
+    // FAILED_PRECONDITION arrives as 400 or 409 depending on the path.
+    const text = await res.text();
+    if (/FAILED_PRECONDITION|ABORTED/.test(text)) return false;
+    console.error('[leak-test] firestore PATCH', res.status, text.slice(0, 200));
+    throw new LtError('upstream', 502);
   }
 
   async findOne<T>(collection: string, fieldPath: string, value: string, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T | null> {

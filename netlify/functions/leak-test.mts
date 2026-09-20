@@ -298,52 +298,61 @@ async function uploadStart(cfg: Config, req: Request, store: IntakeStore, body: 
   };
   const gcs = storage(cfg);
   const uploadUrl = gcs ? await gcs.startResumable(file.object, type, size, req.headers.get('origin') || publicOrigin(cfg, req)) : null;
-  intake.files.push(file);
-  intake.uploadActiveUntil = new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString();
-  touch(intake);
-  await store.put(intake);
+  // Limits are checked again inside the conditional write: two tabs adding
+  // files at once cannot slip past the 5 GB total between them.
+  const updated = await store.update(intake.id, (i) => {
+    if (i.files.length >= MAX_FILES || usedBytes(i) + size > MAX_INTAKE_BYTES) throw new LtError('too_large', 413);
+    i.files.push(file);
+    i.uploadActiveUntil = new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString();
+    touch(i);
+  });
   console.log(`[leak-test] upload start id=${intake.id} file=${id} bytes=${size} mode=${cfg.uploads}`);
-  return json({ fileId: id, uploadUrl, usedBytes: usedBytes(intake) });
+  return json({ fileId: id, uploadUrl, usedBytes: usedBytes(updated) });
 }
 
 async function uploadDone(cfg: Config, store: IntakeStore, body: Body) {
   const intake = await authed(store, body);
-  const file = intake.files.find((f) => f.id === body.fileId);
-  if (!file) throw new LtError('not_found', 404);
+  const known = intake.files.find((f) => f.id === body.fileId);
+  if (!known) throw new LtError('not_found', 404);
   const gcs = storage(cfg);
   if (gcs) {
-    const size = await gcs.size(file.object);
-    if (size !== file.size) throw new LtError('bad_file', 409);
+    const size = await gcs.size(known.object);
+    if (size !== known.size) throw new LtError('bad_file', 409);
   }
-  file.status = 'done';
-  file.doneAt = nowIso();
-  intake.uploadActiveUntil = intake.files.some((f) => f.status === 'pending') ? new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString() : null;
-  touch(intake);
-  await store.put(intake);
-  await syncNotion(cfg, intake);
-  return json({ intake: workspaceState(cfg, intake) });
+  const updated = await store.update(intake.id, (i) => {
+    const file = i.files.find((f) => f.id === known.id);
+    if (!file) throw new LtError('not_found', 404);
+    file.status = 'done';
+    file.doneAt = nowIso();
+    i.uploadActiveUntil = i.files.some((f) => f.status === 'pending') ? new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString() : null;
+    touch(i);
+  });
+  await syncNotion(cfg, updated);
+  return json({ intake: workspaceState(cfg, updated) });
 }
 
 // Still uploading: keeps reminders away while a big transfer runs.
 async function uploadPing(cfg: Config, store: IntakeStore, body: Body) {
   const intake = await authed(store, body);
-  intake.uploadActiveUntil = new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString();
-  intake.lastActivityAt = nowIso();
-  await store.put(intake);
+  await store.update(intake.id, (i) => {
+    i.uploadActiveUntil = new Date(Date.now() + UPLOAD_ACTIVE_MS).toISOString();
+    i.lastActivityAt = nowIso();
+  });
   return json({ ok: true });
 }
 
 async function uploadRemove(cfg: Config, store: IntakeStore, body: Body) {
   const intake = await authed(store, body);
-  const file = intake.files.find((f) => f.id === body.fileId);
-  if (!file) return json({ intake: workspaceState(cfg, intake) });
+  const known = intake.files.find((f) => f.id === body.fileId);
+  if (!known) return json({ intake: workspaceState(cfg, intake) });
   const gcs = storage(cfg);
-  if (gcs) await gcs.remove(file.object);
-  intake.files = intake.files.filter((f) => f.id !== file.id);
-  touch(intake);
-  await store.put(intake);
-  await syncNotion(cfg, intake);
-  return json({ intake: workspaceState(cfg, intake) });
+  if (gcs) await gcs.remove(known.object);
+  const updated = await store.update(intake.id, (i) => {
+    i.files = i.files.filter((f) => f.id !== known.id);
+    touch(i);
+  });
+  await syncNotion(cfg, updated);
+  return json({ intake: workspaceState(cfg, updated) });
 }
 
 function readLinks(value: unknown): string[] {
@@ -364,26 +373,30 @@ function readLinks(value: unknown): string[] {
 
 async function save(cfg: Config, store: IntakeStore, body: Body) {
   const intake = await authed(store, body);
-  intake.links = readLinks(body.links);
-  intake.materials.notes = typeof body.notes === 'string' ? body.notes.replace(/[^\S\n]+/g, ' ').trim().slice(0, MAX_NOTES_CHARS) : '';
-  touch(intake);
-  await store.put(intake);
-  await syncNotion(cfg, intake);
-  return json({ intake: workspaceState(cfg, intake) });
+  const links = readLinks(body.links);
+  const notes = typeof body.notes === 'string' ? body.notes.replace(/[^\S\n]+/g, ' ').trim().slice(0, MAX_NOTES_CHARS) : '';
+  const updated = await store.update(intake.id, (i) => {
+    i.links = links;
+    i.materials.notes = notes;
+    touch(i);
+  });
+  await syncNotion(cfg, updated);
+  return json({ intake: workspaceState(cfg, updated) });
 }
 
 async function materialsDone(cfg: Config, req: Request, store: IntakeStore, body: Body) {
   const intake = await authed(store, body);
-  // Pending files are left out, as the confirmation dialog said.
-  intake.files = intake.files.filter((f) => f.status === 'done');
-  intake.materials.status = 'sent';
-  intake.materials.sentAt = nowIso();
-  touch(intake);
-  await store.put(intake);
-  await syncNotion(cfg, intake, `Materials sent: ${intake.materials.files} files, ${intake.materials.links} links${intake.materials.notes ? ', a note' : ''}.`);
-  await notify(cfg, req, intake, intake.booking.status === 'booked' ? 'all-set' : 'materials-sent');
-  console.log(`[leak-test] materials sent id=${intake.id} files=${intake.materials.files} links=${intake.materials.links}`);
-  return json({ intake: workspaceState(cfg, intake) });
+  const updated = await store.update(intake.id, (i) => {
+    // Pending files are left out, as the confirmation dialog said.
+    i.files = i.files.filter((f) => f.status === 'done');
+    i.materials.status = 'sent';
+    i.materials.sentAt = nowIso();
+    touch(i);
+  });
+  await syncNotion(cfg, updated, `Materials sent: ${updated.materials.files} files, ${updated.materials.links} links${updated.materials.notes ? ', a note' : ''}.`);
+  await notify(cfg, req, updated, updated.booking.status === 'booked' ? 'all-set' : 'materials-sent');
+  console.log(`[leak-test] materials sent id=${updated.id} files=${updated.materials.files} links=${updated.materials.links}`);
+  return json({ intake: workspaceState(cfg, updated) });
 }
 
 async function calendlyStart(cfg: Config, eventUri: string): Promise<string | null> {
@@ -403,18 +416,20 @@ async function booked(cfg: Config, req: Request, store: IntakeStore, body: Body)
   const eventUri = clean(body.eventUri, 200);
   const inviteeUri = clean(body.inviteeUri, 200);
   if (!/^https:\/\/api\.calendly\.com\/scheduled_events\/[A-Za-z0-9-]+$/.test(eventUri)) throw new LtError('invalid', 400);
-  intake.booking = {
+  const booking: Intake['booking'] = {
     status: 'booked',
     at: await calendlyStart(cfg, eventUri),
     eventUri,
     inviteeUri: /^https:\/\/api\.calendly\.com\//.test(inviteeUri) ? inviteeUri : null,
   };
-  touch(intake);
-  await store.put(intake);
-  await syncNotion(cfg, intake, `Booked the review session${intake.booking.at ? ` for ${intake.booking.at}` : ''} (Calendly).`);
-  await notify(cfg, req, intake, intake.materials.status === 'sent' ? 'all-set' : 'booked');
-  console.log(`[leak-test] booked id=${intake.id} time=${intake.booking.at ? 'known' : 'unknown'}`);
-  return json({ intake: workspaceState(cfg, intake) });
+  const updated = await store.update(intake.id, (i) => {
+    i.booking = booking;
+    touch(i);
+  });
+  await syncNotion(cfg, updated, `Booked the review session${booking.at ? ` for ${booking.at}` : ''} (Calendly).`);
+  await notify(cfg, req, updated, updated.materials.status === 'sent' ? 'all-set' : 'booked');
+  console.log(`[leak-test] booked id=${updated.id} time=${booking.at ? 'known' : 'unknown'}`);
+  return json({ intake: workspaceState(cfg, updated) });
 }
 
 // ----------------------------------------------------------------- admin
@@ -446,12 +461,11 @@ async function adminView(cfg: Config, store: IntakeStore, body: Body) {
 
 async function adminRevoke(cfg: Config, store: IntakeStore, body: Body) {
   const id = readAdminTicket(cfg, body.ticket);
-  const intake = await store.get(id);
-  if (!intake) throw new LtError('not_found', 404);
-  for (const t of intake.tokens) t.revoked = true;
-  intake.updatedAt = nowIso();
-  await store.put(intake);
-  console.log(`[leak-test] links revoked id=${intake.id}`);
+  await store.update(id, (i) => {
+    for (const t of i.tokens) t.revoked = true;
+    i.updatedAt = nowIso();
+  });
+  console.log(`[leak-test] links revoked id=${id}`);
   return json({ ok: true });
 }
 

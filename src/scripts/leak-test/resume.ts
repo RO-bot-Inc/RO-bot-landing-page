@@ -259,19 +259,27 @@ function scheduleSave() {
   saveTimer = window.setTimeout(saveNow, 1200);
 }
 
-async function saveNow() {
+// Resolves true only when the server accepted the links and notes.
+async function saveNow(): Promise<boolean> {
   window.clearTimeout(saveTimer);
   const links = readLinks();
   const notes = $<HTMLTextAreaElement>('rs-notes').value;
   if (!materialsStarted && links.length) startedMaterials('url');
-  const { ok, data } = await api<{ intake: Workspace }>({ action: 'save', links, notes });
-  if (ok) {
+  let ok = false;
+  let data: { intake: Workspace } | null = null;
+  try {
+    ({ ok, data } = await api<{ intake: Workspace }>({ action: 'save', links, notes }));
+  } catch {
+    ok = false;
+  }
+  if (ok && data) {
     ws = data.intake;
     $('rs-saved').textContent = 'Saved. You can leave and come back.';
     renderHome();
-  } else {
-    $('rs-saved').textContent = "That didn't save. Check your connection; your text is still here.";
+    return true;
   }
+  $('rs-saved').textContent = "That didn't save. Check your connection; your text is still here.";
+  return false;
 }
 
 function startedMaterials(kind: 'file' | 'url') {
@@ -327,8 +335,15 @@ async function addFiles(files: FileList | File[]) {
     }
     renderFiles();
     renderHome();
-    void runUpload(data.fileId);
+    enqueueUpload(data.fileId);
   }
+}
+
+// One transfer at a time: kinder to conference and hotel connections, and
+// each completion reaches the server on its own.
+let uploadChain: Promise<void> = Promise.resolve();
+function enqueueUpload(fileId: string) {
+  uploadChain = uploadChain.then(() => runUpload(fileId)).catch(() => undefined);
 }
 
 // Ask GCS where a session stands. The Range header is only readable when
@@ -411,7 +426,7 @@ function pauseUpload(fileId: string) {
 }
 
 function resumeUpload(fileId: string) {
-  void runUpload(fileId);
+  enqueueUpload(fileId);
 }
 
 // A pending file from an earlier visit: the bytes have to be picked again.
@@ -430,7 +445,7 @@ function repickFile(row: FileRow) {
     }
     if (session && file.name === session.name && file.size === session.size) {
       transfers.set(row.id, { file, sessionUrl: session.url, sent: 1, state: 'uploading', error: '', controller: null });
-      void runUpload(row.id);
+      enqueueUpload(row.id);
     } else {
       // Different file: drop the stale row, add the new one normally.
       void removeFile(row.id).then(() => addFiles([file]));
@@ -475,9 +490,19 @@ function confirmDone() {
 
 async function sendMaterials() {
   $('rs-confirm').hidden = true;
-  await saveNow();
-  const { ok, data } = await api<{ intake: Workspace }>({ action: 'materials-done' });
-  if (!ok) {
+  // Links and notes must be on the server before they count as sent.
+  if (!(await saveNow())) {
+    $('rs-saved').textContent = "Your links and note didn't save, so nothing was sent. Check your connection and try Done sharing again.";
+    return;
+  }
+  let ok = false;
+  let data: { intake: Workspace } | null = null;
+  try {
+    ({ ok, data } = await api<{ intake: Workspace }>({ action: 'materials-done' }));
+  } catch {
+    ok = false;
+  }
+  if (!ok || !data) {
     $('rs-saved').textContent = "That didn't go through. Check your connection and try Done sharing again.";
     return;
   }
@@ -504,6 +529,7 @@ declare global {
   }
 }
 let calendlyLoaded = false;
+let calendlyReady = false; // the embed itself reported event_type_viewed
 
 function openBooking() {
   if (!ws) return;
@@ -514,8 +540,11 @@ function openBooking() {
   show('book');
   const fallback = $('rs-cal-fallback');
   fallback.hidden = true;
-  const timer = window.setTimeout(() => {
-    fallback.hidden = false;
+  calendlyReady = false;
+  // The fallback stays available until the calendar itself says it rendered,
+  // not merely until Calendly's script downloaded.
+  window.setTimeout(() => {
+    if (!calendlyReady) fallback.hidden = false;
   }, 6000);
   const mount = () => {
     if (!window.Calendly) return;
@@ -536,7 +565,6 @@ function openBooking() {
   s.async = true;
   s.onload = () => {
     calendlyLoaded = true;
-    window.clearTimeout(timer);
     mount();
   };
   s.onerror = () => {
@@ -551,6 +579,11 @@ function openBooking() {
 window.addEventListener('message', async (e: MessageEvent) => {
   if (e.origin !== 'https://calendly.com') return;
   const data = e.data as { event?: string; payload?: { event?: { uri?: string }; invitee?: { uri?: string } } };
+  if (data?.event === 'calendly.event_type_viewed') {
+    calendlyReady = true;
+    $('rs-cal-fallback').hidden = true;
+    return;
+  }
   if (data?.event !== 'calendly.event_scheduled') return;
   const eventUri = data.payload?.event?.uri || '';
   const inviteeUri = data.payload?.invitee?.uri || '';
