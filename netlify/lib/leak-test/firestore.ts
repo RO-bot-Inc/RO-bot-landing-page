@@ -1,9 +1,10 @@
 // Firestore over REST with a service-account JWT. No firebase-admin: it is
-// heavy, and the function only needs get, set, and one equality query.
+// heavy, and the function only needs get, set, list, and one equality query.
+// The same token also authorizes Cloud Storage (gcs.ts).
 import { createSign } from 'node:crypto';
 import { LtError } from './types';
 
-interface ServiceAccount {
+export interface ServiceAccount {
   project_id: string;
   client_email: string;
   private_key: string;
@@ -46,13 +47,13 @@ function decodeFields(fields: Record<string, Value>): Record<string, unknown> {
 
 let cached: { token: string; exp: number } | null = null;
 
-async function accessToken(sa: ServiceAccount): Promise<string> {
+export async function accessToken(sa: ServiceAccount): Promise<string> {
   if (cached && cached.exp > Date.now() + 60_000) return cached.token;
   const iat = Math.floor(Date.now() / 1000);
   const b64 = (o: unknown) => Buffer.from(JSON.stringify(o)).toString('base64url');
   const input = `${b64({ alg: 'RS256', typ: 'JWT' })}.${b64({
     iss: sa.client_email,
-    scope: 'https://www.googleapis.com/auth/datastore',
+    scope: 'https://www.googleapis.com/auth/datastore https://www.googleapis.com/auth/devstorage.read_write',
     aud: 'https://oauth2.googleapis.com/token',
     iat,
     exp: iat + 3600,
@@ -73,7 +74,7 @@ async function accessToken(sa: ServiceAccount): Promise<string> {
 }
 
 export class Firestore {
-  private sa: ServiceAccount;
+  readonly sa: ServiceAccount;
   private base: string;
 
   constructor(serviceAccountJson: string) {
@@ -81,7 +82,7 @@ export class Firestore {
     this.base = `https://firestore.googleapis.com/v1/projects/${this.sa.project_id}/databases/(default)/documents`;
   }
 
-  private async call(method: string, path: string, body?: unknown): Promise<Response> {
+  private async call(method: string, path: string, body?: unknown, tolerate: number[] = [404]): Promise<Response> {
     const res = await fetch(`${this.base}${path}`, {
       method,
       headers: {
@@ -90,35 +91,60 @@ export class Firestore {
       },
       body: body === undefined ? undefined : JSON.stringify(body),
     });
-    if (!res.ok && res.status !== 404) {
+    if (!res.ok && !tolerate.includes(res.status)) {
       console.error('[leak-test] firestore', method, path, res.status);
       throw new LtError('upstream', 502);
     }
     return res;
   }
 
-  async get<T>(collection: string, id: string): Promise<T | null> {
+  // The document plus its server updateTime, the precondition for a safe rewrite.
+  async get<T>(collection: string, id: string): Promise<{ data: T; updateTime: string } | null> {
     const res = await this.call('GET', `/${collection}/${id}`);
     if (res.status === 404) return null;
-    const doc = (await res.json()) as { fields: Record<string, Value> };
-    return decodeFields(doc.fields || {}) as T;
+    const doc = (await res.json()) as { fields: Record<string, Value>; updateTime: string };
+    return { data: decodeFields(doc.fields || {}) as T, updateTime: doc.updateTime };
   }
 
-  // Whole-document write (create or replace).
-  async set(collection: string, id: string, data: Record<string, unknown>): Promise<void> {
-    await this.call('PATCH', `/${collection}/${id}`, { fields: encodeFields(data) });
+  // Whole-document write (create or replace). With ifUpdateTime, the write
+  // only happens when the document is still at that version; returns false
+  // when something else wrote first.
+  async set(collection: string, id: string, data: Record<string, unknown>, ifUpdateTime?: string): Promise<boolean> {
+    const precondition = ifUpdateTime ? `?currentDocument.updateTime=${encodeURIComponent(ifUpdateTime)}` : '';
+    const res = await this.call('PATCH', `/${collection}/${id}${precondition}`, { fields: encodeFields(data) }, ifUpdateTime ? [400, 409] : [404]);
+    if (res.ok) return true;
+    // FAILED_PRECONDITION arrives as 400 or 409 depending on the path.
+    const text = await res.text();
+    if (/FAILED_PRECONDITION|ABORTED/.test(text)) return false;
+    console.error('[leak-test] firestore PATCH', res.status, text.slice(0, 200));
+    throw new LtError('upstream', 502);
   }
 
-  async findOne<T>(collection: string, fieldPath: string, value: string): Promise<T | null> {
+  async findMany<T>(collection: string, fieldPath: string, value: string, limit: number, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T[]> {
     const res = await this.call('POST', ':runQuery', {
       structuredQuery: {
         from: [{ collectionId: collection }],
-        where: { fieldFilter: { field: { fieldPath }, op: 'EQUAL', value: { stringValue: value } } },
-        limit: 1,
+        where: { fieldFilter: { field: { fieldPath }, op, value: { stringValue: value } } },
+        limit,
       },
     });
     const rows = (await res.json()) as { document?: { fields: Record<string, Value> } }[];
-    const doc = rows.find((r) => r.document)?.document;
-    return doc ? (decodeFields(doc.fields || {}) as T) : null;
+    return rows.filter((r) => r.document).map((r) => decodeFields(r.document!.fields || {}) as T);
+  }
+
+  async findOne<T>(collection: string, fieldPath: string, value: string, op: 'EQUAL' | 'ARRAY_CONTAINS' = 'EQUAL'): Promise<T | null> {
+    return (await this.findMany<T>(collection, fieldPath, value, 1, op))[0] ?? null;
+  }
+
+  async list<T>(collection: string): Promise<T[]> {
+    const out: T[] = [];
+    let pageToken = '';
+    do {
+      const res = await this.call('GET', `/${collection}?pageSize=300${pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : ''}`);
+      const data = (await res.json()) as { documents?: { fields: Record<string, Value> }[]; nextPageToken?: string };
+      for (const doc of data.documents || []) out.push(decodeFields(doc.fields || {}) as T);
+      pageToken = data.nextPageToken || '';
+    } while (pageToken);
+    return out;
   }
 }

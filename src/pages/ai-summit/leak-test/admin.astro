@@ -1,0 +1,114 @@
+---
+// Dave's file page for one intake (storyboard frame 17, "Open files" in the
+// Notion row). Reached by a signed link; download links last ten minutes.
+// No analytics on this page. "Mark delivered" lives in Notion.
+const title = 'Leak Test intake | TenthGear';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script is:inline>
+    (function () {
+      try {
+        var h = location.hash.slice(1);
+        if (h) {
+          sessionStorage.setItem('lt_admin', h);
+          history.replaceState(null, '', location.pathname);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{title}</title>
+  <link rel="shortcut icon" href="/favicon.ico?v=2">
+  <link rel="preload" href="/fonts/future-headline/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body>
+  <main id="ad" data-screen="loading">
+    <header class="top">
+      <img src="/ai-summit/tg-horizontal-black.svg" alt="TenthGear" width="127" height="22">
+      <span class="eyebrow">Leak Test intake · signed in as Dave</span>
+    </header>
+
+    <section class="screen" data-name="loading"><p class="p">Opening the intake.</p></section>
+    <section class="screen" data-name="invalid" hidden>
+      <h1>That link didn&rsquo;t open anything.</h1>
+      <p class="p">Admin links are signed and expire. Open the row in Notion and use its "Open files" link.</p>
+    </section>
+
+    <section class="screen" data-name="home" hidden>
+      <h1 id="ad-title"></h1>
+      <p class="p" id="ad-status"></p>
+      <div class="cols">
+        <div class="box">
+          <b class="t">Contact</b>
+          <div id="ad-contact"></div>
+        </div>
+        <div class="box">
+          <b class="t">Source</b>
+          <div id="ad-source"></div>
+        </div>
+      </div>
+
+      <h2>Files</h2>
+      <p class="fine" id="ad-files-note"></p>
+      <ul class="files" id="ad-files"></ul>
+
+      <h2>Links</h2>
+      <ul class="plain" id="ad-links"></ul>
+
+      <div class="box" id="ad-note-box" hidden>
+        <b class="t">Their note</b>
+        <div id="ad-note"></div>
+      </div>
+
+      <h2>Emails sent</h2>
+      <ul class="plain" id="ad-emails"></ul>
+
+      <div class="row-actions">
+        <button type="button" class="btn sm ghost" id="ad-revoke">Revoke their links</button>
+        <span class="fine" id="ad-revoke-note">Kills every private link for this intake. The 60-day deletion clock starts from the Delivered date in Notion.</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    import '../../../scripts/leak-test/admin';
+  </script>
+
+  <style is:global>
+    @font-face { font-family: 'LT Anton'; src: url('/fonts/future-headline/anton-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+    :root { --ink: #000; --char: #333132; --grey: #9b9799; --light: #dedcdd; --paper: #f4f1ea; --red: #c8141e; --yellow: #ffd23f; --head: 'LT Anton', Impact, sans-serif; --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; --mono: ui-monospace, Menlo, monospace; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.45; }
+    [hidden] { display: none !important; }
+    #ad { max-width: 860px; margin: 0 auto; padding: 0 20px 40px; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0 10px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
+    .top img { height: 22px; width: auto; }
+    .eyebrow { font: 700 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
+    h1 { font-family: var(--head); font-weight: 400; font-size: 30px; line-height: 1.05; text-transform: uppercase; margin: 6px 0 4px; }
+    h2 { font-family: var(--head); font-weight: 400; font-size: 18px; text-transform: uppercase; margin: 22px 0 6px; }
+    .p { font-size: 15px; color: var(--char); margin: 0 0 12px; }
+    .fine { font-size: 12.5px; color: var(--char); margin: 0 0 8px; }
+    .cols { display: grid; gap: 12px; }
+    .box { background: #fff; border: 2px solid var(--ink); padding: 12px 14px; font-size: 14px; margin-top: 12px; }
+    .box b.t { font-family: var(--head); font-weight: 400; font-size: 14px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .files, .plain { list-style: none; margin: 0; padding: 0; }
+    .files li { display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--light); padding: 8px 0; font-size: 13.5px; }
+    .files .n { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .files .s { color: var(--char); font-size: 12px; white-space: nowrap; }
+    .plain li { border-bottom: 1px solid var(--light); padding: 6px 0; font-size: 13.5px; word-break: break-all; }
+    a { color: var(--ink); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 16px; border: 0; border-radius: 4px; background: var(--ink); color: #fff; font-family: var(--head); font-size: 16px; text-transform: uppercase; cursor: pointer; }
+    .btn.ghost { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+    .btn[disabled] { background: var(--light); color: var(--grey); }
+    .row-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 22px; }
+    .row-actions .fine { margin: 0; }
+    @media (min-width: 700px) { .cols { grid-template-columns: 1fr 1fr; } }
+  </style>
+</body>
+</html>
