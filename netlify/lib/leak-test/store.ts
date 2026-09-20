@@ -36,7 +36,7 @@ function withDefaults(raw: Record<string, unknown> | null): Intake | null {
   delete r.token;
   r.files ||= [];
   r.links ||= [];
-  r.booking = { status: 'not_booked', at: null, eventUri: null, inviteeUri: null, ...(r.booking as Partial<Intake['booking']> | undefined) };
+  r.booking = { status: 'not_booked', at: null, eventUri: null, inviteeUri: null, checkedAt: null, ...(r.booking as Partial<Intake['booking']> | undefined) };
   r.materials = { status: 'not_started', files: 0, links: 0, notes: '', sentAt: null, ...(r.materials as Partial<Intake['materials']> | undefined) };
   r.lastActivityAt ||= r.updatedAt || r.createdAt;
   r.uploadActiveUntil ??= null;
