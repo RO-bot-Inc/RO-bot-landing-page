@@ -276,6 +276,8 @@ const testimonials = [
     .receipt s { color: var(--red); }
     .stamp { font-family: var(--head); color: var(--red); border: 3px solid var(--red); padding: 1px 6px; transform: rotate(-4deg); font-size: 14px; }
     .due { font-family: var(--head); font-size: 22px; }
+    /* 320px phones: the total row (REGULAR $2,500 / COMPLIMENTARY / $0 DUE) spilled past the box. */
+    @media (max-width: 359px) { .receipt .tot { flex-wrap: wrap; justify-content: flex-end; } .receipt .tot > :first-child { margin-right: auto; } .stamp { font-size: 12px; } .due { font-size: 18px; } }
 
     .btn {
       display: flex;
