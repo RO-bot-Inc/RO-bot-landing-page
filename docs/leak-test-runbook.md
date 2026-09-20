@@ -137,5 +137,5 @@ Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-depl
 - [ ] GA4 DebugView shows `aas_resume_open` with no token in `page_location`.
 - [ ] GA4 DebugView shows `aas_page_view`, `aas_qr_visit`, `aas_form_start`, `aas_contact_complete`.
 - [x] Fresh-link screen sends a new link and the old one stops working (2026-09-20, production).
-- [ ] Kill switch rehearsed once.
+- [x] Kill switch rehearsed once (2026-09-20, deploy-preview context: API answers `disabled` 503, page shows "Enrollment is paused right now."; the page fix for that message is in #118). To use it for real: `npx -y netlify-cli env:set LT_ENABLED false --context production`, then trigger a production deploy; `env:unset` and redeploy to resume.
 - [ ] Physical postcard QR scanned on iPhone and Android, on cellular.
