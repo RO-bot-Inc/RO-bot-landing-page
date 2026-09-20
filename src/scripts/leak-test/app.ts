@@ -48,7 +48,7 @@ const PROBLEMS = {
   check: ['We couldn’t verify that.', ' Tap Enroll me again. Everything you typed is still here.'],
   network: ['That didn’t go through.', ' You may be between signals. Your answers are saved on this phone. Try again.'],
   generic: ['Something went wrong on our end.', ' Your answers are saved on this phone. Try again in a moment.'],
-  paused: ['Enrollment is paused right now.', ' Email dave@tenthgear.ai and he will set you up.'],
+  paused: ['Enrollment is paused right now.', " Email dave@tenthgear.ai and we'll set you up."],
 } as const;
 
 const state = {

@@ -5,8 +5,8 @@
 import type { Config } from './config';
 import { LtError, type Intake, type ReminderKind } from './types';
 
-export const SIGNATURE = ['Dave Sonders', 'CEO, TenthGear', '773-490-0063', 'dave@tenthgear.ai', 'tenthgear.ai'].join('\n');
-const SHORT_SIGNATURE = ['Dave', 'CEO, TenthGear', '773-490-0063', 'tenthgear.ai'].join('\n');
+// One signature on every participant email (Dave, 2026-09-20).
+export const SIGNATURE = ['Dave Sonders', 'CEO, TenthGear', '773-490-0063', 'tenthgear.ai'].join('\n');
 
 export const firstName = (name: string) => name.trim().split(/\s+/)[0] || 'there';
 
@@ -47,7 +47,7 @@ ${link}
 
 We're ready to roll up our sleeves and dig into your service process to see where you're leaking time, money, or both.
 
-${SHORT_SIGNATURE}
+${SIGNATURE}
 `,
       };
     case 'reminder-contact-7d':
@@ -57,7 +57,7 @@ ${SHORT_SIGNATURE}
 
 ${link}
 
-${SHORT_SIGNATURE}
+${SIGNATURE}
 `,
       };
     case 'reminder-booked-24h':
@@ -71,7 +71,7 @@ To get the most out of our time, click the link below and follow the prompts. Th
 
 ${link}
 
-${SHORT_SIGNATURE}
+${SIGNATURE}
 `,
       };
     case 'reminder-materials-24h':
@@ -83,7 +83,7 @@ We're looking forward to sharing the results of your RO leak test. Click the lin
 
 ${link}
 
-${SHORT_SIGNATURE}
+${SIGNATURE}
 `,
       };
   }

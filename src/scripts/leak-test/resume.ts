@@ -125,17 +125,17 @@ function renderHome() {
 
   const banner = $('rs-banner');
   banner.className = 'banner';
-  // Simulated uploads (preview builds) never claim Dave has the files.
+  // Simulated uploads (preview builds) never claim the team has the files.
   const simulated = ws.uploads === 'mock' ? ' (Uploads are simulated on this preview.)' : '';
   if (sent && booked) {
-    banner.textContent = `You're all set, ${first(ws.name)}. Dave reviews your ROs ${at ? `before ${whenShort(at)}` : 'before your session'} and brings a scorecard, the evidence, estimated impact where the ROs support one, and what to fix first.${simulated}`;
+    banner.textContent = `You're all set, ${first(ws.name)}. The TenthGear team reviews your ROs ${at ? `before ${whenShort(at)}` : 'before your session'} and brings a scorecard, the evidence, estimated impact where the ROs support one, and what to fix first.${simulated}`;
     banner.classList.add('y');
   } else if (booked) {
     banner.textContent = at
-      ? `You're booked for ${whenShort(at)}. Share your ROs any time before then and Dave will have findings ready.`
-      : "You're booked. Share your ROs any time before we meet and Dave will have findings ready.";
+      ? `You're booked for ${whenShort(at)}. Share your ROs any time before then and we'll have findings ready.`
+      : "You're booked. Share your ROs any time before we meet and we'll have findings ready.";
   } else if (sent) {
-    banner.textContent = `Got it. Dave has your files. Pick a time and he'll walk you through what he finds.${simulated}`;
+    banner.textContent = `Got it. We have your files. Pick a time and we'll walk you through what we find.${simulated}`;
   }
   banner.hidden = !(sent || booked);
   $('rs-lede').hidden = sent || booked;
@@ -370,7 +370,7 @@ async function addFiles(files: FileList | File[]) {
           : data.error === 'too_large'
             ? 'That would go past the 5 GB total for this leak test.'
             : data.error === 'uploads_off'
-              ? "File upload isn't open yet. Add links and a note, or reply to Dave's email."
+              ? "File upload isn't open yet. Add links and a note, or reply to your enrollment email."
               : "That didn't go through. Try again.";
       ws.files.push({ id: localId, name: file.name, size: file.size, status: 'pending' });
       transfers.set(localId, { file: null, sessionUrl: null, sent: 0, state: 'rejected', error, controller: null });
