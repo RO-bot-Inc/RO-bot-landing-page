@@ -62,7 +62,8 @@ function progressProperties(intake: Intake) {
     Files: { number: intake.materials.files },
     Links: { number: intake.materials.links },
     'Their notes': text(intake.materials.notes),
-    'Review session': { date: intake.booking.at ? { start: intake.booking.at } : null },
+    // A booking without a known time (no Calendly token) leaves whatever Dave typed.
+    ...(intake.booking.at ? { 'Review session': { date: { start: intake.booking.at } } } : {}),
   };
 }
 
@@ -95,7 +96,7 @@ export async function upsertRow(cfg: Config, intake: Intake, latest: EmailLog, a
   const lastEmail = { 'Last email': { date: { start: latest.at } } };
   if (intake.notionPageId) {
     await call(cfg, 'PATCH', `/pages/${intake.notionPageId}`, {
-      properties: { ...contactProperties(intake), ...lastEmail },
+      properties: { ...contactProperties(intake), ...lastEmail, 'Open files': { url: adminLink } },
     });
     await call(cfg, 'PATCH', `/blocks/${intake.notionPageId}/children`, { children: [emailLogBlock(latest)] });
     return intake.notionPageId;

@@ -89,6 +89,7 @@ export class LtError extends Error {
       | 'expired'
       | 'too_large'
       | 'bad_file'
+      | 'uploads_off'
       | 'upstream',
     public status: number,
   ) {

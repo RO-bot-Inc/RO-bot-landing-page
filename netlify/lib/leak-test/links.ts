@@ -41,11 +41,19 @@ export function liveToken(intake: Intake, hash: string): Token | null {
 export const resumeLink = (origin: string, token: string, view?: 'book' | 'materials') =>
   `${origin}${ROUTES.resume}${view ? `?view=${view}` : ''}#${token}`;
 
+// Every ticket names its audience, and every reader asserts one, so a ticket
+// minted for one purpose can never satisfy another reader.
 export const adminLink = (cfg: Config, origin: string, intake: Intake) =>
-  `${origin}${ROUTES.admin}#${signTicket(cfg, { id: intake.id, admin: 1 }, ADMIN_TICKET_TTL_MS)}`;
+  `${origin}${ROUTES.admin}#${signTicket(cfg, { id: intake.id, aud: 'admin' }, ADMIN_TICKET_TTL_MS)}`;
 
 export function readAdminTicket(cfg: Config, ticket: unknown): string {
-  const data = readTicket<{ id: string; admin?: number }>(cfg, ticket);
-  if (!data.admin || typeof data.id !== 'string') throw new LtError('not_found', 404);
+  const data = readTicket<{ id: string }>(cfg, ticket, 'admin');
+  if (typeof data.id !== 'string') throw new LtError('not_found', 404);
   return data.id;
 }
+
+// Whether this record still accepts participant or job writes. Decided on the
+// fresh copy inside every conditional write, never on an earlier snapshot.
+export const isOpen = (intake: Intake) => !intake.purgedAt && intake.tokens.some((t) => !t.revoked);
+export const holdsLiveToken = (intake: Intake, hash: string) =>
+  !intake.purgedAt && intake.tokens.some((t) => t.hash === hash && !t.revoked && Date.parse(t.expiresAt) >= Date.now());

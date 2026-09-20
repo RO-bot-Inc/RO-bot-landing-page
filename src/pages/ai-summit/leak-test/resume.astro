@@ -95,6 +95,11 @@ const title = 'Your RO Leak Test | TenthGear';
         <span class="linklike">Or choose files</span>
         <span class="fine">(no ZIP files, please)</span>
       </div>
+      <div class="box" id="rs-uploads-off" hidden>
+        <b class="t">File upload isn&rsquo;t open yet</b>
+        Secure upload opens here shortly. Add customer-facing links and a note below now, or reply to Dave&rsquo;s email and he&rsquo;ll take your files another way.
+      </div>
+      <p class="fine" id="rs-uploads-mock" hidden>Uploads are simulated on this preview: rows are recorded, no bytes are stored.</p>
       <input type="file" id="rs-file" multiple hidden>
       <ul class="files" id="rs-files" aria-live="polite"></ul>
       <p class="fine" id="rs-usage"></p>
@@ -143,6 +148,7 @@ const title = 'Your RO Leak Test | TenthGear';
       <p class="p">30 minute video call with the TenthGear team.</p>
       <div class="cal" id="rs-cal"></div>
       <p class="fine" id="rs-cal-fallback" hidden>Calendar not loading? <a id="rs-cal-link" href="#" target="_blank" rel="noopener">Open the booking page in a new tab</a>, then come back here.</p>
+      <p class="errmsg" id="rs-book-err" hidden role="alert">Calendly has your time. We couldn&rsquo;t record it here yet; reload this page in a minute and it will catch up.</p>
     </section>
 
     <!-- Frame 16: invalid or expired link -->
@@ -221,10 +227,11 @@ const title = 'Your RO Leak Test | TenthGear';
     .more { display: block; background: none; border: 0; padding: 0; margin: 8px 0 0; font: 600 13px var(--body); text-decoration: underline; color: var(--ink); cursor: pointer; }
     label { display: block; font: 600 13px var(--body); margin: 12px 0 4px; }
     label i { font-style: normal; font-weight: 400; color: var(--char); }
-    input, textarea { width: 100%; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 4px; background: #fff; padding: 10px 12px; font: 15px var(--body); color: var(--ink); }
+    /* 16px keeps iOS Safari from zooming the page on focus. */
+    input, textarea { width: 100%; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 4px; background: #fff; padding: 10px 12px; font: 16px var(--body); color: var(--ink); }
     textarea { resize: vertical; }
     .link-row { display: flex; gap: 6px; margin-bottom: 6px; }
-    .link-row input { min-height: 40px; font-size: 14px; }
+    .link-row input { min-height: 40px; }
     .link-row button { flex: none; }
     .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
     .errmsg { color: var(--red); font: 600 12.5px var(--body); margin: 10px 0 0; }

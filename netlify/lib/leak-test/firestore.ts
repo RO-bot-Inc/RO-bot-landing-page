@@ -137,7 +137,7 @@ export class Firestore {
     const out: T[] = [];
     let pageToken = '';
     do {
-      const res = await this.call('GET', `/${collection}?pageSize=300${pageToken ? `&pageToken=${pageToken}` : ''}`);
+      const res = await this.call('GET', `/${collection}?pageSize=300${pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : ''}`);
       const data = (await res.json()) as { documents?: { fields: Record<string, Value> }[]; nextPageToken?: string };
       for (const doc of data.documents || []) out.push(decodeFields(doc.fields || {}) as T);
       pageToken = data.nextPageToken || '';

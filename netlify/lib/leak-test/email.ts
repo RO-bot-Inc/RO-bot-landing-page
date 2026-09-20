@@ -94,9 +94,9 @@ const eastern = (iso: string, opts: Intl.DateTimeFormatOptions) =>
 
 export const easternTime = (iso: string) =>
   eastern(iso, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-// "Tuesday, October 6 at 10:00 AM"
+// "Tuesday, October 6 at 10:00 AM ET"
 export const easternDateTime = (iso: string) =>
-  `${eastern(iso, { weekday: 'long', month: 'long', day: 'numeric' })} at ${eastern(iso, { hour: 'numeric', minute: '2-digit' })}`;
+  `${eastern(iso, { weekday: 'long', month: 'long', day: 'numeric' })} at ${eastern(iso, { hour: 'numeric', minute: '2-digit' })} ET`;
 export const easternWeekday = (iso: string) => eastern(iso, { weekday: 'long' });
 
 export const sourceLine = (s: Intake['source']) =>
@@ -106,7 +106,7 @@ export const notionUrl = (pageId: string) => `https://www.notion.so/${pageId.rep
 
 export type InternalKind = 'enrolled' | 're-enrolled' | 'email-fixed' | 'fresh-link' | 'materials-sent' | 'booked' | 'all-set';
 
-export function internalEmail(intake: Intake, kind: InternalKind, adminLink: string) {
+export function internalEmail(intake: Intake, kind: InternalKind, adminLink: string, uploads: 'gcs' | 'mock' | 'off' = 'gcs') {
   const c = intake.contact;
   const label: Record<InternalKind, string> = {
     enrolled: 'Enrolled',
@@ -137,12 +137,12 @@ Source: ${sourceLine(intake.source)}
 Enrolled ${easternTime(intake.createdAt)} from a ${intake.source.device || 'browser'}
 
 Materials: ${materials} · Review: ${review}
-${intake.materials.notes ? `\nTheir note: ${intake.materials.notes}\n` : ''}
+${uploads === 'gcs' ? '' : uploads === 'mock' ? 'Uploads are SIMULATED on this deploy (no storage bucket): file rows are metadata only.\n' : 'File upload is switched off on this deploy (no storage bucket): links and notes only.\n'}
 Open files (signed page, links last 10 minutes): ${adminLink}
 ${intake.notionPageId ? `Notion row: ${notionUrl(intake.notionPageId)}` : 'Notion row: not written (see the function log). Intake id ' + intake.id}
 
 No files are ever attached to these emails.
-`,
+${intake.materials.notes ? `\n--- Their note (participant text, quoted) ---\n${intake.materials.notes}\n` : ''}`,
   };
 }
 

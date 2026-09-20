@@ -25,7 +25,7 @@ interface Workspace {
   links: string[];
   booking: { status: 'not_booked' | 'booked'; at: string | null; rescheduleUrl: string | null };
   usedBytes: number;
-  uploads: 'gcs' | 'mock';
+  uploads: 'gcs' | 'mock' | 'off';
   calendly: string;
 }
 
@@ -69,14 +69,19 @@ function track(event: string, params: Record<string, string | number> = {}) {
   }
 }
 
+// Never throws: a dropped connection is { ok: false, status: 0 } like any other failure.
 async function api<T = Record<string, unknown>>(body: Record<string, unknown>): Promise<{ ok: boolean; status: number; data: T }> {
-  const res = await fetch(API_PATH, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ ...body, token, website: '' }),
-  });
-  const data = (await res.json().catch(() => ({}))) as T;
-  return { ok: res.ok, status: res.status, data };
+  try {
+    const res = await fetch(API_PATH, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ ...body, token, website: '' }),
+    });
+    const data = (await res.json().catch(() => ({}))) as T;
+    return { ok: res.ok, status: res.status, data };
+  } catch {
+    return { ok: false, status: 0, data: {} as T };
+  }
 }
 
 const first = (name: string) => name.trim().split(/\s+/)[0] || 'there';
@@ -97,15 +102,17 @@ function renderHome() {
 
   const banner = $('rs-banner');
   banner.className = 'banner';
+  // Simulated uploads (preview builds) never claim Dave has the files.
+  const simulated = ws.uploads === 'mock' ? ' (Uploads are simulated on this preview.)' : '';
   if (sent && booked) {
-    banner.textContent = `You're all set, ${first(ws.name)}. Dave reviews your ROs ${at ? `before ${whenShort(at)}` : 'before your session'} and brings a scorecard, the evidence, estimated impact where the ROs support one, and what to fix first.`;
+    banner.textContent = `You're all set, ${first(ws.name)}. Dave reviews your ROs ${at ? `before ${whenShort(at)}` : 'before your session'} and brings a scorecard, the evidence, estimated impact where the ROs support one, and what to fix first.${simulated}`;
     banner.classList.add('y');
   } else if (booked) {
     banner.textContent = at
       ? `You're booked for ${whenShort(at)}. Share your ROs any time before then and Dave will have findings ready.`
       : "You're booked. Share your ROs any time before we meet and Dave will have findings ready.";
   } else if (sent) {
-    banner.textContent = "Got it. Dave has your files. Pick a time and he'll walk you through what he finds.";
+    banner.textContent = `Got it. Dave has your files. Pick a time and he'll walk you through what he finds.${simulated}`;
   }
   banner.hidden = !(sent || booked);
   $('rs-lede').hidden = sent || booked;
@@ -165,7 +172,10 @@ function renderFiles() {
     let bar: HTMLElement | null = null;
 
     if (f.status === 'done') {
-      s.innerHTML = `${formatBytes(f.size)} <span class="check" title="Saved">✓</span>`;
+      s.innerHTML =
+        ws.uploads === 'mock'
+          ? `${formatBytes(f.size)} · simulated <span class="check" title="Simulated: no bytes stored">✓</span>`
+          : `${formatBytes(f.size)} <span class="check" title="Saved">✓</span>`;
       button('Remove', () => removeFile(f.id));
     } else if (t?.state === 'rejected') {
       s.textContent = t.error;
@@ -196,7 +206,7 @@ function renderFiles() {
     li.appendChild(act);
     list.appendChild(li);
   }
-  const pending = ws.files.filter((f) => f.status !== 'done').length;
+  const pending = ws.files.filter((f) => f.status !== 'done' && transfers.get(f.id)?.state !== 'rejected').length;
   $('rs-usage').textContent = `${formatBytes(ws.usedBytes)} of ${formatBytes(MAX_INTAKE_BYTES)} used${pending ? ` · ${pending} still uploading` : ''} · Uploads keep going if you switch tabs. If your connection drops, Retry picks up where it left off.`;
 }
 
@@ -282,12 +292,14 @@ async function saveNow(): Promise<boolean> {
     ok = false;
   }
   if (ok && data) {
-    ws = data.intake;
+    // A response superseded by newer typing is not adopted: the inputs are
+    // ahead of it, and the save they triggered lands next.
     if (seq === editSeq) {
+      ws = data.intake;
       savedSeq = seq;
       $('rs-saved').textContent = 'Saved. You can leave and come back.';
+      renderHome();
     }
-    renderHome();
     return seq === editSeq;
   }
   $('rs-saved').textContent = "That didn't save. Check your connection; your text is still here.";
@@ -330,7 +342,9 @@ async function addFiles(files: FileList | File[]) {
           ? rejectFile(file.name, file.size) || 'That file type is not accepted.'
           : data.error === 'too_large'
             ? 'That would go past the 5 GB total for this leak test.'
-            : "That didn't go through. Try again.";
+            : data.error === 'uploads_off'
+              ? "File upload isn't open yet. Add links and a note, or reply to Dave's email."
+              : "That didn't go through. Try again.";
       ws.files.push({ id: localId, name: file.name, size: file.size, status: 'pending' });
       transfers.set(localId, { file: null, sessionUrl: null, sent: 0, state: 'rejected', error, controller: null });
       renderFiles();
@@ -374,8 +388,8 @@ let lastPing = 0;
 async function runUpload(fileId: string) {
   const t = transfers.get(fileId);
   const row = ws?.files.find((f) => f.id === fileId);
-  if (!t || !t.file || !row) return;
-  t.state = 'uploading';
+  // Paused or removed while queued: leave it alone.
+  if (!t || !t.file || !row || t.state !== 'uploading') return;
   t.controller = new AbortController();
   const { file } = t;
   try {
@@ -438,6 +452,10 @@ function pauseUpload(fileId: string) {
 }
 
 function resumeUpload(fileId: string) {
+  const t = transfers.get(fileId);
+  if (!t) return;
+  t.state = 'uploading';
+  renderFiles();
   enqueueUpload(fileId);
 }
 
@@ -468,20 +486,29 @@ function repickFile(row: FileRow) {
 
 async function removeFile(fileId: string) {
   if (!ws) return;
-  transfers.get(fileId)?.controller?.abort();
-  transfers.delete(fileId);
-  try {
-    localStorage.removeItem(SESSION_KEY(fileId));
-  } catch {
-    /* fine */
-  }
+  const forget = () => {
+    transfers.get(fileId)?.controller?.abort();
+    transfers.delete(fileId);
+    try {
+      localStorage.removeItem(SESSION_KEY(fileId));
+    } catch {
+      /* fine */
+    }
+  };
   if (fileId.startsWith('local-')) {
+    forget();
     ws.files = ws.files.filter((f) => f.id !== fileId);
     renderFiles();
     return;
   }
+  // Server first; the local recovery state goes only once the row is really gone.
   const { ok, data } = await api<{ intake: Workspace }>({ action: 'upload-remove', fileId });
-  if (ok) ws = data.intake;
+  if (ok) {
+    forget();
+    ws = data.intake;
+  } else {
+    $('rs-saved').textContent = "That file wasn't removed. Check your connection and try again.";
+  }
   renderFiles();
   renderHome();
 }
@@ -490,7 +517,8 @@ async function removeFile(fileId: string) {
 function confirmDone() {
   if (!ws) return;
   const done = ws.files.filter((f) => f.status === 'done').length;
-  const interrupted = ws.files.length - done;
+  // Rows the browser refused (ZIPs, oversize) were never uploads; only real transfers count as interrupted.
+  const interrupted = ws.files.filter((f) => f.status !== 'done' && transfers.get(f.id)?.state !== 'rejected').length;
   const links = readLinks().length;
   const note = $<HTMLTextAreaElement>('rs-notes').value.trim() ? ', and a note' : '';
   let text = `You've added ${done} file${done === 1 ? '' : 's'}, ${links} link${links === 1 ? '' : 's'}${note}.`;
@@ -527,6 +555,10 @@ async function sendMaterials() {
 
 function openMaterials() {
   if (!ws) return;
+  // No bucket on this deploy: the drop zone gives way to an honest note.
+  $('rs-drop').hidden = ws.uploads === 'off';
+  $('rs-uploads-off').hidden = ws.uploads !== 'off';
+  $('rs-uploads-mock').hidden = ws.uploads !== 'mock';
   renderFiles();
   // Unsaved typing (a pending or failed autosave) stays; only clean inputs
   // are repopulated from the server.
@@ -556,6 +588,7 @@ function openBooking() {
   show('book');
   const fallback = $('rs-cal-fallback');
   fallback.hidden = true;
+  $('rs-book-err').hidden = true;
   calendlyReady = false;
   // The fallback stays available until the calendar itself says it rendered,
   // not merely until Calendly's script downloaded.
@@ -601,16 +634,51 @@ window.addEventListener('message', async (e: MessageEvent) => {
     return;
   }
   if (data?.event !== 'calendly.event_scheduled') return;
-  const eventUri = data.payload?.event?.uri || '';
-  const inviteeUri = data.payload?.invitee?.uri || '';
-  const { ok, data: res } = await api<{ intake: Workspace }>({ action: 'booked', eventUri, inviteeUri });
-  if (!ok) return;
-  ws = res.intake;
+  await recordBooking({ eventUri: data.payload?.event?.uri || '', inviteeUri: data.payload?.invitee?.uri || '' });
+});
+
+// Calendly fires event_scheduled exactly once, after the meeting already exists
+// on Dave's calendar, so this write must land: retry, then keep it for the
+// next visit if it still cannot. The server side is idempotent.
+const BOOKED_KEY = 'lt_booked';
+async function recordBooking(payload: { eventUri: string; inviteeUri: string }): Promise<boolean> {
+  let r = await api<{ intake: Workspace }>({ action: 'booked', ...payload });
+  for (let attempt = 1; !r.ok && attempt <= 2; attempt++) {
+    await new Promise((s) => setTimeout(s, 800 * attempt));
+    r = await api<{ intake: Workspace }>({ action: 'booked', ...payload });
+  }
+  if (!r.ok) {
+    try {
+      localStorage.setItem(BOOKED_KEY, JSON.stringify(payload));
+    } catch {
+      /* the message below still tells them */
+    }
+    $('rs-book-err').hidden = false;
+    return false;
+  }
+  try {
+    localStorage.removeItem(BOOKED_KEY);
+  } catch {
+    /* fine */
+  }
+  ws = r.data.intake;
   const days = ws.booking.at ? Math.max(0, Math.round((Date.parse(ws.booking.at) - Date.now()) / 86_400_000)) : -1;
   track('aas_booking_complete', { appointment_window: days < 0 ? 'unknown' : days <= 7 ? 'within_week' : days <= 14 ? 'two_weeks' : 'later' });
   renderHome();
-  window.setTimeout(() => show('home'), 1800);
-});
+  if (root.dataset.screen === 'book') window.setTimeout(() => show('home'), 1800);
+  return true;
+}
+
+// A booking that could not be recorded last time is replayed on the next open.
+async function replayBooking() {
+  let pending: { eventUri: string; inviteeUri: string } | null = null;
+  try {
+    pending = JSON.parse(localStorage.getItem(BOOKED_KEY) || 'null');
+  } catch {
+    /* fine */
+  }
+  if (pending && ws?.booking.status !== 'booked') await recordBooking(pending);
+}
 
 // -------------------------------------------------------------- recovery
 $<HTMLFormElement>('rs-fresh').addEventListener('submit', async (e) => {
@@ -700,6 +768,8 @@ $('rs-done').addEventListener('click', () => {
 $('rs-confirm-yes').addEventListener('click', () => void sendMaterials());
 $('rs-confirm-no').addEventListener('click', () => {
   $('rs-confirm').hidden = true;
+  // "Done sharing" had cancelled the pending autosave; re-arm it.
+  if (dirty()) scheduleSave();
 });
 $('rs-notyou').addEventListener('click', () => {
   try {
@@ -732,6 +802,7 @@ async function open() {
   materialsStarted = ws.materials.status !== 'not_started';
   const remaining = [ws.materials.status !== 'sent' && 'materials', ws.booking.status !== 'booked' && 'booking'].filter(Boolean).join('+');
   track('aas_resume_open', { remaining_actions: remaining || 'none' });
+  await replayBooking();
   renderHome();
   const view = new URLSearchParams(location.search).get('view');
   if (view === 'book' && ws.booking.status !== 'booked') openBooking();

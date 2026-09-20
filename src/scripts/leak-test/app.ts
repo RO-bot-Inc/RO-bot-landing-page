@@ -124,6 +124,9 @@ function showEnrolled(e: Enrolled) {
   $('lt-email-out').textContent = e.email;
   const q = new URLSearchParams(utm);
   peek.href = ROUTES.futureHeadline + (q.toString() ? `?${q}` : '');
+  // A repeat enrollment gets no fix ticket (the address on file is already
+  // the one they typed), so the affordance disappears rather than failing.
+  ($('lt-fix').closest('p') as HTMLElement).hidden = !e.ticket;
   show('enrolled');
   window.scrollTo(0, 0);
 }
@@ -328,7 +331,7 @@ form.addEventListener('submit', async (e) => {
     const { token } = await fetchConfig();
     const body =
       state.mode === 'fix'
-        ? { action: 'fix', ticket: state.ticket, contact }
+        ? { action: 'fix', token, turnstile: captcha, ticket: state.ticket, contact }
         : {
             action: 'enroll',
             token,

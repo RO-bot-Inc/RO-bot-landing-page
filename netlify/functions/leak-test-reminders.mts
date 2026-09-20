@@ -10,14 +10,18 @@ import type { Config as FunctionConfig } from '@netlify/functions';
 import { config as loadConfig } from '../lib/leak-test/config';
 import { reminderEmail, send } from '../lib/leak-test/email';
 import { hashToken } from '../lib/leak-test/guard';
-import { issueResumeToken, publicOrigin, resumeLink } from '../lib/leak-test/links';
+import { isOpen, issueResumeToken, publicOrigin, resumeLink } from '../lib/leak-test/links';
 import { closedIntakeIds, logReminder } from '../lib/leak-test/notion';
 import { openStore } from '../lib/leak-test/store';
 import { LtError, type EmailLog, type Intake, type ReminderKind } from '../lib/leak-test/types';
 
 const H = 3_600_000;
 
+// Decided twice: on the listing as a cheap filter, and again on the fresh copy
+// inside the conditional write, so a purge or a revoke that lands in between
+// (Dave's admin page, retention) wins.
 function due(intake: Intake, now: number): ReminderKind | null {
+  if (!isOpen(intake)) return null;
   const sent = intake.materials.status === 'sent';
   const booked = intake.booking.status === 'booked';
   const r = intake.reminders;
@@ -47,8 +51,7 @@ export default async () => {
   let sent = 0;
 
   for (const intake of await store.list()) {
-    if (intake.purgedAt || closed.has(intake.id)) continue;
-    if (!intake.tokens.some((t) => !t.revoked)) continue; // Dave revoked their links
+    if (closed.has(intake.id)) continue;
     const kind = due(intake, now);
     if (!kind) continue;
     const stamp = new Date().toISOString();
@@ -71,17 +74,25 @@ export default async () => {
       if (!(err instanceof LtError && err.status === 409)) console.error(`[leak-test] reminder claim failed id=${intake.id}`, (err as Error).message);
       continue;
     }
+    // Only the send is irreversible. Book-keeping after it may fail without
+    // touching the claim or the token: the email is already in the inbox.
+    let delivered = false;
     try {
       const mail = reminderEmail(kind, fresh, resumeLink(origin, token, kind === 'reminder-materials-24h' ? 'book' : undefined));
       const id = await send(cfg, { from: cfg.fromDave, to: fresh.contact.email, replyTo: 'dave@tenthgear.ai', ...mail });
+      delivered = true;
+      sent++;
+      console.log(`[leak-test] reminder ${kind} id=${fresh.id}`);
       const entry: EmailLog = { at: stamp, kind, subject: mail.subject, to: fresh.contact.email, id };
       const logged = await store.update(fresh.id, (i) => {
         i.emails.push(entry);
       });
       if (cfg.notion === 'live') await logReminder(cfg, logged, entry).catch(() => console.warn('[leak-test] reminder log failed'));
-      sent++;
-      console.log(`[leak-test] reminder ${kind} id=${fresh.id}`);
     } catch (err) {
+      if (delivered) {
+        console.error(`[leak-test] reminder sent but not logged id=${fresh.id}`, (err as Error).message);
+        continue;
+      }
       console.error(`[leak-test] reminder send failed id=${fresh.id}`, (err as Error).message);
       // Release the claim so the next run tries again, and retire the unsent link.
       const unsentHash = hashToken(token);

@@ -36,12 +36,15 @@ export function signTicket<T>(cfg: Config, data: T, ttlMs: number): string {
   return `${payload}.${sign(cfg.signingSecret, payload)}`;
 }
 
-export function readTicket<T>(cfg: Config, ticket: unknown): T {
+// Every ticket carries an audience (`aud`) and every reader names the one it
+// accepts, so a ticket minted for one purpose never satisfies another reader.
+export function readTicket<T>(cfg: Config, ticket: unknown, aud: string): T {
   if (typeof ticket !== 'string') throw new LtError('expired', 400);
   const [payload, sig] = ticket.split('.');
   if (!verify(cfg.signingSecret, payload, sig)) throw new LtError('expired', 400);
   const data = JSON.parse(Buffer.from(payload, 'base64url').toString());
   if (!(data.exp > Date.now())) throw new LtError('expired', 400);
+  if (data.aud !== aud) throw new LtError('expired', 400);
   return data as T;
 }
 

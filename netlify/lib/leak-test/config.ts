@@ -41,8 +41,10 @@ export function config() {
     enabled: env('LT_ENABLED') !== 'false',
     mock,
     store,
-    // Without a bucket the browser simulates the transfer and only metadata is kept.
-    uploads: storageBucket ? ('gcs' as const) : ('mock' as const),
+    // 'gcs' with a bucket; 'mock' (the browser walks the bar, metadata only)
+    // only when LT_MODE=mock asks for it; otherwise 'off', and the workspace
+    // says uploads are not available yet rather than pretending.
+    uploads: storageBucket ? ('gcs' as const) : mock ? ('mock' as const) : ('off' as const),
     storageBucket,
     email: resendKey ? ('resend' as const) : ('log' as const),
     notion: notionKey ? ('live' as const) : ('off' as const),

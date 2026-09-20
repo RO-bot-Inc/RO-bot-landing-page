@@ -74,6 +74,26 @@ await page.waitForTimeout(300);
 await shot('04-enrolled');
 console.log('enrolled:', await page.$eval('[data-name="enrolled"] .p', (e) => e.textContent));
 
+// ------------------------------------------------ enrollment as a credential
+// A repeat enrollment must not hand out a fix ticket for the existing intake,
+// and no other ticket may drive `fix` (Codex round 3 class: account takeover
+// by re-enrolling a known email and re-addressing its link).
+{
+  const pageToken = async () => (await (await fetch(`${BASE}/api/leak-test`)).json()).token;
+  const post = async (body) => {
+    const r = await fetch(`${BASE}/api/leak-test`, { method: 'POST', headers: { 'content-type': 'application/json', origin: BASE }, body: JSON.stringify({ website: '', ...body }) });
+    return { status: r.status, data: await r.json().catch(() => ({})) };
+  };
+  const contact = { name: 'Someone Else', email, dealership: 'Rival Group', title: 'Owner' };
+  const repeat = await post({ action: 'enroll', token: await pageToken(), contact, source: {} });
+  console.log('repeat enroll:', repeat.status, 'ticket empty:', repeat.data.ticket === '', 'name kept:', repeat.data.name === 'Chris Alvarez');
+  if (repeat.status !== 200 || repeat.data.ticket !== '' || repeat.data.name !== 'Chris Alvarez') throw new Error('repeat enrollment leaked a fix ticket or overwrote the contact');
+  const adminTicket = (lastLink(/https?:\/\/\S+\/ai-summit\/leak-test\/admin\/#[A-Za-z0-9_.-]+/g).split('#')[1] || '');
+  const forged = await post({ action: 'fix', token: await pageToken(), ticket: adminTicket, contact: { ...contact, email: 'attacker@example.com' } });
+  console.log('fix with admin ticket:', forged.status, forged.data.error, '(expect 400 expired)');
+  if (forged.status === 200) throw new Error('fix accepted a ticket minted for another audience');
+}
+
 // ------------------------------------------------------------- workspace
 const link = lastLink(/https?:\/\/\S+\/ai-summit\/leak-test\/resume\/#[A-Za-z0-9_-]+/g);
 console.log('resume link:', link ? link.replace(/#.*/, '#<token>') : '(none in log)');

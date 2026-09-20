@@ -7,7 +7,6 @@ import { Firestore } from '../lib/leak-test/firestore';
 import { Storage } from '../lib/leak-test/gcs';
 import { deliveredRows, markPurged } from '../lib/leak-test/notion';
 import { openStore } from '../lib/leak-test/store';
-import { LtError } from '../lib/leak-test/types';
 
 export default async () => {
   const cfg = loadConfig();
@@ -20,29 +19,42 @@ export default async () => {
   for (const row of await deliveredRows(cfg)) {
     if (Date.parse(row.delivered) > cutoff) continue;
     const intake = await store.get(row.intakeId);
-    if (!intake || intake.purgedAt) continue;
+    // "Purged" means finished, not started: a run that failed halfway is retried
+    // until nothing is left on the record.
+    if (!intake || (intake.purgedAt && !intake.files.length && !intake.links.length && !intake.materials.notes)) continue;
     try {
-      // Close the intake first (conditionally, against the current record), so
-      // no upload can land after the objects are deleted; then delete the
-      // objects the closed record listed.
+      // Close the intake first (idempotent, against the current record) so no
+      // participant write lands after the objects go; then delete objects one
+      // by one, keeping every failure for the next run.
       const closed = await store.update(intake.id, (i) => {
-        if (i.purgedAt) throw new LtError('invalid', 409);
         for (const t of i.tokens) t.revoked = true;
-        i.purgedAt = new Date().toISOString();
-        i.updatedAt = i.purgedAt;
+        if (!i.purgedAt) i.purgedAt = new Date().toISOString();
+        i.updatedAt = new Date().toISOString();
       });
-      if (gcs) for (const f of closed.files) await gcs.remove(f.object);
-      await store.update(intake.id, (i) => {
-        i.files = [];
+      const removed = new Set<string>();
+      for (const f of closed.files) {
+        try {
+          if (gcs) await gcs.remove(f.object);
+          removed.add(f.id);
+        } catch (err) {
+          console.error(`[leak-test] purge: object delete failed id=${intake.id} file=${f.id}`, (err as Error).message);
+        }
+      }
+      const cleared = await store.update(intake.id, (i) => {
+        i.files = i.files.filter((f) => !removed.has(f.id));
         i.links = [];
         i.materials.notes = '';
         i.materials.links = 0;
+        i.materials.files = 0;
       });
+      if (cleared.files.length) {
+        console.error(`[leak-test] purge incomplete id=${intake.id} remaining=${cleared.files.length}; retried next run`);
+        continue;
+      }
       await markPurged(cfg, row.pageId).catch(() => console.warn('[leak-test] purge log failed'));
       purged++;
       console.log(`[leak-test] purged id=${intake.id}`);
     } catch (err) {
-      if (err instanceof LtError && err.status === 409) continue;
       console.error(`[leak-test] purge failed id=${intake.id}`, (err as Error).message);
     }
   }

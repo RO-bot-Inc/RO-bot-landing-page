@@ -50,13 +50,18 @@ const li = (parent: HTMLElement, text: string, link?: { href: string; label: str
 
 let ticket = '';
 
-async function api<T>(body: Record<string, unknown>) {
-  const res = await fetch(API_PATH, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ ...body, ticket, website: '' }),
-  });
-  return { ok: res.ok, data: (await res.json().catch(() => ({}))) as T };
+// Never throws: a dropped connection is an { ok: false } like any other failure.
+async function api<T>(body: Record<string, unknown>): Promise<{ ok: boolean; data: T }> {
+  try {
+    const res = await fetch(API_PATH, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ ...body, ticket, website: '' }),
+    });
+    return { ok: res.ok, data: (await res.json().catch(() => ({}))) as T };
+  } catch {
+    return { ok: false, data: {} as T };
+  }
 }
 
 function render(i: AdminIntake) {
