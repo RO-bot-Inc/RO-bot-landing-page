@@ -109,8 +109,9 @@ async function api<T = Record<string, unknown>>(body: Record<string, unknown>): 
 const first = (name: string) => name.trim().split(/\s+/)[0] || 'there';
 const eastern = (iso: string, opts: Intl.DateTimeFormatOptions) =>
   new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', ...opts }).format(new Date(iso));
-const whenShort = (iso: string) => `${eastern(iso, { weekday: 'short', month: 'short', day: 'numeric' })} at ${eastern(iso, { hour: 'numeric', minute: '2-digit' })}`;
-const whenPill = (iso: string) => `${eastern(iso, { month: 'short', day: 'numeric' })}, ${eastern(iso, { hour: 'numeric', minute: '2-digit' })}`;
+// Matches the email copy: "Tue, Oct 6 at 10:00 AM ET".
+const whenShort = (iso: string) => `${eastern(iso, { weekday: 'short', month: 'short', day: 'numeric' })} at ${eastern(iso, { hour: 'numeric', minute: '2-digit' })} ET`;
+const whenPill = (iso: string) => `${eastern(iso, { month: 'short', day: 'numeric' })}, ${eastern(iso, { hour: 'numeric', minute: '2-digit' })} ET`;
 const countLine = (files: number, links: number) => `${files} file${files === 1 ? '' : 's'}, ${links} link${links === 1 ? '' : 's'}`;
 
 // -------------------------------------------------------------- overview
