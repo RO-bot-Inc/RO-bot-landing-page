@@ -48,11 +48,22 @@ let ws: Workspace | null = null;
 const transfers = new Map<string, Transfer>();
 let materialsStarted = false;
 
-// Server truth replaces the workspace, except the rows the browser itself
-// refused (a ZIP, an oversize file): those exist only here and keep their message.
-function adopt(intake: Workspace): Workspace {
-  const local = ws?.files.filter((f) => f.id.startsWith('local-')) || [];
-  ws = { ...intake, files: [...intake.files, ...local] };
+// Server truth replaces the workspace, with two exceptions: responses are
+// applied in the order their requests were sent (an earlier request's answer
+// arriving late cannot roll back a later one), and rows this tab still owns
+// stay: transfers not yet confirmed (a file added while another's completion
+// was in flight) and the rows the browser itself refused (a ZIP, an oversize
+// file), which exist only here and keep their message.
+let reqSeq = 0;
+let adoptedSeq = 0;
+function adopt(intake: Workspace, seq = ++reqSeq): Workspace {
+  if (ws && seq < adoptedSeq) return ws;
+  adoptedSeq = seq;
+  const serverIds = new Set(intake.files.map((f) => f.id));
+  const kept = (ws?.files || []).filter(
+    (f) => !serverIds.has(f.id) && (f.id.startsWith('local-') || (transfers.has(f.id) && transfers.get(f.id)!.state !== 'done')),
+  );
+  ws = { ...intake, files: [...intake.files, ...kept] };
   return ws;
 }
 
@@ -78,8 +89,10 @@ function track(event: string, params: Record<string, string | number> = {}) {
   }
 }
 
-// Never throws: a dropped connection is { ok: false, status: 0 } like any other failure.
-async function api<T = Record<string, unknown>>(body: Record<string, unknown>): Promise<{ ok: boolean; status: number; data: T }> {
+// Never throws: a dropped connection is { ok: false, status: 0 } like any other
+// failure. `seq` is the send order, for adopt().
+async function api<T = Record<string, unknown>>(body: Record<string, unknown>): Promise<{ ok: boolean; status: number; data: T; seq: number }> {
+  const seq = ++reqSeq;
   try {
     const res = await fetch(API_PATH, {
       method: 'POST',
@@ -87,9 +100,9 @@ async function api<T = Record<string, unknown>>(body: Record<string, unknown>): 
       body: JSON.stringify({ ...body, token, website: '' }),
     });
     const data = (await res.json().catch(() => ({}))) as T;
-    return { ok: res.ok, status: res.status, data };
+    return { ok: res.ok, status: res.status, data, seq };
   } catch {
-    return { ok: false, status: 0, data: {} as T };
+    return { ok: false, status: 0, data: {} as T, seq };
   }
 }
 
@@ -303,18 +316,12 @@ async function performSave(): Promise<boolean> {
   const links = readLinks();
   const notes = $<HTMLTextAreaElement>('rs-notes').value;
   if (!materialsStarted && links.length) startedMaterials('url');
-  let ok = false;
-  let data: { intake: Workspace } | null = null;
-  try {
-    ({ ok, data } = await api<{ intake: Workspace }>({ action: 'save', links, notes }));
-  } catch {
-    ok = false;
-  }
+  const { ok, data, seq: rseq } = await api<{ intake: Workspace }>({ action: 'save', links, notes });
   if (ok && data) {
     // A response superseded by newer typing is not adopted: the inputs are
     // ahead of it, and the save they triggered lands next.
     if (seq === editSeq) {
-      adopt(data.intake);
+      adopt(data.intake, rseq);
       savedSeq = seq;
       $('rs-saved').textContent = 'Saved. You can leave and come back.';
       renderHome();
@@ -445,7 +452,7 @@ async function runUpload(fileId: string) {
         }
       }
     }
-    const { ok, data } = await api<{ intake: Workspace }>({ action: 'upload-done', fileId });
+    const { ok, data, seq } = await api<{ intake: Workspace }>({ action: 'upload-done', fileId });
     if (!ok) throw new Error('confirm failed');
     t.state = 'done';
     try {
@@ -453,7 +460,7 @@ async function runUpload(fileId: string) {
     } catch {
       /* fine */
     }
-    adopt(data.intake);
+    adopt(data.intake, seq);
   } catch (err) {
     if ((err as Error).name === 'AbortError') return; // paused
     t.state = 'failed';
@@ -521,10 +528,10 @@ async function removeFile(fileId: string) {
     return;
   }
   // Server first; the local recovery state goes only once the row is really gone.
-  const { ok, data } = await api<{ intake: Workspace }>({ action: 'upload-remove', fileId });
+  const { ok, data, seq } = await api<{ intake: Workspace }>({ action: 'upload-remove', fileId });
   if (ok) {
     forget();
-    adopt(data.intake);
+    adopt(data.intake, seq);
   } else {
     $('rs-saved').textContent = "That file wasn't removed. Check your connection and try again.";
   }
@@ -554,19 +561,13 @@ async function sendMaterials() {
     $('rs-saved').textContent = "Your links and note didn't save, so nothing was sent. Check your connection and try Done sharing again.";
     return;
   }
-  let ok = false;
-  let data: { intake: Workspace } | null = null;
-  try {
-    ({ ok, data } = await api<{ intake: Workspace }>({ action: 'materials-done' }));
-  } catch {
-    ok = false;
-  }
+  const { ok, data, seq } = await api<{ intake: Workspace }>({ action: 'materials-done' });
   if (!ok || !data) {
     $('rs-saved').textContent = "That didn't go through. Check your connection and try Done sharing again.";
     return;
   }
-  const sent = adopt(data.intake);
-  // Unfinished transfers were left out server-side; stop their bytes too.
+  // Unfinished transfers were left out server-side; stop their bytes too,
+  // before adopting, so their rows are not kept as "still ours".
   for (const [id, t] of transfers) {
     if (t.state === 'done') continue;
     t.controller?.abort();
@@ -577,6 +578,7 @@ async function sendMaterials() {
       /* fine */
     }
   }
+  const sent = adopt(data.intake, seq);
   track('aas_materials_complete', { file_count: sent.materials.files, url_count: sent.materials.links });
   renderHome();
   show('home');
@@ -705,7 +707,7 @@ async function recordBooking(payload: { eventUri: string; inviteeUri: string }):
   }
   forgetBooking();
   $('rs-home-note').hidden = true;
-  adopt(r.data.intake);
+  adopt(r.data.intake, r.seq);
   const days = ws!.booking.at ? Math.max(0, Math.round((Date.parse(ws!.booking.at) - Date.now()) / 86_400_000)) : -1;
   track('aas_booking_complete', { appointment_window: days < 0 ? 'unknown' : days <= 7 ? 'within_week' : days <= 14 ? 'two_weeks' : 'later' });
   renderHome();
@@ -829,6 +831,7 @@ function resetSession() {
   transfers.clear();
   window.clearTimeout(saveTimer);
   editSeq = savedSeq = 0;
+  adoptedSeq = 0;
   $('rs-links').innerHTML = '';
   $<HTMLTextAreaElement>('rs-notes').value = '';
   $('rs-files').innerHTML = '';
@@ -861,10 +864,10 @@ async function open() {
   if (!token) return show('invalid');
   let opened: Workspace;
   try {
-    const { ok, data } = await api<{ intake: Workspace }>({ action: 'resume' });
+    const { ok, data, seq } = await api<{ intake: Workspace }>({ action: 'resume' });
     if (!ok) return show('invalid');
     ws = null; // a fresh open never inherits another participant's local rows
-    opened = adopt(data.intake);
+    opened = adopt(data.intake, seq);
   } catch {
     return show('invalid');
   }
