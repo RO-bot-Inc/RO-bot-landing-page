@@ -83,3 +83,7 @@ For live mode locally, put the three required variables in `.env` (gitignored) a
 - [ ] Physical postcard QR scanned on iPhone Safari and Android Chrome, on cellular. Test camera capture, library upload, Share sheet, Download, press-and-hold save.
 - [ ] Trailing slash and no trailing slash both load.
 - [ ] Kill switch rehearsed once.
+
+## Image step: no vision check since 2026-09-21
+
+The restaged photo used to pass a PASS/FAIL vision check, with one redraw on FAIL. A study on 2026-09-21 (`imageLooksRight` against 7 real group photos) failed every first draw on lettering while the draws themselves were fine, so every front page paid for two draws (about 45 s on cellular). The first draw now ships; a second attempt happens only when the provider errors or times out. `imageLooksRight` stays in `image.ts` unused, in case a cheaper check is wanted later. Expected time on a good link: story ~8 s + draw ~10 s.

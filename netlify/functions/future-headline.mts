@@ -18,7 +18,7 @@ import {
   sessionCount,
   signTicket,
 } from '../lib/future-headline/guard';
-import { imageLooksRight, restagePhoto } from '../lib/future-headline/image';
+import { restagePhoto } from '../lib/future-headline/image';
 import { writeStory } from '../lib/future-headline/story';
 import { FhError, type Outcome, type Story, type StoryDraft } from '../lib/future-headline/types';
 
@@ -97,14 +97,12 @@ export default async (req: Request) => {
           cfg, photo, ticket.d, ticket.n || 2, ticket.c, ticket.l,
           Math.min(cfg.imageTimeoutMs, STEP_BUDGET_MS - 1_000),
         );
-        const left = STEP_BUDGET_MS - (Date.now() - started);
-        // Only the first attempt is checked. A second failure would leave the
-        // attendee with nothing better, so attempt 2 is accepted as drawn.
-        if (attempt === 1 && ticket.n && left > 6_500 && !(await imageLooksRight(cfg, candidate, ticket.n, left - 1_500))) {
-          retry = true;
-        } else {
-          image = candidate;
-        }
+        // The first draw ships. The vision check that used to gate it rejected
+        // 7 of 7 good draws in the 2026-09-21 study (it trips on the lettering
+        // the image model adds) and cost a second draw every time, about 11 s
+        // per front page; Dave chose speed over the rare extra limb. A second
+        // attempt now happens only when the provider fails or times out.
+        image = candidate;
       } catch (err) {
         console.warn('[future-headline] image attempt failed', attempt, (err as Error).message);
         retry = attempt === 1;
