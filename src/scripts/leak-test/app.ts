@@ -122,6 +122,13 @@ function show(screen: 'offer' | 'enrolled') {
 function showEnrolled(e: Enrolled) {
   $('lt-first').textContent = e.name.trim().split(/\s+/)[0] || 'there';
   $('lt-email-out').textContent = e.email;
+  // An address already on file keeps its record (same intake, fresh link,
+  // nothing overwritten), so the screen says so instead of greeting whoever
+  // typed the form. Copy is Dave's (2026-09-21).
+  $('lt-first-wrap').hidden = !e.ticket;
+  if (!e.ticket) {
+    $('lt-enrolled-p').textContent = `The email ${e.email} is already enrolled. We just sent you a fresh private link to that address.`;
+  }
   const q = new URLSearchParams(utm);
   peek.href = ROUTES.futureHeadline + (q.toString() ? `?${q}` : '');
   // A repeat enrollment gets no fix ticket (the address on file is already
