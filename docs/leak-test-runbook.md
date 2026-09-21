@@ -131,11 +131,11 @@ Already done by the agent: `LT_SIGNING_SECRET` in deploy-preview and branch-depl
 
 - [x] Keys set in every context; a real enrollment lands in Dave's inbox, the Notion row appears, the notification arrives (2026-09-20, iPhone Safari, PR #116 preview; real upload, chunked resume, V4 download, booking with time all verified the same day).
 - [x] Turnstile on iPhone Safari: non-interactive "checking, no puzzles" widget, submit passed (2026-09-20).
-- [ ] Turnstile on Android Chrome, real device on cellular (friends' test, brief sent 2026-09-20).
+- [~] Turnstile on Android Chrome, real device on cellular: Pixel 7 and 320px emulation pass on layout (2026-09-20); Dave's ruling 2026-09-21: assume it works unless his Android testers report otherwise.
 - [x] `/ai-summit/leak-test` (301 to the slash form) and `/ai-summit/leak-test/` both load (2026-09-20).
 - [x] Resume link from the email opens the private page on a different device; the address bar shows no token (2026-09-20).
-- [ ] GA4 DebugView shows `aas_resume_open` with no token in `page_location`.
-- [ ] GA4 DebugView shows `aas_page_view`, `aas_qr_visit`, `aas_form_start`, `aas_contact_complete`.
+- [x] GA4 DebugView shows `aas_resume_open` with `page_location` = `https://tenthgear.ai/ai-summit/leak-test/resume/`, no token (2026-09-21). To repeat: drive the pages with Playwright and add `_dbg=1` to every `/g/collect` request; each new browser context is its own "Debug Device" in the dropdown, and `aas_resume_open` arrives a few seconds after the page view.
+- [x] GA4 shows `aas_page_view`, `aas_qr_visit`, `aas_form_start` (DebugView) and `aas_contact_complete` (Realtime, Dave's phone signup) (2026-09-21).
 - [x] Fresh-link screen sends a new link and the old one stops working (2026-09-20, production).
 - [x] Kill switch rehearsed once (2026-09-20, deploy-preview context: API answers `disabled` 503, page shows "Enrollment is paused right now."; the page fix for that message is in #118). To use it for real: `npx -y netlify-cli env:set LT_ENABLED false --context production`, then trigger a production deploy; `env:unset` and redeploy to resume.
 - [ ] Physical postcard QR scanned on iPhone and Android, on cellular.
