@@ -26,6 +26,8 @@ Degradation ladder: text model fails -> hand-written bank story. Image model fai
 
 Set these in Netlify: Site configuration -> Environment variables (scope: Functions). Never in the repo, never `PUBLIC_`/client-side.
 
+**All three contexts (deploy-preview, branch-deploy, production), one `env:set` per context.** Until 2026-09-21 the keys lived in the preview contexts only, so production ran in **mock mode** for two days after #108 merged: canned headlines, photo untouched, no error anywhere. `GET /api/future-headline` reports `mode`; check it on tenthgear.ai after every merge that touches keys. Keys set in all contexts 2026-09-21 (`FH_SIGNING_SECRET` is a fresh value per deploy, not the `.env` one, which is empty).
+
 | Variable | Required | Value |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | yes | console.anthropic.com -> API keys. Create a key named `website-future-headline` in its own workspace and set a monthly spend limit on that workspace (suggest $50). |
