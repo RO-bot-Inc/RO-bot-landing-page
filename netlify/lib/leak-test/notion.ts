@@ -182,6 +182,6 @@ export async function closedIntakeIds(cfg: Config): Promise<Set<string>> {
 }
 
 export async function markPurged(cfg: Config, pageId: string): Promise<void> {
-  await call(cfg, 'PATCH', `/pages/${pageId}`, { properties: { 'Their notes': text(''), 'Open files': { url: null } } });
+  await call(cfg, 'PATCH', `/pages/${pageId}`, { properties: { 'Their notes': text(''), 'Open files': { url: null }, Files: { number: 0 }, Links: { number: 0 } } });
   await appendLog(cfg, pageId, 'Files, links, and notes deleted (60-day retention).');
 }
