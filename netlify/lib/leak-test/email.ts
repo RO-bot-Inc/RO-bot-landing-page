@@ -15,7 +15,7 @@ export function enrollmentEmail(intake: Intake, link: string) {
     subject: 'Your private RO Leak Test link',
     text: `${firstName(intake.contact.name)},
 
-You're enrolled in the complimentary RO Leak Test from TenthGear!
+You're enrolled in the RO Leak Test from TenthGear.
 
 This is your private link. It works on any device, with no account and no password:
 ${link}
@@ -155,6 +155,26 @@ interface Mail {
 }
 
 // Returns the Resend id, or null in log mode. Throws on a live failure.
+// The same words as the text part, as a minimal HTML alternative: paragraphs,
+// and each link as an anchor whose visible text is the URL. Text-only mail
+// whose main feature is a long tokenized URL is a spam signal on its own
+// (an Android tester's Gmail filed the enrollment email as spam, 2026-09-21,
+// with SPF, DKIM, and DMARC all passing).
+const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+export function textToHtml(text: string): string {
+  const paragraphs = text
+    .trim()
+    .split(/\n{2,}/)
+    .map((p) =>
+      escapeHtml(p)
+        .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#111;">$1</a>')
+        .replace(/\n/g, '<br>'),
+    );
+  return `<!doctype html><html><body style="margin:0;padding:24px 16px;background:#fff;"><div style="max-width:560px;font-family:-apple-system,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:#111;">${paragraphs
+    .map((p) => `<p style="margin:0 0 16px;">${p}</p>`)
+    .join('')}</div></body></html>`;
+}
+
 export async function send(cfg: Config, mail: Mail): Promise<string | null> {
   if (cfg.email === 'log') {
     console.log(`[leak-test] email (log mode)\nFrom: ${mail.from}\nTo: ${mail.to}\nSubject: ${mail.subject}\n\n${mail.text}`);
@@ -169,6 +189,7 @@ export async function send(cfg: Config, mail: Mail): Promise<string | null> {
       reply_to: mail.replyTo,
       subject: mail.subject,
       text: mail.text,
+      html: textToHtml(mail.text),
     }),
   });
   if (!res.ok) {
