@@ -111,7 +111,7 @@ jobs:
       # notifications that the "failed-workflows-only" setting can't filter).
       - name: Post review comment (only when actionable)
         if: always() && steps.secret.outputs.has_key == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           DOCS_ONLY: ${{ steps.scope.outputs.docs_only }}
         with:
