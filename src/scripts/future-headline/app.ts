@@ -5,6 +5,8 @@ import {
   MAX_UPLOAD_BYTES,
   PRESETS,
   PRESETS_SHOWN,
+  REQUEST_TIMEOUT_MS,
+  UPLOAD_PHOTO_EDGE,
 } from './presets';
 import { canvasToBlob, loadAssets, renderFrontPage, type Story } from './render';
 
@@ -28,6 +30,7 @@ const preview = $<HTMLImageElement>('fh-preview');
 const own = $<HTMLTextAreaElement>('fh-own');
 const oracle = $('fh-oracle');
 const failBox = $('fh-fail');
+const failTitle = $('fh-fail-title');
 const failMsg = $('fh-fail-msg');
 const resultImg = $<HTMLImageElement>('fh-result');
 const download = $<HTMLAnchorElement>('fh-download');
@@ -175,8 +178,16 @@ async function onFile(file: File) {
   c.getContext('2d')!.drawImage(decoded.src, 0, 0, c.width, c.height);
   const dataUrl = c.toDataURL('image/jpeg', 0.86);
   state.photo = c;
-  state.photoData = dataUrl.slice(dataUrl.indexOf(',') + 1);
   preview.src = dataUrl;
+  // The server copy: same photo, smaller and tighter, so the upload survives
+  // a slow cellular uplink. The full-size canvas still prints the fallback page.
+  const up = Math.min(1, UPLOAD_PHOTO_EDGE / Math.max(c.width, c.height));
+  const u = document.createElement('canvas');
+  u.width = Math.round(c.width * up);
+  u.height = Math.round(c.height * up);
+  u.getContext('2d')!.drawImage(c, 0, 0, u.width, u.height);
+  const upload = u.toDataURL('image/jpeg', 0.8);
+  state.photoData = upload.slice(upload.indexOf(',') + 1);
 
   // A file stamped within the last minute almost certainly came from the camera.
   const method = Date.now() - file.lastModified < 60_000 ? 'camera' : 'library';
@@ -215,7 +226,12 @@ const ORACLE_LINES = [
   'Waiting for the ink to dry...',
 ];
 
+const TITLES: Record<string, string> = {
+  slow: 'Your connection is too slow!',
+};
+
 const ERRORS: Record<string, string> = {
+  slow: 'Someday AI may solve bad wifi, but that day is not today.',
   rate_limited: 'The oracle is swamped. Give it a few seconds, then try again.',
   capacity: 'The presses are at capacity for today. Try again in a bit.',
   disabled: 'The presses are paused right now. Check back shortly.',
@@ -228,6 +244,7 @@ const ERRORS: Record<string, string> = {
 
 function fail(category: string) {
   track('future_headline_generation_error', { error_category: category });
+  failTitle.textContent = TITLES[category] || 'The presses jammed.';
   failMsg.textContent = ERRORS[category] || ERRORS.upstream;
   root.setAttribute('data-failed', '');
   failBox.hidden = false;
@@ -245,7 +262,7 @@ function bucket(ms: number): string {
 
 async function post(payload: Record<string, unknown>): Promise<Response> {
   const ctrl = new AbortController();
-  const timeout = window.setTimeout(() => ctrl.abort(), 40_000);
+  const timeout = window.setTimeout(() => ctrl.abort(), REQUEST_TIMEOUT_MS);
   try {
     return await fetch(API_PATH, {
       method: 'POST',
@@ -253,6 +270,10 @@ async function post(payload: Record<string, unknown>): Promise<Response> {
       signal: ctrl.signal,
       body: JSON.stringify(payload),
     });
+  } catch (err) {
+    // Our own timer fired: the upload never finished. Named so fail() can say so.
+    if (ctrl.signal.aborted) throw new Error('slow');
+    throw err;
   } finally {
     window.clearTimeout(timeout);
   }
