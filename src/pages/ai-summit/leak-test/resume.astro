@@ -194,81 +194,85 @@ const title = 'Your RO Leak Test | TenthGear';
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.45; -webkit-font-smoothing: antialiased; }
     [hidden] { display: none !important; }
-    #rs { max-width: 820px; margin: 0 auto; padding: 0 20px calc(40px + env(safe-area-inset-bottom)); }
-    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: calc(12px + env(safe-area-inset-top)) 0 10px; border-bottom: 2px solid var(--ink); margin-bottom: 16px; }
-    .top img { height: 22px; width: auto; }
-    .eyebrow { font: 700 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
-    h1 { font-family: var(--head); font-weight: 400; font-size: 34px; line-height: 1.05; text-transform: uppercase; margin: 6px 0 4px; }
-    h1.sm { font-size: 30px; }
-    h2 { font-family: var(--head); font-weight: 400; font-size: 20px; text-transform: uppercase; margin: 0 0 6px; }
-    .p { font-size: 16px; color: var(--char); margin: 0 0 14px; }
+    #rs { max-width: 51.25rem; margin: 0 auto; padding: 0 1.25rem calc(2.5rem + env(safe-area-inset-bottom)); }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: calc(0.75rem + env(safe-area-inset-top)) 0 0.625rem; border-bottom: 0.125rem solid var(--ink); margin-bottom: 1rem; }
+    .top img { height: 1.375rem; width: auto; }
+    .eyebrow { font: 700 0.6875rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
+    h1 { font-family: var(--head); font-weight: 400; font-size: 2.125rem; line-height: 1.05; text-transform: uppercase; margin: 0.375rem 0 0.25rem; }
+    h1.sm { font-size: 1.875rem; }
+    h2 { font-family: var(--head); font-weight: 400; font-size: 1.25rem; text-transform: uppercase; margin: 0 0 0.375rem; }
+    .p { font-size: 1rem; color: var(--char); margin: 0 0 0.875rem; }
     .p a, .fine a, .linklike { color: var(--ink); }
-    .fine { font-size: 12.5px; color: var(--char); margin: 10px 0 0; line-height: 1.4; }
-    .crumb { margin: 0 0 6px; font-size: 14px; }
-    .lbl { font: 700 12px var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
-    .banner { background: var(--ink); color: #fff; padding: 12px 14px; font-size: 15px; margin: 0 0 14px; }
-    .banner.y { background: var(--yellow); color: var(--ink); border: 2px solid var(--ink); }
-    .cards { display: grid; gap: 14px; margin-top: 10px; }
-    .card { background: #fff; border: 2px solid var(--ink); padding: 14px 16px; font-size: 14px; }
-    .card h2 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .card p { margin: 0 0 8px; }
-    .pill { font: 700 10.5px var(--mono); text-transform: uppercase; padding: 3px 8px; border-radius: 20px; border: 1.5px solid var(--ink); background: #fff; white-space: nowrap; }
+    .fine { font-size: 0.7813rem; color: var(--char); margin: 0.625rem 0 0; line-height: 1.4; }
+    .crumb { margin: 0 0 0.375rem; font-size: 0.875rem; }
+    .lbl { font: 700 0.75rem var(--mono); text-transform: uppercase; letter-spacing: 0.05em; }
+    .banner { background: var(--ink); color: #fff; padding: 0.75rem 0.875rem; font-size: 0.9375rem; margin: 0 0 0.875rem; }
+    .banner.y { background: var(--yellow); color: var(--ink); border: 0.125rem solid var(--ink); }
+    .cards { display: grid; gap: 0.875rem; margin-top: 0.625rem; }
+    .card { background: #fff; border: 0.125rem solid var(--ink); padding: 0.875rem 1rem; font-size: 0.875rem; }
+    .card h2 { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .card p { margin: 0 0 0.5rem; }
+    .pill { font: 700 0.6563rem var(--mono); text-transform: uppercase; padding: 0.1875rem 0.5rem; border-radius: 1.25rem; border: 0.0938rem solid var(--ink); background: #fff; white-space: nowrap; }
     .pill.go { background: var(--yellow); }
     .pill.done { background: var(--ink); color: #fff; }
     .pill.done::before { content: '\2713 '; }
-    ul.cl { margin: 0 0 12px; padding-left: 18px; color: var(--char); }
-    .cols { display: grid; gap: 14px; margin: 8px 0 12px; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 52px; padding: 8px 16px; border: 0; border-radius: 4px; background: var(--red); color: #fff; font-family: var(--head); font-size: 20px; letter-spacing: 0.02em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
-    .btn.sm { width: auto; min-height: 42px; font-size: 16px; }
+    ul.cl { margin: 0 0 0.75rem; padding-left: 1.125rem; color: var(--char); }
+    .cols { display: grid; gap: 0.875rem; margin: 0.5rem 0 0.75rem; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 3.25rem; padding: 0.5rem 1rem; border: 0; border-radius: 0.25rem; background: var(--red); color: #fff; font-family: var(--head); font-size: 1.25rem; letter-spacing: 0.02em; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+    .btn.sm { width: auto; min-height: 2.625rem; font-size: 1rem; }
     .btn.dark { background: var(--ink); }
-    .btn.ghost { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+    .btn.ghost { background: #fff; color: var(--ink); border: 0.125rem solid var(--ink); }
     .btn[disabled] { background: var(--light); color: var(--grey); cursor: not-allowed; }
-    .btn:focus-visible, input:focus-visible, textarea:focus-visible, .linklike:focus-visible, .drop:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+    .btn:focus-visible, input:focus-visible, textarea:focus-visible, .linklike:focus-visible, .drop:focus-visible { outline: 0.1875rem solid var(--ink); outline-offset: 0.125rem; }
     .linklike { background: none; border: 0; padding: 0; font: inherit; text-decoration: underline; cursor: pointer; }
-    .more { display: block; background: none; border: 0; padding: 0; margin: 8px 0 0; font: 600 13px var(--body); text-decoration: underline; color: var(--ink); cursor: pointer; }
-    label { display: block; font: 600 13px var(--body); margin: 12px 0 4px; }
+    .more { display: block; background: none; border: 0; padding: 0; margin: 0.5rem 0 0; font: 600 0.8125rem var(--body); text-decoration: underline; color: var(--ink); cursor: pointer; }
+    label { display: block; font: 600 0.8125rem var(--body); margin: 0.75rem 0 0.25rem; }
     label i { font-style: normal; font-weight: 400; color: var(--char); }
-    /* 16px keeps iOS Safari from zooming the page on focus. */
-    input, textarea { width: 100%; min-height: 44px; border: 1.5px solid var(--ink); border-radius: 4px; background: #fff; padding: 10px 12px; font: 16px var(--body); color: var(--ink); }
+    /* 1rem keeps iOS Safari from zooming the page on focus. */
+    input, textarea { width: 100%; min-height: 2.75rem; border: 0.0938rem solid var(--ink); border-radius: 0.25rem; background: #fff; padding: 0.625rem 0.75rem; font: 1rem var(--body); color: var(--ink); }
     textarea { resize: vertical; }
-    .link-row { display: flex; gap: 6px; margin-bottom: 6px; }
-    .link-row input { min-height: 40px; }
+    .link-row { display: flex; gap: 0.375rem; margin-bottom: 0.375rem; }
+    .link-row input { min-height: 2.5rem; }
     .link-row button { flex: none; }
     .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-    .errmsg { color: var(--red); font: 600 12.5px var(--body); margin: 10px 0 0; }
+    .errmsg { color: var(--red); font: 600 0.7813rem var(--body); margin: 0.625rem 0 0; }
     .errmsg::before { content: '! '; font-weight: 800; }
-    .drop { border: 2px dashed var(--ink); background: #fffdf5; text-align: center; padding: 22px 12px; margin: 12px 0 6px; font-size: 14px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; align-items: center; }
-    .drop b { font-family: var(--head); font-weight: 400; font-size: 20px; text-transform: uppercase; }
+    .drop { border: 0.125rem dashed var(--ink); background: #fffdf5; text-align: center; padding: 1.375rem 0.75rem; margin: 0.75rem 0 0.375rem; font-size: 0.875rem; cursor: pointer; display: flex; flex-direction: column; gap: 0.25rem; align-items: center; }
+    .drop b { font-family: var(--head); font-weight: 400; font-size: 1.25rem; text-transform: uppercase; }
     .drop.over { background: var(--yellow); }
     .drop .fine { margin: 0; }
     .files { list-style: none; margin: 0; padding: 0; }
-    .files li { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; border-bottom: 1px solid var(--light); padding: 8px 0; font-size: 13.5px; }
+    .files li { display: grid; grid-template-columns: 1fr auto; gap: 0.25rem 0.625rem; align-items: center; border-bottom: 0.0625rem solid var(--light); padding: 0.5rem 0; font-size: 0.8438rem; }
     .files .n { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .files .s { color: var(--char); font-size: 12px; white-space: nowrap; }
+    .files .s { color: var(--char); font-size: 0.75rem; white-space: nowrap; }
     .files .s.bad { color: var(--red); font-weight: 700; }
-    .files .bar { grid-column: 1 / -1; height: 6px; background: var(--light); border-radius: 3px; overflow: hidden; }
+    .files .bar { grid-column: 1 / -1; height: 0.375rem; background: var(--light); border-radius: 0.1875rem; overflow: hidden; }
     .files .bar i { display: block; height: 100%; background: var(--ink); transition: width 0.2s; }
     .files .bar.bad i { background: var(--red); }
-    .files .act { display: flex; gap: 10px; font-size: 12.5px; }
-    .files .check { display: inline-flex; width: 18px; height: 18px; border-radius: 50%; background: var(--green); color: var(--ink); font: 700 12px var(--body); align-items: center; justify-content: center; margin-right: 6px; vertical-align: -3px; }
-    .box { background: #fff; border: 2px solid var(--ink); padding: 12px 14px; margin: 14px 0 0; font-size: 13px; }
-    .box b.t { font-family: var(--head); font-weight: 400; font-size: 15px; text-transform: uppercase; display: block; margin-bottom: 4px; }
-    .row-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
+    .files .act { display: flex; gap: 0.625rem; font-size: 0.7813rem; }
+    .files .check { display: inline-flex; width: 1.125rem; height: 1.125rem; border-radius: 50%; background: var(--green); color: var(--ink); font: 700 0.75rem var(--body); align-items: center; justify-content: center; margin-right: 0.375rem; vertical-align: -0.1875rem; }
+    .box { background: #fff; border: 0.125rem solid var(--ink); padding: 0.75rem 0.875rem; margin: 0.875rem 0 0; font-size: 0.8125rem; }
+    .box b.t { font-family: var(--head); font-weight: 400; font-size: 0.9375rem; text-transform: uppercase; display: block; margin-bottom: 0.25rem; }
+    .row-actions { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 0.875rem; }
     .row-actions .fine { margin: 0; }
-    .scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 10; }
-    .modal { background: #fff; border: 3px solid var(--ink); padding: 18px 20px; max-width: 460px; width: 100%; box-shadow: 8px 8px 0 var(--ink); font-size: 15px; }
-    .modal h2 { font-size: 24px; }
-    /* Definite height: Calendly's iframe is height:100% and collapses to 150px inside a min-height-only box. The script follows calendly.page_height from here. */
+    .scrim { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; padding: 1.25rem; z-index: 10; }
+    .modal { background: #fff; border: 0.1875rem solid var(--ink); padding: 1.125rem 1.25rem; max-width: 28.75rem; width: 100%; box-shadow: 0.5rem 0.5rem 0 var(--ink); font-size: 0.9375rem; }
+    .modal h2 { font-size: 1.5rem; }
+    /* Definite height: Calendly's iframe is height:100% and collapses to 9.375rem inside a min-height-only box. The script follows calendly.page_height from here. */
     .cal { height: 700px; background: #fff; border: 1.5px solid var(--grey); }
-    .ts { border: 1px solid var(--grey); background: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; margin: 14px 0; }
-    .ts .sp { width: 18px; height: 18px; flex: none; border: 3px solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    .ts { border: 0.0625rem solid var(--grey); background: #fff; border-radius: 0.25rem; padding: 0.625rem 0.75rem; font-size: 0.8125rem; display: flex; gap: 0.625rem; align-items: center; margin: 0.875rem 0; }
+    .ts .sp { width: 1.125rem; height: 1.125rem; flex: none; border: 0.1875rem solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .ok { width: 54px; height: 54px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font: 700 28px var(--body); margin: 10px 0 12px; }
+    .ok { width: 3.375rem; height: 3.375rem; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font: 700 1.75rem var(--body); margin: 0.625rem 0 0.75rem; }
     @media (min-width: 700px) {
       .cards, .cols { grid-template-columns: 1fr 1fr; }
-      h1 { font-size: 40px; }
+      h1 { font-size: 2.5rem; }
     }
     @media (prefers-reduced-motion: reduce) { .ts .sp { animation: none; } .files .bar i { transition: none; } }
+    /* Desktop: every length above is rem, so the phone-first layout scales up whole. */
+    @media (min-width: 1024px) { html { font-size: 18px; } }
+    @media (min-width: 1440px) { html { font-size: 20px; } }
+    @media (min-width: 1800px) { html { font-size: 22px; } }
   </style>
 </body>
 </html>
