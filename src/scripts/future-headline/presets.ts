@@ -34,4 +34,9 @@ export const PRESETS_SHOWN = 4;
 export const MAX_PREDICTION_CHARS = 120;
 export const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
 export const MAX_PHOTO_EDGE = 1536;
+// The copy sent to the server (twice per run) is smaller still: a conference
+// hall's cellular uplink is the slowest link in the chain.
+export const UPLOAD_PHOTO_EDGE = 1024;
+// Upload time on a weak uplink plus the function's ~30 s budget.
+export const REQUEST_TIMEOUT_MS = 75_000;
 export const API_PATH = '/api/future-headline';

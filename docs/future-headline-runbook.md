@@ -10,7 +10,7 @@ Product handoff: `../../gtm/campaigns/automotive-ai-summit-2026/future-headlines
 | Piece | Where | Notes |
 |---|---|---|
 | Page (static Astro, standalone, `noindex`) | `src/pages/ai-summit/future-headline.astro` | No Navbar/Footer, GTM only. First screen needs no JS library. |
-| Client flow | `src/scripts/future-headline/app.ts` | Photo normalize (EXIF, max 1536 px JPEG), prediction, retry, share, download, GA4. |
+| Client flow | `src/scripts/future-headline/app.ts` | Photo normalize (EXIF, max 1536 px JPEG for the page, a 1024 px / 0.8 copy for the upload), 75 s request timeout with a "connection too slow" screen, prediction, retry, share, download, GA4. |
 | Deterministic renderer | `src/scripts/future-headline/render.ts` | Canvas, 1080 x 1350 PNG. Draws every word, date, stamp, and logo from self-hosted fonts. The image model only supplies the lead photo. |
 | API | `netlify/functions/future-headline.mts` at `/api/future-headline` | Netlify Function v2. No Astro adapter. Holds all credentials. |
 | Text adapter | `netlify/lib/future-headline/story.ts` | Claude, structured output, sees photo + prediction. |
