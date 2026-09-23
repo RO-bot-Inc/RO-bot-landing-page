@@ -236,60 +236,60 @@ const testimonials = [
     html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
     body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); line-height: 1.45; -webkit-font-smoothing: antialiased; }
     [hidden] { display: none !important; }
-    #lt { max-width: 520px; margin: 0 auto; padding: 0 20px calc(24px + env(safe-area-inset-bottom)); }
+    #lt { max-width: 32.5rem; margin: 0 auto; padding: 0 1.25rem calc(1.5rem + env(safe-area-inset-bottom)); }
     .top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: calc(12px + env(safe-area-inset-top)) 0 10px;
-      border-bottom: 2px solid var(--ink);
-      margin-bottom: 14px;
+      gap: 0.75rem;
+      padding: calc(0.75rem + env(safe-area-inset-top)) 0 0.625rem;
+      border-bottom: 0.125rem solid var(--ink);
+      margin-bottom: 0.875rem;
     }
-    .top img { height: 22px; width: auto; }
-    .eyebrow { font: 700 11px var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
-    .screen { padding-bottom: 8px; }
+    .top img { height: 1.375rem; width: auto; }
+    .eyebrow { font: 700 0.6875rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--char); }
+    .screen { padding-bottom: 0.5rem; }
     h1 {
       font-family: var(--head);
       font-weight: 400;
-      font-size: clamp(44px, 13vw, 56px);
+      font-size: clamp(2.75rem, 13vw, 3.5rem);
       line-height: 1;
       text-transform: uppercase;
       color: var(--red);
-      margin: 4px 0 8px;
+      margin: 0.25rem 0 0.5rem;
     }
-    h2 { font-family: var(--head); font-weight: 400; font-size: 30px; line-height: 1.05; text-transform: uppercase; margin: 6px 0 12px; }
-    h2.big { font-size: 34px; }
-    .sub { font-family: var(--serif); font-weight: 700; font-size: 19px; line-height: 1.25; margin: 0 0 14px; }
-    .p { font-size: 16px; color: var(--char); margin: 0 0 14px; }
+    h2 { font-family: var(--head); font-weight: 400; font-size: 1.875rem; line-height: 1.05; text-transform: uppercase; margin: 0.375rem 0 0.75rem; }
+    h2.big { font-size: 2.125rem; }
+    .sub { font-family: var(--serif); font-weight: 700; font-size: 1.1875rem; line-height: 1.25; margin: 0 0 0.875rem; }
+    .p { font-size: 1rem; color: var(--char); margin: 0 0 0.875rem; }
     .p b { color: var(--ink); }
-    .fine { font-size: 12.5px; color: var(--char); margin: 10px 0 0; line-height: 1.4; }
+    .fine { font-size: 0.7813rem; color: var(--char); margin: 0.625rem 0 0; line-height: 1.4; }
     .center { text-align: center; }
     .fine a, .foot a { color: var(--ink); }
 
-    .receipt { background: #fff; border: 2px solid var(--ink); padding: 12px 14px; margin: 0 0 14px; font-family: var(--mono); font-size: 13px; text-transform: uppercase; }
-    .receipt .rh { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--ink); padding-bottom: 6px; margin-bottom: 6px; font-weight: 700; }
-    .receipt .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 4px 0; border-bottom: 1px dotted var(--grey); }
-    .receipt .row b { font-family: var(--head); font-weight: 400; font-size: 15px; }
-    .receipt .tot { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding-top: 8px; }
+    .receipt { background: #fff; border: 0.125rem solid var(--ink); padding: 0.75rem 0.875rem; margin: 0 0 0.875rem; font-family: var(--mono); font-size: 0.8125rem; text-transform: uppercase; }
+    .receipt .rh { display: flex; justify-content: space-between; border-bottom: 0.0625rem dashed var(--ink); padding-bottom: 0.375rem; margin-bottom: 0.375rem; font-weight: 700; }
+    .receipt .row { display: flex; justify-content: space-between; align-items: baseline; gap: 0.625rem; padding: 0.25rem 0; border-bottom: 0.0625rem dotted var(--grey); }
+    .receipt .row b { font-family: var(--head); font-weight: 400; font-size: 0.9375rem; }
+    .receipt .tot { display: flex; justify-content: space-between; align-items: center; gap: 0.375rem; padding-top: 0.5rem; }
     .receipt .tot span { white-space: nowrap; }
     .receipt s { color: var(--red); }
-    .stamp { font-family: var(--head); color: var(--red); border: 3px solid var(--red); padding: 1px 6px; transform: rotate(-4deg); font-size: 14px; }
-    .due { font-family: var(--head); font-size: 22px; }
-    /* 320px phones: the total row (REGULAR $2,500 / COMPLIMENTARY / $0 DUE) spilled past the box. */
-    @media (max-width: 359px) { .receipt .tot { flex-wrap: wrap; justify-content: flex-end; } .receipt .tot > :first-child { margin-right: auto; } .stamp { font-size: 12px; } .due { font-size: 18px; } }
+    .stamp { font-family: var(--head); color: var(--red); border: 0.1875rem solid var(--red); padding: 0.0625rem 0.375rem; transform: rotate(-4deg); font-size: 0.875rem; }
+    .due { font-family: var(--head); font-size: 1.375rem; }
+    /* 20rem phones: the total row (REGULAR $2,500 / COMPLIMENTARY / $0 DUE) spilled past the box. */
+    @media (max-width: 359px) { .receipt .tot { flex-wrap: wrap; justify-content: flex-end; } .receipt .tot > :first-child { margin-right: auto; } .stamp { font-size: 0.75rem; } .due { font-size: 1.125rem; } }
 
     .btn {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
-      min-height: 56px;
-      padding: 8px 14px;
+      min-height: 3.5rem;
+      padding: 0.5rem 0.875rem;
       border: 0;
-      border-radius: 4px;
+      border-radius: 0.25rem;
       font-family: var(--head);
-      font-size: 21px;
+      font-size: 1.3125rem;
       letter-spacing: 0.02em;
       text-transform: uppercase;
       text-decoration: none;
@@ -297,67 +297,67 @@ const testimonials = [
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
-    .btn:active { transform: translateY(1px); }
-    .btn:focus-visible, input:focus-visible, textarea:focus-visible, .more:focus-visible, .linklike:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+    .btn:active { transform: translateY(0.0625rem); }
+    .btn:focus-visible, input:focus-visible, textarea:focus-visible, .more:focus-visible, .linklike:focus-visible { outline: 0.1875rem solid var(--ink); outline-offset: 0.125rem; }
     .btn-red { background: var(--red); color: #fff; }
     .btn-yellow { background: var(--yellow); color: var(--ink); }
     .btn[disabled] { background: var(--light); color: var(--grey); cursor: not-allowed; }
     .btn.busy { background: var(--char); color: #fff; }
 
-    .form-screen { padding-top: 10px; border-top: 2px solid var(--ink); margin-top: 8px; scroll-margin-top: 8px; }
-    .step { margin: 0 0 4px; }
-    .field { margin-top: 12px; }
-    label { display: block; font: 600 13px var(--body); margin: 0 0 4px; }
+    .form-screen { padding-top: 0.625rem; border-top: 0.125rem solid var(--ink); margin-top: 0.5rem; scroll-margin-top: 0.5rem; }
+    .step { margin: 0 0 0.25rem; }
+    .field { margin-top: 0.75rem; }
+    label { display: block; font: 600 0.8125rem var(--body); margin: 0 0 0.25rem; }
     label i { font-style: normal; font-weight: 400; color: var(--char); }
     input, textarea {
       width: 100%;
-      min-height: 46px;
-      border: 1.5px solid var(--ink);
-      border-radius: 4px;
+      min-height: 2.875rem;
+      border: 0.0938rem solid var(--ink);
+      border-radius: 0.25rem;
       background: #fff;
-      padding: 10px 12px;
-      font: 16px var(--body);
+      padding: 0.625rem 0.75rem;
+      font: 1rem var(--body);
       color: var(--ink);
     }
     textarea { resize: vertical; }
     input::placeholder, textarea::placeholder { color: var(--grey); }
-    .field.bad input, .field.bad textarea { border-color: var(--red); border-width: 2.5px; }
-    .errmsg { color: var(--red); font: 600 12.5px var(--body); margin: 4px 0 0; }
+    .field.bad input, .field.bad textarea { border-color: var(--red); border-width: 0.1563rem; }
+    .errmsg { color: var(--red); font: 600 0.7813rem var(--body); margin: 0.25rem 0 0; }
     .errmsg::before { content: '! '; font-weight: 800; }
-    .more { display: block; background: none; border: 0; padding: 0; margin: 14px 0 0; font: 600 14px var(--body); text-decoration: underline; color: var(--ink); cursor: pointer; text-align: left; }
+    .more { display: block; background: none; border: 0; padding: 0; margin: 0.875rem 0 0; font: 600 0.875rem var(--body); text-decoration: underline; color: var(--ink); cursor: pointer; text-align: left; }
     .more[aria-expanded='true'] { display: none; }
     .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
-    .turnstile { margin-top: 12px; }
+    .turnstile { margin-top: 0.75rem; }
     .turnstile:empty { margin: 0; }
-    .ts { border: 1px solid var(--grey); background: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; display: flex; gap: 10px; align-items: center; margin: 14px 0 0; }
-    .ts .sp { width: 18px; height: 18px; flex: none; border: 3px solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    .ts { border: 0.0625rem solid var(--grey); background: #fff; border-radius: 0.25rem; padding: 0.625rem 0.75rem; font-size: 0.8125rem; display: flex; gap: 0.625rem; align-items: center; margin: 0.875rem 0 0; }
+    .ts .sp { width: 1.125rem; height: 1.125rem; flex: none; border: 0.1875rem solid var(--light); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.9s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .box { background: #fff; border: 2px solid var(--ink); padding: 12px 14px; margin: 14px 0 0; font-size: 14px; }
-    .box b.t { font-family: var(--head); font-weight: 400; font-size: 16px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+    .box { background: #fff; border: 0.125rem solid var(--ink); padding: 0.75rem 0.875rem; margin: 0.875rem 0 0; font-size: 0.875rem; }
+    .box b.t { font-family: var(--head); font-weight: 400; font-size: 1rem; text-transform: uppercase; display: block; margin-bottom: 0.25rem; }
     .box.problem { border-color: var(--red); }
-    #lt-submit { margin-top: 16px; }
-    ul.cl { margin: 6px 0 0; padding-left: 18px; color: var(--char); }
-    ul.cl li { margin-bottom: 4px; }
+    #lt-submit { margin-top: 1rem; }
+    ul.cl { margin: 0.375rem 0 0; padding-left: 1.125rem; color: var(--char); }
+    ul.cl li { margin-bottom: 0.25rem; }
 
-    .ok { width: 54px; height: 54px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font: 700 28px var(--body); margin: 10px 0 12px; }
+    .ok { width: 3.375rem; height: 3.375rem; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font: 700 1.75rem var(--body); margin: 0.625rem 0 0.75rem; }
     .linklike { background: none; border: 0; padding: 0; font: inherit; color: var(--ink); text-decoration: underline; cursor: pointer; }
-    .while { margin-top: 26px; margin-bottom: 8px; }
+    .while { margin-top: 1.625rem; margin-bottom: 0.5rem; }
 
-    .below { margin-top: 34px; }
-    .sec { border-top: 2px solid var(--ink); padding: 20px 0 8px; }
-    .sec h2 { font-size: 26px; }
-    .sec p { font-size: 16px; color: var(--char); margin: 0 0 12px; }
-    .steps, .leaks { margin: 0 0 12px; padding: 0; list-style: none; counter-reset: step; }
-    .steps li, .leaks li { position: relative; padding: 10px 0 10px 40px; border-bottom: 1px solid var(--light); font-size: 15.5px; color: var(--char); }
+    .below { margin-top: 2.125rem; }
+    .sec { border-top: 0.125rem solid var(--ink); padding: 1.25rem 0 0.5rem; }
+    .sec h2 { font-size: 1.625rem; }
+    .sec p { font-size: 1rem; color: var(--char); margin: 0 0 0.75rem; }
+    .steps, .leaks { margin: 0 0 0.75rem; padding: 0; list-style: none; counter-reset: step; }
+    .steps li, .leaks li { position: relative; padding: 0.625rem 0 0.625rem 2.5rem; border-bottom: 0.0625rem solid var(--light); font-size: 0.9688rem; color: var(--char); }
     .steps li b, .leaks li b { color: var(--ink); }
-    .steps li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 9px; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; font: 700 14px var(--body); display: flex; align-items: center; justify-content: center; }
+    .steps li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0.5625rem; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--ink); color: #fff; font: 700 0.875rem var(--body); display: flex; align-items: center; justify-content: center; }
     .leaks li { padding-left: 0; }
-    .quote { margin: 0 0 14px; background: #fff; border: 2px solid var(--ink); padding: 14px 16px; }
-    .quote blockquote { margin: 0 0 10px; font-family: var(--serif); font-size: 16px; line-height: 1.4; }
-    .quote figcaption { font-size: 13px; color: var(--char); }
+    .quote { margin: 0 0 0.875rem; background: #fff; border: 0.125rem solid var(--ink); padding: 0.875rem 1rem; }
+    .quote blockquote { margin: 0 0 0.625rem; font-family: var(--serif); font-size: 1rem; line-height: 1.4; }
+    .quote figcaption { font-size: 0.8125rem; color: var(--char); }
     .quote figcaption b { color: var(--ink); }
-    .end h2 { font-size: 30px; }
-    .foot { margin-top: 26px; padding-top: 12px; border-top: 1px solid var(--light); font-size: 12.5px; color: var(--char); text-align: center; }
+    .end h2 { font-size: 1.875rem; }
+    .foot { margin-top: 1.625rem; padding-top: 0.75rem; border-top: 0.0625rem solid var(--light); font-size: 0.7813rem; color: var(--char); text-align: center; }
 
     #lt[data-screen='enrolled'] .below { display: none; }
     @media (prefers-reduced-motion: reduce) {
@@ -366,8 +366,12 @@ const testimonials = [
       .btn:active { transform: none; }
     }
     @media (min-width: 640px) {
-      #lt { max-width: 600px; }
+      #lt { max-width: 37.5rem; }
     }
+    /* Desktop: every length above is rem, so the phone-first layout scales up whole. */
+    @media (min-width: 1024px) { html { font-size: 18px; } }
+    @media (min-width: 1440px) { html { font-size: 20px; } }
+    @media (min-width: 1800px) { html { font-size: 22px; } }
   </style>
 </body>
 </html>
