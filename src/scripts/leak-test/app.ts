@@ -82,6 +82,8 @@ function readUtm(): Record<string, string> {
   }
 }
 const utm = readUtm();
+// The flip to Future Headline at the foot of the page carries the QR's UTMs too.
+$<HTMLAnchorElement>('lt-flip').href = ROUTES.futureHeadline + (new URLSearchParams(utm).toString() ? `?${new URLSearchParams(utm)}` : '');
 
 function track(event: string, params: Record<string, string | number> = {}) {
   try {

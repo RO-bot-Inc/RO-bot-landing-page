@@ -86,6 +86,8 @@ function readUtm(): Record<string, string> {
   }
 }
 const utm = readUtm();
+// The intro's flip to the Leak Test carries the same UTMs the QR brought in.
+$<HTMLAnchorElement>('fh-leak-intro').href = `/ai-summit/leak-test/${new URLSearchParams(utm).toString() ? `?${new URLSearchParams(utm)}` : ''}`;
 
 // Presenter link: ?demo=<code> is remembered for the tab and sent with each
 // request. The server decides whether it means anything.

@@ -160,6 +160,10 @@ const canonical = 'https://tenthgear.ai/ai-summit/leak-test/';
         <p class="fine center">Built for franchise dealership service departments.</p>
       </section>
 
+      <section class="sec flip" aria-label="Also from TenthGear at the summit">
+        <a class="btn btn-ghost" id="lt-flip" href={ROUTES.futureHeadline}>Or make your own front page</a>
+      </section>
+
       <footer class="foot">
         <a href="/">TenthGear</a> · <a href="/privacy/">Privacy</a> · <a href="mailto:dave@tenthgear.ai">dave@tenthgear.ai</a>
       </footer>
@@ -259,6 +263,8 @@ const canonical = 'https://tenthgear.ai/ai-summit/leak-test/';
     .btn:focus-visible, input:focus-visible, textarea:focus-visible, .more:focus-visible, .linklike:focus-visible { outline: 0.1875rem solid var(--ink); outline-offset: 0.125rem; }
     .btn-red { background: var(--red); color: #fff; }
     .btn-yellow { background: var(--yellow); color: var(--ink); }
+    .btn-ghost { background: #fff; color: var(--ink); border: 0.125rem solid var(--ink); }
+    .flip { border-top: 0; padding-top: 0; }
     .btn[disabled] { background: var(--light); color: var(--grey); cursor: not-allowed; }
     .btn.busy { background: var(--char); color: #fff; }
 
