@@ -10,26 +10,6 @@ const description =
   'Your revenue is leaking. Share 20 recent ROs and TenthGear will show you where your RO process is losing time, revenue, or both.';
 const canonical = 'https://tenthgear.ai/ai-summit/leak-test/';
 
-const testimonials = [
-  {
-    quote:
-      'My guys are really good at what they do. But TenthGear lets them spend more time turning wrenches and less time at a keyboard. And our warranty admin says their stories are better than ever. All of this equates to more gross in the end.',
-    name: 'Bob Sisk',
-    role: 'Service Manager, McGrath Audi of Morton Grove',
-  },
-  {
-    quote:
-      "The technicians love it because they don't have to take meticulous notes by hand or stop and walk over to a computer to type it all out. My warranty administrator and advisors also like it. Everything is already cleaned up, which eliminates the back-and-forth. It creates more clarity and allows everybody to deliver a better product faster.",
-    name: 'Christopher Noens',
-    role: 'Service Manager, Twin City Hyundai / Genesis of South Knoxville',
-  },
-  {
-    quote:
-      'The quality and consistency of our repair stories have improved significantly. That helps the advisor reviewing the RO, the customer deciding whether to approve the work, and it helps with our warranty claims process.',
-    name: 'Jaybee Bantug',
-    role: 'Service Manager, Kunes Hyundai of Sycamore',
-  },
-];
 ---
 
 <!DOCTYPE html>
@@ -172,28 +152,6 @@ const testimonials = [
           <li><b>Share 20 recent ROs from your laptop.</b> Add any MPI reports, inspection videos, or customer-facing materials you can put your hands on. No account, no password.</li>
           <li><b>Book a 30 minute video call with the TenthGear team.</b> We review everything before we meet and walk you through what we found.</li>
         </ol>
-      </section>
-
-      <section class="sec" aria-labelledby="h-leaks">
-        <h2 id="h-leaks">Find where revenue leaks out of your RO process.</h2>
-        <p>The leak test looks at the four places a service department loses time, revenue, or both.</p>
-        <ul class="leaks">
-          <li><b>Slow workflows.</b> Steps that cut shop throughput.</li>
-          <li><b>Missed work.</b> Services a vehicle needed that nobody identified or sold.</li>
-          <li><b>Declined work.</b> Identified services the customer never approved.</li>
-          <li><b>Warranty money left on the table.</b> Revenue lost in the claims process.</li>
-        </ul>
-        <p>You get a written scorecard, the evidence from your own ROs, estimated impact where the ROs support one, and what to fix first.</p>
-      </section>
-
-      <section class="sec" aria-labelledby="h-proof">
-        <h2 id="h-proof">What service leaders say</h2>
-        {testimonials.map((t) => (
-          <figure class="quote">
-            <blockquote>{t.quote}</blockquote>
-            <figcaption><b>{t.name}</b><br>{t.role}</figcaption>
-          </figure>
-        ))}
       </section>
 
       <section class="sec end" aria-labelledby="h-end">
@@ -347,15 +305,10 @@ const testimonials = [
     .sec { border-top: 0.125rem solid var(--ink); padding: 1.25rem 0 0.5rem; }
     .sec h2 { font-size: 1.625rem; }
     .sec p { font-size: 1rem; color: var(--char); margin: 0 0 0.75rem; }
-    .steps, .leaks { margin: 0 0 0.75rem; padding: 0; list-style: none; counter-reset: step; }
-    .steps li, .leaks li { position: relative; padding: 0.625rem 0 0.625rem 2.5rem; border-bottom: 0.0625rem solid var(--light); font-size: 0.9688rem; color: var(--char); }
-    .steps li b, .leaks li b { color: var(--ink); }
+    .steps { margin: 0 0 0.75rem; padding: 0; list-style: none; counter-reset: step; }
+    .steps li { position: relative; padding: 0.625rem 0 0.625rem 2.5rem; border-bottom: 0.0625rem solid var(--light); font-size: 0.9688rem; color: var(--char); }
+    .steps li b { color: var(--ink); }
     .steps li::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0.5625rem; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--ink); color: #fff; font: 700 0.875rem var(--body); display: flex; align-items: center; justify-content: center; }
-    .leaks li { padding-left: 0; }
-    .quote { margin: 0 0 0.875rem; background: #fff; border: 0.125rem solid var(--ink); padding: 0.875rem 1rem; }
-    .quote blockquote { margin: 0 0 0.625rem; font-family: var(--serif); font-size: 1rem; line-height: 1.4; }
-    .quote figcaption { font-size: 0.8125rem; color: var(--char); }
-    .quote figcaption b { color: var(--ink); }
     .end h2 { font-size: 1.875rem; }
     .foot { margin-top: 1.625rem; padding-top: 0.75rem; border-top: 0.0625rem solid var(--light); font-size: 0.7813rem; color: var(--char); text-align: center; }
 
