@@ -57,7 +57,7 @@ function render(states, asOf) {
     <p data-srl-empty hidden class="rounded-lg border border-dashed border-gray-300 bg-white p-5 text-sm text-gray-600 m-0">Choose a state to see how its statute sets your warranty labor rate and parts markup, how often you can file, and how long the manufacturer has to respond.</p>
     ${states.map(card).join('\n    ')}
   </div>
-  <details class="mt-4">
+  <details class="mt-4" open>
     <summary class="cursor-pointer text-sm font-semibold text-teal">All states</summary>
     <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2">${links}</div>
   </details>
