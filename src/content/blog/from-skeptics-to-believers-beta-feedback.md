@@ -23,7 +23,7 @@ Marcus, a senior technician with 15 years of experience, didn't mince words duri
 
 But Marcus agreed to try our beta, if only to prove his point. Two weeks later, his perspective had shifted:
 
-"I was wrong. This isn't like yelling at Siri and hoping it understands. RO.bot actually knows what I'm talking about. When I say 'found metal shavings in the trans pan,' it knows exactly what that means and why it matters. It's like talking to another tech who just happens to be really good at paperwork."
+"I was wrong. This isn't like yelling at Siri and hoping it understands. TenthGear actually knows what I'm talking about. When I say 'found metal shavings in the trans pan,' it knows exactly what that means and why it matters. It's like talking to another tech who just happens to be really good at paperwork."
 
 What changed his mind? "I just tell it what I did and what I find. I don't worry about organizing my thoughts. I don't have to write a single sentence." "Is it perfect? No. Sometimes I have to repeat myself. But that's still faster than typing everything out." His conclusion: "This is not a gimmick. It saves me probably 5 or 10 minutes on every story."
 
@@ -33,9 +33,9 @@ Service managers have seen their share of failed technology rollouts. Laura, who
 
 Her experience with TenthGear has been different:
 
-"Usually, I have to force new software on them. With RO.bot, I've got guys on a waiting list to get onboarded. That's never happened before."
+"Usually, I have to force new software on them. With TenthGear, I've got guys on a waiting list to get onboarded. That's never happened before."
 
-Why the enthusiasm? "RO.bot makes their job easier. It saves them time. Nobody gets into this business because they want to write great stories." Also, "There's basically no training. They just talk, and it works."
+Why the enthusiasm? "TenthGear makes their job easier. It saves them time. Nobody gets into this business because they want to write great stories." Also, "There's basically no training. They just talk, and it works."
 
 ## "It's Like Having a Tech-Savvy Assistant"
 
@@ -45,15 +45,15 @@ His initial skepticism centered on accuracy: "Could AI understand the difference
 
 After a month in beta, he saw the potential impact of rolling TenthGear out to the entire shop: "It's not just that it understands. It guides you. It knows what the manufacturer needs to see in the story. It's like having a warranty administrator right there with you, making sure you don't miss something."
 
-His favorite moment? "One of the guys was working on an HVAC issue… putting voice notes into RO.bot, and it automatically pulled up a TSB. He didn't search for it or ask if there was one. The app just saw what he was working on and served it up. That's awesome."
+His favorite moment? "One of the guys was working on an HVAC issue… putting voice notes into TenthGear, and it automatically pulled up a TSB. He didn't search for it or ask if there was one. The app just saw what he was working on and served it up. That's awesome."
 
 ## "Finally, Someone Who Speaks Our Language"
 
 Nick, a technician with 6 years of experience, summed up a lot of the skepticism about dealer software: "Most of this stuff is made by software people. They've never held a wrench. They don't understand how we work."
 
-His journey from skepticism to advocacy happened gradually. "At first, it felt a bit weird talking to my phone. But RO.bot understands me, even when I use technical terms that you can't put on the story. By the end of the first day, it felt totally natural. And it was saving me a ton of time."
+His journey from skepticism to advocacy happened gradually. "At first, it felt a bit weird talking to my phone. But TenthGear understands me, even when I use technical terms that you can't put on the story. By the end of the first day, it felt totally natural. And it was saving me a ton of time."
 
-"I can rattle off a bunch of random notes… like compression test results, fuel trim, DTCs. RO.bot makes sense of it and writes the story for me." "I basically don't write stories any more. I just do a quick review before I submit it."
+"I can rattle off a bunch of random notes… like compression test results, fuel trim, DTCs. TenthGear makes sense of it and writes the story for me." "I basically don't write stories any more. I just do a quick review before I submit it."
 
 ## The Surprise Nobody Expected
 
