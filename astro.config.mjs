@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { visit } from 'unist-util-visit';
+import { rehypeStateRateLookup } from './src/plugins/stateRateLookup.js';
 
 // Link policy for markdown body content.
 //
@@ -57,6 +58,6 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    rehypePlugins: [rehypeLinkPolicy],
+    rehypePlugins: [rehypeLinkPolicy, rehypeStateRateLookup],
   },
 });

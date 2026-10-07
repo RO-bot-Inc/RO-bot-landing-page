@@ -1,17 +1,20 @@
 ---
-title: "How to Increase Your Warranty Labor Rate to Retail"
+title: "Warranty Labor Rate Increase: How to Get Paid Retail"
 date: "2026-06-05"
+updatedDate: "2026-10-07"
 category: "Warranty"
 tags: ["Warranty Labor Rate", "Warranty Reimbursement", "Fixed Ops", "Labor Gross Profit", "Documentation"]
 excerpt: "Your manufacturer pays warranty labor below your door rate. Most states let you raise it toward your retail customer-pay rate, but only if your repair order documentation holds up."
-metaDescription: "Learn how dealers can raise their warranty labor rate to retail using customer-pay ROs, clean documentation, and a stronger reimbursement submission."
-primaryKeyword: "warranty labor rate"
-secondaryKeywords: ["retail warranty reimbursement", "warranty labor rate increase", "customer-pay repair orders"]
+metaDescription: "How dealers file a warranty labor rate increase: statutory vs. factory submissions, the customer-pay RO sample, state rules, and a submission checklist."
+primaryKeyword: "warranty labor rate increase"
+secondaryKeywords: ["warranty labor rate", "retail warranty reimbursement", "labor rate submission", "warranty rate submission", "customer-pay repair orders"]
 faqs:
   - question: "What is a warranty labor rate?"
     answer: "Your warranty labor rate is what the manufacturer pays you per flagged hour on warranty repairs. For years it sat below the retail door rate you charge cash customers, which is why a heavy warranty mix drags down your blended labor rate. Most states now require manufacturers to reimburse warranty labor at or near your retail rate, but you have to file a submission to claim it."
   - question: "How do I increase my warranty labor rate?"
     answer: "You file a retail warranty reimbursement submission with the manufacturer. Most require a sample of consecutive customer-pay repair orders, commonly around 100 sequential ROs or 90 days of work, whichever is less, from a recent window. The manufacturer calculates your effective retail rate from that sample. The exact sample size, exclusions, and timing vary by state and OEM, and most dealers can submit only once a year."
+  - question: "What is the difference between a statutory and a factory warranty rate submission?"
+    answer: "A statutory submission follows your state's dealer law. The manufacturer has to respond within a set window, typically 30 days, and you have a rebuttal process if it rejects or cuts the rate. A factory submission follows the manufacturer's own policy manual, with no required response timeline and no recourse if the offer comes back low."
   - question: "Why would a manufacturer reject a warranty labor rate submission?"
     answer: "The most common reason is documentation. A manufacturer can dispute a declared rate as materially incomplete, inaccurate, or unreasonable, and thin repair orders in your sample give them room to do it. Missing time punches, missing signatures, and vague 3Cs are the defects that get lines pulled or the rate adjusted down. The sample only proves a rate as high as your customer-pay documentation supports."
   - question: "Does warranty work still lower my effective labor rate after a retail increase?"
@@ -33,7 +36,7 @@ Your factory reimburses warranty labor at one rate. You charge cash customers a 
 
 Your warranty labor rate is what the manufacturer pays you per flagged hour on warranty repairs. Your retail or door rate is what a cash customer pays for that same hour. For decades the warranty number was a negotiated discount, and on most franchise agreements it landed well under retail. Warranty is no small slice of the work either. Industry reporting puts it at roughly a quarter of service volume and more than 15 percent of total dealership gross, so a rate that trails retail leaks real money. One worked example in [WardsAuto](https://www.wardsauto.com/fixed-operations/shortchanged-are-oems-undercutting-dealer-warranty-rates-) pegged a single store running about 500 warranty hours a month at roughly $222,000 a year in lost gross from the shortfall.
 
-The legal picture has shifted hard in the dealer's favor. Most states now have statutes requiring manufacturers to reimburse warranty labor at or near the retail rate you charge non-warranty customers, though the exact standard and filing rules vary by state, according to warranty-recovery firm [Armatus Dealer Uplift](https://www.dealeruplift.com/retail-warranty-reimbursement-article/). The principle is consistent: warranty work should pay close to what the same work pays on a customer-pay job.
+The legal picture has shifted hard in the dealer's favor. Every state now has a dealer law tying warranty reimbursement to the retail rate you charge non-warranty customers, and most cover parts as well as labor (warranty-recovery firm [Armatus Dealer Uplift](https://www.dealeruplift.com/retail-warranty-reimbursement-article/) counts 49 states with full retail-rate statutes). The exact standard and filing rules vary by state, and you can look yours up below. The principle is consistent: warranty work should pay close to what the same work pays on a customer-pay job.
 
 ## How do you raise your warranty labor rate to retail?
 
@@ -42,6 +45,33 @@ Here is the part that trips shops up. The law does not raise your rate on its ow
 You pull a sample of consecutive non-warranty ROs and the manufacturer calculates your effective retail rate from it. The common standard is around 100 sequential customer-pay ROs, or 90 days of work, whichever is fewer, drawn from a recent window such as the last 180 days, per guidance summarized by [NHADA and Armatus](https://www.nhada.com/blog/annual-warranty-labor-rate-increase-statutory-or-factory-submission). The math is the same effective-rate formula your DMS runs: total qualifying customer labor charges divided by the labor hours that generated them, as written into statutes like [Minnesota's](https://www.revisor.mn.gov/statutes/cite/80E.041).
 
 Not every ticket counts. Routine maintenance, tires, batteries, and discounted or promotional work are typically excluded from the sample, because none of those reflect your true retail labor rate. The exact exclusion list, the sample size, and the timing all vary by state and by OEM, so this is one to confirm against your own state statute before you file. Most dealers can file for a warranty labor rate increase only once a year, which means a weak filing costs you for the next twelve months.
+
+## Statutory or factory submission: which should you file?
+
+There are two ways to file a labor rate submission, and they are not equal.
+
+A **factory submission** follows the manufacturer's own policies and procedures manual. The requirements vary by OEM and can be as light as 20 consecutive qualifying ROs from the last 30 days. The catch is control. There is no required response timeline, and the offer that comes back is take it or leave it, with no recourse if it is low.
+
+A **statutory submission** follows your state's dealer law. The requirements are standardized across the state, commonly 100 sequential qualifying ROs closed in the last 180 days. The manufacturer has to respond within a set window, typically 30 days, and if it rejects or cuts your rate, the statute gives you a rebuttal process. That is the comparison drawn by [NHADA](https://www.nhada.com/blog/annual-warranty-labor-rate-increase-statutory-or-factory-submission), and it is why most dealers who have the documentation to support it file under the statute.
+
+## Warranty labor rate rules by state
+
+The pattern is similar from state to state, but the details that decide your filing are not. Many states set the repair order sample for parts markup only and handle labor another way, and about half give the manufacturer a way to push back on your rate, often by comparing it with other dealers. Pick your state to see its rules, read from the statute itself.
+
+<div data-state-rate-lookup></div>
+
+## Warranty rate submission checklist
+
+Run through this before anything goes to the manufacturer:
+
+1. **Pick your path.** Read your state statute and your OEM's submission protocol, then decide between a statutory and a factory filing.
+2. **Pull the sample.** Gather the consecutive customer-pay ROs your statute requires, commonly 100 sequential ROs closed in the last 180 days, or 90 days of work if that is fewer.
+3. **Strip the exclusions.** Remove what your statute excludes. Routine maintenance, tires, batteries, alignments, service contract or insurance-paid work, fleet or government work, and discounted or promotional tickets are common exclusions.
+4. **Audit every RO in the sample.** Each one needs technician time punches, the required signatures, and a complete complaint, cause, and correction on every line.
+5. **Run the math.** Total qualifying customer labor charges divided by the labor hours that generated them. That is the effective retail rate you are submitting.
+6. **Calendar the response window.** Note the date the manufacturer has to answer by, and have your support ready in case it rebuts.
+7. **Calendar the next filing.** Most dealers can file once every 12 months. Mark the earliest date you can file again.
+8. **Do not forget parts.** Where your state covers parts markup too, file for it, following the same sample discipline.
 
 <div class="not-prose my-10">
   <div class="rounded-xl border border-gray-200 bg-surface p-6 md:p-8">
