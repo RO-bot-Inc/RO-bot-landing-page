@@ -112,6 +112,6 @@ You don't fix this problem by writing better stories at the end of the day. You 
 
 ## The audit is coming either way
 
-Every dealer gets audited eventually. The question isn't whether yours will. The question is whether your documentation will hold up when it does.
+Every dealer gets audited eventually. The question isn't whether yours will. The question is whether your documentation will hold up when it does. The same repair orders decide how much you are paid per warranty hour, too, because they are the sample behind any [warranty labor rate increase](/blog/warranty-labor-rate-reimbursement/) you file.
 
 If you want to see what your 3Cs would look like with voice-first documentation and real-time grading, [book a demo](/book-demo). We will pull a few of your current stories through the grader so you can see where you stand before an auditor does it for you.
