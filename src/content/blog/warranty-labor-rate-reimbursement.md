@@ -56,7 +56,7 @@ A **statutory submission** follows your state's dealer law. The requirements are
 
 ## Warranty labor rate rules by state
 
-The pattern is similar from state to state, but the details that decide your filing are not. Many states set the repair order sample for parts markup only and handle labor another way, and about half let the manufacturer push back using other dealers' rates. Pick your state to see its rules, read from the statute itself.
+The pattern is similar from state to state, but the details that decide your filing are not. Many states set the repair order sample for parts markup only and handle labor another way, and about half give the manufacturer a way to push back on your rate, often by comparing it with other dealers. Pick your state to see its rules, read from the statute itself.
 
 <div data-state-rate-lookup></div>
 

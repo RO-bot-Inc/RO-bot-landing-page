@@ -50,7 +50,7 @@ function render(states, asOf) {
   return `<div id="state-rate-lookup" class="not-prose my-10 rounded-xl border border-gray-200 bg-surface p-5 md:p-7">
   <p class="text-xs font-semibold tracking-widest uppercase text-teal mb-2">Look up your state</p>
   <label for="srl-select" class="block text-lg font-bold text-navy mb-3">Warranty labor rate rules, all 50 states</label>
-  <select id="srl-select" class="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-teal">
+  <select id="srl-select" class="scroll-mt-28 w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-navy font-semibold focus:outline-none focus:ring-2 focus:ring-teal">
     <option value="">Choose your state</option>${options}
   </select>
   <div class="mt-4 grid gap-4">
@@ -75,14 +75,16 @@ function render(states, asOf) {
     cards.forEach((c) => { c.hidden = c !== match; });
     empty.hidden = !!match;
     select.value = match ? id : '';
-    if (match && scroll) match.scrollIntoView({ block: 'nearest' });
+    if (match && scroll) select.scrollIntoView({ block: 'start' });
   }
   select.addEventListener('change', () => {
     show(select.value, false);
     history.replaceState(null, '', select.value ? '#' + select.value : location.pathname);
   });
   window.addEventListener('hashchange', () => show(location.hash.slice(1), true));
-  show(location.hash.slice(1), !!location.hash);
+  show(location.hash.slice(1), false);
+  // Shared #state-xx links: scroll once layout (images) has settled.
+  if (location.hash) window.addEventListener('load', () => show(location.hash.slice(1), true));
 })();
 </script>`;
 }
