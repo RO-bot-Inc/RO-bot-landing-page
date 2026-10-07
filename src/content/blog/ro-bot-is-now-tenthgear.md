@@ -17,7 +17,7 @@ RO-bot has a new name: TenthGear. Our new home is [tenthgear.ai](/).
 
 The name "RO-bot" served us well. It clearly indicated that we're bringing AI automation to the Repair Order process at dealerships.
 
-But we needed a name that fits where the product is going. Our mission is to bring the best technology to technicians, advisors, parts, the whole service team, to make you more productive, more profitable, more successful. We build the gear for every 1/10th that goes out of your shop. So from here forward, our brand is TenthGear.
+But we needed a name that fits where the product is going. Our mission is to bring the best technology to technicians, advisors, parts, the whole service team, to make you more productive, more profitable, more successful. We build the gear for every 1/10th that goes out of your shop. So from here forward, our brand is TenthGear. You'll sometimes see it written as Tenth Gear or 10th Gear. It's one word: TenthGear.
 
 Even for shops that already run like a well-tuned machine, we believe that there's another gear above your current performance. More speed, more productivity, higher average RO, more customer trust and loyalty. That's the outcome we're building toward.
 
