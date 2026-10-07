@@ -36,7 +36,7 @@ Your factory reimburses warranty labor at one rate. You charge cash customers a 
 
 Your warranty labor rate is what the manufacturer pays you per flagged hour on warranty repairs. Your retail or door rate is what a cash customer pays for that same hour. For decades the warranty number was a negotiated discount, and on most franchise agreements it landed well under retail. Warranty is no small slice of the work either. Industry reporting puts it at roughly a quarter of service volume and more than 15 percent of total dealership gross, so a rate that trails retail leaks real money. One worked example in [WardsAuto](https://www.wardsauto.com/fixed-operations/shortchanged-are-oems-undercutting-dealer-warranty-rates-) pegged a single store running about 500 warranty hours a month at roughly $222,000 a year in lost gross from the shortfall.
 
-The legal picture has shifted hard in the dealer's favor. Forty-nine states now have statutes requiring manufacturers to reimburse warranty work at or near the retail rate you charge non-warranty customers, for parts as well as labor, according to warranty-recovery firm [Armatus Dealer Uplift](https://www.dealeruplift.com/retail-warranty-reimbursement-article/). The exact standard and filing rules vary by state. The principle is consistent: warranty work should pay close to what the same work pays on a customer-pay job.
+The legal picture has shifted hard in the dealer's favor. Every state now has a dealer law tying warranty reimbursement to the retail rate you charge non-warranty customers, and most cover parts as well as labor (warranty-recovery firm [Armatus Dealer Uplift](https://www.dealeruplift.com/retail-warranty-reimbursement-article/) counts 49 states with full retail-rate statutes). The exact standard and filing rules vary by state, and you can look yours up below. The principle is consistent: warranty work should pay close to what the same work pays on a customer-pay job.
 
 ## How do you raise your warranty labor rate to retail?
 
@@ -56,84 +56,9 @@ A **statutory submission** follows your state's dealer law. The requirements are
 
 ## Warranty labor rate rules by state
 
-The pattern is similar from state to state, but the details that decide your filing are not. Here are the rules in 10 of the largest dealer states, read from each statute as of October 2026. Statutes get amended, so confirm against the current text before you file.
+The pattern is similar from state to state, but the details that decide your filing are not. Many states set the repair order sample for parts markup only and handle labor another way, and about half let the manufacturer push back using other dealers' rates. Pick your state to see its rules, read from the statute itself.
 
-<div class="not-prose my-8 overflow-x-auto">
-  <table class="w-full min-w-[640px] text-sm text-left">
-    <thead>
-      <tr class="text-xs uppercase tracking-wide text-gray-500">
-        <th class="pb-2 pr-4 font-semibold">State</th>
-        <th class="pb-2 pr-4 font-semibold">RO sample</th>
-        <th class="pb-2 pr-4 font-semibold">How often</th>
-        <th class="pb-2 font-semibold">Manufacturer response</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">California</span><br><a href="https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=VEH&sectionNum=3065.2" target="_blank" rel="noopener" class="text-teal underline text-xs">Veh. Code §3065.2</a></td>
-          <td class="py-3 pr-4 text-gray-600">Lesser of 100 consecutive ROs or 90 days, from the last 180 days</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Contest within 30 days; rate takes effect on day 30</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Texas</span><br><a href="https://statutes.capitol.texas.gov/Docs/OC/htm/OC.2301.htm" target="_blank" rel="noopener" class="text-teal underline text-xs">Occ. Code §§2301.402, 2301.403</a></td>
-          <td class="py-3 pr-4 text-gray-600">Greater of 100 sequential ROs or 90 days, from the last 6 months (labor)</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Approve or disapprove within 60 days</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Florida</span><br><a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0300-0399/0320/Sections/0320.696.html" target="_blank" rel="noopener" class="text-teal underline text-xs">Stat. §320.696</a></td>
-          <td class="py-3 pr-4 text-gray-600">Labor: prior month's retail labor sales divided by hours. Parts: 50 consecutive ROs within 3 months</td>
-          <td class="py-3 pr-4 text-gray-600">Up to twice a year</td>
-          <td class="py-3 text-gray-600">Increase applies to claims filed 15 days after the request</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">New York</span><br><a href="https://www.nysenate.gov/legislation/laws/VAT/465" target="_blank" rel="noopener" class="text-teal underline text-xs">VTL §465</a></td>
-          <td class="py-3 pr-4 text-gray-600">Lesser of 100 sequential ROs or 90 days, from the last 180 days</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Effective 30 days after you declare it; OEM may rebut</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Pennsylvania</span><br><a href="https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1983&ActNum=0084&SessInd=0" target="_blank" rel="noopener" class="text-teal underline text-xs">Board of Vehicles Act §307</a></td>
-          <td class="py-3 pr-4 text-gray-600">Lesser of 100 sequential ROs or 90 days, from the last 180 days</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Rebut within 60 days; effective on day 60</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Ohio</span><br><a href="https://codes.ohio.gov/ohio-revised-code/section-4517.52" target="_blank" rel="noopener" class="text-teal underline text-xs">ORC §4517.52</a></td>
-          <td class="py-3 pr-4 text-gray-600">Your choice: 100 sequential ROs or all ROs for 90 days, from the last 180 days</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Contest within 30 days</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Illinois</span><br><a href="https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=081507100K6" target="_blank" rel="noopener" class="text-teal underline text-xs">815 ILCS 710/6</a></td>
-          <td class="py-3 pr-4 text-gray-600">Labor: 100 sequential ROs. Parts: lesser of 100 ROs or 90 days, from the last 180 days</td>
-          <td class="py-3 pr-4 text-gray-600">Labor once a year; parts twice</td>
-          <td class="py-3 text-gray-600">Parts: effective 30 days after you declare it</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Michigan</span><br><a href="https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-1577a" target="_blank" rel="noopener" class="text-teal underline text-xs">MCL §445.1577a</a></td>
-          <td class="py-3 pr-4 text-gray-600">Lesser of 100 consecutive ROs or 90 days, from the last 180 days; similar dealers' rates also weigh in</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Approve or contest within 45 days, or it is deemed approved</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">North Carolina</span><br><a href="https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_20/GS_20-305.1.html" target="_blank" rel="noopener" class="text-teal underline text-xs">G.S. §20-305.1</a></td>
-          <td class="py-3 pr-4 text-gray-600">Lesser of 100 sequential ROs or 60 days</td>
-          <td class="py-3 pr-4 text-gray-600">No limit stated</td>
-          <td class="py-3 text-gray-600">Rebut within 30 days</td>
-        </tr>
-        <tr class="border-t border-gray-200 align-top">
-          <td class="py-3 pr-4"><span class="font-semibold text-navy">Georgia</span><br><a href="https://codes.findlaw.com/ga/title-10-commerce-and-trade/ga-code-sect-10-1-641/" target="_blank" rel="noopener" class="text-teal underline text-xs">O.C.G.A. §10-1-641</a></td>
-          <td class="py-3 pr-4 text-gray-600">Lesser of 100 sequential ROs or 90 days, from the last 180 days; comparable dealers' rates also weigh in</td>
-          <td class="py-3 pr-4 text-gray-600">Once a year</td>
-          <td class="py-3 text-gray-600">Approve or disapprove within 30 days, or it is deemed approved</td>
-        </tr>
-    </tbody>
-  </table>
-</div>
-
-Three states break the usual pattern. Florida calculates labor from a single month of retail sales and lets you file twice a year. Texas uses the *greater* of its two samples, not the lesser. North Carolina's window is 60 days, not 90. Every state here except Texas also covers parts markup. The Texas sections cited here address labor only.
+<div data-state-rate-lookup></div>
 
 ## Warranty rate submission checklist
 
