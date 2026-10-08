@@ -1,35 +1,13 @@
 #!/bin/bash
-# Fetch global skills from dsonders/claude-skills on SessionStart
-# Works in both terminal (redundant but harmless) and web (essential)
-
-set -euo pipefail
-
-SECRETS_FILE="$HOME/.claude/secrets/skills-pat"
-if [ -n "${CLAUDE_SKILLS_PAT:-}" ]; then
-  GITHUB_PAT="$CLAUDE_SKILLS_PAT"
-elif [ -f "$SECRETS_FILE" ]; then
-  GITHUB_PAT="$(tr -d '[:space:]' < "$SECRETS_FILE")"
-else
-  echo "Warning: No PAT found. Set CLAUDE_SKILLS_PAT or create $SECRETS_FILE" >&2
-  exit 0
-fi
-
-SKILLS_REPO="https://${GITHUB_PAT}@github.com/dsonders/claude-skills.git"
-SKILLS_DIR="$HOME/.claude/skills"
-
-mkdir -p "$HOME/.claude"
-
-if [ -d "$SKILLS_DIR/.git" ]; then
-  cd "$SKILLS_DIR"
-  git remote set-url origin "$SKILLS_REPO" 2>/dev/null || true
-  if ! git pull --rebase origin main >/dev/null 2>&1; then
-    cd "$HOME/.claude"
-    rm -rf "$SKILLS_DIR"
-    git clone --quiet "$SKILLS_REPO" "$SKILLS_DIR" 2>&1 || echo "Warning: Skills clone failed" >&2
-  fi
-elif [ -d "$SKILLS_DIR" ]; then
-  rm -rf "$SKILLS_DIR"
-  git clone --quiet "$SKILLS_REPO" "$SKILLS_DIR" 2>&1 || echo "Warning: Skills clone failed" >&2
-else
-  git clone --quiet "$SKILLS_REPO" "$SKILLS_DIR" 2>&1 || echo "Warning: Skills clone failed" >&2
-fi
+# Codex runs the SAME hook as Claude Code: the one copy in .claude/hooks.
+#
+# This file used to be a separate copy of the skills fetch. When the .claude
+# copy was fixed on 2026-09-15 to stop embedding the PAT in the skills remote
+# URL, this one was missed and kept writing the token into
+# ~/.claude/skills/.git/config on every Codex session (found 2026-09-30). It
+# also deleted the local clone whenever a pull failed.
+#
+# Put no logic here. Change .claude/hooks/fetch-global-skills.sh instead.
+target="$(dirname "$0")/../../.claude/hooks/fetch-global-skills.sh"
+[ -x "$target" ] || exit 0
+exec "$target" "$@"
