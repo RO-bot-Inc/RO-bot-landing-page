@@ -17,7 +17,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | warranty-audit-playbook | 2026-04-10 | warranty audit | — | — |
 | automotive-technician-retention | 2026-05-17 | automotive technician retention | — | — |
 | effective-labor-rate | 2026-05-29 | effective labor rate | — | — |
-| warranty-labor-rate-reimbursement | 2026-06-05 | warranty labor rate | — | — |
+| warranty-labor-rate-reimbursement | 2026-06-05 (rewritten 2026-10-07) | warranty labor rate increase | — | — |
 | recover-declined-service-work | 2026-06-20 | declined service work follow up | — | — |
 | warranty-diagnostic-time | 2026-07-16 | warranty diagnostic time | — | — |
 
@@ -25,7 +25,7 @@ Post-publication tracking of target keywords. Review quarterly.
 
 1. Open an incognito/private window
 2. Search the primary keyword on Google
-3. Find the ro-bot.io result (first 10 pages)
+3. Find the tenthgear.ai result (first 10 pages)
 4. Record the rank as "N" for page 1 position N, or "11+" if not in top 10
 5. Record the date in "Last Checked"
 

@@ -23,6 +23,7 @@ The plugin change appeared to do nothing. The build succeeded, reported the righ
 - **Don't clear `.astro/` and assume the cache is gone.** Clear `node_modules/.astro` (`cacheDir`). Both directories exist; only one matters.
 - **Don't use `console.log` inside `astro.config.mjs` to test whether a plugin ran.** Use a filesystem write — `appendFileSync` to a scratch path is unambiguous.
 - **Don't ship a markdown-pipeline change without clearing the cache in the build command.** Netlify caches `node_modules` between builds, so clearing it locally proves nothing about production. The failure mode is silent: green deploy, unchanged HTML, and a fix that looks shipped but isn't.
+- **Don't visit `element` nodes to find raw HTML written in markdown** (2026-10-07, #140). A `<div data-state-rate-lookup></div>` placeholder in a `.md` post reaches rehype as a `raw` node (a string), not an element, so an element visitor silently matches nothing. Visit `'raw'` nodes and match the string (see `src/plugins/stateRateLookup.js`).
 
 ## Reusable Pattern
 - **Name:** Clear `node_modules/.astro` in the build command when the markdown pipeline can change
