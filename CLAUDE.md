@@ -14,4 +14,4 @@ Everything below is Claude Code-only. Skip the `Codex-only` section of the impor
 
 | Need | Where |
 |---|---|
-| Blog post end-to-end workflow | `/ro-bot-blog-post` skill (`~/.claude/skills/ro-bot-blog-post/SKILL.md`) |
+| Blog post end-to-end workflow | `/tenthgear-blog-post` skill (`~/.claude/skills/tenthgear-blog-post/SKILL.md`) |
