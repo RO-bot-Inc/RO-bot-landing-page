@@ -6,9 +6,9 @@ tags: ["Video Inspections", "Customer Approval", "Service Advisor", "Revenue"]
 excerpt: "30-40% of recommended work gets declined. Most of the time, the customer just did not understand what they were looking at. Better videos fix that."
 primaryKeyword: "video inspection customer approval"
 secondaryKeywords: ["dealership inspection videos", "service advisor video inspection", "automotive video inspection"]
+heroImage: "/blog-assets/5-what-customers-want-inspection-videos/tech-with-phone.png"
+heroAlt: "Technician holding phone to record a video inspection in a service bay"
 ---
-
-![Technician holding phone to record a video inspection in a service bay](/blog-assets/5-what-customers-want-inspection-videos/tech-with-phone.png)
 
 You send inspection videos every day. Your techs record them, your advisors text them, and your customers... ignore them. Or watch five seconds and tap away. Or watch the whole thing and still decline the work.
 

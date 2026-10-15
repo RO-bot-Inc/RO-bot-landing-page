@@ -18,10 +18,11 @@ faqs:
     answer: "A customer can become responsible when diagnosis establishes a cause that is not covered, such as physical damage, rodent damage, abuse, or an aftermarket part. Whether and how you bill it depends on state law, your OEM's policy, the terms you disclosed, and written authorization obtained before the work. The practical risk is CSI. Billing diagnosis on a vehicle the customer believes is covered, without setting that expectation at write-up, is how stores lose survey scores and customers."
   - question: "Do extended warranties cover diagnostic time?"
     answer: "Third-party service contracts vary widely. Many cap the diagnostic time they approve or exclude it entirely. Some approve fewer hours than requested, and some cap the hourly rate below your door rate, leaving the customer responsible for the difference on top of a deductible. Authorization is what protects you. Get approved hours and rate in writing from the administrator before the technician starts, and disclose what is not covered at write-up rather than at delivery."
+heroImage: "/blog-assets/13-warranty-diagnostic-time/hero.jpg"
+heroAlt: "Repair order and stopwatch showing unpaid warranty diagnostic time"
 ---
 
-<div class="not-prose my-8 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 md:items-center">
-  <img src="/blog-assets/13-warranty-diagnostic-time/hero.jpg" alt="Repair order and stopwatch showing unpaid warranty diagnostic time" class="w-full rounded-lg" />
+<div class="not-prose my-8">
   <div>
     <p class="text-sm font-semibold uppercase tracking-wide text-teal">TL;DR</p>
     <p class="mt-2 text-navy text-lg leading-relaxed">Warranty diagnostic time is the labor a tech spends finding a cause before a repair is approved. Depending on OEM policy it may be bundled into the repair labor op, paid under a separate or no-problem-found allowance, gated behind authorization, or not covered at all. What policy does not pay, your tech or your service gross does.</p>

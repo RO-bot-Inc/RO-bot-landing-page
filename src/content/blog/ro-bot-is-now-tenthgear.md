@@ -7,9 +7,9 @@ excerpt: "RO-bot has a new name and a new home. Here's why we changed it, and wh
 metaDescription: "RO-bot is now TenthGear at tenthgear.ai. Same product, same team, same pricing. Here's why we changed the name and what changes for you."
 primaryKeyword: "TenthGear rebrand"
 secondaryKeywords: ["RO-bot is now TenthGear", "tenthgear.ai"]
+heroImage: "/blog-assets/14-ro-bot-is-now-tenthgear/robot-to-tenthgear-hero.png"
+heroAlt: "The RO-bot robot head, an arrow, and the TenthGear logo"
 ---
-
-![The RO-bot robot head, an arrow, and the TenthGear logo](/blog-assets/14-ro-bot-is-now-tenthgear/robot-to-tenthgear-hero.png)
 
 RO-bot has a new name: TenthGear. Our new home is [tenthgear.ai](/).
 

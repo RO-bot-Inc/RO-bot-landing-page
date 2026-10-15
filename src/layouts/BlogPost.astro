@@ -14,6 +14,9 @@ interface Props {
   excerpt: string;
   metaDescription?: string;
   ogImage?: string;
+  heroImage?: string;
+  heroAlt?: string;
+  heroPosition?: string;
   updatedDate?: string;
   faqs?: FAQ[];
 }
@@ -25,6 +28,9 @@ const {
   excerpt,
   metaDescription,
   ogImage,
+  heroImage,
+  heroAlt,
+  heroPosition,
   updatedDate,
   faqs,
 } = Astro.props;
@@ -103,7 +109,7 @@ const schemaJson = faqSchema ? [blogPostingSchema, faqSchema] : blogPostingSchem
 >
 
   <article>
-    <header class="bg-navy pt-28 pb-12 md:pt-36 md:pb-16">
+    <header class:list={['bg-navy pt-28 md:pt-36', heroImage ? 'pb-10 md:pb-48' : 'pb-12 md:pb-16']}>
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <span class="text-teal-light text-sm font-medium uppercase tracking-wider">{category}</span>
         <h1 class="text-3xl md:text-4xl font-extrabold text-white mt-3 mb-4 leading-tight">{title}</h1>
@@ -119,9 +125,26 @@ const schemaJson = faqSchema ? [blogPostingSchema, faqSchema] : blogPostingSchem
       </div>
     </header>
 
+    {heroImage && (
+      <div class="relative">
+        <!-- Desktop: the hero rises into the navy header (a 2:1 crop, a little wider than the text column). Phones: full width 16:9, no overlap. -->
+        <div class="max-w-4xl mx-auto mb-4 md:mb-8 md:px-6 lg:px-8 md:-mt-40">
+          <img
+            src={heroImage}
+            alt={heroAlt ?? ''}
+            class="block w-full aspect-[16/9] md:aspect-[2/1] object-cover md:rounded-xl md:shadow-xl"
+            style={heroPosition ? `object-position: ${heroPosition}` : undefined}
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    )}
+
     <div class="pt-4 pb-16 bg-white">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-lg prose-gray">
-        <slot />
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="prose prose-lg prose-gray max-w-none">
+          <slot />
+        </div>
       </div>
     </div>
   </article>

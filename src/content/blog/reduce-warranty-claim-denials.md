@@ -6,9 +6,9 @@ tags: ["Warranty Claims", "Documentation", "3Cs", "Fixed Ops", "Revenue Recovery
 excerpt: "30% of warranty claims fail on first submission. Most denials come down to one thing: incomplete documentation. Here is how to fix that."
 primaryKeyword: "reduce warranty claim denials"
 secondaryKeywords: ["warranty claim documentation", "dealership warranty denials", "automotive warranty 3cs"]
+heroImage: "/blog-assets/3-reduce-warranty-claim-denials/technician-typing.png"
+heroAlt: "Technician typing at a computer instead of turning wrenches"
 ---
-
-![Technician typing at a computer instead of turning wrenches](/blog-assets/3-reduce-warranty-claim-denials/technician-typing.png)
 
 You already know warranty denials are a problem. What you might not know is how much money is walking out the door because of them.
 

@@ -16,11 +16,9 @@ faqs:
     answer: "When a vehicle comes back for the same complaint, the original technician's flag hours come off their next paycheck. The tech effectively eats the labor twice and owns a customer relationship that has already gone wrong."
   - question: "What is the average dealership technician turnover rate?"
     answer: "Industry data puts dealership service technician turnover in the 30 to 40 percent range annually in many markets. Top-performing shops hold it in the single digits, generally through operational improvements like balanced dispatch, fast parts flow, and documentation workflows that reduce the admin burden on the technician."
+heroImage: "/blog-assets/9-automotive-technician-retention/hero.jpg"
+heroAlt: "Shop stopwatch reading 04:23:17 next to a warranty repair order ticket marked 0.6 hours"
 ---
-
-<div class="not-prose my-8 mx-auto max-w-full md:max-w-[50%]">
-  <img src="/blog-assets/9-automotive-technician-retention/hero.jpg" alt="Shop stopwatch reading 04:23:17 next to a warranty repair order ticket marked 0.6 hours" class="w-full rounded-lg" />
-</div>
 
 Your best master tech walked last Friday. The exit form says "compensation." The sign-on bonus across town was three thousand dollars. That is not why they left.
 
