@@ -89,12 +89,15 @@ Same order on every car. When the order never changes, the tech stops thinking a
 
 Notice what is not on the list: a tour of every green item, or a reading of all four tires and brakes. Measurements belong on the report. Say one on camera only when it is the reason for a red or yellow item ("front pads are at 3 millimeters"). One sentence covers the greens ("everything else we checked is in good shape"), and the customer report shows the rest.
 
-<div class="not-prose my-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-surface p-5">
-  <div>
+<div class="not-prose my-8 flex items-center gap-5 rounded-xl border border-gray-200 bg-surface p-5 md:gap-6">
+  <a href="/blog-assets/15-mpi-video-guide/mpi-video-shot-list.pdf" class="block w-24 shrink-0 md:w-32" aria-label="Download the MPI Video Shot List PDF">
+    <img src="/blog-assets/15-mpi-video-guide/mpi-video-shot-list-thumb.png" alt="Preview of the one-page MPI Video Shot List" width="370" height="480" class="w-full rounded border border-gray-300 bg-white shadow-md" />
+  </a>
+  <div class="min-w-0">
     <p class="text-lg font-bold text-navy">Free download: the MPI Video Shot List</p>
-    <p class="text-base text-gray-700">One page, US Letter. Print it and tape it inside the toolbox lid. No signup.</p>
+    <p class="mt-1 text-base text-gray-700">One page, US Letter. Print it and tape it inside the toolbox lid. No signup.</p>
+    <a href="/blog-assets/15-mpi-video-guide/mpi-video-shot-list.pdf" class="mt-3 inline-block whitespace-nowrap rounded-lg bg-teal px-5 py-2.5 font-semibold text-white hover:bg-teal-dark">Download PDF</a>
   </div>
-  <a href="/blog-assets/15-mpi-video-guide/mpi-video-shot-list.pdf" class="inline-block whitespace-nowrap rounded-lg bg-teal px-5 py-2.5 font-semibold text-white hover:bg-teal-dark">Download PDF</a>
 </div>
 
 ### Video it or just say it?
