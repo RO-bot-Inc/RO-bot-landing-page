@@ -1,6 +1,6 @@
 ---
 title: "MPI Video: What Your Techs Should Say and Show"
-date: "2026-10-13"
+date: "2026-10-15"
 category: "Video Inspections"
 tags: ["MPI", "Video Inspections", "Multi-Point Inspections", "Service Department", "Customer Approval"]
 excerpt: "Most MPI videos are 30 seconds of a tech circling the car so the video counts. Here is the shot list that turns them into approved work, and how to stop making techs do it twice."
