@@ -1,4 +1,5 @@
 # Astro's content-layer cache silently serves stale markdown after a pipeline change
+<!-- recurrence: hits=2 prs=#62,#147 guard=package.json build script (clears node_modules/.astro); dev server unguarded -->
 
 **Status:** Shipped
 **Date:** 2026-07-28
@@ -23,6 +24,7 @@ The plugin change appeared to do nothing. The build succeeded, reported the righ
 - **Don't clear `.astro/` and assume the cache is gone.** Clear `node_modules/.astro` (`cacheDir`). Both directories exist; only one matters.
 - **Don't use `console.log` inside `astro.config.mjs` to test whether a plugin ran.** Use a filesystem write — `appendFileSync` to a scratch path is unambiguous.
 - **Don't ship a markdown-pipeline change without clearing the cache in the build command.** Netlify caches `node_modules` between builds, so clearing it locally proves nothing about production. The failure mode is silent: green deploy, unchanged HTML, and a fix that looks shipped but isn't.
+- **Don't trust `astro dev` after a content-schema change** (2026-10-15, #147). Adding `heroImage` to `content.config.ts` left the dev server rendering every post without the field, through `astro dev stop`, a restart, and clearing `node_modules/.astro`; `npm run build` + `npx astro preview` rendered it correctly. Verify schema changes on a fresh build, not on dev. (`npm run dev` also detaches a daemon that `pkill -f "astro dev"` misses; use `npx astro dev stop`.)
 - **Don't visit `element` nodes to find raw HTML written in markdown** (2026-10-07, #140). A `<div data-state-rate-lookup></div>` placeholder in a `.md` post reaches rehype as a `raw` node (a string), not an element, so an element visitor silently matches nothing. Visit `'raw'` nodes and match the string (see `src/plugins/stateRateLookup.js`).
 
 ## Reusable Pattern
