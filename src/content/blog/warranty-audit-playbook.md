@@ -6,11 +6,9 @@ tags: ["Warranty Claims", "Audit", "3Cs", "Documentation", "Fixed Ops"]
 excerpt: "By the time the audit letter shows up, it's already too late to fix your stories. Here is what auditors flag, and what to do before they come looking."
 primaryKeyword: "warranty audit"
 secondaryKeywords: ["warranty claim audit preparation", "3cs documentation audit", "manufacturer warranty audit"]
+heroImage: "/blog-assets/8-warranty-audit-playbook/warranty-audit-letter.jpg"
+heroAlt: "Warranty audit letter on a desk next to a long repair order list"
 ---
-
-<div class="not-prose my-8 mx-auto max-w-full md:max-w-[50%]">
-  <img src="/blog-assets/8-warranty-audit-playbook/warranty-audit-letter.jpg" alt="Warranty audit letter on a desk next to a long repair order list" class="w-full rounded-lg" />
-</div>
 
 The letter shows up on a Tuesday.
 

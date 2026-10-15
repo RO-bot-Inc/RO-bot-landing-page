@@ -6,10 +6,9 @@ tags: ["Beta Testing", "Customer Feedback", "Voice Technology", "Product Develop
 excerpt: "How voice-first technology is winning over auto technicians, one RO at a time."
 primaryKeyword: "voice ai for auto technicians"
 secondaryKeywords: ["automotive technician app", "service department technology", "voice first technician tools"]
+heroImage: "/blog-assets/2-from-skeptics-to-believers-beta-feedback/beta-service-manager.jpg"
+heroAlt: "Skeptical Service Manager"
 ---
-
-
-![Skeptical Service Manager](/blog-assets/2-from-skeptics-to-believers-beta-feedback/beta-service-manager.jpg)
 
 When we first started demoing TenthGear to auto technicians and service managers, the skepticism was palpable. "Another app?" "We spend too much time on screens as it is."
 

@@ -7,9 +7,9 @@ excerpt: "Skilled automotive technicians spend 30% of their time on screens inst
 primaryKeyword: "auto technician paperwork"
 secondaryKeywords: ["reduce technician documentation time", "voice documentation automotive", "tech productivity shop"]
 
+heroImage: "/blog-assets/1-why-auto-techs-hate-paperwork/technician-computer-paperwork.jpg"
+heroAlt: "Technician writing up a story"
 ---
-
-![Technician writing up a story](/blog-assets/1-why-auto-techs-hate-paperwork/technician-computer-paperwork.jpg)
 
 It's 4:17 PM on a Friday. Your hands are covered in grease, you've just figured out the problem that's been stumping you all afternoon, and there's one more car in the queue before you can head home.
 

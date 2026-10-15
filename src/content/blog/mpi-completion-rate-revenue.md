@@ -7,9 +7,9 @@ tags: ["MPI", "Inspections", "Revenue", "Fixed Ops", "Service Department"]
 excerpt: "61 out of 100 vehicles leave your shop with zero additional service recommendations. Most of those had findings that were never captured."
 primaryKeyword: "mpi completion rate"
 secondaryKeywords: ["multi point inspection completion", "service department mpi", "automotive mpi best practices"]
+heroImage: "/blog-assets/4-mpi-completion-rate-revenue/service-bay-cropped.webp"
+heroAlt: "Service bay with vehicles on lifts"
 ---
-
-![Service bay with vehicles on lifts](/blog-assets/4-mpi-completion-rate-revenue/service-bay-cropped.webp)
 
 Pull up your MPI completion numbers from last month. Not the ones from your DMS report that count "started" inspections. The real number: how many vehicles left your shop with a fully documented multi-point inspection that included actionable findings for the advisor to present?
 

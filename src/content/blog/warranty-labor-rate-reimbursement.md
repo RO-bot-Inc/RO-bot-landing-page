@@ -19,11 +19,9 @@ faqs:
     answer: "The most common reason is documentation. A manufacturer can dispute a declared rate as materially incomplete, inaccurate, or unreasonable, and thin repair orders in your sample give them room to do it. Missing time punches, missing signatures, and vague 3Cs are the defects that get lines pulled or the rate adjusted down. The sample only proves a rate as high as your customer-pay documentation supports."
   - question: "Does warranty work still lower my effective labor rate after a retail increase?"
     answer: "Less than before, but warranty pay can still trail retail in practice if claims get denied or charged back. Winning a higher rate on paper does not help if a failed warranty audit or a wave of denials claws the gross back. Holding the rate depends on warranty stories that keep passing review after the increase takes effect."
+heroImage: "/blog-assets/11-warranty-labor-rate-reimbursement/hero.jpg"
+heroAlt: "Repair order sample and calculator for a warranty labor rate submission"
 ---
-
-<div class="not-prose my-8 mx-auto max-w-full md:max-w-[50%]">
-  <img src="/blog-assets/11-warranty-labor-rate-reimbursement/hero.jpg" alt="Repair order sample and calculator for a warranty labor rate submission" class="w-full rounded-lg" />
-</div>
 
 Your factory reimburses warranty labor at one rate. You charge cash customers a higher one. For years that gap was just the cost of doing warranty work. It is not anymore. Most states now require manufacturers to reimburse warranty labor at or near your retail customer-pay rate, though the filing rules vary by state. The catch is that the law does not raise your rate for you. You have to file for it, and the filing lives or dies on documentation you are already supposed to be creating.
 

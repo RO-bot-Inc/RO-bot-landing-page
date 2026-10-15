@@ -16,11 +16,9 @@ faqs:
     answer: "You can raise the posted rate, but the durable gains come from protecting the labor line (discount parts before labor), getting your warranty reimbursement up to your retail rate, and selling more billable hours per RO through complete inspections and recommended work that customers actually approve."
   - question: "Does warranty work lower effective labor rate?"
     answer: "Yes. Factory warranty typically reimburses below your retail door rate, and third-party extended warranties are usually worse, capping diagnostic time and paying late. A heavy warranty mix structurally lowers your blended effective rate. Most states now require manufacturers to reimburse warranty labor at or near your retail rate, but you have to document and prove that rate to claim it."
+heroImage: "/blog-assets/10-effective-labor-rate/hero.jpg"
+heroAlt: "Dealership fixed operations manager at a desk stacked with repair orders"
 ---
-
-<div class="not-prose my-8">
-  <img src="/blog-assets/10-effective-labor-rate/hero.jpg" alt="Dealership fixed operations manager at a desk stacked with repair orders" class="w-full rounded-lg" />
-</div>
 
 You post $225 an hour at the service counter. Your DMS says your effective labor rate is $167. That gap is clearly not a rounding error.
 

@@ -6,9 +6,10 @@ tags: ["Revenue", "Repair Orders", "Fixed Ops", "Efficiency", "Service Departmen
 excerpt: "The fastest way to grow service revenue is not more bays or more techs. It is getting more value out of every RO that already comes through your door."
 primaryKeyword: "increase revenue per repair order"
 secondaryKeywords: ["service department revenue", "fixed operations profitability", "dealership service revenue"]
+heroImage: "/blog-assets/6-increase-revenue-per-repair-order/technician-voice-note.png"
+heroAlt: "Technician recording a voice note during an inspection"
+heroPosition: "50% 35%"
 ---
-
-![Technician recording a voice note during an inspection](/blog-assets/6-increase-revenue-per-repair-order/technician-voice-note.png)
 
 Every Fixed Ops Director has heard the same advice: grow your car count. Add bays. Hire more techs.
 

@@ -7,11 +7,9 @@ excerpt: "The work your customers already declined is worth more than the new cu
 metaDescription: "Declined service work is the cheapest revenue to recover, yet most never gets a follow-up call. Here is why it slips away and how to capture it back."
 primaryKeyword: "declined service work follow up"
 secondaryKeywords: ["recover declined service work", "deferred service work", "declined services dealership"]
+heroImage: "/blog-assets/12-recover-declined-service-work/declined-work-ro.jpg"
+heroAlt: "Repair order recommended service lines checked declined by the customer"
 ---
-
-<div class="not-prose my-8 mx-auto max-w-full md:max-w-[50%]">
-  <img src="/blog-assets/12-recover-declined-service-work/declined-work-ro.jpg" alt="Repair order recommended service lines checked declined by the customer" class="w-full rounded-lg" />
-</div>
 
 Every repair order that leaves your service drive with a declined line on it is work your team already found and never collected.
 

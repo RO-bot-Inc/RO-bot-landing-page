@@ -6,9 +6,9 @@ tags: ["Product Development", "Technician Feedback", "Founder", "Voice Technolog
 excerpt: "We spent months on shop floors before writing a single line of code. Here are the five things we heard over and over that shaped how we built TenthGear."
 primaryKeyword: "building tools for auto technicians"
 secondaryKeywords: ["automotive technician feedback", "service department product design", "technician workflow research"]
+heroImage: "/blog-assets/7-what-technician-conversations-taught-us/technician-engine-phone.png"
+heroAlt: "Technician leaning over an engine with phone in hand"
 ---
-
-![Technician leaning over an engine with phone in hand](/blog-assets/7-what-technician-conversations-taught-us/technician-engine-phone.png)
 
 Before we wrote a single line of code for TenthGear, I spent months in service departments. Not watching from the service drive. In the bays. Standing next to lifts, listening to compressors cycle, trying not to trip over drain pans.
 
