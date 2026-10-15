@@ -6,7 +6,7 @@ LinkedIn: not posting this one (Dave, 2026-10-15). The square pull quote card is
 
 ## Email announcement
 
-First send to the blog list since anyone signed up, so it opens by saying why they're getting it.
+Body is Dave's copy, verbatim (2026-10-15).
 
 **Subject:** The MPI video shot list
 **Preview text:** Same order on every car, and a one-page version for the toolbox.
@@ -14,19 +14,17 @@ First send to the blog list since anyone signed up, so it opens by saying why th
 **Body:**
 
 ```
-You signed up for the TenthGear blog, so here is the first one.
+In the latest installment of the TenthGear blog, we’re going deep on MPI video.
 
-Most stores track MPI video percentage. So a lot of MPI videos are 30 seconds of a tech circling the car until the video counts. That does not sell anything, and the techs know it: it is unpaid flat-rate time.
+Most stores track the % of ROs that have an attached video. Great metric, in theory. But a lot of MPI videos are 30 seconds of a tech circling the car and mumbling. That might count as an attached video but it certainly doesn’t sell anything.
 
-The new post is a shot list for MPI videos that customers act on. Five shots, same order on every car: intro, the customer's concern, red items, yellow items, close. One to two minutes on a clean car. It also covers what to put on video, what belongs on the report instead, and what to leave out.
+The new post is a how-to guide for MPI videos that customers will watch, and act on. It also covers what to put on video, what makes more sense as a photo, what to leave out.
 
-There is a free one-page version to print and tape inside the toolbox lid. No signup.
+There is a free one-page version to print and tape inside the toolbox lid.
 
-Read it: https://tenthgear.ai/blog/mpi-video-guide/
+Read it here: https://tenthgear.ai/blog/mpi-video-guide/
 
 Dave
-
-P.S. Customers who got photos or videos reported spending $230 more on the repair order, per Cox Automotive's 2026 fixed ops study.
 
 ---
 Unsubscribe: [unsubscribe-link]
