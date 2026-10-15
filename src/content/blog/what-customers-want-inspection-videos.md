@@ -54,6 +54,8 @@ When a video consistently gets approvals, it usually follows a simple structure.
 
 That is the formula. Problem, explanation, comparison, consequence, recommendation. Five pieces, 30 seconds, and suddenly the customer understands exactly what they are approving.
 
+That covers one concern. For the whole inspection, from the intro to the close, use our [MPI video shot list](/blog/mpi-video-guide/).
+
 ## Why Most Techs Do Not Record Videos This Way
 
 It is not because they do not care. It is because nobody taught them how. Techs are trained to diagnose and repair vehicles. They are not trained to communicate findings to a non-technical audience on camera while lying under a lift.

@@ -20,6 +20,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | warranty-labor-rate-reimbursement | 2026-06-05 (rewritten 2026-10-07) | warranty labor rate increase | — | — |
 | recover-declined-service-work | 2026-06-20 | declined service work follow up | — | — |
 | warranty-diagnostic-time | 2026-07-16 | warranty diagnostic time | — | — |
+| mpi-video-guide | 2026-10-13 | mpi video | — | — |
 
 ## How to check ranks
 
