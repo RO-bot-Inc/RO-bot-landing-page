@@ -21,6 +21,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | recover-declined-service-work | 2026-06-20 | declined service work follow up | — | — |
 | warranty-diagnostic-time | 2026-07-16 | warranty diagnostic time | — | — |
 | mpi-video-guide | 2026-10-15 | mpi video | — | — |
+| multi-point-inspection-checklist | 2026-10-23 | multi point inspection checklist | — | — |
 
 ## How to check ranks
 
