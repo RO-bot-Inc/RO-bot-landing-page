@@ -29,6 +29,8 @@ Talk to your techs about MPIs and you will hear the same things across every sho
 
 The result is predictable. Inspections get half-completed. Findings get missed. Advisors get nothing to sell. And the vehicle leaves your shop with $200 to $400 in undiscovered work sitting right there on the lift.
 
+A consistent checklist is the first fix. Here is a [38-point multi-point inspection checklist](/blog/multi-point-inspection-checklist/) in walk order, with the measurements that make it hard to pencil-whip.
+
 ## The Revenue Math on a 20% Improvement
 
 Let's walk through what even a modest improvement looks like.

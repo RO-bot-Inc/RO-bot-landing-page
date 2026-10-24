@@ -87,7 +87,7 @@ Same order on every car. When the order never changes, the tech stops thinking a
 | 4 | Yellow items | What is wearing and roughly when it will need attention. | 15 sec each |
 | 5 | Close | What is urgent, what can wait, and that the advisor will follow up with pricing. | 10 sec |
 
-Notice what is not on the list: a tour of every green item, or a reading of all four tires and brakes. Measurements belong on the report. Say one on camera only when it is the reason for a red or yellow item ("front pads are at 3 millimeters"). One sentence covers the greens ("everything else we checked is in good shape"), and the customer report shows the rest.
+Notice what is not on the list: a tour of every green item, or a reading of all four tires and brakes. Measurements belong on the report. Say one on camera only when it is the reason for a red or yellow item ("front pads are at 3 millimeters"). One sentence covers the greens ("everything else we checked is in good shape"), and the customer report shows the rest. For the full list of items and where red and yellow start, see our [multi-point inspection checklist](/blog/multi-point-inspection-checklist/).
 
 <div class="not-prose my-8 flex items-center gap-5 rounded-xl border border-gray-200 bg-surface p-5 md:gap-6">
   <a href="/blog-assets/15-mpi-video-guide/mpi-video-shot-list.pdf" class="block w-24 shrink-0 md:w-32" aria-label="Download the MPI Video Shot List PDF">
