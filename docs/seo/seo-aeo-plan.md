@@ -58,7 +58,7 @@ Each project ships as its own PR (or PRs) and gets checked off here.
 ### P3. MPI content cluster (Google + AI answers)
 
 All link to `/mpi/`. Roughly one a week, alternating with P4.
-- [ ] **Multi point inspection checklist for dealerships**, with a printable version. Targets "multi point inspection checklist" (100 to 1K) and "mpi checklist."
+- [x] **Multi point inspection checklist for dealerships** (shipped 2026-10-23, #153, `/blog/multi-point-inspection-checklist/`), with a printable version. Targets "multi point inspection checklist" (100 to 1K) and "mpi checklist."
 - [x] **MPI video guide** (shipped 2026-10-15, #148, `/blog/mpi-video-guide/`): what to say and show, shot list, customer approval angle. Targets "mpi video" (100 to 1K), "vehicle inspection video." Builds on the existing inspection-video post.
 - [ ] **Digital vehicle inspection for dealerships:** what a DVI should do, how dealership needs differ from independent shops. Targets "digital vehicle inspection," "DVI software."
 - [ ] **What is a multi point inspection** (definition page for the 1K to 10K head term and for AI answers).
@@ -77,7 +77,7 @@ All link to `/3c-story-writer/` (warranty rate pieces link to the labor rate pos
 
 - [ ] **Warranty Story Checker:** paste a story, get a basic grade. Decision needed: cost and abuse limits of calling the grader from the public site.
 - [ ] **Effective labor rate calculator** on or beside the ELR post ("calculate effective labor rate" ranks 18 to 28 today).
-- [ ] Printable MPI checklist (ships with P3).
+- [x] Printable MPI checklist (shipped with the checklist post, #153).
 
 ### P6. Comparisons and "works alongside" pages
 

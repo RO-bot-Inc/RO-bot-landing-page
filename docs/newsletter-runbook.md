@@ -30,7 +30,7 @@ npm run newsletter:announce -- --slug {slug} --send         # sync, confirm, bro
 
 - Sync never deletes a contact, never edits an existing contact, never changes `unsubscribed`, and never re-adds someone who opted out.
 - Bots POST straight to the form endpoint and skip the browser's `required`, so empty or malformed addresses show up in Netlify. They are counted and skipped.
-- Dave's own test signups are listed in `EXCLUDE` in the script and skipped on every sync.
+- Dave's own test signups are listed in `EXCLUDE` in the script and skipped on every sync. dave@tenthgear.ai was added straight to the segment in Resend (2026-10-24) so Dave gets each real send; sync never removes it.
 - The email draft must have `**Subject:**`, `**Preview text:**`, and a fenced body ending in `Unsubscribe: [unsubscribe-link]`. That line becomes Resend's real unsubscribe link. Older docs with a `{{unsubscribe}}` footer still parse.
 - A slash-less post link is rewritten to `/blog/{slug}/` (the site 301s the bare form). Em dashes and `shared/brand.md` banned words are warnings only.
 
