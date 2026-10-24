@@ -20,18 +20,19 @@ Full post and the PDF in the comments.
 
 ## Email announcement draft
 
-**Subject:** The 38-point MPI checklist, printable
-
-**Preview text:** Same walk order, three numbers on every car, and where yellow turns red.
+**Subject:** The 38-point MPI checklist
+**Preview text:** Same walk order on every car, and where yellow turns red.
 
 **Body:**
 
 ```
-Pull 20 MPIs from last week and count how many are all green with one tire reading filled in. That is a checklist getting done, not a vehicle getting inspected.
+In the latest installment of the TenthGear blog, we're building the multi-point inspection checklist.
 
-This week's post is the fix: a 38-point multi-point inspection checklist in walk order, from exterior to undercarriage, with red and yellow lines for brake pads, tire tread and battery.
+Most stores track MPI completion rate. Great metric, in theory. But pull 20 MPIs from last week and count how many are all green with one tire reading filled in. That counts as a completed inspection, but it doesn't find any work.
 
-There is a one-page printable version too. Tape it inside the toolbox lid, run it with three techs for a week, and compare.
+The new post is a 38-point checklist in the order a tech actually walks the car, from exterior to undercarriage. It also covers the three numbers to record on every car (brake pads, tire tread and battery) and where yellow turns red for each.
+
+We've included a free printable MPI form, for the old-schoolers out there. (We love paper too, but letting the TenthGear app fill this out for you is just so much faster.)
 
 Read it here: https://tenthgear.ai/blog/multi-point-inspection-checklist/
 
