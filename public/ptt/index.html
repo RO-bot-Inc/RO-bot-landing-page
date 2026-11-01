@@ -126,6 +126,7 @@
   const clips = []; // { name, blob, durMs, label, latencyMs, hidden, idleMs, afterReconnect }
   let lastPressWall = 0;      // Date.now() of the previous press (or connect)
   let reconnectedPending = false; // a drop + successful reconnect happened; the next good clip proves it
+  let reconnectHow = '';
 
   async function listInputs() {
     const devs = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === 'audioinput');
@@ -233,7 +234,7 @@
     if (c.hidden) setCheck('back', good, detail);
     else if (!checks.front?.ok) setCheck('front', good, detail);
     if (c.idleMs >= IDLE_MS) setCheck('idle', good, detail + ` · ${Math.round(c.idleMs / 60000)} min idle`);
-    if (c.afterReconnect) { setCheck('recon', good, detail); reconnectedPending = false; }
+    if (c.afterReconnect) { setCheck('recon', good, `Reconnected ${reconnectHow} · ${detail}`); reconnectedPending = false; }
   }
 
   // idle countdown on the checklist row
@@ -246,7 +247,7 @@
   }, 1000);
 
   // ---------- bluetooth ----------
-  let device = null, chr = null, wantConnected = false, reconnectTimer = null, dropAt = 0, dropWatch = null;
+  let device = null, chr = null, wantConnected = false, reconnectTimer = null, dropAt = 0, dropWatch = null, manualReconnectNeeded = false;
 
   function onValue(ev) {
     const v = ev.target.value; const b = v.byteLength ? v.getUint8(0) : -1;
@@ -270,8 +271,10 @@
       const gap = Math.round((Date.now() - dropAt) / 1000);
       dropAt = 0; clearTimeout(dropWatch); dropWatch = null;
       reconnectedPending = true;
-      log(`reconnected ${gap} s after the drop`);
-      $('c-recon').querySelector('.detail').textContent = `Reconnected ${gap} s after the drop. Now press and talk once to confirm.`;
+      reconnectHow = manualReconnectNeeded ? `after clicking Connect (${gap} s after the drop)` : `on its own, ${gap} s after the drop`;
+      manualReconnectNeeded = false;
+      log(`reconnected ${reconnectHow}`);
+      $('c-recon').querySelector('.detail').textContent = `Reconnected ${reconnectHow}. Now press and talk once to confirm.`;
       hint('recon', null);
     } else {
       setCheck('connect', true, `${device.name}, ${ms} ms`);
@@ -300,10 +303,11 @@
       clearTimeout(dropWatch);
       dropWatch = setTimeout(() => {
         if (dropAt && wantConnected) {
-          setCheck('recon', false, 'No reconnect within 60 s of the drop.');
-          hint('recon', 'The page has not reconnected to the handheld after a minute. Make sure the handheld is on, then click Connect. If the chooser opens, pick B02PTT-FF01 again.');
+          manualReconnectNeeded = true;
+          $('c-recon').querySelector('.detail').textContent = 'The page could not see the handheld come back on its own. Make sure it is on, click Connect, and pick B02PTT-FF01 again.';
+          hint('recon', 'The handheld did not reconnect by itself. Click Connect and pick B02PTT-FF01 in the list.');
         }
-      }, 60000);
+      }, 30000);
       scheduleReconnect(500);
     });
   }
@@ -311,12 +315,20 @@
   $('connect').onclick = async () => {
     try {
       wantConnected = true;
+      clearTimeout(reconnectTimer); reconnectTimer = null;
+      if (dropAt) manualReconnectNeeded = true; // the user had to click: record it as a manual reconnect
+      if (device && !device.gatt.connected) {
+        try { await subscribe(); }
+        catch (e) { log('direct reconnect failed (' + e.message + '); opening the chooser', 'warn'); device = null; }
+      }
       if (!device) {
         const d = await navigator.bluetooth.requestDevice({ filters: [{ namePrefix: NAME_PREFIX }], optionalServices: [SVC, 'battery_service'] });
         log(`chose ${d.name} (${d.id})`);
         adopt(d);
+        await subscribe();
+      } else if (!device.gatt.connected) {
+        await subscribe();
       }
-      await subscribe();
       // Open the mic first so the permission prompt happens here and device labels become readable;
       // listInputs() then auto-selects the handheld and re-opens the kept stream on it.
       if ($('keepOpen').checked) await openStream();
