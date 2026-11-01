@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-  <p style="font-size:13px;color:#555;margin:0 0 8px">Internal test page for the push-to-talk handheld. Chrome or Edge only. Pair B02PTT-FF01 to this computer in Bluetooth settings first, then Connect button, Grant mic, tick Keep handheld mic stream open, press and speak.</p>
+  <p style="font-size:13px;color:#555;margin:0 0 8px">Internal test page for the push-to-talk handheld. Chrome or Edge only. Pair B02PTT-FF01 to this computer in Bluetooth settings first, then click Connect button, pick the handheld, allow the microphone, and press and speak.</p>
   <div id="status">Idle</div>
   <div>
     <button id="connect">Connect button</button>
@@ -26,7 +26,7 @@
     <button id="clear">Clear recordings</button>
   </div>
   <div style="margin:8px 0 12px">
-    <label><input type="checkbox" id="keepOpen"> Keep handheld mic stream open (lower latency, costs handheld battery)</label>
+    <label><input type="checkbox" id="keepOpen" checked> Keep handheld mic stream open (lower latency, costs handheld battery)</label>
     <label>Input: <select id="inputSel"><option value="">(default)</option></select></label>
   </div>
   <h4>Log</h4>
@@ -208,8 +208,10 @@
         adopt(d);
       }
       await subscribe();
-      await listInputs();
+      // Open the mic first so the permission prompt happens here and device labels become readable;
+      // listInputs() then auto-selects the handheld and re-opens the kept stream on it.
       if ($('keepOpen').checked) await openStream();
+      await listInputs();
     } catch (e) { setStatus('Connect failed: ' + e.message); }
   };
   $('disconnect').onclick = () => { wantConnected = false; clearTimeout(reconnectTimer); reconnectTimer = null; if (device?.gatt.connected) device.gatt.disconnect(); closeStream(); setStatus('Disconnected by user'); };
