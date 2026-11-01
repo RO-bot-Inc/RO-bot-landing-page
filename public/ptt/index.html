@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Web Bluetooth PTT spike</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; margin: 0; padding: 16px; max-width: 900px; }
+  #status { font-weight: 600; font-size: 18px; margin: 6px 0 12px; }
+  button { font-size: 15px; padding: 8px 14px; margin: 0 6px 6px 0; }
+  label { margin-right: 14px; font-size: 14px; }
+  #log { height: 40vh; overflow-y: auto; background: #f3f4f6; font: 12px/1.45 ui-monospace, Menlo, monospace; padding: 8px; white-space: pre-wrap; }
+  #recs { list-style: none; padding: 0; }
+  #recs li { border-bottom: 1px solid #ddd; padding: 8px 0; font-size: 14px; }
+  #recs audio { display: block; width: 100%; margin-top: 4px; }
+  .warn { color: #b45309; }
+</style>
+</head>
+<body>
+  <p style="font-size:13px;color:#555;margin:0 0 8px">Internal test page for the push-to-talk handheld. Chrome or Edge only. Pair B02PTT-FF01 to this computer in Bluetooth settings first, then Connect button, Grant mic, tick Keep handheld mic stream open, press and speak.</p>
+  <div id="status">Idle</div>
+  <div>
+    <button id="connect">Connect button</button>
+    <button id="mic">Grant mic</button>
+    <button id="disconnect">Disconnect</button>
+    <button id="clear">Clear recordings</button>
+  </div>
+  <div style="margin:8px 0 12px">
+    <label><input type="checkbox" id="keepOpen"> Keep handheld mic stream open (lower latency, costs handheld battery)</label>
+    <label>Input: <select id="inputSel"><option value="">(default)</option></select></label>
+  </div>
+  <h4>Log</h4>
+  <div id="log"></div>
+  <h4>Recordings</h4>
+  <ul id="recs"></ul>
+
+<script>
+(() => {
+  const SVC = '89a8591d-bb19-485b-9f59-58492bc33e24';
+  const CHR = '894c8042-e841-461c-a5c9-5a73d25db08e';
+  const NAME_PREFIX = 'B02PTT';
+  const $ = (id) => document.getElementById(id);
+
+  const ts = () => { const d = new Date(); return d.toTimeString().slice(0, 8) + '.' + String(d.getMilliseconds()).padStart(3, '0'); };
+  const log = (m, cls) => { const el = $('log'); const line = document.createElement('div'); if (cls) line.className = cls; line.textContent = `[${ts()}] [${document.visibilityState}] ${m}`; el.appendChild(line); el.scrollTop = el.scrollHeight; };
+  const setStatus = (t) => { $('status').textContent = t; log('status: ' + t); };
+
+  if (!navigator.bluetooth) setStatus('This browser has no Web Bluetooth (use Chrome or Edge)');
+
+  // ---------- audio ----------
+  let audioCtx;
+  function beep(freqs) {
+    try {
+      audioCtx = audioCtx || new AudioContext();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      let t = audioCtx.currentTime;
+      for (const f of freqs) {
+        const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+        o.frequency.value = f; o.connect(g); g.connect(audioCtx.destination);
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.4, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+        o.start(t); o.stop(t + 0.1); t += 0.12;
+      }
+    } catch (e) { log('beep failed: ' + e.message, 'warn'); }
+  }
+  const startTone = () => beep([880, 1320]);
+  const stopTone = () => beep([1320, 660]);
+  const errorTone = () => beep([440, 330, 220]);
+
+  let stream = null;          // open mic stream (keepOpen mode or during a take)
+  let recorder = null;
+  let pressAt = 0;
+  let chunks = [];
+
+  async function listInputs() {
+    const devs = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === 'audioinput');
+    const sel = $('inputSel'); const prev = sel.value;
+    sel.innerHTML = '<option value="">(default)</option>';
+    let handheld = '';
+    devs.forEach((d) => {
+      const o = document.createElement('option'); o.value = d.deviceId; o.textContent = d.label || d.deviceId.slice(0, 8);
+      sel.appendChild(o);
+      if ((d.label || '').includes(NAME_PREFIX) && (!handheld || !(d.label || '').startsWith('Default'))) handheld = d.deviceId;
+    });
+    if (prev && [...sel.options].some((o) => o.value === prev)) sel.value = prev;
+    else if (handheld) sel.value = handheld;
+    log(`inputs: ${devs.map((d) => d.label || '(no label)').join(' | ')}` + (handheld ? ` -> auto-selected ${NAME_PREFIX}` : ' (handheld NOT listed)'), handheld ? '' : 'warn');
+    // The selection moved (e.g. first enumeration after connect): a kept-open stream must follow it.
+    if (sel.value !== prev && $('keepOpen').checked && !recorder) {
+      const cur = stream?.getAudioTracks()[0]?.label || '';
+      if (!cur.includes(NAME_PREFIX)) { closeStream(); openStream().catch((e) => log('reopen failed: ' + e.message, 'warn')); }
+    }
+    return devs;
+  }
+  navigator.mediaDevices.addEventListener('devicechange', () => { log('devicechange'); listInputs(); });
+
+  async function openStream() {
+    if (stream && stream.active) return stream;
+    const id = $('inputSel').value;
+    const t0 = performance.now();
+    stream = await navigator.mediaDevices.getUserMedia({ audio: id ? { deviceId: { exact: id } } : true });
+    const track = stream.getAudioTracks()[0];
+    const s = track.getSettings();
+    log(`mic stream open in ${Math.round(performance.now() - t0)} ms: "${track.label}" ${s.sampleRate || '?'} Hz ch=${s.channelCount || '?'}`);
+    track.onended = () => { log('mic track ended', 'warn'); stream = null; };
+    return stream;
+  }
+  function closeStream() { if (stream) { stream.getTracks().forEach((t) => t.stop()); stream = null; log('mic stream closed'); } }
+
+  $('mic').onclick = async () => {
+    try { const s = await navigator.mediaDevices.getUserMedia({ audio: true }); s.getTracks().forEach((t) => t.stop()); await listInputs(); }
+    catch (e) { log('mic permission failed: ' + e.message, 'warn'); }
+  };
+  $('keepOpen').onchange = async () => {
+    if ($('keepOpen').checked) { try { await openStream(); } catch (e) { log('keepOpen openStream failed: ' + e.message, 'warn'); } }
+    else if (!recorder) closeStream();
+  };
+  $('inputSel').onchange = () => { if (!recorder) { closeStream(); if ($('keepOpen').checked) openStream().catch((e) => log(e.message, 'warn')); } };
+
+  async function onPress() {
+    pressAt = performance.now();
+    if (recorder) { log('press while recording: ignored'); return; }
+    let s;
+    try { s = await openStream(); }
+    catch (e) { log('getUserMedia FAILED on press: ' + e.message, 'warn'); errorTone(); return; }
+    const mime = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/ogg;codecs=opus'].find((m) => MediaRecorder.isTypeSupported(m)) || '';
+    chunks = [];
+    recorder = new MediaRecorder(s, mime ? { mimeType: mime } : undefined);
+    recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+    recorder.onstart = () => { log(`recording started ${Math.round(performance.now() - pressAt)} ms after press (${recorder.mimeType})`); startTone(); };
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: recorder.mimeType });
+      const dur = Math.round(performance.now() - pressAt);
+      const label = s.getAudioTracks()[0].label;
+      recorder = null;
+      stopTone();
+      addRecording(blob, dur, label);
+      if (!$('keepOpen').checked) closeStream();
+    };
+    recorder.start();
+  }
+  function onRelease() {
+    if (!recorder) { log('release with no recorder: ignored'); return; }
+    recorder.stop();
+  }
+
+  function addRecording(blob, durMs, label) {
+    const li = document.createElement('li');
+    const name = new Date().toISOString();
+    li.innerHTML = `<b>${name}</b> · ${(durMs / 1000).toFixed(1)} s · ${blob.size} bytes · ${label}`;
+    const a = document.createElement('audio'); a.controls = true; a.src = URL.createObjectURL(blob); li.appendChild(a);
+    $('recs').prepend(li);
+    log(`recording stopped: ${blob.size} bytes, ${durMs} ms press-to-release`);
+  }
+  $('clear').onclick = () => { $('recs').innerHTML = ''; };
+
+  // ---------- bluetooth ----------
+  let device = null, chr = null, wantConnected = false, reconnectTimer = null;
+
+  function onValue(ev) {
+    const v = ev.target.value; const b = v.byteLength ? v.getUint8(0) : -1;
+    log(`notify 0x${b.toString(16).padStart(2, '0')}`);
+    if (b === 1) onPress(); else if (b === 0) onRelease(); else log('unknown PTT byte', 'warn');
+  }
+
+  async function subscribe() {
+    const t0 = performance.now();
+    setStatus(`Connecting to ${device.name}…`);
+    const server = await device.gatt.connect();
+    const svc = await server.getPrimaryService(SVC);
+    chr = await svc.getCharacteristic(CHR);
+    chr.removeEventListener('characteristicvaluechanged', onValue);
+    chr.addEventListener('characteristicvaluechanged', onValue);
+    await chr.startNotifications();
+    setStatus(`Ready: press the PTT button (${device.name}, connected in ${Math.round(performance.now() - t0)} ms)`);
+    try {
+      const bs = await server.getPrimaryService('battery_service');
+      const bl = await bs.getCharacteristic('battery_level');
+      const lv = await bl.readValue(); log(`handheld battery ${lv.getUint8(0)}%`);
+    } catch (e) { log('battery read skipped: ' + e.message); }
+  }
+
+  function scheduleReconnect(delay) {
+    if (!wantConnected || reconnectTimer) return;
+    reconnectTimer = setTimeout(async () => {
+      reconnectTimer = null;
+      if (!wantConnected) return;
+      try { await subscribe(); }
+      catch (e) { log('reconnect failed: ' + e.message + '; retrying', 'warn'); scheduleReconnect(Math.min(delay * 2, 10000)); }
+    }, delay);
+  }
+
+  function adopt(d) {
+    device = d;
+    d.addEventListener('gattserverdisconnected', () => {
+      if (recorder) onRelease();
+      setStatus(`Disconnected from ${d.name}` + (wantConnected ? '; reconnecting' : ''));
+      scheduleReconnect(500);
+    });
+  }
+
+  $('connect').onclick = async () => {
+    try {
+      wantConnected = true;
+      if (!device) {
+        const d = await navigator.bluetooth.requestDevice({ filters: [{ namePrefix: NAME_PREFIX }], optionalServices: [SVC, 'battery_service'] });
+        log(`chose ${d.name} (${d.id})`);
+        adopt(d);
+      }
+      await subscribe();
+      await listInputs();
+      if ($('keepOpen').checked) await openStream();
+    } catch (e) { setStatus('Connect failed: ' + e.message); }
+  };
+  $('disconnect').onclick = () => { wantConnected = false; clearTimeout(reconnectTimer); reconnectTimer = null; if (device?.gatt.connected) device.gatt.disconnect(); closeStream(); setStatus('Disconnected by user'); };
+
+  // Chrome: previously permitted devices can be re-adopted after a reload without the chooser.
+  (async () => {
+    if (!navigator.bluetooth?.getDevices) { log('getDevices() unavailable: reconnect after reload needs the chooser'); return; }
+    try {
+      const devs = await navigator.bluetooth.getDevices();
+      const d = devs.find((x) => (x.name || '').startsWith(NAME_PREFIX));
+      if (!d) { log('no previously permitted handheld; click Connect'); return; }
+      log(`previously permitted: ${d.name}; watching advertisements to reconnect`);
+      adopt(d); wantConnected = true;
+      d.addEventListener('advertisementreceived', async () => {
+        if (d.gatt.connected) return;
+        try { d.unwatchAdvertisements?.(); await subscribe(); await listInputs(); } catch (e) { log('auto-reconnect failed: ' + e.message, 'warn'); }
+      }, { once: true });
+      await d.watchAdvertisements();
+    } catch (e) { log('getDevices/watchAdvertisements: ' + e.message, 'warn'); }
+  })();
+
+  document.addEventListener('visibilitychange', () => log('visibility -> ' + document.visibilityState));
+  log('page loaded; Web Bluetooth ' + (navigator.bluetooth ? 'available' : 'MISSING') + '; secure context ' + window.isSecureContext);
+})();
+</script>
+</body>
+</html>
