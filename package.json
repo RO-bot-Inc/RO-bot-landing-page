@@ -12,15 +12,15 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.137.0",
-    "@astrojs/markdown-remark": "^7.3.4",
+    "@astrojs/markdown-remark": "^7.3.5",
     "@astrojs/sitemap": "^3.7.4",
     "@netlify/blobs": "^10.7.13",
     "@tailwindcss/typography": "^0.5.19",
-    "astro": "^7.4.2",
-    "autoprefixer": "^10.6.1",
+    "astro": "^7.4.4",
+    "autoprefixer": "^10.6.2",
     "sharp": "^0.35.5",
     "tailwindcss": "^3.4.17",
-    "unist-util-visit": "^5.1.0",
+    "unist-util-visit": "^5.2.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
