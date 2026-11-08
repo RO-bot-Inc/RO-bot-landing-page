@@ -1,0 +1,7 @@
+---
+// Hidden fields on the demo-request form. Netlify records them with each
+// submission, so every lead shows which pages brought it in. The values are
+// filled by DemoAttribution.astro.
+const fields = ['first_landing_page', 'first_referrer', 'first_utm', 'blog_posts_read', 'submitted_from'];
+---
+{fields.map((name) => <input type="hidden" name={name} value="" data-attribution={name} />)}
