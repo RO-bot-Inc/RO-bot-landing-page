@@ -54,7 +54,7 @@ export default defineConfig({
     sitemap({
       // Event pages are reached by QR code and printed URL, not by search —
       // except the Leak Test, which stands as an evergreen offer.
-      filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you') && (!page.includes('/ai-summit/') || page.endsWith('/ai-summit/leak-test/')),
+      filter: (page) => !page.includes('privacy-extension') && !page.includes('thank-you') && !page.includes('worksheet-thanks') && (!page.includes('/ai-summit/') || page.endsWith('/ai-summit/leak-test/')),
     }),
   ],
   markdown: {
