@@ -157,7 +157,7 @@ Before you submit, have a second reviewer check every skipped RO and every exclu
     <p class="text-xs font-semibold tracking-widest uppercase text-teal mb-2">Free worksheet</p>
     <h3 class="text-xl font-bold text-navy m-0">Warranty Parts Markup Worksheet</h3>
     <p class="mt-2 mb-0 text-gray-700">Five tabs, one per role: state setup, the RO log with skip reasons, parts lines with exclusion reasons and the advisor check, a summary that runs the markup two ways with a second-reviewer sign-off, and a zero-cost claims log. Works in Google Sheets or Excel.</p>
-    <form name="ro-sample-worksheet" method="POST" data-netlify="true" data-netlify-recaptcha="true" netlify-honeypot="bot-field" action="/worksheet-thanks/" class="mt-5 flex flex-col gap-3">
+    <form name="ro-sample-worksheet" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/worksheet-thanks/" class="mt-5 flex flex-col gap-3">
       <input type="hidden" name="form-name" value="ro-sample-worksheet">
       <p class="hidden" aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field"></label></p>
       <label for="ws-email" class="text-sm font-semibold text-navy">Work email</label>
@@ -165,7 +165,6 @@ Before you submit, have a second reviewer check every skipped RO and every exclu
         <input id="ws-email" type="email" name="email" required autocomplete="email" placeholder="you@dealership.com" class="w-full sm:flex-1 px-4 py-3 rounded-lg border border-gray-300 bg-white text-navy focus:outline-none focus:ring-2 focus:ring-teal">
         <button type="submit" class="bg-teal hover:bg-teal-dark text-white font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap">Email me the worksheet</button>
       </div>
-      <div data-netlify-recaptcha="true" class="min-h-[78px]"></div>
       <p class="m-0 text-xs text-gray-500">You get one email with a Google Sheets link and an Excel download. A planning aid, not legal advice.</p>
     </form>
   </div>
