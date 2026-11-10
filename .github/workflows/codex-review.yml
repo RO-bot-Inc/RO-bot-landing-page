@@ -27,7 +27,12 @@ permissions:
 jobs:
   codex-review:
     name: Codex Review
-    runs-on: ubuntu-latest
+    # Pinned (2026-11-09): `ubuntu-latest` rolled to ubuntu-26.04, where
+    # codex-action's `drop-sudo` safety strategy dies before the review starts
+    # ("Could not restrict access to /run/dbus/system_bus_socket", sudo exit 1).
+    # Same fix as the app repo (#2527). Re-test 26.04 when codex-action ships a
+    # release that names it.
+    runs-on: ubuntu-24.04
     if: github.event.pull_request.draft == false
     steps:
       # Dependabot-triggered runs read secrets from the DEPENDABOT secret
