@@ -10,7 +10,7 @@ GM found two qualifying transmission repairs had been left out of the sample. It
 
 A parts markup filing is worth real money. It is also easy to get wrong: which ROs go in the sample, which parts lines come out, and whether your state wants total over total or an average.
 
-We wrote up how to calculate and file one: the formula, the RO sample, deadlines for six states, zero-cost parts, and who checks what before it goes to the OEM. There is a calculator and a free worksheet that runs the math two ways.
+We wrote up how to calculate and file one: the formula, the RO sample, how state rules differ, zero-cost parts, and who checks what before it goes to the OEM. There is a calculator and a free worksheet that runs the math two ways.
 
 Full post in the comments.
 
@@ -30,7 +30,7 @@ In the latest installment of the TenthGear blog, we're going deep on warranty pa
 
 Most stores know their warranty labor rate to the penny. Parts markup gets less attention, and a filing done wrong can lower it. One New York dealer filed for 81.62% and ended up at 62.30% after the OEM added back two transmission jobs left out of the sample.
 
-The new post covers how to calculate the markup, which ROs go in the sample, the rules for six states, and what you should be paid on parts the OEM ships at no cost. It also has a calculator to see what an increase is worth for your store.
+The new post covers how to calculate the markup, which ROs go in the sample, how filing rules differ by state, and what you should be paid on parts the OEM ships at no cost. It also has a calculator to see what an increase is worth for your store.
 
 We've also built a free worksheet in Google Sheets and Excel, with a tab for each person who touches the filing. (Clean RO stories make the review faster, which is where the TenthGear app comes in.)
 

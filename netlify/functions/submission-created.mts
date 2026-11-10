@@ -33,7 +33,7 @@ ${XLSX_URL}
 
 Start on the "Start here" tab. The example rows show how each tab works; replace them with your own ROs.
 
-It is a planning aid, not legal advice. Check your state's statute before you file. The post covers the rules for six states: ${POST_URL}
+It is a planning aid, not legal advice. Check your state's statute before you file. The post shows how the rules differ by state: ${POST_URL}
 
 Questions, or something you wish it tracked? Just reply.
 
