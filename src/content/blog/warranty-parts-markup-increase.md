@@ -1,6 +1,6 @@
 ---
 title: "Warranty Parts Markup Increase: How Dealers Calculate and File"
-date: "2026-11-08"
+date: "2026-11-09"
 category: "Warranty"
 tags: ["Warranty Parts Markup", "Warranty Reimbursement", "Fixed Ops", "Parts Gross Profit", "Documentation"]
 excerpt: "Confirm your state's rules, pull the right repair orders, run the math your statute names, and get a second set of eyes on the filing before it goes to the manufacturer."
