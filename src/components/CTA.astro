@@ -1,3 +1,6 @@
+---
+import DemoAttributionFields from './DemoAttributionFields.astro';
+---
 <section class="py-20 md:py-28 bg-navy">
   <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 animate-on-scroll">
@@ -9,6 +12,7 @@
 
     <form name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="max-w-md mx-auto space-y-4 animate-on-scroll stagger-3">
       <input type="hidden" name="form-name" value="demo-request">
+      <DemoAttributionFields />
       <p class="hidden" aria-hidden="true">
         <label>Don't fill this out if you're human: <input name="bot-field"></label>
       </p>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import DemoAttributionFields from '../components/DemoAttributionFields.astro';
 ---
 
 <BaseLayout title="Book Your Demo - TenthGear" description="See how TenthGear can help your service department find more work, sell more work, and get paid for more work.">
@@ -16,6 +17,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="max-w-md mx-auto">
         <form name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="space-y-4">
           <input type="hidden" name="form-name" value="demo-request">
+          <DemoAttributionFields />
           <p class="hidden" aria-hidden="true">
             <label>Don't fill this out if you're human: <input name="bot-field"></label>
           </p>

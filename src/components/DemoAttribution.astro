@@ -1,0 +1,67 @@
+<script>
+  // First-party record of how a visitor found the site, kept in this browser
+  // only. It leaves the browser only if the visitor submits the demo form.
+  // Paths and referrer hostnames only, never full URLs or query strings
+  // (UTM values excepted).
+  const KEY = 'tg_attribution';
+  const MAX_AGE_MS = 180 * 24 * 60 * 60 * 1000;
+  const MAX_POSTS = 10;
+
+  function load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (saved && Date.now() - saved.firstSeen < MAX_AGE_MS) return saved;
+    } catch {
+      // Storage blocked or corrupt: fall through and start fresh.
+    }
+    return null;
+  }
+
+  function externalReferrerHost() {
+    try {
+      const host = new URL(document.referrer).hostname;
+      return host === location.hostname ? '' : host;
+    } catch {
+      return '';
+    }
+  }
+
+  function utmString() {
+    const params = new URLSearchParams(location.search);
+    return ['utm_source', 'utm_medium', 'utm_campaign']
+      .map((k) => (params.get(k) ? `${k}=${params.get(k).slice(0, 100)}` : ''))
+      .filter(Boolean)
+      .join(' ');
+  }
+
+  const record = load() || {
+    firstSeen: Date.now(),
+    landing: location.pathname,
+    referrer: externalReferrerHost(),
+    utm: utmString(),
+    posts: [],
+  };
+
+  const post = location.pathname.match(/^\/blog\/[^/]+/);
+  if (post) {
+    const slug = post[0].slice('/blog/'.length);
+    record.posts = record.posts.filter((p) => p !== slug).concat(slug).slice(-MAX_POSTS);
+  }
+
+  try {
+    localStorage.setItem(KEY, JSON.stringify(record));
+  } catch {
+    // Without storage the form still gets this page's values.
+  }
+
+  const values = {
+    first_landing_page: record.landing,
+    first_referrer: record.referrer || '(direct)',
+    first_utm: record.utm,
+    blog_posts_read: record.posts.join(', '),
+    submitted_from: location.pathname,
+  };
+  document.querySelectorAll('input[data-attribution]').forEach((input) => {
+    input.value = values[input.dataset.attribution] || '';
+  });
+</script>
