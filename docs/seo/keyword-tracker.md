@@ -22,6 +22,7 @@ Post-publication tracking of target keywords. Review quarterly.
 | warranty-diagnostic-time | 2026-07-16 | warranty diagnostic time | — | — |
 | mpi-video-guide | 2026-10-15 | mpi video | — | — |
 | multi-point-inspection-checklist | 2026-10-23 | multi point inspection checklist | — | — |
+| warranty-parts-markup-increase | 2026-11-08 | warranty parts markup increase | — | — |
 
 ## How to check ranks
 

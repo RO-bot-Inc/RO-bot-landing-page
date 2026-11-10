@@ -69,7 +69,7 @@ Run through this before anything goes to the manufacturer:
 5. **Run the math.** Total qualifying customer labor charges divided by the labor hours that generated them. That is the effective retail rate you are submitting.
 6. **Calendar the response window.** Note the date the manufacturer has to answer by, and have your support ready in case it rebuts.
 7. **Calendar the next filing.** Most dealers can file once every 12 months. Mark the earliest date you can file again.
-8. **Do not forget parts.** Where your state covers parts markup too, file for it, following the same sample discipline.
+8. **Do not forget parts.** Where your state covers parts markup too, file for it separately. See [how to calculate and file a warranty parts markup increase](/blog/warranty-parts-markup-increase/).
 
 <div class="not-prose my-10">
   <div class="rounded-xl border border-gray-200 bg-surface p-6 md:p-8">
