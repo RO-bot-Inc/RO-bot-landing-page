@@ -9,6 +9,7 @@ Key facts:
 - Voice-first MPI: the tech calls out findings and measurements while inspecting, and TenthGear fills in the inspection report. The tech reviews the report before it is saved.
 - Guided inspection video: on-screen cue cards or a shot list tell the tech what to show and say. What the tech says in the video also feeds the MPI report. Customers see the video with English or Spanish captions.
 - Customer report: the customer gets a vehicle health report carrying the dealership's own logo and name, and decides only the paid work that needs their approval.
+- Customer messaging: service advisors text and email customers from TenthGear, with or without the report link, and customer replies come back into the app.
 - AI Story Writer: the tech dictates notes, and TenthGear writes the cause and correction for each line on the repair order.
 - Real-time Story Grader: each story is graded A to F before it goes on the claim. Diagnostic warranty stories are graded on 6 criteria, such as complaint verification, diagnostic approach and final verification.
 - Dealerships can buy one module, several, or the full workflow. Pricing is per store, per month.
