@@ -49,7 +49,7 @@ Each project ships as its own PR (or PRs) and gets checked off here.
 
 - [ ] Bing Webmaster Tools: verify the site, submit the sitemap (ChatGPT search runs on Bing's index).
 - [ ] IndexNow on deploy, so Bing and others hear about new pages immediately.
-- [ ] `llms.txt` with the category sentences and links to the pillar pages and best guides.
+- [x] `llms.txt` with the category sentences and links to the best guides (2026-11-11, `public/llms.txt`). Add the two pillar pages when P1 ships; add each new guide when it publishes. Its product facts come from `shared/product-facts.md`, so update it when those change.
 - [ ] Organization schema check (done 2026-10-07: alternateName, legalName) plus SoftwareApplication on the pillar pages from P1.
 - [ ] **AEO baseline:** about 25 buyer questions run through ChatGPT, Perplexity and Gemini; log who gets named and cited in `docs/seo/aeo-tracker.md`. Repeat monthly.
 - [ ] GA4: confirm referrals from chatgpt.com, perplexity.ai and gemini.google.com are visible, and that organic demo requests are attributable.

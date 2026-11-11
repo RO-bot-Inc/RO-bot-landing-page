@@ -1,0 +1,61 @@
+# TenthGear
+
+> TenthGear is voice-first service lane software for franchise auto dealership service departments. Technicians talk instead of type: the multi-point inspection (MPI) report and the 3C repair story (complaint, cause, correction) are built from what the tech says, so inspections get done and warranty stories are complete before the claim is filed.
+
+Key facts:
+
+- TenthGear was called RO-bot until July 2026. The company's legal name is still RO-bot, Inc. The name is one word: TenthGear.
+- It is built for franchise dealership service departments, not independent repair shops. Buyers are fixed ops directors and service managers. Daily users are technicians, service advisors and warranty administrators.
+- Voice-first MPI: the tech calls out findings and measurements while inspecting, and TenthGear fills in the inspection report. The tech reviews the report before it is saved.
+- Guided inspection video: on-screen cue cards or a shot list tell the tech what to show and say. What the tech says in the video also feeds the MPI report. Customers see the video with English or Spanish captions.
+- Customer report: the customer gets a vehicle health report carrying the dealership's own logo and name, and decides only the paid work that needs their approval.
+- Customer messaging: service advisors text and email customers from TenthGear, with or without the report link, and customer replies come back into the app.
+- AI Story Writer: the tech dictates notes, and TenthGear writes the cause and correction for each line on the repair order.
+- Real-time Story Grader: each story is graded A to F before it goes on the claim. Diagnostic warranty stories are graded on 6 criteria, such as complaint verification, diagnostic approach and final verification.
+- Dealerships can buy one module, several, or the full workflow. Pricing is per store, per month.
+- TenthGear saves about 7 minutes per repair order with AI Story Writer alone, and about 22 minutes per repair order when MPI and video are used too.
+- It integrates with ten dealer management systems: Auto/Mate, Tekion, CDK, Reynolds, Dealertrack, PBS, Quorum, Autosoft, DealerBuilt and Dominion. A DMS integration is not required for every implementation.
+- TenthGear does not do appointment scheduling or payments. It runs alongside the tools a dealership already uses for those.
+- It works on any phone or tablet, and on Mac and PC computers.
+
+## Product
+
+- [TenthGear home](https://tenthgear.ai/): Overview, customer quotes and frequently asked questions.
+- [Product](https://tenthgear.ai/product/): How voice-first MPI, guided inspection video and AI Story Writer work.
+- [Pricing](https://tenthgear.ai/pricing/): How TenthGear is priced and what is included.
+- [Book a demo](https://tenthgear.ai/book-demo/): Request a 15-minute demo.
+
+## Multi-point inspection guides
+
+- [Multi-Point Inspection Checklist for Dealership Service Departments](https://tenthgear.ai/blog/multi-point-inspection-checklist/): A 38-point checklist in walk order, with measurements and red and yellow thresholds.
+- [MPI Video: What Your Techs Should Say and Show](https://tenthgear.ai/blog/mpi-video-guide/): A shot list for inspection videos that customers understand.
+- [What Customers Actually Want to See in an Inspection Video](https://tenthgear.ai/blog/what-customers-want-inspection-videos/): Why recommended work gets declined and how better videos change that.
+- [Your MPI Completion Rate Is Your Biggest Revenue Leak](https://tenthgear.ai/blog/mpi-completion-rate-revenue/): What skipped and rushed inspections cost a service department.
+- [The Cheapest Revenue in Your Store Is Sitting in Declined Work](https://tenthgear.ai/blog/recover-declined-service-work/): How to follow up on declined service work.
+
+## Warranty and 3C story guides
+
+- [How to Reduce Warranty Claim Denials at Your Dealership](https://tenthgear.ai/blog/reduce-warranty-claim-denials/): Why claims are denied and how complete documentation prevents it.
+- [The Warranty Audit Playbook](https://tenthgear.ai/blog/warranty-audit-playbook/): What manufacturer auditors look for in complaint, cause and correction.
+- [Warranty Labor Rate Increase: How to Get Paid Retail](https://tenthgear.ai/blog/warranty-labor-rate-reimbursement/): How dealers file for a retail warranty labor rate.
+- [Warranty Parts Markup Increase: How Dealers Calculate and File](https://tenthgear.ai/blog/warranty-parts-markup-increase/): The steps and math for a warranty parts markup submission.
+- [Who Eats Your Warranty Diagnostic Time?](https://tenthgear.ai/blog/warranty-diagnostic-time/): When diagnostic time is paid on a warranty claim and when it is not.
+
+## Fixed ops guides
+
+- [Why Your Effective Labor Rate Is Lower Than Your Door Rate](https://tenthgear.ai/blog/effective-labor-rate/): Where labor rate leaks and which leaks can be closed.
+- [How to Increase Revenue Per Repair Order Without Adding Staff](https://tenthgear.ai/blog/increase-revenue-per-repair-order/): Getting more from the repair orders a store already writes.
+- [Your A-Techs Aren't Leaving for a $5k Raise](https://tenthgear.ai/blog/automotive-technician-retention/): What keeps experienced dealership technicians.
+
+## Company
+
+- [About TenthGear](https://tenthgear.ai/about/): Why the company exists, and founder and CEO Dave Sonders.
+- [RO-bot Is Now TenthGear](https://tenthgear.ai/blog/ro-bot-is-now-tenthgear/): The July 2026 name change.
+- [Support](https://tenthgear.ai/support/): Contact support at support@tenthgear.ai.
+
+## Optional
+
+- [Blog](https://tenthgear.ai/blog/): All articles.
+- [What Hundreds of Technician Conversations Taught Us About Building Better Tools](https://tenthgear.ai/blog/what-technician-conversations-taught-us/): The shop-floor research behind the product.
+- [Why Auto Techs Hate Paperwork](https://tenthgear.ai/blog/why-auto-techs-hate-paperwork/): The documentation burden on technicians.
+- [From Skeptics to Believers](https://tenthgear.ai/blog/from-skeptics-to-believers-beta-feedback/): Early technician feedback.
