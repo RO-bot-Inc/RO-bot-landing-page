@@ -10,8 +10,7 @@
 // footer newsletter form takes it), so this caps sends at one per address per
 // day. The blob holds a timestamp under a hash of the address, never the address.
 import { createHash } from 'node:crypto';
-import type { Handler } from '@netlify/functions';
-import { connectLambda, getStore } from '@netlify/blobs';
+import { getStore } from '@netlify/blobs';
 import { textToHtml } from '../lib/leak-test/email';
 
 const SHEET_ID = '1XOsZ6S4_WjZi9JIHuMyYOzEscoGyC7sECqzaEVis0ew';
@@ -46,9 +45,8 @@ const RESEND_WINDOW_MS = 24 * 60 * 60_000;
 
 // True if this address already got the worksheet in the last day. Fails open:
 // a Blobs outage should not stop a real visitor from getting the email.
-async function sentRecently(event: Parameters<Handler>[0], email: string): Promise<boolean> {
+async function sentRecently(email: string): Promise<boolean> {
   try {
-    connectLambda(event as never);
     const store = getStore('worksheet-sends');
     const key = createHash('sha256').update(email.toLowerCase()).digest('hex');
     const last = Number(await store.get(key));
@@ -62,28 +60,33 @@ async function sentRecently(event: Parameters<Handler>[0], email: string): Promi
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const handler: Handler = async (event) => {
+// Modern Functions API, not Lambda compatibility mode: Lambda mode caps all
+// environment variables at 4 KB, and this site went over it on 2026-11-12
+// (deploys failed). Same legacy file name, same event payload.
+const reply = (status: number, body: string) => new Response(body, { status });
+
+export default async (req: Request) => {
   let payload: { form_name?: string; data?: Record<string, unknown> } = {};
   try {
-    payload = JSON.parse(event.body || '{}').payload || {};
+    payload = ((await req.json()) as { payload?: typeof payload }).payload || {};
   } catch {
-    return { statusCode: 400, body: 'bad json' };
+    return reply(400, 'bad json');
   }
-  if (payload.form_name !== 'ro-sample-worksheet') return { statusCode: 200, body: 'ignored' };
+  if (payload.form_name !== 'ro-sample-worksheet') return reply(200, 'ignored');
 
   const to = String(payload.data?.email || '').trim();
-  if (!EMAIL_RE.test(to) || to.length > 254) return { statusCode: 200, body: 'bad email' };
+  if (!EMAIL_RE.test(to) || to.length > 254) return reply(200, 'bad email');
 
-  if (await sentRecently(event, to)) {
+  if (await sentRecently(to)) {
     console.log('[worksheet] already sent in the last day; skipping');
-    return { statusCode: 200, body: 'recent' };
+    return reply(200, 'recent');
   }
 
   const mail = worksheetEmail();
   const key = (process.env.RESEND_API_KEY || '').trim();
   if (!key) {
     console.log(`[worksheet] no RESEND_API_KEY; would send to ${to}:\n${mail.text}`);
-    return { statusCode: 200, body: 'logged' };
+    return reply(200, 'logged');
   }
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -92,7 +95,7 @@ export const handler: Handler = async (event) => {
   });
   if (!res.ok) {
     console.error('[worksheet] resend', res.status, (await res.text()).slice(0, 200));
-    return { statusCode: 502, body: 'email failed' };
+    return reply(502, 'email failed');
   }
-  return { statusCode: 200, body: 'sent' };
+  return reply(200, 'sent');
 };
