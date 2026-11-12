@@ -1,0 +1,316 @@
+---
+// Free Warranty Story Checker. Grading happens in netlify/functions/story-check.mts;
+// the rubric never reaches this page (Dave, 2026-11-11: it stays our secret sauce).
+// Prototype and every UX ruling: gtm/docs/story-checker/README.md.
+import DemoAttribution from '../components/DemoAttribution.astro';
+import DemoAttributionFields from '../components/DemoAttributionFields.astro';
+import '../styles/global.css';
+
+const title = 'Free Warranty Story Checker | TenthGear';
+const description =
+  'Paste a warranty repair story. Get it back red-penned the way a warranty auditor reads it: graded on 6 criteria, with the fix for every note.';
+const canonical = 'https://tenthgear.ai/warranty-story-checker/';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script is:inline>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-WXBWBW8X');
+  </script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <meta property="og:title" content="Free Warranty Story Checker">
+  <meta property="og:description" content={description}>
+  <meta property="og:image" content="https://tenthgear.ai/og-image.png">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TenthGear">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0F2137">
+  <link rel="shortcut icon" href="/favicon.ico?v=2">
+  <link rel="icon" type="image/png" href="/browser.png?v=2" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap">
+  <!-- Reddit Pixel, same as BaseLayout -->
+  <script is:inline>
+    !function(w,d){if(!w.rdt){var p=w.rdt=function(){p.sendEvent?p.sendEvent.apply(p,arguments):p.callQueue.push(arguments)};p.callQueue=[];var t=d.createElement("script");t.src="https://www.redditstatic.com/ads/pixel.js",t.async=!0;var s=d.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}}(window,document);
+    rdt('init', 'a2_ixjabrppuuln');
+    rdt('track', 'PageVisit');
+  </script>
+</head>
+<body class="sc-body">
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXBWBW8X"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <header class="sc-top">
+    <div class="sc-wrap sc-top-in">
+      <a href="/" class="sc-brand" aria-label="TenthGear home">
+        <img src="/badge-white.svg" alt="" width="21" height="20">
+        <span class="sc-brand-name">TenthGear</span>
+      </a>
+      <span class="sc-slash" aria-hidden="true">/</span>
+      <span class="sc-tool-name">Warranty Story Checker</span>
+    </div>
+  </header>
+
+  <main class="sc-wrap sc-main" id="sc">
+    <h1 class="sc-h1">Grade a warranty story the way the auditor will</h1>
+    <p class="sc-mock" id="sc-mock" hidden>Test mode: no grader key on this deploy, so pasted stories get a rough stand-in grade. Samples show real grades.</p>
+
+    <div class="sc-cols">
+      <!-- LEFT: the story -->
+      <section class="sc-card sc-left" aria-labelledby="sc-story-h">
+        <div class="sc-card-head">
+          <h2 id="sc-story-h" class="sc-card-title">Your story</h2>
+          <span class="sc-head-right" id="sc-edit-tools">
+            <span class="sc-sample-tag" id="sc-sample-tag" hidden></span>
+            <button type="button" class="sc-pill" id="sc-sample">Paste a sample</button>
+          </span>
+          <button type="button" class="sc-pill" id="sc-reedit" hidden>Edit and regrade</button>
+        </div>
+
+        <form class="sc-edit" id="sc-edit" novalidate>
+          <div class="sc-field">
+            <label for="sc-cause">Cause</label>
+            <textarea id="sc-cause" rows="5" maxlength="2000" placeholder="Paste the cause: what you checked, what you found, what failed."></textarea>
+          </div>
+          <div class="sc-field">
+            <label for="sc-correction">Correction</label>
+            <textarea id="sc-correction" rows="3" maxlength="2000" placeholder="Paste the correction: what you did, how you confirmed the fix."></textarea>
+          </div>
+          <div class="sc-hp" aria-hidden="true"><label>Leave blank <input id="sc-website" tabindex="-1" autocomplete="off"></label></div>
+          <button type="submit" class="sc-go" id="sc-go">Grade my story</button>
+          <p class="sc-err" id="sc-err" role="alert" hidden></p>
+          <p class="sc-fine"><span id="sc-left">5 of 5 free checks left today</span> · No customer names, please. We don't keep your story.</p>
+        </form>
+
+        <div class="sc-marked" id="sc-marked" hidden>
+          <div class="sc-stamp" id="sc-stamp" aria-live="polite"></div>
+          <p class="sc-ml">Cause</p>
+          <p class="sc-mono sc-mono-cause" id="sc-m-cause"></p>
+          <p class="sc-ml">Correction</p>
+          <p class="sc-mono" id="sc-m-corr"></p>
+          <button type="button" class="sc-a-toggle" id="sc-a-toggle" hidden>See this story written to an A →</button>
+          <div class="sc-a" id="sc-a" hidden></div>
+        </div>
+      </section>
+
+      <!-- RIGHT: what the auditor would say -->
+      <div class="sc-right">
+        <div class="sc-card sc-dashed" id="sc-preview">
+          <p class="sc-strong">You'll get it back red-penned:</p>
+          <div class="sc-preview-box">
+            Replaced spark plugs. <span class="sc-red">Verified proper operation</span><span class="sc-dot sc-dot-static">5</span>.
+            <p class="sc-pen sc-pen-preview">5. How? Road test? Miles?</p>
+          </div>
+          <button type="button" class="sc-ghost" id="sc-try">No story handy? Grade a sample</button>
+        </div>
+
+        <div class="sc-card sc-grading" id="sc-grading" hidden>
+          <div class="sc-grading-head"><span class="sc-spin" aria-hidden="true"></span><span class="sc-pen sc-pen-big">Red pen out...</span></div>
+          <p class="sc-step" data-step="0">Reading the cause and correction</p>
+          <p class="sc-step" data-step="1">Grading the 6 criteria</p>
+          <p class="sc-step" data-step="2">Looking for what an auditor would flag</p>
+        </div>
+
+        <div class="sc-results" id="sc-results" hidden>
+          <div class="sc-card sc-summary" id="sc-summary"></div>
+          <div class="sc-clean" id="sc-clean" hidden><p class="sc-pen sc-pen-teal">Nothing to red-pen. Nice work.</p></div>
+          <div class="sc-notes" id="sc-notes"></div>
+          <form class="sc-gate" id="sc-gate" novalidate hidden>
+            <label for="sc-email" class="sc-gate-title">Email me every fix, to forward to the tech</label>
+            <div class="sc-gate-row">
+              <input id="sc-email" type="email" autocomplete="email" placeholder="Work email" required>
+              <button type="submit" id="sc-send">Send</button>
+            </div>
+            <p class="sc-gate-err" id="sc-gate-err" hidden></p>
+          </form>
+          <div class="sc-sent" id="sc-sent" hidden></div>
+          <button type="button" class="sc-another" id="sc-another">Check another story</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="sc-foot">
+    <span>Guidance, not a guarantee. Your automaker's rules come first.</span>
+    <a href="/book-demo/" id="sc-demo-link">Grade every story before it's submitted: book a demo →</a>
+  </footer>
+
+  <!-- Daily limit / demo form. Posts to the site's existing demo-request Netlify form. -->
+  <div class="sc-overlay" id="sc-modal" hidden>
+    <div class="sc-dialog" role="dialog" aria-modal="true" aria-labelledby="sc-lim-title">
+      <form id="sc-demo" novalidate>
+        <p id="sc-lim-title" class="sc-lim-title">That's your 5 free checks for today</p>
+        <p class="sc-lim-copy">See how TenthGear writes and grades every story before it's submitted. Book a 15-minute demo and keep checking today.</p>
+        <input type="hidden" name="form-name" value="demo-request">
+        <DemoAttributionFields />
+        <div class="sc-hp" aria-hidden="true"><label>Don't fill this out if you're human: <input name="bot-field" tabindex="-1" autocomplete="off"></label></div>
+        <label for="sc-d-name" class="sc-sr">Your name</label>
+        <input id="sc-d-name" name="name" type="text" autocomplete="name" placeholder="Your name">
+        <label for="sc-d-email" class="sc-sr">Work email</label>
+        <input id="sc-d-email" name="email" type="email" autocomplete="email" placeholder="Work email">
+        <label for="sc-d-store" class="sc-sr">Dealership</label>
+        <input id="sc-d-store" name="dealership" type="text" autocomplete="organization" placeholder="Dealership">
+        <button type="submit" class="sc-go" id="sc-d-go">Book my demo</button>
+        <p class="sc-err" id="sc-d-err" role="alert" hidden></p>
+        <button type="button" class="sc-close" id="sc-close">Not now (checks reset tomorrow)</button>
+      </form>
+      <div id="sc-thanks" hidden>
+        <p class="sc-pen sc-pen-thanks" id="sc-thanks-title">Thanks.</p>
+        <p class="sc-lim-copy" id="sc-thanks-copy">We'll be in touch to set up your demo. Keep checking stories as long as you like today.</p>
+        <button type="button" class="sc-go" id="sc-keep">Keep checking</button>
+      </div>
+    </div>
+  </div>
+
+  <DemoAttribution />
+  <script>
+    import '../scripts/story-check/app';
+  </script>
+
+  <style is:global>
+    .sc-body [hidden] { display: none !important; }
+    .sc-body { margin: 0; background: #F3F5F9; color: #0F2137; font-family: 'DM Sans', system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+    .sc-wrap { max-width: 76rem; margin: 0 auto; padding-left: 16px; padding-right: 16px; width: 100%; box-sizing: border-box; }
+    .sc-top { background: #0F2137; }
+    .sc-top-in { height: 52px; display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .sc-brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; flex-shrink: 0; }
+    .sc-brand-name { font-weight: 700; font-size: 16px; }
+    .sc-slash { color: rgba(255,255,255,0.35); }
+    .sc-tool-name { color: #fff; font-weight: 500; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-main { padding-top: 20px; padding-bottom: 40px; flex: 1; }
+    .sc-h1 { margin: 0 0 14px; font-size: 22px; font-weight: 800; line-height: 1.25; }
+    .sc-mock { margin: 0 0 12px; padding: 8px 12px; border-radius: 8px; background: #FEF3C7; color: #92400E; font-size: 13px; }
+    .sc-cols { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+    .sc-card { background: #fff; border: 1px solid rgba(15,33,55,0.12); border-radius: 14px; }
+    .sc-left { flex: 1 1 440px; min-width: 0; overflow: hidden; }
+    .sc-right { flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+    .sc-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; border-bottom: 1px solid rgba(15,33,55,0.08); }
+    .sc-card-title { margin: 0; font-size: 16px; font-weight: 700; }
+    .sc-head-right { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .sc-sample-tag { font-size: 13px; color: #5B6B7D; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-pill { flex-shrink: 0; background: #EEF2F7; border: 0; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; font-weight: 600; color: #0F2137; cursor: pointer; min-height: 32px; }
+    .sc-pill:hover { background: #E2E8F0; }
+    .sc-edit { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; margin: 0; }
+    .sc-field { display: flex; flex-direction: column; gap: 6px; }
+    .sc-field label { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #5B6B7D; }
+    .sc-field textarea { font: inherit; font-size: 16px; line-height: 1.55; padding: 12px; border: 1px solid rgba(15,33,55,0.18); border-radius: 10px; resize: vertical; color: #0F2137; }
+    .sc-body textarea::placeholder, .sc-body input::placeholder { color: #6B7A8C; }
+    .sc-body textarea:focus, .sc-body input:focus { outline: 2px solid #2A9D8F; outline-offset: 0; border-color: transparent; }
+    .sc-go { font: inherit; font-weight: 700; font-size: 17px; padding: 14px; border-radius: 10px; border: 0; cursor: pointer; min-height: 52px; color: #fff; background: #2A9D8F; }
+    .sc-go:hover { background: #1F7A6F; }
+    .sc-go.is-empty { background: #94C9C2; }
+    .sc-go:disabled { opacity: 0.7; cursor: default; }
+    .sc-err { margin: 0; font-size: 14px; color: #B91C1C; }
+    .sc-fine { margin: 0; font-size: 13px; color: #5B6B7D; }
+    .sc-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .sc-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .sc-marked { padding: 18px 18px 20px; background: #FFFDF8; position: relative; }
+    .sc-stamp { position: absolute; top: 12px; right: 14px; width: 80px; height: 80px; border: 4px solid #DC2626; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(8deg); background: rgba(255,253,248,0.92); font-family: 'Caveat', cursive; font-weight: 700; color: #DC2626; }
+    .sc-stamp.is-good { border-color: #1F7A6F; color: #1F7A6F; }
+    .sc-stamp.is-pop { animation: sc-pop 0.45s ease-out; }
+    .sc-stamp-l { font-size: 42px; line-height: 0.9; }
+    .sc-stamp-g { font-size: 16px; }
+    .sc-ml { margin: 0 0 4px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6B7A8C; }
+    .sc-mono { margin: 0; font-size: 15.5px; line-height: 1.95; font-family: ui-monospace, 'SF Mono', Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .sc-mono-cause { margin-bottom: 14px; padding-right: 84px; }
+    .sc-red { text-decoration: underline wavy #DC2626; text-decoration-thickness: 1.5px; text-underline-offset: 5px; }
+    .sc-red.is-on { background: #FDE68A; border-radius: 3px; }
+    .sc-dot { display: inline-flex; width: 22px; height: 22px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; background: #DC2626; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; align-items: center; justify-content: center; vertical-align: super; margin-left: 2px; line-height: 1; }
+    .sc-dot.is-on { background: #991B1B; }
+    .sc-dot-static { width: 18px; height: 18px; font-size: 11px; cursor: default; }
+    .sc-a-toggle { margin-top: 16px; background: none; border: 0; padding: 6px 0; font: inherit; font-size: 14px; font-weight: 700; color: #1F7A6F; cursor: pointer; }
+    .sc-a { margin-top: 8px; border: 2px solid #2A9D8F; border-radius: 10px; background: #fff; padding: 14px 14px 12px; }
+    .sc-a-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; color: #1F7A6F; }
+    .sc-a-head b { font-size: 24px; font-weight: 800; }
+    .sc-a p { margin: 0 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13.5px; line-height: 1.75; color: #3D4F63; }
+    .sc-a p strong { font-family: 'DM Sans', sans-serif; color: #0F2137; }
+    .sc-good { background: rgba(42,157,143,0.16); color: #0F2137; border-radius: 3px; padding: 0 2px; }
+    .sc-dashed { border-style: dashed; border-color: rgba(15,33,55,0.25); padding: 18px; }
+    .sc-strong { margin: 0 0 12px; font-weight: 700; }
+    .sc-preview-box { background: #FFFDF8; border-radius: 8px; padding: 14px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 14px; line-height: 1.8; border: 1px solid rgba(15,33,55,0.08); }
+    .sc-pen { font-family: 'Caveat', cursive; font-weight: 700; color: #DC2626; line-height: 1.1; }
+    .sc-pen-preview { margin: 6px 0 0; font-size: 24px; }
+    .sc-pen-big { font-size: 30px; }
+    .sc-pen-teal { margin: 0; font-size: 28px; color: #1F7A6F; }
+    .sc-pen-thanks { margin: 0 0 6px; font-size: 34px; color: #1F7A6F; }
+    .sc-ghost { margin-top: 14px; width: 100%; background: #EEF2F7; border: 0; border-radius: 10px; padding: 12px; font: inherit; font-weight: 700; color: #0F2137; cursor: pointer; min-height: 44px; }
+    .sc-ghost:hover { background: #E2E8F0; }
+    .sc-grading { padding: 22px; }
+    .sc-grading-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .sc-spin { width: 28px; height: 28px; border: 4px solid rgba(220,38,38,0.2); border-top-color: #DC2626; border-radius: 50%; animation: sc-spin 0.8s linear infinite; box-sizing: border-box; }
+    .sc-step { margin: 6px 0; font-size: 15px; color: #9AA7B5; font-weight: 500; }
+    .sc-step.is-now { color: #0F2137; font-weight: 700; }
+    .sc-step.is-done { color: #1F7A6F; }
+    .sc-step.is-done::before { content: '✓ '; }
+    .sc-results { display: flex; flex-direction: column; gap: 12px; }
+    .sc-summary { padding: 16px 18px; }
+    .sc-headline { margin: 0 0 10px; font-size: 18px; font-weight: 800; line-height: 1.3; }
+    .sc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .sc-el { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .sc-el-label { font-size: 12.5px; font-weight: 600; line-height: 1.25; color: #3D4F63; }
+    .sc-chip { flex-shrink: 0; width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
+    .sc-chip-A { background: #2A9D8F; color: #fff; }
+    .sc-chip-B { background: rgba(42,157,143,0.15); color: #1F7A6F; }
+    .sc-chip-C { background: #FEF3C7; color: #92400E; }
+    .sc-chip-D { background: #FFEDD5; color: #9A3412; }
+    .sc-chip-F, .sc-chip-missing { background: #FEE2E2; color: #991B1B; }
+    .sc-chip-not_applicable { background: #EEF2F7; color: #5B6B7D; font-size: 11px; }
+    .sc-clean { background: #E8F5F3; border-radius: 14px; padding: 16px 18px; }
+    .sc-notes { display: flex; flex-direction: column; gap: 12px; }
+    .sc-note { text-align: left; font: inherit; color: inherit; cursor: pointer; width: 100%; background: #fff; border: 1px solid rgba(15,33,55,0.12); border-radius: 12px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; }
+    .sc-note.is-on { background: #FFFBEB; border: 2px solid #DC2626; padding: 11px 13px; }
+    .sc-note-n { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: #DC2626; color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .sc-note-body { flex: 1; min-width: 0; display: block; }
+    .sc-note-top { display: flex; flex-wrap: wrap; gap: 2px 12px; align-items: baseline; margin-bottom: 4px; }
+    .sc-note-pen { font-size: 25px; line-height: 1; }
+    .sc-note-crit { font-size: 12.5px; font-weight: 600; color: #5B6B7D; }
+    .sc-note-fix { display: block; font-size: 14.5px; line-height: 1.55; color: #3D4F63; }
+    .sc-note-fix b { color: #1F7A6F; }
+    .sc-note-lock { display: flex; gap: 6px; align-items: center; font-size: 13.5px; color: #5B6B7D; }
+    .sc-gate { background: #0F2137; border-radius: 14px; padding: 16px 18px; margin: 0; }
+    .sc-gate-title { display: block; margin: 0 0 10px; font-size: 15px; font-weight: 700; color: #fff; }
+    .sc-gate-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sc-gate-row input { flex: 1 1 180px; min-width: 0; padding: 11px 14px; border-radius: 8px; border: 0; font: inherit; font-size: 16px; color: #0F2137; }
+    .sc-gate-row button { background: #2A9D8F; color: #fff; font: inherit; font-weight: 700; font-size: 15px; padding: 11px 18px; border-radius: 8px; border: 0; min-height: 44px; cursor: pointer; }
+    .sc-gate-row button:disabled { opacity: 0.7; }
+    .sc-gate-err { margin: 8px 0 0; font-size: 13px; color: #FCA5A5; }
+    .sc-sent { background: #E8F5F3; border: 1px solid #2A9D8F; border-radius: 14px; padding: 12px 16px; font-size: 14px; line-height: 1.5; }
+    .sc-another { background: #fff; border: 1px solid rgba(15,33,55,0.2); border-radius: 10px; padding: 11px; font: inherit; font-weight: 700; color: #0F2137; cursor: pointer; min-height: 44px; }
+    .sc-foot { border-top: 1px solid rgba(15,33,55,0.1); background: #fff; padding: 14px 16px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 13px; color: #5B6B7D; }
+    .sc-foot a { font-weight: 700; text-decoration: none; color: #1F7A6F; }
+    .sc-foot a:hover { color: #0F2137; }
+    .sc-overlay { position: fixed; inset: 0; background: rgba(15,33,55,0.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+    .sc-overlay[hidden] { display: none; }
+    .sc-dialog { background: #fff; border-radius: 16px; width: 100%; max-width: 26rem; padding: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); box-sizing: border-box; }
+    .sc-dialog form { display: flex; flex-direction: column; gap: 10px; margin: 0; }
+    .sc-dialog input:not([type=hidden]) { padding: 12px 14px; border-radius: 8px; border: 1px solid rgba(15,33,55,0.2); font: inherit; font-size: 16px; color: #0F2137; }
+    .sc-dialog .sc-go { width: 100%; font-size: 16px; min-height: 48px; }
+    .sc-lim-title { margin: 0 0 4px; font-size: 20px; font-weight: 800; }
+    .sc-lim-copy { margin: 0 0 8px; font-size: 15px; line-height: 1.5; color: #3D4F63; }
+    .sc-close { margin-top: 4px; width: 100%; background: none; border: 0; padding: 8px; font: inherit; font-size: 14px; color: #5B6B7D; cursor: pointer; }
+    @keyframes sc-spin { to { transform: rotate(360deg); } }
+    @keyframes sc-pop { 0% { transform: scale(1.6) rotate(-20deg); opacity: 0; } 100% { transform: scale(1) rotate(8deg); opacity: 1; } }
+    @media (max-width: 520px) {
+      .sc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sc-h1 { font-size: 20px; }
+      .sc-marked { padding-top: 84px; }
+      .sc-mono-cause { padding-right: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { .sc-stamp.is-pop, .sc-spin { animation: none; } }
+  </style>
+</body>
+</html>
