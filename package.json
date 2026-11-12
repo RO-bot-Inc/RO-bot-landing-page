@@ -8,7 +8,8 @@
     "build": "rm -rf node_modules/.astro && astro build && node scripts/check-links.mjs",
     "preview": "astro preview",
     "newsletter:sync": "node --env-file=.env scripts/newsletter.mjs sync",
-    "newsletter:announce": "node --env-file=.env scripts/newsletter.mjs announce"
+    "newsletter:announce": "node --env-file=.env scripts/newsletter.mjs announce",
+    "test": "tsx --test netlify/lib/story-check/__tests__/*.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.137.0",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@netlify/functions": "^6.1.1",
     "@types/node": "^24.19.2",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
   "overrides": {

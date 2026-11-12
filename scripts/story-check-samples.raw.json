@@ -1,0 +1,395 @@
+{
+ "misfire": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "Check engine light was observed illuminated."
+   },
+   "diagnosticApproach": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Scanned vehicle and found codes P0301 and P0302. Inspected spark plugs and found them worn."
+   },
+   "componentIdentification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "spark plugs"
+   },
+   "failureMode": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "worn"
+   },
+   "repairAction": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "Replaced spark plugs."
+   },
+   "finalVerification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "Verified proper operation."
+   }
+  },
+  "suggestions": [
+   {
+    "element": "complaintVerification",
+    "text": "For a higher grade, add method/conditions: 'Upon starting, confirmed MIL illuminated.'"
+   },
+   {
+    "element": "componentIdentification",
+    "text": "Specify which spark plugs (all, cylinders 1 and 2, etc.) and location."
+   },
+   {
+    "element": "failureMode",
+    "text": "Add specific failure details - gap measurement, electrode condition, etc."
+   },
+   {
+    "element": "finalVerification",
+    "text": "Describe the specific verification - 'Test drove 5 miles, no MIL, engine running smooth.'"
+   },
+   {
+    "element": "general",
+    "text": "Since DTCs were found, consider adding to Correction: 'Cleared DTCs and performed scan to confirm codes resolved.'"
+   }
+  ]
+ },
+ "brakes": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "Verified customer concern."
+   },
+   "diagnosticApproach": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "Performed inspection of the brake system as per customer request."
+   },
+   "componentIdentification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "the pads are not in good condition and need to be replaced"
+   },
+   "failureMode": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "brakes are making noise and the pads are not in good condition"
+   },
+   "repairAction": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Replaced brake pads and resurfaced rotors per procedure."
+   },
+   "finalVerification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "System operating as designed at this time."
+   }
+  },
+  "suggestions": [
+   {
+    "element": "diagnosticApproach",
+    "text": "Add details on specific inspections, measurements (e.g., pad thickness, rotor condition), or tools used."
+   },
+   {
+    "element": "componentIdentification",
+    "text": "Specify which pads were replaced (front, rear, or both) for clarity."
+   },
+   {
+    "element": "failureMode",
+    "text": "Detail specific wear measurements for the pads and rotors (e.g., pad thickness, rotor runout)."
+   },
+   {
+    "element": "finalVerification",
+    "text": "Add specifics to verification process; describe what was tested after the repair (e.g., road test for noise)."
+   }
+  ]
+ },
+ "battery": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Duplicated no-crank"
+   },
+   "diagnosticApproach": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Battery 11.9 V at rest, failed load test at 9.2 V. No DTCs. Parasitic draw 25 mA, within spec."
+   },
+   "componentIdentification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Battery"
+   },
+   "failureMode": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "internal failure"
+   },
+   "repairAction": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "R&R battery"
+   },
+   "finalVerification": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Cranking and started 5 times, OK."
+   }
+  },
+  "suggestions": []
+ },
+ "ac": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Confirmed vent temp 68F at idle"
+   },
+   "diagnosticApproach": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Gauges: low side 55 psi, high side 140 psi. Compressor clutch not engaging. Clutch coil resistance open (spec 3-4 ohms). No DTCs."
+   },
+   "componentIdentification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Clutch coil"
+   },
+   "failureMode": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Clutch coil resistance open (spec 3-4 ohms)"
+   },
+   "repairAction": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "R&R compressor clutch coil"
+   },
+   "finalVerification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Vent temp 41F at idle, 45 min run test, no further concern."
+   }
+  },
+  "suggestions": []
+ },
+ "waterpump": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "Found coolant leak."
+   },
+   "diagnosticApproach": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "Found coolant leak."
+   },
+   "componentIdentification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "water pump"
+   },
+   "failureMode": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "leaking."
+   },
+   "repairAction": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Replaced water pump and refilled coolant."
+   },
+   "finalVerification": {
+    "grade": "C",
+    "points": 2,
+    "excerpt": "No leaks."
+   }
+  },
+  "suggestions": [
+   {
+    "element": "complaintVerification",
+    "text": "For a higher grade, provide specifics on how the leak was verified (e.g., 'observed leak during inspection')."
+   },
+   {
+    "element": "diagnosticApproach",
+    "text": "Describe the diagnostic steps taken to identify the leak."
+   },
+   {
+    "element": "failureMode",
+    "text": "Specify the nature of the failure (e.g., 'seal failure', 'crack in housing')."
+   },
+   {
+    "element": "general",
+    "text": "Test drive mentioned - consider adding number of miles driven if applicable."
+   }
+  ]
+ },
+ "bearing": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Confirmed humming noise from left front between 45 and 70 mph, louder when turning right (loading left side)."
+   },
+   "diagnosticApproach": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Road tested vehicle 6 miles, raised vehicle and used chassis ears; noise loudest at left front hub. Spun wheel by hand, felt roughness in left front hub bearing. Measured axial play 0.008 in, spec 0.002 in max."
+   },
+   "componentIdentification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "left front hub bearing"
+   },
+   "failureMode": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "left front hub bearing internal failure"
+   },
+   "repairAction": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Removed and replaced left front hub bearing assembly. Torqued axle nut and hub bolts to spec."
+   },
+   "finalVerification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Road tested 6 miles, mileage in 41,218, mileage out 41,224, no humming noise at any speed or while turning."
+   }
+  },
+  "suggestions": []
+ },
+ "window": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "Window inop."
+   },
+   "diagnosticApproach": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "Regulator bad."
+   },
+   "componentIdentification": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "Regulator"
+   },
+   "failureMode": {
+    "grade": "D",
+    "points": 1,
+    "excerpt": "bad."
+   },
+   "repairAction": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Replaced regulator."
+   },
+   "finalVerification": {
+    "grade": "missing",
+    "points": 0,
+    "excerpt": null
+   }
+  },
+  "suggestions": [
+   {
+    "element": "complaintVerification",
+    "text": "Clarify verification method and condition: 'Tested window operation, found inoperative.'"
+   },
+   {
+    "element": "diagnosticApproach",
+    "text": "Add more specifics to the diagnostic process, such as testing steps or symptoms observed."
+   },
+   {
+    "element": "failureMode",
+    "text": "Specify what was wrong with the regulator (e.g., stuck, damaged)."
+   },
+   {
+    "element": "finalVerification",
+    "text": "Include post-repair verification method: 'Tested window operation after replacement, confirmed proper functioning.'"
+   }
+  ]
+ },
+ "trans": {
+  "elements": {
+   "customerComplaint": {
+    "grade": "ungraded",
+    "excerpt": null
+   },
+   "complaintVerification": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Verified customer concern of harsh shift"
+   },
+   "diagnosticApproach": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Connected scan tool and retrieved code P0756 shift solenoid B performance. Checked transmission fluid level and condition, fluid level was correct and fluid condition was normal for mileage. Performed pinpoint tests per service information."
+   },
+   "componentIdentification": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "shift solenoid B"
+   },
+   "failureMode": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "determined that the shift solenoid B is faulty"
+   },
+   "repairAction": {
+    "grade": "A",
+    "points": 4,
+    "excerpt": "Removed valve body and replaced shift solenoid B. Reinstalled valve body and refilled fluid to proper level."
+   },
+   "finalVerification": {
+    "grade": "B",
+    "points": 3,
+    "excerpt": "Road tested vehicle, shifts are now normal. Verified proper operation."
+   }
+  },
+  "suggestions": [
+   {
+    "element": "diagnosticApproach",
+    "text": "For a higher grade, include specific results from pinpoint tests instead of referencing attachment."
+   },
+   {
+    "element": "finalVerification",
+    "text": "Add specific details of the road test, such as mileage driven during test."
+   }
+  ]
+ }
+}
