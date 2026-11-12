@@ -29,14 +29,17 @@ describe('post-model pass on the samples', () => {
     expect(run('bearing').notes.length).toBe(0);
     expect(run('ac').notes.length).toBe(0);
   });
-  test('GPA is computed before the missing-to-C upgrades, like the app', () => {
-    const g = postModelPass('', 'Verified noise present.', 'Replaced left front brake pad.', {
-      elements: { complaintVerification: { grade: 'missing' }, diagnosticApproach: { grade: 'C' }, componentIdentification: { grade: 'missing' }, failureMode: { grade: 'C' }, repairAction: { grade: 'C' }, finalVerification: { grade: 'C' } },
+  // App regression case (server/services/__tests__/story-grading.test.ts, PR #2768).
+  test('GPA and letter are computed AFTER the missing → C upgrades', () => {
+    const r = toResult('Verified coolant on ground. Water pump leaking.', 'Replaced water pump. No leaks.', {
+      elements: { complaintVerification: { grade: 'missing' }, diagnosticApproach: { grade: 'D' }, componentIdentification: { grade: 'missing' }, failureMode: { grade: 'D' }, repairAction: { grade: 'B' }, finalVerification: { grade: 'C' } },
       suggestions: [],
-    });
-    expect(g.grades.complaintVerification).toBe('C');
-    expect(g.grades.componentIdentification).toBe('C');
-    expect(g.gpa).toBe(1.33);
+    }, 'Customer states coolant leaking under vehicle.');
+    expect(r.grades.complaintVerification).toBe('C');
+    expect(r.grades.componentIdentification).toBe('C');
+    // C D C D B C = 2+1+2+1+3+2 = 11 / 6 = 1.83 → C (was 7 / 6 = 1.17 → D)
+    expect(r.gpa).toBe(1.83);
+    expect(r.letter).toBe('C');
   });
   test('cleared codes: no clear-codes note', () => {
     const r = toResult('Found P0420. Cat efficiency below threshold.', 'Replaced catalytic converter. Cleared P0420. Road tested 8 miles.', { elements: {}, suggestions: [] });

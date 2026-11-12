@@ -67,7 +67,8 @@ export async function gradeLive(cfg: Config, cause: string, correction: string):
 // ---------------------------------------------------------------------------
 // The app's post-model pass, ported from app/server/services/story-processor.ts
 // analyzeCompletenessWithAI (grade normalization, then "WARRANTY-SPECIFIC
-// server-side safety nets" through the C/D/F backstop), app commit 21fa69109.
+// server-side safety nets" through the C/D/F backstop, then computeGpa),
+// app commit c4dd8c22a (PR #2768).
 // Same order, same patterns, same suggestion texts. The text rules themselves
 // are the app's file, copied verbatim (./warranty-suggestion-rules.ts); the app
 // is the source of truth. Re-port this block if the app's pass changes.
@@ -80,7 +81,7 @@ export interface Suggestion {
 
 export interface Graded {
   grades: Record<ElementKey, Grade>;
-  gpa: number; // computed BEFORE the safety nets, exactly like the app
+  gpa: number; // from the final grades, after the safety nets (app computeGpa, #2768)
   suggestions: Suggestion[];
 }
 
@@ -95,9 +96,6 @@ function normGrade(g: unknown, key: ElementKey): Grade {
 export function postModelPass(complaint: string, cause: string, correction: string, out: GraderOutput): Graded {
   const grades = {} as Record<ElementKey, Grade>;
   for (const k of ELEMENTS) grades[k] = normGrade(out.elements?.[k]?.grade, k);
-  // The app computes the GPA here, before the safety nets below can upgrade a grade.
-  const gpa = gpaFor(grades);
-
   const validElements: string[] = [...ELEMENTS, 'general'];
   let suggestions: Suggestion[] = ((out.suggestions || []) as unknown[])
     .map((s) => {
@@ -213,6 +211,10 @@ export function postModelPass(complaint: string, cause: string, correction: stri
       suggestions.push({ element: key, text: 'For a higher grade, add more specific detail to this element.' });
     }
   }
+
+  // GPA and letter from the FINAL grades, after the missing-to-C upgrades
+  // (app computeGpa, PR #2768). N/A stays out of the denominator.
+  const gpa = gpaFor(grades);
 
   return { grades, gpa, suggestions };
 }
