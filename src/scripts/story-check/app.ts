@@ -375,8 +375,14 @@ async function submitDemo(e: Event) {
       body: new URLSearchParams(form as unknown as Record<string, string>).toString(),
     });
     if (!res.ok) throw new Error(String(res.status));
-    const { status, data } = await call({ action: 'unlock', name, email });
-    if (status === 200) state.remaining = data.remaining ?? null;
+    // The lead is saved either way; only promise more checks if the unlock worked.
+    const unlocked = await call({ action: 'unlock', name, email })
+      .then(({ status, data }) => (status === 200 ? ((state.remaining = data.remaining ?? null), true) : false))
+      .catch(() => false);
+    $('sc-thanks-copy').textContent = unlocked
+      ? "We'll be in touch to set up your demo. Keep checking stories as long as you like today."
+      : "We'll be in touch to set up your demo. Your free checks reset tomorrow.";
+    el.keep.textContent = unlocked ? 'Keep checking' : 'Close';
     renderLeftLabel();
     el.demo.dataset.done = '1';
     el.thanksTitle.textContent = `Thanks, ${name.split(/\s+/)[0]}.`;
