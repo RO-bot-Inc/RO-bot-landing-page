@@ -29,7 +29,7 @@ faqs:
 
 Here is what that can be worth. The calculator starts with an illustrative example of $20,000 a month in warranty parts at cost, moving from 40% to 80% over cost. Swap in your own numbers.
 
-<div id="markup-calculator" class="not-prose my-10 rounded-xl border border-gray-200 bg-surface p-5 md:p-7">
+<div id="markup-calculator" class="not-prose scroll-mt-24 my-10 rounded-xl border border-gray-200 bg-surface p-5 md:p-7">
   <p class="text-xs font-semibold tracking-widest uppercase text-teal mb-2">Calculator</p>
   <h2 class="text-xl font-bold text-navy m-0">What is a parts markup increase worth?</h2>
   <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 sm:items-end gap-3">
@@ -149,7 +149,7 @@ The dealer had declared 81.62%. GM found the two repairs had been left out, adde
 
 Before you submit, have a second reviewer check every skipped RO and every excluded parts line against the statute.
 
-<div id="ro-sample-worksheet" class="not-prose my-10 rounded-xl border border-gray-200 bg-surface overflow-hidden">
+<div id="ro-sample-worksheet" class="not-prose scroll-mt-24 my-10 rounded-xl border border-gray-200 bg-surface overflow-hidden">
   <div class="px-5 pt-5 md:px-7 md:pt-7">
     <img src="/blog-assets/17-warranty-parts-markup-increase/ro-sample-worksheet-preview.png" alt="Preview of the Warranty Parts Markup Worksheet parts lines tab, showing each parts line with its markup, status and exclusion reason" width="1208" height="449" loading="lazy" class="block w-full rounded-lg border border-gray-200 shadow-sm">
   </div>
