@@ -35,7 +35,7 @@ const SVG = 'http://www.w3.org/2000/svg';
 interface Tok { text: string; el: HTMLElement; typed: Text; rest: HTMLElement; start: number; mark?: number }
 interface Mark {
   id: number; note: string; kind: Kind; mood: Mood; el: HTMLElement;
-  w: { trav: Win; hover: Win; mark: Win; arrow: Win; write: Win; slash: Win };
+  w: { trav: Win; hover: Win; mark: Win; arrow: Win; write: Win; slash: Win; shake: Win };
   pts: Pt[]; markPath: SVGPathElement; arrowPath: SVGPathElement; headPath: SVGPathElement; slashPath: SVGPathElement;
   noteEl: HTMLElement; numEl: HTMLElement;
   // geometry, set by measure()
@@ -54,6 +54,8 @@ const clamp = (v: number) => Math.max(0, Math.min(1, v));
 const prog = (t: number, w: Win) => (w[1] <= w[0] ? (t >= w[1] ? 1 : 0) : clamp((t - w[0]) / (w[1] - w[0])));
 const smooth = (x: number) => 0.5 - 0.5 * Math.cos(Math.PI * x);
 const attack = (x: number) => 1 - (1 - x) * (1 - x);
+const overshoot = (x: number) => 1 + 2.4 * Math.pow(x - 1, 3) + 1.4 * Math.pow(x - 1, 2); // lands a touch past, settles back
+const tap = (q: number, n: number) => Math.sin(Math.PI * ((q * n) % 1)); // 0 lifted, 1 on the paper
 const lerp = (a: Pt, b: Pt, f: number): Pt => [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f];
 const d = (pts: Pt[]) => 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
 const f1 = (p: Pt) => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
@@ -106,7 +108,7 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         tok.mark = marks.length;
         marks.push({
           id: marks.length, note: m.note.pen, kind: st.kind, mood: st.mood, el,
-          w: { trav: [0, 0], hover: [0, 0], mark: [0, 0], arrow: [0, 0], write: [0, 0], slash: [0, 0] },
+          w: { trav: [0, 0], hover: [0, 0], mark: [0, 0], arrow: [0, 0], write: [0, 0], slash: [0, 0], shake: [0, 0] },
           pts: [], markPath: path(st.kind === 'strike' && st.mood === 2 ? 2.6 : sw), arrowPath: path(2.2), headPath: path(2.2), slashPath: path(2.2),
           noteEl, numEl,
           P0: [0, 0], C1: [0, 0], C2: [0, 0], P1: [0, 0], num: [0, 0], nx: 0, ny: 0, nw: 0, fs: 27, slashPts: [],
@@ -126,14 +128,14 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
   // ---- timeline: typing is fast (under 3 s), then the pen, mark by mark
   const all = cause + correction;
   const times: number[] = [];
-  let t = 200;
+  let t = 150;
   for (let i = 0; i < all.length; i++) {
-    if (i === cause.length) t += 160;
-    t += 6 + rnd() * 8;
-    if (all[i] === '.') t += 70;
+    if (i === cause.length) t += 110;
+    t += 3 + rnd() * 5;
+    if (all[i] === '.') t += 40;
     times.push(t);
   }
-  const typeEnd = t + 250;
+  const typeEnd = t + 200;
   let cur = typeEnd;
   marks.forEach((m, i) => {
     const p = PACE[m.mood];
@@ -144,17 +146,24 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
     w.arrow = [w.mark[1] + 70, w.mark[1] + 70 + p.arrow];
     w.write = [w.arrow[1] + 60, w.arrow[1] + 60 + p.write * Math.max(0.7, m.note.length / 16)];
     w.slash = m.mood === 2 ? [w.write[1] + 40, w.write[1] + 210] : [w.write[1], w.write[1]];
-    cur = w.slash[1] + 60;
+    w.shake = m.mood === 2 ? [w.slash[1] + 40, w.slash[1] + 440] : [w.slash[1], w.slash[1]];
+    cur = w.shake[1] + 60;
   });
-  const exit: Win = [cur, cur + 300];
-  const stampAt = cur + 350;
+  // Finale: the pen goes to the stamp spot, the stamp lands under it, then the
+  // pen points at "Your turn" and taps it, waits, and leaves.
+  const toStamp: Win = [cur, cur + 380];
+  const stampAt = toStamp[1] + 60;
   const loopEnd = stampAt + 260 + HOLD_MS;
+  const toBtn: Win = [stampAt + 420, stampAt + 900];
+  const taps: Win = [toBtn[1] + 80, toBtn[1] + 780];
+  const exit: Win = [loopEnd - 900, loopEnd - 450];
 
   // ---- geometry
   let stacked = false;
   let ok = false;
   let stampXY: Pt = [0, 0];
   let exitPt: Pt = [0, 0];
+  let btnPt: Pt = [0, 0];
   const shape = (m: Mark, rects: Rect[]): Pt[][] => {
     const r = seeded(97 + m.id * 31);
     const lines: Pt[][] = [];
@@ -304,50 +313,74 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
       : [(colL + colR) / 2 - 48, colB + 8];
     if (!stacked && !free('right') && !free('left')) story.style.setProperty('--below', '130px');
     exitPt = [colR + (stacked ? 0 : 120), colB + 30];
+    const btn = els.root.querySelector('.sc-live-go');
+    if (btn) { const b = rel(btn.getBoundingClientRect()); btnPt = [b.x + b.w / 2 + Math.min(150, b.w * 0.3), b.y + b.h / 2 + 2]; }
     ok = marks.every((m) => m.pts.length);
   }
 
   // ---- drawing at time t
   let lastK = -1;
-  const penAt = (t: number): { p: Pt; up: boolean; mood: Mood } | null => {
+  let lastPen: Pt | null = null;
+  let lean = 0;
+  type PenPose = { p: Pt; lift: number; mood: Mood; rot?: number };
+  const stampMid = (): Pt => { const r = stacked ? 33 : 48; return [stampXY[0] + r, stampXY[1] + r]; };
+  const penAt = (t: number): PenPose | null => {
     for (let i = 0; i < marks.length; i++) {
       const m = marks[i], w = m.w;
       const start = m.pts[0];
       const hoverPt: Pt = [start[0] - 3, start[1] - 9];
       const prevEnd = i ? endPt(marks[i - 1]) : hoverPt;
       if (t < w.trav[0]) return null;
-      if (t < w.trav[1]) return { p: lerp(prevEnd, hoverPt, smooth(prog(t, w.trav))), up: true, mood: m.mood };
+      // Travel with a little momentum: lands past the spot and settles back.
+      if (t < w.trav[1]) return { p: lerp(prevEnd, hoverPt, overshoot(prog(t, w.trav))), lift: 7, mood: m.mood };
       if (t < w.hover[1]) {
-        // Aggravated: the pen hovers and trembles before it goes in.
-        const a = m.mood === 2 ? 1.4 : 0.4;
-        return { p: [hoverPt[0] + a * Math.sin(t / 23), hoverPt[1] + a * Math.cos(t / 17)], up: true, mood: m.mood };
+        const q = prog(t, w.hover);
+        // Aggravated: two impatient taps on the paper before it goes in.
+        if (m.mood === 2) return { p: [hoverPt[0] + 0.8 * Math.sin(t / 19), hoverPt[1] + 6], lift: 9 * (1 - tap(q, 2)), mood: 2 };
+        // Otherwise a small "hmm" circle while it reads.
+        return { p: [hoverPt[0] + 3 * Math.cos(q * 6.3), hoverPt[1] + 2 * Math.sin(q * 6.3)], lift: 5, mood: m.mood };
       }
       if (t < w.mark[1]) {
         const e = (m.mood === 2 ? attack : smooth)(prog(t, w.mark));
-        return { p: m.pts[Math.min(m.pts.length - 1, Math.floor(e * (m.pts.length - 1)))], up: false, mood: m.mood };
+        return { p: m.pts[Math.min(m.pts.length - 1, Math.floor(e * (m.pts.length - 1)))], lift: 0, mood: m.mood };
       }
-      if (t < w.arrow[0]) return { p: m.pts[m.pts.length - 1], up: true, mood: m.mood };
+      if (t < w.arrow[0]) return { p: m.pts[m.pts.length - 1], lift: 5, mood: m.mood };
       if (t < w.arrow[1]) {
         const q = prog(t, w.arrow);
         if (stacked) {
-          if (q < 0.35) return { p: [m.num[0] + 4, m.num[1] + 14], up: false, mood: m.mood };
-          return { p: lerp([m.num[0] + 4, m.num[1] + 14], [m.nx, m.ny + m.fs * 0.95], smooth((q - 0.35) / 0.65)), up: true, mood: m.mood };
+          if (q < 0.35) return { p: [m.num[0] + 4, m.num[1] + 14], lift: 0, mood: m.mood };
+          return { p: lerp([m.num[0] + 4, m.num[1] + 14], [m.nx, m.ny + m.fs * 0.95], smooth((q - 0.35) / 0.65)), lift: 5, mood: m.mood };
         }
         const s = clamp(q / 0.78), a = 1 - s;
         const b3 = (j: 0 | 1) => a * a * a * m.P0[j] + 3 * a * a * s * m.C1[j] + 3 * a * s * s * m.C2[j] + s * s * s * m.P1[j];
-        return { p: [b3(0), b3(1)], up: false, mood: m.mood };
+        return { p: [b3(0), b3(1)], lift: 0, mood: m.mood };
       }
-      if (t < w.write[0]) return { p: stacked ? [m.nx, m.ny + m.fs * 0.95] : m.P1, up: true, mood: m.mood };
+      if (t < w.write[0]) return { p: stacked ? [m.nx, m.ny + m.fs * 0.95] : m.P1, lift: 5, mood: m.mood };
       if (t < w.write[1]) {
         const pw = prog(t, w.write), sp = m.mood === 2 ? 30 : 45, amp = m.mood === 2 ? 4 : 3;
-        return { p: [m.nx + pw * m.nw, m.ny + m.fs * 0.95 + amp * Math.sin(t / sp)], up: false, mood: m.mood };
+        return { p: [m.nx + pw * m.nw, m.ny + m.fs * 0.95 + amp * Math.sin(t / sp)], lift: 0, mood: m.mood };
       }
       if (t < w.slash[1]) {
         const s = m.slashPts, e = attack(prog(t, w.slash));
-        return { p: s[Math.min(s.length - 1, Math.floor(e * (s.length - 1)))], up: false, mood: m.mood };
+        return { p: s[Math.min(s.length - 1, Math.floor(e * (s.length - 1)))], lift: 0, mood: m.mood };
+      }
+      if (t < w.shake[1]) {
+        // Shakes its head.
+        const q = prog(t, w.shake), e = endPt(m);
+        return { p: [e[0] + 6, e[1] - 6], lift: 8, mood: 2, rot: 16 * Math.sin(q * Math.PI * 6) * (1 - q) };
       }
     }
-    if (t < exit[1] && marks.length) return { p: lerp(endPt(marks[marks.length - 1]), exitPt, smooth(prog(t, exit))), up: true, mood: 0 };
+    if (!marks.length) return null;
+    const lastEnd = endPt(marks[marks.length - 1]);
+    const sm = stampMid();
+    if (t < toStamp[1]) return { p: lerp(lastEnd, sm, smooth(prog(t, toStamp))), lift: 8, mood: 0 };
+    if (t < stampAt) return { p: sm, lift: 8, mood: 0 };
+    if (t < toBtn[0]) { const q = prog(t, [stampAt, toBtn[0]]); return { p: [sm[0] + 30 * q, sm[1] - 40 * attack(q)], lift: 14, mood: 0 }; }
+    const from: Pt = [sm[0] + 30, sm[1] - 40];
+    if (t < toBtn[1]) return { p: lerp(from, btnPt, overshoot(prog(t, toBtn))), lift: 9, mood: 0 };
+    if (t < taps[1]) return { p: btnPt, lift: 9 * (1 - tap(prog(t, taps), 2)), mood: 0 };
+    if (t < exit[0]) return { p: [btnPt[0] + 2 * Math.sin(t / 260), btnPt[1] - 2 + 2 * Math.cos(t / 330)], lift: 9, mood: 0 };
+    if (t < exit[1]) return { p: lerp(btnPt, exitPt, smooth(prog(t, exit))), lift: 12, mood: 0 };
     return null;
   };
   const endPt = (m: Mark): Pt => (m.mood === 2 && m.slashPts.length ? m.slashPts[m.slashPts.length - 1] : [m.nx + m.nw, m.ny + m.fs * 0.95]);
@@ -394,11 +427,15 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
     const pen = still ? null : penAt(t);
     els.pen.classList.toggle('is-on', !!pen);
     if (pen) {
-      els.pen.classList.toggle('is-up', pen.up);
-      const wob = pen.up ? 0 : (pen.mood === 2 ? 7 : 3) * Math.sin(t / (pen.mood === 2 ? 40 : 70));
-      const lift = pen.up ? 5 : 0;
-      els.pen.style.transform = `translate(${pen.p[0].toFixed(1)}px, ${(pen.p[1] - 6.5 - lift).toFixed(1)}px) rotate(${(-38 + wob - (pen.mood === 2 ? 6 : 0)).toFixed(1)}deg)`;
-    }
+      els.pen.classList.toggle('is-up', pen.lift > 2);
+      const wob = pen.lift > 2 ? 0 : (pen.mood === 2 ? 7 : 3) * Math.sin(t / (pen.mood === 2 ? 40 : 70));
+      // Leans into the direction it's moving.
+      const vx = lastPen ? pen.p[0] - lastPen[0] : 0;
+      lean += (Math.max(-12, Math.min(12, vx * 1.2)) - lean) * 0.25;
+      lastPen = pen.p;
+      const ang = -38 + wob - (pen.mood === 2 ? 6 : 0) + lean + (pen.rot ?? 0);
+      els.pen.style.transform = `translate(${pen.p[0].toFixed(1)}px, ${(pen.p[1] - 6.5 - pen.lift).toFixed(1)}px) rotate(${ang.toFixed(1)}deg)`;
+    } else lastPen = null;
     const ps = still ? 1 : clamp((t - stampAt) / 260);
     els.stamp.style.left = stampXY[0].toFixed(0) + 'px';
     els.stamp.style.top = stampXY[1].toFixed(0) + 'px';
