@@ -7,6 +7,7 @@ import {
   LABELS,
   MISFIRE_A,
   SAMPLES,
+  sampleResult,
   type Note,
   type Result,
 } from './shared';
@@ -35,7 +36,6 @@ const el = {
   mCorr: $('sc-m-corr'),
   aToggle: $('sc-a-toggle'),
   a: $('sc-a'),
-  preview: $('sc-preview'),
   grading: $('sc-grading'),
   results: $('sc-results'),
   summary: $('sc-summary'),
@@ -60,6 +60,14 @@ const el = {
   thanks: $('sc-thanks'),
   thanksTitle: $('sc-thanks-title'),
   keep: $('sc-keep'),
+  liveTag: $('sc-live-tag'),
+  live: $('sc-live'),
+  liveStamp: $('sc-live-stamp'),
+  liveCause: $('sc-live-cause'),
+  liveCorr: $('sc-live-corr'),
+  liveGo: $('sc-live-go'),
+  liveNotes: $('sc-live-notes'),
+  liveList: $('sc-live-list'),
 };
 
 const state = {
@@ -73,6 +81,7 @@ const state = {
   showA: false,
   busy: false,
   timers: [] as number[],
+  live: false, // first look: the misfire sample red-pens itself until the visitor takes a turn
 };
 
 // ------------------------------------------------------------------ helpers
@@ -144,9 +153,15 @@ function show(screen: Screen) {
   el.editTools.hidden = marked;
   el.marked.hidden = !marked;
   el.reedit.hidden = !marked;
-  el.preview.hidden = screen !== 'edit';
   el.grading.hidden = screen !== 'grading';
   el.results.hidden = screen !== 'results';
+  if (screen === 'edit' && state.live) {
+    el.edit.hidden = true;
+    el.editTools.hidden = true;
+  }
+  el.live.hidden = !(screen === 'edit' && state.live);
+  el.liveTag.hidden = el.live.hidden;
+  el.liveNotes.hidden = screen !== 'edit'; // after the first look it stays, finished, as the example
 }
 
 function syncFilled() {
@@ -206,6 +221,105 @@ function renderA(open: boolean) {
   el.a.innerHTML = `<div class="sc-a-head"><span>Same repair, written to an A</span><b>A</b></div>
     <p><strong>Cause: </strong>${part(MISFIRE_A.cause)}</p>
     <p><strong>Correction: </strong>${part(MISFIRE_A.correction)}</p>`;
+}
+
+// ------------------------------------------------------------------ first look
+// The misfire sample types itself in, gets red-penned note by note, the stamp
+// lands, then it loops. Built from the sample's recorded grade, so it always
+// matches what "Paste a sample" returns. Reduced motion: the finished state, still.
+const LIVE_TICK_MS = 650;
+const LIVE_HOLD_TICKS = 8;
+let liveTimer = 0;
+let liveStep = 0;
+let liveEnd = 0;
+
+function liveMarkup(text: string, notes: Note[], field: Note['field'], segStart: number): { html: string; segs: number } {
+  const marks = notes
+    .filter((n) => n.field === field && n.match && text.includes(n.match))
+    .map((n) => ({ start: text.indexOf(n.match!), end: text.indexOf(n.match!) + n.match!.length, n: n.n }))
+    .sort((a, b) => a.start - b.start)
+    .filter((m, i, all) => i === 0 || m.start >= all[i - 1].end);
+  // Sentence breaks: after ". " and at the end.
+  const ends: number[] = [];
+  for (let i = 0; i < text.length; i++) if (text[i] === '.' && (i === text.length - 1 || text[i + 1] === ' ')) ends.push(i + 1);
+  if (!ends.length || ends[ends.length - 1] !== text.length) ends.push(text.length);
+  const cuts = new Set<number>([0, text.length, ...ends]);
+  marks.forEach((m) => { cuts.add(m.start); cuts.add(m.end); });
+  const points = [...cuts].sort((a, b) => a - b);
+  let html = '';
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i];
+    const b = points[i + 1];
+    const seg = segStart + ends.findIndex((e) => a < e);
+    const m = marks.find((x) => a >= x.start && b <= x.end);
+    const piece = esc(text.slice(a, b));
+    html += `<span class="sc-live-seg" data-seg="${seg}">${m ? `<span class="sc-red" data-live="${m.n}">${piece}</span>` : piece}`;
+    if (m && b === m.end) html += `<span class="sc-dot sc-dot-static" data-live="${m.n}" aria-hidden="true">${m.n}</span>`;
+    html += '</span>';
+  }
+  return { html, segs: ends.length };
+}
+
+function liveBuild() {
+  const s = SAMPLES.find((x) => x.id === 'misfire');
+  if (!s) return false;
+  const r = sampleResult(s);
+  const c = liveMarkup(r.cause, r.notes, 'cause', 0);
+  const k = liveMarkup(r.correction, r.notes, 'correction', c.segs);
+  el.liveCause.innerHTML = c.html;
+  el.liveCorr.innerHTML = k.html;
+  el.liveStamp.className = `sc-stamp sc-live-stamp${r.gpa >= 3.3 ? ' is-good' : ''}`;
+  el.liveStamp.innerHTML = `<span class="sc-stamp-l">${esc(r.letter)}</span><span class="sc-stamp-g">${r.gpa.toFixed(2)} / 4</span>`;
+  const shown = r.notes.filter((n) => el.live.querySelector(`[data-live="${n.n}"]`));
+  el.liveList.innerHTML = shown
+    .map((n) => `<li data-live-note="${n.n}"><span class="sc-dot sc-dot-static" aria-hidden="true">${n.n}</span><span class="sc-pen">${esc(n.pen)}</span></li>`)
+    .join('');
+  const segs = c.segs + k.segs;
+  // Timeline: segments 1..segs, a beat, notes one per tick, then the stamp.
+  shown.forEach((n, i) => (el.liveList.children[i] as HTMLElement).dataset.at = String(segs + 2 + i));
+  el.liveStamp.dataset.at = String(segs + 2 + shown.length);
+  el.live.dataset.segs = String(segs);
+  liveEnd = segs + 2 + shown.length + LIVE_HOLD_TICKS;
+  return true;
+}
+
+function liveRender(step: number) {
+  const segs = Number(el.live.dataset.segs);
+  el.live.querySelectorAll<HTMLElement>('.sc-live-seg').forEach((x) => x.classList.toggle('is-off', Number(x.dataset.seg) >= step));
+  const at = new Map<number, number>();
+  el.liveList.querySelectorAll<HTMLElement>('li').forEach((li) => {
+    const n = Number(li.dataset.liveNote);
+    at.set(n, Number(li.dataset.at));
+    li.classList.toggle('is-in', step >= Number(li.dataset.at));
+  });
+  el.live.querySelectorAll<HTMLElement>('[data-live]').forEach((x) => x.classList.toggle('is-marked', step >= (at.get(Number(x.dataset.live)) ?? Infinity)));
+  el.liveStamp.classList.toggle('is-in', step >= Number(el.liveStamp.dataset.at) && step > segs);
+}
+
+function liveStart() {
+  if (!liveBuild()) return;
+  state.live = true;
+  show('edit');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    liveRender(liveEnd);
+    return;
+  }
+  liveStep = 0;
+  liveRender(0);
+  liveTimer = window.setInterval(() => {
+    if (document.hidden) return;
+    liveStep = liveStep >= liveEnd ? 0 : liveStep + 1;
+    liveRender(liveStep);
+  }, LIVE_TICK_MS);
+}
+
+function liveStop(focus: boolean) {
+  if (!state.live) return;
+  state.live = false;
+  clearInterval(liveTimer);
+  liveRender(liveEnd);
+  show('edit');
+  if (focus) el.cause.focus();
 }
 
 // ------------------------------------------------------------------ results
@@ -495,6 +609,16 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !el.modal.hidden) closeModal();
 });
 
+el.liveGo.addEventListener('click', () => {
+  track('story_check_your_turn');
+  liveStop(true);
+});
+el.live.querySelector('.sc-live-story')?.addEventListener('click', () => {
+  track('story_check_your_turn');
+  liveStop(true);
+});
+
 syncFilled();
 renderLeftLabel();
 refreshToken();
+liveStart();
