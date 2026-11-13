@@ -11,12 +11,13 @@ import {
   type Note,
   type Result,
 } from './shared';
-import { createPen } from './pen';
+import { createPen, createReader, type PenEls } from './pen';
 
 const API = '/api/story-check';
 const GA4_ID = 'G-28WMV6CTFP';
 const OPEN_FIXES = 2; // the rest unlock with the emailed report (a soft gate)
-const MIN_GRADING_MS = 1800;
+const MIN_READ_MS = 3000; // the pen reads for at least this long, so the grade feels earned
+const MAX_READ_MS = 6000;
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const el = {
@@ -32,15 +33,12 @@ const el = {
   go: $<HTMLButtonElement>('sc-go'),
   err: $('sc-err'),
   left: $('sc-left'),
-  marked: $('sc-marked'),
-  stamp: $('sc-stamp'),
-  mComplaintWrap: $('sc-m-complaint-wrap'),
-  mComplaint: $('sc-m-complaint'),
-  mCause: $('sc-m-cause'),
-  mCorr: $('sc-m-corr'),
+  review: $('sc-review'),
+  rvStamp: $('sc-rv-stamp'),
+  rvStatus: $('sc-rv-status'),
+  rvStatusText: $('sc-rv-status-text'),
   aToggle: $('sc-a-toggle'),
   a: $('sc-a'),
-  grading: $('sc-grading'),
   results: $('sc-results'),
   summary: $('sc-summary'),
   clean: $('sc-clean'),
@@ -65,17 +63,7 @@ const el = {
   thanksTitle: $('sc-thanks-title'),
   keep: $('sc-keep'),
   live: $('sc-live'),
-  liveStamp: $('sc-live-stamp'),
-  liveComplaint: $('sc-live-complaint'),
-  liveCause: $('sc-live-cause'),
-  liveCorr: $('sc-live-corr'),
   liveGo: $('sc-live-go'),
-  liveNotes: $('sc-live-notes'),
-  liveStory: $('sc-live-story'),
-  liveCol: $('sc-live-col'),
-  liveInk: document.getElementById('sc-live-ink') as unknown as SVGSVGElement,
-  livePen: $('sc-live-pen'),
-  liveStamper: $('sc-live-stamper'),
   right: $('sc-right'),
   cols: document.querySelector<HTMLElement>('.sc-cols')!,
 };
@@ -90,7 +78,7 @@ const state = {
   reportSent: false,
   showA: false,
   busy: false,
-  timers: [] as number[],
+  run: 0, // bumps on every grade or reset, so a stale reply or animation never lands
   live: false, // first look: the misfire sample red-pens itself until the visitor takes a turn
 };
 
@@ -156,23 +144,19 @@ function showError(msg: string) {
 }
 
 // ------------------------------------------------------------------ screens
-type Screen = 'edit' | 'grading' | 'results';
+type Screen = 'edit' | 'review' | 'results';
 function show(screen: Screen) {
-  const marked = screen !== 'edit';
-  el.edit.hidden = marked;
-  el.editTools.hidden = marked;
-  el.marked.hidden = !marked;
-  el.reedit.hidden = !marked;
-  el.grading.hidden = screen !== 'grading';
+  const editing = screen === 'edit';
+  el.edit.hidden = !editing || state.live;
+  el.editTools.hidden = !editing || state.live;
+  el.live.hidden = !(editing && state.live);
+  el.review.hidden = editing;
+  el.rvStatus.hidden = screen !== 'review';
+  el.reedit.hidden = screen !== 'results';
+  // The story takes the full width; the results come in under it once the pen is done.
+  el.right.hidden = screen !== 'results';
   el.results.hidden = screen !== 'results';
-  if (screen === 'edit' && state.live) {
-    el.edit.hidden = true;
-    el.editTools.hidden = true;
-  }
-  el.live.hidden = !(screen === 'edit' && state.live);
-  // Nothing goes beside the story until it's graded, so it takes the full width.
-  el.right.hidden = screen === 'edit';
-  el.cols.classList.toggle('is-wide', screen === 'edit');
+  el.cols.classList.toggle('is-wide', true);
 }
 
 function syncFilled() {
@@ -190,44 +174,18 @@ function nextSample(): number {
   return state.sampleIdx;
 }
 
-// ------------------------------------------------------------------ marked story
-function segments(text: string, notes: Note[], field: Note['field']): string {
-  const hits: Array<{ start: number; end: number; n: number }> = [];
-  for (const note of notes) {
-    if (note.field !== field || !note.match) continue;
-    const i = text.indexOf(note.match);
-    if (i < 0) continue;
-    const end = i + note.match.length;
-    if (hits.some((h) => i < h.end && end > h.start)) continue;
-    hits.push({ start: i, end, n: note.n });
-  }
-  hits.sort((a, b) => a.start - b.start);
-  let out = '';
-  let pos = 0;
-  for (const h of hits) {
-    out += esc(text.slice(pos, h.start));
-    const on = state.active === h.n ? ' is-on' : '';
-    out += `<span class="sc-red${on}">${esc(text.slice(h.start, h.end))}</span><button type="button" class="sc-dot${on}" data-note="${h.n}" aria-label="Show note ${h.n}">${h.n}</button>`;
-    pos = h.end;
-  }
-  return out + esc(text.slice(pos));
-}
-
-function setComplaint(text: string) {
-  el.mComplaint.textContent = text.trim();
-  el.mComplaintWrap.hidden = !text.trim();
-}
-
-function renderMarked(pop = false) {
-  const r = state.result;
-  if (!r) return;
-  setComplaint(r.complaint || '');
-  el.mCause.innerHTML = segments(r.cause, r.notes, 'cause');
-  el.mCorr.innerHTML = segments(r.correction, r.notes, 'correction');
-  el.stamp.className = `sc-stamp${r.gpa >= 3.3 ? ' is-good' : ''}${pop ? ' is-pop' : ''}`;
-  el.stamp.innerHTML = `<span class="sc-stamp-l">${esc(r.letter)}</span><span class="sc-stamp-g">${r.gpa.toFixed(2)} / 4</span>`;
-  el.stamp.setAttribute('aria-label', `Grade ${r.letter}, ${r.gpa.toFixed(2)} out of 4`);
-}
+// ------------------------------------------------------------------ the red pen
+const cardEls = (root: HTMLElement): PenEls => {
+  const q = <T extends Element = HTMLElement>(c: string) => root.querySelector(c) as unknown as T;
+  return {
+    root, story: q('.sc-live-story'), col: q('.sc-live-col'), complaintWrap: q('.sc-live-cw'),
+    complaint: q('.sc-live-complaint'), cause: q('.sc-live-cause'), corr: q('.sc-live-corr'),
+    stamper: q('.sc-live-stamper'), ink: q<SVGSVGElement>('.sc-live-ink'), notes: q('.sc-live-notes'),
+    stamp: q('.sc-live-stamp'), pen: q('.sc-live-pen'),
+  };
+};
+const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const stampHtml = (r: Result) => `<span class="sc-stamp-l">${esc(r.letter)}</span><span class="sc-stamp-g">${r.gpa.toFixed(2)} / 4</span>`;
 
 function renderA(open: boolean) {
   state.showA = open;
@@ -252,16 +210,8 @@ function liveStart() {
   const r = sampleResult(s);
   state.live = true;
   show('edit');
-  livePen = createPen(
-    { root: el.live, story: el.liveStory, col: el.liveCol, complaint: el.liveComplaint, stamper: el.liveStamper, cause: el.liveCause, corr: el.liveCorr, ink: el.liveInk, notes: el.liveNotes, stamp: el.liveStamp, pen: el.livePen },
-    s.complaint,
-    r.cause,
-    r.correction,
-    r.notes,
-    `<span class="sc-stamp-l">${esc(r.letter)}</span><span class="sc-stamp-g">${r.gpa.toFixed(2)} / 4</span>`,
-    r.gpa >= 3.3,
-  );
-  livePen.start(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  livePen = createPen(cardEls(el.live), { complaint: s.complaint, cause: r.cause, correction: r.correction }, r.notes, stampHtml(r), r.gpa >= 3.3);
+  livePen.start(reduced());
 }
 
 function liveStop(focus: boolean) {
@@ -319,66 +269,77 @@ function renderNotes() {
 
 function pick(n: number) {
   state.active = state.active === n ? null : n;
-  renderMarked();
   renderNotes();
 }
 
 // ------------------------------------------------------------------ grading
-function setStep(step: number) {
-  el.grading.querySelectorAll<HTMLElement>('.sc-step').forEach((p) => {
-    const i = Number(p.dataset.step);
-    p.classList.toggle('is-done', i < step);
-    p.classList.toggle('is-now', i === step);
-  });
-}
+// The pen reads the story while the grader works, then marks it up note by
+// note and stamps the grade; the results come in under the card after that.
+let reader: ReturnType<typeof createReader> | null = null;
+let gradePen: ReturnType<typeof createPen> | null = null;
+const status = (s: string) => { if (el.rvStatusText.textContent !== s) el.rvStatusText.textContent = s; };
 
-function clearTimers() {
-  state.timers.forEach((t) => clearTimeout(t));
-  state.timers = [];
+function stopPen() {
+  state.run++;
+  reader?.stop();
+  reader = null;
+  gradePen?.stop();
+  gradePen = null;
 }
 
 async function grade(complaint: string, cause: string, correction: string) {
   if (state.busy) return;
   showError('');
   if (state.remaining === 0) return openModal(true);
+  stopPen();
+  const run = state.run;
   state.busy = true;
   el.go.disabled = true;
-
-  // Show the typed story under the red pen right away; swap in the graded text after.
   state.result = null;
   state.active = null;
   state.reportSent = false;
   state.showA = false;
-  setComplaint(complaint);
-  el.mCause.textContent = cause.trim();
-  el.mCorr.textContent = correction.trim();
-  el.stamp.className = 'sc-stamp';
-  el.stamp.style.visibility = 'hidden';
-  el.aToggle.hidden = true;
-  el.a.hidden = true;
-  show('grading');
-  setStep(0);
-  clearTimers();
-  state.timers.push(window.setTimeout(() => setStep(1), 600), window.setTimeout(() => setStep(2), 1200));
-  const minWait = new Promise((r) => setTimeout(r, MIN_GRADING_MS));
+  el.rvStamp.removeAttribute('aria-label');
+  show('review');
+  const card = cardEls(el.review);
+  const still = reduced();
+  reader = createReader(card, { complaint, cause, correction }, status);
+  if (still) status('Checking it against what auditors flag');
+  else reader.start();
+  const started = Date.now();
 
   try {
-    const [{ status, data }] = await Promise.all([call({ action: 'grade', complaint, cause, correction }), minWait]);
-    clearTimers();
+    const { status: code, data } = await call({ action: 'grade', complaint, cause, correction });
+    if (run !== state.run) return;
     if ('remaining' in data) state.remaining = data.remaining;
     renderLeftLabel();
-    if (status === 200 && data.result) {
-      state.result = data.result as Result;
+    if (code === 200 && data.result) {
+      // Let the pen finish reading it once (3 to 6 seconds) before it starts marking.
+      const wait = still ? 0 : Math.min(MAX_READ_MS, Math.max(MIN_READ_MS, reader?.pass ?? 0)) - (Date.now() - started);
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+      if (run !== state.run) return;
+      const r = data.result as Result;
+      state.result = r;
       state.ticket = data.ticket;
-      el.stamp.style.visibility = '';
-      renderMarked(true);
-      renderResults();
-      show('results');
-      track('story_check_graded', { sample: !!state.result.sampleId, letter: state.result.letter, notes: state.result.notes.length });
+      const from = reader?.stop();
+      reader = null;
+      status('Red pen out');
+      el.rvStamp.setAttribute('aria-label', `Grade ${r.letter}, ${r.gpa.toFixed(2)} out of 4`);
+      gradePen = createPen(card, { complaint: r.complaint ?? complaint, cause: r.cause, correction: r.correction }, r.notes, stampHtml(r), r.gpa >= 3.3, {
+        mode: 'grade',
+        from: still ? undefined : from,
+        onDone: () => {
+          if (run !== state.run) return;
+          renderResults();
+          show('results');
+        },
+      });
+      gradePen.start(still);
+      track('story_check_graded', { sample: !!r.sampleId, letter: r.letter, notes: r.notes.length });
       return;
     }
+    stopPen();
     show('edit');
-    el.stamp.style.visibility = '';
     if (data.error === 'limit') return openModal(true);
     showError(
       data.error === 'capacity'
@@ -390,9 +351,9 @@ async function grade(complaint: string, cause: string, correction: string) {
             : "The grader didn't answer. Try again in a moment.",
     );
   } catch {
-    clearTimers();
+    if (run !== state.run) return;
+    stopPen();
     show('edit');
-    el.stamp.style.visibility = '';
     showError("Couldn't reach the grader. Check your connection and try again.");
   } finally {
     state.busy = false;
@@ -519,14 +480,14 @@ el.edit.addEventListener('submit', (e) => {
 });
 
 el.reedit.addEventListener('click', () => {
-  clearTimers();
+  stopPen();
   state.active = null;
   show('edit');
   el.cause.focus();
 });
 
 el.another.addEventListener('click', () => {
-  clearTimers();
+  stopPen();
   state.result = null;
   state.active = null;
   el.complaint.value = '';

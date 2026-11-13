@@ -1,18 +1,25 @@
-// First look: a story types itself in (fast), then a red pen marks it up the way a
-// person would: underline, circle, cross out, an arrow out to the margin, a note.
-// The pen gets more aggravated as it goes: it hesitates, then attacks.
+// The red pen. Two uses, one engine:
+// - First look ('loop'): the misfire sample types itself in (fast), the pen marks
+//   it up, a rubber stamp slams the grade, the pen taps "Your turn", it loops.
+// - Grading ('grade'): the visitor's own story. createReader() reads it line by
+//   line while the grader works, then the pen marks each note, the stamp slams,
+//   and it stops on the finished page.
+// Marks: underline, circle, cross out, or an insert caret where something is
+// missing; an arrow out to the margin and the note in handwriting. The pen gets
+// more aggravated the worse the line: it hesitates, then attacks.
 // On narrow screens there are no margins, so marks get a number and the notes
 // are written under the story.
 
 import type { Note } from './shared';
 
-type Kind = 'underline' | 'circle' | 'strike';
+type Kind = 'underline' | 'circle' | 'strike' | 'insert';
 type Mood = 0 | 1 | 2; // calm, irritated, aggravated
 type Pt = [number, number];
 type Rect = { x: number; y: number; w: number; h: number };
 type Win = [number, number];
+type Field = Note['field'] | 'complaint'; // the complaint is context: never marked
 
-// How the pen treats each line of the misfire sample. Unknown lines get a calm underline.
+// How the pen treats each line of the misfire sample (the first look, and grading that sample).
 const STYLE: Record<string, { kind: Kind; mood: Mood }> = {
   'Check engine light was observed illuminated': { kind: 'underline', mood: 0 },
   P0301: { kind: 'circle', mood: 0 },
@@ -21,6 +28,16 @@ const STYLE: Record<string, { kind: Kind; mood: Mood }> = {
   'Replaced spark plugs': { kind: 'underline', mood: 1 },
   'Verified proper operation': { kind: 'strike', mood: 2 },
 };
+
+// Any other line: the worse the grade, the angrier the pen.
+function styleFor(note: Note, matched: boolean): { kind: Kind; mood: Mood } {
+  if (matched && STYLE[note.match!]) return STYLE[note.match!];
+  const g = /·\s*(\S+)\s*$/.exec(note.criterion)?.[1] ?? '';
+  const mood: Mood = g === 'F' || g === 'missing' || g === '✕' ? 2 : g === 'D' ? 1 : 0;
+  if (!matched) return { kind: 'insert', mood };
+  const short = note.match!.length <= 14;
+  return { kind: short ? 'circle' : mood === 2 ? 'strike' : 'underline', mood };
+}
 
 // Per mood: travel, hover, mark, arrow, write (for a 16-letter note), stroke width.
 const PACE = [
@@ -32,9 +49,9 @@ const HOLD_MS = 4000;
 const FADE_MS = 350;
 const SVG = 'http://www.w3.org/2000/svg';
 
-interface Tok { text: string; el: HTMLElement; typed: Text; rest: HTMLElement; start: number; mark?: number }
+interface Tok { text: string; el: HTMLElement; typed: Text; rest: HTMLElement; start: number; field: number }
 interface Mark {
-  id: number; note: string; kind: Kind; mood: Mood; el: HTMLElement;
+  id: number; note: string; label: string; kind: Kind; mood: Mood; el: HTMLElement;
   w: { trav: Win; hover: Win; mark: Win; arrow: Win; write: Win; slash: Win; shake: Win };
   pts: Pt[]; markPath: SVGPathElement; arrowPath: SVGPathElement; headPath: SVGPathElement; slashPath: SVGPathElement;
   noteEl: HTMLElement; numEl: HTMLElement;
@@ -43,9 +60,12 @@ interface Mark {
 }
 
 export interface PenEls {
-  root: HTMLElement; story: HTMLElement; col: HTMLElement; complaint: HTMLElement; cause: HTMLElement; corr: HTMLElement; stamper: HTMLElement;
+  root: HTMLElement; story: HTMLElement; col: HTMLElement; complaintWrap: HTMLElement;
+  complaint: HTMLElement; cause: HTMLElement; corr: HTMLElement; stamper: HTMLElement;
   ink: SVGSVGElement; notes: HTMLElement; stamp: HTMLElement; pen: HTMLElement;
 }
+
+export interface Story { complaint: string; cause: string; correction: string }
 
 function seeded(seed: number) {
   return () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
@@ -60,15 +80,164 @@ const lerp = (a: Pt, b: Pt, f: number): Pt => [a[0] + (b[0] - a[0]) * f, a[1] + 
 const d = (pts: Pt[]) => 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
 const f1 = (p: Pt) => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
 
-export function createPen(els: PenEls, complaint: string, cause: string, correction: string, notes: Note[], stampHtml: string, stampGood: boolean) {
+// Coordinates inside the story card, in its own CSS pixels (the page may be zoomed on big screens).
+function relTo(story: HTMLElement) {
+  const sr = story.getBoundingClientRect();
+  const z = (story as unknown as { currentCSSZoom?: number }).currentCSSZoom ?? (sr.width / story.offsetWidth || 1);
+  return { ok: sr.width > 0, rel: (r: DOMRect): Rect => ({ x: (r.left - sr.left) / z, y: (r.top - sr.top) / z, w: r.width / z, h: r.height / z }) };
+}
+
+// The pen's pose on screen: lifted or on the paper, leaning into its motion.
+function penPainter(pen: HTMLElement) {
+  let lastPen: Pt | null = null;
+  let lean = 0;
+  return (pose: { p: Pt; lift: number; mood: Mood; rot?: number } | null, t: number) => {
+    pen.classList.toggle('is-on', !!pose);
+    if (!pose) { lastPen = null; return; }
+    pen.classList.toggle('is-up', pose.lift > 2);
+    const wob = pose.lift > 2 ? 0 : (pose.mood === 2 ? 7 : 3) * Math.sin(t / (pose.mood === 2 ? 40 : 70));
+    const vx = lastPen ? pose.p[0] - lastPen[0] : 0;
+    lean += (Math.max(-12, Math.min(12, vx * 1.2)) - lean) * 0.25;
+    lastPen = pose.p;
+    const ang = -38 + wob - (pose.mood === 2 ? 6 : 0) + lean + (pose.rot ?? 0);
+    pen.style.transform = `translate(${pose.p[0].toFixed(1)}px, ${(pose.p[1] - 6.5 - pose.lift).toFixed(1)}px) rotate(${ang.toFixed(1)}deg)`;
+  };
+}
+
+function fieldEls(els: PenEls): HTMLElement[] {
+  return [els.complaint, els.cause, els.corr];
+}
+
+// Clears everything the pen drew, so a card can be reused.
+function resetCard(els: PenEls) {
+  els.ink.textContent = '';
+  els.notes.textContent = '';
+  els.stamp.style.opacity = '0';
+  els.stamper.style.opacity = '0';
+  els.story.style.transform = '';
+  els.pen.classList.remove('is-on');
+  fieldEls(els).forEach((f) => f.classList.remove('is-focus'));
+}
+
+// ------------------------------------------------------------------ reading
+// While the grader works: the pen reads the story line by line, lifted, with
+// the odd pause, and says what it's reading. Loops until stopped.
+export function createReader(els: PenEls, story: Story, onStatus: (s: string) => void) {
+  resetCard(els);
+  els.complaintWrap.hidden = !story.complaint.trim();
+  els.complaint.textContent = story.complaint.trim();
+  els.cause.textContent = story.cause.trim();
+  els.corr.textContent = story.correction.trim();
+  els.root.classList.toggle('is-stacked', els.story.clientWidth - 40 < 2 * 200 + 48 + 460);
+  els.story.style.setProperty('--g', '0px');
+  els.story.style.setProperty('--gap', '0px');
+  els.story.style.setProperty('--below', '26px');
+  const paint = penPainter(els.pen);
+  const rnd = seeded(5);
+  const names = ['Reading the complaint', 'Reading the cause', 'Reading the correction'];
+  type Seg = { a: Pt; b: Pt; dur: number; field: number; pause?: boolean };
+  let segs: Seg[] = [];
+  let total = 0;
+
+  function plan() {
+    const { ok, rel } = relTo(els.story);
+    if (!ok) return;
+    // Only now do we know the card's width; re-run the wide/narrow layout the pen will use.
+    const g = Math.min(270, Math.floor((els.story.clientWidth - 40 - 48 - 460) / 2));
+    const stacked = g < 200;
+    els.root.classList.toggle('is-stacked', stacked);
+    els.story.style.setProperty('--g', stacked ? '0px' : g + 'px');
+    els.story.style.setProperty('--gap', stacked ? '0px' : '24px');
+    const lines: { x0: number; x1: number; y: number; field: number }[] = [];
+    fieldEls(els).forEach((f, field) => {
+      if (!f.textContent) return;
+      const range = document.createRange();
+      range.selectNodeContents(f);
+      const rows = new Map<number, Rect[]>();
+      [...range.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1).forEach((r) => {
+        const key = Math.round(r.y / 6);
+        rows.set(key, [...(rows.get(key) ?? []), r]);
+      });
+      [...rows.values()].forEach((rs) => lines.push({ x0: Math.min(...rs.map((r) => r.x)), x1: Math.max(...rs.map((r) => r.x + r.w)), y: Math.max(...rs.map((r) => r.y + r.h)) - 4, field }));
+    });
+    lines.sort((a, b) => a.y - b.y);
+    // Long stories read faster, so one pass stays under about 4.5 s.
+    const len = lines.reduce((s, l) => s + (l.x1 - l.x0), 0);
+    const speed = Math.max(0.9, len / 4200); // px per ms
+    segs = [];
+    let prev: Pt | null = null;
+    lines.forEach((l) => {
+      const a: Pt = [l.x0, l.y], b: Pt = [l.x1, l.y];
+      if (prev) segs.push({ a: prev, b: a, dur: 140, field: l.field });
+      // One "hmm" pause somewhere on most lines.
+      const stop = rnd() < 0.75 ? 0.3 + rnd() * 0.5 : -1;
+      if (stop > 0) {
+        const m = lerp(a, b, stop);
+        segs.push({ a, b: m, dur: (m[0] - a[0]) / speed, field: l.field });
+        segs.push({ a: m, b: m, dur: 220 + rnd() * 160, field: l.field, pause: true });
+        segs.push({ a: m, b, dur: (b[0] - m[0]) / speed, field: l.field });
+      } else segs.push({ a, b, dur: (b[0] - a[0]) / speed, field: l.field });
+      prev = b;
+    });
+    total = segs.reduce((s, x) => s + x.dur, 0);
+  }
+
+  let raf = 0, now = 0, last = 0, passes = 0, pos: Pt = [0, 0], field = -1;
+  const tick = (ts: number) => {
+    now += last ? Math.min(ts - last, 64) : 0;
+    last = ts;
+    if (total > 0 && now >= total) { now -= total; passes++; }
+    let t = now;
+    for (const s of segs) {
+      if (t > s.dur) { t -= s.dur; continue; }
+      const q = s.dur ? t / s.dur : 1;
+      pos = s.pause ? [s.a[0] + 3 * Math.cos(q * 6.3), s.a[1] - 8 + 2 * Math.sin(q * 6.3)] : lerp(s.a, s.b, q);
+      if (s.field !== field) {
+        field = s.field;
+        fieldEls(els).forEach((f, i) => f.classList.toggle('is-focus', i === field));
+      }
+      onStatus(passes ? 'Checking it against what auditors flag' : names[s.field]);
+      paint({ p: s.pause ? pos : [pos[0], pos[1] - 6], lift: s.pause ? 5 : 6, mood: 0 }, ts);
+      break;
+    }
+    raf = requestAnimationFrame(tick);
+  };
+  const ro = new ResizeObserver(() => plan());
+
+  return {
+    start() {
+      plan();
+      ro.observe(els.story);
+      onStatus(names[els.complaintWrap.hidden ? 1 : 0]);
+      raf = requestAnimationFrame(tick);
+    },
+    // How long one full read takes, so the grade never lands before the pen has read it all once.
+    get pass() { return total; },
+    get elapsed() { return now + passes * total; },
+    stop(): Pt {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      fieldEls(els).forEach((f) => f.classList.remove('is-focus'));
+      return pos;
+    },
+  };
+}
+
+// ------------------------------------------------------------------ marking
+export function createPen(
+  els: PenEls,
+  story: Story,
+  notes: Note[],
+  stampHtml: string,
+  stampGood: boolean,
+  opts: { mode: 'loop' | 'grade'; from?: Pt; onDone?: () => void } = { mode: 'loop' },
+) {
+  const loop = opts.mode === 'loop';
+  const pace = loop ? 1 : 0.85;
   const rnd = seeded(11);
-  type Field = Note['field'] | 'complaint'; // the complaint is context: never marked
-  const marksFor = (text: string, field: Field) =>
-    notes
-      .filter((n) => n.field === field && n.match && text.includes(n.match))
-      .map((n) => ({ start: text.indexOf(n.match!), end: text.indexOf(n.match!) + n.match!.length, note: n }))
-      .sort((a, b) => a.start - b.start)
-      .filter((m, i, all) => i === 0 || m.start >= all[i - 1].end);
+  resetCard(els);
+  const complaint = story.complaint.trim(), cause = story.cause.trim(), correction = story.correction.trim();
+  els.complaintWrap.hidden = !complaint;
 
   // ---- text, split into tokens so marked phrases are their own spans
   const toks: Tok[] = [];
@@ -81,10 +250,32 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
     els.ink.appendChild(p);
     return p;
   };
+  const addMark = (note: Note, el: HTMLElement, matched: boolean, index: number) => {
+    const st = styleFor(note, matched);
+    const noteEl = document.createElement('div');
+    noteEl.className = 'sc-live-note';
+    const numEl = document.createElement('div');
+    numEl.className = 'sc-live-num';
+    els.notes.append(noteEl, numEl);
+    marks.push({
+      id: marks.length, note: note.pen, label: String(loop ? index : note.n), kind: st.kind, mood: st.mood, el,
+      w: { trav: [0, 0], hover: [0, 0], mark: [0, 0], arrow: [0, 0], write: [0, 0], slash: [0, 0], shake: [0, 0] },
+      pts: [], markPath: path(st.kind === 'strike' && st.mood === 2 ? 2.6 : PACE[st.mood].sw), arrowPath: path(2.2), headPath: path(2.2), slashPath: path(2.2),
+      noteEl, numEl,
+      P0: [0, 0], C1: [0, 0], C2: [0, 0], P1: [0, 0], num: [0, 0], nx: 0, ny: 0, nw: 0, fs: 27, slashPts: [],
+    });
+  };
   let offset = 0;
-  const fill = (host: HTMLElement, text: string, field: Field) => {
+  const fill = (host: HTMLElement, text: string, field: Field, fieldIdx: number) => {
     host.textContent = '';
-    const ms = marksFor(text, field);
+    const mine = notes.filter((n) => n.field === field);
+    // A note whose phrase is in the text marks the phrase; any other gets a caret at the end of the field.
+    const ms = mine
+      .filter((n) => n.match && text.includes(n.match))
+      .map((n) => ({ start: text.indexOf(n.match!), end: text.indexOf(n.match!) + n.match!.length, note: n }))
+      .sort((a, b) => a.start - b.start)
+      .filter((m, i, all) => i === 0 || m.start >= all[i - 1].end);
+    const inserts = mine.filter((n) => !ms.some((m) => m.note === n));
     const cuts = [...new Set([0, text.length, ...ms.flatMap((m) => [m.start, m.end])])].sort((a, b) => a - b);
     for (let i = 0; i < cuts.length - 1; i++) {
       const piece = text.slice(cuts[i], cuts[i + 1]);
@@ -96,68 +287,57 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
       rest.textContent = piece;
       el.append(typed, rest);
       host.appendChild(el);
-      const tok: Tok = { text: piece, el, typed, rest, start: offset + cuts[i] };
-      if (m) {
-        const st = STYLE[m.note.match!] ?? { kind: 'underline' as Kind, mood: 0 as Mood };
-        const sw = PACE[st.mood].sw;
-        const noteEl = document.createElement('div');
-        noteEl.className = 'sc-live-note';
-        noteEl.textContent = m.note.pen;
-        const numEl = document.createElement('div');
-        numEl.className = 'sc-live-num';
-        els.notes.append(noteEl, numEl);
-        tok.mark = marks.length;
-        marks.push({
-          id: marks.length, note: m.note.pen, kind: st.kind, mood: st.mood, el,
-          w: { trav: [0, 0], hover: [0, 0], mark: [0, 0], arrow: [0, 0], write: [0, 0], slash: [0, 0], shake: [0, 0] },
-          pts: [], markPath: path(st.kind === 'strike' && st.mood === 2 ? 2.6 : sw), arrowPath: path(2.2), headPath: path(2.2), slashPath: path(2.2),
-          noteEl, numEl,
-          P0: [0, 0], C1: [0, 0], C2: [0, 0], P1: [0, 0], num: [0, 0], nx: 0, ny: 0, nw: 0, fs: 27, slashPts: [],
-        });
-      }
-      toks.push(tok);
+      toks.push({ text: piece, el, typed, rest, start: offset + cuts[i], field: fieldIdx });
+      if (m) addMark(m.note, el, true, marks.length + 1);
+    }
+    if (inserts.length) {
+      const end = document.createElement('span');
+      end.textContent = '​';
+      host.appendChild(end);
+      inserts.forEach((n) => addMark(n, end, false, marks.length + 1));
     }
     offset += text.length;
   };
-  fill(els.complaint, complaint, 'complaint');
-  fill(els.cause, cause, 'cause');
-  fill(els.corr, correction, 'correction');
+  fill(els.complaint, complaint, 'complaint', 0);
+  fill(els.cause, cause, 'cause', 1);
+  fill(els.corr, correction, 'correction', 2);
   els.stamp.className = `sc-stamp sc-live-stamp${stampGood ? ' is-good' : ''}`;
   els.stamp.innerHTML = stampHtml;
   const caret = document.createElement('span');
   caret.className = 'sc-live-caret';
 
-  // ---- timeline: typing is fast (under 3 s), then the pen, mark by mark
+  // ---- timeline: typing (first look only, about 1.6 s), then the pen, mark by mark
   const all = complaint + cause + correction;
   const times: number[] = [];
-  let t = 150;
+  let t = loop ? 150 : 0;
   for (let i = 0; i < all.length; i++) {
+    if (!loop) { times.push(-1); continue; }
     if (i === complaint.length || i === complaint.length + cause.length) t += 110;
     t += 3 + rnd() * 5;
     if (all[i] === '.') t += 40;
     times.push(t);
   }
-  const typeEnd = t + 200;
-  let cur = typeEnd;
+  const typeEnd = loop ? t + 200 : 0;
+  let cur = loop ? typeEnd : 150;
   marks.forEach((m, i) => {
     const p = PACE[m.mood];
     const w = m.w;
-    w.trav = [cur, cur + (i ? p.trav : 0)];
-    w.hover = [w.trav[1], w.trav[1] + p.hover];
-    w.mark = [w.hover[1], w.hover[1] + p.mark];
-    w.arrow = [w.mark[1] + 70, w.mark[1] + 70 + p.arrow];
-    w.write = [w.arrow[1] + 60, w.arrow[1] + 60 + p.write * Math.max(0.7, m.note.length / 16)];
+    w.trav = [cur, cur + (i || opts.from ? p.trav * pace : 0)];
+    w.hover = [w.trav[1], w.trav[1] + p.hover * pace];
+    w.mark = [w.hover[1], w.hover[1] + p.mark * pace];
+    w.arrow = [w.mark[1] + 70, w.mark[1] + 70 + p.arrow * pace];
+    w.write = [w.arrow[1] + 60, w.arrow[1] + 60 + p.write * pace * Math.max(0.7, m.note.length / 16)];
     w.slash = m.mood === 2 ? [w.write[1] + 40, w.write[1] + 210] : [w.write[1], w.write[1]];
     w.shake = m.mood === 2 ? [w.slash[1] + 40, w.slash[1] + 440] : [w.slash[1], w.slash[1]];
     cur = w.shake[1] + 60;
   });
-  // Finale: the pen leaves, a rubber stamp slams the grade down and lifts off,
-  // then the pen comes back, points at "Your turn", taps it, waits, and leaves.
+  // Finale: the pen leaves, a rubber stamp slams the grade down and lifts off.
+  // First look only: the pen comes back, taps "Your turn", waits, and leaves.
   const toRest: Win = [cur, cur + 380];
   const drop: Win = [toRest[1] + 120, toRest[1] + 400];
   const stampAt = drop[1];
   const lift: Win = [stampAt + 300, stampAt + 640];
-  const loopEnd = stampAt + 260 + HOLD_MS;
+  const loopEnd = loop ? stampAt + 260 + HOLD_MS : lift[1] + 40;
   const toBtn: Win = [lift[1] + 60, lift[1] + 540];
   const taps: Win = [toBtn[1] + 80, toBtn[1] + 780];
   const exit: Win = [loopEnd - 900, loopEnd - 450];
@@ -172,10 +352,15 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
     const r = seeded(97 + m.id * 31);
     const lines: Pt[][] = [];
     const kind = m.kind === 'circle' && rects.length > 1 ? 'underline' : m.kind;
-    rects.forEach((g) => {
+    (kind === 'insert' ? rects.slice(-1) : rects).forEach((g) => {
       const pts: Pt[] = [];
       lines.push(pts);
-      if (kind === 'circle') {
+      if (kind === 'insert') {
+        // A proofreader's caret under the end of the line: something's missing here.
+        const x = g.x + 6, y = g.y + g.h + 2;
+        pts.push([x - 7, y + 3], [x, y - 9], [x + 7, y + 3]);
+        if (m.mood >= 1) pts.push([x - 6, y + 4], [x + 1, y - 8]);
+      } else if (kind === 'circle') {
         const cx = g.x + g.w / 2, cy = g.y + g.h / 2 + 1;
         const rx = g.w / 2 + 10, ry = g.h / 2 + 7;
         // Calm: one loop. Irritated: a long overlap. Aggravated: round twice, harder.
@@ -227,50 +412,53 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
     story.style.setProperty('--gap', stacked ? '0px' : gap + 'px');
     const rowH = 34;
     story.style.setProperty('--below', stacked ? 22 + 14 + marks.length * rowH + 'px' : '44px');
-    const sr = story.getBoundingClientRect();
-    if (!sr.width) return;
-    const z = (story as unknown as { currentCSSZoom?: number }).currentCSSZoom ?? (sr.width / story.offsetWidth || 1);
-    const rel = (r: DOMRect): Rect => ({ x: (r.left - sr.left) / z, y: (r.top - sr.top) / z, w: r.width / z, h: r.height / z });
+    const { ok: sized, rel } = relTo(story);
+    if (!sized) return;
     const col = rel(els.col.getBoundingClientRect());
     const colL = col.x, colR = col.x + col.w, colB = col.y + col.h;
     const fs = stacked ? 24 : g >= 250 ? 27 : 24;
     const nwMax = stacked ? col.w : g + gap - 36;
     const placed: Record<'left' | 'right', number[]> = { left: [], right: [] };
+    let lowest = 0;
     marks.forEach((m, i) => {
-      const rects = [...m.el.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1);
+      const rects = [...m.el.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1 || m.kind === 'insert');
       if (!rects.length) return;
+      if (m.kind === 'insert') rects.splice(0, rects.length - 1, ...[]); // the caret sits at the very end
+      const box = m.kind === 'insert' ? [{ ...rects[0], x: rects[0].x, w: 14 }] : rects;
       // A phrase that wraps gets one stroke per line, drawn one after the other.
-      const lines = shape(m, rects);
+      const lines = shape(m, box);
       m.pts = lines.flat();
       m.markPath.setAttribute('d', lines.map(d).join(' '));
       m.noteEl.style.fontSize = fs + 'px';
-      m.noteEl.textContent = stacked ? `${i + 1}. ${m.note}` : m.note;
+      m.noteEl.textContent = stacked || !loop ? `${m.label}. ${m.note}` : m.note;
       m.noteEl.style.width = ''; // measure the natural width, not the last one set
       m.nw = Math.min(nwMax, m.noteEl.offsetWidth);
       m.fs = fs;
       if (stacked) {
-        const last = rects[rects.length - 1];
-        m.numEl.textContent = String(i + 1);
+        const lastR = box[box.length - 1];
+        m.numEl.textContent = m.label;
         m.numEl.hidden = false;
-        m.num = [last.x + last.w + 1, last.y - 12];
+        m.num = [lastR.x + lastR.w + 1, lastR.y - 12];
         m.numEl.style.left = m.num[0].toFixed(1) + 'px';
         m.numEl.style.top = m.num[1].toFixed(1) + 'px';
         m.nx = colL;
-        m.ny = colB + 14 + i * rowH;
+        // Listed under the story in number order, whatever order the pen marks them in.
+        m.ny = colB + 14 + marks.filter((o) => +o.label < +m.label).length * rowH;
         m.arrowPath.setAttribute('d', '');
         m.headPath.setAttribute('d', '');
       } else {
         m.numEl.hidden = true;
-        const r0 = rects[0], rl = rects[rects.length - 1];
+        const r0 = box[0], rl = box[box.length - 1];
         const side = r0.x - colL <= colR - (rl.x + rl.w) ? 'left' : 'right';
         const gr = side === 'left' ? r0 : rl;
         // A mark that starts its line gets a straight arrow; any other runs in the gap above its line and hooks down.
-        const direct = side === 'left' && gr.x - colL < 4;
+        const direct = side === 'left' && gr.x - colL < 20;
         const gapY = gr.y - 11;
         let ny = Math.max(6, (direct ? gr.y + gr.h / 2 : gapY) - 18);
         const list = placed[side];
         if (list.length && ny < list[list.length - 1] + fs * 2.15) ny = list[list.length - 1] + fs * 2.15;
         list.push(ny);
+        lowest = Math.max(lowest, ny + fs * 1.5);
         const nwBox = nwMax;
         const boxX = side === 'left' ? colL - 52 - nwBox : colR + 52;
         m.nx = side === 'left' ? boxX + nwBox - m.nw : boxX;
@@ -283,6 +471,11 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
           P1 = [gr.x - (m.kind === 'circle' ? 14 : 8), gr.y + gr.h / 2 + (m.kind === 'underline' ? 6 : 0)];
           C1 = [P0[0] + 12, P0[1] - 10];
           C2 = [P1[0] - 16, P1[1] - 10];
+        } else if (m.kind === 'insert') {
+          // Comes in under the line to the caret.
+          P1 = [gr.x + 6 + dir * -10, gr.y + gr.h + 10];
+          C1 = [side === 'left' ? colL - 4 : colR + 4, gr.y + gr.h + 16];
+          C2 = [P1[0] - dir * 30, P1[1] + 8];
         } else {
           const tx = gr.x + gr.w / 2 + (m.kind === 'circle' ? -dir * 4 : 0);
           P1 = [tx, gr.y - (m.kind === 'circle' ? 4 : 1)];
@@ -307,15 +500,20 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
         m.slashPath.setAttribute('d', d(m.slashPts));
       } else m.slashPath.setAttribute('d', '');
     });
-    const causeTop = rel((complaint ? els.complaint : els.cause).getBoundingClientRect()).y; // top of the story text
+    const textTop = rel((complaint ? els.complaint : els.cause).getBoundingClientRect()).y;
     // Wide: top corner of a margin no note uses; else under the story.
-    const free = (side: 'left' | 'right') => placed[side].every((y) => y > causeTop + 110);
+    const free = (side: 'left' | 'right') => placed[side].every((y) => y > textTop + 110);
     stampXY = stacked
-      ? [colR - 64, causeTop - 2]
-      : free('right') ? [colR + 70, causeTop - 14]
-      : free('left') ? [colL - 170, causeTop - 14]
+      ? [colR - 64, textTop - 2]
+      : free('right') ? [colR + 70, textTop - 14]
+      : free('left') ? [colL - 170, textTop - 14]
       : [(colL + colR) / 2 - 48, colB + 8];
-    if (!stacked && !free('right') && !free('left')) story.style.setProperty('--below', '130px');
+    if (!stacked) {
+      // Room under the story for notes that ran long, and for the stamp when it lands there.
+      let below = Math.max(44, lowest - colB + 16);
+      if (!free('right') && !free('left')) below = Math.max(below, 130);
+      story.style.setProperty('--below', Math.ceil(below) + 'px');
+    }
     exitPt = [colR + (stacked ? 0 : 120), colB + 30];
     const btn = els.root.querySelector('.sc-live-go');
     if (btn) { const b = rel(btn.getBoundingClientRect()); btnPt = [b.x + b.w / 2 + Math.min(150, b.w * 0.3), b.y + b.h / 2 + 2]; }
@@ -324,17 +522,16 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
 
   // ---- drawing at time t
   let lastK = -1;
-  let lastPen: Pt | null = null;
-  let lean = 0;
   type PenPose = { p: Pt; lift: number; mood: Mood; rot?: number };
+  const paint = penPainter(els.pen);
   const stampMid = (): Pt => { const r = stacked ? 33 : 48; return [stampXY[0] + r, stampXY[1] + r]; };
   const penAt = (t: number): PenPose | null => {
     for (let i = 0; i < marks.length; i++) {
       const m = marks[i], w = m.w;
       const start = m.pts[0];
       const hoverPt: Pt = [start[0] - 3, start[1] - 9];
-      const prevEnd = i ? endPt(marks[i - 1]) : hoverPt;
-      if (t < w.trav[0]) return null;
+      const prevEnd = i ? endPt(marks[i - 1]) : opts.from ?? hoverPt;
+      if (t < w.trav[0]) return opts.from && i === 0 ? { p: opts.from, lift: 6, mood: 0 } : null;
       // Travel with a little momentum: lands past the spot and settles back.
       if (t < w.trav[1]) return { p: lerp(prevEnd, hoverPt, overshoot(prog(t, w.trav))), lift: 7, mood: m.mood };
       if (t < w.hover[1]) {
@@ -374,15 +571,14 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
         return { p: [e[0] + 6, e[1] - 6], lift: 8, mood: 2, rot: 16 * Math.sin(q * Math.PI * 6) * (1 - q) };
       }
     }
-    if (!marks.length) return null;
-    const lastEnd = endPt(marks[marks.length - 1]);
+    const lastEnd = marks.length ? endPt(marks[marks.length - 1]) : opts.from;
+    if (!lastEnd) return null;
     const sm = stampMid();
-    // The pen leaves the card before the stamp comes down, and comes back after it lifts.
+    // The pen leaves the card before the stamp comes down (and, in the first look, comes back after it lifts).
     const off: Pt = [els.story.offsetWidth + 80, Math.max(0, sm[1] - 120)];
     if (t < toRest[1]) return { p: lerp(lastEnd, off, smooth(prog(t, toRest))), lift: 12, mood: 0 };
-    if (t < toBtn[0]) return null;
-    const from = off;
-    if (t < toBtn[1]) return { p: lerp(from, btnPt, overshoot(prog(t, toBtn))), lift: 9, mood: 0 };
+    if (!loop || t < toBtn[0]) return null;
+    if (t < toBtn[1]) return { p: lerp(off, btnPt, overshoot(prog(t, toBtn))), lift: 9, mood: 0 };
     if (t < taps[1]) return { p: btnPt, lift: 9 * (1 - tap(prog(t, taps), 2)), mood: 0 };
     if (t < exit[0]) return { p: [btnPt[0] + 2 * Math.sin(t / 260), btnPt[1] - 2 + 2 * Math.cos(t / 330)], lift: 9, mood: 0 };
     if (t < exit[1]) return { p: lerp(btnPt, exitPt, smooth(prog(t, exit))), lift: 12, mood: 0 };
@@ -407,11 +603,15 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
         tok.typed.data = tok.text.slice(0, n);
         tok.rest.textContent = tok.text.slice(n);
         if (k >= tok.start && k < tok.start + tok.text.length) caretTok = tok;
-        else if (!caretTok && k === tok.start + tok.text.length && (k === all.length)) caretTok = tok;
+        else if (!caretTok && k === tok.start + tok.text.length && k === all.length) caretTok = tok;
       });
-      if (caretTok && !still) (caretTok as Tok).el.insertBefore(caret, (caretTok as Tok).rest);
+      if (caretTok && !still && loop) (caretTok as Tok).el.insertBefore(caret, (caretTok as Tok).rest);
+      // The field being typed into looks focused, like a real form.
+      const typing = loop && !still && caretTok ? (caretTok as Tok).field : -1;
+      fieldEls(els).forEach((f, i) => f.classList.toggle('is-focus', i === typing));
     }
-    caret.hidden = still || t >= typeEnd;
+    caret.hidden = still || !loop || t >= typeEnd;
+    if (loop && t >= typeEnd) fieldEls(els).forEach((f) => f.classList.remove('is-focus'));
     if (!ok) return;
     marks.forEach((m) => {
       const w = m.w;
@@ -429,25 +629,12 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
       m.noteEl.style.clipPath = `inset(-12px calc(${((1 - pw) * 100).toFixed(1)}% - ${(12 * pw).toFixed(1)}px) -12px -12px)`;
       draw(m.slashPath, attack(prog(t, w.slash)));
     });
-    const pen = still ? null : penAt(t);
-    els.pen.classList.toggle('is-on', !!pen);
-    if (pen) {
-      els.pen.classList.toggle('is-up', pen.lift > 2);
-      const wob = pen.lift > 2 ? 0 : (pen.mood === 2 ? 7 : 3) * Math.sin(t / (pen.mood === 2 ? 40 : 70));
-      // Leans into the direction it's moving.
-      const vx = lastPen ? pen.p[0] - lastPen[0] : 0;
-      lean += (Math.max(-12, Math.min(12, vx * 1.2)) - lean) * 0.25;
-      lastPen = pen.p;
-      const ang = -38 + wob - (pen.mood === 2 ? 6 : 0) + lean + (pen.rot ?? 0);
-      els.pen.style.transform = `translate(${pen.p[0].toFixed(1)}px, ${(pen.p[1] - 6.5 - pen.lift).toFixed(1)}px) rotate(${ang.toFixed(1)}deg)`;
-    } else lastPen = null;
+    paint(still ? null : penAt(t), t);
     // The impression appears the instant the stamp hits.
     const hit = still || t >= stampAt;
-    const ps = hit ? 1 : 0;
     const settle = still ? 0 : 1 - clamp((t - stampAt) / 140);
     els.stamp.style.left = stampXY[0].toFixed(0) + 'px';
     els.stamp.style.top = stampXY[1].toFixed(0) + 'px';
-    els.stamp.style.opacity = hit ? '1' : '0';
     els.stamp.style.transform = `rotate(-9deg) scale(${(1 + 0.05 * (hit ? settle : 0)).toFixed(3)})`;
     // The rubber stamp: drops in fast, squashes on impact, lifts away.
     const sm = stampMid();
@@ -464,9 +651,9 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
     // The card jumps a little on impact.
     const shake = still || t < stampAt ? 0 : 1 - clamp((t - stampAt) / 240);
     els.story.style.transform = shake > 0 ? `translate(${(3 * Math.sin(t / 9) * shake).toFixed(1)}px, ${(2 * shake * Math.sin((t - stampAt) / 30)).toFixed(1)}px)` : '';
-    const fade = still ? 1 : 1 - clamp((t - (loopEnd - FADE_MS)) / FADE_MS);
-    [els.ink, els.notes, els.stamp, els.complaint, els.cause, els.corr].forEach((x) => ((x as HTMLElement).style.opacity = fade < 1 ? fade.toFixed(2) : ''));
-    if (ps > 0 && fade === 1) els.stamp.style.opacity = '1';
+    const fade = still || !loop ? 1 : 1 - clamp((t - (loopEnd - FADE_MS)) / FADE_MS);
+    [els.ink, els.notes, els.complaint, els.cause, els.corr].forEach((x) => ((x as HTMLElement).style.opacity = fade < 1 ? fade.toFixed(2) : ''));
+    els.stamp.style.opacity = hit ? (fade < 1 ? fade.toFixed(2) : '1') : '0';
   }
 
   // ---- loop
@@ -474,12 +661,16 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
   let now = 0;
   let last = 0;
   let still = false;
+  let done = false;
+  const finish = () => { if (!done) { done = true; opts.onDone?.(); } };
   const ro = new ResizeObserver(() => { measure(); render(now, still); });
   const tick = (ts: number) => {
     // Capped step: a hidden tab (no frames) resumes where it left off.
     now += last ? Math.min(ts - last, 64) : 0;
     last = ts;
-    if (now > loopEnd) { now = 0; lastK = -1; }
+    if (loop && now > loopEnd) { now = 0; lastK = -1; }
+    if (!loop && now >= stampAt + 350) finish();
+    if (!loop && now >= loopEnd) { now = loopEnd; render(now); return; }
     render(now);
     raf = requestAnimationFrame(tick);
   };
@@ -493,7 +684,7 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
       const again = () => { measure(); lastK = -1; render(now, still); };
       document.fonts?.ready.then(again);
       document.fonts?.load(`700 27px Caveat`).then(again, () => {});
-      if (reduced) { now = loopEnd; render(now, true); return; }
+      if (reduced) { now = loopEnd; render(now, true); finish(); return; }
       now = 0;
       last = 0;
       render(0);
@@ -503,8 +694,6 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
       cancelAnimationFrame(raf);
       ro.disconnect();
     },
-    // for tests and screenshots
-    at(t: number) { now = t; render(t); },
     get length() { return loopEnd; },
   };
 }
