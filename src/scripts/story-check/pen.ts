@@ -317,6 +317,7 @@ export function createPen(
     });
   };
   let offset = 0;
+  const pendingExtras: { el: HTMLElement; n: number }[] = [];
   const fill = (host: HTMLElement, text: string, field: Field, fieldIdx: number) => {
     host.textContent = '';
     const mine = notes.filter((n) => n.field === field);
@@ -344,8 +345,7 @@ export function createPen(
       toks.push({ text: piece, el, typed, rest, start: offset + cuts[i], field: fieldIdx });
       if (m) { el.dataset.mark = String(m.note.n); addMark(m.note, el, true, marks.length + 1); }
       const x = extra.find((e) => e.start === cuts[i]);
-      const owner = x && marks.find((k) => k.el.dataset.mark === String(x.note.n));
-      if (owner) { el.dataset.mark = owner.el.dataset.mark; owner.extras.push(el); }
+      if (x) pendingExtras.push({ el, n: x.note.n });
     }
     if (inserts.length) {
       const end = document.createElement('span');
@@ -358,6 +358,11 @@ export function createPen(
   fill(els.complaint, complaint, 'complaint', 0);
   fill(els.cause, cause, 'cause', 1);
   fill(els.corr, correction, 'correction', 2);
+  // Extra phrases join their mark once every mark exists, whichever comes first in the text.
+  pendingExtras.forEach(({ el, n }) => {
+    const owner = marks.find((k) => k.el.dataset.mark === String(n));
+    if (owner) { el.dataset.mark = String(n); owner.extras.push(el); }
+  });
   els.stamp.className = `sc-stamp sc-live-stamp${stampGood ? ' is-good' : ''}`;
   els.stamp.innerHTML = stampHtml;
   const caret = document.createElement('span');
