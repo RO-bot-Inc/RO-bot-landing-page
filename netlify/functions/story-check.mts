@@ -42,15 +42,21 @@ function stripVins(text: string): string {
 }
 
 // The complaint is optional context for the grader (the rubric never grades it).
+// Short is fine; empty after cleaning counts as not given.
 function readOptional(value: unknown): string {
-  if (value == null || (typeof value === 'string' && value.trim() === '')) return '';
-  return readField(value);
+  if (value == null) return '';
+  if (typeof value !== 'string') throw new ScError('bad_input', 400);
+  return clean(value).slice(0, MAX_FIELD_CHARS);
+}
+
+function clean(value: string): string {
+  // eslint-disable-next-line no-control-regex
+  return stripVins(value.replace(/\r\n?/g, '\n').replace(/[\x00-\x09\x0b-\x1f\x7f<>]/g, ' ').replace(/[ \t]+/g, ' ').trim());
 }
 
 function readField(value: unknown): string {
   if (typeof value !== 'string') throw new ScError('bad_input', 400);
-  // eslint-disable-next-line no-control-regex
-  const text = stripVins(value.replace(/\r\n?/g, '\n').replace(/[\x00-\x09\x0b-\x1f\x7f<>]/g, ' ').replace(/[ \t]+/g, ' ').trim());
+  const text = clean(value);
   if (text.length < 2 || text.length > MAX_FIELD_CHARS) throw new ScError('bad_input', 400);
   return text;
 }
