@@ -36,7 +36,6 @@ const el = {
   aToggle: $('sc-a-toggle'),
   a: $('sc-a'),
   preview: $('sc-preview'),
-  try: $('sc-try'),
   grading: $('sc-grading'),
   results: $('sc-results'),
   summary: $('sc-summary'),
@@ -445,14 +444,6 @@ el.sample.addEventListener('click', () => {
   el.correction.value = s.correction;
   syncFilled();
   showError('');
-});
-
-el.try.addEventListener('click', () => {
-  const s = SAMPLES[nextSample()];
-  el.cause.value = s.cause;
-  el.correction.value = s.correction;
-  syncFilled();
-  grade(s.cause, s.correction);
 });
 
 el.edit.addEventListener('submit', (e) => {

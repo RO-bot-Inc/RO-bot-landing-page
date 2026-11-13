@@ -81,7 +81,8 @@ export default async (req: Request, context: Context) => {
         await reserveDaily(cfg);
         result = cfg.mode === 'live' ? await gradeLive(cfg, cause, correction) : gradeMock(cause, correction);
       }
-      const next = { used: session.used + 1, unlocked: session.unlocked };
+      // Samples are pre-graded and cost nothing, so they don't use up a free check.
+      const next = { used: session.used + (sample ? 0 : 1), unlocked: session.unlocked };
       console.log(`[story-check] graded mode=${sample ? 'sample' : cfg.mode} gpa=${result.gpa} notes=${result.notes.length} ms=${Date.now() - started}`);
       return json(
         { result, ticket: signTicket(cfg, result), remaining: remaining(cfg, next), mode: cfg.mode },
