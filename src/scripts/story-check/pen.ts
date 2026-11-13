@@ -288,7 +288,7 @@ export function createPen(
       el.append(typed, rest);
       host.appendChild(el);
       toks.push({ text: piece, el, typed, rest, start: offset + cuts[i], field: fieldIdx });
-      if (m) addMark(m.note, el, true, marks.length + 1);
+      if (m) { el.dataset.mark = String(m.note.n); addMark(m.note, el, true, marks.length + 1); }
     }
     if (inserts.length) {
       const end = document.createElement('span');

@@ -270,6 +270,8 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-live-corr { margin-bottom: 0; }
     .sc-live.is-stacked .sc-live-cw .sc-live-text, .sc-live.is-stacked .sc-live-cw[hidden] ~ .sc-live-cause { padding-right: 76px; }
     .sc-review .sc-live-story { cursor: default; }
+    .sc-review [data-mark] { cursor: pointer; border-radius: 3px; transition: background 0.15s; }
+    .sc-review [data-mark].is-on { background: rgba(255,210,63,0.55); }
     .sc-rv-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #333132; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sc-rv-status i { flex-shrink: 0; width: 9px; height: 9px; border-radius: 50%; background: #B9314F; animation: sc-blink 1.1s ease-in-out infinite; }
     .sc-cols.is-wide .sc-right { flex-basis: 100%; }

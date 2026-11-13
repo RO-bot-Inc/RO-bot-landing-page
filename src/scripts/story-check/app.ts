@@ -270,6 +270,8 @@ function renderNotes() {
 function pick(n: number) {
   state.active = state.active === n ? null : n;
   renderNotes();
+  // Light up the phrase the note is about, in the marked-up story.
+  el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => m.classList.toggle('is-on', Number(m.dataset.mark) === state.active));
 }
 
 // ------------------------------------------------------------------ grading
@@ -502,8 +504,8 @@ el.aToggle.addEventListener('click', () => renderA(el.a.hidden !== false));
 
 // Note cards and the numbered dots in the story share one handler.
 document.addEventListener('click', (e) => {
-  const t = (e.target as HTMLElement).closest<HTMLElement>('[data-note]');
-  if (t) pick(Number(t.dataset.note));
+  const t = (e.target as HTMLElement).closest<HTMLElement>('[data-note], #sc-review [data-mark]');
+  if (t) pick(Number(t.dataset.note ?? t.dataset.mark));
 });
 
 el.gate.addEventListener('submit', sendReport);
