@@ -259,11 +259,12 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         if (list.length && ny < list[list.length - 1] + fs * 2.15) ny = list[list.length - 1] + fs * 2.15;
         list.push(ny);
         const nwBox = nwMax;
-        const boxX = side === 'left' ? colL - 36 - nwBox : colR + 36;
+        const boxX = side === 'left' ? colL - 52 - nwBox : colR + 52;
         m.nx = side === 'left' ? boxX + nwBox - m.nw : boxX;
         m.ny = ny;
         const dir = side === 'left' ? 1 : -1;
-        const P0: Pt = side === 'left' ? [boxX + nwBox + 4, ny + fs * 0.66] : [boxX - 6, ny + fs * 0.66];
+        // The arrow starts a little clear of the note's real edge.
+        const P0: Pt = side === 'left' ? [m.nx + m.nw + 12, ny + fs * 0.66] : [m.nx - 12, ny + fs * 0.66];
         let P1: Pt, C1: Pt, C2: Pt;
         if (direct) {
           P1 = [gr.x - (m.kind === 'circle' ? 14 : 8), gr.y + gr.h / 2 + (m.kind === 'underline' ? 6 : 0)];
