@@ -176,6 +176,8 @@ export function fitColumns(box: HTMLElement, root: HTMLElement = box): boolean {
   root.classList.toggle('is-stacked', stacked);
   box.style.setProperty('--g', stacked ? '0px' : g + 'px');
   box.style.setProperty('--gap', stacked ? '0px' : gap + 'px');
+  // The story column's width, for things sized to match the fields ("Try again").
+  root.style.setProperty('--colw', (stacked ? inner : inner - 2 * (g + gap)) + 'px');
   return stacked;
 }
 
