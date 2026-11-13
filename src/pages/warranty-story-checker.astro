@@ -74,6 +74,7 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
       <section class="sc-card sc-left" aria-labelledby="sc-story-h">
         <div class="sc-card-head">
           <h2 id="sc-story-h" class="sc-card-title">Your story</h2>
+          <span class="sc-live-tag" id="sc-live-tag" hidden><span class="sc-live-led" aria-hidden="true"></span>Live sample: Misfire</span>
           <span class="sc-head-right" id="sc-edit-tools">
             <span class="sc-sample-tag" id="sc-sample-tag" hidden></span>
             <button type="button" class="sc-pill" id="sc-sample">Paste a sample</button>
@@ -96,6 +97,18 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
           <p class="sc-fine"><span id="sc-left">5 of 5 free checks left today</span> · No customer names, please. We don't keep your story.</p>
         </form>
 
+        <!-- First look: the misfire sample red-pens itself on a loop until the visitor takes a turn -->
+        <div class="sc-live" id="sc-live" hidden>
+          <div class="sc-marked sc-live-story">
+            <div class="sc-stamp sc-live-stamp" id="sc-live-stamp" aria-hidden="true"></div>
+            <p class="sc-ml">Cause</p>
+            <p class="sc-mono sc-mono-cause" id="sc-live-cause"></p>
+            <p class="sc-ml">Correction</p>
+            <p class="sc-mono" id="sc-live-corr"></p>
+          </div>
+          <div class="sc-live-foot"><button type="button" class="sc-live-go" id="sc-live-go">Your turn: paste your own story</button></div>
+        </div>
+
         <div class="sc-marked" id="sc-marked" hidden>
           <div class="sc-stamp" id="sc-stamp" aria-live="polite"></div>
           <p class="sc-ml">Cause</p>
@@ -109,12 +122,9 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
 
       <!-- RIGHT: what the auditor would say -->
       <div class="sc-right">
-        <div class="sc-card sc-dashed" id="sc-preview">
-          <p class="sc-strong">You'll get it back red-penned:</p>
-          <div class="sc-preview-box">
-            Replaced spark plugs. <span class="sc-red">Verified proper operation</span><span class="sc-dot sc-dot-static">5</span>.
-            <p class="sc-pen sc-pen-preview">5. How? Road test? Miles?</p>
-          </div>
+        <div class="sc-live-notes" id="sc-live-notes" hidden>
+          <p class="sc-live-h">What the auditor writes in the margin</p>
+          <ol class="sc-live-list" id="sc-live-list"></ol>
         </div>
 
         <div class="sc-card sc-grading" id="sc-grading" hidden>
@@ -238,11 +248,30 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-a p { margin: 0 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13.5px; line-height: 1.75; color: #333132; }
     .sc-a p strong { font-family: 'DM Sans', sans-serif; color: #000; }
     .sc-good { background: rgba(120,188,97,0.28); color: #000; border-radius: 3px; padding: 0 2px; }
-    .sc-dashed { border-style: dashed; border-color: rgba(0,0,0,0.25); padding: 18px; }
-    .sc-strong { margin: 0 0 12px; font-weight: 700; }
-    .sc-preview-box { background: #fff; border-radius: 8px; padding: 14px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 14px; line-height: 1.8; border: 1px solid rgba(0,0,0,0.08); }
+    .sc-live-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #333132; }
+    .sc-live-led { width: 8px; height: 8px; border-radius: 50%; background: #B9314F; animation: sc-led 1.6s ease-in-out infinite; }
+    @keyframes sc-led { 50% { opacity: 0.25; } }
+    .sc-live-story { cursor: text; }
+    .sc-live-seg { transition: opacity 0.25s; }
+    .sc-live-seg.is-off { opacity: 0; }
+    .sc-live .sc-red { text-decoration-color: transparent; transition: text-decoration-color 0.3s; }
+    .sc-live .sc-red.is-marked { text-decoration-color: #B9314F; }
+    .sc-live .sc-dot { cursor: default; width: 0; margin-left: 0; overflow: hidden; transform: scale(0); transition: transform 0.25s cubic-bezier(.3,1.6,.5,1); }
+    .sc-live .sc-dot.is-marked { width: 18px; margin-left: 2px; transform: scale(1); }
+    .sc-live-stamp { opacity: 0; transform: rotate(8deg) scale(1.7); transition: opacity 0.2s, transform 0.3s cubic-bezier(.3,1.6,.5,1); }
+    .sc-live-stamp.is-in { opacity: 1; transform: rotate(8deg) scale(1); }
+    .sc-live-foot { padding: 0 18px 18px; }
+    .sc-live-go { width: 100%; min-height: 56px; border: 2px dashed #9B9799; background: #FAFAFA; border-radius: 12px; font: inherit; font-size: 16px; font-weight: 700; color: #000; cursor: pointer; }
+    .sc-live-go:hover { border-color: #000; background: #fff; }
+    .sc-live-notes { display: flex; flex-direction: column; gap: 10px; }
+    .sc-live-h { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6A6C; }
+    .sc-live-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .sc-live-list li { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 8px 14px; opacity: 0.15; transform: translateX(8px); transition: opacity 0.25s, transform 0.25s; }
+    .sc-live-list li.is-in { opacity: 1; transform: none; }
+    .sc-live-list .sc-dot { cursor: default; flex: none; width: 26px; height: 26px; font-size: 13px; vertical-align: baseline; margin: 0; }
+    .sc-live-list .sc-pen { font-size: 26px; }
+    @media (prefers-reduced-motion: reduce) { .sc-live-led { animation: none; } .sc-live *, .sc-live-list li { transition: none !important; } }
     .sc-pen { font-family: 'Caveat', cursive; font-weight: 700; color: #B9314F; line-height: 1.1; }
-    .sc-pen-preview { margin: 6px 0 0; font-size: 24px; }
     .sc-pen-big { font-size: 30px; }
     .sc-pen-teal { margin: 0; font-size: 28px; color: #000; }
     .sc-pen-thanks { margin: 0 0 6px; font-size: 34px; color: #000; }
