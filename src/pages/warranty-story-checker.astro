@@ -86,15 +86,15 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
         <form class="sc-edit" id="sc-edit" novalidate>
           <div class="sc-field">
             <label for="sc-complaint"><span class="sc-tag">Complaint</span></label>
-            <textarea id="sc-complaint" rows="2" maxlength="2000" placeholder="What the customer said."></textarea>
+            <textarea id="sc-complaint" rows="1" maxlength="2000" placeholder="What the customer said."></textarea>
           </div>
           <div class="sc-field">
             <label for="sc-cause"><span class="sc-tag">Cause</span></label>
-            <textarea id="sc-cause" rows="5" maxlength="2000" placeholder="What you checked, what you found, what failed."></textarea>
+            <textarea id="sc-cause" rows="3" maxlength="2000" placeholder="What you checked, what you found, what failed."></textarea>
           </div>
           <div class="sc-field">
             <label for="sc-correction"><span class="sc-tag">Correction</span></label>
-            <textarea id="sc-correction" rows="3" maxlength="2000" placeholder="What you did and how you confirmed the fix."></textarea>
+            <textarea id="sc-correction" rows="2" maxlength="2000" placeholder="What you did and how you confirmed the fix."></textarea>
           </div>
           <div class="sc-hp" aria-hidden="true"><label>Leave blank <input id="sc-website" tabindex="-1" autocomplete="off"></label></div>
           <button type="submit" class="sc-go" id="sc-go">Grade my story</button>
@@ -140,6 +140,7 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
             <svg class="sc-live-ink" aria-hidden="true"></svg>
             <div class="sc-live-notes" aria-hidden="true"></div>
             <div class="sc-stamp sc-live-stamp" id="sc-rv-stamp" role="img"></div>
+            <button type="button" class="sc-a-toggle" id="sc-a-toggle" hidden>See this story written to an A →</button>
             <div class="sc-live-pen" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
             <div class="sc-live-stamper" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           </div>
@@ -149,20 +150,10 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
       <!-- RIGHT: what the auditor would say -->
       <div class="sc-right" id="sc-right">
         <div class="sc-results" id="sc-results" hidden>
+          <div class="sc-a" id="sc-a" hidden></div>
           <div class="sc-card sc-summary" id="sc-summary"></div>
           <div class="sc-clean" id="sc-clean" hidden><p class="sc-pen sc-pen-teal">Nothing to red-pen. Nice work.</p></div>
           <div class="sc-notes" id="sc-notes"></div>
-          <button type="button" class="sc-a-toggle" id="sc-a-toggle" hidden>See this story written to an A →</button>
-          <div class="sc-a" id="sc-a" hidden></div>
-          <form class="sc-gate" id="sc-gate" novalidate hidden>
-            <label for="sc-email" class="sc-gate-title">Email me every fix, to forward to the tech</label>
-            <div class="sc-gate-row">
-              <input id="sc-email" type="email" autocomplete="email" placeholder="Work email" required>
-              <button type="submit" id="sc-send">Send</button>
-            </div>
-            <p class="sc-gate-err" id="sc-gate-err" hidden></p>
-          </form>
-          <div class="sc-sent" id="sc-sent" hidden></div>
           <button type="button" class="sc-another" id="sc-another">Check another story</button>
         </div>
       </div>
@@ -233,7 +224,9 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-sample-tag { font-size: 13px; color: #333132; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sc-pill { flex-shrink: 0; background: #EBEAEA; border: 0; border-radius: 999px; padding: 6px 12px; font: inherit; font-size: 13px; font-weight: 600; color: #000; cursor: pointer; min-height: 32px; }
     .sc-pill:hover { background: #DEDCDD; }
-    .sc-edit { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; margin: 0; }
+    /* Same column as the graded card (pen.ts fitColumns sets --g and --gap). */
+    .sc-edit { padding: 22px 20px; display: grid; grid-template-columns: var(--g, 0px) minmax(0, 1fr) var(--g, 0px); column-gap: var(--gap, 0px); row-gap: 16px; margin: 0; }
+    .sc-edit > * { grid-column: 2; }
     .sc-field { display: flex; flex-direction: column; gap: 6px; }
     /* Section labels read as tags, never as story text: white on black. */
     .sc-field label { display: flex; align-items: center; gap: 8px; }
@@ -243,7 +236,9 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-edit .sc-go { width: 50%; align-self: center; }
     .sc-cta { display: block; margin-top: 16px; padding: 20px 22px; border-radius: 14px; background: #000; color: #fff; text-align: center; font-size: 18px; font-weight: 800; line-height: 1.3; text-decoration: none; }
     .sc-cta:hover { background: #333132; }
-    .sc-field textarea { font: inherit; font-size: 16px; line-height: 1.55; padding: 12px; border: 1px solid rgba(0,0,0,0.18); border-radius: 10px; resize: vertical; color: #000; }
+    .sc-field textarea { box-sizing: border-box; display: block; width: 100%; margin: 0; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 17px; line-height: 2.4; padding: 4px 14px; border: 1px solid rgba(0,0,0,0.18); border-radius: 10px; resize: none; overflow: hidden; color: #000; background: #fff; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .sc-edit.is-stacked .sc-field textarea { font-size: 15px; line-height: 2.3; }
+    .sc-edit.is-stacked #sc-complaint { padding-right: 76px; }
     .sc-body textarea::placeholder, .sc-body input::placeholder { color: #9B9799; }
     .sc-body textarea:focus, .sc-body input:focus { outline: 2px solid #000; outline-offset: 0; border-color: transparent; }
     .sc-go { font: inherit; font-weight: 700; font-size: 17px; padding: 14px; border-radius: 10px; border: 0; cursor: pointer; min-height: 52px; color: #fff; background: #000; }
@@ -260,14 +255,15 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-stamp-g { font-size: 16px; }
     .sc-ml { margin: 0 0 6px; }
     .sc-mono { margin: 0; font-size: 15.5px; line-height: 1.95; font-family: ui-monospace, 'SF Mono', Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
-    .sc-a-toggle { margin-top: 16px; background: none; border: 0; padding: 6px 0; font: inherit; font-size: 14px; font-weight: 700; color: #000; cursor: pointer; }
-    .sc-a { margin-top: 8px; border: 2px solid #78BC61; border-radius: 10px; background: #fff; padding: 14px 14px 12px; }
+    .sc-a-toggle { position: absolute; z-index: 2; white-space: nowrap; background: #fff; border: 1px solid #78BC61; border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 13.5px; font-weight: 700; color: #000; cursor: pointer; }
+    .sc-a-toggle:hover { background: rgba(120,188,97,0.2); }
+    .sc-a { border: 2px solid #78BC61; border-radius: 10px; background: #fff; padding: 14px 14px 12px; }
     .sc-a-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; color: #000; }
     .sc-a-head b { font-size: 24px; font-weight: 800; }
     .sc-a p { margin: 0 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13.5px; line-height: 1.75; color: #333132; }
     .sc-a p strong { font-family: 'DM Sans', sans-serif; color: #000; }
     .sc-good { background: rgba(120,188,97,0.28); color: #000; border-radius: 3px; padding: 0 2px; }
-    .sc-live-story { position: relative; cursor: text; display: grid; grid-template-columns: var(--g, 0px) minmax(0, 1fr) var(--g, 0px); column-gap: var(--gap, 0px); padding: 22px 20px var(--below, 22px); }
+    .sc-live-story { position: relative; cursor: text; display: grid; grid-template-columns: var(--g, 0px) minmax(0, 1fr) var(--g, 0px); column-gap: var(--gap, 0px); padding: var(--above, 22px) 20px var(--below, 22px); }
     .sc-live-col { grid-column: 2; min-width: 0; }
     /* The story sits in boxes that read as the form fields it was typed into. */
     .sc-live-text { font-size: 17px; line-height: 2.4; margin: 0 0 16px; padding: 4px 14px; background: #fff; border: 1px solid rgba(0,0,0,0.18); border-radius: 10px; min-height: 2.4em; transition: border-color 0.15s, box-shadow 0.15s; }
@@ -277,7 +273,7 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-review .sc-live-story { cursor: default; }
     .sc-review [data-mark] { cursor: pointer; border-radius: 3px; transition: background 0.15s; }
     .sc-review [data-mark].is-on { background: rgba(255,210,63,0.55); }
-    .sc-rv-status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #333132; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sc-rv-status { min-height: 32px; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #333132; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sc-rv-status i { flex-shrink: 0; width: 9px; height: 9px; border-radius: 50%; background: #B9314F; animation: sc-blink 1.1s ease-in-out infinite; }
     .sc-cols.is-wide .sc-right { flex-basis: 100%; }
     .sc-cols.is-wide .sc-results { max-width: 52rem; margin: 0 auto; width: 100%; }
@@ -344,15 +340,6 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-note-crit { font-size: 12.5px; font-weight: 600; color: #333132; }
     .sc-note-fix { display: block; font-size: 14.5px; line-height: 1.55; color: #333132; }
     .sc-note-fix b { color: #000; }
-    .sc-note-lock { display: flex; gap: 6px; align-items: center; font-size: 13.5px; color: #333132; }
-    .sc-gate { background: #000; border-radius: 14px; padding: 16px 18px; margin: 0; }
-    .sc-gate-title { display: block; margin: 0 0 10px; font-size: 15px; font-weight: 700; color: #fff; }
-    .sc-gate-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .sc-gate-row input { flex: 1 1 180px; min-width: 0; padding: 11px 14px; border-radius: 8px; border: 0; font: inherit; font-size: 16px; color: #000; }
-    .sc-gate-row button { background: #DEDCDD; color: #000; font: inherit; font-weight: 700; font-size: 15px; padding: 11px 18px; border-radius: 8px; border: 0; min-height: 44px; cursor: pointer; }
-    .sc-gate-row button:disabled { opacity: 0.7; }
-    .sc-gate-err { margin: 8px 0 0; font-size: 13px; color: #fff; }
-    .sc-sent { background: rgba(120,188,97,0.2); border: 1px solid #78BC61; border-radius: 14px; padding: 12px 16px; font-size: 14px; line-height: 1.5; }
     .sc-another { background: #fff; border: 1px solid rgba(0,0,0,0.2); border-radius: 10px; padding: 11px; font: inherit; font-weight: 700; color: #000; cursor: pointer; min-height: 44px; }
     .sc-foot { border-top: 1px solid rgba(0,0,0,0.1); background: #fff; padding: 14px 16px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 13px; color: #333132; }
     .sc-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }

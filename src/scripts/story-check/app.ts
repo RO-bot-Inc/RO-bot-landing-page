@@ -11,13 +11,11 @@ import {
   type Note,
   type Result,
 } from './shared';
-import { createPen, createReader, type PenEls } from './pen';
+import { createPen, createReader, fitColumns, type PenEls } from './pen';
 
 const API = '/api/story-check';
 const GA4_ID = 'G-28WMV6CTFP';
-const OPEN_FIXES = 2; // the rest unlock with the emailed report (a soft gate)
-const MIN_READ_MS = 3000; // the pen reads for at least this long, so the grade feels earned
-const MAX_READ_MS = 6000;
+const MIN_WAIT_MS = 1200; // the pen comes in and hovers about 3/4 s before it marks
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const el = {
@@ -43,11 +41,6 @@ const el = {
   summary: $('sc-summary'),
   clean: $('sc-clean'),
   notes: $('sc-notes'),
-  gate: $<HTMLFormElement>('sc-gate'),
-  email: $<HTMLInputElement>('sc-email'),
-  send: $<HTMLButtonElement>('sc-send'),
-  gateErr: $('sc-gate-err'),
-  sent: $('sc-sent'),
   another: $('sc-another'),
   mock: $('sc-mock'),
   demoLink: $('sc-demo-link'),
@@ -75,7 +68,6 @@ const state = {
   result: null as Result | null,
   ticket: '',
   active: null as number | null,
-  reportSent: false,
   showA: false,
   busy: false,
   run: 0, // bumps on every grade or reset, so a stale reply or animation never lands
@@ -184,7 +176,7 @@ const cardEls = (root: HTMLElement): PenEls => {
     root, story: q('.sc-live-story'), col: q('.sc-live-col'), complaintWrap: q('.sc-live-cw'),
     complaint: q('.sc-live-complaint'), cause: q('.sc-live-cause'), corr: q('.sc-live-corr'),
     stamper: q('.sc-live-stamper'), ink: q<SVGSVGElement>('.sc-live-ink'), notes: q('.sc-live-notes'),
-    stamp: q('.sc-live-stamp'), pen: q('.sc-live-pen'),
+    stamp: q('.sc-live-stamp'), pen: q('.sc-live-pen'), stampLink: root.querySelector<HTMLElement>('.sc-a-toggle'),
   };
 };
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -245,25 +237,20 @@ function renderResults() {
   ).join('')}</div>`;
   el.clean.hidden = n > 0;
   renderNotes();
-  el.gate.hidden = state.reportSent || n <= OPEN_FIXES;
-  el.sent.hidden = !state.reportSent;
-  el.aToggle.hidden = r.sampleId !== 'misfire';
   renderA(state.showA && r.sampleId === 'misfire');
 }
 
 function renderNotes() {
   const r = state.result;
   if (!r) return;
-  const lock = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>`;
   el.notes.innerHTML = r.notes
-    .map((note, i) => {
-      const open = i < OPEN_FIXES || state.reportSent;
+    .map((note) => {
       const on = state.active === note.n ? ' is-on' : '';
       return `<button type="button" class="sc-note${on}" data-note="${note.n}" aria-pressed="${!!on}">
         <span class="sc-note-n">${note.n}</span>
         <span class="sc-note-body">
           <span class="sc-note-top"><span class="sc-pen sc-note-pen">${esc(note.pen)}</span><span class="sc-note-crit">${esc(note.criterion)}</span></span>
-          ${open ? `<span class="sc-note-fix"><b>${esc(note.fixLabel)}</b> ${esc(note.fix)}</span>` : `<span class="sc-note-lock">${lock} Fix included in the emailed report</span>`}
+          <span class="sc-note-fix"><b>${esc(note.fixLabel)}</b> ${esc(note.fix)}</span>
         </span>
       </button>`;
     })
@@ -302,15 +289,16 @@ async function grade(complaint: string, cause: string, correction: string) {
   el.go.disabled = true;
   state.result = null;
   state.active = null;
-  state.reportSent = false;
   state.showA = false;
+  el.aToggle.hidden = true;
+  el.a.hidden = true;
   el.rvStamp.removeAttribute('aria-label');
   $('sc-rv-said').textContent = '';
   show('review');
   const card = cardEls(el.review);
   const still = reduced();
   reader = createReader(card, { complaint, cause, correction }, status);
-  if (still) status('Checking it against what auditors flag');
+  if (still) status('Reading your story');
   else reader.start();
   const started = Date.now();
 
@@ -320,8 +308,8 @@ async function grade(complaint: string, cause: string, correction: string) {
     if ('remaining' in data) state.remaining = data.remaining;
     renderLeftLabel();
     if (code === 200 && data.result) {
-      // Let the pen finish reading it once (3 to 6 seconds) before it starts marking.
-      const wait = still ? 0 : Math.min(MAX_READ_MS, Math.max(MIN_READ_MS, reader?.pass ?? 0)) - (Date.now() - started);
+      // The pen hovers a moment before it marks, even when the grade comes back instantly.
+      const wait = still ? 0 : MIN_WAIT_MS - (Date.now() - started);
       if (wait > 0) await new Promise((r) => setTimeout(r, wait));
       if (run !== state.run) return;
       const r = data.result as Result;
@@ -333,6 +321,7 @@ async function grade(complaint: string, cause: string, correction: string) {
       el.rvStamp.setAttribute('aria-label', `Grade ${r.letter}, ${r.gpa.toFixed(2)} out of 4`);
       gradePen = createPen(card, { complaint: r.complaint ?? complaint, cause: r.cause, correction: r.correction }, r.notes, stampHtml(r), r.gpa >= 3.3, {
         mode: 'grade',
+        link: r.sampleId === 'misfire',
         from: still ? undefined : from,
         onDone: () => {
           if (run !== state.run) return;
@@ -427,7 +416,6 @@ async function submitDemo(e: Event) {
     el.demo.hidden = true;
     el.thanks.hidden = false;
     el.keep.focus();
-    if (!el.email.value) el.email.value = email;
     track('generate_lead', { form: 'story_checker_demo' });
     try {
       (window as unknown as { rdt?: (...a: unknown[]) => void }).rdt?.('track', 'Lead');
@@ -442,38 +430,27 @@ async function submitDemo(e: Event) {
   }
 }
 
-// ------------------------------------------------------------------ report
-async function sendReport(e: Event) {
-  e.preventDefault();
-  const email = el.email.value.trim();
-  if (!isEmail(email)) {
-    el.gateErr.textContent = 'Enter a work email so we can send it.';
-    el.gateErr.hidden = false;
-    return;
-  }
-  el.send.disabled = true;
-  el.gateErr.hidden = true;
-  try {
-    const { status, data } = await call({ action: 'report', email, ticket: state.ticket });
-    if (status !== 200) {
-      el.gateErr.textContent =
-        data.error === 'capacity' ? "That address has had a lot of reports today. Try again tomorrow." : "That didn't send. Check the address and try again.";
-      el.gateErr.hidden = false;
-      return;
-    }
-    state.reportSent = true;
-    el.sent.innerHTML = `<b>Sent to ${esc(email)}.</b> Every fix is unlocked above.`;
-    renderResults();
-    track('story_check_report');
-  } catch {
-    el.gateErr.textContent = "That didn't send. Try again.";
-    el.gateErr.hidden = false;
-  } finally {
-    el.send.disabled = false;
-  }
-}
-
 // ------------------------------------------------------------------ wiring
+// The form uses the graded card's column and type, and each box grows to fit its
+// text, so nothing changes size when grading starts.
+const boxes = [el.complaint, el.cause, el.correction];
+function grow() {
+  boxes.forEach((t) => {
+    // Empty: the starting size. Filled: exactly its text, like the graded card.
+    t.dataset.rows ??= String(t.rows);
+    t.rows = t.value ? 1 : Number(t.dataset.rows);
+    t.style.height = '';
+    if (t.value) t.style.height = t.scrollHeight + 2 + 'px';
+  });
+}
+function fitForm() {
+  if (el.edit.hidden) return;
+  fitColumns(el.edit);
+  grow();
+}
+new ResizeObserver(fitForm).observe(el.edit);
+boxes.forEach((t) => t.addEventListener('input', grow));
+
 el.cause.addEventListener('input', () => { syncFilled(); showError(''); });
 el.correction.addEventListener('input', () => { syncFilled(); showError(''); });
 
@@ -482,6 +459,7 @@ el.sample.addEventListener('click', () => {
   el.complaint.value = s.complaint;
   el.cause.value = s.cause;
   el.correction.value = s.correction;
+  grow();
   syncFilled();
   showError('');
 });
@@ -506,12 +484,16 @@ el.another.addEventListener('click', () => {
   el.complaint.value = '';
   el.cause.value = '';
   el.correction.value = '';
+  grow();
   syncFilled();
   show('edit');
   el.complaint.focus();
 });
 
-el.aToggle.addEventListener('click', () => renderA(el.a.hidden !== false));
+el.aToggle.addEventListener('click', () => {
+  renderA(el.a.hidden !== false);
+  if (!el.a.hidden) el.a.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+});
 
 // Note cards and the numbered dots in the story share one handler.
 document.addEventListener('click', (e) => {
@@ -526,8 +508,6 @@ el.review.addEventListener('keydown', (e) => {
   pick(Number(t.dataset.mark));
 });
 
-el.gate.addEventListener('submit', sendReport);
-el.email.addEventListener("input", () => { el.gateErr.hidden = true; });
 
 el.demoLink.addEventListener('click', (e) => {
   e.preventDefault();
