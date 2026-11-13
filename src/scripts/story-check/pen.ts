@@ -232,6 +232,7 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
       m.markPath.setAttribute('d', lines.map(d).join(' '));
       m.noteEl.style.fontSize = fs + 'px';
       m.noteEl.textContent = stacked ? `${i + 1}. ${m.note}` : m.note;
+      m.noteEl.style.width = ''; // measure the natural width, not the last one set
       m.nw = Math.min(nwMax, m.noteEl.offsetWidth);
       m.fs = fs;
       if (stacked) {
