@@ -31,13 +31,14 @@
 </head>
 <body>
   <h1>TenthGear push-to-talk handheld test</h1>
-  <p class="intro">Chrome or Edge only. First pair <b>B02PTT-FF01</b> to this computer in the Bluetooth settings. Then click <b>Connect</b>, pick the handheld, and allow the microphone. Hold the handheld's button, talk, let go. The checklist below ticks itself. When all six are green, click <b>Send results</b>.</p>
+  <p class="intro">Chrome or Edge only. First pair the handheld to this computer in the Bluetooth settings and note the name it shows there. Then click <b>Connect</b>, pick that same name in the list, and allow the microphone. Hold the handheld's button, talk, let go. The checklist below ticks itself. When all six are green, click <b>Send results</b>.</p>
 
   <div id="status">Idle</div>
   <div>
     <button id="connect" class="primary">Connect</button>
     <button id="send">Send results to TenthGear</button><span id="sendResult"></span>
     <button id="disconnect">Disconnect</button>
+    <button id="screenPtt" title="Records from the handheld's microphone without its button">Hold here to record</button>
   </div>
   <div style="margin:8px 0 12px">
     <label><input type="checkbox" id="keepOpen" checked> Keep handheld mic stream open</label>
@@ -64,7 +65,9 @@
 (() => {
   const SVC = '89a8591d-bb19-485b-9f59-58492bc33e24';
   const CHR = '894c8042-e841-461c-a5c9-5a73d25db08e';
-  const NAME_PREFIX = 'B02PTT';
+  let handheldName = ''; // the name picked in the chooser; any handheld is accepted
+  let buttonService = null; // true / false once a handheld is connected
+  const handheldLabel = () => handheldName || 'the handheld';
   const IDLE_MS = 10 * 60 * 1000;
   const $ = (id) => document.getElementById(id);
 
@@ -137,27 +140,34 @@
     devs.forEach((d) => {
       const o = document.createElement('option'); o.value = d.deviceId; o.textContent = d.label || d.deviceId.slice(0, 8);
       sel.appendChild(o);
-      if ((d.label || '').includes(NAME_PREFIX) && (!handheld || !(d.label || '').startsWith('Default'))) handheld = d.deviceId;
+      if (isHandheldLabel(d.label) && (!handheld || !(d.label || '').startsWith('Default'))) handheld = d.deviceId;
     });
     if (prev && [...sel.options].some((o) => o.value === prev)) sel.value = prev;
     else if (handheld) sel.value = handheld;
-    log(`inputs: ${lastInputs.join(' | ')}` + (handheld ? ` -> auto-selected ${NAME_PREFIX}` : ' (handheld NOT listed)'), handheld ? '' : 'warn');
-    if (devs.some((d) => d.label)) {
+    log(`inputs: ${lastInputs.join(' | ')}` + (handheld ? ` -> auto-selected ${handheldLabel()}` : ' (handheld NOT listed)'), handheld ? '' : 'warn');
+    if (handheldName && devs.some((d) => d.label)) {
       if (handheld) {
         setCheck('mic', true, devs.find((d) => d.deviceId === handheld).label);
         hint('mic', null);
       } else {
         setCheck('mic', false, 'The handheld is not in the microphone list.');
         hint('mic', isWindows
-          ? 'Windows paired the handheld but is not offering its microphone. Open Settings > System > Sound, and under Input check that "B02PTT-FF01 Hands-Free" is listed and not disabled. If it is missing, remove the handheld in Bluetooth settings and pair it again, then reload this page.'
+          ? `Windows paired the handheld but is not offering its microphone. Open Settings > System > Sound, and under Input check that "${handheldLabel()} Hands-Free" is listed and not disabled. If it is missing, remove the handheld in Bluetooth settings and pair it again, then reload this page.`
           : 'The handheld is paired but its microphone is not listed. Check the system Sound settings under Input, then reload this page.');
       }
     }
     if (sel.value !== prev && $('keepOpen').checked && !recorder) {
       const cur = stream?.getAudioTracks()[0]?.label || '';
-      if (!cur.includes(NAME_PREFIX)) { closeStream(); openStream().catch((e) => log('reopen failed: ' + e.message, 'warn')); }
+      if (!isHandheldLabel(cur)) { closeStream(); openStream().catch((e) => log('reopen failed: ' + e.message, 'warn')); }
     }
     return devs;
+  }
+  // A microphone belongs to the handheld when its label carries the picked name (macOS "B02PTT-FF01",
+  // Windows "Headset (B02PTT-FF01 Hands-Free)"). Names Chrome truncates are matched on their first 8 characters.
+  function isHandheldLabel(label) {
+    if (!handheldName || !label) return false;
+    const l = label.toLowerCase(), n = handheldName.toLowerCase();
+    return l.includes(n) || (n.length > 8 && l.includes(n.slice(0, 8)));
   }
   navigator.mediaDevices.addEventListener('devicechange', () => { log('devicechange'); listInputs(); });
 
@@ -180,12 +190,14 @@
   };
   $('inputSel').onchange = () => { if (!recorder) { closeStream(); if ($('keepOpen').checked) openStream().catch((e) => log(e.message, 'warn')); } };
 
-  async function onPress() {
+  let pressFromScreen = false;
+  async function onPress(fromScreen = false) {
     pressAt = performance.now();
     const hidden = document.visibilityState === 'hidden';
     const idleMs = lastPressWall ? Date.now() - lastPressWall : 0;
     lastPressWall = Date.now();
     if (recorder) { log('press while recording: ignored'); return; }
+    pressFromScreen = fromScreen;
     let s;
     try { s = await openStream(); }
     catch (e) {
@@ -205,7 +217,7 @@
       const label = s.getAudioTracks()[0].label;
       recorder = null;
       stopTone();
-      addRecording({ blob, durMs, label, latencyMs, hidden, idleMs, afterReconnect: reconnectedPending });
+      addRecording({ blob, durMs, label, latencyMs, hidden, idleMs, afterReconnect: !pressFromScreen && reconnectedPending, screen: pressFromScreen });
       if (!$('keepOpen').checked) closeStream();
     };
     recorder.start();
@@ -219,18 +231,19 @@
     const name = new Date().toISOString().replace(/[:.]/g, '-') + (c.blob.type.includes('webm') ? '.webm' : c.blob.type.includes('mp4') ? '.m4a' : '.ogg');
     c.name = name; clips.push(c);
     const li = document.createElement('li');
-    li.innerHTML = `<b>${name}</b> · ${(c.durMs / 1000).toFixed(1)} s · ${c.blob.size} bytes · ${c.label}` + (c.hidden ? ' · tab was in background' : '') + (c.afterReconnect ? ' · after reconnect' : '');
+    li.innerHTML = `<b>${name}</b> · ${(c.durMs / 1000).toFixed(1)} s · ${c.blob.size} bytes · ${c.label}` + (c.screen ? ' · on-screen button' : '') + (c.hidden ? ' · tab was in background' : '') + (c.afterReconnect ? ' · after reconnect' : '');
     const a = document.createElement('audio'); a.controls = true; a.src = URL.createObjectURL(c.blob); li.appendChild(a);
     $('recs').prepend(li);
     log(`recording stopped: ${c.blob.size} bytes, ${c.durMs} ms press-to-release, idle before press ${Math.round(c.idleMs / 1000)} s`);
-    const fromHandheld = c.label.includes(NAME_PREFIX);
+    const fromHandheld = isHandheldLabel(c.label);
     const tooShort = c.blob.size < 2000;
     const detail = `${c.latencyMs} ms press-to-record · ${(c.durMs / 1000).toFixed(1)} s · from "${c.label}"`;
-    if (!fromHandheld) hint('source', `That recording came from "${c.label}", not the handheld. Pick B02PTT-FF01 in the Input list above and record again.`);
+    if (!fromHandheld) hint('source', `That recording came from "${c.label}", not the handheld. Pick ${handheldLabel()} in the Input list above and record again.`);
     else hint('source', null);
     if (tooShort) hint('short', 'That recording is almost empty. Hold the button for at least two seconds while talking.');
     else hint('short', null);
     const good = fromHandheld && !tooShort;
+    if (c.screen) { log('on-screen take: kept as a clip, does not tick the button rows'); return; }
     if (c.hidden) setCheck('back', good, detail);
     else if (!checks.front?.ok) setCheck('front', good, detail);
     if (c.idleMs >= IDLE_MS) setCheck('idle', good, detail + ` · ${Math.round(c.idleMs / 60000)} min idle`);
@@ -259,7 +272,15 @@
     const t0 = performance.now();
     setStatus(`Connecting to ${device.name}…`);
     const server = await device.gatt.connect();
-    const svc = await server.getPrimaryService(SVC);
+    let svc;
+    try { svc = await server.getPrimaryService(SVC); }
+    catch (e) {
+      buttonService = false;
+      log(`button service ${SVC} NOT found on ${device.name}: ${e.message}`, 'warn');
+      const err = new Error('no button service'); err.noButtonService = true; throw err;
+    }
+    buttonService = true;
+    log(`button service found on ${device.name}`);
     chr = await svc.getCharacteristic(CHR);
     chr.removeEventListener('characteristicvaluechanged', onValue);
     chr.addEventListener('characteristicvaluechanged', onValue);
@@ -304,8 +325,8 @@
       dropWatch = setTimeout(() => {
         if (dropAt && wantConnected) {
           manualReconnectNeeded = true;
-          $('c-recon').querySelector('.detail').textContent = 'The page could not see the handheld come back on its own. Make sure it is on, click Connect, and pick B02PTT-FF01 again.';
-          hint('recon', 'The handheld did not reconnect by itself. Click Connect and pick B02PTT-FF01 in the list.');
+          $('c-recon').querySelector('.detail').textContent = 'The page could not see the handheld come back on its own. Make sure it is on, click Connect, and pick ' + handheldLabel() + ' again.';
+          hint('recon', 'The handheld did not reconnect by itself. Click Connect and pick ' + handheldLabel() + ' in the list.');
         }
       }, 30000);
       scheduleReconnect(500);
@@ -322,10 +343,18 @@
         catch (e) { log('direct reconnect failed (' + e.message + '); opening the chooser', 'warn'); device = null; }
       }
       if (!device) {
-        const d = await navigator.bluetooth.requestDevice({ filters: [{ namePrefix: NAME_PREFIX }], optionalServices: [SVC, 'battery_service'] });
+        const d = await navigator.bluetooth.requestDevice({ acceptAllDevices: true, optionalServices: [SVC, 'battery_service'] });
         log(`chose ${d.name} (${d.id})`);
+        handheldName = d.name || '';
         adopt(d);
-        await subscribe();
+        try { await subscribe(); }
+        catch (e) {
+          if (!e.noButtonService) throw e;
+          wantConnected = false; // nothing to reconnect to: this device has no button signal this page knows
+          setStatus(`${d.name} connected, but its button is not one this page can hear. You can still test its microphone with "Hold here to record".`);
+          setCheck('connect', false, `Picked "${d.name}", but it has no PTT button service (Coda mode). Its button uses a different signal, or the wrong device was picked.`);
+          hint('connect', `"${d.name}" does not send the button signal this page listens for. If that was not the handheld, click Connect and pick the handheld's name. If it was, keep going: hold "Hold here to record" while talking into the handheld so we still learn whether its microphone works, then click Send results.`);
+        }
       } else if (!device.gatt.connected) {
         await subscribe();
       }
@@ -335,12 +364,17 @@
       await listInputs();
     } catch (e) {
       setStatus('Connect failed: ' + e.message);
-      if (/cancelled/i.test(e.message)) hint('chooser', 'No handheld was picked. Click Connect again and choose B02PTT-FF01 in the list. If it is not in the list, turn the handheld off and on, and check it is paired in the Bluetooth settings.');
+      if (/cancelled/i.test(e.message)) hint('chooser', 'No handheld was picked. Click Connect again and choose the handheld by the name Bluetooth settings shows for it. If it is not in the list, turn the handheld off and on, and check it is paired in the Bluetooth settings.');
       else if (/NotAllowed|Permission|denied/i.test(e.message)) hint('gum', 'The microphone was blocked. Click the lock icon left of the address bar, allow Microphone, and click Connect again.');
       else { setCheck('connect', false, e.message); hint('connect', 'Could not connect to the handheld: ' + e.message + '. Turn the handheld off and on, then click Connect again.'); }
     }
   };
-  $('disconnect').onclick = () => { wantConnected = false; clearTimeout(reconnectTimer); reconnectTimer = null; clearTimeout(dropWatch); dropAt = 0; if (device?.gatt.connected) device.gatt.disconnect(); closeStream(); setStatus('Disconnected by user'); };
+  $('disconnect').onclick = () => { wantConnected = false; handheldName = ''; device = null; buttonService = null; clearTimeout(reconnectTimer); reconnectTimer = null; clearTimeout(dropWatch); dropAt = 0; if (device?.gatt.connected) device.gatt.disconnect(); closeStream(); setStatus('Disconnected by user'); };
+
+  const sp = $('screenPtt');
+  sp.addEventListener('pointerdown', (e) => { e.preventDefault(); sp.setPointerCapture(e.pointerId); onPress(true); });
+  sp.addEventListener('pointerup', () => { if (pressFromScreen) onRelease(); });
+  sp.addEventListener('pointercancel', () => { if (pressFromScreen) onRelease(); });
 
   // ---------- send results ----------
   const b64 = (blob) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
@@ -352,6 +386,7 @@
       platform: ua.platform || navigator.platform, platformVersion: ua.platformVersion || '',
       browser: (ua.fullVersionList || []).map((b) => `${b.brand} ${b.version}`).join(', '),
       webBluetooth: !!navigator.bluetooth, getDevices: !!navigator.bluetooth?.getDevices, secureContext: window.isSecureContext,
+      handheldName: handheldName || '(none picked)', buttonService: buttonService == null ? 'not checked' : buttonService ? 'found (Coda mode)' : 'NOT found',
       inputs: lastInputs, page: location.href, when: new Date().toISOString(),
     };
   }
