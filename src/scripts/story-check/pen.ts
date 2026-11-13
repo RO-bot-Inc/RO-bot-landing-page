@@ -330,6 +330,12 @@ export function createPen(
   });
   els.stamp.className = `sc-stamp sc-live-stamp${stampGood ? ' is-good' : ''}`;
   els.stamp.innerHTML = stampHtml;
+  // Grading a story with nothing to mark: after the stamp, the pen writes a word of praise under it.
+  const praise = !loop && !marks.length ? 'No notes! Great job!!' : '';
+  const praiseEl = document.createElement('div');
+  praiseEl.className = 'sc-live-note';
+  if (praise) els.notes.appendChild(praiseEl);
+  let praiseXY: Pt = [0, 0], praiseW = 0, praiseFs = 27;
   const caret = document.createElement('span');
   caret.className = 'sc-live-caret';
 
@@ -371,7 +377,11 @@ export function createPen(
   const toBtn: Win = [lift[1] + (loop ? 700 : 60), lift[1] + (loop ? 1180 : 540)];
   const taps: Win = [toBtn[1] + 80, toBtn[1] + 780];
   const exit: Win = [taps[1] + CTA_HOVER_MS, taps[1] + CTA_HOVER_MS + 450];
-  const loopEnd = loop ? exit[1] + 250 : lift[1] + 40;
+  const pTrav: Win = [lift[1] + 120, lift[1] + 560];
+  const pWrite: Win = [pTrav[1] + 80, pTrav[1] + 1200];
+  const pExit: Win = [pWrite[1] + 200, pWrite[1] + 600];
+  const loopEnd = loop ? exit[1] + 250 : praise ? pExit[1] + 40 : lift[1] + 40;
+  const doneAt = praise ? pWrite[1] + 300 : stampAt + 350; // grading: when the results come in
 
   // ---- geometry
   let stacked = false;
@@ -580,6 +590,23 @@ export function createPen(
       if (!free('right') && !free('left')) below = Math.max(below, 130);
       story.style.setProperty('--below', Math.ceil(below) + 'px');
     }
+    if (praise) {
+      // Under the stamp; on phones (stamp sits on the complaint), under the story.
+      praiseFs = stacked ? 24 : 27;
+      praiseEl.style.fontSize = praiseFs + 'px';
+      praiseEl.textContent = praise;
+      praiseEl.style.width = '';
+      praiseW = praiseEl.offsetWidth;
+      const size = stacked ? 66 : 96, inner = story.clientWidth;
+      praiseXY = stacked
+        ? [colL, colB + 14]
+        : [Math.max(8, Math.min(inner - praiseW - 8, stampXY[0] + size / 2 - praiseW / 2)), stampXY[1] + size + 12];
+      praiseEl.style.left = praiseXY[0].toFixed(1) + 'px';
+      praiseEl.style.top = praiseXY[1].toFixed(1) + 'px';
+      praiseEl.style.width = praiseW.toFixed(1) + 'px';
+      const need = praiseXY[1] + praiseFs * 1.5 - colB + 16;
+      story.style.setProperty('--below', Math.ceil(Math.max(stacked ? 22 : 44, need)) + 'px');
+    }
     exitPt = [colR + (stacked ? 0 : 120), colB + 30];
     if (loop) {
       // The reading path: one sweep over the complaint, two over the cause, one over the correction.
@@ -674,6 +701,15 @@ export function createPen(
     // The pen leaves the card before the stamp comes down (and, in the first look, comes back after it lifts).
     const off: Pt = [els.story.offsetWidth + 80, Math.max(0, sm[1] - 120)];
     if (t < toRest[1]) return { p: lerp(lastEnd, off, smooth(prog(t, toRest))), lift: 12, mood: 0 };
+    if (praise) {
+      const at: Pt = [praiseXY[0], praiseXY[1] + praiseFs * 0.95];
+      if (t < pTrav[0]) return null;
+      if (t < pTrav[1]) return { p: lerp(off, at, overshoot(prog(t, pTrav))), lift: 9, mood: 0 };
+      if (t < pWrite[0]) return { p: at, lift: 5, mood: 0 };
+      if (t < pWrite[1]) return { p: [at[0] + prog(t, pWrite) * praiseW, at[1] + 3 * Math.sin(t / 45)], lift: 0, mood: 0 };
+      if (t < pExit[1]) return { p: lerp([at[0] + praiseW, at[1]], off, smooth(prog(t, pExit))), lift: 12, mood: 0 };
+      return null;
+    }
     if (!loop || t < toBtn[0]) return null;
     if (t < toBtn[1]) return { p: lerp(off, btnPt, overshoot(prog(t, toBtn))), lift: 9, mood: 0 };
     if (t < taps[1]) return { p: btnPt, lift: 9 * (1 - tap(prog(t, taps), 2)), mood: 0 };
@@ -726,6 +762,10 @@ export function createPen(
       m.noteEl.style.clipPath = `inset(-12px calc(${((1 - pw) * 100).toFixed(1)}% - ${(12 * pw).toFixed(1)}px) -12px -12px)`;
       drawStrokes(m.slashPaths, m.slashRun((m.rage ? smooth : attack)(prog(t, w.slash))));
     });
+    if (praise) {
+      const pw = still ? 1 : prog(t, pWrite);
+      praiseEl.style.clipPath = `inset(-12px calc(${((1 - pw) * 100).toFixed(1)}% - ${(12 * pw).toFixed(1)}px) -12px -12px)`;
+    }
     paint(still ? null : penAt(t), t);
     // The impression appears the instant the stamp hits.
     const hit = still || t >= stampAt;
@@ -767,7 +807,7 @@ export function createPen(
     now += last ? Math.min(ts - last, 64) : 0;
     last = ts;
     if (loop && now > loopEnd) { now = 0; lastK = -1; }
-    if (!loop && now >= stampAt + 350) finish();
+    if (!loop && now >= doneAt) finish();
     if (!loop && now >= loopEnd) { now = loopEnd; render(now); return; }
     render(now);
     raf = requestAnimationFrame(tick);
