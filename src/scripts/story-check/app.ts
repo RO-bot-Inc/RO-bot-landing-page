@@ -302,6 +302,7 @@ async function grade(complaint: string, cause: string, correction: string) {
   state.reportSent = false;
   state.showA = false;
   el.rvStamp.removeAttribute('aria-label');
+  $('sc-rv-said').textContent = '';
   show('review');
   const card = cardEls(el.review);
   const still = reduced();
@@ -334,11 +335,12 @@ async function grade(complaint: string, cause: string, correction: string) {
           if (run !== state.run) return;
           renderResults();
           show('results');
+          $('sc-rv-said').textContent = `Graded ${r.letter}, ${r.gpa.toFixed(2)} out of 4. ${r.notes.length} red-pen note${r.notes.length === 1 ? '' : 's'}.`;
           // Marked phrases work like the note cards: click or Enter/Space picks the note.
           el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => {
             m.tabIndex = 0;
             m.setAttribute('role', 'button');
-            m.setAttribute('aria-label', `Show note ${m.dataset.mark}`);
+            m.setAttribute('aria-label', `${m.textContent}: show note ${m.dataset.mark}`);
           });
         },
       });
