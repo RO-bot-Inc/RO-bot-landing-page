@@ -97,14 +97,19 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
           <p class="sc-fine"><span id="sc-left">5 of 5 free checks left today</span> · No customer names, please. We don't keep your story.</p>
         </form>
 
-        <!-- First look: the misfire sample red-pens itself on a loop until the visitor takes a turn -->
+        <!-- First look: the misfire sample types itself in, then a red pen marks it up and writes in the margins, on a loop until the visitor takes a turn -->
         <div class="sc-live" id="sc-live" hidden>
-          <div class="sc-marked sc-live-story">
+          <div class="sc-live-story" id="sc-live-story">
+            <div class="sc-live-col" id="sc-live-col">
+              <p class="sc-ml">Cause</p>
+              <p class="sc-mono sc-live-text" id="sc-live-cause"></p>
+              <p class="sc-ml">Correction</p>
+              <p class="sc-mono sc-live-text" id="sc-live-corr"></p>
+            </div>
+            <svg class="sc-live-ink" id="sc-live-ink" aria-hidden="true"></svg>
+            <div class="sc-live-notes" id="sc-live-notes"></div>
             <div class="sc-stamp sc-live-stamp" id="sc-live-stamp" aria-hidden="true"></div>
-            <p class="sc-ml">Cause</p>
-            <p class="sc-mono sc-mono-cause" id="sc-live-cause"></p>
-            <p class="sc-ml">Correction</p>
-            <p class="sc-mono" id="sc-live-corr"></p>
+            <div class="sc-live-pen" id="sc-live-pen" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           </div>
           <div class="sc-live-foot"><button type="button" class="sc-live-go" id="sc-live-go">Your turn: paste your own story</button></div>
         </div>
@@ -121,12 +126,7 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
       </section>
 
       <!-- RIGHT: what the auditor would say -->
-      <div class="sc-right">
-        <div class="sc-live-notes" id="sc-live-notes" hidden>
-          <p class="sc-live-h">What the auditor writes in the margin</p>
-          <ol class="sc-live-list" id="sc-live-list"></ol>
-        </div>
-
+      <div class="sc-right" id="sc-right">
         <div class="sc-card sc-grading" id="sc-grading" hidden>
           <div class="sc-grading-head"><span class="sc-spin" aria-hidden="true"></span><span class="sc-pen sc-pen-big">Red pen out...</span></div>
           <p class="sc-step" data-step="0">Reading the cause and correction</p>
@@ -255,26 +255,40 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-live-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #333132; }
     .sc-live-led { width: 8px; height: 8px; border-radius: 50%; background: #B9314F; animation: sc-led 1.6s ease-in-out infinite; }
     @keyframes sc-led { 50% { opacity: 0.25; } }
-    .sc-live-story { cursor: text; }
-    .sc-live-seg { transition: opacity 0.25s; }
-    .sc-live-seg.is-off { opacity: 0; }
-    .sc-live .sc-red { text-decoration-color: transparent; transition: text-decoration-color 0.3s; }
-    .sc-live .sc-red.is-marked { text-decoration-color: #B9314F; }
-    .sc-live .sc-dot { cursor: default; width: 0; margin-left: 0; overflow: hidden; transform: scale(0); transition: transform 0.25s cubic-bezier(.3,1.6,.5,1); }
-    .sc-live .sc-dot.is-marked { width: 18px; margin-left: 2px; transform: scale(1); }
-    .sc-live-stamp { opacity: 0; transform: rotate(8deg) scale(1.7); transition: opacity 0.2s, transform 0.3s cubic-bezier(.3,1.6,.5,1); }
-    .sc-live-stamp.is-in { opacity: 1; transform: rotate(8deg) scale(1); }
+    .sc-live-story { position: relative; cursor: text; display: grid; grid-template-columns: var(--g, 0px) minmax(0, 1fr) var(--g, 0px); column-gap: var(--gap, 0px); padding: 22px 20px var(--below, 22px); }
+    .sc-live-col { grid-column: 2; min-width: 0; }
+    .sc-live-text { font-size: 17px; line-height: 2.4; }
+    .sc-live-text:first-of-type { margin-bottom: 14px; }
+    .sc-live.is-stacked .sc-live-text { font-size: 15px; line-height: 2.3; }
+    .sc-live.is-stacked #sc-live-cause { padding-right: 70px; }
+    .sc-live-rest { color: transparent; }
+    .sc-live-caret { display: inline-block; width: 0; height: 1.15em; vertical-align: -0.22em; box-shadow: 2px 0 0 #000; animation: sc-blink 1s steps(1) infinite; }
+    .sc-live-ink { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    .sc-live-ink path { fill: none; stroke: #B9314F; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; opacity: 0.9; }
+    .sc-live-notes { position: absolute; inset: 0; pointer-events: none; }
+    .sc-live-note { position: absolute; font-family: 'Caveat', cursive; font-weight: 700; color: #B9314F; white-space: nowrap; line-height: 1.05; }
+    .sc-live-num { position: absolute; font-family: 'Caveat', cursive; font-weight: 700; color: #B9314F; font-size: 19px; line-height: 1; }
+    .sc-live-stamp { width: 96px; height: 96px; top: 0; left: 0; right: auto; opacity: 0; transform-origin: 50% 50%; }
+    .sc-live-stamp .sc-stamp-l { font-size: 46px; }
+    .sc-live-stamp .sc-stamp-g { font-size: 18px; }
+    .sc-live.is-stacked .sc-live-stamp { width: 66px; height: 66px; border-width: 3px; }
+    .sc-live.is-stacked .sc-live-stamp .sc-stamp-l { font-size: 32px; }
+    .sc-live.is-stacked .sc-live-stamp .sc-stamp-g { font-size: 13px; }
+    .sc-live-pen { position: absolute; left: 0; top: 0; width: 170px; height: 13px; display: flex; transform-origin: 0 50%; pointer-events: none; opacity: 0; transition: opacity 0.18s, filter 0.18s; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.25)); }
+    .sc-live-pen.is-on { opacity: 1; }
+    .sc-live-pen.is-up { filter: drop-shadow(0 14px 10px rgba(0,0,0,0.2)); }
+    .sc-live-pen i:nth-child(1) { width: 0; height: 0; border-top: 6.5px solid transparent; border-bottom: 6.5px solid transparent; border-right: 18px solid #DEDCDD; }
+    .sc-live-pen i:nth-child(2) { width: 12px; background: #9B9799; }
+    .sc-live-pen i:nth-child(3) { flex: 1; background: #B9314F; }
+    .sc-live-pen i:nth-child(4) { width: 26px; background: #333132; border-radius: 0 6px 6px 0; }
+    .sc-live.is-stacked .sc-live-pen { width: 120px; height: 10px; }
+    .sc-live.is-stacked .sc-live-pen i:nth-child(1) { border-top-width: 5px; border-bottom-width: 5px; border-right-width: 14px; }
     .sc-live-foot { padding: 0 18px 18px; }
     .sc-live-go { width: 100%; min-height: 56px; border: 2px dashed #9B9799; background: #FAFAFA; border-radius: 12px; font: inherit; font-size: 16px; font-weight: 700; color: #000; cursor: pointer; }
     .sc-live-go:hover { border-color: #000; background: #fff; }
-    .sc-live-notes { display: flex; flex-direction: column; gap: 10px; }
-    .sc-live-h { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6E6A6C; }
-    .sc-live-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-    .sc-live-list li { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 8px 14px; opacity: 0.3; transform: translateX(8px); transition: opacity 0.25s, transform 0.25s; }
-    .sc-live-list li.is-in { opacity: 1; transform: none; }
-    .sc-live-list .sc-dot { cursor: default; flex: none; width: 26px; height: 26px; font-size: 13px; vertical-align: baseline; margin: 0; }
-    .sc-live-list .sc-pen { font-size: 26px; }
-    @media (prefers-reduced-motion: reduce) { .sc-live-led { animation: none; } .sc-live *, .sc-live-list li { transition: none !important; } }
+    .sc-cols.is-wide .sc-left { flex-basis: 100%; }
+    @keyframes sc-blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .sc-live-led, .sc-live-caret { animation: none; } }
     .sc-pen { font-family: 'Caveat', cursive; font-weight: 700; color: #B9314F; line-height: 1.1; }
     .sc-pen-big { font-size: 30px; }
     .sc-pen-teal { margin: 0; font-size: 28px; color: #000; }
