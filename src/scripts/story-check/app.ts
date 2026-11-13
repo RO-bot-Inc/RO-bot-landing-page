@@ -38,8 +38,6 @@ const el = {
   aToggle: $('sc-a-toggle'),
   a: $('sc-a'),
   results: $('sc-results'),
-  summary: $('sc-summary'),
-  clean: $('sc-clean'),
   notes: $('sc-notes'),
   another: $('sc-another'),
   mock: $('sc-mock'),
@@ -221,46 +219,50 @@ function liveStop(focus: boolean) {
 const chipText = (g: string) => (g === 'missing' ? '✕' : g === 'not_applicable' ? 'n/a' : g);
 
 function renderResults() {
-  const r = state.result;
-  if (!r) return;
-  const generic = ELEMENTS.filter((k) => ['C', 'D', 'F', 'missing'].includes(r.grades[k])).length;
-  const n = r.notes.length;
-  const headline =
-    generic === 0 && n === 0
-      ? 'Specific where it counts.'
-      : generic === 0
-        ? `Specific where it counts. ${n} red-pen note${n === 1 ? '' : 's'}.`
-        : `${generic} of 6 criteria read as generic. ${n} red-pen note${n === 1 ? '' : 's'}.`;
-  el.summary.innerHTML = `<p class="sc-headline">${esc(headline)}</p><div class="sc-grid">${ELEMENTS.map(
-    (k) =>
-      `<div class="sc-el"><span class="sc-chip sc-chip-${r.grades[k]}" aria-label="${r.grades[k] === 'missing' ? 'missing' : r.grades[k]}">${chipText(r.grades[k])}</span><span class="sc-el-label">${LABELS[k]}</span></div>`,
-  ).join('')}</div>`;
-  el.clean.hidden = n > 0;
+  if (!state.result) return;
   renderNotes();
-  renderA(state.showA && r.sampleId === 'misfire');
+  renderA(state.showA && state.result.sampleId === 'misfire');
 }
 
+// One table: the grade chip and criterion on the left, the grader's note on the
+// right, worst grade first. Criteria with no note get a thin row at the end.
+const RANK: Record<string, number> = { missing: 0, F: 1, flag: 2, D: 3, C: 4, B: 5, A: 6, not_applicable: 7 };
 function renderNotes() {
   const r = state.result;
   if (!r) return;
-  el.notes.innerHTML = r.notes
-    .map((note) => {
-      const on = state.active === note.n ? ' is-on' : '';
-      return `<button type="button" class="sc-note${on}" data-note="${note.n}" aria-pressed="${!!on}">
-        <span class="sc-note-n">${note.n}</span>
-        <span class="sc-note-body">
-          <span class="sc-note-top"><span class="sc-pen sc-note-pen">${esc(note.pen)}</span><span class="sc-note-crit">${esc(note.criterion)}</span></span>
-          <span class="sc-note-fix"><b>${esc(note.fixLabel)}</b> ${esc(note.fix)}</span>
-        </span>
+  const chip = (g: string) =>
+    g === 'flag'
+      ? `<span class="sc-chip sc-chip-F" aria-label="flagged">!</span>`
+      : `<span class="sc-chip sc-chip-${g}" aria-label="${g === 'missing' ? 'missing' : g === 'not_applicable' ? 'not applicable' : 'grade ' + g}">${chipText(g)}</span>`;
+  const rows = r.notes.map((note) => {
+    // "Root Cause · D" is a graded criterion; anything else is a flag of its own.
+    const m = /^(.*?)\s*·\s*(\S+)\s*$/.exec(note.criterion);
+    const graded = !!m && ['A', 'B', 'C', 'D', 'F', 'missing', 'not_applicable'].includes(m[2]);
+    return { note, name: graded ? m![1] : note.criterion, g: graded ? m![2] : 'flag' };
+  });
+  rows.sort((a, b) => (RANK[a.g] ?? 2) - (RANK[b.g] ?? 2) || a.note.n - b.note.n);
+  const noted = new Set(rows.map((x) => x.name));
+  const quiet = ELEMENTS.filter((k) => !noted.has(LABELS[k])).sort((a, b) => (RANK[r.grades[a]] ?? 9) - (RANK[r.grades[b]] ?? 9));
+  el.notes.innerHTML =
+    rows
+      .map(({ note, name, g }) => {
+        const on = state.active === note.n ? ' is-on' : '';
+        return `<button type="button" class="sc-row sc-note${on}" data-note="${note.n}" aria-pressed="${!!on}">
+        <span class="sc-cell-k">${chip(g)}<span class="sc-cell-name">${esc(name)}</span></span>
+        <span class="sc-cell-v"><span class="sc-pen sc-note-pen">${esc(note.pen)}</span><span class="sc-note-fix"><b>${esc(note.fixLabel)}</b> ${esc(note.fix)}</span></span>
       </button>`;
-    })
-    .join('');
+      })
+      .join('') +
+    quiet
+      .map((k) => `<div class="sc-row is-quiet"><span class="sc-cell-k">${chip(r.grades[k])}<span class="sc-cell-name">${LABELS[k]}</span></span><span class="sc-cell-v sc-no-note">No note</span></div>`)
+      .join('');
 }
 
 function pick(n: number) {
   state.active = state.active === n ? null : n;
   renderNotes();
-  // Light up the phrase the note is about, in the marked-up story.
+  // Light up the phrase the note is about and the pen's note in the margin.
+  el.review.querySelectorAll<HTMLElement>('.sc-live-note[data-pen]').forEach((x) => x.classList.toggle('is-on', Number(x.dataset.pen) === state.active));
   el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => m.classList.toggle('is-on', Number(m.dataset.mark) === state.active));
 }
 
