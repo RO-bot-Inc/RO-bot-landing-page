@@ -1,6 +1,6 @@
 // The red pen. Two uses, one engine:
 // - First look ('loop'): the misfire sample types itself in (fast), the pen marks
-//   it up, a rubber stamp slams the grade, the pen taps "Your turn", it loops.
+//   it up, a rubber stamp slams the grade, the pen taps "Try again", it loops.
 // - Grading ('grade'): the visitor's own story. createReader() reads it line by
 //   line while the grader works, then the pen marks each note, the stamp slams,
 //   and it stops on the finished page.
@@ -48,7 +48,7 @@ const PACE = [
 ];
 const TYPE_SLOW = 1.25; // first look typing, 20% slower than it was
 const READ_MS = 2200; // first look: the pen reads the story before it marks anything
-const CTA_HOVER_MS = 5000; // first look: the pen hovers on "Your turn" before it loops
+const CTA_HOVER_MS = 5000; // first look: the pen hovers on "Try again" before it loops
 const FADE_MS = 350;
 const SVG = 'http://www.w3.org/2000/svg';
 
@@ -360,7 +360,7 @@ export function createPen(
     cur = w.shake[1] + 60;
   });
   // Finale: the pen leaves, a rubber stamp slams the grade down and lifts off.
-  // First look only: the pen comes back, taps "Your turn", waits, and leaves.
+  // First look only: the pen comes back, taps "Try again", waits, and leaves.
   // First look: a beat before the stamp, and another after it before the pen comes back.
   const toRest: Win = [cur, cur + 380];
   const drop: Win = [toRest[1] + (loop ? 750 : 120), toRest[1] + (loop ? 1030 : 400)];
@@ -604,7 +604,7 @@ export function createPen(
       readRun = strokes(sweeps, 0.16);
     }
     const btn = els.root.querySelector('.sc-live-go');
-    if (btn) { const b = rel(btn.getBoundingClientRect()); btnPt = [b.x + b.w / 2 + Math.min(150, b.w * 0.3), b.y + b.h / 2 + 2]; }
+    if (btn) { const b = rel(btn.getBoundingClientRect()); btnPt = [b.x + b.w / 2 + Math.min(70, b.w * 0.12), b.y + b.h / 2 + 2]; }
     ok = marks.every((m) => m.pts.length);
   }
 
