@@ -165,12 +165,15 @@ function syncFilled() {
   const s = state.sampleIdx === null ? null : SAMPLES[state.sampleIdx];
   const isSample = !!s && el.cause.value === s.cause && el.correction.value === s.correction;
   el.sampleTag.hidden = !isSample;
-  if (isSample) el.sampleTag.textContent = `Sample ${state.sampleIdx! + 1} of ${SAMPLES.length}: ${s!.label}`;
+  if (isSample) el.sampleTag.textContent = `Sample: ${s!.label}`;
 }
 
 function nextSample(): number {
-  state.sampleIdx = ((state.sampleIdx ?? -1) + 1) % SAMPLES.length;
-  el.sample.textContent = 'Another Sample Story';
+  // Story Roulette: a random sample, never the same one twice in a row.
+  const prev = state.sampleIdx;
+  let i = Math.floor(Math.random() * (prev === null ? SAMPLES.length : SAMPLES.length - 1));
+  if (prev !== null && i >= prev) i++;
+  state.sampleIdx = i;
   return state.sampleIdx;
 }
 
