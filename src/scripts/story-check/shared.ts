@@ -38,6 +38,7 @@ export interface Note {
 }
 
 export interface Result {
+  complaint?: string; // context only, never graded
   cause: string; // as graded (VINs removed)
   correction: string;
   grades: Record<ElementKey, Grade>;
@@ -75,6 +76,7 @@ export function gpaFor(grades: Record<ElementKey, Grade>): number {
 export interface Sample {
   id: string;
   label: string;
+  complaint: string;
   cause: string;
   correction: string;
 }
@@ -85,48 +87,56 @@ export const SAMPLES: Sample[] = [
   {
     id: 'misfire',
     label: 'Misfire',
+    complaint: 'Customer states check engine light is on.',
     cause: 'Check engine light was observed illuminated. Scanned vehicle and found codes P0301 and P0302. Inspected spark plugs and found them worn. Spark plugs failed.',
     correction: 'Replaced spark plugs. Verified proper operation.',
   },
   {
     id: 'bearing',
     label: 'Humming at highway speed',
+    complaint: 'Customer states humming noise from the front at highway speeds.',
     cause: 'Road tested vehicle 6 miles, mileage in 41,212, mileage out 41,218. Confirmed humming noise from left front between 45 and 70 mph, louder when turning right (loading left side). Raised vehicle and used chassis ears; noise loudest at left front hub. Spun wheel by hand, felt roughness in left front hub bearing. Measured axial play 0.008 in, spec 0.002 in max. Right front bearing smooth, within spec. No DTCs. Left front hub bearing internal failure.',
     correction: 'Removed and replaced left front hub bearing assembly. Torqued axle nut and hub bolts to spec. Axial play 0.001 in after repair. Road tested 6 miles, mileage in 41,218, mileage out 41,224, no humming noise at any speed or while turning. Repair verified.',
   },
   {
     id: 'window',
     label: 'Window inop',
+    complaint: 'Customer states window does not go up or down.',
     cause: 'Window inop. Regulator bad.',
     correction: 'Replaced regulator.',
   },
   {
     id: 'brakes',
     label: 'Brake noise',
+    complaint: 'Customer states brakes are making noise.',
     cause: 'Verified customer concern. Performed inspection of the brake system as per customer request. Removed wheels and inspected front and rear brakes. Found that the brakes are making noise and the pads are not in good condition and need to be replaced at this time. Rotors also looked like they had some wear on them. Brake system is not operating as designed due to the condition of the brake components. Recommend replacing parts to correct the concern.',
     correction: 'Replaced brake pads and resurfaced rotors per procedure. Reinstalled wheels and torqued to specification. Verified repair. System operating as designed at this time. Repair complete.',
   },
   {
     id: 'battery',
     label: 'No start',
+    complaint: 'Customer states vehicle will not start.',
     cause: 'Duplicated no-crank. Battery 11.9 V at rest, failed load test at 9.2 V. No DTCs. Parasitic draw 25 mA, within spec. Battery internal failure.',
     correction: 'R&R battery. Charging system 14.3 V at idle. Cranked and started 5 times, OK.',
   },
   {
     id: 'trans',
     label: 'Harsh shifting',
+    complaint: 'Customer states transmission shifts hard.',
     cause: 'Verified customer concern of harsh shift. Connected scan tool and retrieved code P0756 shift solenoid B performance. Checked transmission fluid level and condition, fluid level was correct and fluid condition was normal for mileage. Performed pinpoint tests per service information, see attached printout for test results. Based on testing determined that the shift solenoid B is faulty and is causing the harsh shift condition that the customer is experiencing.',
     correction: 'Removed valve body and replaced shift solenoid B. Reinstalled valve body and refilled fluid to proper level. Performed transmission adaptive relearn. Road tested vehicle, shifts are now normal. Verified proper operation.',
   },
   {
     id: 'waterpump',
     label: 'Coolant leak',
+    complaint: 'Customer states coolant leaking under the vehicle.',
     cause: 'Found coolant leak. Water pump leaking.',
     correction: 'Replaced water pump and refilled coolant. No leaks.',
   },
   {
     id: 'ac',
     label: 'A/C blowing warm',
+    complaint: 'Customer states A/C is blowing warm air.',
     cause: 'Confirmed vent temp 68F at idle, 75F ambient. Gauges: low side 55 psi, high side 140 psi. Compressor clutch not engaging. Clutch coil resistance open (spec 3-4 ohms). No DTCs. Clutch coil failed.',
     correction: 'R&R compressor clutch coil. Clutch engages. Low side 30 psi, high side 190 psi. Vent temp 41F at idle, 45 min run test, no further concern.',
   },
@@ -484,6 +494,7 @@ export const MISFIRE_A = {
 export function sampleResult(s: Sample): Result {
   const r = SAMPLE_RESULTS[s.id];
   return {
+    complaint: s.complaint,
     cause: s.cause,
     correction: s.correction,
     grades: r.grades,

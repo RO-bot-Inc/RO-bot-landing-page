@@ -41,6 +41,12 @@ function stripVins(text: string): string {
   return text.replace(/\b[A-HJ-NPR-Z0-9]{17}\b/gi, (m) => (/\d/.test(m) && /[a-z]/i.test(m) ? '[VIN]' : m));
 }
 
+// The complaint is optional context for the grader (the rubric never grades it).
+function readOptional(value: unknown): string {
+  if (value == null || (typeof value === 'string' && value.trim() === '')) return '';
+  return readField(value);
+}
+
 function readField(value: unknown): string {
   if (typeof value !== 'string') throw new ScError('bad_input', 400);
   // eslint-disable-next-line no-control-regex
@@ -69,6 +75,7 @@ export default async (req: Request, context: Context) => {
     if (body.action === 'grade') {
       const cause = readField(body.cause);
       const correction = readField(body.correction);
+      const complaint = readOptional(body.complaint);
       if (!session.unlocked && session.used >= cfg.freePerDay) {
         return json({ error: 'limit', remaining: 0 }, 429);
       }
@@ -79,8 +86,9 @@ export default async (req: Request, context: Context) => {
       } else {
         await reserveIp(cfg, context.ip);
         await reserveDaily(cfg);
-        result = cfg.mode === 'live' ? await gradeLive(cfg, cause, correction) : gradeMock(cause, correction);
+        result = cfg.mode === 'live' ? await gradeLive(cfg, cause, correction, complaint) : gradeMock(cause, correction);
       }
+      result = { ...result, complaint };
       // Samples are pre-graded and cost nothing, so they don't use up a free check.
       const next = { used: session.used + (sample ? 0 : 1), unlocked: session.unlocked };
       console.log(`[story-check] graded mode=${sample ? 'sample' : cfg.mode} gpa=${result.gpa} notes=${result.notes.length} ms=${Date.now() - started}`);

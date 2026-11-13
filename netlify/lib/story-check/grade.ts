@@ -32,13 +32,13 @@ export interface GraderOutput {
   suggestions?: Array<{ element?: string; text?: string }>;
 }
 
-export async function gradeLive(cfg: Config, cause: string, correction: string): Promise<Result> {
+export async function gradeLive(cfg: Config, cause: string, correction: string, complaint = ''): Promise<Result> {
   const messages = [
     { role: 'system', content: warrantyPrompt.systemPrompt },
     ...warrantyPrompt.fewShotExamples,
     {
       role: 'user',
-      content: `Grade this warranty documentation:\n\nCOMPLAINT: (not provided)\n\nCAUSE: ${cause || '(empty)'}\n\nCORRECTION: ${correction || '(empty)'}`,
+      content: `Grade this warranty documentation:\n\nCOMPLAINT: ${complaint || '(not provided)'}\n\nCAUSE: ${cause || '(empty)'}\n\nCORRECTION: ${correction || '(empty)'}`,
     },
   ];
   let res: Response;
@@ -64,7 +64,7 @@ export async function gradeLive(cfg: Config, cause: string, correction: string):
   } catch {
     throw new ScError('upstream', 502);
   }
-  return toResult(cause, correction, out);
+  return toResult(cause, correction, out, complaint);
 }
 
 // ---------------------------------------------------------------------------

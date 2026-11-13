@@ -25,6 +25,7 @@ const el = {
   editTools: $('sc-edit-tools'),
   reedit: $('sc-reedit'),
   edit: $<HTMLFormElement>('sc-edit'),
+  complaint: $<HTMLTextAreaElement>('sc-complaint'),
   cause: $<HTMLTextAreaElement>('sc-cause'),
   correction: $<HTMLTextAreaElement>('sc-correction'),
   website: $<HTMLInputElement>('sc-website'),
@@ -33,6 +34,8 @@ const el = {
   left: $('sc-left'),
   marked: $('sc-marked'),
   stamp: $('sc-stamp'),
+  mComplaintWrap: $('sc-m-complaint-wrap'),
+  mComplaint: $('sc-m-complaint'),
   mCause: $('sc-m-cause'),
   mCorr: $('sc-m-corr'),
   aToggle: $('sc-a-toggle'),
@@ -61,9 +64,9 @@ const el = {
   thanks: $('sc-thanks'),
   thanksTitle: $('sc-thanks-title'),
   keep: $('sc-keep'),
-  liveTag: $('sc-live-tag'),
   live: $('sc-live'),
   liveStamp: $('sc-live-stamp'),
+  liveComplaint: $('sc-live-complaint'),
   liveCause: $('sc-live-cause'),
   liveCorr: $('sc-live-corr'),
   liveGo: $('sc-live-go'),
@@ -72,6 +75,7 @@ const el = {
   liveCol: $('sc-live-col'),
   liveInk: document.getElementById('sc-live-ink') as unknown as SVGSVGElement,
   livePen: $('sc-live-pen'),
+  liveStamper: $('sc-live-stamper'),
   right: $('sc-right'),
   cols: document.querySelector<HTMLElement>('.sc-cols')!,
 };
@@ -166,7 +170,6 @@ function show(screen: Screen) {
     el.editTools.hidden = true;
   }
   el.live.hidden = !(screen === 'edit' && state.live);
-  el.liveTag.hidden = el.live.hidden;
   // Nothing goes beside the story until it's graded, so it takes the full width.
   el.right.hidden = screen === 'edit';
   el.cols.classList.toggle('is-wide', screen === 'edit');
@@ -183,7 +186,7 @@ function syncFilled() {
 
 function nextSample(): number {
   state.sampleIdx = ((state.sampleIdx ?? -1) + 1) % SAMPLES.length;
-  el.sample.textContent = 'Another sample';
+  el.sample.textContent = 'Another Sample Story';
   return state.sampleIdx;
 }
 
@@ -210,9 +213,15 @@ function segments(text: string, notes: Note[], field: Note['field']): string {
   return out + esc(text.slice(pos));
 }
 
+function setComplaint(text: string) {
+  el.mComplaint.textContent = text.trim();
+  el.mComplaintWrap.hidden = !text.trim();
+}
+
 function renderMarked(pop = false) {
   const r = state.result;
   if (!r) return;
+  setComplaint(r.complaint || '');
   el.mCause.innerHTML = segments(r.cause, r.notes, 'cause');
   el.mCorr.innerHTML = segments(r.correction, r.notes, 'correction');
   el.stamp.className = `sc-stamp${r.gpa >= 3.3 ? ' is-good' : ''}${pop ? ' is-pop' : ''}`;
@@ -234,7 +243,7 @@ function renderA(open: boolean) {
 // ------------------------------------------------------------------ first look
 // The misfire sample types itself in, a red pen marks it up and writes in the
 // margins (see pen.ts), the stamp lands, then it loops. Built from the sample's
-// recorded grade, so it always matches what "Paste a sample" returns.
+// recorded grade, so it always matches what "Sample Story" returns.
 let livePen: ReturnType<typeof createPen> | null = null;
 
 function liveStart() {
@@ -244,7 +253,8 @@ function liveStart() {
   state.live = true;
   show('edit');
   livePen = createPen(
-    { root: el.live, story: el.liveStory, col: el.liveCol, cause: el.liveCause, corr: el.liveCorr, ink: el.liveInk, notes: el.liveNotes, stamp: el.liveStamp, pen: el.livePen },
+    { root: el.live, story: el.liveStory, col: el.liveCol, complaint: el.liveComplaint, stamper: el.liveStamper, cause: el.liveCause, corr: el.liveCorr, ink: el.liveInk, notes: el.liveNotes, stamp: el.liveStamp, pen: el.livePen },
+    s.complaint,
     r.cause,
     r.correction,
     r.notes,
@@ -259,7 +269,7 @@ function liveStop(focus: boolean) {
   state.live = false;
   livePen?.stop();
   show('edit');
-  if (focus) el.cause.focus();
+  if (focus) el.complaint.focus();
 }
 
 // ------------------------------------------------------------------ results
@@ -327,7 +337,7 @@ function clearTimers() {
   state.timers = [];
 }
 
-async function grade(cause: string, correction: string) {
+async function grade(complaint: string, cause: string, correction: string) {
   if (state.busy) return;
   showError('');
   if (state.remaining === 0) return openModal(true);
@@ -339,6 +349,7 @@ async function grade(cause: string, correction: string) {
   state.active = null;
   state.reportSent = false;
   state.showA = false;
+  setComplaint(complaint);
   el.mCause.textContent = cause.trim();
   el.mCorr.textContent = correction.trim();
   el.stamp.className = 'sc-stamp';
@@ -352,7 +363,7 @@ async function grade(cause: string, correction: string) {
   const minWait = new Promise((r) => setTimeout(r, MIN_GRADING_MS));
 
   try {
-    const [{ status, data }] = await Promise.all([call({ action: 'grade', cause, correction }), minWait]);
+    const [{ status, data }] = await Promise.all([call({ action: 'grade', complaint, cause, correction }), minWait]);
     clearTimers();
     if ('remaining' in data) state.remaining = data.remaining;
     renderLeftLabel();
@@ -494,6 +505,7 @@ el.correction.addEventListener('input', () => { syncFilled(); showError(''); });
 
 el.sample.addEventListener('click', () => {
   const s = SAMPLES[nextSample()];
+  el.complaint.value = s.complaint;
   el.cause.value = s.cause;
   el.correction.value = s.correction;
   syncFilled();
@@ -503,7 +515,7 @@ el.sample.addEventListener('click', () => {
 el.edit.addEventListener('submit', (e) => {
   e.preventDefault();
   if (!el.cause.value.trim() || !el.correction.value.trim()) return showError('Paste both a cause and a correction first.');
-  grade(el.cause.value, el.correction.value);
+  grade(el.complaint.value, el.cause.value, el.correction.value);
 });
 
 el.reedit.addEventListener('click', () => {
@@ -517,11 +529,12 @@ el.another.addEventListener('click', () => {
   clearTimers();
   state.result = null;
   state.active = null;
+  el.complaint.value = '';
   el.cause.value = '';
   el.correction.value = '';
   syncFilled();
   show('edit');
-  el.cause.focus();
+  el.complaint.focus();
 });
 
 el.aToggle.addEventListener('click', () => renderA(el.a.hidden !== false));

@@ -27,7 +27,7 @@ What to fix:
 ${notes}
 
 The story you checked:
-
+${r.complaint ? `\nComplaint: ${r.complaint}\n` : ''}
 Cause: ${r.cause}
 
 Correction: ${r.correction}

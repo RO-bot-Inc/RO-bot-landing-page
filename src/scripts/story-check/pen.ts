@@ -43,7 +43,7 @@ interface Mark {
 }
 
 export interface PenEls {
-  root: HTMLElement; story: HTMLElement; col: HTMLElement; cause: HTMLElement; corr: HTMLElement;
+  root: HTMLElement; story: HTMLElement; col: HTMLElement; complaint: HTMLElement; cause: HTMLElement; corr: HTMLElement; stamper: HTMLElement;
   ink: SVGSVGElement; notes: HTMLElement; stamp: HTMLElement; pen: HTMLElement;
 }
 
@@ -60,9 +60,10 @@ const lerp = (a: Pt, b: Pt, f: number): Pt => [a[0] + (b[0] - a[0]) * f, a[1] + 
 const d = (pts: Pt[]) => 'M' + pts.map((p) => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
 const f1 = (p: Pt) => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
 
-export function createPen(els: PenEls, cause: string, correction: string, notes: Note[], stampHtml: string, stampGood: boolean) {
+export function createPen(els: PenEls, complaint: string, cause: string, correction: string, notes: Note[], stampHtml: string, stampGood: boolean) {
   const rnd = seeded(11);
-  const marksFor = (text: string, field: Note['field']) =>
+  type Field = Note['field'] | 'complaint'; // the complaint is context: never marked
+  const marksFor = (text: string, field: Field) =>
     notes
       .filter((n) => n.field === field && n.match && text.includes(n.match))
       .map((n) => ({ start: text.indexOf(n.match!), end: text.indexOf(n.match!) + n.match!.length, note: n }))
@@ -81,7 +82,7 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
     return p;
   };
   let offset = 0;
-  const fill = (host: HTMLElement, text: string, field: Note['field']) => {
+  const fill = (host: HTMLElement, text: string, field: Field) => {
     host.textContent = '';
     const ms = marksFor(text, field);
     const cuts = [...new Set([0, text.length, ...ms.flatMap((m) => [m.start, m.end])])].sort((a, b) => a - b);
@@ -118,6 +119,7 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
     }
     offset += text.length;
   };
+  fill(els.complaint, complaint, 'complaint');
   fill(els.cause, cause, 'cause');
   fill(els.corr, correction, 'correction');
   els.stamp.className = `sc-stamp sc-live-stamp${stampGood ? ' is-good' : ''}`;
@@ -126,11 +128,11 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
   caret.className = 'sc-live-caret';
 
   // ---- timeline: typing is fast (under 3 s), then the pen, mark by mark
-  const all = cause + correction;
+  const all = complaint + cause + correction;
   const times: number[] = [];
   let t = 150;
   for (let i = 0; i < all.length; i++) {
-    if (i === cause.length) t += 110;
+    if (i === complaint.length || i === complaint.length + cause.length) t += 110;
     t += 3 + rnd() * 5;
     if (all[i] === '.') t += 40;
     times.push(t);
@@ -149,12 +151,14 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
     w.shake = m.mood === 2 ? [w.slash[1] + 40, w.slash[1] + 440] : [w.slash[1], w.slash[1]];
     cur = w.shake[1] + 60;
   });
-  // Finale: the pen goes to the stamp spot, the stamp lands under it, then the
-  // pen points at "Your turn" and taps it, waits, and leaves.
-  const toStamp: Win = [cur, cur + 380];
-  const stampAt = toStamp[1] + 60;
+  // Finale: the pen steps aside, a rubber stamp slams the grade down and lifts
+  // off, then the pen points at "Your turn", taps it, waits, and leaves.
+  const toRest: Win = [cur, cur + 380];
+  const drop: Win = [toRest[1] + 120, toRest[1] + 400];
+  const stampAt = drop[1];
+  const lift: Win = [stampAt + 300, stampAt + 640];
   const loopEnd = stampAt + 260 + HOLD_MS;
-  const toBtn: Win = [stampAt + 420, stampAt + 900];
+  const toBtn: Win = [lift[1] + 60, lift[1] + 540];
   const taps: Win = [toBtn[1] + 80, toBtn[1] + 780];
   const exit: Win = [loopEnd - 900, loopEnd - 450];
 
@@ -303,7 +307,7 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         m.slashPath.setAttribute('d', d(m.slashPts));
       } else m.slashPath.setAttribute('d', '');
     });
-    const causeTop = rel(els.cause.getBoundingClientRect()).y;
+    const causeTop = rel((complaint ? els.complaint : els.cause).getBoundingClientRect()).y; // top of the story text
     // Wide: top corner of a margin no note uses; else under the story.
     const free = (side: 'left' | 'right') => placed[side].every((y) => y > causeTop + 110);
     stampXY = stacked
@@ -373,10 +377,16 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
     if (!marks.length) return null;
     const lastEnd = endPt(marks[marks.length - 1]);
     const sm = stampMid();
-    if (t < toStamp[1]) return { p: lerp(lastEnd, sm, smooth(prog(t, toStamp))), lift: 8, mood: 0 };
-    if (t < stampAt) return { p: sm, lift: 8, mood: 0 };
-    if (t < toBtn[0]) { const q = prog(t, [stampAt, toBtn[0]]); return { p: [sm[0] + 30 * q, sm[1] - 40 * attack(q)], lift: 14, mood: 0 }; }
-    const from: Pt = [sm[0] + 30, sm[1] - 40];
+    // Steps aside toward the middle of the card, so it never leaves the paper.
+    const toLeft = sm[0] > els.story.offsetWidth / 2;
+    const rest: Pt = stacked ? [sm[0] - 110, sm[1] + 80] : [sm[0] + (toLeft ? -150 : 150), sm[1] - 20];
+    if (t < toRest[1]) return { p: lerp(lastEnd, rest, overshoot(prog(t, toRest))), lift: 9, mood: 0 };
+    if (t < toBtn[0]) {
+      // Steps aside to watch, and flinches when the stamp hits.
+      const jolt = t >= stampAt ? 5 * Math.sin(clamp((t - stampAt) / 180) * Math.PI) : 0;
+      return { p: [rest[0] + jolt, rest[1] - jolt], lift: 9 + jolt, mood: 0 };
+    }
+    const from = rest;
     if (t < toBtn[1]) return { p: lerp(from, btnPt, overshoot(prog(t, toBtn))), lift: 9, mood: 0 };
     if (t < taps[1]) return { p: btnPt, lift: 9 * (1 - tap(prog(t, taps), 2)), mood: 0 };
     if (t < exit[0]) return { p: [btnPt[0] + 2 * Math.sin(t / 260), btnPt[1] - 2 + 2 * Math.cos(t / 330)], lift: 9, mood: 0 };
@@ -402,7 +412,7 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         tok.typed.data = tok.text.slice(0, n);
         tok.rest.textContent = tok.text.slice(n);
         if (k >= tok.start && k < tok.start + tok.text.length) caretTok = tok;
-        else if (!caretTok && k === tok.start + tok.text.length && (k === cause.length || k === all.length)) caretTok = tok;
+        else if (!caretTok && k === tok.start + tok.text.length && (k === all.length)) caretTok = tok;
       });
       if (caretTok && !still) (caretTok as Tok).el.insertBefore(caret, (caretTok as Tok).rest);
     }
@@ -436,13 +446,31 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
       const ang = -38 + wob - (pen.mood === 2 ? 6 : 0) + lean + (pen.rot ?? 0);
       els.pen.style.transform = `translate(${pen.p[0].toFixed(1)}px, ${(pen.p[1] - 6.5 - pen.lift).toFixed(1)}px) rotate(${ang.toFixed(1)}deg)`;
     } else lastPen = null;
-    const ps = still ? 1 : clamp((t - stampAt) / 260);
+    // The impression appears the instant the stamp hits.
+    const hit = still || t >= stampAt;
+    const ps = hit ? 1 : 0;
+    const settle = still ? 0 : 1 - clamp((t - stampAt) / 140);
     els.stamp.style.left = stampXY[0].toFixed(0) + 'px';
     els.stamp.style.top = stampXY[1].toFixed(0) + 'px';
-    els.stamp.style.opacity = ps > 0 ? '1' : '0';
-    els.stamp.style.transform = `rotate(-9deg) scale(${(1.8 - 0.8 * ps).toFixed(3)})`;
+    els.stamp.style.opacity = hit ? '1' : '0';
+    els.stamp.style.transform = `rotate(-9deg) scale(${(1 + 0.05 * (hit ? settle : 0)).toFixed(3)})`;
+    // The rubber stamp: drops in fast, squashes on impact, lifts away.
+    const sm = stampMid();
+    const size = stacked ? 0.72 : 1;
+    let sy = 0, sc = 1, squash = 1, sop = 0;
+    if (!still && t >= drop[0] && t < lift[1]) {
+      sop = 1;
+      if (t < stampAt) { const q = prog(t, drop); sy = -170 * (1 - q * q); sc = 1.25 - 0.25 * q * q; }
+      else if (t < lift[0]) squash = 1 - 0.1 * Math.sin(clamp((t - stampAt) / 120) * Math.PI);
+      else { const q = smooth(prog(t, lift)); sy = -170 * q; sc = 1 + 0.15 * q; sop = 1 - q; }
+    }
+    els.stamper.style.opacity = sop.toFixed(2);
+    els.stamper.style.transform = `translate(${(sm[0] - 55).toFixed(1)}px, ${(sm[1] + 22 * size - 130 + sy).toFixed(1)}px) rotate(-9deg) scale(${(sc * size).toFixed(3)}, ${(sc * size * squash).toFixed(3)})`;
+    // The card jumps a little on impact.
+    const shake = still || t < stampAt ? 0 : 1 - clamp((t - stampAt) / 240);
+    els.story.style.transform = shake > 0 ? `translate(${(3 * Math.sin(t / 9) * shake).toFixed(1)}px, ${(2 * shake * Math.sin((t - stampAt) / 30)).toFixed(1)}px)` : '';
     const fade = still ? 1 : 1 - clamp((t - (loopEnd - FADE_MS)) / FADE_MS);
-    [els.ink, els.notes, els.stamp, els.cause, els.corr].forEach((x) => ((x as HTMLElement).style.opacity = fade < 1 ? fade.toFixed(2) : ''));
+    [els.ink, els.notes, els.stamp, els.complaint, els.cause, els.corr].forEach((x) => ((x as HTMLElement).style.opacity = fade < 1 ? fade.toFixed(2) : ''));
     if (ps > 0 && fade === 1) els.stamp.style.opacity = '1';
   }
 
