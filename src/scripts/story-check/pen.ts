@@ -20,9 +20,10 @@ type Win = [number, number];
 type Field = Note['field'] | 'complaint'; // the complaint is context: never marked
 
 // How the pen treats each line of the misfire sample (the first look, and grading that sample).
-const STYLE: Record<string, { kind: Kind; mood: Mood; rage?: boolean }> = {
+// also: other phrases in the same field the pen marks the same way before it writes the note.
+const STYLE: Record<string, { kind: Kind; mood: Mood; rage?: boolean; also?: string[] }> = {
   'Check engine light was observed illuminated': { kind: 'underline', mood: 0 },
-  P0301: { kind: 'circle', mood: 0 },
+  P0301: { kind: 'circle', mood: 0, also: ['P0302'] },
   'spark plugs': { kind: 'circle', mood: 1 },
   worn: { kind: 'circle', mood: 2 },
   'Replaced spark plugs': { kind: 'underline', mood: 1 },
@@ -30,7 +31,7 @@ const STYLE: Record<string, { kind: Kind; mood: Mood; rage?: boolean }> = {
 };
 
 // Any other line: the worse the grade, the angrier the pen.
-function styleFor(note: Note, matched: boolean): { kind: Kind; mood: Mood; rage?: boolean } {
+function styleFor(note: Note, matched: boolean): { kind: Kind; mood: Mood; rage?: boolean; also?: string[] } {
   if (matched && STYLE[note.match!]) return STYLE[note.match!];
   const g = /·\s*(\S+)\s*$/.exec(note.criterion)?.[1] ?? '';
   const mood: Mood = g === 'F' || g === 'missing' || g === '✕' ? 2 : g === 'D' ? 1 : 0;
@@ -55,7 +56,8 @@ interface Tok { text: string; el: HTMLElement; typed: Text; rest: HTMLElement; s
 interface Mark {
   id: number; note: string; label: string; kind: Kind; mood: Mood; rage: boolean; el: HTMLElement;
   w: { trav: Win; hover: Win; mark: Win; arrow: Win; write: Win; slash: Win; shake: Win };
-  pts: Pt[]; markPath: SVGPathElement; arrowPath: SVGPathElement; headPath: SVGPathElement; slashPath: SVGPathElement;
+  pts: Pt[]; markPaths: SVGPathElement[]; arrowPath: SVGPathElement; headPath: SVGPathElement; slashPaths: SVGPathElement[];
+  sw: number; extras: HTMLElement[];
   noteEl: HTMLElement; numEl: HTMLElement;
   // geometry, set by measure()
   P0: Pt; C1: Pt; C2: Pt; P1: Pt; num: Pt; nx: number; ny: number; nw: number; fs: number; slashPts: Pt[];
@@ -86,7 +88,8 @@ const f1 = (p: Pt) => p[0].toFixed(1) + ' ' + p[1].toFixed(1);
 // A mark made of separate strokes: the pen draws each one, then lifts and moves
 // to the start of the next. q runs 0..1 over the whole mark; drawn is the share
 // of ink down (by length, as the SVG path's dash counts it).
-type Run = (q: number) => { p: Pt; lift: number; drawn: number };
+// i and f: the stroke the pen is on and how much of it is down (earlier strokes are done).
+type Run = (q: number) => { p: Pt; lift: number; drawn: number; i: number; f: number };
 function strokes(list: Pt[][], gapShare = 0.12): Run {
   const ss = list.filter((s) => s.length > 1);
   const lens = ss.map((s) => s.slice(1).reduce((a, p, k) => a + Math.hypot(p[0] - s[k][0], p[1] - s[k][1]), 0));
@@ -103,20 +106,20 @@ function strokes(list: Pt[][], gapShare = 0.12): Run {
     return s[s.length - 1];
   };
   return (q) => {
-    if (!ss.length) return { p: [0, 0], lift: 0, drawn: 1 };
+    if (!ss.length) return { p: [0, 0], lift: 0, drawn: 1, i: 0, f: 1 };
     let t = clamp(q), cum = 0;
     for (let i = 0; i < ss.length; i++) {
       const share = (drawShare * lens[i]) / total;
-      if (t <= share) { const f = share ? t / share : 1; return { p: along(ss[i], f * lens[i]), lift: 0, drawn: (cum + f * lens[i]) / total }; }
+      if (t <= share) { const f = share ? t / share : 1; return { p: along(ss[i], f * lens[i]), lift: 0, drawn: (cum + f * lens[i]) / total, i, f }; }
       t -= share;
       cum += lens[i];
       if (i < ss.length - 1) {
-        if (t <= g) { const f = t / g; return { p: lerp(ss[i][ss[i].length - 1], ss[i + 1][0], smooth(f)), lift: 7 * Math.sin(Math.PI * f), drawn: cum / total }; }
+        if (t <= g) { const f = t / g; return { p: lerp(ss[i][ss[i].length - 1], ss[i + 1][0], smooth(f)), lift: 7 * Math.sin(Math.PI * f), drawn: cum / total, i, f: 1 }; }
         t -= g;
       }
     }
     const last = ss[ss.length - 1];
-    return { p: last[last.length - 1], lift: 0, drawn: 1 };
+    return { p: last[last.length - 1], lift: 0, drawn: 1, i: ss.length - 1, f: 1 };
   };
 }
 
@@ -290,6 +293,14 @@ export function createPen(
     els.ink.appendChild(p);
     return p;
   };
+  // One SVG path per stroke, so each draws in on its own (a dash animation runs every subpath at once).
+  const setStrokes = (list: SVGPathElement[], sw: number, lines: Pt[][]) => {
+    while (list.length < Math.max(1, lines.length)) list.push(path(sw));
+    while (list.length > Math.max(1, lines.length)) list.pop()!.remove();
+    list.forEach((p, k) => p.setAttribute('d', lines[k] && lines[k].length > 1 ? d(lines[k]) : ''));
+  };
+  const drawStrokes = (list: SVGPathElement[], r: { i: number; f: number }) =>
+    list.forEach((p, k) => draw(p, k < r.i ? 1 : k === r.i ? r.f : 0));
   const addMark = (note: Note, el: HTMLElement, matched: boolean, index: number) => {
     const st = styleFor(note, matched);
     const noteEl = document.createElement('div');
@@ -300,12 +311,13 @@ export function createPen(
     marks.push({
       id: marks.length, note: note.pen, label: String(loop ? index : note.n), kind: st.kind, mood: st.mood, rage: !!st.rage, el,
       w: { trav: [0, 0], hover: [0, 0], mark: [0, 0], arrow: [0, 0], write: [0, 0], slash: [0, 0], shake: [0, 0] },
-      pts: [], markPath: path(st.kind === 'strike' && st.mood === 2 ? 2.6 : PACE[st.mood].sw), arrowPath: path(2.2), headPath: path(2.2), slashPath: path(2.2),
+      pts: [], sw: st.kind === 'strike' && st.mood === 2 ? 2.6 : PACE[st.mood].sw, extras: [], markPaths: [], arrowPath: path(2.2), headPath: path(2.2), slashPaths: [],
       noteEl, numEl,
       P0: [0, 0], C1: [0, 0], C2: [0, 0], P1: [0, 0], num: [0, 0], nx: 0, ny: 0, nw: 0, fs: 27, slashPts: [], run: strokes([]), slashRun: strokes([]),
     });
   };
   let offset = 0;
+  const pendingExtras: { el: HTMLElement; n: number }[] = [];
   const fill = (host: HTMLElement, text: string, field: Field, fieldIdx: number) => {
     host.textContent = '';
     const mine = notes.filter((n) => n.field === field);
@@ -316,7 +328,10 @@ export function createPen(
       .sort((a, b) => a.start - b.start)
       .filter((m, i, all) => i === 0 || m.start >= all[i - 1].end);
     const inserts = mine.filter((n) => !ms.some((m) => m.note === n));
-    const cuts = [...new Set([0, text.length, ...ms.flatMap((m) => [m.start, m.end])])].sort((a, b) => a - b);
+    // Phrases a note also marks (P0302 with P0301), where they don't overlap a marked phrase.
+    const extra = ms.flatMap((m) => (STYLE[m.note.match!]?.also ?? []).map((ph) => ({ start: text.indexOf(ph), end: text.indexOf(ph) + ph.length, note: m.note })))
+      .filter((x) => x.start >= 0 && !ms.some((m) => x.start < m.end && x.end > m.start));
+    const cuts = [...new Set([0, text.length, ...[...ms, ...extra].flatMap((m) => [m.start, m.end])])].sort((a, b) => a - b);
     for (let i = 0; i < cuts.length - 1; i++) {
       const piece = text.slice(cuts[i], cuts[i + 1]);
       const m = ms.find((x) => x.start === cuts[i]);
@@ -329,6 +344,8 @@ export function createPen(
       host.appendChild(el);
       toks.push({ text: piece, el, typed, rest, start: offset + cuts[i], field: fieldIdx });
       if (m) { el.dataset.mark = String(m.note.n); addMark(m.note, el, true, marks.length + 1); }
+      const x = extra.find((e) => e.start === cuts[i]);
+      if (x) pendingExtras.push({ el, n: x.note.n });
     }
     if (inserts.length) {
       const end = document.createElement('span');
@@ -341,6 +358,11 @@ export function createPen(
   fill(els.complaint, complaint, 'complaint', 0);
   fill(els.cause, cause, 'cause', 1);
   fill(els.corr, correction, 'correction', 2);
+  // Extra phrases join their mark once every mark exists, whichever comes first in the text.
+  pendingExtras.forEach(({ el, n }) => {
+    const owner = marks.find((k) => k.el.dataset.mark === String(n));
+    if (owner) { el.dataset.mark = String(n); owner.extras.push(el); }
+  });
   els.stamp.className = `sc-stamp sc-live-stamp${stampGood ? ' is-good' : ''}`;
   els.stamp.innerHTML = stampHtml;
   const caret = document.createElement('span');
@@ -474,10 +496,13 @@ export function createPen(
       if (m.kind === 'insert') rects.splice(0, rects.length - 1, ...[]); // the caret sits at the very end
       const box = m.kind === 'insert' ? [{ ...rects[0], x: rects[0].x, w: 14 }] : rects;
       // A phrase that wraps gets one stroke per line, drawn one after the other.
-      const lines = shape(m, box);
+      const lines = [
+        ...shape(m, box),
+        ...m.extras.flatMap((x) => shape(m, [...x.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1))),
+      ];
       m.pts = lines.flat();
       m.run = strokes(lines);
-      m.markPath.setAttribute('d', lines.map(d).join(' '));
+      setStrokes(m.markPaths, m.sw, lines);
       m.noteEl.style.fontSize = fs + 'px';
       m.noteEl.textContent = stacked || !loop ? `${m.label}. ${m.note}` : m.note;
       m.noteEl.style.width = ''; // measure the natural width, not the last one set
@@ -558,13 +583,13 @@ export function createPen(
         }
         m.slashPts = passes.flat();
         m.slashRun = strokes(passes, 0.09);
-        m.slashPath.setAttribute('d', passes.map(d).join(' '));
+        setStrokes(m.slashPaths, 2.2, passes);
       } else if (m.mood === 2) {
         const y = m.ny + fs * 1.08, x0 = m.nx - 2, x1 = m.nx + m.nw + 4;
         m.slashPts = Array.from({ length: 11 }, (_, k) => [x0 + (k / 10) * (x1 - x0), y + 1.6 * Math.sin(k * 1.3) - (k / 10) * 3] as Pt);
         m.slashRun = strokes([m.slashPts]);
-        m.slashPath.setAttribute('d', d(m.slashPts));
-      } else m.slashPath.setAttribute('d', '');
+        setStrokes(m.slashPaths, 2.2, [m.slashPts]);
+      } else setStrokes(m.slashPaths, 2.2, []);
     });
     const textTop = rel((complaint ? els.complaint : els.cause).getBoundingClientRect()).y;
     // Wide: top corner of a margin no note uses; else under the story.
@@ -713,7 +738,7 @@ export function createPen(
     marks.forEach((m) => {
       const w = m.w;
       const pm = (m.mood === 2 ? attack : smooth)(prog(t, w.mark));
-      draw(m.markPath, m.run(pm).drawn);
+      drawStrokes(m.markPaths, m.run(pm));
       const q = prog(t, w.arrow);
       if (stacked) {
         m.numEl.style.opacity = q >= 0.2 ? '1' : '0';
@@ -724,7 +749,7 @@ export function createPen(
       // Reveal left to right; once written, let the handwriting overhang its box.
       const pw = prog(t, w.write);
       m.noteEl.style.clipPath = `inset(-12px calc(${((1 - pw) * 100).toFixed(1)}% - ${(12 * pw).toFixed(1)}px) -12px -12px)`;
-      draw(m.slashPath, m.slashRun((m.rage ? smooth : attack)(prog(t, w.slash))).drawn);
+      drawStrokes(m.slashPaths, m.slashRun((m.rage ? smooth : attack)(prog(t, w.slash))));
     });
     paint(still ? null : penAt(t), t);
     // The impression appears the instant the stamp hits.
