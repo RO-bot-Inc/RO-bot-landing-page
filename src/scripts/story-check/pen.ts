@@ -20,17 +20,17 @@ type Win = [number, number];
 type Field = Note['field'] | 'complaint'; // the complaint is context: never marked
 
 // How the pen treats each line of the misfire sample (the first look, and grading that sample).
-const STYLE: Record<string, { kind: Kind; mood: Mood }> = {
+const STYLE: Record<string, { kind: Kind; mood: Mood; rage?: boolean }> = {
   'Check engine light was observed illuminated': { kind: 'underline', mood: 0 },
   P0301: { kind: 'circle', mood: 0 },
   'spark plugs': { kind: 'circle', mood: 1 },
   worn: { kind: 'circle', mood: 2 },
   'Replaced spark plugs': { kind: 'underline', mood: 1 },
-  'Verified proper operation': { kind: 'strike', mood: 2 },
+  'Verified proper operation': { kind: 'strike', mood: 2, rage: true }, // "Road test it? Miles?": underlined over and over
 };
 
 // Any other line: the worse the grade, the angrier the pen.
-function styleFor(note: Note, matched: boolean): { kind: Kind; mood: Mood } {
+function styleFor(note: Note, matched: boolean): { kind: Kind; mood: Mood; rage?: boolean } {
   if (matched && STYLE[note.match!]) return STYLE[note.match!];
   const g = /·\s*(\S+)\s*$/.exec(note.criterion)?.[1] ?? '';
   const mood: Mood = g === 'F' || g === 'missing' || g === '✕' ? 2 : g === 'D' ? 1 : 0;
@@ -45,13 +45,15 @@ const PACE = [
   { trav: 260, hover: 120, mark: 560, arrow: 280, write: 500, sw: 2.7 },
   { trav: 200, hover: 560, mark: 380, arrow: 200, write: 400, sw: 3.1 },
 ];
-const HOLD_MS = 4000;
+const TYPE_SLOW = 1.25; // first look typing, 20% slower than it was
+const READ_MS = 2200; // first look: the pen reads the story before it marks anything
+const CTA_HOVER_MS = 5000; // first look: the pen hovers on "Your turn" before it loops
 const FADE_MS = 350;
 const SVG = 'http://www.w3.org/2000/svg';
 
 interface Tok { text: string; el: HTMLElement; typed: Text; rest: HTMLElement; start: number; field: number }
 interface Mark {
-  id: number; note: string; label: string; kind: Kind; mood: Mood; el: HTMLElement;
+  id: number; note: string; label: string; kind: Kind; mood: Mood; rage: boolean; el: HTMLElement;
   w: { trav: Win; hover: Win; mark: Win; arrow: Win; write: Win; slash: Win; shake: Win };
   pts: Pt[]; markPath: SVGPathElement; arrowPath: SVGPathElement; headPath: SVGPathElement; slashPath: SVGPathElement;
   noteEl: HTMLElement; numEl: HTMLElement;
@@ -258,7 +260,7 @@ export function createPen(
     numEl.className = 'sc-live-num';
     els.notes.append(noteEl, numEl);
     marks.push({
-      id: marks.length, note: note.pen, label: String(loop ? index : note.n), kind: st.kind, mood: st.mood, el,
+      id: marks.length, note: note.pen, label: String(loop ? index : note.n), kind: st.kind, mood: st.mood, rage: !!st.rage, el,
       w: { trav: [0, 0], hover: [0, 0], mark: [0, 0], arrow: [0, 0], write: [0, 0], slash: [0, 0], shake: [0, 0] },
       pts: [], markPath: path(st.kind === 'strike' && st.mood === 2 ? 2.6 : PACE[st.mood].sw), arrowPath: path(2.2), headPath: path(2.2), slashPath: path(2.2),
       noteEl, numEl,
@@ -312,41 +314,47 @@ export function createPen(
   let t = loop ? 150 : 0;
   for (let i = 0; i < all.length; i++) {
     if (!loop) { times.push(-1); continue; }
-    if (i === complaint.length || i === complaint.length + cause.length) t += 110;
-    t += 3 + rnd() * 5;
-    if (all[i] === '.') t += 40;
+    if (i === complaint.length || i === complaint.length + cause.length) t += 110 * TYPE_SLOW;
+    t += (3 + rnd() * 5) * TYPE_SLOW;
+    if (all[i] === '.') t += 40 * TYPE_SLOW;
     times.push(t);
   }
   const typeEnd = loop ? t + 200 : 0;
-  let cur = loop ? typeEnd : 150;
+  // First look: a beat after the typing, the pen comes in and reads the story before it marks.
+  const enter: Win = [typeEnd + 350, typeEnd + 800];
+  const read: Win = [enter[1], enter[1] + READ_MS];
+  let cur = loop ? read[1] + 120 : 150;
   marks.forEach((m, i) => {
     const p = PACE[m.mood];
     const w = m.w;
-    w.trav = [cur, cur + (i || opts.from ? p.trav * pace : 0)];
+    w.trav = [cur, cur + (i || loop || opts.from ? p.trav * pace : 0)];
     w.hover = [w.trav[1], w.trav[1] + p.hover * pace];
     w.mark = [w.hover[1], w.hover[1] + p.mark * pace];
     w.arrow = [w.mark[1] + 70, w.mark[1] + 70 + p.arrow * pace];
     w.write = [w.arrow[1] + 60, w.arrow[1] + 60 + p.write * pace * Math.max(0.7, m.note.length / 16)];
-    w.slash = m.mood === 2 ? [w.write[1] + 40, w.write[1] + 210] : [w.write[1], w.write[1]];
-    w.shake = m.mood === 2 ? [w.slash[1] + 40, w.slash[1] + 440] : [w.slash[1], w.slash[1]];
+    w.slash = m.mood === 2 ? [w.write[1] + 40, w.write[1] + (m.rage ? 900 : 210)] : [w.write[1], w.write[1]];
+    w.shake = m.mood === 2 ? [w.slash[1] + 40, w.slash[1] + (m.rage ? 640 : 440)] : [w.slash[1], w.slash[1]];
     cur = w.shake[1] + 60;
   });
   // Finale: the pen leaves, a rubber stamp slams the grade down and lifts off.
   // First look only: the pen comes back, taps "Your turn", waits, and leaves.
+  // First look: a beat before the stamp, and another after it before the pen comes back.
   const toRest: Win = [cur, cur + 380];
-  const drop: Win = [toRest[1] + 120, toRest[1] + 400];
+  const drop: Win = [toRest[1] + (loop ? 750 : 120), toRest[1] + (loop ? 1030 : 400)];
   const stampAt = drop[1];
-  const lift: Win = [stampAt + 300, stampAt + 640];
-  const loopEnd = loop ? stampAt + 260 + HOLD_MS : lift[1] + 40;
-  const toBtn: Win = [lift[1] + 60, lift[1] + 540];
+  const lift: Win = [stampAt + (loop ? 700 : 300), stampAt + (loop ? 1040 : 640)];
+  const toBtn: Win = [lift[1] + (loop ? 700 : 60), lift[1] + (loop ? 1180 : 540)];
   const taps: Win = [toBtn[1] + 80, toBtn[1] + 780];
-  const exit: Win = [loopEnd - 900, loopEnd - 450];
+  const exit: Win = [taps[1] + CTA_HOVER_MS, taps[1] + CTA_HOVER_MS + 450];
+  const loopEnd = loop ? exit[1] + 250 : lift[1] + 40;
 
   // ---- geometry
   let stacked = false;
   let ok = false;
   let stampXY: Pt = [0, 0];
   let exitPt: Pt = [0, 0];
+  let readPts: Pt[] = []; // first look: the line-by-line path the pen reads along
+  let readLen: number[] = [];
   let btnPt: Pt = [0, 0];
   const shape = (m: Mark, rects: Rect[]): Pt[][] => {
     const r = seeded(97 + m.id * 31);
@@ -494,7 +502,18 @@ export function createPen(
       m.noteEl.style.top = m.ny.toFixed(1) + 'px';
       m.noteEl.style.width = m.nw.toFixed(1) + 'px';
       // Aggravated notes get a hard line under them.
-      if (m.mood === 2) {
+      if (m.rage) {
+        // Exasperated: under it again and again, back and forth, harder each pass.
+        const y = m.ny + fs * 1.08, x0 = m.nx - 2, x1 = m.nx + m.nw + 4, r = seeded(53 + m.id);
+        m.slashPts = [];
+        for (let pass = 0; pass < 5; pass++) {
+          for (let k = 0; k <= 10; k++) {
+            const f = k / 10, x = pass % 2 ? x1 + pass * 2 - f * (x1 - x0 + pass * 4) : x0 - pass * 2 + f * (x1 - x0 + pass * 4);
+            m.slashPts.push([x, y + pass * 3.4 + (1.2 + pass * 0.5) * Math.sin(k * 1.3 + pass) + (r() - 0.5) * pass - (pass % 2 ? 0 : f * 3)]);
+          }
+        }
+        m.slashPath.setAttribute('d', d(m.slashPts));
+      } else if (m.mood === 2) {
         const y = m.ny + fs * 1.08, x0 = m.nx - 2, x1 = m.nx + m.nw + 4;
         m.slashPts = Array.from({ length: 11 }, (_, k) => [x0 + (k / 10) * (x1 - x0), y + 1.6 * Math.sin(k * 1.3) - (k / 10) * 3] as Pt);
         m.slashPath.setAttribute('d', d(m.slashPts));
@@ -515,6 +534,26 @@ export function createPen(
       story.style.setProperty('--below', Math.ceil(below) + 'px');
     }
     exitPt = [colR + (stacked ? 0 : 120), colB + 30];
+    if (loop) {
+      // The reading path: along each line of text, just above it, one line after another.
+      readPts = [];
+      fieldEls(els).forEach((f) => {
+        if (!f.textContent) return;
+        const range = document.createRange();
+        range.selectNodeContents(f);
+        const rows = new Map<number, Rect[]>();
+        [...range.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1).forEach((r) => {
+          const key = Math.round(r.y / 6);
+          rows.set(key, [...(rows.get(key) ?? []), r]);
+        });
+        [...rows.values()].sort((a, b) => a[0].y - b[0].y).forEach((rs) => {
+          const y = Math.max(...rs.map((r) => r.y + r.h)) - 10;
+          readPts.push([Math.min(...rs.map((r) => r.x)), y], [Math.max(...rs.map((r) => r.x + r.w)), y]);
+        });
+      });
+      readLen = [0];
+      for (let k = 1; k < readPts.length; k++) readLen.push(readLen[k - 1] + Math.hypot(readPts[k][0] - readPts[k - 1][0], readPts[k][1] - readPts[k - 1][1]));
+    }
     const btn = els.root.querySelector('.sc-live-go');
     if (btn) { const b = rel(btn.getBoundingClientRect()); btnPt = [b.x + b.w / 2 + Math.min(150, b.w * 0.3), b.y + b.h / 2 + 2]; }
     ok = marks.every((m) => m.pts.length);
@@ -526,11 +565,21 @@ export function createPen(
   const paint = penPainter(els.pen);
   const stampMid = (): Pt => { const r = stacked ? 33 : 48; return [stampXY[0] + r, stampXY[1] + r]; };
   const penAt = (t: number): PenPose | null => {
+    if (loop && readPts.length && t < read[1]) {
+      if (t < enter[0]) return null;
+      const off: Pt = [els.story.offsetWidth + 80, readPts[0][1] - 60];
+      if (t < enter[1]) return { p: lerp(off, readPts[0], overshoot(prog(t, enter))), lift: 7, mood: 0 };
+      const L = readLen[readLen.length - 1] * prog(t, read);
+      let k = 1;
+      while (k < readLen.length - 1 && readLen[k] < L) k++;
+      const seg = readLen[k] - readLen[k - 1] || 1;
+      return { p: lerp(readPts[k - 1], readPts[k], clamp((L - readLen[k - 1]) / seg)), lift: 6, mood: 0 };
+    }
     for (let i = 0; i < marks.length; i++) {
       const m = marks[i], w = m.w;
       const start = m.pts[0];
       const hoverPt: Pt = [start[0] - 3, start[1] - 9];
-      const prevEnd = i ? endPt(marks[i - 1]) : opts.from ?? hoverPt;
+      const prevEnd = i ? endPt(marks[i - 1]) : loop && readPts.length ? readPts[readPts.length - 1] : opts.from ?? hoverPt;
       if (t < w.trav[0]) return opts.from && i === 0 ? { p: opts.from, lift: 6, mood: 0 } : null;
       // Travel with a little momentum: lands past the spot and settles back.
       if (t < w.trav[1]) return { p: lerp(prevEnd, hoverPt, overshoot(prog(t, w.trav))), lift: 7, mood: m.mood };
