@@ -165,7 +165,7 @@ This is the 38-item list TenthGear's voice-first MPI uses, grouped in the order 
 })();
 </script>
 
-<div class="not-prose my-8 flex items-center gap-5 rounded-xl border border-gray-200 bg-surface p-5 md:gap-6">
+<div id="printable-checklist" class="not-prose my-8 flex scroll-mt-24 items-center gap-5 rounded-xl border border-gray-200 bg-surface p-5 md:gap-6">
   <a href="/blog-assets/16-multi-point-inspection-checklist/mpi-checklist.pdf" class="block w-24 shrink-0 md:w-32" aria-label="Download the Multi-Point Inspection Checklist PDF">
     <img src="/blog-assets/16-multi-point-inspection-checklist/mpi-checklist-thumb.png" alt="Preview of the one-page Multi-Point Inspection Checklist" width="371" height="480" class="w-full rounded border border-gray-300 bg-white shadow-md" />
   </a>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import NewsletterCTA from '../components/NewsletterCTA.astro';
+import StoryCheckerCTA from '../components/StoryCheckerCTA.astro';
 
 interface FAQ {
   question: string;
@@ -19,6 +20,7 @@ interface Props {
   heroPosition?: string;
   updatedDate?: string;
   faqs?: FAQ[];
+  tags?: string[];
 }
 
 const {
@@ -32,6 +34,7 @@ const {
   heroAlt,
   heroPosition,
   updatedDate,
+  tags = [],
   faqs,
 } = Astro.props;
 
@@ -97,6 +100,8 @@ const faqSchema = faqs && faqs.length > 0
   : null;
 
 const schemaJson = faqSchema ? [blogPostingSchema, faqSchema] : blogPostingSchema;
+// Warranty posts about writing stories link to the free checker; reimbursement-rate posts don't.
+const showStoryChecker = category === 'Warranty' && !tags.includes('Warranty Reimbursement');
 ---
 
 <BaseLayout
@@ -145,6 +150,7 @@ const schemaJson = faqSchema ? [blogPostingSchema, faqSchema] : blogPostingSchem
         <div class="prose prose-lg prose-gray max-w-none">
           <slot />
         </div>
+        {showStoryChecker && <StoryCheckerCTA />}
       </div>
     </div>
   </article>
