@@ -170,9 +170,10 @@ function syncFilled() {
 
 function nextSample(): number {
   // Story Roulette: a random sample, never the same one twice in a row.
-  let i = Math.floor(Math.random() * (SAMPLES.length - 1));
-  if (state.sampleIdx !== null && i >= state.sampleIdx) i++;
-  state.sampleIdx = i % SAMPLES.length;
+  const prev = state.sampleIdx;
+  let i = Math.floor(Math.random() * (prev === null ? SAMPLES.length : SAMPLES.length - 1));
+  if (prev !== null && i >= prev) i++;
+  state.sampleIdx = i;
   return state.sampleIdx;
 }
 
