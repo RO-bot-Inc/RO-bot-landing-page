@@ -83,15 +83,15 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
 
         <form class="sc-edit" id="sc-edit" novalidate>
           <div class="sc-field">
-            <label for="sc-complaint">Complaint <span class="sc-opt">optional</span></label>
+            <label for="sc-complaint"><span class="sc-tag">Complaint</span><span class="sc-opt">optional</span></label>
             <textarea id="sc-complaint" rows="2" maxlength="2000" placeholder="Paste the complaint: what the customer said."></textarea>
           </div>
           <div class="sc-field">
-            <label for="sc-cause">Cause</label>
+            <label for="sc-cause"><span class="sc-tag">Cause</span></label>
             <textarea id="sc-cause" rows="5" maxlength="2000" placeholder="Paste the cause: what you checked, what you found, what failed."></textarea>
           </div>
           <div class="sc-field">
-            <label for="sc-correction">Correction</label>
+            <label for="sc-correction"><span class="sc-tag">Correction</span></label>
             <textarea id="sc-correction" rows="3" maxlength="2000" placeholder="Paste the correction: what you did, how you confirmed the fix."></textarea>
           </div>
           <div class="sc-hp" aria-hidden="true"><label>Leave blank <input id="sc-website" tabindex="-1" autocomplete="off"></label></div>
@@ -229,8 +229,10 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-pill:hover { background: #DEDCDD; }
     .sc-edit { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 12px; margin: 0; }
     .sc-field { display: flex; flex-direction: column; gap: 6px; }
-    .sc-field label { font-size: 15px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #000; }
-    .sc-opt { margin-left: 6px; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: #6E6A6C; }
+    /* Section labels read as tags, never as story text: white on black. */
+    .sc-field label { display: flex; align-items: center; gap: 8px; }
+    .sc-tag, .sc-ml { display: inline-block; align-self: flex-start; padding: 4px 10px; border-radius: 6px; background: #000; color: #fff; font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 800; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; }
+    .sc-opt { font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; color: #6E6A6C; }
     .sc-field textarea { font: inherit; font-size: 16px; line-height: 1.55; padding: 12px; border: 1px solid rgba(0,0,0,0.18); border-radius: 10px; resize: vertical; color: #000; }
     .sc-body textarea::placeholder, .sc-body input::placeholder { color: #9B9799; }
     .sc-body textarea:focus, .sc-body input:focus { outline: 2px solid #000; outline-offset: 0; border-color: transparent; }
@@ -248,7 +250,7 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-stamp.is-pop { animation: sc-pop 0.45s ease-out; }
     .sc-stamp-l { font-size: 42px; line-height: 0.9; }
     .sc-stamp-g { font-size: 16px; }
-    .sc-ml { margin: 0 0 2px; font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #000; }
+    .sc-ml { margin: 0 0 6px; }
     .sc-mono-complaint { margin-bottom: 14px; padding-right: 84px; }
     .sc-mono { margin: 0; font-size: 15.5px; line-height: 1.95; font-family: ui-monospace, 'SF Mono', Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
     .sc-mono-cause { margin-bottom: 14px; padding-right: 84px; }

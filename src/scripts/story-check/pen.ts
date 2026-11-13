@@ -151,8 +151,8 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
     w.shake = m.mood === 2 ? [w.slash[1] + 40, w.slash[1] + 440] : [w.slash[1], w.slash[1]];
     cur = w.shake[1] + 60;
   });
-  // Finale: the pen steps aside, a rubber stamp slams the grade down and lifts
-  // off, then the pen points at "Your turn", taps it, waits, and leaves.
+  // Finale: the pen leaves, a rubber stamp slams the grade down and lifts off,
+  // then the pen comes back, points at "Your turn", taps it, waits, and leaves.
   const toRest: Win = [cur, cur + 380];
   const drop: Win = [toRest[1] + 120, toRest[1] + 400];
   const stampAt = drop[1];
@@ -377,16 +377,11 @@ export function createPen(els: PenEls, complaint: string, cause: string, correct
     if (!marks.length) return null;
     const lastEnd = endPt(marks[marks.length - 1]);
     const sm = stampMid();
-    // Steps aside toward the middle of the card, so it never leaves the paper.
-    const toLeft = sm[0] > els.story.offsetWidth / 2;
-    const rest: Pt = stacked ? [sm[0] - 110, sm[1] + 80] : [sm[0] + (toLeft ? -150 : 150), sm[1] - 20];
-    if (t < toRest[1]) return { p: lerp(lastEnd, rest, overshoot(prog(t, toRest))), lift: 9, mood: 0 };
-    if (t < toBtn[0]) {
-      // Steps aside to watch, and flinches when the stamp hits.
-      const jolt = t >= stampAt ? 5 * Math.sin(clamp((t - stampAt) / 180) * Math.PI) : 0;
-      return { p: [rest[0] + jolt, rest[1] - jolt], lift: 9 + jolt, mood: 0 };
-    }
-    const from = rest;
+    // The pen leaves the card before the stamp comes down, and comes back after it lifts.
+    const off: Pt = [els.story.offsetWidth + 80, Math.max(0, sm[1] - 120)];
+    if (t < toRest[1]) return { p: lerp(lastEnd, off, smooth(prog(t, toRest))), lift: 12, mood: 0 };
+    if (t < toBtn[0]) return null;
+    const from = off;
     if (t < toBtn[1]) return { p: lerp(from, btnPt, overshoot(prog(t, toBtn))), lift: 9, mood: 0 };
     if (t < taps[1]) return { p: btnPt, lift: 9 * (1 - tap(prog(t, taps), 2)), mood: 0 };
     if (t < exit[0]) return { p: [btnPt[0] + 2 * Math.sin(t / 260), btnPt[1] - 2 + 2 * Math.cos(t / 330)], lift: 9, mood: 0 };
