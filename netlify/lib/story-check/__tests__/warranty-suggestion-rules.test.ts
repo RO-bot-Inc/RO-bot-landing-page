@@ -1,5 +1,5 @@
 // The app's table, copied from app/server/services/__tests__/warranty-suggestion-rules.test.ts
-// (app commit 21fa69109). Runs on node:test through a tiny jest-style shim so the
+// (app commit fd4c9be65, after app PR #2770). Runs on node:test through a tiny jest-style shim so the
 // table stays word for word. Run: npm test
 import { describe, expect, test } from './jest-shim';
 import {
@@ -9,6 +9,9 @@ import {
   isMileageSuggestion,
   isClearDtcSuggestion,
   claimsExistingTestDrive,
+  namesComponent,
+  namesSubComponent,
+  causeHasAssemblyFailure,
 } from '../warranty-suggestion-rules';
 
 describe('warranty suggestion rules', () => {
@@ -86,6 +89,45 @@ describe('warranty suggestion rules', () => {
     'Add a test drive with miles driven to verify the repair.',
     'Verify the repair with a road test of at least 5 miles.',
   ])('proposes a test drive (kept): %s', (t) => expect(claimsExistingTestDrive(t)).toBe(false));
+
+  test.each([
+    'Replaced front brake pads.',
+    'Replaced both batteries.',
+    'Replaced valve cover gaskets.',
+    'Replaced spark plugs.',
+    'Replaced window switches.',
+    'Replaced upstream O2 sensors.',
+    'Replaced brake pad.',
+  ])('names a component (plurals count): %s', (t) => expect(namesComponent(t)).toBe(true));
+
+  test.each([
+    'Verified concern. Performed repair.',
+    'Line plugged with debris, cleared it.',
+  ])('names no listed component: %s', (t) => expect(namesComponent(t)).toBe(false));
+
+  test.each([
+    'Engine failed, internal knock.',
+    'Transmission failed to engage reverse.',
+    'Check engine light on. Engine seized, replaced engine.',
+    'Engine running rough. Engine replaced with reman unit.',
+    'Engine oil pressure low due to failed bearing.',
+  ])('assembly failure: %s', (t) => expect(causeHasAssemblyFailure(t)).toBe(true));
+
+  test.each([
+    'Verified check engine light illuminated. Found P0301, cylinder 1 coil failed.',
+    'Verified check engine light. Found P0455, EVAP purge valve failed.',
+    'Found DTC in engine control module, module failed.',
+    'Engine oil leak at oil pan, replaced oil pan.',
+    'Engine coolant leaking from water pump.',
+    'Removed engine cover, found coil pack cracked.',
+    'Check engine light on, catalyst efficiency failed.',
+  ])('NOT an assembly failure ("engine" names something else): %s', (t) => expect(causeHasAssemblyFailure(t)).toBe(false));
+
+  test('sub-component plurals count', () => {
+    expect(namesSubComponent('Engine failed, found bent valves.')).toBe(true);
+    expect(namesSubComponent('Transmission failed, burnt clutch packs.')).toBe(true);
+    expect(namesSubComponent('Engine failed.')).toBe(false);
+  });
 
   test('suggestion classifiers', () => {
     expect(isMileageSuggestion('Test drive mentioned - consider adding number of miles driven.')).toBe(true);

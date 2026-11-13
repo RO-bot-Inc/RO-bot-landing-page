@@ -192,14 +192,6 @@ export const SAMPLE_RESULTS: Record<string, { grades: Record<ElementKey, Grade>;
         "criterion": "Repair Action · C",
         "fixLabel": "Grader suggests:",
         "fix": "Add more specific detail to this element."
-      },
-      {
-        "field": "cause",
-        "match": null,
-        "pen": "Which internal part?",
-        "criterion": "Assembly named, not the part",
-        "fixLabel": "Grader suggests:",
-        "fix": "Assembly-level failure documented, consider identifying the specific sub-component that caused the failure (for example, cylinder head, torque converter, valve body)."
       }
     ]
   },

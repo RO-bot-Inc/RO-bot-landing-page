@@ -1,5 +1,5 @@
 // Copied word for word from the app: app/server/services/warranty-suggestion-rules.ts
-// at app commit 21fa69109 (2026-11-12, after app PRs #2764 and #2765). The app file is
+// at app commit fd4c9be65 (2026-11-12, after app PRs #2764, #2765 and #2770). The app file is
 // the source of truth. To re-sync after the app changes:
 //   git -C ../app show origin/main:server/services/warranty-suggestion-rules.ts
 // and paste it below this header.
@@ -68,6 +68,40 @@ export function isMileageSuggestion(text: string): boolean {
  */
 export function claimsExistingTestDrive(text: string): boolean {
   return /\b(test[\s-]?drive|road[\s-]?test)\s+(was\s+|is\s+)?(mentioned|noted|documented|performed|done|completed|stated)\b|\b(the|your)\s+(test[\s-]?drive|road[\s-]?test)\b|\bsince\s+(a|the)\s+(test[\s-]?drive|road[\s-]?test)\b|\blacks?\s+(a\s+)?mileage\b|\bmiles\s+driven\s+during\s+the\b/i.test(text);
+}
+
+// ── Component / assembly checks (2026-11-12) ─────────────────────────────
+// Plurals count: the old `\b` after the list missed "brake pads", "valves"
+// (15 prod stories had "component missing" with only a plural part named).
+const PLURAL = String.raw`(?:e?s)?\b`;
+
+const COMPONENT_PATTERN = new RegExp(
+  String.raw`\b(spark\s*plug|ignition\s*coil|coil\s*pack|fuel\s*injector|o2\s*sensor|oxygen\s*sensor|catalytic\s*converter|mass\s*air\s*flow|maf\s*sensor|throttle\s*body|egr\s*valve|pcv\s*valve|timing\s*belt|timing\s*chain|water\s*pump|fuel\s*pump|alternator|starter|batter(?:y|ies)|brake\s*pad|brake\s*rotor|caliper|wheel\s*bearing|ball\s*joint|tie\s*rod|control\s*arm|strut|shock|cv\s*axle|drive\s*shaft|transmission|clutch|flywheel|radiator|thermostat|heater\s*core|a\/?c\s*compressor|blower\s*motor|window\s*motor|door\s*lock|sensor|module|pump|valve|relay|motor|switch|connector|plug|belt|hose|filter|gasket|seal)` + PLURAL,
+  'i',
+);
+
+const ASSEMBLY_PATTERN = /\b(engine|transmission|transfer\s*case|differential|cvt)\b/i;
+const ASSEMBLY_FAILURE_PATTERN = /\b(fail|replac|defect|damag|worn|crack|leak|blow|seiz|broke)/i;
+const SUB_COMPONENT_PATTERN = new RegExp(
+  String.raw`\b(cylinder\s*head|head\s*gasket|piston|crankshaft|camshaft|connecting\s*rod|rod\s*bearing|main\s*bearing|oil\s*pump|timing\s*chain|timing\s*belt|valve|valvetrain|block|intake\s*manifold|exhaust\s*manifold|torque\s*converter|valve\s*body|solenoid|clutch\s*pack|planetary\s*gear|servo|accumulator|governor|band|drum|sun\s*gear|ring\s*gear|pinion|axle\s*shaft|side\s*gear|carrier\s*bearing|seal|gasket)` + PLURAL,
+  'i',
+);
+
+/**
+ * "engine" used to NAME something else, not the engine assembly: "check engine
+ * light", "engine control module", "engine oil". Prod 2026-11-12: 73 of 180
+ * "identify the sub-component" hints fired on these alone (66 on a check engine
+ * light). Stripped before the assembly test; "engine failed" still counts.
+ */
+const ENGINE_AS_ADJECTIVE = /\bcheck\s+engine(\s+(light|lamp))?\b|\bengine\s+(light|lamp|warning|control\s+module|computer|oil\s+(leak|leaks|leaking|seep|seepage|level|change|filter|cooler|pan|cap|dipstick)|coolant|mount|cover|harness|speed|rpm|temp(erature)?|bay|compartment|air\s+filter|running|idle|idles|idling)\b/gi;
+
+export const namesComponent = (text: string): boolean => COMPONENT_PATTERN.test(text);
+export const namesSubComponent = (text: string): boolean => SUB_COMPONENT_PATTERN.test(text);
+
+/** CAUSE reports a failure of a major assembly (engine, transmission, ...). */
+export function causeHasAssemblyFailure(cause: string): boolean {
+  const assemblyText = cause.replace(ENGINE_AS_ADJECTIVE, ' ');
+  return ASSEMBLY_PATTERN.test(assemblyText) && ASSEMBLY_FAILURE_PATTERN.test(cause);
 }
 
 /** A suggestion asking the tech to clear the codes. */

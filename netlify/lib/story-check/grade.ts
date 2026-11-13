@@ -16,12 +16,15 @@ import {
   DTC_PATTERN,
   NO_DTC_PATTERN,
   TEST_DRIVE_PATTERN,
+  causeHasAssemblyFailure,
   claimsExistingTestDrive,
   correctionClearsDtcs,
   hasMilesDriven,
   hasTestDrive as storyHasTestDrive,
   isClearDtcSuggestion,
   isMileageSuggestion,
+  namesComponent,
+  namesSubComponent,
 } from './warranty-suggestion-rules';
 
 export interface GraderOutput {
@@ -167,17 +170,16 @@ export function postModelPass(complaint: string, cause: string, correction: stri
   }
 
   // SERVER-SIDE COMPONENT DETECTION (missing -> C)
-  const componentPattern = /\b(spark\s*plug|ignition\s*coil|coil\s*pack|fuel\s*injector|o2\s*sensor|oxygen\s*sensor|catalytic\s*converter|mass\s*air\s*flow|maf\s*sensor|throttle\s*body|egr\s*valve|pcv\s*valve|timing\s*belt|timing\s*chain|water\s*pump|fuel\s*pump|alternator|starter|battery|brake\s*pad|brake\s*rotor|caliper|wheel\s*bearing|ball\s*joint|tie\s*rod|control\s*arm|strut|shock|cv\s*axle|drive\s*shaft|transmission|clutch|flywheel|radiator|thermostat|heater\s*core|a\/?c\s*compressor|blower\s*motor|window\s*motor|door\s*lock|sensor|module|pump|valve|relay|motor|switch|connector|plug|belt|hose|filter|gasket|seal)\b/i;
-  if (grades.componentIdentification === 'missing' && componentPattern.test(`${cause} ${correction}`)) {
+  // (rules: warranty-suggestion-rules.ts, plurals count, "brake pads")
+  if (grades.componentIdentification === 'missing' && namesComponent(`${cause} ${correction}`)) {
     grades.componentIdentification = 'C';
   }
 
   // SERVER-SIDE ASSEMBLY-LEVEL FAILURE DETECTION (Check 5)
-  const assemblyPattern = /\b(engine|transmission|transfer\s*case|differential|cvt)\b/i;
-  const subComponentPattern = /\b(cylinder\s*head|head\s*gasket|piston|crankshaft|camshaft|connecting\s*rod|rod\s*bearing|main\s*bearing|oil\s*pump|timing\s*chain|timing\s*belt|valve|valvetrain|block|intake\s*manifold|exhaust\s*manifold|torque\s*converter|valve\s*body|solenoid|clutch\s*pack|planetary\s*gear|servo|accumulator|governor|band|drum|sun\s*gear|ring\s*gear|pinion|axle\s*shaft|side\s*gear|carrier\s*bearing|seal|gasket)\b/i;
-  const assemblyFailurePattern = /\b(fail|replac|defect|damag|worn|crack|leak|blow|seiz|broke)/i;
-  const causeHasAssembly = assemblyPattern.test(cause) && assemblyFailurePattern.test(cause);
-  const causeHasSubComponent = subComponentPattern.test(cause);
+  // (rules: warranty-suggestion-rules.ts, "check engine light", "engine
+  // control module", "engine oil" name no engine failure)
+  const causeHasAssembly = causeHasAssemblyFailure(cause);
+  const causeHasSubComponent = namesSubComponent(cause);
   const isAssemblySuggestion = (s: Suggestion) =>
     s.text.toLowerCase().includes('sub-component') || s.text.toLowerCase().includes('sub component');
   if (causeHasAssembly && !causeHasSubComponent) {
