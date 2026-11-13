@@ -334,6 +334,12 @@ async function grade(complaint: string, cause: string, correction: string) {
           if (run !== state.run) return;
           renderResults();
           show('results');
+          // Marked phrases work like the note cards: click or Enter/Space picks the note.
+          el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => {
+            m.tabIndex = 0;
+            m.setAttribute('role', 'button');
+            m.setAttribute('aria-label', `Show note ${m.dataset.mark}`);
+          });
         },
       });
       gradePen.start(still);
@@ -506,6 +512,13 @@ el.aToggle.addEventListener('click', () => renderA(el.a.hidden !== false));
 document.addEventListener('click', (e) => {
   const t = (e.target as HTMLElement).closest<HTMLElement>('[data-note], #sc-review [data-mark]');
   if (t) pick(Number(t.dataset.note ?? t.dataset.mark));
+});
+
+el.review.addEventListener('keydown', (e) => {
+  const t = (e.target as HTMLElement).closest<HTMLElement>('[data-mark]');
+  if (!t || (e.key !== 'Enter' && e.key !== ' ')) return;
+  e.preventDefault();
+  pick(Number(t.dataset.mark));
 });
 
 el.gate.addEventListener('submit', sendReport);
