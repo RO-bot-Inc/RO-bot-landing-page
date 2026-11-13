@@ -259,11 +259,12 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         if (list.length && ny < list[list.length - 1] + fs * 2.15) ny = list[list.length - 1] + fs * 2.15;
         list.push(ny);
         const nwBox = nwMax;
-        const boxX = side === 'left' ? colL - 36 - nwBox : colR + 36;
+        const boxX = side === 'left' ? colL - 52 - nwBox : colR + 52;
         m.nx = side === 'left' ? boxX + nwBox - m.nw : boxX;
         m.ny = ny;
         const dir = side === 'left' ? 1 : -1;
-        const P0: Pt = side === 'left' ? [boxX + nwBox + 4, ny + fs * 0.66] : [boxX - 6, ny + fs * 0.66];
+        // The arrow starts a little clear of the note's real edge.
+        const P0: Pt = side === 'left' ? [m.nx + m.nw + 12, ny + fs * 0.66] : [m.nx - 12, ny + fs * 0.66];
         let P1: Pt, C1: Pt, C2: Pt;
         if (direct) {
           P1 = [gr.x - (m.kind === 'circle' ? 14 : 8), gr.y + gr.h / 2 + (m.kind === 'underline' ? 6 : 0)];
@@ -385,7 +386,9 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         draw(m.arrowPath, clamp(q / 0.78));
         draw(m.headPath, clamp((q - 0.78) / 0.22));
       }
-      m.noteEl.style.clipPath = `inset(-12px ${((1 - prog(t, w.write)) * 100).toFixed(1)}% -12px -12px)`;
+      // Reveal left to right; once written, let the handwriting overhang its box.
+      const pw = prog(t, w.write);
+      m.noteEl.style.clipPath = `inset(-12px calc(${((1 - pw) * 100).toFixed(1)}% - ${(12 * pw).toFixed(1)}px) -12px -12px)`;
       draw(m.slashPath, attack(prog(t, w.slash)));
     });
     const pen = still ? null : penAt(t);
@@ -426,7 +429,10 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
       still = reduced;
       measure();
       ro.observe(els.story);
-      document.fonts?.ready.then(() => { measure(); render(now, still); });
+      // Notes are sized to the handwriting font, so measure again once it has loaded.
+      const again = () => { measure(); lastK = -1; render(now, still); };
+      document.fonts?.ready.then(again);
+      document.fonts?.load(`700 27px Caveat`).then(again, () => {});
       if (reduced) { now = loopEnd; render(now, true); return; }
       now = 0;
       last = 0;
