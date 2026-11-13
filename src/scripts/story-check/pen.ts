@@ -385,7 +385,9 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
         draw(m.arrowPath, clamp(q / 0.78));
         draw(m.headPath, clamp((q - 0.78) / 0.22));
       }
-      m.noteEl.style.clipPath = `inset(-12px ${((1 - prog(t, w.write)) * 100).toFixed(1)}% -12px -12px)`;
+      // Reveal left to right; once written, let the handwriting overhang its box.
+      const pw = prog(t, w.write);
+      m.noteEl.style.clipPath = `inset(-12px calc(${((1 - pw) * 100).toFixed(1)}% - ${(12 * pw).toFixed(1)}px) -12px -12px)`;
       draw(m.slashPath, attack(prog(t, w.slash)));
     });
     const pen = still ? null : penAt(t);
@@ -426,7 +428,10 @@ export function createPen(els: PenEls, cause: string, correction: string, notes:
       still = reduced;
       measure();
       ro.observe(els.story);
-      document.fonts?.ready.then(() => { measure(); render(now, still); });
+      // Notes are sized to the handwriting font, so measure again once it has loaded.
+      const again = () => { measure(); lastK = -1; render(now, still); };
+      document.fonts?.ready.then(again);
+      document.fonts?.load(`700 27px Caveat`).then(again, () => {});
       if (reduced) { now = loopEnd; render(now, true); return; }
       now = 0;
       last = 0;
