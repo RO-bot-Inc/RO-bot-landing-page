@@ -270,6 +270,7 @@ export function createPen(
     const st = styleFor(note, matched);
     const noteEl = document.createElement('div');
     noteEl.className = 'sc-live-note';
+    noteEl.dataset.pen = String(note.n);
     const numEl = document.createElement('div');
     numEl.className = 'sc-live-num';
     els.notes.append(noteEl, numEl);
@@ -475,14 +476,13 @@ export function createPen(
       m.run = strokes(lines);
       setStrokes(m.markPaths, m.sw, lines);
       m.noteEl.style.fontSize = fs + 'px';
-      m.noteEl.textContent = stacked || !loop ? `${m.label}. ${m.note}` : m.note;
+      m.noteEl.textContent = m.note;
       m.noteEl.style.width = ''; // measure the natural width, not the last one set
       m.nw = Math.min(nwMax, m.noteEl.offsetWidth);
       m.fs = fs;
       if (stacked) {
         const lastR = box[box.length - 1];
-        m.numEl.textContent = m.label;
-        m.numEl.hidden = false;
+        m.numEl.hidden = true; // no numbers (Dave, 2026-11-13)
         m.num = [lastR.x + lastR.w + 1, lastR.y - 12];
         m.numEl.style.left = m.num[0].toFixed(1) + 'px';
         m.numEl.style.top = m.num[1].toFixed(1) + 'px';
