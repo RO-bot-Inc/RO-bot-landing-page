@@ -68,6 +68,7 @@ export interface PenEls {
   root: HTMLElement; story: HTMLElement; col: HTMLElement; complaintWrap: HTMLElement;
   complaint: HTMLElement; cause: HTMLElement; corr: HTMLElement; stamper: HTMLElement;
   ink: SVGSVGElement; notes: HTMLElement; stamp: HTMLElement; pen: HTMLElement;
+  stampLink?: HTMLElement | null; // sits right by the stamp (grading only)
 }
 
 export interface Story { complaint: string; cause: string; correction: string }
@@ -160,107 +161,66 @@ function resetCard(els: PenEls) {
   els.story.style.transform = '';
   els.pen.classList.remove('is-on');
   fieldEls(els).forEach((f) => f.classList.remove('is-focus'));
+  if (els.stampLink) els.stampLink.hidden = true;
+  els.story.style.removeProperty('--above');
 }
 
-// ------------------------------------------------------------------ reading
-// While the grader works: the pen reads the story line by line, lifted, with
-// the odd pause, and says what it's reading. Loops until stopped.
+// ------------------------------------------------------------------ layout
+// The story column with a margin either side for the pen's notes. The form uses
+// the same layout, so the fields keep their size when grading starts.
+export function fitColumns(box: HTMLElement, root: HTMLElement = box): boolean {
+  const inner = box.clientWidth - 40;
+  const gap = 24;
+  const g = Math.min(270, Math.floor((inner - 2 * gap - 460) / 2));
+  const stacked = g < 200;
+  root.classList.toggle('is-stacked', stacked);
+  box.style.setProperty('--g', stacked ? '0px' : g + 'px');
+  box.style.setProperty('--gap', stacked ? '0px' : gap + 'px');
+  return stacked;
+}
+
+// ------------------------------------------------------------------ waiting
+// While the grader works: the pen comes in and hovers over the story, ready.
 export function createReader(els: PenEls, story: Story, onStatus: (s: string) => void) {
   resetCard(els);
   els.complaintWrap.hidden = !story.complaint.trim();
   els.complaint.textContent = story.complaint.trim();
   els.cause.textContent = story.cause.trim();
   els.corr.textContent = story.correction.trim();
-  els.root.classList.toggle('is-stacked', els.story.clientWidth - 40 < 2 * 200 + 48 + 460);
-  els.story.style.setProperty('--g', '0px');
-  els.story.style.setProperty('--gap', '0px');
   els.story.style.setProperty('--below', '26px');
+  fitColumns(els.story, els.root);
   const paint = penPainter(els.pen);
-  const rnd = seeded(5);
-  const names = ['Reading the complaint', 'Reading the cause', 'Reading the correction'];
-  type Seg = { a: Pt; b: Pt; dur: number; field: number; pause?: boolean };
-  let segs: Seg[] = [];
-  let total = 0;
-
+  let off: Pt = [0, 0], spot: Pt = [0, 0];
   function plan() {
     const { ok, rel } = relTo(els.story);
     if (!ok) return;
-    // Only now do we know the card's width; re-run the wide/narrow layout the pen will use.
-    const g = Math.min(270, Math.floor((els.story.clientWidth - 40 - 48 - 460) / 2));
-    const stacked = g < 200;
-    els.root.classList.toggle('is-stacked', stacked);
-    els.story.style.setProperty('--g', stacked ? '0px' : g + 'px');
-    els.story.style.setProperty('--gap', stacked ? '0px' : '24px');
-    const lines: { x0: number; x1: number; y: number; field: number }[] = [];
-    fieldEls(els).forEach((f, field) => {
-      if (!f.textContent) return;
-      const range = document.createRange();
-      range.selectNodeContents(f);
-      const rows = new Map<number, Rect[]>();
-      [...range.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1).forEach((r) => {
-        const key = Math.round(r.y / 6);
-        rows.set(key, [...(rows.get(key) ?? []), r]);
-      });
-      [...rows.values()].forEach((rs) => lines.push({ x0: Math.min(...rs.map((r) => r.x)), x1: Math.max(...rs.map((r) => r.x + r.w)), y: Math.max(...rs.map((r) => r.y + r.h)) - 4, field }));
-    });
-    lines.sort((a, b) => a.y - b.y);
-    // Long stories read faster, so one pass stays under about 4.5 s.
-    const len = lines.reduce((s, l) => s + (l.x1 - l.x0), 0);
-    const speed = Math.max(0.9, len / 4200); // px per ms
-    segs = [];
-    let prev: Pt | null = null;
-    lines.forEach((l) => {
-      const a: Pt = [l.x0, l.y], b: Pt = [l.x1, l.y];
-      if (prev) segs.push({ a: prev, b: a, dur: 140, field: l.field });
-      // One "hmm" pause somewhere on most lines.
-      const stop = rnd() < 0.75 ? 0.3 + rnd() * 0.5 : -1;
-      if (stop > 0) {
-        const m = lerp(a, b, stop);
-        segs.push({ a, b: m, dur: (m[0] - a[0]) / speed, field: l.field });
-        segs.push({ a: m, b: m, dur: 220 + rnd() * 160, field: l.field, pause: true });
-        segs.push({ a: m, b, dur: (b[0] - m[0]) / speed, field: l.field });
-      } else segs.push({ a, b, dur: (b[0] - a[0]) / speed, field: l.field });
-      prev = b;
-    });
-    total = segs.reduce((s, x) => s + x.dur, 0);
+    fitColumns(els.story, els.root);
+    const f = rel((story.complaint.trim() ? els.complaint : els.cause).getBoundingClientRect());
+    spot = [f.x + f.w * 0.35, f.y + f.h * 0.5 + 10];
+    off = [els.story.offsetWidth + 80, spot[1] - 60];
   }
-
-  let raf = 0, now = 0, last = 0, passes = 0, pos: Pt = [0, 0], field = -1;
+  const ENTER = 450;
+  let raf = 0, now = 0, last = 0, pos: Pt = [0, 0];
   const tick = (ts: number) => {
     now += last ? Math.min(ts - last, 64) : 0;
     last = ts;
-    if (total > 0 && now >= total) { now -= total; passes++; }
-    let t = now;
-    for (const s of segs) {
-      if (t > s.dur) { t -= s.dur; continue; }
-      const q = s.dur ? t / s.dur : 1;
-      pos = s.pause ? [s.a[0] + 3 * Math.cos(q * 6.3), s.a[1] - 8 + 2 * Math.sin(q * 6.3)] : lerp(s.a, s.b, q);
-      if (s.field !== field) {
-        field = s.field;
-        fieldEls(els).forEach((f, i) => f.classList.toggle('is-focus', i === field));
-      }
-      onStatus(passes ? 'Checking it against what auditors flag' : names[s.field]);
-      paint({ p: s.pause ? pos : [pos[0], pos[1] - 6], lift: s.pause ? 5 : 6, mood: 0 }, ts);
-      break;
-    }
+    if (now < ENTER) pos = lerp(off, spot, overshoot(prog(now, [0, ENTER])));
+    // A slow "hmm" circle over the page while the grade comes back.
+    else { const a = (now - ENTER) / 260; pos = [spot[0] + 4 * Math.cos(a), spot[1] + 3 * Math.sin(a)]; }
+    paint({ p: pos, lift: 8, mood: 0 }, ts);
     raf = requestAnimationFrame(tick);
   };
   const ro = new ResizeObserver(() => plan());
-
   return {
     start() {
       plan();
       ro.observe(els.story);
-      onStatus(names[els.complaintWrap.hidden ? 1 : 0]);
+      onStatus('Reading your story');
       raf = requestAnimationFrame(tick);
     },
-    // How long one full read takes, so the grade never lands before the pen has read it all once.
-    get pass() { return total; },
-    get elapsed() { return now + passes * total; },
     stop(): Pt {
       cancelAnimationFrame(raf);
       ro.disconnect();
-      fieldEls(els).forEach((f) => f.classList.remove('is-focus'));
       return pos;
     },
   };
@@ -273,7 +233,7 @@ export function createPen(
   notes: Note[],
   stampHtml: string,
   stampGood: boolean,
-  opts: { mode: 'loop' | 'grade'; from?: Pt; onDone?: () => void } = { mode: 'loop' },
+  opts: { mode: 'loop' | 'grade'; from?: Pt; onDone?: () => void; link?: boolean } = { mode: 'loop' },
 ) {
   const loop = opts.mode === 'loop';
   const pace = loop ? 1 : 0.85;
@@ -281,6 +241,9 @@ export function createPen(
   resetCard(els);
   const complaint = story.complaint.trim(), cause = story.cause.trim(), correction = story.correction.trim();
   els.complaintWrap.hidden = !complaint;
+  // The link by the stamp takes its place now (so the layout doesn't jump) and shows when the stamp lands.
+  const link = opts.link ? els.stampLink ?? null : null;
+  if (link) { link.hidden = false; link.style.visibility = 'hidden'; }
 
   // ---- text, split into tokens so marked phrases are their own spans
   const toks: Tok[] = [];
@@ -473,13 +436,9 @@ export function createPen(
 
   function measure() {
     const story = els.story;
-    const inner = story.clientWidth - 40;
+    stacked = fitColumns(story, els.root);
     const gap = 24;
-    const g = Math.min(270, Math.floor((inner - 2 * gap - 460) / 2));
-    stacked = g < 200;
-    els.root.classList.toggle('is-stacked', stacked);
-    story.style.setProperty('--g', stacked ? '0px' : g + 'px');
-    story.style.setProperty('--gap', stacked ? '0px' : gap + 'px');
+    const g = Math.min(270, Math.floor((story.clientWidth - 40 - 2 * gap - 460) / 2));
     const rowH = 34;
     story.style.setProperty('--below', stacked ? 22 + 14 + marks.length * rowH + 'px' : '44px');
     const { ok: sized, rel } = relTo(story);
@@ -599,6 +558,20 @@ export function createPen(
       : free('right') ? [colR + 70, textTop - 14]
       : free('left') ? [colL - 170, textTop - 14]
       : [(colL + colR) / 2 - 48, colB + 8];
+    if (link) {
+      // Under the stamp in a margin; beside it when it lands under the story; on phones, above it.
+      const lw = link.offsetWidth || 240, lh = link.offsetHeight || 22, size = stacked ? 66 : 96;
+      const inner = els.story.clientWidth;
+      // Phones: the card gets a strip above the complaint for it, right over the stamp.
+      story.style.setProperty('--above', stacked ? 22 + lh + 10 + 'px' : '22px');
+      const xy: Pt = stacked
+        ? [colR - lw, col.y - lh - 8]
+        : stampXY[1] > colB ? [stampXY[0] + size + 18, stampXY[1] + size / 2 - lh / 2]
+        : [stampXY[0] + size / 2 - lw / 2, stampXY[1] + size + 10];
+      xy[0] = Math.max(8, Math.min(inner - lw - 8, xy[0]));
+      link.style.left = xy[0].toFixed(0) + 'px';
+      link.style.top = xy[1].toFixed(0) + 'px';
+    }
     if (!stacked) {
       // Room under the story for notes that ran long, and for the stamp when it lands there.
       let below = Math.max(44, lowest - colB + 16);
@@ -754,6 +727,7 @@ export function createPen(
     paint(still ? null : penAt(t), t);
     // The impression appears the instant the stamp hits.
     const hit = still || t >= stampAt;
+    if (link) link.style.visibility = hit ? '' : 'hidden';
     const settle = still ? 0 : 1 - clamp((t - stampAt) / 140);
     els.stamp.style.left = stampXY[0].toFixed(0) + 'px';
     els.stamp.style.top = stampXY[1].toFixed(0) + 'px';
