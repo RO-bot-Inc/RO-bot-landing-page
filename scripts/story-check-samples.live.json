@@ -1,0 +1,76 @@
+{
+ "battery": {
+  "grades": {
+   "complaintVerification": "B",
+   "diagnosticApproach": "B",
+   "componentIdentification": "C",
+   "failureMode": "C",
+   "repairAction": "B",
+   "finalVerification": "B"
+  },
+  "gpa": 2.67,
+  "notes": [
+   {
+    "field": "cause",
+    "match": "Battery failed",
+    "pen": "Which one? Where?",
+    "criterion": "Component Involved \u00b7 C",
+    "fixLabel": "Grader suggests:",
+    "fix": "Specify which battery (for example, OEM part number or group size) for clarity."
+   },
+   {
+    "field": "cause",
+    "match": "failed",
+    "pen": "Failed how? Spec?",
+    "criterion": "Root Cause \u00b7 C",
+    "fixLabel": "Grader suggests:",
+    "fix": "Include specific details about why the battery failed (voltage reading, age, etc.)."
+   }
+  ]
+ },
+ "trans": {
+  "grades": {
+   "complaintVerification": "B",
+   "diagnosticApproach": "C",
+   "componentIdentification": "B",
+   "failureMode": "A",
+   "repairAction": "B",
+   "finalVerification": "B"
+  },
+  "gpa": 3,
+  "notes": [
+   {
+    "field": "cause",
+    "match": "P0756",
+    "pen": "Codes cleared?",
+    "criterion": "Codes found, never cleared",
+    "fixLabel": "Add to the correction:",
+    "fix": "\u201cCleared DTCs and performed scan to confirm codes resolved.\u201d"
+   },
+   {
+    "field": "cause",
+    "match": "Performed pinpoint tests per service information",
+    "pen": "Put the results here",
+    "criterion": "Diagnostics Performed \u00b7 C",
+    "fixLabel": "Grader suggests:",
+    "fix": "Provide specific details or results from the pinpoint tests instead of referencing an attachment."
+   },
+   {
+    "field": "cause",
+    "match": "see attached printout for test results",
+    "pen": "Summarize it here",
+    "criterion": "Story must stand alone",
+    "fixLabel": "Grader suggests:",
+    "fix": "Documentation should stand alone, summarize the key findings or results inline rather than only referencing an attachment."
+   },
+   {
+    "field": "correction",
+    "match": "Road tested vehicle",
+    "pen": "How many miles?",
+    "criterion": "Road test without miles",
+    "fixLabel": "Add:",
+    "fix": "the miles driven, or mileage in and out."
+   }
+  ]
+ }
+}

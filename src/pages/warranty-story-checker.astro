@@ -150,7 +150,6 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
       <!-- RIGHT: what the auditor would say -->
       <div class="sc-right" id="sc-right">
         <div class="sc-results" id="sc-results" hidden>
-          <div class="sc-a" id="sc-a" hidden></div>
           <div class="sc-notes" id="sc-notes"></div>
           <button type="button" class="sc-another" id="sc-another">Check another story</button>
         </div>
@@ -257,12 +256,14 @@ const canonical = 'https://tenthgear.ai/warranty-story-checker/';
     .sc-mono { margin: 0; font-size: 15.5px; line-height: 1.95; font-family: ui-monospace, 'SF Mono', Menlo, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
     .sc-a-toggle { position: absolute; z-index: 2; white-space: nowrap; background: #fff; border: 1px solid #78BC61; border-radius: 999px; padding: 4px 12px; font: inherit; font-size: 13.5px; font-weight: 700; color: #000; cursor: pointer; }
     .sc-a-toggle:hover { background: rgba(120,188,97,0.2); }
-    .sc-a { border: 2px solid #78BC61; border-radius: 10px; background: #fff; padding: 14px 14px 12px; }
-    .sc-a-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: 700; color: #000; }
-    .sc-a-head b { font-size: 24px; font-weight: 800; }
-    .sc-a p { margin: 0 0 8px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13.5px; line-height: 1.75; color: #333132; }
-    .sc-a p strong { font-family: 'DM Sans', sans-serif; color: #000; }
-    .sc-good { background: rgba(120,188,97,0.28); color: #000; border-radius: 3px; padding: 0 2px; }
+    /* The A version, in the card: red marks fade, the A text comes in, green edits wipe in one by one. */
+    .sc-live-story.is-a-out .sc-live-ink, .sc-live-story.is-a-out .sc-live-notes, .sc-live-story.is-a-out .sc-live-stamp { opacity: 0 !important; transition: opacity 0.45s ease; }
+    .sc-live-story.is-a-out .sc-live-cause, .sc-live-story.is-a-out .sc-live-corr { color: transparent; transition: color 0.45s ease; }
+    .sc-live-story.is-a-in .sc-live-cause, .sc-live-story.is-a-in .sc-live-corr { animation: sc-ink-in 0.3s ease; }
+    @keyframes sc-ink-in { from { color: transparent; } }
+    .sc-good { color: #000; border-radius: 3px; padding: 0 1px; background: linear-gradient(rgba(120,188,97,0.34), rgba(120,188,97,0.34)) no-repeat 0 0 / 100% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size 0.48s ease, color 0.3s ease; }
+    .sc-good.is-pending { background-size: 0% 100%; color: transparent; }
+    .sc-a-toggle:disabled { cursor: default; }
     .sc-live-story { position: relative; cursor: text; display: grid; grid-template-columns: var(--g, 0px) minmax(0, 1fr) var(--g, 0px); column-gap: var(--gap, 0px); padding: var(--above, 22px) 20px var(--below, 22px); }
     .sc-live-col { grid-column: 2; min-width: 0; }
     /* The story sits in boxes that read as the form fields it was typed into. */

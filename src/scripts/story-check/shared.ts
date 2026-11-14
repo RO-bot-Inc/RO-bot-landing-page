@@ -116,15 +116,15 @@ export const SAMPLES: Sample[] = [
     id: 'battery',
     label: 'No start',
     complaint: 'Customer states vehicle will not start.',
-    cause: 'Duplicated no-crank. Battery 11.9 V at rest, failed load test at 9.2 V. No DTCs. Parasitic draw 25 mA, within spec. Battery internal failure.',
-    correction: 'R&R battery. Charging system 14.3 V at idle. Cranked and started 5 times, OK.',
+    cause: 'Verified no start. Tested battery, failed load test. No DTCs. Battery failed.',
+    correction: 'R&R battery. Vehicle starts OK.',
   },
   {
     id: 'trans',
     label: 'Harsh shifting',
     complaint: 'Customer states transmission shifts hard.',
-    cause: 'Verified customer concern of harsh shift. Connected scan tool and retrieved code P0756 shift solenoid B performance. Checked transmission fluid level and condition, fluid level was correct and fluid condition was normal for mileage. Performed pinpoint tests per service information, see attached printout for test results. Based on testing determined that the shift solenoid B is faulty and is causing the harsh shift condition that the customer is experiencing.',
-    correction: 'Removed valve body and replaced shift solenoid B. Reinstalled valve body and refilled fluid to proper level. Performed transmission adaptive relearn. Road tested vehicle, shifts are now normal. Verified proper operation.',
+    cause: 'Verified customer concern of harsh shift. Connected scan tool and retrieved code P0756 shift solenoid B performance. Checked transmission fluid level and condition, OK. Performed pinpoint tests per service information, see attached printout for test results. Shift solenoid B is faulty.',
+    correction: 'Removed valve body and replaced shift solenoid B. Reinstalled valve body and refilled fluid. Road tested vehicle, shifts are now normal.',
   },
   {
     id: 'waterpump',
@@ -342,25 +342,42 @@ export const SAMPLE_RESULTS: Record<string, { grades: Record<ElementKey, Grade>;
   "battery": {
     "grades": {
       "complaintVerification": "B",
-      "diagnosticApproach": "A",
-      "componentIdentification": "A",
-      "failureMode": "A",
-      "repairAction": "A",
+      "diagnosticApproach": "B",
+      "componentIdentification": "C",
+      "failureMode": "C",
+      "repairAction": "B",
       "finalVerification": "B"
     },
-    "gpa": 3.67,
-    "notes": []
+    "gpa": 2.67,
+    "notes": [
+      {
+        "field": "cause",
+        "match": "Battery failed",
+        "pen": "Which one? Where?",
+        "criterion": "Component Involved · C",
+        "fixLabel": "Grader suggests:",
+        "fix": "Specify which battery (for example, OEM part number or group size) for clarity."
+      },
+      {
+        "field": "cause",
+        "match": "failed",
+        "pen": "Failed how? Spec?",
+        "criterion": "Root Cause · C",
+        "fixLabel": "Grader suggests:",
+        "fix": "Include specific details about why the battery failed (voltage reading, age, etc.)."
+      }
+    ]
   },
   "trans": {
     "grades": {
       "complaintVerification": "B",
-      "diagnosticApproach": "B",
-      "componentIdentification": "A",
+      "diagnosticApproach": "C",
+      "componentIdentification": "B",
       "failureMode": "A",
-      "repairAction": "A",
+      "repairAction": "B",
       "finalVerification": "B"
     },
-    "gpa": 3.5,
+    "gpa": 3,
     "notes": [
       {
         "field": "cause",
@@ -372,6 +389,14 @@ export const SAMPLE_RESULTS: Record<string, { grades: Record<ElementKey, Grade>;
       },
       {
         "field": "cause",
+        "match": "Performed pinpoint tests per service information",
+        "pen": "Put the results here",
+        "criterion": "Diagnostics Performed · C",
+        "fixLabel": "Grader suggests:",
+        "fix": "Provide specific details or results from the pinpoint tests instead of referencing an attachment."
+      },
+      {
+        "field": "cause",
         "match": "see attached printout for test results",
         "pen": "Summarize it here",
         "criterion": "Story must stand alone",
@@ -379,20 +404,12 @@ export const SAMPLE_RESULTS: Record<string, { grades: Record<ElementKey, Grade>;
         "fix": "Documentation should stand alone, summarize the key findings or results inline rather than only referencing an attachment."
       },
       {
-        "field": "cause",
-        "match": "Connected scan tool and retrieved code P0756 shift solenoid B performance. Checked transmission fluid level and condition, fluid level was correct and fluid condition was normal for mileage. Performed pinpoint tests per service information",
-        "pen": "Put the results here",
-        "criterion": "Diagnostics Performed · B",
-        "fixLabel": "Grader suggests:",
-        "fix": "Include specific results from pinpoint tests instead of referencing attachment."
-      },
-      {
         "field": "correction",
-        "match": "Road tested vehicle, shifts are now normal. Verified proper operation",
+        "match": "Road tested vehicle",
         "pen": "How many miles?",
-        "criterion": "Final Verification · B",
-        "fixLabel": "Grader suggests:",
-        "fix": "Add specific details of the road test, such as mileage driven during test."
+        "criterion": "Road test without miles",
+        "fixLabel": "Add:",
+        "fix": "the miles driven, or mileage in and out."
       }
     ]
   },
@@ -489,6 +506,75 @@ export const MISFIRE_A = {
     [' ', false],
     ['Test drove 8 miles, engine runs smooth, no misfire, no MIL.', true],
   ] as [string, boolean][],
+};
+
+// A versions of every sample graded B+ or below (misfire: the grader's own A example; the rest written by
+// Claude). Each was graded on the live checker 2026-11-13; letter and gpa are what it returned.
+type ASegs = { cause: [string, boolean][]; correction: [string, boolean][]; letter: string; gpa: number };
+export const A_VERSIONS: Record<string, ASegs> = {
+  misfire: { ...MISFIRE_A, letter: 'A', gpa: 3.83 },
+  brakes: {
+    cause: [
+      ['Verified ', false], ['grinding noise from the front brakes on road test, stops from 30 mph', true], ['. ', false],
+      ['Scanned, no DTCs.', true], [' Removed front wheels and inspected brakes. Found front pads ', false],
+      ['worn to 2 mm (minimum 3 mm), left inner pad metal to metal', true], ['. Front rotors scored, ', false],
+      ['26.8 mm thick (discard 26.0 mm), OK to machine', true], ['. Rear pads 7 mm, rear rotors good.', false],
+    ],
+    correction: [
+      ['Replaced front brake pads and machined front rotors ', false], ['to 26.4 mm', true], [' per service procedure. Torqued wheels to spec. ', false],
+      ['Test drove 5 miles with stops from 30 and 50 mph, no noise, pedal firm.', true],
+    ],
+    letter: 'A', gpa: 4.00,
+  },
+  waterpump: {
+    cause: [
+      ['Verified coolant puddle under the front of the engine. ', true], ['Coolant level 1 inch below MIN. ', false],
+      ['Scanned, no DTCs.', true], [' ', false], ['Pressure tested the cooling system to 16 psi', true],
+      [', found coolant seeping from the ', false], ['water pump weep hole', true], ['. Hoses and radiator dry.', false],
+    ],
+    correction: [
+      ['Replaced water pump and gasket per service procedure. Refilled and bled cooling system. ', false],
+      ['Pressure tested to 16 psi for 15 minutes, no drop. Test drove 6 miles to operating temperature, gauge normal, no leaks on recheck.', true],
+    ],
+    letter: 'A', gpa: 3.83,
+  },
+  window: {
+    cause: [
+      ['Verified customer concern: ', false], ['driver window does not move from the driver door switch or the master switch, other windows work normally', true], ['. ', false],
+      ['Scanned, no DTCs.', true], [' Removed door panel. ', false],
+      ['Motor gets 12 V at the connector with the switch pressed and runs, but the glass does not move', true], ['. Found the driver front window regulator ', false],
+      ['cable broken and off its pulley', true], ['.', false],
+    ],
+    correction: [
+      ['Replaced driver front window regulator assembly per service procedure. ', false],
+      ['Window runs full up and down from both switches, auto up and pinch protection working.', true], [' Reinstalled door panel.', false],
+    ],
+    letter: 'A', gpa: 4.00,
+  },
+  battery: {
+    cause: [
+      ['Verified customer concern: ', false], ['engine does not crank, dash lights dim, starter clicks', true], ['. ', false],
+      ['Battery 11.9 V at rest, failed load test at 9.2 V (minimum 9.6 V)', true], ['. No DTCs. ', false],
+      ['Parasitic draw 25 mA, within spec (50 mA max). Conductance test shows a shorted cell.', true], [' Battery internal failure.', false],
+    ],
+    correction: [
+      ['Replaced battery ', false], ['(group 48 AGM)', true], ['. ', false],
+      ['Charging system 14.3 V at idle. Cranked and started 5 times, no hesitation.', true],
+    ],
+    letter: 'A', gpa: 3.83,
+  },
+  trans: {
+    cause: [
+      ['Verified ', false], ['harsh 2-3 upshift on road test at 25 mph, light throttle', true], ['. Retrieved DTC P0756 shift solenoid B performance. Fluid level and condition correct. Pinpoint test per service information: ', false],
+      ['solenoid B resistance 1.2 ohms (spec 4 to 6 ohms), wiring and connector OK', true], ['. Shift solenoid B internal failure.', false],
+    ],
+    correction: [
+      ['Removed valve body and replaced shift solenoid B. Reinstalled valve body and refilled fluid to proper level. ', false],
+      ['New solenoid 5.1 ohms. Performed adaptive relearn. Cleared DTCs.', true], [' ', false],
+      ['Road tested 8 miles, all upshifts and downshifts smooth, no DTCs on rescan.', true],
+    ],
+    letter: 'A', gpa: 3.83,
+  },
 };
 
 export function sampleResult(s: Sample): Result {
