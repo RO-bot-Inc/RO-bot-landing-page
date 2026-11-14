@@ -4,8 +4,15 @@ import raw from '../../../../scripts/story-check-samples.raw.json' with { type: 
 import { SAMPLES } from '../../../../src/scripts/story-check/shared';
 import { postModelPass, toResult } from '../grade';
 
+// Samples rewritten later keep the text their recorded model output was graded on.
+const LEGACY: Record<string, { cause: string; correction: string }> = {
+  trans: {
+    cause: 'Verified customer concern of harsh shift. Connected scan tool and retrieved code P0756 shift solenoid B performance. Checked transmission fluid level and condition, fluid level was correct and fluid condition was normal for mileage. Performed pinpoint tests per service information, see attached printout for test results. Based on testing determined that the shift solenoid B is faulty and is causing the harsh shift condition that the customer is experiencing.',
+    correction: 'Removed valve body and replaced shift solenoid B. Reinstalled valve body and refilled fluid to proper level. Performed transmission adaptive relearn. Road tested vehicle, shifts are now normal. Verified proper operation.',
+  },
+};
 const run = (id: string) => {
-  const s = SAMPLES.find((x) => x.id === id)!;
+  const s = LEGACY[id] ?? SAMPLES.find((x) => x.id === id)!;
   return toResult(s.cause, s.correction, (raw as unknown as Record<string, never>)[id]);
 };
 const pens = (id: string) => run(id).notes.map((n) => n.pen);

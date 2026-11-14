@@ -12,6 +12,7 @@ import {
   type Result,
 } from './shared';
 import { createPen, createReader, fitColumns, type PenEls } from './pen';
+import { playAVersion } from './aview';
 
 const API = '/api/story-check';
 const GA4_ID = 'G-28WMV6CTFP';
@@ -35,8 +36,7 @@ const el = {
   rvStamp: $('sc-rv-stamp'),
   rvStatus: $('sc-rv-status'),
   rvStatusText: $('sc-rv-status-text'),
-  aToggle: $('sc-a-toggle'),
-  a: $('sc-a'),
+  aToggle: $('sc-a-toggle') as HTMLButtonElement,
   results: $('sc-results'),
   notes: $('sc-notes'),
   another: $('sc-another'),
@@ -180,17 +180,46 @@ const cardEls = (root: HTMLElement): PenEls => {
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const stampHtml = (r: Result) => `<span class="sc-stamp-l">${esc(r.letter)}</span><span class="sc-stamp-g">${r.gpa.toFixed(2)} / 4</span>`;
 
-function renderA(open: boolean) {
-  const av = (state.result?.sampleId && A_VERSIONS[state.result.sampleId]) || null;
-  if (!av) open = false;
+// The pill by the stamp swaps the red-penned story for its A version, in the card.
+let aView: ReturnType<typeof playAVersion> | null = null;
+const A_LABEL = 'See this story written to an A →';
+function showA(open: boolean) {
+  const r = state.result;
+  const av = (r?.sampleId && A_VERSIONS[r.sampleId]) || null;
+  if (!r || !av || open === state.showA) return;
+  aView?.cancel();
+  aView = null;
   state.showA = open;
-  el.a.hidden = !open;
-  el.aToggle.textContent = open ? 'Hide the A version' : 'See this story written to an A →';
-  if (!open) return;
-  const part = (segs: [string, boolean][]) => segs.map(([t, good]) => (good ? `<span class="sc-good">${esc(t)}</span>` : esc(t))).join('');
-  el.a.innerHTML = `<div class="sc-a-head"><span>Same repair, written to an A</span><b>A</b></div>
-    <p><strong>Cause: </strong>${part(av!.cause)}</p>
-    <p><strong>Correction: </strong>${part(av!.correction)}</p>`;
+  const card = cardEls(el.review);
+  const still = reduced();
+  if (open) {
+    state.active = null;
+    renderNotes();
+    gradePen?.stop();
+    gradePen = null;
+    el.aToggle.disabled = true;
+    $('sc-rv-said').textContent = '';
+    aView = playAVersion(card, av, {
+      still,
+      onDone: () => {
+        el.aToggle.disabled = false;
+        el.aToggle.textContent = 'Back to the red pen';
+        el.rvStamp.setAttribute('aria-label', `Grade ${av.letter}, ${av.gpa.toFixed(2)} out of 4`);
+        $('sc-rv-said').textContent = `Same repair, written to an ${av.letter}: ${av.gpa.toFixed(2)} out of 4. New detail is highlighted green.`;
+      },
+    });
+    return;
+  }
+  // Back to the red pen, drawn in full at once.
+  el.aToggle.textContent = A_LABEL;
+  el.aToggle.disabled = false;
+  el.rvStamp.setAttribute('aria-label', `Grade ${r.letter}, ${r.gpa.toFixed(2)} out of 4`);
+  gradePen = createPen(card, { complaint: r.complaint ?? '', cause: r.cause, correction: r.correction }, r.notes, stampHtml(r), r.gpa >= 3.3, {
+    mode: 'grade',
+    link: true,
+    onDone: () => { markPhrases(); $('sc-rv-said').textContent = `Back to the red pen: ${r.letter}, ${r.notes.length} note${r.notes.length === 1 ? '' : 's'}.`; },
+  });
+  gradePen.start(true);
 }
 
 // ------------------------------------------------------------------ first look
@@ -223,7 +252,6 @@ const chipText = (g: string) => (g === 'missing' ? '✕' : g === 'not_applicable
 function renderResults() {
   if (!state.result) return;
   renderNotes();
-  renderA(state.showA);
 }
 
 // One table: the grade chip and criterion on the left, the grader's note on the
@@ -261,11 +289,21 @@ function renderNotes() {
 }
 
 function pick(n: number) {
+  if (state.showA) showA(false);
   state.active = state.active === n ? null : n;
   renderNotes();
   // Light up the phrase the note is about and the pen's note in the margin.
   el.review.querySelectorAll<HTMLElement>('.sc-live-note[data-pen]').forEach((x) => x.classList.toggle('is-on', Number(x.dataset.pen) === state.active));
   el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => m.classList.toggle('is-on', Number(m.dataset.mark) === state.active));
+}
+
+// Marked phrases work like the note cards: click or Enter/Space picks the note.
+function markPhrases() {
+  el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => {
+    m.tabIndex = 0;
+    m.setAttribute('role', 'button');
+    m.setAttribute('aria-label', `${m.textContent}: show note ${m.dataset.mark}`);
+  });
 }
 
 // ------------------------------------------------------------------ grading
@@ -281,6 +319,11 @@ function stopPen() {
   reader = null;
   gradePen?.stop();
   gradePen = null;
+  aView?.cancel();
+  aView = null;
+  state.showA = false;
+  el.aToggle.textContent = A_LABEL;
+  el.aToggle.disabled = false;
 }
 
 async function grade(complaint: string, cause: string, correction: string) {
@@ -295,7 +338,6 @@ async function grade(complaint: string, cause: string, correction: string) {
   state.active = null;
   state.showA = false;
   el.aToggle.hidden = true;
-  el.a.hidden = true;
   el.rvStamp.removeAttribute('aria-label');
   $('sc-rv-said').textContent = '';
   show('review');
@@ -332,12 +374,7 @@ async function grade(complaint: string, cause: string, correction: string) {
           renderResults();
           show('results');
           $('sc-rv-said').textContent = `Graded ${r.letter}, ${r.gpa.toFixed(2)} out of 4. ${r.notes.length} red-pen note${r.notes.length === 1 ? '' : 's'}.`;
-          // Marked phrases work like the note cards: click or Enter/Space picks the note.
-          el.review.querySelectorAll<HTMLElement>('[data-mark]').forEach((m) => {
-            m.tabIndex = 0;
-            m.setAttribute('role', 'button');
-            m.setAttribute('aria-label', `${m.textContent}: show note ${m.dataset.mark}`);
-          });
+          markPhrases();
         },
       });
       gradePen.start(still);
@@ -494,10 +531,7 @@ el.another.addEventListener('click', () => {
   el.complaint.focus();
 });
 
-el.aToggle.addEventListener('click', () => {
-  renderA(el.a.hidden !== false);
-  if (!el.a.hidden) el.a.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
-});
+el.aToggle.addEventListener('click', () => showA(!state.showA));
 
 // Note cards and the numbered dots in the story share one handler.
 document.addEventListener('click', (e) => {
