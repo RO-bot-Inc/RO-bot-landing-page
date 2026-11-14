@@ -491,6 +491,47 @@ export const MISFIRE_A = {
   ] as [string, boolean][],
 };
 
+// A versions of the other samples below an A (written by Claude, each graded A on the live checker 2026-11-13).
+type ASegs = { cause: [string, boolean][]; correction: [string, boolean][] };
+export const A_VERSIONS: Record<string, ASegs> = {
+  misfire: MISFIRE_A,
+  brakes: {
+    cause: [
+      ['Verified ', false], ['grinding noise from the front brakes on road test, stops from 30 mph', true], ['. ', false],
+      ['Scanned, no DTCs.', true], [' Removed front wheels and inspected brakes. Found front pads ', false],
+      ['worn to 2 mm (minimum 3 mm), left inner pad metal to metal', true], ['. Front rotors scored, ', false],
+      ['26.8 mm thick (discard 26.0 mm), OK to machine', true], ['. Rear pads 7 mm, rear rotors good.', false],
+    ],
+    correction: [
+      ['Replaced front brake pads and machined front rotors ', false], ['to 26.4 mm', true], [' per service procedure. Torqued wheels to spec. ', false],
+      ['Test drove 5 miles with stops from 30 and 50 mph, no noise, pedal firm.', true],
+    ],
+  },
+  waterpump: {
+    cause: [
+      ['Verified coolant puddle under the front of the engine. ', true], ['Coolant level 1 inch below MIN. ', false],
+      ['Scanned, no DTCs.', true], [' ', false], ['Pressure tested the cooling system to 16 psi', true],
+      [', found coolant seeping from the ', false], ['water pump weep hole', true], ['. Hoses and radiator dry.', false],
+    ],
+    correction: [
+      ['Replaced water pump and gasket per service procedure. Refilled and bled cooling system. ', false],
+      ['Pressure tested to 16 psi for 15 minutes, no drop. Test drove 6 miles to operating temperature, gauge normal, no leaks on recheck.', true],
+    ],
+  },
+  window: {
+    cause: [
+      ['Verified customer concern: ', false], ['driver window does not move from the driver door switch or the master switch, other windows work normally', true], ['. ', false],
+      ['Scanned, no DTCs.', true], [' Removed door panel. ', false],
+      ['Motor gets 12 V at the connector with the switch pressed and runs, but the glass does not move', true], ['. Found the driver front window regulator ', false],
+      ['cable broken and off its pulley', true], ['.', false],
+    ],
+    correction: [
+      ['Replaced driver front window regulator assembly per service procedure. ', false],
+      ['Window runs full up and down from both switches, auto up and pinch protection working.', true], [' Reinstalled door panel.', false],
+    ],
+  },
+};
+
 export function sampleResult(s: Sample): Result {
   const r = SAMPLE_RESULTS[s.id];
   return {

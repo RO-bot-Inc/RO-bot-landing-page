@@ -5,7 +5,7 @@ import {
   ELEMENTS,
   FREE_CHECKS_PER_DAY,
   LABELS,
-  MISFIRE_A,
+  A_VERSIONS,
   SAMPLES,
   sampleResult,
   type Note,
@@ -181,14 +181,16 @@ const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matc
 const stampHtml = (r: Result) => `<span class="sc-stamp-l">${esc(r.letter)}</span><span class="sc-stamp-g">${r.gpa.toFixed(2)} / 4</span>`;
 
 function renderA(open: boolean) {
+  const av = (state.result?.sampleId && A_VERSIONS[state.result.sampleId]) || null;
+  if (!av) open = false;
   state.showA = open;
   el.a.hidden = !open;
   el.aToggle.textContent = open ? 'Hide the A version' : 'See this story written to an A →';
   if (!open) return;
   const part = (segs: [string, boolean][]) => segs.map(([t, good]) => (good ? `<span class="sc-good">${esc(t)}</span>` : esc(t))).join('');
   el.a.innerHTML = `<div class="sc-a-head"><span>Same repair, written to an A</span><b>A</b></div>
-    <p><strong>Cause: </strong>${part(MISFIRE_A.cause)}</p>
-    <p><strong>Correction: </strong>${part(MISFIRE_A.correction)}</p>`;
+    <p><strong>Cause: </strong>${part(av!.cause)}</p>
+    <p><strong>Correction: </strong>${part(av!.correction)}</p>`;
 }
 
 // ------------------------------------------------------------------ first look
@@ -221,7 +223,7 @@ const chipText = (g: string) => (g === 'missing' ? '✕' : g === 'not_applicable
 function renderResults() {
   if (!state.result) return;
   renderNotes();
-  renderA(state.showA && state.result.sampleId === 'misfire');
+  renderA(state.showA);
 }
 
 // One table: the grade chip and criterion on the left, the grader's note on the
@@ -323,7 +325,7 @@ async function grade(complaint: string, cause: string, correction: string) {
       el.rvStamp.setAttribute('aria-label', `Grade ${r.letter}, ${r.gpa.toFixed(2)} out of 4`);
       gradePen = createPen(card, { complaint: r.complaint ?? complaint, cause: r.cause, correction: r.correction }, r.notes, stampHtml(r), r.gpa >= 3.3, {
         mode: 'grade',
-        link: r.sampleId === 'misfire',
+        link: !!(r.sampleId && A_VERSIONS[r.sampleId]),
         from: still ? undefined : from,
         onDone: () => {
           if (run !== state.run) return;

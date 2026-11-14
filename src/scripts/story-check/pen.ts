@@ -462,6 +462,9 @@ export function createPen(
     const nwMax = stacked ? col.w : g + gap - 36;
     const placed: Record<'left' | 'right', number[]> = { left: [], right: [] };
     let lowest = 0;
+    // The link under the stamp (top of the right margin): a right note that would land on it starts below it.
+    const topY = rel((complaint ? els.complaint : els.cause).getBoundingClientRect()).y;
+    const linkClear = link && !stacked ? topY - 14 + 96 + 10 + (link.offsetHeight || 28) + 6 : 0;
     marks.forEach((m, i) => {
       const rects = [...m.el.getClientRects()].map((r) => rel(r as DOMRect)).filter((r) => r.w > 1 || m.kind === 'insert');
       if (!rects.length) return;
@@ -502,6 +505,7 @@ export function createPen(
         let ny = Math.max(6, (direct ? gr.y + gr.h / 2 : gapY) - 18);
         const list = placed[side];
         if (list.length && ny < list[list.length - 1] + fs * 2.15) ny = list[list.length - 1] + fs * 2.15;
+        if (side === 'right' && linkClear && ny > topY + 110 && ny < linkClear && list.every((y) => y > topY + 110)) ny = linkClear;
         list.push(ny);
         lowest = Math.max(lowest, ny + fs * 1.5);
         const nwBox = nwMax;
