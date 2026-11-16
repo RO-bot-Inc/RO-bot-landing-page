@@ -46,12 +46,21 @@
       "y": 3400
     },
     "Screens.dc.html": {
-      "x": 6000,
-      "y": 3400,
-      "w": 1280,
       "h": 3000,
+      "is_interactive": true,
       "title": "Device screen options",
-      "is_interactive": true
+      "w": 1404,
+      "x": 6000,
+      "y": 3400
+    },
+    "Hero.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "Hero options",
+      "w": 1360,
+      "x": -1900,
+      "y": 0
     }
   },
   "createdOnFiles": {
@@ -92,6 +101,7 @@
     }
   },
   "order": [
+    "Hero.dc.html",
     "Main.dc.html",
     "HowA.dc.html",
     "HowB.dc.html",

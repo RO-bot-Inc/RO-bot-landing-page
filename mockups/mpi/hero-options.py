@@ -32,6 +32,21 @@ def wave(on_cls): return '<div class="hwave">'+''.join(f'<i class="{on_cls}" sty
 # ---------------- H1: one finding travels tech -> advisor -> customer ----------------
 T=10; kf,rule,show,custom,words=anim(1,T)
 END=9.3
+VW=[]
+for i in range(34):
+    import math
+    h=0.35+0.65*abs(math.sin(i*1.7)*math.cos(i*.45))
+    VW.append(f'.h1 .vw .b{i}{{height:{round(14+h*62)}px;animation-delay:-{round((i*0.137)%0.9,2)}s;animation-duration:{round(0.7+(i%5)*0.08,2)}s}}')
+vamp=custom([(0,'opacity:.35;transform:scaleY(.14)'),(0.4,'opacity:.35;transform:scaleY(.14)'),(0.7,'opacity:1;transform:scaleY(1)'),(3.0,'opacity:1;transform:scaleY(1)'),(3.4,'opacity:.35;transform:scaleY(.14)'),(T,'opacity:.35;transform:scaleY(.14)')])
+BARS=''.join(f'<i class="b{i}"></i>' for i in range(34))
+def hl(t):
+    return custom([(0,'background-size:0% 100%'),(t,'background-size:0% 100%'),(t+.35,'background-size:100% 100%'),(END,'background-size:100% 100%'),(END+.4,'background-size:0% 100%'),(T,'background-size:0% 100%')])
+seq=[('Rear',None),('brake',None),('pads',None),('are',None),('at',None),('two',None),('millimeters.',None),('They',None),('need',None),('replacing.',None)]
+tw=[0.75+i*0.24 for i in range(len(seq))]
+def W(i): return f'<span class="a w {show(tw[i],END,"translateY(6px)",d=.25)}">{seq[i][0]}</span>'
+DIM=custom([(0,'opacity:1'),(3.55,'opacity:1'),(3.8,'opacity:.3'),(END,'opacity:.3'),(END+.4,'opacity:1'),(T,'opacity:1')])
+VSAID=f'<span class="vhl a {hl(3.1)}"><span class="a {DIM}">{W(0)} {W(1)} {W(2)}</span></span> {W(3)} {W(4)} <span class="vhl a {hl(3.25)}"><span class="a {DIM}">{W(5)} {W(6)}</span></span> {W(7)} {W(8)} {W(9)}'
+CA=(-6,394); CB=(-6,428)
 talk_on=custom([(0,'background:#333132;transform:scale(1)'),(0.4,'background:#333132;transform:scale(1)'),(0.6,'background:#b9314f;transform:scale(1.08)'),(3.0,'background:#b9314f;transform:scale(1.08)'),(3.2,'background:#333132;transform:scale(1)'),(T,'background:#333132;transform:scale(1)')])
 wv=custom([(0,'opacity:0'),(0.5,'opacity:0'),(0.7,'opacity:1'),(3.0,'opacity:1'),(3.2,'opacity:0'),(T,'opacity:0')])
 def fly(t0,t1,x0,y0,x1,y1):
@@ -51,12 +66,11 @@ h1=f'''<div class="hv h1 h1v">
    <div class="xlrow new a {show(4.45,END,'translateX(-14px)')}"><span class="xlno r">1</span><img src="{BRAKES}" alt=""><span><b>Replace rear brake pads</b><small>Brake pads, rear: 2 mm</small></span><span class="lp">$289</span></div>
    <div class="xlrow ghost"></div>
  </div></div><div class="lbase"></div></div>
- <div class="hp tp1"><div class="scr dk">
-   <div class="xph"><b>Brakes</b><small>RO 587, 2023 Rogue</small></div>
-   <div class="said">{words("Rear brake pads are at two millimeters. They need replacing.",0.75,2.9,END)}</div>
-   <div class="ftile a {show(3.2,END,'translateY(12px) scale(.94)')}"><span class="xdot r"></span>Brake pads, rear<b>2 mm</b></div>
-   <div class="pdock"><span class="pmic a {talk_on}">{MIC}</span>{wave('a '+wv)}</div>
- </div></div>
+ <div class="voice">
+   <div class="xvlab a {show(0.3,END,'translateY(6px)')}"><span class="rdot"></span>Tech, bay 4</div>
+   <div class="vw a {vamp}">{BARS}</div>
+   <div class="vsaid">{VSAID}</div>
+ </div>
  <div class="hp cp1"><div class="scr">
    <div class="xbrand"><span class="yd">YD</span><span><b>Your Dealership</b><small>(555) 010-2030</small></span></div>
    <div class="ct">Your 2023 Rogue</div>
@@ -64,7 +78,8 @@ h1=f'''<div class="hv h1 h1v">
    <div class="xtot a {show(7.35,END,'translateY(12px)')}">Approved total <b>$289</b></div>
    <span class="xfing a {fing}"></span>
  </div></div>
- <span class="xchip a {fly(3.75,4.45,40,318,206,152)}"><span class="xdot r"></span>Brake pads, rear 2 mm</span>
+ <span class="xchip a {fly(3.6,4.4,CA[0],CA[1],196,128)}">Rear brake pads</span>
+ <span class="xchip a {fly(3.75,4.45,CB[0],CB[1],330,146)}"><span class="xdot r"></span>2 mm</span>
  <span class="xchip a {fly(5.05,5.75,226,166,378,330)}"><span class="xdot r"></span>Rear brake pads $289</span>
  <div class="steps">{stepl(1,0.3,3.6,'Tech says it')}{stepl(2,3.7,5.3,'Line goes on the RO')}{stepl(3,5.4,END,'Customer approves')}</div>
 </div>'''
@@ -87,7 +102,14 @@ CSS1='''
 .hp{position:absolute;border-radius:34px;background:#333132;padding:9px;box-shadow:0 40px 80px -30px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.08)}
 .hp .scr{position:relative;height:100%;border-radius:26px;overflow:hidden;background:#fff;color:#333132}
 .hp .scr.dk{background:#1d1c1d;color:#fff}
-.tp1{left:0;top:170px;width:230px;height:440px;z-index:3}
+.voice{position:absolute;left:0;top:300px;width:290px;z-index:3}
+.xvlab{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#A0B3C6}
+.vw{display:flex;align-items:center;gap:4px;width:272px;height:84px;margin:10px 0 12px;transform-origin:center}
+.vw i{width:4px;border-radius:3px;background:linear-gradient(180deg,#2DD4BF,#2A9D8F);animation-name:hvw;animation-iteration-count:infinite;animation-timing-function:ease-in-out;box-shadow:0 0 12px rgba(45,212,191,.35)}
+@keyframes hvw{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+.vsaid{font-size:25px;line-height:1.28;font-weight:700;color:#fff}.vsaid .w{display:inline-block}
+.vhl{background-image:linear-gradient(rgba(185,49,79,.55),rgba(185,49,79,.55));background-repeat:no-repeat;background-position:0 100%;border-radius:4px;padding:0 2px;margin:0 -2px}
+
 .cp1{left:392px;top:200px;width:208px;height:420px;z-index:3}
 .xph{padding:20px 18px 0}.xph b{display:block;font-size:16px}.xph small{color:#9b9799;font-size:11px}
 .said{padding:18px 18px 0;font-size:19px;line-height:1.3;font-weight:600;min-height:150px}
@@ -195,7 +217,7 @@ CSS3='''
 def hero(code,vis,cap):
     return f'''<section class="hopt"><div class="hlab"><b>{code}</b> {cap}</div>
 <header class="hero heroA"><div class="wrap grid"><div class="copy"><div class="kicker">Voice MPI for dealerships</div><h1>The Multi Point Inspection that builds itself</h1><p class="sub">Techs say what they see. The MPI fills itself in.</p><div class="ctas"><a class="btn" href="#top">Book a Demo</a><a class="btn ghost" href="#how">See how it works</a></div></div>{vis}</div></header></section>'''
-CSS='\n'.join(BASE+KF+RULES)+CSS1+CSS2+CSS3+'''
+CSS='\n'.join(BASE+KF+RULES+VW)+CSS1+CSS2+CSS3+'''
 .hv{position:relative;flex:0 0 auto}.hv .bub,.hv .pop{box-sizing:border-box}.hv .a{will-change:transform,opacity}
 .hsheet{width:1360px;background:#fff;padding:40px 0 60px}.hsheet>div:first-child{padding:0 40px 24px}.hsheet h1{font-size:28px;margin:0 0 6px}.hsheet .intro{color:#5b6470;max-width:80ch;margin:0}
 .hopt{margin-top:36px}.hlab{padding:0 40px 12px;font-size:15px;color:#5b6470;max-width:110ch}.hlab b{display:inline-block;background:#0F2137;color:#fff;border-radius:6px;padding:1px 8px;margin-right:6px}
@@ -213,7 +235,7 @@ page=f'''<!doctype html>
 {helmet.replace('</style>',CSS+'</style>',1)}</helmet>
 <div class="hsheet">
 <div><h1>Hero options</h1><p class="intro">The hero copy stays as it is; only the visual on the right changes. All three loop. Reply with a code.</p></div>
-{hero('HA',h1,'One finding, end to end. The tech says "rear pads at two millimeters", the finding flies onto the RO as a line, then to the customer, who taps Approve. The three steps under the devices light up in turn. About 10 seconds.')}
+{hero('HA',h1,'One finding, end to end. A floating voice wave and live transcript (no device); the key phrases light up and fly onto the RO as a line, then to the customer, who taps Approve. The three steps under the devices light up in turn. About 10 seconds.')}
 {hero('HB',h2,'The checklist fills itself. A live transcript floats beside the phone while the 38-point MPI ticks through in order, the counter climbs to 38, and the tire and brake findings pop out of the screen. About 9 seconds.')}
 {hero('HC',h3,'The shop, live. The tech photo with live captions; findings pin onto the tire as he speaks, and the phone fills in the tire tiles. Uses the step 1 photo, so the hero and step 1 would need different photos if picked. About 9 seconds.')}
 </div>
