@@ -393,10 +393,10 @@ rows=[
   opt('3H','Lines appear as RO tabs',s3H,'No button: it runs on its own. Each red and yellow row glows, lifts off as a chip and flies up into the RO tab strip, where it becomes a new tab. The new tab opens a line card with the tech\'s own words from the walkaround or the video. Earlier tabs fold down to their number. The row on the report gets its line number.',True,True),
   opt('3I','Lines deal onto a stack',s3I,'No button. Each row lifts off as a chip and flies onto a stack of line cards; the new card lands on top with the tech\'s words and pushes the earlier ones back.',True,True)]),
  ('Step 4: Your customer gets a gorgeous report (phone)',[
+  opt('4I','Text, report, then decide',s4I,'4E and 4F joined. The text arrives, the report opens under the dealership\'s name and the video plays through its chapters. The page scrolls to the recommendations, the customer taps the top one and the recommendation cards slide in: approve four, decline the cabin filter, Send to my advisor. About 18 s.',True),
   opt('4E','Text to report',s4E,'The phone lights up with a text from the dealership (the advisor\'s real default message). A tap opens the report under the dealership\'s name: the inspection video starts and walks through its chapters, then the page scrolls to the five recommendations with their photos.',True),
   opt('4F','Swipe to decide',s4F,'The customer\'s card deck, as in the app: one recommendation per card with the photo, a plain-English reason and the price. Approve, approve, approve, approve, decline the cabin filter; the approved total ticks up. Then Your decisions and Send to my advisor.',True),
-  opt('4G','Video with chapters and captions',s4G,'The customer\'s video player: the tech\'s footage with chapter names only, captions word by word. Mid-loop the customer taps ES and the captions switch to Spanish.',True),
-  opt('4H','Every item, color-coded',s4H,'The full MPI report as a 38-tile grid that fills red, yellow and green. Each finding gets tapped in turn and opens its card: photo, plain-English reason and the tech\'s own words.',True)])]
+])]
 body=''.join(f'<section class="srow"><h2>{t}</h2><div class="opts">{"".join(o)}</div></section>' for t,o in rows)
 script=main[main.index('<script type="text/x-dc"'):main.index('</script>')+9].replace('"height":7400','"height":3000')
 page=f'''<!doctype html>

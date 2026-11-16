@@ -190,6 +190,7 @@ inner=(brandbar()+'<div class="rt4"><b>Vehicle inspection</b><small>38 items che
        f'<div class="ans4">{cards}</div>'+finger(kf,rule,'h',taps,T))
 s4H=phone4('h',inner)
 
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'step4-hybrid.py')).read())
 STEP4_CSS="\n".join(S4_KF)+"\n"+"\n".join(S4_BASE)+"\n"+"\n".join(S4_RULES)+r"""
 .p4 .screen{font-family:var(--font)}
 .p4 .a{opacity:0}
@@ -285,5 +286,6 @@ STEP4_CSS="\n".join(S4_KF)+"\n"+"\n".join(S4_BASE)+"\n"+"\n".join(S4_RULES)+r"""
 .aq{display:flex;gap:6px;align-items:flex-start;background:var(--sheet);border-radius:9px;padding:7px 8px;font-size:11px;font-style:italic;line-height:1.35}
 .aq span{width:16px;height:16px;border-radius:4px;background:var(--char);color:#fff;display:grid;place-items:center;flex:0 0 auto;font-style:normal}.aq span svg{width:10px;height:10px}
 .an4.np .ab{padding-top:14px}
+"""+S4I_CSS+r"""
 @media (prefers-reduced-motion:reduce){.p4 .a{animation:none !important;opacity:1}}
 """
