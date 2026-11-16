@@ -1,6 +1,6 @@
 # /mpi/ page: design brief (P1 of the SEO/AEO plan)
 
-Status as of 2026-11-16: mockup approved on the design board except the step 4 device screen. Build has not started.
+Status as of 2026-11-16: mockup approved on the design board, all four device screens chosen and folded into Main. Build has not started.
 
 **Design board (source of truth for layout and copy):** https://claude.ai/artifact/6KDYbW5G8WHbBFtgkqivzx
 Board files are mirrored in `mockups/mpi/board/` (Main.dc.html is the page; the others are prototype sheets). The board is newer than the mirror whenever Dave has edited it: read the artifact before building.
@@ -14,8 +14,9 @@ Board files are mirrored in `mockups/mpi/board/` (Main.dc.html is the page; the 
 - **Device screens** (prototyped on the board's "Device screen options" sheet):
   - Step 1: **1C** live transcript. Three sentences build word by word at a fixed position; a finding chip pops in half a second after its trigger word; sentence clears, findings stay and stack. Items: tire tread front 4/32", tire tread rear 7/32", wheel balance, brake pads rear 2 mm.
   - Step 2: **2F** captions to findings. Caption builds at the bottom of the video; a white "New finding" card pops mid-screen, holds under a second, flies up and shrinks into a chip at the top; chips stack. Items must not repeat step 1: cabin air filter, serpentine belt, battery. Loop about 11 s. All animation in stylesheet classes, every animated element starts hidden (the board editor drops inline animations when an element is selected).
-  - Step 3: **3A** kept as is: chips fly from the copy side into the laptop screen and become rows on the report summary, progress bar, "Save & Create Lines".
-  - Step 4: **not chosen yet.** Candidates 4A (text to report card, current), 4B (approve from the phone), 4C, 4D on the sheet. 4B implies in-app approval; check product facts before picking it.
+  - Step 3: **3H** lines appear as RO tabs, no button (runs on its own): each red/yellow MPI row glows, lifts off as a chip into the RO tab strip and becomes line 1 to 5; the open tab shows a line card with a photo (brakes, belt, tires, cabin filter), the reading and the tech's own words; the report row gets the matching number badge. Laptop drawn 386px wide so the screen fits the lid.
+  - Step 4: **4I** text, report, decide (~18 s): the dealership's text on the lock screen, the report opens and plays its video chapters, scrolls to the five recommendations, the customer taps Rear brake pads and the recommendation cards slide in (approve four, decline cabin filter, Send to my advisor, $925). Labels are the app's owner-report strings; prices are mockup placeholders.
+  - Folded into Main by `mockups/mpi/fold-main.py` (surgical: swaps the device in each photo card and one marked CSS block, so Dave's copy edits stay).
 - **Mid-page CTA** after step 4: "That's the whole process. Twenty minutes to see it in action..." + Book a Demo + "Next: AI Story Writer →", packed left under a hairline rule, grey section background.
 - **Stat**: "6 in 10 ROs leave with zero new recommendations" with footnote 1: DealerRater survey for Fixed Ops Journal (2019) via CBT News, Sept 2023. Dave removed the footnotes on the three figure tiles (14 minutes, +2 recs, 3x approvals); those are his figures, unsourced.
 - **FAQ**: nine questions including "What is a multi point inspection?" (open by default, defines MPI in the first sentence), "What does an MPI include?", "How long does an MPI take?", "Does the customer get an MPI video?". Loud-shop answer still "Answer pending."
@@ -25,7 +26,6 @@ Board files are mirrored in `mockups/mpi/board/` (Main.dc.html is the page; the 
 
 ## Still open
 
-- Step 4 device screen choice.
 - Loud-shop FAQ answer.
 - Sources for the three figure tiles, or accept them as unsourced claims.
 - 3C page slug.
