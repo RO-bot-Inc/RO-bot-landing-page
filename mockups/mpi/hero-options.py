@@ -148,18 +148,26 @@ for (n,c,v),t in zip(ROWS,times):
     rows+=f'<div class="mrow"><span class="xdot a {d}"></span><span>{n}</span><b class="a {show(t,END,"translateX(6px)",d=.3)}">{v}</b></div>'
 cnt=''.join(f'<span class="a {custom([(0,"opacity:0"),(a,"opacity:0"),(a+.05,"opacity:1"),(b,"opacity:1"),(b+.05,"opacity:0"),(T,"opacity:0")]) if a>0 else custom([(0,"opacity:1"),(1.0,"opacity:1"),(1.05,"opacity:0"),(END+.3,"opacity:0"),(END+.35,"opacity:1"),(T,"opacity:1")])}">{n}</span>' for n,a,b in [(0,0,1.0),(9,1.0,2.3),(18,2.3,3.6),(24,3.6,4.6),(31,4.6,5.6),(38,5.6,END)])
 bar=custom([(0,'transform:scaleX(0)'),(1.0,'transform:scaleX(.02)'),(2.3,'transform:scaleX(.47)'),(3.6,'transform:scaleX(.63)'),(4.6,'transform:scaleX(.82)'),(5.6,'transform:scaleX(1)'),(END,'transform:scaleX(1)'),(END+.4,'transform:scaleX(0)'),(T,'transform:scaleX(0)')])
+vsh=custom([(0,'transform:translateY(105%)'),(0.3,'transform:translateY(105%)'),(0.7,'transform:none'),(5.8,'transform:none'),(6.2,'transform:translateY(105%)'),(T,'transform:translateY(105%)')])
+vamp2=custom([(0,'transform:scaleY(.15)'),(0.6,'transform:scaleY(.15)'),(0.9,'transform:scaleY(1)'),(5.5,'transform:scaleY(1)'),(5.8,'transform:scaleY(.15)'),(T,'transform:scaleY(.15)')])
+for i in range(34):
+    import math
+    h=0.35+0.65*abs(math.sin(i*1.7)*math.cos(i*.45))
+    VW.append(f'.h2 .vw2 .b{i}{{height:{round(8+h*30)}px;animation-delay:-{round((i*0.137)%0.9,2)}s;animation-duration:{round(0.7+(i%5)*0.08,2)}s}}')
 wv2=custom([(0,'opacity:0'),(0.4,'opacity:0'),(0.6,'opacity:1'),(5.6,'opacity:1'),(5.8,'opacity:0'),(T,'opacity:0')])
 h2=f'''<div class="hv h2 h2v">
- <div class="bub a {show(0.4,END,'translateY(10px)')}"><div class="bh"><span class="rdot"></span>Listening{wave('a '+wv2)}</div>
-  <p>{words("Lights, horn, wipers all good. Battery passed. Fronts at four, rears at seven, they're out of balance. Rear pads at two millimeters.",0.6,5.5,END)}</p></div>
  <div class="hp mp2"><div class="scr">
    <div class="xph dkt"><b>Inspection</b><small>RO 587, 2023 Rogue</small></div>
    <div class="xcnt"><span class="cn2">{cnt}</span><small>of 38 points</small></div>
    <div class="pbar"><i class="a {bar}"></i></div>
    <div class="mlist">{rows}</div>
-   <div class="pill2 a {show(5.95,END,'translateY(10px) scale(.9)','none')}">{CHK}All 38 points done</div>
+   <div class="pill2 a {show(6.25,END,'translateY(10px) scale(.9)','none')}">{CHK}All 38 points done</div>
+   <div class="vsheet a {vsh}"><div class="bh"><span class="rdot"></span>Listening</div>
+     <div class="vw vw2 a {vamp2}">{BARS}</div>
+     <p>{words("Lights, horn, wipers all good. Battery passed. Fronts at four, rears at seven. Uneven wear, they're out of balance. Rear pads at two millimeters.",0.7,5.5,END)}</p></div>
  </div></div>
  <div class="pop tires a {show(4.0,END,'translateX(-40px) scale(.85)')}"><div class="ptl">Tires</div><div class="t4"><span class="y">4<small>/32"</small><em>LF</em></span><span class="y">4<small>/32"</small><em>RF</em></span><span class="g">7<small>/32"</small><em>LR</em></span><span class="g">7<small>/32"</small><em>RR</em></span></div></div>
+ <div class="pop bal a {show(4.75,END,'translateX(40px) scale(.85)')}"><div class="ptl"><span class="xdot y"></span> Wheel balance</div><span class="rec">Recommend</span><p>Uneven wear on both front tires. A balance evens it out.</p></div>
  <div class="pop xbrk a {show(5.75,END,'translateX(40px) scale(.85)')}"><img src="{BRAKES}" alt=""><div><span class="xdot r"></span> <b>Brake pads, rear</b><small>2 mm, replace now</small></div></div>
 </div>'''
 CSS2='''
@@ -171,6 +179,11 @@ CSS2='''
 .pbar{margin:0 18px 10px;height:6px;border-radius:9px;background:#f2f1f1;overflow:hidden}.pbar i{display:block;height:100%;background:#333132;transform-origin:left}
 .mrow{display:flex;align-items:center;gap:10px;padding:9.5px 18px;border-bottom:1px solid #f2f1f1;font-size:13.5px}.mrow b{margin-left:auto;font-size:13px}
 .pill2{position:absolute;left:50%;margin-left:-82px;bottom:22px;width:164px;display:flex;justify-content:center;align-items:center;gap:6px;background:#78bc61;color:#000;font-weight:700;font-size:12.5px;padding:8px 0;border-radius:99px}.pill2 svg{width:13px;height:13px}
+.vsheet{position:absolute;left:0;right:0;bottom:0;z-index:5;background:rgba(29,28,29,.66);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);color:#fff;border-radius:22px 22px 0 0;padding:16px 18px 22px}
+.vsheet .bh{color:#A0B3C6}.vw2{height:40px;width:auto;margin:8px 0 6px;gap:3px}.vw2 i{width:3px}
+.vsheet p{margin:0;font-size:15px;line-height:1.38;font-weight:600;min-height:105px;text-shadow:0 1px 3px rgba(0,0,0,.5)}.vsheet .w{display:inline-block}
+.pop.bal{left:16px;top:215px;width:176px}.pop.bal .ptl{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.rec{display:inline-block;background:#ffd23f;color:#000;font-size:11px;font-weight:700;padding:2px 9px;border-radius:99px}.pop.bal p{font-size:12px;line-height:1.35;color:#5b5859;margin:8px 0 0}
 .bub{position:absolute;left:0;top:150px;width:192px;z-index:4;background:#333132;color:#fff;border-radius:20px;padding:16px 18px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
 .bh{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#A0B3C6}.bh .hwave{margin-left:auto;height:14px}.bh .hwave i{width:2px;height:calc(var(--h)*2.6px)}
 .rdot{width:8px;height:8px;border-radius:50%;background:#b9314f}
@@ -179,7 +192,7 @@ CSS2='''
 .pop.tires{left:470px;top:120px;width:150px;padding:12px}.ptl{font-weight:700;font-size:13px;margin-bottom:8px}
 .t4{display:grid;grid-template-columns:1fr 1fr;gap:6px}.t4 span{border-radius:10px;padding:7px;font-weight:800;font-size:18px;position:relative}.t4 small{font-size:10px;font-weight:600}.t4 em{position:absolute;right:7px;top:6px;font-style:normal;font-size:9px;font-weight:700;opacity:.55}
 .t4 .y{background:#ffd23f}.t4 .g{background:#78bc61}
-.pop.xbrk{left:16px;top:400px;width:176px;padding:0;overflow:hidden}.pop.xbrk img{width:100%;height:100px;object-fit:cover;display:block}.pop.xbrk div{padding:10px 14px 12px}.pop.xbrk b{font-size:14px}.pop.xbrk small{display:block;color:#b9314f;font-weight:700;font-size:12px;margin-top:2px}
+.pop.xbrk{left:16px;top:390px;width:176px;padding:0;overflow:hidden}.pop.xbrk img{width:100%;height:100px;object-fit:cover;display:block}.pop.xbrk div{padding:10px 14px 12px}.pop.xbrk b{font-size:14px}.pop.xbrk small{display:block;color:#b9314f;font-weight:700;font-size:12px;margin-top:2px}
 '''
 # ---------------- H3: the shop photo, live captions, findings pinned to the tire ----------------
 T=9; kf,rule,show,custom,words=anim(3,T); END=8.3
@@ -236,7 +249,7 @@ page=f'''<!doctype html>
 <div class="hsheet">
 <div><h1>Hero options</h1><p class="intro">The hero copy stays as it is; only the visual on the right changes. All three loop. Reply with a code.</p></div>
 {hero('HA',h1,'One finding, end to end. A floating voice wave and live transcript (no device); the key phrases light up and fly onto the RO as a line, then to the customer, who taps Approve. The three steps under the devices light up in turn. About 10 seconds.')}
-{hero('HB',h2,'The checklist fills itself. A live transcript floats beside the phone while the 38-point MPI ticks through in order, the counter climbs to 38, and the tire and brake findings pop out of the screen. About 9 seconds.')}
+{hero('HB',h2,'The checklist fills itself. The voice wave and live transcript sit on a translucent layer over the inspection, which ticks through underneath while the counter climbs to 38. Three cards pop out as he speaks: tire depths, a wheel balance note, the brake finding with its photo. About 9 seconds.')}
 {hero('HC',h3,'The shop, live. The tech photo with live captions; findings pin onto the tire as he speaks, and the phone fills in the tire tiles. Uses the step 1 photo, so the hero and step 1 would need different photos if picked. About 9 seconds.')}
 </div>
 </x-dc>
