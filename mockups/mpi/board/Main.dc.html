@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MPI page, hero A</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&amp;display=swap">
+<style>
+:root{
+  --rb-bg:#15191f; --rb-fg:#e8ebef; --rb-line:#2b3036; --rb-on:#2DD4BF;
+  --navy:#0F2137; --teal:#2A9D8F; --teal-l:#2DD4BF; --mutedn:#A0B3C6; --surface:#F7F9FC; --text:#1b2430; --text-2:#5b6470; --line:#e3e7ec; --white:#ffffff;
+  --ink:#000000; --char:#333132; --mid:#9b9799; --light:#dedcdd; --paper:#ffffff; --sheet:#f2f1f1;
+  --red:#b9314f; --yellow:#ffd23f; --green:#78bc61;
+  --note:#b45309; --note-soft:#fdf1e1;
+  --ease:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.34,1.56,.64,1);
+  --font:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --rb-bg:#0b0d10; color-scheme:light } }
+:root[data-theme="dark"]{ --rb-bg:#0b0d10 }
+body{margin:0;background:var(--white);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.5;padding-top:0}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px}
+@media (min-width:760px){.wrap{padding-inline:32px}}
+h1,h2,h3{margin:0;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:30px;line-height:1.15}
+@media (min-width:760px){h2{font-size:38px}}
+p{margin:0}
+.sec{padding:64px 0}
+@media (min-width:760px){.sec{padding:96px 0}}
+.sec.alt{background:var(--surface)}
+.kicker{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:12px}
+.lede{font-size:18px;color:var(--text-2);max-width:60ch;margin-top:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--teal);color:#fff;font-weight:700;padding:14px 24px;border-radius:8px;font-size:16px;transition:background .2s}
+.btn:hover{background:#238a7e}
+.btn.ghost{background:transparent;color:#fff;box-shadow:0 0 0 1.5px rgba(255,255,255,.35)}
+.btn.ghost:hover{background:rgba(255,255,255,.08)}
+.note{display:inline-block;font-size:11px;font-weight:700;color:var(--note);background:var(--note-soft);padding:2px 7px;border-radius:4px;vertical-align:middle;margin-left:6px;letter-spacing:.01em}
+
+/* nav */
+.nav{height:64px;border-bottom:1px solid var(--line);background:var(--white);position:relative;z-index:50}
+.nav .wrap{display:flex;align-items:center;height:100%;gap:28px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--navy)}
+.logo i{width:30px;height:30px;border-radius:7px;background:var(--navy);display:inline-flex;align-items:center;justify-content:center}
+.logo i:after{content:"";width:14px;height:14px;border:3px solid var(--teal-l);border-radius:50%;border-right-color:transparent;transform:rotate(-30deg)}
+.links{display:none;align-items:center;gap:26px;font-weight:600;font-size:15px;color:var(--text);margin-left:12px}
+@media (min-width:900px){.links{display:flex}}
+.dd{position:relative;padding:20px 0}
+.dd>span{display:inline-flex;align-items:center;gap:5px;cursor:default}
+.dd>span:after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.6}
+.dd .menu{position:absolute;top:56px;left:-16px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 20px 40px -16px rgba(15,33,55,.25);padding:8px;min-width:260px;display:none;flex-direction:column}
+.dd:hover .menu,.dd:focus-within .menu{display:flex}
+.menu a{padding:10px 12px;border-radius:8px;display:flex;flex-direction:column;gap:2px}
+.menu a:hover{background:var(--surface)}
+.menu a small{font-weight:400;color:var(--text-2);font-size:13px}
+.menu a.cur{color:var(--teal)}
+.nav .right{margin-left:auto;display:flex;align-items:center;gap:18px;font-weight:600;font-size:15px}
+.nav .right .login{display:none}
+@media (min-width:900px){.nav .right .login{display:inline}}
+.nav .btn{padding:10px 16px;font-size:14px}
+.burger{display:inline-flex;flex-direction:column;gap:5px;margin-left:auto;padding:6px}
+.burger i{width:22px;height:2px;background:var(--navy);border-radius:2px}
+@media (min-width:900px){.burger{display:none}}
+
+/* hero shared */
+.hero{background:var(--navy);color:#fff;padding:56px 0 64px;overflow:hidden;position:relative}
+@media (min-width:760px){.hero{padding:88px 0 96px}}
+.hero .kicker{color:var(--teal-l)}
+.hero h1{font-size:38px;line-height:1.06;font-weight:800}
+@media (min-width:760px){.hero h1{font-size:54px}}
+.hero .sub{color:var(--mutedn);font-size:18px;line-height:1.45;max-width:46ch;margin-top:18px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .cat{font-size:14px;color:#7f93a8;max-width:62ch;margin-top:28px;line-height:1.5}
+.heroA .grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center;justify-items:center}
+@media (min-width:900px){.heroA .grid{grid-template-columns:1.1fr auto;justify-items:start;gap:56px}}
+.heroA .ctas{justify-content:center}
+.heroA .copy{text-align:center}
+@media (min-width:900px){.heroA .copy{text-align:left}.heroA .ctas{justify-content:flex-start}}
+.heroA .copy .cat{margin-inline:auto}
+@media (min-width:900px){.heroA .copy .cat{margin-inline:0}}
+/* ---------- Phone (style C) ---------- */
+.phone{width:300px;max-width:100%;height:600px;border-radius:40px;background:var(--char);padding:12px;position:relative;box-shadow:0 30px 60px -20px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.2) inset;flex-shrink:0;font-family:var(--font);text-align:left}
+.hero .phone{box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.phone:before{content:"";position:absolute;inset:0;border-radius:40px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 40%);pointer-events:none;z-index:4}
+.screen{position:relative;background:var(--paper);border-radius:30px;height:100%;overflow:hidden;display:flex;flex-direction:column;color:var(--char);font-size:14px;line-height:1.4}
+.screen .top{padding:22px 20px 0;display:flex;align-items:center;justify-content:space-between}
+.screen .top .t{font-weight:700;font-size:17px;letter-spacing:-.01em}
+.screen .top .sub{font-size:12px;color:var(--mid);margin-top:2px}
+.dots{display:flex;gap:5px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--light)}
+.dots i.cur{background:var(--char)}
+.body{padding:18px 20px 0;display:flex;flex-direction:column;gap:12px;flex:1}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{position:relative;border-radius:14px;background:var(--sheet);padding:14px 12px 12px;overflow:hidden;min-height:76px;display:flex;flex-direction:column;justify-content:space-between}
+.tile .pos{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.02em}
+.tile .val{font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:2px;color:var(--char)}
+.tile .val small{font-size:11px;font-weight:600;color:var(--mid)}
+.tile .val .n{display:inline-block;height:26px;overflow:hidden;position:relative;width:.62em}
+.tile .val .n span{display:block;position:absolute;left:0;top:0;transform:translateY(100%);opacity:0;transition:transform .5s var(--spring),opacity .25s}
+.tile .val .dash{color:var(--light)}
+.tile .fill{position:absolute;inset:0;border-radius:14px;transform:scale(0);transform-origin:16px 16px;transition:transform .55s var(--ease);z-index:0}
+.tile.y .fill{background:var(--yellow)} .tile.g .fill{background:var(--green)}
+.tile>*:not(.fill){position:relative;z-index:1}
+.row{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;opacity:0;transform:translateY(8px);transition:opacity .4s var(--ease),transform .5s var(--ease)}
+.row .dot,.dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.row .dot{transform:scale(0);transition:transform .4s var(--spring) .1s}
+.dot.y{background:var(--yellow)} .dot.r{background:var(--red)} .dot.g{background:var(--green)}
+.row .lbl{flex:1}
+.row .v{font-weight:700;font-variant-numeric:tabular-nums}
+.row .v.m{color:var(--mid);font-weight:500;font-size:12px}
+.pill{position:absolute;left:50%;bottom:112px;transform:translate(-50%,16px) scale(.9);opacity:0;background:var(--green);color:var(--ink);font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;transition:opacity .35s var(--ease),transform .5s var(--spring);display:flex;align-items:center;gap:6px;white-space:nowrap;z-index:5}
+.pill svg{width:14px;height:14px}
+.dock{margin-top:auto;padding:14px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;background:var(--paper)}
+.mic{width:64px;height:64px;border-radius:50%;background:var(--char);border:0;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s var(--ease),background .3s;font:inherit}
+.mic svg{width:26px;height:26px}
+.mic .ring{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--red);opacity:0;transform:scale(.8)}
+.hint{font-size:11px;color:var(--mid);letter-spacing:.02em;transition:opacity .3s}
+.sheet{position:absolute;left:12px;right:12px;bottom:104px;background:var(--char);color:#fff;border-radius:18px;padding:14px 16px 12px;transform:translateY(24px);opacity:0;transition:transform .5s var(--ease),opacity .35s var(--ease);box-shadow:0 18px 40px -12px rgba(0,0,0,.5);z-index:3}
+.sheet .words{font-size:15px;line-height:1.35;font-weight:500;min-height:4.05em}
+.sheet .words span{opacity:0;transform:translateY(4px);display:inline-block;transition:opacity .22s var(--ease),transform .3s var(--ease);margin-right:.28em}
+.sheet .words span.on{opacity:1;transform:none}
+.wave{display:flex;align-items:flex-end;gap:3px;height:20px;margin-top:10px}
+.wave i{width:3px;background:#fff;border-radius:2px;height:4px;opacity:.55;transform-origin:bottom}
+/* MPI states */
+.demo[data-stage="1"] .sheet{transform:none;opacity:1}
+.demo[data-stage="1"] .mic{background:var(--red);transform:scale(1.08)}
+.demo[data-stage="1"] .mic .ring{animation:ring 1.3s var(--ease) infinite}
+.demo[data-stage="1"] .wave i{animation:wave .9s ease-in-out infinite}
+.demo[data-stage="1"] .hint{opacity:0}
+@keyframes ring{0%{opacity:.8;transform:scale(.85)}100%{opacity:0;transform:scale(1.45)}}
+@keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(var(--h,4))}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.demo[data-stage="2"] .tile .fill,.demo[data-stage="3"] .tile .fill{transform:scale(1.6)}
+.demo[data-stage="2"] .tile .val .n span,.demo[data-stage="3"] .tile .val .n span{transform:none;opacity:1}
+.demo[data-stage="2"] .tile .val .dash,.demo[data-stage="3"] .tile .val .dash{display:none}
+.demo[data-stage="2"] .row,.demo[data-stage="3"] .row{opacity:1;transform:none}
+.demo[data-stage="2"] .row .dot,.demo[data-stage="3"] .row .dot{transform:scale(1)}
+.demo[data-stage="3"] .pill{opacity:1;transform:translate(-50%,0) scale(1)}
+.demo[data-stage="2"] .dots i.next,.demo[data-stage="3"] .dots i.next{background:var(--green)}
+.tile:nth-child(1) .fill{transition-delay:0s}.tile:nth-child(2) .fill{transition-delay:.09s}.tile:nth-child(3) .fill{transition-delay:.18s}.tile:nth-child(4) .fill{transition-delay:.27s}
+.tile:nth-child(1) .n span{transition-delay:.12s}.tile:nth-child(2) .n span{transition-delay:.21s}.tile:nth-child(3) .n span{transition-delay:.3s}.tile:nth-child(4) .n span{transition-delay:.39s}
+.row{transition-delay:.45s}.row+.row{transition-delay:.55s}
+.demo.reset *{transition:none !important}
+
+/* ---------- Review screen ---------- */
+.rv .rvrow{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:500;padding:9px 0;border-bottom:1px solid var(--sheet);transition:opacity .4s var(--ease),transform .5s var(--ease)}
+.rv .rvrow .lbl{flex:1}
+.rv .rvrow .v{font-weight:700;font-variant-numeric:tabular-nums}
+.rv .rvrow .v.m{color:var(--mid);font-weight:500;font-size:12px}
+.rv .count{display:flex;gap:8px;margin-bottom:2px}
+.rv .count span{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;background:var(--sheet);border-radius:999px;padding:4px 9px}
+.rv .count .dot{width:8px;height:8px}
+.rv .lines{position:absolute;left:12px;right:12px;bottom:104px;background:var(--char);color:#fff;border-radius:18px;padding:14px 16px;transform:translateY(30px);opacity:0;transition:transform .55s var(--ease),opacity .4s var(--ease);box-shadow:0 18px 40px -12px rgba(0,0,0,.5);z-index:3}
+.rv .lines .lh{display:flex;justify-content:space-between;font-size:12px;color:var(--light);font-weight:600;margin-bottom:8px}
+.rv .lines .lh b{color:#fff;font-size:14px}
+.rv .lines .ln{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:5px 0;opacity:0;transform:translateX(-8px);transition:opacity .3s var(--ease),transform .4s var(--ease)}
+.rv .lines .ln i{width:14px;height:14px;border-radius:4px;background:var(--green);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.rv .lines .ln svg{width:9px;height:9px}
+.rv .lines .ln .price{margin-left:auto;color:var(--light);font-variant-numeric:tabular-nums}
+.ctab{margin-top:auto;padding:14px 20px 22px;background:var(--paper)}
+.ctab .cta{background:var(--char);color:#fff;border-radius:14px;padding:14px;text-align:center;font-weight:700;font-size:14px;position:relative;transition:transform .2s var(--ease),background .3s}
+.ctab .cta .tap{position:absolute;left:50%;top:50%;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.35);transform:translate(-50%,-50%) scale(0);opacity:0}
+.demo[data-stage="1"] .ctab .cta{transform:scale(.96);background:var(--ink)}
+.demo[data-stage="1"] .ctab .cta .tap{animation:tap .7s var(--ease) forwards}
+@keyframes tap{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
+.demo[data-stage="2"] .rv .rvrow.take,.demo[data-stage="3"] .rv .rvrow.take{opacity:.3}
+.demo[data-stage="2"] .rv .lines,.demo[data-stage="3"] .rv .lines{transform:none;opacity:1}
+.demo[data-stage="2"] .rv .lines .ln,.demo[data-stage="3"] .rv .lines .ln{opacity:1;transform:none}
+.demo[data-stage="2"] .rv .lines .ln:nth-child(2){transition-delay:.25s}.demo[data-stage="2"] .rv .lines .ln:nth-child(3){transition-delay:.4s}.demo[data-stage="2"] .rv .lines .ln:nth-child(4){transition-delay:.55s}
+.demo[data-stage="3"] .ctab .cta{background:var(--green);color:var(--ink)}
+.demo[data-stage="3"] .ctab .cta .l1{display:none}
+.ctab .cta .l2{display:none}
+.demo[data-stage="3"] .ctab .cta .l2{display:inline}
+
+/* ---------- Video screen ---------- */
+.vid{background:#1b1a1a;color:#fff}
+.vid .vf{position:absolute;inset:0;background:radial-gradient(120% 80% at 50% 70%,#3a3839 0%,#1b1a1a 70%)}
+.vid .vf:after{content:"";position:absolute;left:50%;top:52%;width:150px;height:150px;border-radius:50%;transform:translate(-50%,-50%);border:14px solid #2b2a2a;box-shadow:inset 0 0 0 8px #3c3a3b;opacity:.9}
+.vid .brk{position:absolute;left:38px;right:38px;top:150px;height:220px;transition:transform .5s var(--ease),opacity .4s;opacity:.5}
+.vid .brk i{position:absolute;width:22px;height:22px;border:2px solid #fff;border-radius:2px}
+.vid .brk i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}.vid .brk i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}.vid .brk i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}.vid .brk i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.vid .rec{position:absolute;top:22px;left:20px;display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.04em;opacity:0;transition:opacity .3s}
+.vid .rec i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.vid .rec span{font-variant-numeric:tabular-nums;font-weight:600}
+.vid .chaps{position:absolute;top:50px;left:20px;right:20px;display:flex;gap:6px;flex-wrap:wrap}
+.vid .ch{font-size:11px;font-weight:700;background:rgba(255,255,255,.14);padding:4px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;transition:transform .45s var(--spring),opacity .3s}
+.vid .ch i{width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block}
+.vid .ch.c2,.vid .ch.c3{transform:scale(.6);opacity:0}
+.vid .tp{position:absolute;left:12px;right:12px;bottom:104px;background:rgba(255,255,255,.96);color:var(--char);border-radius:18px;padding:14px 16px;z-index:3;transition:transform .5s var(--ease),opacity .35s}
+.vid .tp .sh{font-size:11px;font-weight:700;color:var(--mid);display:flex;justify-content:space-between}
+.vid .tp .sh em{font-style:normal;color:var(--char)}
+.vid .tp .tt{font-weight:700;font-size:15px;margin-top:4px}
+.vid .tp .say{font-size:13px;line-height:1.4;margin-top:6px;color:var(--char)}
+.vid .tp .say b{font-weight:600;color:var(--mid)}
+.vid .tp.b{transform:translateY(24px);opacity:0}
+.vid .dock{background:transparent}
+.vid .dock .mic{background:#fff}
+.vid .dock .mic:after{content:"";width:22px;height:22px;border-radius:50%;background:var(--red);transition:border-radius .3s,transform .3s}
+.vid .hint{color:#bdb9ba}
+.demo[data-stage="1"] .vid .rec,.demo[data-stage="2"] .vid .rec,.demo[data-stage="3"] .vid .rec{opacity:1}
+.demo[data-stage="1"] .vid .rec i,.demo[data-stage="2"] .vid .rec i,.demo[data-stage="3"] .vid .rec i{animation:blink 1s ease-in-out infinite}
+.demo[data-stage="1"] .vid .brk,.demo[data-stage="2"] .vid .brk,.demo[data-stage="3"] .vid .brk{opacity:1;transform:scale(.92)}
+.demo[data-stage="1"] .vid .dock .mic:after,.demo[data-stage="2"] .vid .dock .mic:after,.demo[data-stage="3"] .vid .dock .mic:after{border-radius:5px;transform:scale(.8)}
+.demo[data-stage="1"] .vid .mic{background:#fff;transform:none}
+.demo[data-stage="2"] .vid .ch.c2,.demo[data-stage="3"] .vid .ch.c2{transform:none;opacity:1}
+.demo[data-stage="3"] .vid .ch.c3{transform:none;opacity:1}
+.demo[data-stage="2"] .vid .tp.a,.demo[data-stage="3"] .vid .tp.a{transform:translateY(-16px);opacity:0}
+.demo[data-stage="2"] .vid .tp.b,.demo[data-stage="3"] .vid .tp.b{transform:none;opacity:1;transition-delay:.15s}
+
+/* ---------- Customer screen ---------- */
+.cust{background:var(--sheet)}
+.cust .top{background:var(--paper);padding:20px 20px 16px;border-bottom:1px solid var(--light)}
+.cust .brand{display:flex;align-items:center;gap:12px}
+.cust .brand .lg{width:40px;height:40px;border-radius:10px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden}
+.cust .brand .lg:after{content:"";width:18px;height:18px;border:3px solid var(--teal-l);border-radius:50%;border-right-color:transparent;transform:rotate(-30deg)}
+.cust .brand .t{font-size:15px}
+.cust .body{padding:16px 16px 0;gap:12px}
+.cust .msg{align-self:flex-start;background:var(--paper);border-radius:16px;border-top-left-radius:6px;padding:11px 14px;font-size:13.5px;line-height:1.4;max-width:92%;transform:translateY(16px);opacity:0;transition:transform .5s var(--ease),opacity .35s var(--ease);box-shadow:0 6px 14px -8px rgba(0,0,0,.2)}
+.cust .msg u{text-decoration:none;color:var(--teal);font-weight:600;display:block;margin-top:4px}
+.cust .rep{background:var(--paper);border-radius:18px;padding:12px;transform:translateY(30px);opacity:0;transition:transform .55s var(--ease),opacity .4s var(--ease);box-shadow:0 14px 30px -14px rgba(0,0,0,.3)}
+.cust .thumb{height:118px;border-radius:12px;background:radial-gradient(120% 90% at 50% 80%,#4a4849,#232223);position:relative;display:flex;align-items:center;justify-content:center}
+.cust .thumb .play{width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.cust .thumb .play:after{content:"";border-left:14px solid var(--char);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:4px}
+.cust .thumb .dur{position:absolute;right:10px;bottom:8px;font-size:11px;font-weight:700;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px}
+.cust .thumb .tn{position:absolute;left:10px;top:8px;font-size:11px;font-weight:700;color:#fff}
+.cust .chips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.cust .chips span{font-size:11px;font-weight:700;background:var(--sheet);padding:4px 9px;border-radius:999px;opacity:0;transform:translateY(6px);transition:opacity .3s var(--ease),transform .4s var(--ease)}
+.cust .sum{display:flex;flex-direction:column;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid var(--sheet)}
+.cust .s{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:500}
+.cust .s .bar{flex:1;height:8px;border-radius:4px;background:var(--sheet);overflow:hidden}
+.cust .s .bar i{display:block;height:100%;width:var(--w);border-radius:4px;transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.cust .s.r .bar i{background:var(--red)}.cust .s.y .bar i{background:var(--yellow)}.cust .s.g .bar i{background:var(--green)}
+.cust .s b{width:22px;text-align:right;font-variant-numeric:tabular-nums}
+.cust .s .lbl{width:112px;color:var(--char)}
+.cust .foot{margin-top:auto;padding:12px 16px 20px;font-size:11px;color:var(--mid);text-align:center}
+.demo[data-stage="1"] .cust .msg,.demo[data-stage="2"] .cust .msg,.demo[data-stage="3"] .cust .msg{transform:none;opacity:1}
+.demo[data-stage="2"] .cust .rep,.demo[data-stage="3"] .cust .rep{transform:none;opacity:1}
+.demo[data-stage="2"] .cust .chips span,.demo[data-stage="3"] .cust .chips span{opacity:1;transform:none}
+.demo[data-stage="2"] .cust .chips span:nth-child(1){transition-delay:.3s}.demo[data-stage="2"] .cust .chips span:nth-child(2){transition-delay:.4s}.demo[data-stage="2"] .cust .chips span:nth-child(3){transition-delay:.5s}
+.demo[data-stage="3"] .cust .s .bar i{transform:scaleX(1)}
+.demo[data-stage="3"] .cust .s:nth-child(2) .bar i{transition-delay:.12s}.demo[data-stage="3"] .cust .s:nth-child(3) .bar i{transition-delay:.24s}
+
+/* ---------- Sections ---------- */
+.prob .grid{display:grid;grid-template-columns:1fr;gap:36px;align-items:start}
+@media (min-width:900px){.prob .grid{grid-template-columns:1.1fr 1fr;gap:64px}}
+.prob .copy p{color:var(--text-2);font-size:18px;margin-top:16px;max-width:52ch}
+.stats{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:560px){.stats{grid-template-columns:1fr 1fr}}
+.stat{background:var(--surface);border-radius:18px;padding:26px 24px}
+.stat .n{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--navy)}
+.stat .n small{font-size:22px;font-weight:700;color:var(--text-2);margin-left:4px}
+.stat .l{margin-top:10px;color:var(--text-2);font-size:15px;line-height:1.4}
+
+.how .head{max-width:60ch;margin-bottom:48px}
+.steps4{display:flex;flex-direction:column;gap:56px}
+@media (min-width:900px){.steps4{gap:88px}}
+.hstep{display:grid;grid-template-columns:1fr;gap:28px;align-items:center;justify-items:center}
+@media (min-width:900px){.hstep{grid-template-columns:1fr 1fr;gap:64px;justify-items:start}.hstep:nth-child(even) .copy{order:2}.hstep:nth-child(even) .demo{justify-self:end}.hstep:nth-child(odd) .demo{justify-self:end}.hstep:nth-child(even) .demo{justify-self:start}}
+.hstep .copy{max-width:46ch}
+.hstep .num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:15px;margin-bottom:16px}
+.hstep h3{font-size:26px;line-height:1.15;font-weight:800}
+.hstep p{color:var(--text-2);font-size:17px;margin-top:12px}
+.hstep .fine{font-size:14px;color:var(--text-2);margin-top:10px;padding-left:12px;border-left:2px solid var(--line)}
+
+.why .tiles3{display:grid;grid-template-columns:1fr;gap:16px;margin-top:40px}
+@media (min-width:760px){.why .tiles3{grid-template-columns:repeat(3,1fr);gap:20px}}
+.bt{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 24px}
+.bt .big{font-size:40px;font-weight:800;letter-spacing:-.03em;color:var(--navy);line-height:1}
+.bt .big.ph{color:var(--mutedn);font-size:28px}
+.bt h3{font-size:19px;margin-top:14px}
+.bt p{color:var(--text-2);font-size:15px;margin-top:8px}
+
+.proof .q{font-size:24px;line-height:1.3;font-weight:600;letter-spacing:-.01em;max-width:34ch;color:var(--navy)}
+@media (min-width:760px){.proof .q{font-size:30px}}
+.proof .who{margin-top:18px;display:flex;align-items:center;gap:12px;color:var(--text-2);font-size:15px}
+.proof .who i{width:40px;height:40px;border-radius:50%;background:var(--line);display:inline-block}
+.proof .strip{display:flex;gap:28px;flex-wrap:wrap;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);color:var(--text-2);font-weight:700;font-size:14px}
+
+.dms .logos{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:28px;font-weight:700;color:#8a97a6;font-size:17px;letter-spacing:-.01em}
+.dms p{color:var(--text-2);font-size:17px;max-width:60ch;margin-top:14px}
+
+.faq .list{margin-top:32px;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;padding:20px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";font-weight:400;font-size:24px;color:var(--text-2);flex-shrink:0}
+.faq details[open] summary:after{content:"\2013"}
+.faq .a{padding:0 0 22px;color:var(--text-2);font-size:16px;max-width:66ch}
+
+.cta-band{background:var(--navy);color:#fff;text-align:center}
+.cta-band h2{color:#fff}
+.cta-band p{color:var(--mutedn);font-size:18px;margin-top:14px}
+.cta-band .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.cta-band .more{display:block;margin-top:32px;color:var(--teal-l);font-weight:600}
+
+.fn{font-size:.5em;vertical-align:super;line-height:0;margin-left:3px;font-weight:700}.fn a{color:var(--teal)}
+.fns{padding:32px 0 8px;font-size:13px;color:var(--text-2);line-height:1.5}
+.fns h2{font-size:14px;font-weight:700;color:var(--text);letter-spacing:0}
+.fns ol{margin:10px 0 0;padding-left:18px;max-width:80ch}.fns li{margin-bottom:6px}.fns a{color:var(--teal)}
+.midcta{margin-top:80px;padding-top:40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:20px 36px}
+.midcta p{font-size:21px;font-weight:600;color:var(--navy);max-width:42ch;letter-spacing:-.01em;line-height:1.3}
+.midcta .ctas{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.midcta .more{color:var(--teal);font-weight:600;white-space:nowrap}
+footer{padding:40px 0;color:var(--text-2);font-size:14px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+footer .logo{font-size:16px}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms !important;animation-duration:.01ms !important;animation-iteration-count:1 !important}
+  .sheet .words span,.frag .words span{opacity:1;transform:none}
+}
+@media (prefers-reduced-motion:reduce){.lap .fchip{display:none}.lap .lrow{opacity:1 !important;animation:none !important}.lap .lbar i{width:100%;animation:none}}
+@media (min-width:900px){.how .hstep{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px}.how .hstep:nth-child(even){grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.chip{animation:none !important;opacity:1 !important}}
+@media (prefers-reduced-motion:reduce){.lap .fchip{display:none}.lap .lrow{opacity:1 !important;animation:none !important}.lap .lbar i{width:100%;animation:none}}
+@media (min-width:900px){.how .hstep{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px}.how .hstep:nth-child(even){grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.chip{animation:none !important;opacity:1 !important}}
+
+/* how-it-works photo treatment */
+
+
+.laptop{position:absolute;right:-40px;bottom:-72px;width:360px;transform:scale(0.85);transform-origin:bottom right;z-index:3;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
+.laptop .lid{background:var(--char);border-radius:14px 14px 4px 4px;padding:10px;position:relative}
+.laptop .lid:before{content:"";position:absolute;inset:0;border-radius:14px 14px 4px 4px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 40%);pointer-events:none}
+.laptop .cam{position:absolute;left:50%;top:4px;width:4px;height:4px;border-radius:50%;background:#000;transform:translateX(-50%)}
+.laptop .base{height:16px;background:linear-gradient(#55524f,#333132);border-radius:0 0 12px 12px;position:relative}
+.laptop .base:after{content:"";position:absolute;left:50%;top:0;width:70px;height:5px;border-radius:0 0 5px 5px;background:#242222;transform:translateX(-50%)}
+.lap .lscreen{position:relative;width:340px;height:212px;background:#fff;border-radius:4px;overflow:hidden;font-size:11.5px;line-height:1.25;color:var(--char);padding:12px 14px;display:flex;flex-direction:column;gap:7px}
+.lap .lh{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:13px}.lap .lh span{color:var(--mid);font-weight:600;font-size:10.5px}
+.lap .lbar{height:4px;border-radius:2px;background:var(--sheet);overflow:hidden}.lap .lbar i{display:block;height:100%;background:var(--green);animation:lfill 7s linear infinite}
+@keyframes lfill{0%{width:0}62%{width:100%}89%{width:100%}94%,100%{width:0}}
+.lap .lrow{display:flex;align-items:center;gap:8px;font-weight:500;opacity:0;animation:none 7s var(--ease) infinite;padding:3px 0;border-bottom:1px solid var(--sheet)}
+.lap .lrow .dot{width:8px;height:8px}.lap .lrow .lbl{flex:1}.lap .lrow .v{font-weight:700;font-variant-numeric:tabular-nums}
+.lap .lrow.k3 .th{width:30px;height:20px;border-radius:3px;background:radial-gradient(120% 90% at 50% 80%,#4a4849,#232223)}
+.lap .lcta{margin-top:auto;background:var(--char);color:#fff;border-radius:6px;text-align:center;font-weight:700;font-size:11px;padding:6px}
+.lap .fchip{position:absolute;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--char);font-weight:700;font-size:12.5px;padding:6px 11px;border-radius:999px;box-shadow:0 10px 24px -8px rgba(0,0,0,.45);white-space:nowrap;opacity:0;animation:none 7s var(--ease) infinite;z-index:4}
+.lap .fchip .dot{width:9px;height:9px}
+.lap .fchip.k3{width:60px;height:44px;padding:0;border-radius:8px;background:radial-gradient(120% 90% at 50% 80%,#4a4849,#232223);box-shadow:0 10px 24px -8px rgba(0,0,0,.6)}
+@keyframes fly-k0{0%,0.0%{opacity:0;transform:translate(0,0)}3.6%{opacity:1}18.6%{opacity:1;transform:translate(508px,387px) scale(.85)}22.1%,100%{opacity:0;transform:translate(508px,387px) scale(.3)}}
+@keyframes row-k0{0%,17.1%{opacity:0;transform:translateY(6px)}20.7%{opacity:1;transform:none}89%{opacity:1}94%,100%{opacity:0}}
+@keyframes fly-k1{0%,14.3%{opacity:0;transform:translate(0,0)}17.9%{opacity:1}32.9%{opacity:1;transform:translate(536px,287px) scale(.85)}36.4%,100%{opacity:0;transform:translate(536px,287px) scale(.3)}}
+@keyframes row-k1{0%,31.4%{opacity:0;transform:translateY(6px)}35.0%{opacity:1;transform:none}89%{opacity:1}94%,100%{opacity:0}}
+@keyframes fly-k2{0%,28.6%{opacity:0;transform:translate(0,0)}32.1%{opacity:1}47.1%{opacity:1;transform:translate(513px,177px) scale(.85)}50.7%,100%{opacity:0;transform:translate(513px,177px) scale(.3)}}
+@keyframes row-k2{0%,45.7%{opacity:0;transform:translateY(6px)}49.3%{opacity:1;transform:none}89%{opacity:1}94%,100%{opacity:0}}
+@keyframes fly-k3{0%,42.9%{opacity:0;transform:translate(0,0)}46.4%{opacity:1}61.4%{opacity:1;transform:translate(553px,78px) scale(.85)}65.0%,100%{opacity:0;transform:translate(553px,78px) scale(.3)}}
+@keyframes row-k3{0%,60.0%{opacity:0;transform:translateY(6px)}63.6%{opacity:1;transform:none}89%{opacity:1}94%,100%{opacity:0}}
+.lap .fchip.k0{left:-40px;top:80px;animation-name:fly-k0}.lap .lrow.k0{animation-name:row-k0}
+.lap .fchip.k1{left:-64px;top:180px;animation-name:fly-k1}.lap .lrow.k1{animation-name:row-k1}
+.lap .fchip.k2{left:-40px;top:290px;animation-name:fly-k2}.lap .lrow.k2{animation-name:row-k2}
+.lap .fchip.k3{left:-56px;top:380px;animation-name:fly-k3}.lap .lrow.k3{animation-name:row-k3}
+@media (prefers-reduced-motion:reduce){.lap .fchip{display:none}.lap .lrow{opacity:1 !important;animation:none !important}.lap .lbar i{width:100%;animation:none}}
+
+.ill{width:220px;height:184px;border-radius:20px;background:var(--surface);display:flex;align-items:center;justify-content:center;margin-bottom:22px}
+.ill svg{width:200px;height:166px}
+.scene{position:relative;width:560px;height:600px;border-radius:28px;background:var(--surface);overflow:visible;flex-shrink:0}
+.scene>svg{position:absolute;left:24px;top:40px;width:420px;height:350px}
+.scene .phone{position:absolute;right:-24px;bottom:-24px;transform:scale(.86);transform-origin:bottom right}
+.scene .chip{opacity:0;transform-box:fill-box;transform-origin:center;animation:flyin 4.2s var(--ease) infinite}
+.scene .c1{animation-delay:.2s;--dx:150px;--dy:70px}.scene .c2{animation-delay:1.3s;--dx:130px;--dy:60px}.scene .c3{animation-delay:2.4s;--dx:150px;--dy:-10px}
+@keyframes flyin{0%{opacity:0;transform:translate(-20px,0) scale(.9)}14%{opacity:1;transform:translate(0,0) scale(1)}62%{opacity:1;transform:translate(var(--dx),var(--dy)) scale(1)}76%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.5)}100%{opacity:0}}
+@media (min-width:900px){.how .hstep{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:48px}.how .hstep:nth-child(even){grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}}
+.photo{position:relative;width:100%;max-width:640px;height:520px;border-radius:28px;overflow:visible;flex-shrink:0}
+.photo img{width:100%;height:100%;object-fit:cover;border-radius:28px;display:block}
+.photo .phone{position:absolute;right:-40px;bottom:-40px;transform:scale(.78);transform-origin:bottom right;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.2) inset}
+.hstep:nth-child(even) .photo .phone{right:auto;left:-40px;transform-origin:bottom left}
+.photo .chip{opacity:0;transform-box:fill-box;transform-origin:center;animation:flyin 4.2s var(--ease) infinite}
+.photo .c1{animation-delay:.2s;--dx:150px;--dy:70px}.photo .c2{animation-delay:1.3s;--dx:130px;--dy:60px}.photo .c3{animation-delay:2.4s;--dx:150px;--dy:-10px}
+.hstep .demo{display:contents}
+.hstep .vis{justify-self:end}.hstep:nth-child(even) .vis{justify-self:start}
+@media (prefers-reduced-motion:reduce){.chip{animation:none !important;opacity:1 !important}}
+</style>
+</helmet>
+<div class="page" style="width: 100%; min-height: 100%; background: #ffffff; font-family: 'DM Sans', system-ui, sans-serif; color: #1b2430">
+<nav class="nav" id="top">
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i>TenthGear</a>
+    <div class="links">
+      <div class="dd" tabindex="0"><span>Product</span>
+        <div class="menu">
+          <a href="#top"><span>Overview</span><small>Find more work, sell more work, get paid for it</small></a>
+          <a href="#top" class="cur"><span>Voice MPI</span><small>The multi point inspection that builds itself</small></a>
+          <a href="#top"><span>3C Stories</span><small>Concern, cause, correction, written while the tech talks</small></a>
+        </div>
+      </div>
+      <a href="#top">Pricing</a><a href="#top">Blog</a><a href="#top">About</a>
+    </div>
+    <div class="right"><a class="login" href="#top">Log In</a><a class="btn" href="#top">Book a Demo</a></div>
+    <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+  </div>
+</nav>
+
+
+<header class="hero heroA">
+  <div class="wrap grid">
+    <div class="copy">
+      <div class="kicker">Voice MPI for dealerships</div>
+      <h1>The Multi Point Inspection that builds itself</h1>
+      <p class="sub">Techs say what they see. The MPI fills itself in.</p>
+      <div class="ctas"><a class="btn" href="#top">Book a Demo</a><a class="btn ghost" href="#how">See how it works</a></div>
+      
+    </div>
+    <div class="demo" data-kind="mpi" data-stage="3"><div class="phone"><div class="screen"><div class="top"><div><div class="t">Tires</div><div class="sub">RO 587, 2023 Rogue</div></div><div class="dots"><i></i><i></i><i></i><i class="cur"></i><i class="next"></i><i></i></div></div><div class="body"><div class="tiles"><div class="tile y"><div class="fill"></div><div class="pos">Left front</div><div class="val"><span class="dash">—</span><span class="n"><span>4</span></span><small>/32"</small></div></div><div class="tile y"><div class="fill"></div><div class="pos">Right front</div><div class="val"><span class="dash">—</span><span class="n"><span>4</span></span><small>/32"</small></div></div><div class="tile g"><div class="fill"></div><div class="pos">Left rear</div><div class="val"><span class="dash">—</span><span class="n"><span>7</span></span><small>/32"</small></div></div><div class="tile g"><div class="fill"></div><div class="pos">Right rear</div><div class="val"><span class="dash">—</span><span class="n"><span>7</span></span><small>/32"</small></div></div></div><div class="row"><span class="dot y"></span><span class="lbl">Wheel balance</span><span class="v m">Recommend</span></div><div class="row"><span class="dot r"></span><span class="lbl">Brake pads, rear</span><span class="v">2 mm</span></div></div><div class="sheet"><div class="words"><span>The</span><span>front</span><span>tires</span><span>are</span><span>at</span><span>four</span><span>and</span><span>the</span><span>rears</span><span>are</span><span>at</span><span>seven.</span><span>A</span><span>little</span><span>irregular</span><span>wear,</span><span>looks</span><span>like</span><span>they're</span><span>out</span><span>of</span><span>balance.</span></div><div class="wave"><i style="--h:2;animation-delay:0s"></i><i style="--h:3.5;animation-delay:-0.07s"></i><i style="--h:5;animation-delay:-0.14s"></i><i style="--h:2.5;animation-delay:-0.21000000000000002s"></i><i style="--h:4.5;animation-delay:-0.28s"></i><i style="--h:2;animation-delay:-0.35000000000000003s"></i><i style="--h:3;animation-delay:-0.42000000000000004s"></i><i style="--h:5;animation-delay:-0.49000000000000005s"></i><i style="--h:2.5;animation-delay:-0.56s"></i><i style="--h:4;animation-delay:-0.6300000000000001s"></i><i style="--h:2;animation-delay:-0.7000000000000001s"></i><i style="--h:3.5;animation-delay:-0.77s"></i><i style="--h:2.8;animation-delay:-0.8400000000000001s"></i><i style="--h:4.6;animation-delay:-0.9100000000000001s"></i><i style="--h:2.2;animation-delay:-0.9800000000000001s"></i><i style="--h:3.2;animation-delay:-1.05s"></i><i style="--h:4.8;animation-delay:-1.12s"></i><i style="--h:2.4;animation-delay:-1.1900000000000002s"></i></div></div><div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>Findings applied</div><div class="dock"><span class="mic" aria-hidden="true"><span class="ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg></span><div class="hint">Press and hold</div></div></div></div></div>
+  </div>
+</header>
+
+<section class="sec prob">
+  <div class="wrap grid">
+    <div class="copy">
+      <div class="kicker">The problem</div>
+      <h2>Techs hate filling out forms</h2>
+      <p>Forms and service apps are speed bumps. When the shop gets busy, they get skipped. Every rushed inspection is a missed revenue opportunity, and every unexplained "red" is a line the customer is more likely to decline.</p>
+    </div>
+    <div class="stats">
+      
+      <div class="stat"><div class="n">6 in 10<sup class="fn"><a href="#fn1">1</a></sup></div><div class="l">ROs leave with <i><b><u>zero new recommendations</u></b></i> at the average shop.&nbsp;</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== How it works ===== -->
+<section class="sec alt how" id="how">
+  <div class="wrap">
+    <div class="head">
+      <div class="kicker">How it works</div>
+      <h2>Talk. Shoot. Send.</h2>
+      <p class="lede">Most service lane software is a "have to": use it or you're fired. TenthGear is the first app techs actually <i>want</i> to use, because it does their paperwork for them.</p>
+    </div>
+    <div class="steps4">
+      <div class="hstep"><div class="copy"><div class="num">1</div><h3>Walk &amp; talk</h3><p>Walk the vehicle and say what you see. TenthGear listens, takes notes, and automatically applies your findings to the MPI report.&nbsp;</p></div><div class="vis photo"><img src="/_blob/2cdf35438068f580d84e16a251b7f588" alt="" style="object-position: 50% 68%"><div class="demo" data-kind="mpi" data-stage="3"><div class="phone"><div class="screen"><div class="top"><div><div class="t">Tires</div><div class="sub">RO 587, 2023 Rogue</div></div><div class="dots"><i></i><i></i><i></i><i class="cur"></i><i class="next"></i><i></i></div></div><div class="body"><div class="tiles"><div class="tile y"><div class="fill"></div><div class="pos">Left front</div><div class="val"><span class="dash">—</span><span class="n"><span>4</span></span><small>/32"</small></div></div><div class="tile y"><div class="fill"></div><div class="pos">Right front</div><div class="val"><span class="dash">—</span><span class="n"><span>4</span></span><small>/32"</small></div></div><div class="tile g"><div class="fill"></div><div class="pos">Left rear</div><div class="val"><span class="dash">—</span><span class="n"><span>7</span></span><small>/32"</small></div></div><div class="tile g"><div class="fill"></div><div class="pos">Right rear</div><div class="val"><span class="dash">—</span><span class="n"><span>7</span></span><small>/32"</small></div></div></div><div class="row"><span class="dot y"></span><span class="lbl">Wheel balance</span><span class="v m">Recommend</span></div><div class="row"><span class="dot r"></span><span class="lbl">Brake pads, rear</span><span class="v">2 mm</span></div></div><div class="sheet"><div class="words"><span>The</span><span>front</span><span>tires</span><span>are</span><span>at</span><span>four</span><span>and</span><span>the</span><span>rears</span><span>are</span><span>at</span><span>seven.</span><span>A</span><span>little</span><span>irregular</span><span>wear,</span><span>looks</span><span>like</span><span>they're</span><span>out</span><span>of</span><span>balance.</span></div><div class="wave"><i style="--h:2;animation-delay:0s"></i><i style="--h:3.5;animation-delay:-0.07s"></i><i style="--h:5;animation-delay:-0.14s"></i><i style="--h:2.5;animation-delay:-0.21000000000000002s"></i><i style="--h:4.5;animation-delay:-0.28s"></i><i style="--h:2;animation-delay:-0.35000000000000003s"></i><i style="--h:3;animation-delay:-0.42000000000000004s"></i><i style="--h:5;animation-delay:-0.49000000000000005s"></i><i style="--h:2.5;animation-delay:-0.56s"></i><i style="--h:4;animation-delay:-0.6300000000000001s"></i><i style="--h:2;animation-delay:-0.7000000000000001s"></i><i style="--h:3.5;animation-delay:-0.77s"></i><i style="--h:2.8;animation-delay:-0.8400000000000001s"></i><i style="--h:4.6;animation-delay:-0.9100000000000001s"></i><i style="--h:2.2;animation-delay:-0.9800000000000001s"></i><i style="--h:3.2;animation-delay:-1.05s"></i><i style="--h:4.8;animation-delay:-1.12s"></i><i style="--h:2.4;animation-delay:-1.1900000000000002s"></i></div></div><div class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>Findings applied</div><div class="dock"><span class="mic" aria-hidden="true"><span class="ring"></span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg></span><div class="hint">Press and hold</div></div></div></div></div></div></div>
+      <div class="hstep"><div class="copy"><div class="num">2</div><h3>Shoot some video</h3><p>Everything you say on the video goes straight to the MPI report and new recommendations.&nbsp;On-screen notes help the tech with what to shoot and what to say, so every tech can make a great video.</p></div><div class="vis photo"><img src="/_blob/f797652c307da3346fed07cdcf5b2a3d" alt="" style="object-position: 50% 71%"><div class="demo" data-kind="video" data-stage="3"><div class="phone"><div class="screen vid"><div class="vf"></div><div class="brk"><i></i><i></i><i></i><i></i></div><div class="rec"><i></i>REC <span>0:42</span></div><div class="chaps"><span class="ch c1"><i></i>Under hood</span><span class="ch c2"><i></i>Tires</span><span class="ch c3"><i></i>Brakes</span></div><div class="tp a"><div class="sh"><span>Shot 3 of 8</span><em>Tires</em></div><div class="tt">Front tread depth</div><div class="say"><b>Say:</b> show the gauge on the tread and read the number out loud.</div></div><div class="tp b"><div class="sh"><span>Shot 4 of 8</span><em>Brakes</em></div><div class="tt">Rear pads through the wheel</div><div class="say"><b>Say:</b> point at the pad, give the thickness, say what you recommend.</div></div><div class="dock"><span class="mic" aria-hidden="true"></span><div class="hint">Recording</div></div></div></div></div></div></div>
+      <div class="hstep"><div class="copy"><div class="num">3</div><h3>TenthGear fills out the forms</h3><p>TenthGear uses everything the tech said during the walkaround and in the video to build a comprehensive MPI report and customer recommendations.</p></div><div class="vis photo lap"><img src="/_blob/0382d9487f86ad4a604060b1538692ef" alt="" style="object-position: 50% 40%">
+<div class="laptop"><div class="lid"><span class="cam"></span><div class="lscreen"><div class="lh">Report summary<span>RO 587, 38 items inspected</span></div><div class="lbar"><i></i></div>
+<div class="lrow k0"><span class="dot y"></span><span class="lbl">Tire tread, front</span><span class="v">4/32"</span></div>
+<div class="lrow k1"><span class="dot r"></span><span class="lbl">Brake pads, rear</span><span class="v">2 mm</span></div>
+<div class="lrow k2"><span class="dot y"></span><span class="lbl">Wheel balance</span><span class="v">Recommend</span></div>
+<div class="lrow k3"><span class="th"></span><span class="lbl">Photo, front tread</span></div>
+<div class="lcta">Save &amp; Create Lines</div></div></div><div class="base"></div></div>
+<span class="fchip k0"><span class="dot y"></span>4/32" front tread</span><span class="fchip k1"><span class="dot r"></span>Rear pads 2 mm</span><span class="fchip k2"><span class="dot y"></span>Wheel balance</span><span class="fchip k3"></span></div></div>
+      <div class="hstep"><div class="copy"><div class="num">4</div><h3>Your customer gets a gorgeous report</h3><p>Your customer wants more than a list of prices before they say yes. TenthGear creates a custom shopping experience for your customer, complete with your branding, photos and video, recommendations in plain english, and a fully-annotated MPI report.</p></div><div class="vis photo"><img src="/_blob/0d0fb9bd853124c45abbb784e1f5f4a9" alt="" style="object-position: 100% 50%"><div class="demo" data-kind="customer" data-stage="3"><div class="phone"><div class="screen cust"><div class="top"><div class="brand"><span class="lg"></span><div><div class="t">Your Dealership</div><div class="sub">(555) 010-2030</div></div></div></div><div class="body"><div class="msg">Your inspection video and report for the 2023 Rogue are ready.<u>View report</u></div><div class="rep"><div class="thumb"><span class="tn">Inspection video</span><span class="play"></span><span class="dur">2:48</span></div><div class="chips"><span>Under hood</span><span>Tires</span><span>Brakes</span></div><div class="sum"><div class="s r"><span class="lbl">Needs attention now</span><span class="bar"><i style="--w:12%"></i></span><b>1</b></div><div class="s y"><span class="lbl">Recommend soon</span><span class="bar"><i style="--w:22%"></i></span><b>2</b></div><div class="s g"><span class="lbl">Checked, OK</span><span class="bar"><i style="--w:100%"></i></span><b>35</b></div></div></div></div><div class="foot">Sent by your dealership, not a third party</div></div></div></div></div></div>
+    </div>
+    <div class="midcta">
+      <p style="text-align: left">That's the whole process. Twenty minutes to see it in action...</p>
+      <div class="ctas"><a class="btn" href="#top">Book a Demo</a><a class="more" href="#top">Next: AI Story Writer →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Why it gets done ===== -->
+<section class="sec why">
+  <div class="wrap">
+    <div class="kicker">Why it gets done</div>
+    <h2>Faster, more complete, more understandable</h2>
+    <p class="lede">This is what happens when every technician has a paperwork assistant. TenthGear's job is to watch and listen, then build the materials that make it easy for your customer to say yes.&nbsp;</p>
+    <div class="tiles3">
+      <div class="bt"><div class="big ph">↓14 minutes</div><h3>Faster MPI process</h3><p>Comprehensive MPI reports with no clicking or tapping. Detailed notes with no typing.&nbsp;</p></div>
+      <div class="bt"><div class="big ph">+2 recs</div><h3>More recommendations per RO</h3><p>Recommended lines per RO when every item gets inspected.</p></div>
+      <div class="bt"><div class="big ph">3X higher approvals</div><h3>More CP approved work</h3><p>Approval rates are 3X higher with a high-quality MPI report and video.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Proof ===== -->
+<section class="sec alt proof">
+  <div class="wrap">
+    <div class="kicker">Dealership proof</div>
+    
+    <p class="q" style="margin-top:28px">"My guys are really good at what they do. But TenthGear lets them spend more time turning wrenches and less time at a keyboard."</p>
+    <div class="who"><i></i><span><div>Bob Sisk, Service Manager,&nbsp;McGrath Audi of Morton Grove</div></span></div>
+    
+  </div>
+</section>
+
+<!-- ===== DMS ===== -->
+
+
+<!-- ===== FAQ ===== -->
+<section class="sec faq">
+  <div class="wrap">
+    <div class="kicker">Questions</div>
+    <h2>FAQs</h2>
+    <div class="list">
+      <details open=""><summary>What is a multi point inspection?</summary><div class="a">A multi point inspection, or MPI, is the walk-around a dealership technician does on every vehicle that comes in for service. The tech checks tires, brakes, fluids, battery, belts, hoses, lights, wipers and filters, marks each item red, yellow or green, and the results are shared with the customer so they can decide what to approve. It is the main way a service department finds work the customer didn't come in for.</div></details>
+      <details><summary>What does a multi point inspection include?</summary><div class="a">Tires and tread depth, brake pads and rotors, fluid levels and condition, battery health, belts and hoses, exterior and interior lights, wiper blades, cabin and engine air filters, suspension and steering, and exhaust. TenthGear's catalog has 38 items in a color-coded carousel, and the tech adds custom items when the vehicle needs them. Our printable multi point inspection checklist lists every item.</div></details>
+      <details><summary>How long does a multi point inspection take?</summary><div class="a">The walk-around itself takes a few minutes. The time goes to writing it up: tapping through a tablet, typing notes, filling in measurements. With TenthGear the tech talks through the inspection and the report fills itself in, so the write-up takes no extra time at all.</div></details>
+      <details><summary>Is this a digital vehicle inspection (DVI)?</summary><div class="a">Yes. TenthGear is a digital vehicle inspection built for franchise dealership service departments. The difference is that the tech talks instead of tapping, and the report builds itself. Independent shops are not our customers.</div></details>
+      <details><summary>Does the customer get an MPI video?</summary><div class="a">Yes. The tech records a short inspection video with on-screen notes on what to shoot and say. The customer gets the video with their report, with chapters named by section, under your dealership's logo, name and phone number.</div></details>
+      <details><summary>What if the voice finding is wrong?</summary><div class="a">The tech reviews every finding on the report before saving. Nothing becomes a line on the RO without the tech.</div></details>
+      <details><summary>Does it work in a loud shop?</summary><div class="a">Answer pending.</div></details>
+      <details><summary>Does it work with Xtime, myKaarma or Dealer-FX?</summary><div class="a">TenthGear runs alongside the tools you use for scheduling, customer communication and payments. It handles the inspection, the video and the report.</div></details>
+      <details><summary>Is TenthGear integrated with our DMS?</summary><div class="a">TenthGear currently integrates with Auto/Mate, Tekion, CDK, Reynolds, Dealertrack, PBS, Quorum, Autosoft, DealerBuilt and Dominion. DMS integration isn't required for all implementations.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="sec cta-band">
+  <div class="wrap">
+    <h2>See it in action</h2>
+    
+    <div class="ctas"><a class="btn" href="#top">Book a Demo</a></div>
+    <a class="more" href="#top">Next: AI Story Writer →</a>
+  </div>
+</section>
+
+<section class="fns">
+  <div class="wrap">
+    <h2>Sources</h2>
+    <ol>
+      <li id="fn1">DealerRater survey for Fixed Ops Journal (2019), as reported by CBT News, September 2023: of every 100 vehicle owners on the service drive, 61 had no additional service work presented to them. <a href="https://www.cbtnews.com/multi-point-inspections-bridging-the-gap-between-vehicle-owners-and-technicians/">cbtnews.com</a></li>
+      
+      
+      
+    </ol>
+  </div>
+</section>
+
+<footer><div class="wrap"><a class="logo" href="#top"><i></i>TenthGear</a><span>RO-bot, Inc.</span><a href="#top">Privacy</a><a href="#top">Terms</a></div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":7400}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+  componentDidMount() {
+    var self = this; this.demos = [];
+    var els = document.querySelectorAll('.demo[data-kind]');
+    for (var i = 0; i < els.length; i++) this.demos.push(new Loop(els[i]));
+  }
+  componentWillUnmount() {
+    for (var i = 0; i < (this.demos || []).length; i++) this.demos[i].stop();
+  }
+}
+function Loop(root) {
+  this.root = root; this.kind = root.getAttribute('data-kind');
+  this.words = root.querySelectorAll('.words span'); this.timers = []; this.wi = 0; this.playing = false;
+  var self = this;
+  if ('IntersectionObserver' in window) {
+    this.io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting && !self.playing) { self.playing = true; self.cycle(); }
+        else if (!e.isIntersecting && self.playing) { self.playing = false; self.clear(); }
+      });
+    }, { threshold: 0.2 });
+    this.io.observe(root);
+  } else { this.playing = true; this.cycle(); }
+}
+Loop.prototype.set = function (s) { this.root.setAttribute('data-stage', s); };
+Loop.prototype.after = function (ms, fn) { var t = setTimeout(fn, ms); this.timers.push(t); return t; };
+Loop.prototype.clear = function () { for (var i = 0; i < this.timers.length; i++) clearTimeout(this.timers[i]); this.timers = []; if (this.wt) { clearInterval(this.wt); this.wt = null; } };
+Loop.prototype.stop = function () { this.clear(); if (this.io) this.io.disconnect(); this.set(3); this.showWords(this.words.length); };
+Loop.prototype.showWords = function (n) { for (var i = 0; i < this.words.length; i++) this.words[i].classList.toggle('on', i < n); this.wi = n; };
+Loop.prototype.streamWords = function (ms, done) { var self = this; self.showWords(0); self.wt = setInterval(function () { if (self.wi >= self.words.length) { clearInterval(self.wt); self.wt = null; if (done) done(); return; } self.showWords(self.wi + 1); }, ms); };
+Loop.prototype.reset = function () { var r = this.root; r.classList.add('reset'); this.set(0); this.showWords(0); void r.offsetWidth; r.classList.remove('reset'); };
+Loop.prototype.cycle = function () {
+  var self = this, hold = self.kind === 'mpi' ? 2600 : 2800;
+  self.reset();
+  self.after(900, function () {
+    self.set(1);
+    var go = function () { self.after(700, function () { self.set(2); self.after(self.kind === 'customer' || self.kind === 'video' ? 1800 : 1500, function () { self.set(3); self.after(hold, function () { self.cycle(); }); }); }); };
+    if (self.words.length) self.streamWords(150, go); else self.after(1500, go);
+  });
+};
+</script>
+</body>
+</html>

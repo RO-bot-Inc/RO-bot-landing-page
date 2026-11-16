@@ -1,0 +1,104 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "HowA.dc.html": {
+      "expand": "fill",
+      "h": 3100,
+      "is_interactive": true,
+      "title": "How it works A: line drawings",
+      "w": 1280,
+      "x": 1800,
+      "y": 0
+    },
+    "HowB.dc.html": {
+      "expand": "fill",
+      "h": 3100,
+      "is_interactive": true,
+      "title": "How it works B: scene behind the phone",
+      "w": 1280,
+      "x": 3200,
+      "y": 0
+    },
+    "HowC.dc.html": {
+      "expand": "fill",
+      "h": 3100,
+      "is_interactive": true,
+      "title": "How it works C: photos",
+      "w": 1280,
+      "x": 4600,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 7400,
+      "is_interactive": true,
+      "title": "MPI page, hero A",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "Photos.dc.html": {
+      "h": 2714,
+      "title": "Photo candidates for C",
+      "w": 1280,
+      "x": 4600,
+      "y": 3400
+    },
+    "Screens.dc.html": {
+      "x": 6000,
+      "y": 3400,
+      "w": 1280,
+      "h": 3000,
+      "title": "Device screen options",
+      "is_interactive": true
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-13T19:48:25Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "noteOrder": [
+    "src-60",
+    "how-title",
+    "how-key"
+  ],
+  "notes": {
+    "how-key": {
+      "fill": "blue",
+      "text": "A. Monoline drawings above each step's copy; phones unchanged.\nB. Light line-drawn scene as a backdrop card, phone overlapping it; step 3 chips fly toward the phone.\nC. Chosen. Generated documentary photos with the device popped out: phones for steps 1, 2 and 4, a laptop for step 3 with the report assembling on screen.\n\nPhoto candidates for C sit below the C board.",
+      "w": 420,
+      "x": 1800,
+      "y": 3220
+    },
+    "how-title": {
+      "kind": "title1",
+      "maxW": 4000,
+      "text": "How it works: three visual treatments",
+      "w": 240,
+      "x": 1800,
+      "y": -300
+    },
+    "src-60": {
+      "fill": "orange",
+      "text": "Source found for the 6 in 10 stat: DealerRater survey for Fixed Ops Journal (2019), via CBT News. Exact figure is 61 of 100 service customers never offered additional work. Details and link in the Notion Stats database. Suggest citing it in a footnote and using 61, not 6 in 10.",
+      "w": 360,
+      "x": -420,
+      "y": 880
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "HowA.dc.html",
+    "HowB.dc.html",
+    "HowC.dc.html",
+    "Photos.dc.html",
+    "Screens.dc.html"
+  ],
+  "pages": [],
+  "title": "MPI Page Design Board"
+}

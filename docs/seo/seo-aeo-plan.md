@@ -42,6 +42,7 @@ Each project ships as its own PR (or PRs) and gets checked off here.
 - [ ] **`/product/` becomes the hub** that introduces the platform and links to both pillar pages. Navbar and homepage link to both.
 - [ ] SoftwareApplication + FAQPage schema on both pages; add to sitemap; request indexing in Search Console.
 - **Process:** mockup with naming and layout options → Dave picks → build → ship.
+- **Status 2026-11-16:** `/mpi/` mockup approved on the design board except the step 4 device screen; see `mpi-page-design-brief.md` for locked decisions, assets and open items. 3C page mockup not started.
 - **Dave inputs:** naming pick; product screenshots or short clips; any customer quote or result we can use on each page.
 - **Done when:** both pages live, indexed, linked from nav, home and /product/.
 
