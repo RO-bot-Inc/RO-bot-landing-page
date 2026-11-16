@@ -13,11 +13,11 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.137.0",
-    "@astrojs/markdown-remark": "^7.3.6",
+    "@astrojs/markdown-remark": "^7.3.8",
     "@astrojs/sitemap": "^3.7.4",
     "@netlify/blobs": "^10.7.13",
     "@tailwindcss/typography": "^0.5.19",
-    "astro": "^7.4.7",
+    "astro": "^7.4.11",
     "autoprefixer": "^10.6.2",
     "sharp": "^0.35.5",
     "tailwindcss": "^3.4.17",
