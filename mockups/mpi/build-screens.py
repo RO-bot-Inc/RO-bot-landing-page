@@ -251,6 +251,9 @@ Q='&quot;'
 i3D='<div class="lh">Tires<span>From the walk-around, 0:42</span></div><div class="two"><div class="pane quote">The front tires are at <mark class="y">four</mark> and the rears are at <mark class="g">seven</mark>. A little irregular wear, looks like they\'re <mark class="y">out of balance</mark>.</div><div class="pane form"><div class="f"><span>Left front</span><b>4/32"</b></div><div class="f"><span>Right front</span><b>4/32"</b></div><div class="f"><span>Left rear</span><b>7/32"</b></div><div class="f"><span>Right rear</span><b>7/32"</b></div><div class="f"><span>Wheel balance</span><b class="yy">Recommend</b></div></div></div><div class="lcta">Save &amp; Create Lines</div>'
 s3D='<div class="lap lapwrap static">'+laptop(i3D,'lap3')+'</div>'
 
+import os
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'step3-screens.py')).read())
+
 # ---- Step 4 options
 s4A=f'<div class="demo" data-kind="customer" data-stage="3">{phone_inner("customer")}</div>'
 brand='<div class="top"><div class="brand"><span class="lg"></span><div><div class="t">Your Dealership</div><div class="sub">(555) 010-2030</div></div></div></div>'
@@ -371,7 +374,7 @@ extra='''
 .vsheet .lcta{margin-top:4px;font-size:12px;padding:9px}
 .vfirst .vf:after{top:40%}
 @media (prefers-reduced-motion:reduce){.sheetpage *{animation:none !important}}
-'''+TR2_CSS+STEP2_CSS+STEP2F_CSS
+'''+TR2_CSS+STEP2_CSS+STEP2F_CSS+STEP3_CSS+'\n.sheetpage{width:1360px}'
 def opt(code,title,html,cap,motion,wide=False):
     return f'<div class="opt{" wide" if wide else ""}"><div class="stage">{html}</div><div class="cap"><b>{code}</b> {title}. {cap} {"<em>Motion</em>" if motion else "Static"}</div></div>'
 rows=[
@@ -385,10 +388,9 @@ rows=[
   opt('2E','Guided shots',s2E,'REC counts up. A chapter strip at the top fills as the tech works (Under hood done, Tires filling, Brakes added). The shot card at the bottom shows what to film and what to say, with its own progress line, and slides to the next shot. Each time the tech says a measurement, a "captured" chip pops above the card.',True),
   opt('2F','Captions to findings',s2F,'Caption builds word by word at the bottom. When a measurement is recognized a white New finding card pops in, holds a beat, then flies up and shrinks into a chip at the top. The chips stay and stack. Three findings (cabin filter, belt, battery), none repeated from step 1, then it loops.',True)]),
  ('Step 3: TenthGear fills out the forms (laptop)',[
-  opt('3A','Report assembles',s3A,'What the page shows today. Chips fly in and each becomes a row on the report summary.',True,True),
-  opt('3B','Findings to RO lines',s3B,'Two panes: the inspection on the left, lines added to the RO on the right. Lines slide in with prices, the total appears, Save flips to Saved.',True,True),
-  opt('3C','Report summary, done',s3C,'The finished summary: counts 1, 2 and 35, four findings, Save & Create Lines ready.',False,True),
-  opt('3D','Words to fields',s3D,'The tech\'s sentence on the left with the measurements highlighted, the form they filled on the right.',False,True)]),
+  opt('3E','The report builds itself',s3E,'Findings from the walkaround and the video land on the MPI report one at a time, each tagged with where it came from (mic or video), and the source pill pulses. Counts tick up, the 33 OK items close it out, then the tech clicks Save & Create Lines.',True,True),
+  opt('3F','Words to fields',s3F,'The tech\'s own sentence shows on the left with its source and timestamp. The measurement highlights, lifts off as a chip and drops into its field on the report. Five findings, then the tech clicks Apply. Shows that the tech reviews before anything is written.',True,True),
+  opt('3G','Findings become lines',s3G,'The finished MPI report on the left. The tech clicks Save & Create Lines and each red and yellow finding flies across and becomes a line on the RO in plain words, tagged Now or Soon. No prices.',True,True)]),
  ('Step 4: Your customer gets a gorgeous report (phone)',[
   opt('4A','Text to report',s4A,'What the page shows today. The text arrives, the report card rises with the video and chapters, and the three bars grow.',True),
   opt('4B','Approve from the phone',s4B,'The report as a list of findings with Approve buttons. One gets tapped, turns green, and an approved total appears. Shows the money moment.',True),
