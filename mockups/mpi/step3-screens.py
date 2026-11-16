@@ -139,6 +139,7 @@ i3G=('<div class="lh">MPI report<span>RO 587, 2023 Rogue</span></div>'
 s3G='<div class="lap lapwrap s3g">'+laptop(i3G)+'</div>'
 S3_BASE.append(f'.s3g .r3,.s3g .gh,.s3g .ln3,.s3g .empty,.s3g .tick b,.s3g .cur3,.s3g .btn3,.s3g .btn3 span{{animation-duration:{T}s;animation-timing-function:cubic-bezier(.2,.8,.2,1);animation-iteration-count:infinite;animation-fill-mode:both}}')
 
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'step3-lines.py')).read())
 STEP3_CSS="\n".join(S3_KF)+"\n"+"\n".join(S3_BASE)+"\n"+"\n".join(S3_RULES)+r"""
 .s3e .lscreen,.s3f .lscreen,.s3g .lscreen{gap:6px;padding:11px 13px}
 .lap .lscreen .dot{display:inline-block;border-radius:50%;flex:0 0 auto}
@@ -186,4 +187,4 @@ STEP3_CSS="\n".join(S3_KF)+"\n"+"\n".join(S3_BASE)+"\n"+"\n".join(S3_RULES)+r"""
 .ln3{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10.5px;font-weight:600;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.1);opacity:0}
 .ln3 .l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tg{font-size:9px;font-weight:800;border-radius:999px;padding:1px 6px;color:#000}.tg.r{background:#e0607b}.tg.y{background:var(--yellow)}
-"""
+"""+S3L_CSS
