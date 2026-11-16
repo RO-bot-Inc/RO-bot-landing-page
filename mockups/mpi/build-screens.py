@@ -260,6 +260,7 @@ brand='<div class="top"><div class="brand"><span class="lg"></span><div><div cla
 s4B=f'<div class="demo rep2" data-stage="1"><div class="phone"><div class="screen cust">{brand}<div class="body"><div class="thumb sm"><span class="tn">Inspection video</span><span class="play"></span><span class="dur">2:48</span></div><div class="grp"><div class="gh"><i class="dot r"></i>Needs attention now</div><div class="item"><div><b>Brake pads, rear</b><small>2 mm, below minimum</small></div><span class="appr"><span class="a1">Approve</span><span class="a2">{CHK}Approved</span><span class="tap"></span></span></div></div><div class="grp"><div class="gh"><i class="dot y"></i>Recommend soon</div><div class="item"><div><b>Tire tread, front</b><small>4/32", pair</small></div><span class="appr st"><span class="a1">Approve</span></span></div><div class="item"><div><b>Wheel balance</b><small>Irregular wear</small></div><span class="appr st"><span class="a1">Approve</span></span></div></div></div><div class="abar"><span>Approved</span><b>$489</b></div></div></div></div>'
 s4C=f'<div class="demo" data-stage="3">{phone_inner("customer")}</div>'
 s4D=f'<div class="demo vfirst" data-stage="1"><div class="phone"><div class="screen vid"><div class="vf"></div><div class="brand2"><span class="lg"></span>Your Dealership</div><div class="chaps"><span class="ch c1"><i></i>Under hood</span><span class="ch c2 on"><i></i>Tires</span><span class="ch c3 on"><i></i>Brakes</span></div><span class="bigplay"></span><div class="vsheet"><div class="vh">Inspection summary<span>2023 Rogue</span></div><div class="count"><span><i class="dot r"></i>1 now</span><span><i class="dot y"></i>2 soon</span><span><i class="dot g"></i>35 OK</span></div><div class="lcta">View report</div></div></div></div></div>'
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'step4-screens.py')).read())
 
 extra='''
 .sheetpage{width:1280px;box-sizing:border-box;padding:48px;background:#fff;font-family:var(--font);color:var(--text);display:flex;flex-direction:column;gap:56px}
@@ -374,7 +375,7 @@ extra='''
 .vsheet .lcta{margin-top:4px;font-size:12px;padding:9px}
 .vfirst .vf:after{top:40%}
 @media (prefers-reduced-motion:reduce){.sheetpage *{animation:none !important}}
-'''+TR2_CSS+STEP2_CSS+STEP2F_CSS+STEP3_CSS+'\n.sheetpage{width:1360px}'
+'''+TR2_CSS+STEP2_CSS+STEP2F_CSS+STEP3_CSS+STEP4_CSS+'\n.sheetpage{width:1360px}'
 def opt(code,title,html,cap,motion,wide=False):
     return f'<div class="opt{" wide" if wide else ""}"><div class="stage">{html}</div><div class="cap"><b>{code}</b> {title}. {cap} {"<em>Motion</em>" if motion else "Static"}</div></div>'
 rows=[
@@ -392,10 +393,10 @@ rows=[
   opt('3H','Lines appear as RO tabs',s3H,'No button: it runs on its own. Each red and yellow row glows, lifts off as a chip and flies up into the RO tab strip, where it becomes a new tab. The new tab opens a line card with the tech\'s own words from the walkaround or the video. Earlier tabs fold down to their number. The row on the report gets its line number.',True,True),
   opt('3I','Lines deal onto a stack',s3I,'No button. Each row lifts off as a chip and flies onto a stack of line cards; the new card lands on top with the tech\'s words and pushes the earlier ones back.',True,True)]),
  ('Step 4: Your customer gets a gorgeous report (phone)',[
-  opt('4A','Text to report',s4A,'What the page shows today. The text arrives, the report card rises with the video and chapters, and the three bars grow.',True),
-  opt('4B','Approve from the phone',s4B,'The report as a list of findings with Approve buttons. One gets tapped, turns green, and an approved total appears. Shows the money moment.',True),
-  opt('4C','Branded report card',s4C,'The finished report card under your dealership\'s name: video, chapters, red, yellow, green.',False),
-  opt('4D','Video first',s4D,'The customer lands on the video with chapters, and a summary sheet below with a View report button.',False)])]
+  opt('4E','Text to report',s4E,'The phone lights up with a text from the dealership (the advisor\'s real default message). A tap opens the report under the dealership\'s name: the inspection video starts and walks through its chapters, then the page scrolls to the five recommendations with their photos.',True),
+  opt('4F','Swipe to decide',s4F,'The customer\'s card deck, as in the app: one recommendation per card with the photo, a plain-English reason and the price. Approve, approve, approve, approve, decline the cabin filter; the approved total ticks up. Then Your decisions and Send to my advisor.',True),
+  opt('4G','Video with chapters and captions',s4G,'The customer\'s video player: the tech\'s footage with chapter names only, captions word by word. Mid-loop the customer taps ES and the captions switch to Spanish.',True),
+  opt('4H','Every item, color-coded',s4H,'The full MPI report as a 38-tile grid that fills red, yellow and green. Each finding gets tapped in turn and opens its card: photo, plain-English reason and the tech\'s own words.',True)])]
 body=''.join(f'<section class="srow"><h2>{t}</h2><div class="opts">{"".join(o)}</div></section>' for t,o in rows)
 script=main[main.index('<script type="text/x-dc"'):main.index('</script>')+9].replace('"height":7400','"height":3000')
 page=f'''<!doctype html>
