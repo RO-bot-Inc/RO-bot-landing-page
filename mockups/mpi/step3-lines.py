@@ -25,18 +25,18 @@ def lines_option(code,variant):
         rule(f'.{cls} .mr.n{i}',n)
         n=kf(f'ln{i}',[(0,'opacity:0;transform:scale(.6)'),(land[i],'opacity:0;transform:scale(.6)'),(land[i]+0.2,V),(END,V),(END+0.3,'opacity:0'),(T,'opacity:0')])
         rule(f'.{cls} .mr.n{i} .lno',n)
-        left+=f'<div class="mr n{i}"><i class="dot {c}"></i><span class="l">{item}</span><span class="v">{val}</span><span class="lno">{i+2}</span></div>'
+        left+=f'<div class="mr n{i}"><i class="dot {c}"></i><span class="l">{item}</span><span class="v">{val}</span><span class="lno">{i+1}</span></div>'
         # the chip that lifts off the row and travels to its line, always above everything
         y0=ROW_TOP+i*ROW_H
         if variant=='tabs':
-            x1=13+26+i*34; y1=34   # next free tab slot (earlier tabs have collapsed to number pills)
+            x1=13+i*34; y1=34   # next free tab slot (earlier tabs have collapsed to number pills)
         else:
             x1=182; y1=70
         dx=x1-15; dy=y1-y0
         n=kf(f'ch{i}',[(0,'opacity:0;transform:translate(0,0) scale(1)'),(t+0.1,'opacity:0;transform:translate(0,0) scale(1)'),(t+0.2,'opacity:1;transform:translate(0,-3px) scale(1.04)'),(land[i]-0.05,f'opacity:1;transform:translate({dx}px,{dy}px) scale(.82)'),(land[i]+0.1,f'opacity:0;transform:translate({dx}px,{dy}px) scale(.82)'),(T,'opacity:0')])
         rule(f'.{cls} .lchip.n{i}',n)
         chips+=f'<span class="lchip n{i}" style="top:{y0}px"><i class="dot {c}"></i>{item}</span>'
-        body=(f'<div class="lt"><b>{title}</b><span class="tg {c}">{when}</span></div>'
+        body=(f'<div class="lt"><span class="cno">{i+1}</span><b>{title}</b><span class="tg {c}">{when}</span></div>'
               +(f'<div class="lphoto"><img src="{PHOTO[i]}" alt=""><span class="pchip"><i class="dot {c}"></i>{item}<b>{val}</b></span></div><div class="lq ph">{src(s)}<p>&ldquo;{quote}&rdquo;</p></div>' if i in PHOTO else f'<div class="lfrom"><i class="dot {c}"></i>{item}<b>{val}</b></div>'+ f'<div class="lq">{src(s)}<p>&ldquo;{quote}&rdquo;</p></div>'))
         if variant=='tabs':
             nxt=land[i+1] if i+1<len(LINES) else END
@@ -44,7 +44,7 @@ def lines_option(code,variant):
             rule(f'.{cls} .rtab.n{i}',n)
             n=kf(f'tl{i}',[(0,'max-width:0'),(land[i],'max-width:0'),(land[i]+0.25,'max-width:90px'),(nxt,'max-width:90px'),(nxt+0.25,'max-width:0'),(T,'max-width:0')] if i+1<len(LINES) else [(0,'max-width:0'),(land[i],'max-width:0'),(land[i]+0.25,'max-width:90px'),(T,'max-width:90px')])
             rule(f'.{cls} .rtab.n{i} .tl',n)
-            tabs+=f'<span class="rtab n{i}"><b>{i+2}</b><i class="dot {c}"></i><span class="tl">{short}</span></span>'
+            tabs+=f'<span class="rtab n{i}"><b>{i+1}</b><i class="dot {c}"></i><span class="tl">{short}</span></span>'
             n=kf(f'cd{i}',[(0,'opacity:0;transform:translateY(6px)'),(land[i],'opacity:0;transform:translateY(6px)'),(land[i]+0.25,V),(nxt,V),(nxt+0.2,'opacity:0;transform:none') if i+1<len(LINES) else (END,V),(END+0.3,'opacity:0'),(T,'opacity:0')])
             rule(f'.{cls} .lcard.n{i}',n)
         else:
@@ -60,20 +60,17 @@ def lines_option(code,variant):
     n=kf('st2',[(0,'opacity:0'),(done,'opacity:0'),(done+0.2,'opacity:1'),(END,'opacity:1'),(END+0.3,'opacity:0'),(T,'opacity:0')]); rule(f'.{cls} .lstat .s2',n)
     cnt=stack(cls,[('0',0.05)]+[(str(i+1),land[i]) for i in range(len(LINES))],kf,rule,T,'nl')
     stat=f'<span class="lstat"><span class="s1"><i class="spin"></i>Adding lines {cnt} of 5</span><span class="s2">{CHK}5 lines added</span></span>'
+    n=kf('cdb',[(0,'opacity:1'),(land[0],'opacity:1'),(land[0]+0.2,'opacity:0'),(END+0.3,'opacity:0'),(END+0.5,'opacity:1'),(T,'opacity:1')]); rule(f'.{cls} .lcard.l1',n)
+    base='<div class="lcard l1 empty3" style="z-index:1"><span>Lines will appear here</span></div>'
     if variant=='tabs':
-        n=kf('cdb',[(0,'opacity:1'),(land[0],'opacity:1'),(land[0]+0.2,'opacity:0'),(END+0.3,'opacity:0'),(END+0.5,'opacity:1'),(T,'opacity:1')]); rule(f'.{cls} .lcard.l1',n)
-        n=kf('tabb',[(0,'background:var(--char);color:#fff'),(land[0],'background:var(--char);color:#fff'),(land[0]+0.25,'background:var(--sheet);color:var(--char)'),(END+0.3,'background:var(--sheet);color:var(--char)'),(END+0.5,'background:var(--char);color:#fff'),(T,'background:var(--char);color:#fff')]); rule(f'.{cls} .rtab.l1',n)
-        n=kf('tlb',[(0,'max-width:90px'),(land[0],'max-width:90px'),(land[0]+0.25,'max-width:0'),(END+0.3,'max-width:0'),(END+0.5,'max-width:90px'),(T,'max-width:90px')]); rule(f'.{cls} .rtab.l1 .tl',n)
-        base=('<div class="lcard l1" style="z-index:1"><div class="lt"><b>Oil and filter change</b><span class="tg cp">Customer</span></div>'
-              '<div class="lfrom">The customer&rsquo;s reason for the visit</div></div>')
         inner=(f'<div class="lh">RO 587, 2023 Rogue{stat}</div>'
-               f'<div class="tabs3"><span class="rtab l1"><b>1</b><span class="tl">Oil change</span></span>{tabs}</div>'
+               f'<div class="tabs3">{tabs}</div>'
                f'<div class="two3 lg"><div class="mpane"><div class="fh">MPI report</div>{left}<div class="mr ok"><i class="dot g"></i><span class="l">33 items OK</span><span class="v">Pass</span></div></div>'
                f'<div class="cpane">{base}{cards}</div></div><div class="lflys">{chips}</div>')
     else:
         inner=(f'<div class="lh">RO 587, 2023 Rogue{stat}</div>'
                f'<div class="two3 lg st"><div class="mpane">{left}<div class="mr ok"><i class="dot g"></i><span class="l">33 items OK</span><span class="v">Pass</span></div></div>'
-               f'<div class="cpane stack"><div class="fh">Lines on the RO</div><div class="deck">{cards}</div></div></div><div class="lflys">{chips}</div>')
+               f'<div class="cpane stack"><div class="fh">Lines on the RO</div><div class="deck">{base}{cards}</div></div></div><div class="lflys">{chips}</div>')
     S3_BASE.append(f'.{cls} .mr,.{cls} .lno,.{cls} .lchip,.{cls} .lcard,.{cls} .rtab,.{cls} .rtab .tl,.{cls} .lstat span,.{cls} .tick b{{animation-duration:{T}s;animation-timing-function:cubic-bezier(.2,.8,.2,1);animation-iteration-count:infinite;animation-fill-mode:both}}')
     return f'<div class="lap lapwrap {cls}">'+laptop(inner)+'</div>'
 s3H=lines_option('h','tabs')
@@ -102,7 +99,8 @@ S3L_CSS=r"""
 .cpane{position:relative}
 .lcard{position:absolute;inset:0;background:#fff;border:1px solid var(--light);border-radius:9px;padding:9px 10px;display:flex;flex-direction:column;gap:6px;opacity:0;box-shadow:0 8px 18px -10px rgba(0,0,0,.35);box-sizing:border-box}
 .lcard.l1{opacity:1}
-.lt{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}.lt b{font-size:12.5px;line-height:1.2}
+.lt{display:flex;align-items:flex-start;gap:6px}.lt b{flex:1}.cno{flex:0 0 auto;width:16px;height:16px;border-radius:4px;background:var(--char);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;margin-top:-1px}
+.empty3{border:1px dashed var(--light);box-shadow:none;align-items:center;justify-content:center;font-size:10.5px;color:var(--mid);font-weight:600}.lt b{font-size:12.5px;line-height:1.2}
 .lcard .tg{flex:0 0 auto}.tg.cp{background:var(--sheet)}
 .lfrom{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mid);font-weight:600}.lfrom b{margin-left:auto;color:var(--char)}.lfrom .dot{width:7px;height:7px}
 .lq{display:flex;gap:6px;align-items:flex-start;background:var(--sheet);border-radius:7px;padding:6px 7px}
