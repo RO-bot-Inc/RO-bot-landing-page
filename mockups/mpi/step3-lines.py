@@ -8,6 +8,8 @@ LINES=[ # (dot, MPI item, value, line title, when, source, tech's words from ste
  ('y','Wheel balance','Recommend','Balance wheels','Soon','mic',"A little irregular wear, looks like they're out of balance.",'Balance'),
  ('y','Cabin air filter','Replace','Replace cabin air filter','Soon','vid',"Cabin air filter is pretty clogged, I'd replace it.",'Cabin filter')]
 SRCNAME={'mic':'Walkaround','vid':'Video'}
+# photos on the lines that came with one (Fal-generated mockup stand-ins, prompts in pl-*.txt); uploaded to the board's asset store
+PHOTO={0:'/_blob/26bfaa3e7ad07135277bc88e69d3d678',1:'/_blob/cc5b525269a0a01fe966c67b64e0c76d',2:'/_blob/e1d974f354cc73fa933e3133b56f995f'}
 S3L_CSS=[]
 def lines_option(code,variant):
     T=11.6; kf,rule=s3_anim(code,T); cls=f's3{code}'
@@ -35,9 +37,7 @@ def lines_option(code,variant):
         rule(f'.{cls} .lchip.n{i}',n)
         chips+=f'<span class="lchip n{i}" style="top:{y0}px"><i class="dot {c}"></i>{item}</span>'
         body=(f'<div class="lt"><b>{title}</b><span class="tg {c}">{when}</span></div>'
-              f'<div class="lfrom"><i class="dot {c}"></i>{item}<b>{val}</b></div>'
-              f'<div class="lq">{src(s)}<p>&ldquo;{quote}&rdquo;</p></div>'
-              '')
+              +(f'<div class="lphoto"><img src="{PHOTO[i]}" alt=""><span class="pchip"><i class="dot {c}"></i>{item}<b>{val}</b></span></div><div class="lq ph">{src(s)}<p>&ldquo;{quote}&rdquo;</p></div>' if i in PHOTO else f'<div class="lfrom"><i class="dot {c}"></i>{item}<b>{val}</b></div>'+ f'<div class="lq">{src(s)}<p>&ldquo;{quote}&rdquo;</p></div>'))
         if variant=='tabs':
             nxt=land[i+1] if i+1<len(LINES) else END
             n=kf(f'tab{i}',[(0,'opacity:0;max-width:0;padding:0;background:var(--char);color:#fff'),(land[i]-0.1,'opacity:0;max-width:0;padding:0;background:var(--char);color:#fff'),(land[i]+0.15,'opacity:1;max-width:120px;padding:0 7px;background:var(--char);color:#fff'),(nxt,'opacity:1;max-width:120px;padding:0 7px;background:var(--char);color:#fff'),(nxt+0.25,'opacity:1;max-width:120px;padding:0 7px;background:var(--sheet);color:var(--char)'),(END,'opacity:1;max-width:120px;padding:0 7px;background:var(--sheet);color:var(--char)'),(END+0.3,'opacity:0;max-width:120px;padding:0 7px'),(T,'opacity:0;max-width:0;padding:0')])
@@ -113,4 +113,10 @@ S3L_CSS=r"""
 .cpane.stack{display:flex;flex-direction:column}.cpane.stack .fh{padding:0 2px 4px}
 .deck{position:relative;flex:1;margin-top:16px}
 .deck .lcard{transform-origin:top center}
+.lphoto{position:relative;height:56px;border-radius:6px;overflow:hidden;flex:0 0 56px}
+.lphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.pchip{position:absolute;left:5px;bottom:5px;display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.94);border-radius:999px;padding:1px 7px;font-size:9.5px;font-weight:600;color:var(--char)}.pchip b{margin-left:3px}.pchip .dot{width:7px;height:7px}
+.lq.ph{padding:5px 7px}.lq.ph p{font-size:10px}
+.lcard .lt b{font-size:11.5px}
+.sheetlap{width:386px;left:7px}
 """
