@@ -9,7 +9,7 @@ LINES=[ # (dot, MPI item, value, line title, when, source, tech's words from ste
  ('y','Cabin air filter','Replace','Replace cabin air filter','Soon','vid',"Cabin air filter is pretty clogged, I'd replace it.",'Cabin filter')]
 SRCNAME={'mic':'Walkaround','vid':'Video'}
 # photos on the lines that came with one (Fal-generated mockup stand-ins, prompts in pl-*.txt); uploaded to the board's asset store
-PHOTO={0:'/_blob/26bfaa3e7ad07135277bc88e69d3d678',1:'/_blob/cc5b525269a0a01fe966c67b64e0c76d',2:'/_blob/e1d974f354cc73fa933e3133b56f995f'}
+PHOTO={0:'/_blob/26bfaa3e7ad07135277bc88e69d3d678',1:'/_blob/cc5b525269a0a01fe966c67b64e0c76d',2:'/_blob/e1d974f354cc73fa933e3133b56f995f',4:'/_blob/385351b33e1ea6cd43ce3783e6c075d9'}
 S3L_CSS=[]
 def lines_option(code,variant):
     T=11.6; kf,rule=s3_anim(code,T); cls=f's3{code}'
