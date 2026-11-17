@@ -80,12 +80,12 @@ h1=f'''<div class="hv h1 h1v">
  <span class="xchip a {fly(3.6,4.4,CA[0],CA[1],196,128)}">Rear brake pads</span>
  <span class="xchip a {fly(3.75,4.45,CB[0],CB[1],330,146)}"><span class="xdot r"></span>2 mm</span>
  <span class="xchip a {fly(5.05,5.75,226,166,434,330)}"><span class="xdot r"></span>Rear brake pads $289</span>
- <div class="steps">{stepl(1,0.3,3.6,'Tech says it')}{stepl(2,3.7,5.3,'&nbsp;RO updates')}{stepl(3,5.4,END,'Customer approves')}</div>
+ <!-- step labels removed 2026-11-16 (Dave) -->
 </div>'''
 CSS1='''
 .yd,.lg4,.lg4.sm,.bh4.dk .lg4{background:none;padding:0;overflow:hidden;color:transparent}
 .yd svg,.lg4 svg{display:block}
-.h1v{width:656px;height:680px}
+.h1v{width:656px;height:640px}
 .lap1{position:absolute;left:160px;top:0;width:440px}
 .lap1 .xlid{background:#333132;border-radius:14px 14px 4px 4px;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
 .lap1 .lscr{background:#fff;border-radius:4px;height:250px;padding:16px 18px;color:#333132;font-size:12px;overflow:hidden}

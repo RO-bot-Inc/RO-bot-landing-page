@@ -3,7 +3,7 @@
 # Usage: python3 build-astro.py <board Main.dc.html> <website repo root>
 import re, sys, json, html as H
 src=open(sys.argv[1]).read(); ROOT=sys.argv[2]
-BLOB={'061cb9440c6a15ec0bc8df73b4ffea19':'/images/mpi/how-3-bench-unattended-ui.jpg','b7380d12b5e1449ca4ae391600b6f0f2':'/images/mpi/how-4-customer-report-ui.jpg',
+BLOB={'26331d0168546122725198ebde1cd0ff':'/images/mpi/how-3-bench-unattended-ui.jpg','b7380d12b5e1449ca4ae391600b6f0f2':'/images/mpi/how-4-customer-report-ui.jpg',
  '2cdf35438068f580d84e16a251b7f588':'/images/mpi/how-1-walk-and-talk.jpg','f797652c307da3346fed07cdcf5b2a3d':'/images/mpi/how-2-shoot-video.jpg',
  '26bfaa3e7ad07135277bc88e69d3d678':'/images/mpi/lines/brakes.jpg','cc5b525269a0a01fe966c67b64e0c76d':'/images/mpi/lines/belt.jpg',
  'e1d974f354cc73fa933e3133b56f995f':'/images/mpi/lines/tires.jpg','385351b33e1ea6cd43ce3783e6c075d9':'/images/mpi/lines/cabin.jpg'}
