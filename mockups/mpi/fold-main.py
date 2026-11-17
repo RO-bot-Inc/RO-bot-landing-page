@@ -1,4 +1,4 @@
-# Folds the chosen device screens (1C, 2F, 3H, 4I) into the board's live Main.dc.html.
+# Folds the chosen device screens (1C, 2F, 3I, 4I) into the board's live Main.dc.html.
 # Surgical: only the device inside each how-it-works photo card and one marked CSS block change, so Dave's copy edits stay.
 # Usage (from the scratchpad layout in README.md): python3 fold-main.py <live Main.dc.html> <out Main.dc.html>
 import re, sys, os, runpy
@@ -29,16 +29,17 @@ def keep(css,drop_sel,drop_kf):
         if head.startswith('@keyframes') and any(head.split()[1].startswith(p) for p in drop_kf): continue
         r.append(b)
     return '\n'.join(r)
-css=(keep(ns['extra'],['.sheetpage','.srow','.opts','.opt','.sheetlap','.lapwrap','.s3e','.s3f','.s3g','.s3i','.s4e','.s4f','.s4g','.s4h'],['e_','f_','g_','i_','qe_','qf_','qg_','qh_'])
-     +'\n.photo .laptop.s3h{width:386px}'
+css=(keep(ns['extra'],['.sheetpage','.srow','.opts','.opt','.sheetlap','.lapwrap','.s3e','.s3f','.s3g','.s3h','.s4e','.s4f','.s4g','.s4h'],['e_','f_','g_','h_','qe_','qf_','qg_','qh_'])
+     +'\n.photo .laptop.s3i{width:386px;transform:scale(1.15);bottom:-64px}'
      # the page's photo-card rule (.photo img) must not reach the images inside the devices
      +'\n.photo .lphoto img,.photo .vc4 .pst,.photo .dph img{width:100%;height:100%;border-radius:0;object-fit:cover}'
      +'\n.photo .rr img{width:42px;height:42px;border-radius:9px}\n')
 MARK_A='/* chosen device screens: start */'; MARK_B='/* chosen device screens: end */'
 st=src.index('<style>')+7; en=src.index('</style>')
 style=src[st:en]
-if MARK_A in style: style=style[:style.index(MARK_A)]+style[style.index(MARK_B)+len(MARK_B):]
-style=style.rstrip()+'\n'+MARK_A+'\n'+css+'\n'+MARK_B+'\n'
+# replace the block where it sits, so rules after it keep overriding it
+if MARK_A in style: style=style[:style.index(MARK_A)]+MARK_A+'\n'+css+'\n'+MARK_B+style[style.index(MARK_B)+len(MARK_B):]
+else: style=style.rstrip()+'\n'+MARK_A+'\n'+css+'\n'+MARK_B+'\n'
 src=src[:st]+style+src[en:]
 
 def balanced(s,i):
@@ -48,15 +49,17 @@ def balanced(s,i):
         d+= -1 if m.group()=='</div>' else 1
         j=m.end()
         if d==0: return j
-lap_inner=ns['s3H'][ns['s3H'].index('<div class="lscreen">')+len('<div class="lscreen">'):]
+lap_inner=ns['s3I'][ns['s3I'].index('<div class="lscreen">')+len('<div class="lscreen">'):]
 lap_inner=lap_inner[:lap_inner.rindex('</div></div><div class="base"></div></div></div>')]
 devices=[ns['s1C'],ns['s2F'],
-         '<div class="laptop s3h"><div class="lid"><span class="cam"></span><div class="lscreen">'+lap_inner+'</div></div><div class="base"></div></div>',
+         '<div class="laptop s3i"><div class="lid"><span class="cam"></span><div class="lscreen">'+lap_inner+'</div></div><div class="base"></div></div>',
          ns['s4I']]
 pos=src.index('<div class="steps4">')
+ONLY=os.environ.get('ONLY')  # e.g. ONLY=3 replaces just the step 3 device, leaving the others as they are on the board
 for n,dev in enumerate(devices):
     i=src.index('<div class="vis photo',pos); e=balanced(src,i)
     img_end=src.index('>',src.index('<img',i))+1
+    if ONLY and str(n+1)!=ONLY: pos=e; continue
     src=src[:img_end]+dev+'</div>'+src[e:]
     pos=img_end+len(dev)
 open(sys.argv[2],'w').write(src); print('ok',len(src))
