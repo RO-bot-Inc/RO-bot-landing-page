@@ -61,18 +61,17 @@ def stepl(i,t0,t1,txt):
 h1=f'''<div class="hv h1 h1v">
  <div class="lap1"><div class="xlid"><div class="lscr">
    <div class="lhd"><b>RO 587, 2023 Rogue</b><span class="lpill a {show(4.7,END,'scale(.9)','scale(1)')}">{CHK}Line added</span></div>
-   <div class="lsub">Lines on the RO</div>
+   <div class="lsub">SERVICE LINES</div>
    <div class="xlrow old"><span class="xlno">A</span><span>Oil and filter change</span><span class="lp">Customer request</span></div>
    <div class="xlrow new a {show(4.45,END,'translateX(-14px)')}"><span class="xlno r">1</span><img src="{BRAKES}" alt=""><span><b>Replace rear brake pads</b><small>Brake pads, rear: 2 mm</small></span><span class="lp">$289</span></div>
    <div class="xlrow ghost"></div>
  </div></div><div class="lbase"></div></div>
  <div class="voice">
-   <div class="xvlab a {show(0.3,END,'translateY(6px)')}"><span class="rdot"></span>Tech, bay 4</div>
    <div class="vw a {vamp}">{BARS}</div>
    <div class="vsaid">{VSAID}</div>
  </div>
  <div class="hp cp1"><div class="scr">
-   <div class="xbrand"><span class="yd">YD</span><span><b>Your Dealership</b><small>(555) 010-2030</small></span></div>
+   <div class="xbrand"><span class="yd"><svg viewBox="0 0 32 32" width="100%" height="100%" aria-hidden="true"><defs><linearGradient id="sumg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b5fa8"/><stop offset="1" stop-color="#173a6b"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#sumg)"/><path d="M5 23.5 12.6 11l3.6 5.6 2.6-3.8L27 23.5Z" fill="#fff"/><path d="M5 23.5c5.5-2.4 11.5-2.4 22 0" fill="none" stroke="#e8b04b" stroke-width="1.6" stroke-linecap="round"/></svg></span><span><b>Summit Auto</b><small>(555) 010-2030</small></span></div>
    <div class="ct">Your 2023 Rogue</div>
    <div class="xccard a {show(5.75,END,'translateY(40px)')}"><img src="{BRAKES}" alt=""><div class="cb"><div class="xcn"><b>Rear brake pads</b><span class="now">Now</span></div><p>Your rear pads are down to 2 mm. Replacing them now keeps the rotors from wearing.</p><div class="cbtn"><span>Decline</span><span class="ap a {btn}"><i class="a {lbl0}">Approve $289</i><i class="a {lbl1} xtwo">{CHK.replace('#000','#000')}Approved</i></span></div></div></div>
    <div class="xtot a {show(7.35,END,'translateY(12px)')}">Approved total <b>$289</b></div>
@@ -81,9 +80,11 @@ h1=f'''<div class="hv h1 h1v">
  <span class="xchip a {fly(3.6,4.4,CA[0],CA[1],196,128)}">Rear brake pads</span>
  <span class="xchip a {fly(3.75,4.45,CB[0],CB[1],330,146)}"><span class="xdot r"></span>2 mm</span>
  <span class="xchip a {fly(5.05,5.75,226,166,378,330)}"><span class="xdot r"></span>Rear brake pads $289</span>
- <div class="steps">{stepl(1,0.3,3.6,'Tech says it')}{stepl(2,3.7,5.3,'Line goes on the RO')}{stepl(3,5.4,END,'Customer approves')}</div>
+ <div class="steps">{stepl(1,0.3,3.6,'Tech says it')}{stepl(2,3.7,5.3,'&nbsp;RO updates')}{stepl(3,5.4,END,'Customer approves')}</div>
 </div>'''
 CSS1='''
+.yd,.lg4,.lg4.sm,.bh4.dk .lg4{background:none;padding:0;overflow:hidden;color:transparent}
+.yd svg,.lg4 svg{display:block}
 .h1v{width:600px;height:680px}
 .lap1{position:absolute;left:160px;top:0;width:440px}
 .lap1 .xlid{background:#333132;border-radius:14px 14px 4px 4px;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}

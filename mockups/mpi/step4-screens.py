@@ -27,7 +27,7 @@ CHAT_I='<svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 4c-
 CHK4='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>'
 MIC4='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg>'
 def brandbar(dark=False):
-    return (f'<div class="bh4{" dk" if dark else ""}"><span class="lg4">YD</span><div class="bn"><b>Your Dealership</b><small>(555) 010-2030</small></div>'
+    return (f'<div class="bh4{" dk" if dark else ""}"><span class="lg4"><svg viewBox="0 0 32 32" width="100%" height="100%" aria-hidden="true"><defs><linearGradient id="sumg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b5fa8"/><stop offset="1" stop-color="#173a6b"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#sumg)"/><path d="M5 23.5 12.6 11l3.6 5.6 2.6-3.8L27 23.5Z" fill="#fff"/><path d="M5 23.5c5.5-2.4 11.5-2.4 22 0" fill="none" stroke="#e8b04b" stroke-width="1.6" stroke-linecap="round"/></svg></span><div class="bn"><b>Summit Auto</b><small>(555) 010-2030</small></div>'
             f'<span class="call4">{PHONE_I}</span></div>')
 def phone4(cls,inner,dark=False): return f'<div class="p4 s4{cls}"><div class="phone"><div class="screen{" dk4" if dark else ""}">{inner}</div></div></div>'
 def finger(kf,rule,cls,taps,T):
@@ -56,9 +56,9 @@ def ticker(kf,rule,cls,tag,vals,T,end):
 # ---------- 4E: the text arrives, the customer taps, the report opens and plays
 T=11.6; kf,rule=s4_anim('e',T); END=T-0.6
 lock=('<div class="lock4"><div class="lt4">9:41</div><div class="ld4">Tuesday, November 17</div></div>')
-notif=(f'<div class="nt4 a"><div class="nh"><span class="ni">{CHAT_I}</span><b>Your Dealership</b><em>now</em></div>'
+notif=(f'<div class="nt4 a"><div class="nh"><span class="ni">{CHAT_I}</span><b>Summit Auto</b><em>now</em></div>'
        '<p>Inspection results are ready for your vehicle. Please review below and let me know if you have any questions!</p>'
-       '<div class="nl"><span class="lg4 sm">YD</span><div><b>Your 2023 Rogue report</b><small>RO 587</small></div></div></div>')
+       '<div class="nl"><span class="lg4 sm"><svg viewBox="0 0 32 32" width="100%" height="100%" aria-hidden="true"><defs><linearGradient id="sumg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b5fa8"/><stop offset="1" stop-color="#173a6b"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#sumg)"/><path d="M5 23.5 12.6 11l3.6 5.6 2.6-3.8L27 23.5Z" fill="#fff"/><path d="M5 23.5c5.5-2.4 11.5-2.4 22 0" fill="none" stroke="#e8b04b" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><b>Your 2023 Rogue report</b><small>RO 587</small></div></div></div>')
 rule('.s4e .nt4',kf('nt',[(0,'opacity:0;transform:translateY(-24px) scale(.96)'),(0.6,'opacity:0;transform:translateY(-24px) scale(.96)'),(0.95,V),(2.25,V),(2.35,'opacity:1;transform:scale(.97)'),(2.55,'opacity:1;transform:scale(1)'),(2.9,'opacity:0;transform:scale(1)'),(T,'opacity:0;transform:translateY(-24px) scale(.96)')]))
 chapters=['Under hood','Tires','Brakes']; tch=[4.1,5.9,7.7]
 posters=''.join(f'<img class="pst a ps{i}" src="{IMG[k]}" alt="">' for i,k in enumerate(['belt','tires','brakes']))
@@ -199,6 +199,7 @@ STEP4_CSS="\n".join(S4_KF)+"\n"+"\n".join(S4_BASE)+"\n"+"\n".join(S4_RULES)+r"""
 .bh4{display:flex;align-items:center;gap:9px;padding:20px 18px 0}
 .lg4{width:32px;height:32px;border-radius:9px;background:var(--char);color:#fff;font-weight:800;font-size:12px;display:grid;place-items:center;letter-spacing:.02em;flex:0 0 auto}
 .lg4.sm{width:26px;height:26px;font-size:10px;border-radius:7px}
+.lg4{background:none!important;color:transparent!important;overflow:hidden}.lg4 svg{display:block}
 .bh4 .bn{flex:1;display:flex;flex-direction:column}.bh4 .bn b{font-size:13.5px}.bh4 .bn small{font-size:11px;color:var(--mid)}
 .call4{width:30px;height:30px;border-radius:50%;background:var(--sheet);display:grid;place-items:center;color:var(--char)}.call4 svg{width:14px;height:14px}
 .bh4.dk{position:relative;z-index:3}.bh4.dk .bn b{color:#fff}.bh4.dk .bn small{color:rgba(255,255,255,.7)}.bh4.dk .lg4{background:#fff;color:#000}.bh4.dk .call4{background:rgba(255,255,255,.18);color:#fff}

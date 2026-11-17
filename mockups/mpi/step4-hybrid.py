@@ -2,9 +2,9 @@
 # the recommendation cards slide in and the customer decides. Exec'd from step4-screens.py after 4E/4F.
 T=18.4; kf,rule=s4_anim('i',T); END=T-0.6
 # report part (4E, compressed)
-notif=(f'<div class="nt4 a"><div class="nh"><span class="ni">{CHAT_I}</span><b>Your Dealership</b><em>now</em></div>'
+notif=(f'<div class="nt4 a"><div class="nh"><span class="ni">{CHAT_I}</span><b>Summit Auto</b><em>now</em></div>'
        '<p>Inspection results are ready for your vehicle. Please review below and let me know if you have any questions!</p>'
-       '<div class="nl"><span class="lg4 sm">YD</span><div><b>Your 2023 Rogue report</b><small>RO 587</small></div></div></div>')
+       '<div class="nl"><span class="lg4 sm"><svg viewBox="0 0 32 32" width="100%" height="100%" aria-hidden="true"><defs><linearGradient id="sumg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b5fa8"/><stop offset="1" stop-color="#173a6b"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#sumg)"/><path d="M5 23.5 12.6 11l3.6 5.6 2.6-3.8L27 23.5Z" fill="#fff"/><path d="M5 23.5c5.5-2.4 11.5-2.4 22 0" fill="none" stroke="#e8b04b" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><b>Your 2023 Rogue report</b><small>RO 587</small></div></div></div>')
 t_n=1.9
 rule('.s4i .nt4',kf('nt',[(0,'opacity:0;transform:translateY(-24px) scale(.96)'),(0.5,'opacity:0;transform:translateY(-24px) scale(.96)'),(0.85,V),(t_n-0.1,V),(t_n,'opacity:1;transform:scale(.97)'),(t_n+0.2,'opacity:1;transform:scale(1)'),(t_n+0.55,'opacity:0;transform:scale(1)'),(T,'opacity:0;transform:translateY(-24px) scale(.96)')]))
 tch=[2.9,3.9,4.9]; t_v1=6.0
