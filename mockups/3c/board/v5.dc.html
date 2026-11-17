@@ -98,7 +98,7 @@ p{margin:0}
 .hv .said span{display:block;white-space:nowrap}
 .hv .said mark{background:none;color:#5eead4;font-weight:600}
 .hv .l1{animation-name:h_l1}.hv .l2{animation-name:h_l2}.hv .l3{animation-name:h_l3}.hv .l4{animation-name:h_l4}.hv .l5{animation-name:h_l5}
-.hlap{position:absolute;left:0;top:186px;width:540px;filter:drop-shadow(0 36px 50px rgba(0,0,0,.55));animation-name:h_lap}
+.hlap{position:absolute;left:0;top:186px;width:540px;filter:drop-shadow(0 36px 50px rgba(0,0,0,.55));animation:h_lap .7s var(--ease) both !important}
 .hlap .lid{background:var(--char);border-radius:16px 16px 4px 4px;padding:12px;position:relative}
 .hlap .lid:before{content:"";position:absolute;inset:0;border-radius:16px 16px 4px 4px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 40%);pointer-events:none}
 .hlap .base{height:16px;margin:0 -22px;background:linear-gradient(#55524f,#333132);border-radius:0 0 12px 12px;position:relative}
@@ -118,7 +118,7 @@ p{margin:0}
 .hscr .blk p span{border-radius:3px}
 .hscr mark{background:#ccfbf1;color:inherit;border-radius:3px;padding:0 2px}
 .hscr .x1{animation-name:h_x1}.hscr .x2{animation-name:h_x2}.hscr .x3{animation-name:h_x3}.hscr .x4{animation-name:h_x4}.hscr .x5{animation-name:h_x5}
-.hv .seal{position:absolute;right:0;top:420px;display:flex;flex-direction:column;align-items:center;gap:10px;animation-name:h_seal}
+.hv .seal{position:absolute;right:0;top:420px;display:flex;flex-direction:column;align-items:center;gap:10px;animation:h_seal .7s var(--ease) both !important}
 .hv .seal .ring{width:140px;height:140px;box-shadow:0 24px 48px -14px rgba(0,0,0,.6),0 0 0 6px rgba(255,255,255,.1)}
 .hv .ring .g1{animation-name:h_r1}.hv .ring .g2{animation-name:h_r2}.hv .ring .g3{animation-name:h_r3}.hv .ring .g4{animation-name:h_r4}.hv .ring .g5{animation-name:h_r5}.hv .ring .g6{animation-name:h_r6}
 .hv .ring .lt b{animation-name:h_gl}
@@ -129,33 +129,33 @@ p{margin:0}
 .hv .ring .lt .big .n{color:#cbd5e1;font-size:40px;font-weight:800;line-height:1;position:absolute;left:0;right:0;top:2px;text-align:center}
 .hv .ring .c0{animation-name:h_c0}.hv .ring .c1{animation-name:h_c1}.hv .ring .c2{animation-name:h_c2}.hv .ring .c3{animation-name:h_c3}.hv .ring .c4{animation-name:h_c4}.hv .ring .c5{animation-name:h_c5}.hv .ring .c6{animation-name:h_c6}
 .hv .ring .cnt .c6{animation-name:h_c6k}
-@keyframes h_c6k{0%,53.5%{opacity:0}54%,100%{opacity:1}}
+@keyframes h_c6k{0%,53.5%{opacity:0}54%,94%{opacity:1}97%,100%{opacity:0}}
 .hv .rdy{font-size:12px;font-weight:700;color:#fff;background:#15803d;border-radius:999px;padding:6px 13px;white-space:nowrap;animation-name:h_rdy}
 @keyframes h_out{0%{opacity:0}2%,93%{opacity:1}97%,100%{opacity:0}}
-@keyframes h_lap{0%{opacity:0;transform:translateY(10px)}3%,93%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
-@keyframes h_seal{0%{opacity:0;transform:scale(.85)}3%,93%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes h_lap{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes h_seal{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
 @keyframes h_talk{0%,2%{opacity:.25}4%,50%{opacity:1}52%,100%{opacity:.25}}
-@keyframes h_w1{0%,8%{opacity:.45}9%,100%{opacity:1}}
-@keyframes h_done{0%,54%{opacity:0}56%,100%{opacity:1}}
-@keyframes h_gl{0%,55.5%{opacity:0;transform:scale(.6)}58.5%,100%{opacity:1;transform:none}}
-@keyframes h_rdy{0%,58%{opacity:0;transform:translateY(6px)}61%,100%{opacity:1;transform:none}}
+@keyframes h_w1{0%,8%{opacity:.45}9%,94%{opacity:1}98%,100%{opacity:.45}}
+@keyframes h_done{0%,54%{opacity:0}56%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_gl{0%,55.5%{opacity:0;transform:scale(.6)}58.5%,94%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes h_rdy{0%,58%{opacity:0;transform:translateY(6px)}61%,94%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
 @keyframes h_l1{0%,3%{clip-path:inset(0 100% 0 0);opacity:1}8%,12%{clip-path:inset(0 0 0 0);opacity:1}14%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
 @keyframes h_l2{0%,13%{clip-path:inset(0 100% 0 0);opacity:1}19%,23%{clip-path:inset(0 0 0 0);opacity:1}25%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
 @keyframes h_l3{0%,25%{clip-path:inset(0 100% 0 0);opacity:1}29%,33%{clip-path:inset(0 0 0 0);opacity:1}35%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
 @keyframes h_l4{0%,35%{clip-path:inset(0 100% 0 0);opacity:1}39%,43%{clip-path:inset(0 0 0 0);opacity:1}45%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
 @keyframes h_l5{0%,45%{clip-path:inset(0 100% 0 0);opacity:1}50%,54%{clip-path:inset(0 0 0 0);opacity:1}56%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
-@keyframes h_x1{0%,9%{opacity:0;background:transparent}10.5%{opacity:1;background:rgba(45,212,191,.28)}16%,100%{opacity:1;background:transparent}}
-@keyframes h_x2{0%,20%{opacity:0;background:transparent}21.5%{opacity:1;background:rgba(45,212,191,.28)}27%,100%{opacity:1;background:transparent}}
-@keyframes h_x3{0%,30%{opacity:0;background:transparent}31.5%{opacity:1;background:rgba(45,212,191,.28)}37%,100%{opacity:1;background:transparent}}
-@keyframes h_x4{0%,40%{opacity:0;background:transparent}41.5%{opacity:1;background:rgba(45,212,191,.28)}47%,100%{opacity:1;background:transparent}}
-@keyframes h_x5{0%,51%{opacity:0;background:transparent}52.5%{opacity:1;background:rgba(45,212,191,.28)}58%,100%{opacity:1;background:transparent}}
-@keyframes h_r1{0%,11%{opacity:0}12%,100%{opacity:1}}
-@keyframes h_r2{0%,22%{opacity:0}23%,100%{opacity:1}}
-@keyframes h_r3{0%,23.5%{opacity:0}24.5%,100%{opacity:1}}
-@keyframes h_r4{0%,32%{opacity:0}33%,100%{opacity:1}}
-@keyframes h_r5{0%,42%{opacity:0}43%,100%{opacity:1}}
-@keyframes h_r6{0%,53%{opacity:0}54%,100%{opacity:1}}
-@keyframes h_c0{0%,11.5%{opacity:1}12%,100%{opacity:0}}
+@keyframes h_x1{0%,9%{opacity:0;background:transparent}10.5%{opacity:1;background:rgba(45,212,191,.28)}16%,94%{opacity:1;background:transparent}98%,100%{opacity:0;background:transparent}}
+@keyframes h_x2{0%,20%{opacity:0;background:transparent}21.5%{opacity:1;background:rgba(45,212,191,.28)}27%,94%{opacity:1;background:transparent}98%,100%{opacity:0;background:transparent}}
+@keyframes h_x3{0%,30%{opacity:0;background:transparent}31.5%{opacity:1;background:rgba(45,212,191,.28)}37%,94%{opacity:1;background:transparent}98%,100%{opacity:0;background:transparent}}
+@keyframes h_x4{0%,40%{opacity:0;background:transparent}41.5%{opacity:1;background:rgba(45,212,191,.28)}47%,94%{opacity:1;background:transparent}98%,100%{opacity:0;background:transparent}}
+@keyframes h_x5{0%,51%{opacity:0;background:transparent}52.5%{opacity:1;background:rgba(45,212,191,.28)}58%,94%{opacity:1;background:transparent}98%,100%{opacity:0;background:transparent}}
+@keyframes h_r1{0%,11%{opacity:0}12%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_r2{0%,22%{opacity:0}23%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_r3{0%,23.5%{opacity:0}24.5%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_r4{0%,32%{opacity:0}33%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_r5{0%,42%{opacity:0}43%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_r6{0%,53%{opacity:0}54%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes h_c0{0%,11.5%{opacity:1}12%,95%{opacity:0}98%,100%{opacity:1}}
 @keyframes h_c1{0%,11.5%{opacity:0}12%,22.5%{opacity:1}23%,100%{opacity:0}}
 @keyframes h_c2{0%,22.5%{opacity:0}23%,24.0%{opacity:1}24.5%,100%{opacity:0}}
 @keyframes h_c3{0%,24.0%{opacity:0}24.5%,32.5%{opacity:1}33%,100%{opacity:0}}
@@ -277,18 +277,18 @@ p{margin:0}
 .c-keys .tm b{position:absolute;left:0;top:0}
 .c-keys .a{animation-duration:13s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
 .c-keys .t0{animation-name:s1_c1}.c-keys .t1{animation-name:s1_c2}.c-keys .t2{animation-name:s1_c3}.c-keys .t3{animation-name:s1_c4}
-@keyframes s1_press{0%,5%{transform:none}7%,17%{transform:scale(.97)}19%,32%{transform:none}34%,44%{transform:scale(.97)}46%,59%{transform:none}61%,71%{transform:scale(.97)}73%,100%{transform:none}}
-@keyframes s1_ring{0%,6%{opacity:0;transform:scale(.96)}9%,16%{opacity:1;transform:scale(1.05)}18%,33%{opacity:0}36%,43%{opacity:1;transform:scale(1.05)}45%,60%{opacity:0}63%,70%{opacity:1;transform:scale(1.05)}72%,100%{opacity:0}}
-@keyframes s1_lis{0%,6%{opacity:0}8%,17%{opacity:1}18.5%,33%{opacity:0}35%,44%{opacity:1}45.5%,60%{opacity:0}62%,71%{opacity:1}72.5%,100%{opacity:0}}
-@keyframes s1_proc{0%,17.5%{opacity:0}18.5%,22.5%{opacity:1}24%,44.5%{opacity:0}45.5%,49.5%{opacity:1}51%,71.5%{opacity:0}72.5%,76.5%{opacity:1}78%,100%{opacity:0}}
+@keyframes s1_press{0%,5%{transform:none}7%,17%{transform:scale(.97)}19%,27%{transform:none}29%,39%{transform:scale(.97)}41%,49%{transform:none}51%,61%{transform:scale(.97)}63%,100%{transform:none}}
+@keyframes s1_ring{0%,6%{opacity:0;transform:scale(.96)}9%,16%{opacity:1;transform:scale(1.05)}18%,28%{opacity:0}31%,38%{opacity:1;transform:scale(1.05)}40%,50%{opacity:0}53%,60%{opacity:1;transform:scale(1.05)}62%,100%{opacity:0}}
+@keyframes s1_lis{0%,6%{opacity:0}8%,17%{opacity:1}18.5%,28%{opacity:0}30%,39%{opacity:1}40.5%,50%{opacity:0}52%,61%{opacity:1}62.5%,100%{opacity:0}}
+@keyframes s1_proc{0%,17.5%{opacity:0}18.5%,22.5%{opacity:1}24%,39.5%{opacity:0}40.5%,44.5%{opacity:1}46%,61.5%{opacity:0}62.5%,66.5%{opacity:1}68%,100%{opacity:0}}
 @keyframes s1_n1{0%,22.5%{opacity:0;max-height:0;margin-top:0}25.5%,92%{opacity:1;max-height:110px;margin-top:9px}93.5%{opacity:0;max-height:110px;margin-top:9px}96.5%,100%{opacity:0;max-height:0;margin-top:0}}
-@keyframes s1_n2{0%,49.5%{opacity:0;max-height:0;margin-top:0}52.5%,92%{opacity:1;max-height:110px;margin-top:9px}93.5%{opacity:0;max-height:110px;margin-top:9px}96.5%,100%{opacity:0;max-height:0;margin-top:0}}
-@keyframes s1_n3{0%,76.5%{opacity:0;max-height:0;margin-top:0}79.5%,92%{opacity:1;max-height:110px;margin-top:9px}93.5%{opacity:0;max-height:110px;margin-top:9px}96.5%,100%{opacity:0;max-height:0;margin-top:0}}
+@keyframes s1_n2{0%,44.5%{opacity:0;max-height:0;margin-top:0}47.5%,92%{opacity:1;max-height:110px;margin-top:9px}93.5%{opacity:0;max-height:110px;margin-top:9px}96.5%,100%{opacity:0;max-height:0;margin-top:0}}
+@keyframes s1_n3{0%,66.5%{opacity:0;max-height:0;margin-top:0}69.5%,92%{opacity:1;max-height:110px;margin-top:9px}93.5%{opacity:0;max-height:110px;margin-top:9px}96.5%,100%{opacity:0;max-height:0;margin-top:0}}
 @keyframes s1_c1{0%,23%{opacity:1}23.5%,93%{opacity:0}93.5%,100%{opacity:1}}
-@keyframes s1_c2{0%,23%{opacity:0}23.5%,50%{opacity:1}50.5%,100%{opacity:0}}
-@keyframes s1_c3{0%,50%{opacity:0}50.5%,77%{opacity:1}77.5%,100%{opacity:0}}
-@keyframes s1_c4{0%,77%{opacity:0}77.5%,93%{opacity:1}93.5%,100%{opacity:0}}
-@keyframes s1_ws{0%,82%{box-shadow:0 0 0 0 rgba(16,185,129,0)}86%{box-shadow:0 0 0 7px rgba(16,185,129,.28)}90%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+@keyframes s1_c2{0%,23%{opacity:0}23.5%,45%{opacity:1}45.5%,100%{opacity:0}}
+@keyframes s1_c3{0%,45%{opacity:0}45.5%,67%{opacity:1}67.5%,100%{opacity:0}}
+@keyframes s1_c4{0%,67%{opacity:0}67.5%,93%{opacity:1}93.5%,100%{opacity:0}}
+@keyframes s1_ws{0%,72%{box-shadow:0 0 0 0 rgba(16,185,129,0)}76%{box-shadow:0 0 0 7px rgba(16,185,129,.28)}80%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
 
 /* step 2: Guide me fills the gaps, one question at a time (13s) */
 .s2 .scr{background:#f3f4f6}
@@ -342,17 +342,17 @@ p{margin:0}
 .s2 .done p{font-size:12.5px;color:#64748b;margin-top:4px;max-width:210px}
 .s2 .done .ws2{margin-top:20px;width:100%;height:48px;border-radius:12px;background:var(--ws);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;animation-name:s2_glow}
 @keyframes s2_wrap{0%{opacity:0}3%,94%{opacity:1}98%,100%{opacity:0}}
-@keyframes s2_n4{0%,16%{opacity:1}17%,96.5%{opacity:0}97%,100%{opacity:1}}
+@keyframes s2_n4{0%,16%{opacity:1}17%,95%{opacity:0}97%,100%{opacity:1}}
 @keyframes s2_n5{0%,16%{opacity:0}17%,55%{opacity:1}56%,100%{opacity:0}}
-@keyframes s2_n6{0%,55%{opacity:0}56%,96.5%{opacity:1}97%,100%{opacity:0}}
-@keyframes s2_f5{0%,16%{background:rgba(255,255,255,.18)}17.5%,96.5%{background:#2DD4BF}97%,100%{background:rgba(255,255,255,.18)}}
-@keyframes s2_f6{0%,55%{background:rgba(255,255,255,.18)}56.5%,96.5%{background:#2DD4BF}97%,100%{background:rgba(255,255,255,.18)}}
-@keyframes s2_c1{0%,2%{opacity:0;transform:translateY(14px)}5%,21%{opacity:1;transform:none}25%,100%{opacity:0;transform:translateX(-112%)}}
+@keyframes s2_n6{0%,55%{opacity:0}56%,95%{opacity:1}97%,100%{opacity:0}}
+@keyframes s2_f5{0%,16%{background:rgba(255,255,255,.18)}17.5%,94%{background:#2DD4BF}98%,100%{background:rgba(255,255,255,.18)}}
+@keyframes s2_f6{0%,55%{background:rgba(255,255,255,.18)}56.5%,94%{background:#2DD4BF}98%,100%{background:rgba(255,255,255,.18)}}
+@keyframes s2_c1{0%,2%{opacity:0;transform:translateY(14px)}5%,21%{opacity:1;transform:none}25%,100%{opacity:1;transform:translateX(-112%)}}
 @keyframes s2_o1{0%,13.5%{background:#fff;border-color:#d1d5db;color:#334155}14%,100%{background:#0d9488;border-color:#0d9488;color:#fff}}
 @keyframes s2_ck{0%,14%{opacity:0;transform:scale(.5)}16%,100%{opacity:1;transform:none}}
 @keyframes s2_tp1{0%,13%{opacity:0;transform:scale(.3)}13.5%{opacity:1;transform:scale(.6)}17%,100%{opacity:0;transform:scale(2.2)}}
 @keyframes s2_sv1{0%,15%{opacity:0;transform:translateY(-40px) scale(.9)}19%,100%{opacity:1;transform:none}}
-@keyframes s2_c2{0%,24%{opacity:0;transform:translateX(112%)}28%,59%{opacity:1;transform:none}63%,100%{opacity:0;transform:translateX(-112%)}}
+@keyframes s2_c2{0%,21%{opacity:1;transform:translateX(112%)}25%,59%{opacity:1;transform:none}63%,100%{opacity:1;transform:translateX(-112%)}}
 @keyframes s2_tp2{0%,33.5%{opacity:0;transform:scale(.3)}34%{opacity:1;transform:scale(.6)}37%,100%{opacity:0;transform:scale(2.2)}}
 @keyframes s2_pr{0%,34%{opacity:0;transform:scale(.92)}36%,44%{opacity:1;transform:scale(1.06)}46%,100%{opacity:0}}
 @keyframes s2_h1{0%,34%{opacity:1}35%,100%{opacity:0}}
@@ -360,7 +360,7 @@ p{margin:0}
 @keyframes s2_wbar{0%,35%{opacity:0}36%,44%{opacity:1}45.5%,100%{opacity:0}}
 @keyframes s2_said{0%,41%{opacity:0;transform:translateY(6px)}45%,100%{opacity:1;transform:none}}
 @keyframes s2_sv2{0%,53%{opacity:0;transform:translateY(-40px) scale(.9)}57%,100%{opacity:1;transform:none}}
-@keyframes s2_done{0%,59%{opacity:0;transform:translateY(14px)}63%,100%{opacity:1;transform:none}}
+@keyframes s2_done{0%,59%{opacity:1;transform:translateX(112%)}63%,100%{opacity:1;transform:none}}
 @keyframes s2_glow{0%,74%{box-shadow:0 0 0 0 rgba(16,185,129,0)}80%{box-shadow:0 0 0 8px rgba(16,185,129,.25)}86%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
 
 .c-cov{right:24px;top:24px;flex-direction:column;align-items:center;gap:8px;padding:14px 16px 12px}
@@ -373,8 +373,8 @@ p{margin:0}
 .c-cov .cvn .n4{animation-name:s2_n4}.c-cov .cvn .n5{animation-name:s2_n5}.c-cov .cvn .n6{animation-name:s2_n6;color:#15803d}
 .c-cov .lt small{margin-top:0}
 .c-cov .cap{font-size:12px;font-weight:700;color:var(--text-2)}
-@keyframes s2_r5{0%,16%{opacity:0}17.5%,96.5%{opacity:1}97%,100%{opacity:0}}
-@keyframes s2_r6{0%,55%{opacity:0}56.5%,96.5%{opacity:1}97%,100%{opacity:0}}
+@keyframes s2_r5{0%,16%{opacity:0}17.5%,94%{opacity:1}98%,100%{opacity:0}}
+@keyframes s2_r6{0%,55%{opacity:0}56.5%,94%{opacity:1}98%,100%{opacity:0}}
 @media (min-width:900px) and (max-width:1279px){.c-cov{right:16px;top:16px}}
 @media (max-width:899px){.photo .c-cov{left:auto;right:12px;transform-origin:top right}.photo .c-keys{flex-direction:column;align-items:flex-start;gap:8px}.photo .c-keys .dv{display:none}}
 
@@ -486,7 +486,7 @@ p{margin:0}
 .gs{width:460px;max-width:100%;justify-self:center}
 .gs *{box-sizing:border-box}
 .gs .a{animation-duration:10s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
-.gs .gin{animation-name:g_in}
+.gs .gin{animation:none}
 .gcard{background:#fff;color:#0f172a;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
 .gcard .gtop{display:flex;align-items:center;gap:18px;padding:18px 18px 14px}
 .gcard .ring{width:108px;height:108px}
@@ -524,17 +524,17 @@ p{margin:0}
 .gcard .upd{position:relative;height:42px;border-radius:10px;background:var(--ws);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;animation-name:g_upd}
 .gcard .upd .tap{position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:rgba(255,255,255,.55);opacity:0;animation-name:g_tap}
 @keyframes g_in{0%{opacity:0}3%,93%{opacity:1}97%,100%{opacity:0}}
-@keyframes g_row{0%,4%{border-color:#fcd9a4;background:#fff7ed;box-shadow:0 0 0 0 rgba(245,158,11,0)}9%{box-shadow:0 0 0 6px rgba(245,158,11,.18)}14%{box-shadow:0 0 0 0 rgba(245,158,11,0)}19%{box-shadow:0 0 0 6px rgba(245,158,11,.18)}24%,52%{border-color:#fcd9a4;background:#fff7ed;box-shadow:0 0 0 0 rgba(245,158,11,0)}56%,100%{border-color:#bbf7d0;background:#f0fdf4;box-shadow:none}}
-@keyframes g_sug{0%,53%{opacity:1}54.5%,100%{opacity:0}}
-@keyframes g_dsc{0%,54.5%{opacity:0}57%,100%{opacity:1}}
-@keyframes g_m{0%,53%{opacity:1}54%,100%{opacity:0}}
-@keyframes g_A{0%,53.5%{opacity:0;transform:scale(.4)}57%,100%{opacity:1;transform:none}}
-@keyframes g_s6{0%,54%{stroke:#e2e8f0}57%,100%{stroke:#22a06b}}
-@keyframes g_bB{0%,55%{opacity:1}56%,100%{opacity:0}}
-@keyframes g_bA{0%,56%{opacity:0;transform:scale(.6)}59%,100%{opacity:1;transform:none}}
-@keyframes g_sw{0%,55%{opacity:1}56%,100%{opacity:0}}
-@keyframes g_sok{0%,56%{opacity:0;transform:scale(.9)}59%,100%{opacity:1;transform:none}}
-@keyframes g_vn{0%,30%{opacity:0;transform:translateY(14px)}35%,100%{opacity:1;transform:none}}
+@keyframes g_row{0%,4%{border-color:#fcd9a4;background:#fff7ed;box-shadow:0 0 0 0 rgba(245,158,11,0)}9%{box-shadow:0 0 0 6px rgba(245,158,11,.18)}14%{box-shadow:0 0 0 0 rgba(245,158,11,0)}19%{box-shadow:0 0 0 6px rgba(245,158,11,.18)}24%,52%{border-color:#fcd9a4;background:#fff7ed;box-shadow:0 0 0 0 rgba(245,158,11,0)}56%,94%{border-color:#bbf7d0;background:#f0fdf4;box-shadow:none}98%,100%{border-color:#fcd9a4;background:#fff7ed;box-shadow:none}}
+@keyframes g_sug{0%,53%{opacity:1}54.5%,94%{opacity:0}98%,100%{opacity:1}}
+@keyframes g_dsc{0%,54.5%{opacity:0}57%,94%{opacity:1}97%,100%{opacity:0}}
+@keyframes g_m{0%,53%{opacity:1}54%,94%{opacity:0}98%,100%{opacity:1}}
+@keyframes g_A{0%,53.5%{opacity:0;transform:scale(.4)}57%,94%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes g_s6{0%,54%{stroke:#e2e8f0}57%,94%{stroke:#22a06b}98%,100%{stroke:#e2e8f0}}
+@keyframes g_bB{0%,55%{opacity:1}56%,95%{opacity:0}97%,100%{opacity:1}}
+@keyframes g_bA{0%,56%{opacity:0;transform:scale(.6)}59%,94%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+@keyframes g_sw{0%,55%{opacity:1}56%,95%{opacity:0}97%,100%{opacity:1}}
+@keyframes g_sok{0%,56%{opacity:0;transform:scale(.9)}59%,94%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+@keyframes g_vn{0%,30%{opacity:0;transform:translateY(14px)}35%,94%{opacity:1;transform:none}98%,100%{opacity:0;transform:none}}
 @keyframes g_upd{0%,40%{box-shadow:0 0 0 0 rgba(16,185,129,0)}45%{box-shadow:0 0 0 7px rgba(16,185,129,.28)}49%{box-shadow:0 0 0 0 rgba(16,185,129,0);transform:none}50.5%{transform:scale(.97)}52%,100%{transform:none}}
 @keyframes g_tap{0%,49.5%{opacity:0;transform:scale(.3)}50.5%{opacity:1;transform:scale(.6)}54%,100%{opacity:0;transform:scale(2.2)}}
 
@@ -723,7 +723,7 @@ p,li{text-wrap:pretty}
                 <div class="segs"><i></i><i></i><i></i><i></i><i class="f5 a"></i><i class="f6 a"></i></div></div></div>
             <div class="body a">
               <div class="card c1 a"><div class="qk">QUESTION 1 OF 2</div><h4>How did you find the leak?</h4>
-                <div class="opt o1 a">Pressure tested the system<span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"></path></svg></span><i class="tap a"></i></div><div class="opt">UV dye</div><div class="opt">Visual inspection</div><div class="opt g">Something else</div></div>
+                <div class="opt o1 a">Pressure tested the system<span class="ck a"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"></path></svg></span><i class="tap a"></i></div><div class="opt">UV dye</div><div class="opt">Visual inspection</div><div class="opt g">Something else</div></div>
               <div class="card c2 a"><div class="qk">QUESTION 2 OF 2</div><h4>How did you confirm the repair?</h4>
                 <div class="mic"><span class="mbtn"><i class="pr a"></i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg><i class="tap a"></i></span><span class="hint"><span class="h1 a">Tap the mic and say it</span><span class="h2 a">Listening…</span></span><span class="wbar a"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><div class="said2 a">"Holds 16 psi. Road tested, no leaks."</div></div></div>
               <div class="done a"><span class="okc"><svg viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"></path></svg></span><b>All 6 covered</b><p>Everything warranty looks for is in the notes.</p><span class="ws2 a">Write Story</span></div>
