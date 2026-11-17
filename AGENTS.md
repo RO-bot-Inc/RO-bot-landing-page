@@ -95,6 +95,8 @@ public/
 
 ## Design System Notes
 
+**Reusable UI patterns** (device mockups, etc.) are logged in `docs/design-system.md`. Read it before building or restyling a component that has an entry there.
+
 **Reference model:** Jobber (getjobber.com). Clean, professional, spacious; outcome-first messaging; product screenshots over abstract graphics; trades-professional audience.
 
 **Logo:** final (2026-09-03). Masters and sized exports in `../shared/brand-assets/`; the site copies from `exports/`, never hand-exports. Navbar/footer use the white mark (`badge-white.svg`); default OG is the horizontal lockup.
