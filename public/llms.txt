@@ -22,6 +22,7 @@ Key facts:
 
 - [TenthGear home](https://tenthgear.ai/): Overview, customer quotes and frequently asked questions.
 - [Product](https://tenthgear.ai/product/): How voice-first MPI, guided inspection video and AI Story Writer work.
+- [Voice MPI](https://tenthgear.ai/mpi/): The multi point inspection that builds itself: the tech talks, the MPI report, inspection video and customer recommendations follow, and the tech reviews the findings before they are saved.
 - [Pricing](https://tenthgear.ai/pricing/): How TenthGear is priced and what is included.
 - [Book a demo](https://tenthgear.ai/book-demo/): Request a 15-minute demo.
 

@@ -1,0 +1,33 @@
+/* /mpi/ adjustments for the live site. mpi.css is generated from the design board; edit this file instead. */
+
+/* The site navbar is fixed and 64px tall. */
+.mpi .hero{padding-top:120px}
+@media (min-width:760px){.mpi .hero{padding-top:152px}}
+.mpi h1,.mpi h2,.mpi h3{color:inherit}
+.mpi .hero h1{color:#fff}
+
+/* Hero visual (HA) is drawn at 600x680. Below the two-column breakpoint, scale it to fit. */
+.mpi .hero .demo-fit{display:contents}
+@media (max-width:1099px){
+  .mpi .heroA .grid{grid-template-columns:1fr}
+  .mpi .heroA .copy{text-align:center}
+  .mpi .heroA .ctas{justify-content:center}
+  .mpi .hero .h1v{zoom:var(--hz,1)}
+}
+@media (max-width:640px){.mpi .hero .h1v{--hz:.56}}
+@media (min-width:641px) and (max-width:1099px){.mpi .hero .h1v{--hz:.85}}
+
+/* Tailwind's preflight resets heading weights; the board relied on browser defaults. */
+.mpi h2,.mpi h3{font-weight:700}
+
+/* A generic .q rule from an unused board option hides the proof quote; show it. */
+.mpi .proof .q{position:static;opacity:1;display:block;padding:0;inset:auto}
+
+/* Phones: photo card shorter, device smaller and tucked into the bottom corner (brief: device overlaps the photo's corner). */
+.mpi{overflow-x:clip}
+@media (max-width:759px){
+  .mpi .photo{height:auto;aspect-ratio:4/5;margin-bottom:56px}
+  .mpi .photo .phone{transform:scale(.46);right:-10px;bottom:-34px}
+  .mpi .hstep:nth-child(even) .photo .phone{left:-10px}
+  .mpi .photo .laptop{transform:scale(.58);right:-10px;bottom:-44px}
+}

@@ -1,0 +1,30 @@
+---
+// /mpi/ pillar page. The body and its CSS are generated from the design board
+// (mockups/mpi/build-astro.py on the mpi-page-design-brief branch); site-only
+// adjustments (fixed navbar offset, phone layouts) live in mpi-site.css.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import body from '../data/mpi-body.html?raw';
+import faqSchema from '../data/mpi-faq.json';
+import '../styles/mpi.css';
+import '../styles/mpi-site.css';
+
+const appSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "TenthGear Voice MPI",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "iOS, Android, Web",
+  "description": "A voice-first multi point inspection for dealership service departments. Techs say what they see; the MPI report, the customer video and the recommendations build themselves.",
+  "publisher": { "@type": "Organization", "name": "TenthGear", "url": "https://tenthgear.ai" },
+  "offers": { "@type": "Offer", "category": "Subscription" }
+};
+---
+
+<BaseLayout
+  title="Voice MPI: The Multi Point Inspection That Builds Itself | TenthGear"
+  description="TenthGear is a voice-first multi point inspection (MPI) and digital vehicle inspection for dealerships. Techs talk; the MPI report, inspection video and customer recommendations build themselves."
+  canonicalPath="/mpi/"
+  schemaJson={[appSchema, faqSchema]}
+>
+  <div class="mpi" set:html={body} />
+</BaseLayout>
