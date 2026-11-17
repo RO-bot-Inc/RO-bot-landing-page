@@ -37,7 +37,7 @@ Each project ships as its own PR (or PRs) and gets checked off here.
 
 ### P1. Two pillar product pages  ← first
 
-- [ ] **`/mpi/` page** (slug to confirm). Title and H1 built from searched terms ("MPI," "MPI video," "digital vehicle inspection"); "self-building" is the differentiator in the copy: the report builds itself from what the tech says in the video or voice notes; the tech reviews it. Sections: the problem (MPIs that don't get done, or get done badly), how it works (voice MPI, guided video, customer report), the time-savings and adoption benefit, dealership proof, DMS line, FAQ, Book a Demo.
+- [x] **`/mpi/` page** (shipped 2026-11-16, #200, `/mpi/`). Title and H1 built from searched terms ("MPI," "MPI video," "digital vehicle inspection"); "self-building" is the differentiator in the copy: the report builds itself from what the tech says in the video or voice notes; the tech reviews it. Sections: the problem (MPIs that don't get done, or get done badly), how it works (voice MPI, guided video, customer report), the time-savings and adoption benefit, dealership proof, DMS line, FAQ, Book a Demo.
 - [ ] **`/3c-story-writer/` page** (slug to confirm). Title and H1 use the 3C words ("concern, cause, correction"); covers AI Story Writer plus the real-time grader (6 criteria for diagnostic warranty stories; see product facts for other pay types), the 7 minutes per RO claim (Story Writer scope only), fewer chargebacks, FAQ, Book a Demo.
 - [ ] **`/product/` becomes the hub** that introduces the platform and links to both pillar pages. Navbar and homepage link to both.
 - [ ] SoftwareApplication + FAQPage schema on both pages; add to sitemap; request indexing in Search Console.
