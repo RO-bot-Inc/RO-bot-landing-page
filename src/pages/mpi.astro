@@ -28,3 +28,21 @@ const appSchema = {
 >
   <div class="mpi" set:html={body} />
 </BaseLayout>
+
+<script>
+  // Keep the step 2 footage on the same clock as its CSS caption animations (10.91s cycle),
+  // so each shot lines up with its caption and "New finding" card even if the video loads late.
+  const video = document.querySelector<HTMLVideoElement>('.mpi .vf .v2c');
+  const clock = document.querySelector('.mpi .lcap2 .capline.s0 span');
+  if (video && clock) {
+    const CYCLE = 10.91;
+    const sync = () => {
+      const anim = clock.getAnimations()[0];
+      const t = anim && typeof anim.currentTime === 'number' ? (anim.currentTime / 1000) % CYCLE : null;
+      if (t !== null && video.readyState >= 2 && Math.abs(video.currentTime - t) > 0.12) video.currentTime = t;
+    };
+    video.addEventListener('playing', sync);
+    setInterval(sync, 1000);
+  }
+</script>
+
