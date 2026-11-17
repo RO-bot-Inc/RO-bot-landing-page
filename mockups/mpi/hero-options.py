@@ -79,13 +79,13 @@ h1=f'''<div class="hv h1 h1v">
  </div></div>
  <span class="xchip a {fly(3.6,4.4,CA[0],CA[1],196,128)}">Rear brake pads</span>
  <span class="xchip a {fly(3.75,4.45,CB[0],CB[1],330,146)}"><span class="xdot r"></span>2 mm</span>
- <span class="xchip a {fly(5.05,5.75,226,166,378,330)}"><span class="xdot r"></span>Rear brake pads $289</span>
+ <span class="xchip a {fly(5.05,5.75,226,166,434,330)}"><span class="xdot r"></span>Rear brake pads $289</span>
  <div class="steps">{stepl(1,0.3,3.6,'Tech says it')}{stepl(2,3.7,5.3,'&nbsp;RO updates')}{stepl(3,5.4,END,'Customer approves')}</div>
 </div>'''
 CSS1='''
 .yd,.lg4,.lg4.sm,.bh4.dk .lg4{background:none;padding:0;overflow:hidden;color:transparent}
 .yd svg,.lg4 svg{display:block}
-.h1v{width:600px;height:680px}
+.h1v{width:656px;height:680px}
 .lap1{position:absolute;left:160px;top:0;width:440px}
 .lap1 .xlid{background:#333132;border-radius:14px 14px 4px 4px;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
 .lap1 .lscr{background:#fff;border-radius:4px;height:250px;padding:16px 18px;color:#333132;font-size:12px;overflow:hidden}
@@ -111,7 +111,7 @@ CSS1='''
 .vsaid{font-size:25px;line-height:1.28;font-weight:700;color:#fff}.vsaid .w{display:inline-block}
 .vhl{background-image:linear-gradient(rgba(185,49,79,.55),rgba(185,49,79,.55));background-repeat:no-repeat;background-position:0 100%;border-radius:4px;padding:0 2px;margin:0 -2px}
 
-.cp1{left:392px;top:200px;width:208px;height:420px;z-index:3}
+.cp1{left:448px;top:200px;width:208px;height:420px;z-index:3}
 .xph{padding:20px 18px 0}.xph b{display:block;font-size:16px}.xph small{color:#9b9799;font-size:11px}
 .said{padding:18px 18px 0;font-size:19px;line-height:1.3;font-weight:600;min-height:150px}
 .said .w{display:inline-block}
