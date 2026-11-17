@@ -1,3 +1,5 @@
+/* The board renders without a CSS reset (content-box); Tailwind preflight makes everything border-box, which squeezed the device screens. Match the board. */
+.mpi,.mpi *,.mpi *::before,.mpi *::after{box-sizing:content-box}
 /* /mpi/ adjustments for the live site. mpi.css is generated from the design board; edit this file instead. */
 
 /* The site navbar is fixed and 64px tall. */
