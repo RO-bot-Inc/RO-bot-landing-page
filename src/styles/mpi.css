@@ -655,6 +655,7 @@
 .mpi .hv .a{will-change:transform,opacity}
 .mpi .yd,.mpi .lg4,.mpi .lg4.sm{background:none;padding:0;overflow:hidden;color:transparent}
 .mpi .yd svg,.mpi .lg4 svg{display:block}
+.mpi .hstep .ttext,.mpi .hstep .capline{color:#fff}
 @keyframes ring{0%{opacity:.8;transform:scale(.85)}100%{opacity:0;transform:scale(1.45)}}
 @keyframes wave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(var(--h,4))}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
