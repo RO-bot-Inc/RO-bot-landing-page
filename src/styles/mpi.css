@@ -76,15 +76,6 @@
 .mpi .demo[data-stage="1"] .vid .brk,.mpi .demo[data-stage="2"] .vid .brk,.mpi .demo[data-stage="3"] .vid .brk{opacity:1;transform:scale(.92)}
 .mpi .demo[data-stage="1"] .vid .dock .mic:after,.mpi .demo[data-stage="2"] .vid .dock .mic:after,.mpi .demo[data-stage="3"] .vid .dock .mic:after{border-radius:5px;transform:scale(.8)}
 .mpi .demo[data-stage="1"] .vid .mic{background:#fff;transform:none}
-.mpi .prob .grid{display:grid;grid-template-columns:1fr;gap:36px;align-items:start}
-@media (min-width:900px){.mpi .prob .grid{grid-template-columns:1.1fr 1fr;gap:64px}}
-.mpi .prob .copy p{color:var(--text-2);font-size:18px;margin-top:16px;max-width:52ch}
-.mpi .stats{display:grid;grid-template-columns:1fr;gap:14px}
-@media (min-width:560px){.mpi .stats{grid-template-columns:1fr 1fr}}
-.mpi .stat{background:var(--surface);border-radius:18px;padding:26px 24px}
-.mpi .stat .n{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--navy)}
-.mpi .stat .n small{font-size:22px;font-weight:700;color:var(--text-2);margin-left:4px}
-.mpi .stat .l{margin-top:10px;color:var(--text-2);font-size:15px;line-height:1.4}
 .mpi .how .head{max-width:60ch;margin-bottom:48px}
 .mpi .steps4{display:flex;flex-direction:column;gap:56px}
 @media (min-width:900px){.mpi .steps4{gap:88px}}
@@ -121,11 +112,6 @@
 .mpi .cta-band p{color:var(--mutedn);font-size:18px;margin-top:14px}
 .mpi .cta-band .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
 .mpi .cta-band .more{display:block;margin-top:32px;color:var(--teal-l);font-weight:600}
-.mpi .fns{padding:32px 0 8px;font-size:13px;color:var(--text-2);line-height:1.5}
-.mpi .fns h2{font-size:14px;font-weight:700;color:var(--text);letter-spacing:0}
-.mpi .fns ol{margin:10px 0 0;padding-left:18px;max-width:80ch}
-.mpi .fns li{margin-bottom:6px}
-.mpi .fns a{color:var(--teal)}
 .mpi .midcta{margin-top:80px;padding-top:40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:20px 36px}
 .mpi .midcta p{font-size:21px;font-weight:600;color:var(--navy);max-width:42ch;letter-spacing:-.01em;line-height:1.3}
 .mpi .midcta .ctas{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
