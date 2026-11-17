@@ -594,7 +594,7 @@
 .mpi .h1 .vw .b31{height:41px;animation-delay:-0.65s;animation-duration:0.78s}
 .mpi .h1 .vw .b32{height:44px;animation-delay:-0.78s;animation-duration:0.86s}
 .mpi .h1 .vw .b33{height:47px;animation-delay:-0.02s;animation-duration:0.94s}
-.mpi .h1v{width:600px;height:680px}
+.mpi .h1v{width:656px;height:680px}
 .mpi .lap1{position:absolute;left:160px;top:0;width:440px}
 .mpi .lap1 .xlid{background:#333132;border-radius:14px 14px 4px 4px;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
 .mpi .lap1 .lscr{background:#fff;border-radius:4px;height:250px;padding:16px 18px;color:#333132;font-size:12px;overflow:hidden}
@@ -622,7 +622,7 @@
 .mpi .vsaid{font-size:25px;line-height:1.28;font-weight:700;color:#fff}
 .mpi .vsaid .w{display:inline-block}
 .mpi .vhl{background-image:linear-gradient(rgba(185,49,79,.55),rgba(185,49,79,.55));background-repeat:no-repeat;background-position:0 100%;border-radius:4px;padding:0 2px;margin:0 -2px}
-.mpi .cp1{left:392px;top:200px;width:208px;height:420px;z-index:3}
+.mpi .cp1{left:448px;top:200px;width:208px;height:420px;z-index:3}
 .mpi .xdot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 9px}
 .mpi .xdot.r{background:#b9314f}
 .mpi .xdot.y{background:#ffd23f}
@@ -839,7 +839,7 @@
 @keyframes h1_k25{0.0%{opacity:0;transform:translateY(12px)}73.5%{opacity:0;transform:translateY(12px)}78.0%{opacity:1;transform:none}93.0%{opacity:1;transform:none}97.0%{opacity:0;transform:none}100.0%{opacity:0;transform:none}}
 @keyframes h1_k26{0.0%{opacity:0;transform:translate(-6px,394px) scale(.9)}35.5%{opacity:0;transform:translate(-6px,394px) scale(.9)}37.0%{opacity:1;transform:translate(-6px,394px) scale(1)}40.0%{opacity:1;transform:translate(95.0px,88px) scale(1.06)}44.0%{opacity:1;transform:translate(196px,128px) scale(1)}45.5%{opacity:0;transform:translate(196px,128px) scale(.9)}100.0%{opacity:0;transform:translate(196px,128px) scale(.9)}}
 @keyframes h1_k27{0.0%{opacity:0;transform:translate(-6px,428px) scale(.9)}37.0%{opacity:0;transform:translate(-6px,428px) scale(.9)}38.5%{opacity:1;transform:translate(-6px,428px) scale(1)}41.0%{opacity:1;transform:translate(162.0px,106px) scale(1.06)}44.5%{opacity:1;transform:translate(330px,146px) scale(1)}46.0%{opacity:0;transform:translate(330px,146px) scale(.9)}100.0%{opacity:0;transform:translate(330px,146px) scale(.9)}}
-@keyframes h1_k28{0.0%{opacity:0;transform:translate(226px,166px) scale(.9)}50.0%{opacity:0;transform:translate(226px,166px) scale(.9)}51.5%{opacity:1;transform:translate(226px,166px) scale(1)}54.0%{opacity:1;transform:translate(302.0px,126px) scale(1.06)}57.5%{opacity:1;transform:translate(378px,330px) scale(1)}59.0%{opacity:0;transform:translate(378px,330px) scale(.9)}100.0%{opacity:0;transform:translate(378px,330px) scale(.9)}}
+@keyframes h1_k28{0.0%{opacity:0;transform:translate(226px,166px) scale(.9)}50.0%{opacity:0;transform:translate(226px,166px) scale(.9)}51.5%{opacity:1;transform:translate(226px,166px) scale(1)}54.0%{opacity:1;transform:translate(330.0px,126px) scale(1.06)}57.5%{opacity:1;transform:translate(434px,330px) scale(1)}59.0%{opacity:0;transform:translate(434px,330px) scale(.9)}100.0%{opacity:0;transform:translate(434px,330px) scale(.9)}}
 @keyframes h1_k29{0.0%{color:#5d7189}3.0%{color:#5d7189}6.0%{color:#fff}36.0%{color:#fff}39.0%{color:#5d7189}100.0%{color:#5d7189}}
 @keyframes h1_k30{0.0%{background:#22364f;color:#A0B3C6}3.0%{background:#22364f;color:#A0B3C6}6.0%{background:#2DD4BF;color:#0F2137}36.0%{background:#2DD4BF;color:#0F2137}39.0%{background:#22364f;color:#A0B3C6}100.0%{background:#22364f;color:#A0B3C6}}
 @keyframes h1_k31{0.0%{color:#5d7189}37.0%{color:#5d7189}40.0%{color:#fff}53.0%{color:#fff}56.0%{color:#5d7189}100.0%{color:#5d7189}}
