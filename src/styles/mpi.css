@@ -525,7 +525,7 @@
 .mpi .rrhl{position:absolute;inset:0 -8px;border-radius:10px;background:rgba(0,0,0,.07);z-index:-1}
 .mpi .rr>*:not(.rrhl){position:relative}
 @media (prefers-reduced-motion:reduce){.mpi .p4 .a{animation:none !important;opacity:1}}
-.mpi .photo .laptop.s3h{width:386px}
+.mpi .photo .laptop.s3h{width:386px;transform:scale(1.15);bottom:-64px}
 .mpi .photo .lphoto img,.mpi .photo .vc4 .pst,.mpi .photo .dph img{width:100%;height:100%;border-radius:0;object-fit:cover}
 .mpi .photo .rr img{width:42px;height:42px;border-radius:9px}
 .mpi .h1 .a{animation-duration:10s;animation-timing-function:cubic-bezier(.2,.8,.2,1);animation-iteration-count:infinite;animation-fill-mode:both}
