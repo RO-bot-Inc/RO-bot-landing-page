@@ -2,6 +2,15 @@
   "v": 3,
   "attachments": {},
   "boards": {
+    "Hero.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "title": "Hero options",
+      "w": 1360,
+      "x": -1900,
+      "y": 0
+    },
     "HowA.dc.html": {
       "expand": "fill",
       "h": 3100,
@@ -45,6 +54,14 @@
       "x": 4600,
       "y": 3400
     },
+    "Piece-v0zu.dc.html": {
+      "frameless": true,
+      "h": 392,
+      "title": "Box",
+      "w": 1280,
+      "x": 651,
+      "y": -866
+    },
     "Screens.dc.html": {
       "h": 3000,
       "is_interactive": true,
@@ -53,14 +70,14 @@
       "x": 6000,
       "y": 3400
     },
-    "Hero.dc.html": {
+    "Step3Photos.dc.html": {
       "expand": "fill",
-      "h": 2700,
+      "h": 2150,
       "is_interactive": true,
-      "title": "Hero options",
-      "w": 1360,
+      "title": "Step 3 photo options",
+      "w": 1280,
       "x": -1900,
-      "y": 0
+      "y": 3000
     }
   },
   "createdOnFiles": {
@@ -103,11 +120,13 @@
   "order": [
     "Hero.dc.html",
     "Main.dc.html",
+    "Step3Photos.dc.html",
     "HowA.dc.html",
     "HowB.dc.html",
     "HowC.dc.html",
     "Photos.dc.html",
-    "Screens.dc.html"
+    "Screens.dc.html",
+    "Piece-v0zu.dc.html"
   ],
   "pages": [],
   "title": "MPI Page Design Board"
