@@ -1,0 +1,4 @@
+const {chromium}=require('/Users/davidsonders/ro-bot/app/node_modules/playwright');
+(async()=>{const [src,sel,w='1280',f='0.9']=process.argv.slice(2);const b=await chromium.launch();const p=await b.newPage({viewport:{width:+w,height:900}});await p.goto('file://'+src);
+await p.evaluate((f)=>document.getAnimations().forEach(a=>{a.pause();const d=a.effect.getTiming().duration;if(typeof d==='number')a.currentTime=f*d;}),+f);
+console.log(JSON.stringify(await p.evaluate((sel)=>[...document.querySelectorAll(sel)].map(e=>{const r=e.getBoundingClientRect();const c=getComputedStyle(e);return {t:e.textContent.slice(0,20),x:Math.round(r.x),y:Math.round(r.y),w:Math.round(r.width),h:Math.round(r.height),o:c.opacity,vis:c.visibility,an:c.animationName,dur:c.animationDuration,ct:e.getAnimations().map(a=>a.currentTime+'/'+a.effect.getTiming().duration)}}),sel)));await b.close();})();
