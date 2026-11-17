@@ -99,7 +99,8 @@
 .mpi .proof .q{font-size:24px;line-height:1.3;font-weight:600;letter-spacing:-.01em;max-width:34ch;color:var(--navy)}
 @media (min-width:760px){.mpi .proof .q{font-size:30px}}
 .mpi .proof .who{margin-top:18px;display:flex;align-items:center;gap:12px;color:var(--text-2);font-size:15px}
-.mpi .proof .who i{width:40px;height:40px;border-radius:50%;background:var(--line);display:inline-block}
+.mpi .proof .who i{width:40px;height:40px;border-radius:50%;background:var(--line);display:inline-block;overflow:hidden;flex-shrink:0}
+.mpi .proof .who i img{width:100%;height:100%;object-fit:cover;object-position:center 10%;transform:scale(1.8);display:block}
 .mpi .faq .list{margin-top:32px;border-top:1px solid var(--line)}
 .mpi .faq details{border-bottom:1px solid var(--line)}
 .mpi .faq summary{list-style:none;cursor:pointer;padding:20px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:16px}
