@@ -41,4 +41,7 @@ if __name__=='__main__':
     ph=lambda s:(s.min(2)>175)&(s.mean(2)>205)&((s.max(2)-s.min(2))<45)
     W='/private/tmp/claude-501/-Users-davidsonders-ro-bot-website/ad76a92c-2493-43d2-a59e-264c562203b8/scratchpad/mpi-design/public/images/mpi/'
     run(W+'how-3-laptop-bench.jpg','stills/scr3.png',(735,535,935,675),lap,'stills/how3-comp.jpg',(835,600),[(770,547),(923,567),(894,667),(742,635)])
-    run(W+'how-4-customer-report.jpg','stills/scr4.png',(325,490,615,750),ph,'stills/how4-comp.jpg',(470,620),[(337,523),(432,500),(603,710),(508,733)])
+    run(W+'how-4-customer-report.jpg','stills/scr4.png',(325,490,615,750),ph,'stills/how4-comp.jpg',(470,620),[(341,540),(430,498),(608,707),(513,751)])
+    # step 3, unattended laptop (candidate A, 2026-11-16)
+    lap2=lambda s:(s.min(2)>150)&((s.max(2)-s.min(2))<35)
+    run('p3new/a.jpg','stills/scr3.png',(640,300,1020,570),lap2,'stills/how3b-comp.jpg',(840,420),[(705,323),(1002,319),(955,550),(665,490)])

@@ -3,7 +3,7 @@
 # Usage: python3 build-astro.py <board Main.dc.html> <website repo root>
 import re, sys, json, html as H
 src=open(sys.argv[1]).read(); ROOT=sys.argv[2]
-BLOB={'0a641963301ce72482801c77b95bf3cf':'/images/mpi/how-3-laptop-bench-ui.jpg','e2e15a14a69c3025edef696d4d8635f2':'/images/mpi/how-4-customer-report-ui.jpg',
+BLOB={'bdd97f51ebac5e19fdaf792e57ec1482':'/images/mpi/how-3-bench-unattended-ui.jpg','7d9678e396c601afe11831cf713c2676':'/images/mpi/how-4-customer-report-ui.jpg',
  '2cdf35438068f580d84e16a251b7f588':'/images/mpi/how-1-walk-and-talk.jpg','f797652c307da3346fed07cdcf5b2a3d':'/images/mpi/how-2-shoot-video.jpg',
  '26bfaa3e7ad07135277bc88e69d3d678':'/images/mpi/lines/brakes.jpg','cc5b525269a0a01fe966c67b64e0c76d':'/images/mpi/lines/belt.jpg',
  'e1d974f354cc73fa933e3133b56f995f':'/images/mpi/lines/tires.jpg','385351b33e1ea6cd43ce3783e6c075d9':'/images/mpi/lines/cabin.jpg'}
@@ -24,7 +24,7 @@ body=re.sub(r'\n\s*\n+','\n',body)
 # alt text for the step photos (decorative device screens stay alt="")
 ALT={'how-1-walk-and-talk.jpg':'A technician talks into his phone while checking a tire on a lifted truck',
      'how-2-shoot-video.jpg':'A technician records an inspection video under a vehicle',
-     'how-3-laptop-bench-ui.jpg':'A technician at the bench reviews the MPI report on a laptop',
+     'how-3-bench-unattended-ui.jpg':'A laptop on a shop workbench shows the MPI report filling in while the technician works on a car',
      'how-4-customer-report-ui.jpg':'A customer reviews their inspection report on a phone at home'}
 for f,a in ALT.items():
     body=re.sub(r'<img([^>]*?)src="/images/mpi/'+re.escape(f)+'"([^>]*?)>',lambda m:'<img'+re.sub(r'\salt="[^"]*"','',m.group(1))+f'src="/images/mpi/{f}" alt="{a}" loading="lazy"'+re.sub(r'\salt="[^"]*"','',m.group(2))+'>',body)
