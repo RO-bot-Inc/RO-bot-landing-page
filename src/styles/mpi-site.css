@@ -30,5 +30,5 @@
   .mpi .photo .phone{transform:scale(.46);right:-10px;bottom:-34px}
   .mpi .hstep:nth-child(even) .photo .phone{left:-10px}
   .mpi .photo .laptop{transform:scale(.58);right:-10px;bottom:-44px}
-  .mpi .photo .laptop.s3h{transform:scale(.72);bottom:-52px}
+  .mpi .photo .laptop.s3i{transform:scale(.72);bottom:-52px}
 }
