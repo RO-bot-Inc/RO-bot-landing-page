@@ -136,7 +136,11 @@
 .mpi .how .hstep:nth-child(even){grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}}
 .mpi .photo{position:relative;width:100%;max-width:640px;height:520px;border-radius:28px;overflow:visible;flex-shrink:0}
 .mpi .photo img{width:100%;height:100%;object-fit:cover;border-radius:28px;display:block}
-.mpi .photo .phone{position:absolute;right:-40px;bottom:-40px;transform:scale(.78);transform-origin:bottom right;box-shadow:0 30px 60px -20px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.2) inset}
+.mpi .photo .phone{position:absolute;right:-40px;bottom:-40px;transform:scale(.78);transform-origin:bottom right;background:#c9c7c8;box-shadow:0 0 70px 6px rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.5)}
+.mpi .photo .laptop{filter:drop-shadow(0 0 30px rgba(255,255,255,.3))}
+.mpi .photo .laptop .lid{background:#c9c7c8;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+.mpi .photo .laptop .base{background:linear-gradient(#d6d4d5,#a9a7a8)}
+.mpi .photo .laptop .base:after{background:#9a9899}
 .mpi .hstep:nth-child(even) .photo .phone{right:auto;left:-40px;transform-origin:bottom left}
 .mpi .photo .c1{animation-delay:.2s;--dx:150px;--dy:70px}
 .mpi .photo .c2{animation-delay:1.3s;--dx:130px;--dy:60px}
