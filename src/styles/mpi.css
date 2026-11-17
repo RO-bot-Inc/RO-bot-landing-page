@@ -821,11 +821,7 @@
 @keyframes h1_k28{0.0%{opacity:0;transform:translate(226px,166px) scale(.9)}50.0%{opacity:0;transform:translate(226px,166px) scale(.9)}51.5%{opacity:1;transform:translate(226px,166px) scale(1)}54.0%{opacity:1;transform:translate(330.0px,126px) scale(1.06)}57.5%{opacity:1;transform:translate(434px,330px) scale(1)}59.0%{opacity:0;transform:translate(434px,330px) scale(.9)}100.0%{opacity:0;transform:translate(434px,330px) scale(.9)}}
 @keyframes hvw{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
 
-/* Step 2 viewfinder: AI shop footage behind the overlays, cross-faded on the same 10.91s cycle as the captions (cabin filter, belt, battery). */
+/* Step 2 viewfinder: one 10.91s AI shop clip (cabin filter, belt, battery) cut to the captions' cycle; mpi.astro keeps it locked to the CSS animation clock. */
 .mpi .vf.has-vid:after{display:none}
-.mpi .vf .v2c{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.85);opacity:0;animation:10.91s linear infinite both}
-.mpi .vf .v0{animation-name:v2c0}.mpi .vf .v1{animation-name:v2c1}.mpi .vf .v2{animation-name:v2c2}
-@keyframes v2c0{0%{opacity:1}31%{opacity:1}33.5%{opacity:0}97.5%{opacity:0}100%{opacity:1}}
-@keyframes v2c1{0%{opacity:0}31%{opacity:0}33.5%{opacity:1}58%{opacity:1}60.5%{opacity:0}100%{opacity:0}}
-@keyframes v2c2{0%{opacity:0}58%{opacity:0}60.5%{opacity:1}97.5%{opacity:1}100%{opacity:0}}
-@media (prefers-reduced-motion:reduce){.mpi .vf .v2c{display:none}.mpi .vf.has-vid{background:url(/videos/mpi/step2-cabin.jpg) center/cover}}
+.mpi .vf .v2c{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.85)}
+@media (prefers-reduced-motion:reduce){.mpi .vf .v2c{display:none}.mpi .vf.has-vid{background:url(/videos/mpi/step2.jpg) center/cover}}
