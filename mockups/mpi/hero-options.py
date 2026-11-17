@@ -168,10 +168,10 @@ h2=f'''<div class="hv h2 h2v">
  </div></div>
  <div class="pop tires a {show(4.0,END,'translateX(-40px) scale(.85)')}"><div class="ptl">Tires</div><div class="t4"><span class="y">4<small>/32"</small><em>LF</em></span><span class="y">4<small>/32"</small><em>RF</em></span><span class="g">7<small>/32"</small><em>LR</em></span><span class="g">7<small>/32"</small><em>RR</em></span></div></div>
  <div class="pop bal a {show(4.75,END,'translateX(40px) scale(.85)')}"><div class="ptl"><span class="xdot y"></span> Wheel balance</div><span class="rec">Recommend</span><p>Uneven wear on both front tires. A balance evens it out.</p></div>
- <div class="pop xbrk a {show(5.75,END,'translateX(40px) scale(.85)')}"><img src="{BRAKES}" alt=""><div><span class="xdot r"></span> <b>Brake pads, rear</b><small>2 mm, replace now</small></div></div>
+ <div class="pop xbrk a {show(5.75,END,'translateX(-40px) scale(.85)')}"><img src="{BRAKES}" alt=""><div><span class="xdot r"></span> <b>Brake pads, rear</b><small>2 mm, replace now</small></div></div>
 </div>'''
 CSS2='''
-.h2v{width:620px;height:620px}
+.h2v{width:622px;height:620px}
 .mp2{left:200px;top:10px;width:280px;height:580px;z-index:2}
 .dkt b{color:#333132}
 .xcnt{display:flex;align-items:baseline;gap:8px;padding:16px 18px 8px}.xcnt small{color:#9b9799;font-size:12px}
@@ -189,10 +189,10 @@ CSS2='''
 .rdot{width:8px;height:8px;border-radius:50%;background:#b9314f}
 .bub p{margin:10px 0 0;font-size:16px;line-height:1.35;font-weight:600}.bub .w{display:inline-block}
 .pop{position:absolute;z-index:5;background:#fff;color:#333132;border-radius:18px;padding:14px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8)}
-.pop.tires{left:470px;top:120px;width:150px;padding:12px}.ptl{font-weight:700;font-size:13px;margin-bottom:8px}
+.pop.tires{left:482px;top:120px;width:140px;padding:12px}.ptl{font-weight:700;font-size:13px;margin-bottom:8px}
 .t4{display:grid;grid-template-columns:1fr 1fr;gap:6px}.t4 span{border-radius:10px;padding:7px;font-weight:800;font-size:18px;position:relative}.t4 small{font-size:10px;font-weight:600}.t4 em{position:absolute;right:7px;top:6px;font-style:normal;font-size:9px;font-weight:700;opacity:.55}
 .t4 .y{background:#ffd23f}.t4 .g{background:#78bc61}
-.pop.xbrk{left:16px;top:390px;width:176px;padding:0;overflow:hidden}.pop.xbrk img{width:100%;height:100px;object-fit:cover;display:block}.pop.xbrk div{padding:10px 14px 12px}.pop.xbrk b{font-size:14px}.pop.xbrk small{display:block;color:#b9314f;font-weight:700;font-size:12px;margin-top:2px}
+.pop.xbrk{left:482px;top:370px;width:140px;padding:0;overflow:hidden}.pop.xbrk img{width:100%;height:100px;object-fit:cover;display:block}.pop.xbrk div{padding:10px 14px 12px}.pop.xbrk b{font-size:14px}.pop.xbrk small{display:block;color:#b9314f;font-weight:700;font-size:12px;margin-top:2px}
 '''
 # ---------------- H3: the shop photo, live captions, findings pinned to the tire ----------------
 T=9; kf,rule,show,custom,words=anim(3,T); END=8.3
@@ -249,7 +249,7 @@ page=f'''<!doctype html>
 <div class="hsheet">
 <div><h1>Hero options</h1><p class="intro">The hero copy stays as it is; only the visual on the right changes. All three loop. Reply with a code.</p></div>
 {hero('HA',h1,'One finding, end to end. A floating voice wave and live transcript (no device); the key phrases light up and fly onto the RO as a line, then to the customer, who taps Approve. The three steps under the devices light up in turn. About 10 seconds.')}
-{hero('HB',h2,'The checklist fills itself. The voice wave and live transcript sit on a translucent layer over the inspection, which ticks through underneath while the counter climbs to 38. Three cards pop out as he speaks: tire depths, a wheel balance note, the brake finding with its photo. About 9 seconds.')}
+{hero('HB',h2,'The checklist fills itself. The voice wave and live transcript sit on a translucent layer over the inspection, which ticks through underneath while the counter climbs to 38. Three cards pop out as he speaks: tire depths, a wheel balance note, the brake finding with its photo. They alternate right, left, right. About 9 seconds.')}
 {hero('HC',h3,'The shop, live. The tech photo with live captions; findings pin onto the tire as he speaks, and the phone fills in the tire tiles. Uses the step 1 photo, so the hero and step 1 would need different photos if picked. About 9 seconds.')}
 </div>
 </x-dc>
