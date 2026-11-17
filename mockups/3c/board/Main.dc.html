@@ -81,8 +81,8 @@ p{margin:0}
 .hero .ctas{justify-content:center}
 @media (min-width:1180px){.hero .copy{text-align:left}.hero .sub{margin-inline:0}.hero .ctas{justify-content:flex-start}}
 
-/* hero visual: the tech talks, the story writes itself, the grade lands (12s) */
-.hvw{position:relative;width:560px;height:640px;justify-self:center}
+/* hero visual: every sentence the tech says becomes a line of the story, and each one fills a segment of the grade (12s) */
+.hvw{position:relative;width:560px;height:620px;justify-self:center}
 .hv{position:absolute;inset:0}
 .hv *{box-sizing:border-box}
 .hv .a{animation-duration:12s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
@@ -94,76 +94,94 @@ p{margin:0}
 .hv .bars i{width:3px;border-radius:2px;background:var(--teal-l);height:18px;animation:wv .9s ease-in-out infinite}
 .hv .bars i:nth-child(2n){animation-duration:.7s;height:12px}.hv .bars i:nth-child(3n){animation-duration:1.1s;height:20px}.hv .bars i:nth-child(5n){animation-duration:.8s;height:8px}
 @keyframes wv{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
-.hv .said{margin-top:12px;font-size:19px;line-height:1.45;font-weight:500;color:rgba(255,255,255,.86);letter-spacing:-.005em}
+.hv .said{margin-top:12px;font-size:16px;line-height:1.5;font-weight:500;color:#fff;letter-spacing:-.005em}
 .hv .said span{display:block;white-space:nowrap}
-.hv .said mark{background:linear-gradient(transparent 58%,rgba(45,212,191,.38) 58%);color:#fff;font-weight:600;padding:0 1px}
+.hv .said mark{background:none;color:#5eead4;font-weight:600}
 .hv .l1{animation-name:h_l1}.hv .l2{animation-name:h_l2}.hv .l3{animation-name:h_l3}.hv .l4{animation-name:h_l4}.hv .l5{animation-name:h_l5}
-.hlap{position:absolute;left:0;top:214px;width:540px;filter:drop-shadow(0 36px 50px rgba(0,0,0,.55));animation-name:h_lap}
+.hlap{position:absolute;left:0;top:186px;width:540px;filter:drop-shadow(0 36px 50px rgba(0,0,0,.55));animation-name:h_lap}
 .hlap .lid{background:var(--char);border-radius:16px 16px 4px 4px;padding:12px;position:relative}
 .hlap .lid:before{content:"";position:absolute;inset:0;border-radius:16px 16px 4px 4px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 40%);pointer-events:none}
 .hlap .base{height:16px;margin:0 -22px;background:linear-gradient(#55524f,#333132);border-radius:0 0 12px 12px;position:relative}
 .hlap .base:after{content:"";position:absolute;left:50%;top:0;width:80px;height:5px;border-radius:0 0 5px 5px;background:#242222;transform:translateX(-50%)}
-.hscr{position:relative;background:#fff;border-radius:5px;color:#0f172a;padding:16px 18px 18px;font-size:12.5px;line-height:1.5}
+.hscr{position:relative;background:#fff;border-radius:5px;color:#0f172a;padding:16px 18px 20px;font-size:13.5px;line-height:1.55}
 .hscr .rh{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid #eef1f4}
 .hscr .rh b{font-size:13px}
 .hscr .rh small{display:block;color:#64748b;font-size:11px;font-weight:600}
 .hscr .pill{position:relative;display:inline-flex;font-size:11px;font-weight:700;white-space:nowrap}
 .hscr .pill .w1{color:#0b7f76;background:#e6f6f4;border-radius:999px;padding:4px 10px;animation-name:h_w1}
 .hscr .pill .w2{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--ws);color:#fff;border-radius:999px;animation-name:h_done}
-.hscr .blk{margin-top:11px}
+.hscr .blk{margin-top:12px}
 .hscr .lab{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#2563eb}
 .hscr .lab em{font-style:normal;font-weight:600;letter-spacing:0;color:#94a3b8;font-size:10.5px}
 .hscr .blk p{margin-top:2px;color:#1e293b}
-.hscr .b3 p{max-width:calc(100% - 128px)}
+.hscr .b3 p{max-width:calc(100% - 132px)}
+.hscr .blk p span{border-radius:3px}
 .hscr mark{background:#ccfbf1;color:inherit;border-radius:3px;padding:0 2px}
-.hscr .b2 p{animation-name:h_b2}.hscr .b3 p{animation-name:h_b3}
-.hv .seal{position:absolute;right:6px;top:452px;display:flex;flex-direction:column;align-items:center;gap:10px;animation-name:h_seal}
-.hv .seal .ring{box-shadow:0 24px 48px -14px rgba(0,0,0,.6),0 0 0 6px rgba(255,255,255,.1)}
+.hscr .x1{animation-name:h_x1}.hscr .x2{animation-name:h_x2}.hscr .x3{animation-name:h_x3}.hscr .x4{animation-name:h_x4}.hscr .x5{animation-name:h_x5}
+.hv .seal{position:absolute;right:0;top:420px;display:flex;flex-direction:column;align-items:center;gap:10px;animation-name:h_seal}
+.hv .seal .ring{width:140px;height:140px;box-shadow:0 24px 48px -14px rgba(0,0,0,.6),0 0 0 6px rgba(255,255,255,.1)}
 .hv .ring .g1{animation-name:h_r1}.hv .ring .g2{animation-name:h_r2}.hv .ring .g3{animation-name:h_r3}.hv .ring .g4{animation-name:h_r4}.hv .ring .g5{animation-name:h_r5}.hv .ring .g6{animation-name:h_r6}
-.hv .ring .lt b,.hv .ring .lt small{animation-name:h_gl}
+.hv .ring .lt b{animation-name:h_gl}
+.hv .ring .cnt{position:relative;width:100%;height:16px}
+.hv .ring .cnt span{position:absolute;left:0;right:0;top:0;text-align:center;font-size:12px;font-weight:700;color:#64748b}
+.hv .ring .lt .big{position:relative;height:44px;width:100%}
+.hv .ring .lt .big b{position:absolute;left:0;right:0;top:0;text-align:center}
+.hv .ring .lt .big .n{color:#cbd5e1;font-size:40px;font-weight:800;line-height:1;position:absolute;left:0;right:0;top:2px;text-align:center}
+.hv .ring .c0{animation-name:h_c0}.hv .ring .c1{animation-name:h_c1}.hv .ring .c2{animation-name:h_c2}.hv .ring .c3{animation-name:h_c3}.hv .ring .c4{animation-name:h_c4}.hv .ring .c5{animation-name:h_c5}.hv .ring .c6{animation-name:h_c6}
+.hv .ring .cnt .c6{animation-name:h_c6k}
+@keyframes h_c6k{0%,53.5%{opacity:0}54%,100%{opacity:1}}
 .hv .rdy{font-size:12px;font-weight:700;color:#fff;background:#15803d;border-radius:999px;padding:6px 13px;white-space:nowrap;animation-name:h_rdy}
-@keyframes h_out{0%{opacity:0}3%,94%{opacity:1}98%,100%{opacity:0}}
-@keyframes h_lap{0%{opacity:0;transform:translateY(10px)}4%,94%{opacity:1;transform:none}98%,100%{opacity:0;transform:none}}
-@keyframes h_talk{0%,2%{opacity:.25}4%,26%{opacity:1}29%,100%{opacity:.25}}
-@keyframes h_l1{0%,3%{clip-path:inset(0 100% 0 0)}8%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_l2{0%,8%{clip-path:inset(0 100% 0 0)}14%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_l3{0%,14%{clip-path:inset(0 100% 0 0)}18.5%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_l4{0%,18.5%{clip-path:inset(0 100% 0 0)}23%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_l5{0%,23%{clip-path:inset(0 100% 0 0)}27%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_m1{0%,3%{opacity:0}7%,100%{opacity:1}}
-@keyframes h_m2{0%,8%{opacity:0}12%,100%{opacity:1}}
-@keyframes h_m3{0%,14%{opacity:0}18%,100%{opacity:1}}
-@keyframes h_m4{0%,18.5%{opacity:0}22.5%,100%{opacity:1}}
-@keyframes h_m5{0%,23%{opacity:0}27%,100%{opacity:1}}
-@keyframes h_w1{0%,26%{opacity:.45}28%,100%{opacity:1}}
-@keyframes h_b2{0%,29%{clip-path:inset(0 0 100% 0)}37%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_b3{0%,37%{clip-path:inset(0 0 100% 0)}43%,100%{clip-path:inset(0 0 0 0)}}
-@keyframes h_done{0%,43%{opacity:0}45%,100%{opacity:1}}
-@keyframes h_seal{0%,44%{opacity:0;transform:scale(.6)}48%,94%{opacity:1;transform:none}98%,100%{opacity:0;transform:none}}
-@keyframes h_r1{0%,48%{opacity:0}49.5%,100%{opacity:1}}
-@keyframes h_r2{0%,49.5%{opacity:0}51%,100%{opacity:1}}
-@keyframes h_r3{0%,51%{opacity:0}52.5%,100%{opacity:1}}
-@keyframes h_r4{0%,52.5%{opacity:0}54%,100%{opacity:1}}
-@keyframes h_r5{0%,54%{opacity:0}55.5%,100%{opacity:1}}
-@keyframes h_r6{0%,55.5%{opacity:0}57%,100%{opacity:1}}
-@keyframes h_gl{0%,57%{opacity:0;transform:scale(.6)}60%,100%{opacity:1;transform:none}}
-@keyframes h_rdy{0%,60%{opacity:0;transform:translateY(6px)}63%,100%{opacity:1;transform:none}}
+@keyframes h_out{0%{opacity:0}2%,93%{opacity:1}97%,100%{opacity:0}}
+@keyframes h_lap{0%{opacity:0;transform:translateY(10px)}3%,93%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes h_seal{0%{opacity:0;transform:scale(.85)}3%,93%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes h_talk{0%,2%{opacity:.25}4%,50%{opacity:1}52%,100%{opacity:.25}}
+@keyframes h_w1{0%,8%{opacity:.45}9%,100%{opacity:1}}
+@keyframes h_done{0%,54%{opacity:0}56%,100%{opacity:1}}
+@keyframes h_gl{0%,55.5%{opacity:0;transform:scale(.6)}58.5%,100%{opacity:1;transform:none}}
+@keyframes h_rdy{0%,58%{opacity:0;transform:translateY(6px)}61%,100%{opacity:1;transform:none}}
+@keyframes h_l1{0%,3%{clip-path:inset(0 100% 0 0);opacity:1}8%,12%{clip-path:inset(0 0 0 0);opacity:1}14%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
+@keyframes h_l2{0%,13%{clip-path:inset(0 100% 0 0);opacity:1}19%,23%{clip-path:inset(0 0 0 0);opacity:1}25%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
+@keyframes h_l3{0%,25%{clip-path:inset(0 100% 0 0);opacity:1}29%,33%{clip-path:inset(0 0 0 0);opacity:1}35%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
+@keyframes h_l4{0%,35%{clip-path:inset(0 100% 0 0);opacity:1}39%,43%{clip-path:inset(0 0 0 0);opacity:1}45%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
+@keyframes h_l5{0%,45%{clip-path:inset(0 100% 0 0);opacity:1}50%,54%{clip-path:inset(0 0 0 0);opacity:1}56%,100%{clip-path:inset(0 0 0 0);opacity:.4}}
+@keyframes h_x1{0%,9%{opacity:0;background:transparent}10.5%{opacity:1;background:rgba(45,212,191,.28)}16%,100%{opacity:1;background:transparent}}
+@keyframes h_x2{0%,20%{opacity:0;background:transparent}21.5%{opacity:1;background:rgba(45,212,191,.28)}27%,100%{opacity:1;background:transparent}}
+@keyframes h_x3{0%,30%{opacity:0;background:transparent}31.5%{opacity:1;background:rgba(45,212,191,.28)}37%,100%{opacity:1;background:transparent}}
+@keyframes h_x4{0%,40%{opacity:0;background:transparent}41.5%{opacity:1;background:rgba(45,212,191,.28)}47%,100%{opacity:1;background:transparent}}
+@keyframes h_x5{0%,51%{opacity:0;background:transparent}52.5%{opacity:1;background:rgba(45,212,191,.28)}58%,100%{opacity:1;background:transparent}}
+@keyframes h_r1{0%,11%{opacity:0}12%,100%{opacity:1}}
+@keyframes h_r2{0%,22%{opacity:0}23%,100%{opacity:1}}
+@keyframes h_r3{0%,23.5%{opacity:0}24.5%,100%{opacity:1}}
+@keyframes h_r4{0%,32%{opacity:0}33%,100%{opacity:1}}
+@keyframes h_r5{0%,42%{opacity:0}43%,100%{opacity:1}}
+@keyframes h_r6{0%,53%{opacity:0}54%,100%{opacity:1}}
+@keyframes h_c0{0%,11.5%{opacity:1}12%,100%{opacity:0}}
+@keyframes h_c1{0%,11.5%{opacity:0}12%,22.5%{opacity:1}23%,100%{opacity:0}}
+@keyframes h_c2{0%,22.5%{opacity:0}23%,24.0%{opacity:1}24.5%,100%{opacity:0}}
+@keyframes h_c3{0%,24.0%{opacity:0}24.5%,32.5%{opacity:1}33%,100%{opacity:0}}
+@keyframes h_c4{0%,32.5%{opacity:0}33%,42.5%{opacity:1}43%,100%{opacity:0}}
+@keyframes h_c5{0%,42.5%{opacity:0}43%,53.5%{opacity:1}54%,100%{opacity:0}}
+@keyframes h_c6{0%,53.5%{opacity:0}54%,55.5%{opacity:1}56%,100%{opacity:0}}
+@keyframes h_m1{0%,3%{opacity:0;transform:translateY(6px)}4.5%,11%{opacity:1;transform:none}12%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes h_m2{0%,13%{opacity:0;transform:translateY(6px)}14.5%,23%{opacity:1;transform:none}24%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes h_m3{0%,25%{opacity:0;transform:translateY(6px)}26.5%,33%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes h_m4{0%,35%{opacity:0;transform:translateY(6px)}36.5%,43%{opacity:1;transform:none}44%,100%{opacity:0;transform:translateY(-6px)}}
+@keyframes h_m5{0%,45%{opacity:0;transform:translateY(6px)}46.5%,100%{opacity:1;transform:none}}
 @media (max-width:620px){
   .hvw{width:100%;height:auto}
   .hv{position:relative}
   .hv .tx{position:relative;width:auto}
-  .hv .said{font-size:16.5px}
-  .hv .said span{display:inline;white-space:normal}
+  .hv .said{position:relative;height:52px;font-size:16px;line-height:1.45}
+  .hv .said span{position:absolute;left:0;right:0;top:0;white-space:normal;clip-path:none}
   .hv .l1{animation-name:h_m1}.hv .l2{animation-name:h_m2}.hv .l3{animation-name:h_m3}.hv .l4{animation-name:h_m4}.hv .l5{animation-name:h_m5}
-  .hlap{position:relative;left:auto;top:auto;width:auto;margin-top:20px}
+  .hlap{position:relative;left:auto;top:auto;width:auto;margin-top:16px}
   .hlap .lid{background:none;padding:0}
   .hlap .lid:before,.hlap .base{display:none}
-  .hscr{border-radius:14px;font-size:13px;padding-bottom:22px}
-  .hscr .b3 p{max-width:calc(100% - 96px)}
-  .hv .seal{right:-6px;top:auto;bottom:-26px}
-  .hv .seal .ring{width:104px;height:104px}
-  .hv .seal .ring .lt b{font-size:34px}
-  .hv .rdy{display:none}
+  .hscr{border-radius:14px;font-size:13px;padding-bottom:72px}
+  .hscr .b3 p{max-width:none}
+  .hv .seal{right:12px;top:auto;bottom:-34px;flex-direction:row-reverse;align-items:center}
+  .hv .seal .ring{width:108px;height:108px}
+  .hv .seal .ring .lt b,.hv .ring .lt .big .n{font-size:34px}
 }
 
 /* grade ring: one segment per warranty criterion */
@@ -213,7 +231,7 @@ p{margin:0}
 .phone:before{content:"";position:absolute;inset:0;border-radius:40px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 40%);pointer-events:none;z-index:9}
 .scr{position:relative;background:#fff;border-radius:30px;overflow:hidden;color:#0f172a;font-size:13px;line-height:1.35}
 .scr *{box-sizing:border-box}
-.photo .phone{position:absolute;right:-40px;bottom:-40px;transform:scale(.78);transform-origin:bottom right;width:276px;height:576px}
+.photo .phone{position:absolute;right:-40px;bottom:-40px;transform:scale(.86);transform-origin:bottom right;width:276px;height:576px}
 .photo .phone .scr{height:576px}
 .hstep.even .photo .phone{right:auto;left:-40px;transform-origin:bottom left}
 .s1 .a,.s2 .a{animation-duration:13s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
@@ -252,7 +270,13 @@ p{margin:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .s1 .cam{width:54px;height:54px;border-radius:50%;background:#475569;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .s1 .cam svg{width:20px;height:20px}
-.c-keys{left:24px;top:24px}
+.c-keys{left:24px;top:24px;padding:12px 16px}
+.c-keys .half{display:flex;align-items:center;gap:10px}
+.c-keys .dv{width:1px;align-self:stretch;background:#e2e8f0;margin:0 6px}
+.c-keys .tm{position:relative;display:block;width:58px;height:24px}
+.c-keys .tm b{position:absolute;left:0;top:0}
+.c-keys .a{animation-duration:13s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
+.c-keys .t0{animation-name:s1_c1}.c-keys .t1{animation-name:s1_c2}.c-keys .t2{animation-name:s1_c3}.c-keys .t3{animation-name:s1_c4}
 @keyframes s1_press{0%,5%{transform:none}7%,17%{transform:scale(.97)}19%,32%{transform:none}34%,44%{transform:scale(.97)}46%,59%{transform:none}61%,71%{transform:scale(.97)}73%,100%{transform:none}}
 @keyframes s1_ring{0%,6%{opacity:0;transform:scale(.96)}9%,16%{opacity:1;transform:scale(1.05)}18%,33%{opacity:0}36%,43%{opacity:1;transform:scale(1.05)}45%,60%{opacity:0}63%,70%{opacity:1;transform:scale(1.05)}72%,100%{opacity:0}}
 @keyframes s1_lis{0%,6%{opacity:0}8%,17%{opacity:1}18.5%,33%{opacity:0}35%,44%{opacity:1}45.5%,60%{opacity:0}62%,71%{opacity:1}72.5%,100%{opacity:0}}
@@ -293,7 +317,7 @@ p{margin:0}
 .s2 .o1{animation-name:s2_o1}.s2 .o1 .ck{animation-name:s2_ck}
 .s2 .tap{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(13,148,136,.35);opacity:0;animation-duration:13s;animation-iteration-count:infinite}
 .s2 .o1 .tap{animation-name:s2_tp1}
-.s2 .mic{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:4px}
+.s2 .mic{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:6px}
 .s2 .mbtn{position:relative;width:66px;height:66px;border-radius:50%;background:var(--app-teal);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px -8px rgba(13,148,136,.6)}
 .s2 .mbtn svg{position:relative;width:26px;height:26px}
 .s2 .mbtn .pr{position:absolute;inset:-9px;border-radius:50%;border:2.5px solid rgba(13,148,136,.45);opacity:0;animation-name:s2_pr}
@@ -330,58 +354,86 @@ p{margin:0}
 @keyframes s2_sv1{0%,15%{opacity:0;transform:translateY(-40px) scale(.9)}19%,100%{opacity:1;transform:none}}
 @keyframes s2_c2{0%,24%{opacity:0;transform:translateX(112%)}28%,59%{opacity:1;transform:none}63%,100%{opacity:0;transform:translateX(-112%)}}
 @keyframes s2_tp2{0%,33.5%{opacity:0;transform:scale(.3)}34%{opacity:1;transform:scale(.6)}37%,100%{opacity:0;transform:scale(2.2)}}
-@keyframes s2_pr{0%,34%{opacity:0;transform:scale(.92)}36%,50%{opacity:1;transform:scale(1.06)}52%,100%{opacity:0}}
+@keyframes s2_pr{0%,34%{opacity:0;transform:scale(.92)}36%,44%{opacity:1;transform:scale(1.06)}46%,100%{opacity:0}}
 @keyframes s2_h1{0%,34%{opacity:1}35%,100%{opacity:0}}
-@keyframes s2_h2{0%,34%{opacity:0}35%,51%{opacity:1}52%,100%{opacity:0}}
-@keyframes s2_wbar{0%,35%{opacity:0}36%,51%{opacity:1}53%,100%{opacity:0}}
+@keyframes s2_h2{0%,34%{opacity:0}35%,44%{opacity:1}45%,100%{opacity:0}}
+@keyframes s2_wbar{0%,35%{opacity:0}36%,44%{opacity:1}45.5%,100%{opacity:0}}
 @keyframes s2_said{0%,41%{opacity:0;transform:translateY(6px)}45%,100%{opacity:1;transform:none}}
 @keyframes s2_sv2{0%,53%{opacity:0;transform:translateY(-40px) scale(.9)}57%,100%{opacity:1;transform:none}}
-@keyframes s2_done{0%,62%{opacity:0;transform:translateY(14px)}66%,100%{opacity:1;transform:none}}
+@keyframes s2_done{0%,59%{opacity:0;transform:translateY(14px)}63%,100%{opacity:1;transform:none}}
 @keyframes s2_glow{0%,74%{box-shadow:0 0 0 0 rgba(16,185,129,0)}80%{box-shadow:0 0 0 8px rgba(16,185,129,.25)}86%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
 
-/* step 3: one tap writes and grades it, Copy puts it in the DMS (10s) */
-.lap3{position:absolute;right:-20px;bottom:-72px;width:500px;z-index:3;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
+.c-cov{right:24px;top:24px;flex-direction:column;align-items:center;gap:8px;padding:14px 16px 12px}
+.c-cov .a{animation-duration:13s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
+.c-cov .ring{width:92px;height:92px}
+.c-cov .ring circle{stroke-width:10}
+.c-cov .ring .g5{animation-name:s2_r5}.c-cov .ring .g6{animation-name:s2_r6}
+.c-cov .cvn{position:relative;width:40px;height:34px}
+.c-cov .cvn b{position:absolute;left:0;right:0;top:0;text-align:center;font-size:32px;color:var(--navy)}
+.c-cov .cvn .n4{animation-name:s2_n4}.c-cov .cvn .n5{animation-name:s2_n5}.c-cov .cvn .n6{animation-name:s2_n6;color:#15803d}
+.c-cov .lt small{margin-top:0}
+.c-cov .cap{font-size:12px;font-weight:700;color:var(--text-2)}
+@keyframes s2_r5{0%,16%{opacity:0}17.5%,96.5%{opacity:1}97%,100%{opacity:0}}
+@keyframes s2_r6{0%,55%{opacity:0}56.5%,96.5%{opacity:1}97%,100%{opacity:0}}
+@media (min-width:900px) and (max-width:1279px){.c-cov{right:16px;top:16px}}
+@media (max-width:899px){.photo .c-cov{left:auto;right:12px;transform-origin:top right}.photo .c-keys{flex-direction:column;align-items:flex-start;gap:8px}.photo .c-keys .dv{display:none}}
+
+/* step 3: tap Write Story, it writes and grades, Copy fills the DMS (10s) */
+.lap3{position:absolute;right:-20px;bottom:-72px;width:540px;z-index:3;filter:drop-shadow(0 30px 40px rgba(0,0,0,.45))}
 .lap3 .lid{background:var(--char);border-radius:14px 14px 4px 4px;padding:11px;position:relative}
 .lap3 .lid:before{content:"";position:absolute;inset:0;border-radius:14px 14px 4px 4px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,0) 40%);pointer-events:none}
 .lap3 .base{height:16px;margin:0 -20px;background:linear-gradient(#55524f,#333132);border-radius:0 0 12px 12px;position:relative}
 .lap3 .base:after{content:"";position:absolute;left:50%;top:0;width:70px;height:5px;border-radius:0 0 5px 5px;background:#242222;transform:translateX(-50%)}
-.ls{position:relative;height:296px;background:#f8fafc;border-radius:4px;overflow:hidden;color:#0f172a;font-size:10.5px;line-height:1.45;padding:12px 14px}
+.ls{position:relative;height:310px;background:#eef2f6;border-radius:4px;overflow:hidden;color:#0f172a;font-size:10.5px;line-height:1.45;padding:10px;display:grid;grid-template-columns:56fr 44fr;gap:10px}
 .ls *{box-sizing:border-box}
 .ls .a{animation-duration:10s;animation-timing-function:var(--ease);animation-iteration-count:infinite;animation-fill-mode:both}
-.ls .rh{display:flex;align-items:center;gap:10px;font-weight:700;font-size:12px;min-height:42px}
-.ls .rh small{font-weight:600;color:#64748b;font-size:10px;display:block}
-.ls .mini{margin-left:auto;display:flex;align-items:center;gap:8px;animation-name:l_mini}
-.ls .mini .ring{width:42px;height:42px}
-.ls .mini .ring circle{stroke-width:11}
-.ls .mini .ring .lt b{font-size:16px}
-.ls .mini em{font-style:normal;font-size:10px;font-weight:700;color:#15803d;background:#dcfce7;border-radius:999px;padding:3px 9px}
-.ls .cards{margin-top:8px;display:flex;flex-direction:column;gap:7px}
-.ls .cc{position:relative;background:#fff;border:1px solid #e2e8f0;border-radius:7px;padding:6px 58px 7px 10px}
+.ls .app{background:#fff;border-radius:6px;padding:10px;display:flex;flex-direction:column;min-width:0}
+.ls .rh{display:flex;align-items:center;gap:8px;font-weight:700;font-size:11.5px;min-height:56px;padding-bottom:8px;border-bottom:1px solid #eef1f4}
+.ls .rh small{font-weight:600;color:#64748b;font-size:9.5px;display:block}
+.ls .slot{position:relative;margin-left:auto;width:60px;height:52px;flex-shrink:0}
+.ls .slot>*{position:absolute;right:0;top:50%}
+.ls .wsp{transform:translateY(-50%);white-space:nowrap;background:var(--ws);color:#fff;font-size:10.5px;font-weight:700;border-radius:8px;padding:7px 10px;animation-name:l_wsp}
+.ls .wsp .tap{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(255,255,255,.6);opacity:0;animation-name:l_tap1}
+.ls .wrt{transform:translateY(-50%);display:flex;align-items:center;gap:5px;white-space:nowrap;font-size:10px;font-weight:700;color:var(--app-teal);animation-name:l_wrt}
+.ls .wrt i{width:11px;height:11px;border-radius:50%;border:2px solid #99d6cf;border-top-color:var(--app-teal);animation:spin .8s linear infinite}
+.ls .slot .ring{width:52px;height:52px;margin-top:-26px;animation-name:l_ring}
+.ls .slot .ring circle{stroke-width:10}
+.ls .slot .ring .lt b{font-size:22px}
+.ls .rdy{position:absolute;right:58px;top:-4px;font-size:9px;font-weight:700;color:#15803d;background:#dcfce7;border-radius:999px;padding:3px 8px;white-space:nowrap;animation-name:l_ring}
+.ls .cards{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.ls .cc{position:relative;border:1px solid #e2e8f0;border-radius:7px;padding:5px 46px 6px 9px;background:#fff}
 .ls .cc b{display:block;font-size:8.5px;letter-spacing:.08em;color:#2563eb;font-weight:800}
-.ls .cc p{margin:1px 0 0;font-size:10.5px;line-height:1.45}
-.ls .cc .cp{position:absolute;right:8px;top:7px;border:1px solid #cbd5e1;border-radius:5px;font-size:9px;font-weight:700;color:#475569;padding:2px 7px;background:#fff}
+.ls .cc p{margin:1px 0 0;font-size:10.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ls .cc .cp{position:absolute;right:7px;top:6px;border:1px solid #cbd5e1;border-radius:5px;font-size:9px;font-weight:700;color:#475569;padding:2px 6px;background:#fff}
 .ls .t2{animation-name:l_t2}.ls .t3{animation-name:l_t3}
-.ls .cpd{position:absolute;top:-1px;right:-1px;bottom:-1px;padding:0 6px;white-space:nowrap;border-radius:5px;background:#ecfdf5;color:#047857;border:1px solid #6ee7b7;display:flex;align-items:center;justify-content:center;font-weight:700;animation-name:l_cpd}
-.ls .tap{display:none}
-.ls .cc:nth-child(2) .cp{animation-name:l_press}
-.dms{position:absolute;right:10px;bottom:10px;width:262px;background:#e9eef4;border:1px solid #b8c4d2;border-radius:6px;box-shadow:0 18px 34px -12px rgba(15,23,42,.55);overflow:hidden;animation-name:l_dms}
-.dms .tb{background:#5b6b7f;color:#fff;font-size:9.5px;font-weight:700;padding:5px 9px;display:flex;justify-content:space-between}
+.ls .k2{animation-name:l_k2}.ls .k3{animation-name:l_k3}
+.ls .k2 .cp{animation-name:l_p2}.ls .k3 .cp{animation-name:l_p3}
+.dms{background:#dfe5ec;border:1px solid #b8c4d2;border-radius:6px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.dms .tb{background:#5b6b7f;color:#fff;font-size:9.5px;font-weight:700;padding:6px 9px;display:flex;justify-content:space-between;gap:6px;white-space:nowrap}
 .dms .tb i{font-style:normal;opacity:.7}
-.dms .fld{padding:8px 9px 9px;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:8.5px;line-height:1.5;color:#1f2a37}
-.dms .fld label{display:block;font-weight:700;color:#475569;margin-bottom:3px}
-.dms .box{background:#fff;border:1px solid #b8c4d2;border-radius:3px;padding:5px 6px;min-height:66px}
-.dms .box span{display:block;animation-name:l_paste}
-.dms .ok{display:flex;align-items:center;gap:4px;margin-top:6px;font-family:var(--font);font-size:9.5px;font-weight:700;color:#15803d;animation-name:l_ok}
-@keyframes l_wrap{0%{opacity:0}3%,92%{opacity:1}97%,100%{opacity:0}}
-@keyframes l_t2{0%,4%{clip-path:inset(0 0 100% 0);opacity:1}16%,92%{clip-path:inset(0 0 0 0);opacity:1}96%,100%{clip-path:inset(0 0 0 0);opacity:0}}
-@keyframes l_t3{0%,16%{clip-path:inset(0 0 100% 0);opacity:1}27%,92%{clip-path:inset(0 0 0 0);opacity:1}96%,100%{clip-path:inset(0 0 0 0);opacity:0}}
-@keyframes l_mini{0%,29%{opacity:0;transform:scale(.6)}33%,92%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
-@keyframes l_press{0%,44%{transform:none;background:#fff}45.5%{transform:scale(.92);background:#e2e8f0}47%,100%{transform:none;background:#fff}}
-@keyframes l_tap{0%,44%{opacity:0;transform:scale(.3)}45%{opacity:1;transform:scale(.6)}49%,100%{opacity:0;transform:scale(2.2)}}
-@keyframes l_cpd{0%,45.5%{opacity:0}47%,88%{opacity:1}90%,100%{opacity:0}}
-@keyframes l_dms{0%,48%{opacity:0;transform:translateY(26px)}53%,90%{opacity:1;transform:none}95%,100%{opacity:0;transform:translateY(10px)}}
-@keyframes l_paste{0%,55%{opacity:0;clip-path:inset(0 0 100% 0)}56%{opacity:1}64%,100%{opacity:1;clip-path:inset(0 0 0 0)}}
-@keyframes l_ok{0%,65%{opacity:0}67%,100%{opacity:1}}
+.dms .fld{padding:7px 8px 0;font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:7.6px;line-height:1.45;color:#1f2a37}
+.dms .fld label{display:block;font-weight:700;color:#475569;margin-bottom:2px;font-size:7.5px}
+.dms .box{background:#fff;border:1px solid #b8c4d2;border-radius:3px;padding:4px 5px;min-height:20px}
+.dms .f2 .box{min-height:78px}.dms .f3 .box{min-height:44px}
+.dms .box span{display:block}
+.dms .v2{animation-name:l_v2}.dms .v3{animation-name:l_v3}
+.dms .f2 .box{animation-name:l_b2}.dms .f3 .box{animation-name:l_b3}
+.dms .ok{display:flex;align-items:center;gap:4px;margin:auto 8px 8px;font-family:var(--font);font-size:9.5px;font-weight:700;color:#15803d;animation-name:l_ok}
+@keyframes l_wsp{0%,9.5%{opacity:1;transform:translateY(-50%)}8%{transform:translateY(-50%) scale(.94)}11%,100%{opacity:0;transform:translateY(-50%)}}
+@keyframes l_tap1{0%,6%{opacity:0;transform:scale(.3)}7%{opacity:1;transform:scale(.6)}10%,100%{opacity:0;transform:scale(2.2)}}
+@keyframes l_wrt{0%,10.5%{opacity:0}12%,29%{opacity:1}30%,100%{opacity:0}}
+@keyframes l_ring{0%,30%{opacity:0;transform:scale(.6)}34%,92%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+@keyframes l_t2{0%,12%{clip-path:inset(0 0 100% 0);opacity:1}21%,92%{clip-path:inset(0 0 0 0);opacity:1}96%,100%{clip-path:inset(0 0 0 0);opacity:0}}
+@keyframes l_t3{0%,21%{clip-path:inset(0 0 100% 0);opacity:1}29%,92%{clip-path:inset(0 0 0 0);opacity:1}96%,100%{clip-path:inset(0 0 0 0);opacity:0}}
+@keyframes l_k2{0%,42%{box-shadow:0 0 0 0 rgba(13,148,136,0);border-color:#e2e8f0}44%,54%{box-shadow:0 0 0 2px #0d9488;border-color:#0d9488}57%,100%{box-shadow:0 0 0 0 rgba(13,148,136,0);border-color:#e2e8f0}}
+@keyframes l_k3{0%,58%{box-shadow:0 0 0 0 rgba(13,148,136,0);border-color:#e2e8f0}60%,70%{box-shadow:0 0 0 2px #0d9488;border-color:#0d9488}73%,100%{box-shadow:0 0 0 0 rgba(13,148,136,0);border-color:#e2e8f0}}
+@keyframes l_p2{0%,44%{transform:none;background:#fff;color:#475569}45.5%{transform:scale(.9);background:#0d9488;color:#fff}47%,54%{transform:none;background:#0d9488;color:#fff}56%,100%{transform:none;background:#fff;color:#475569}}
+@keyframes l_p3{0%,60%{transform:none;background:#fff;color:#475569}61.5%{transform:scale(.9);background:#0d9488;color:#fff}63%,70%{transform:none;background:#0d9488;color:#fff}72%,100%{transform:none;background:#fff;color:#475569}}
+@keyframes l_v2{0%,47%{opacity:0;clip-path:inset(0 0 100% 0)}48%{opacity:1}54%,92%{opacity:1;clip-path:inset(0 0 0 0)}96%,100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes l_v3{0%,63%{opacity:0;clip-path:inset(0 0 100% 0)}64%{opacity:1}68%,92%{opacity:1;clip-path:inset(0 0 0 0)}96%,100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes l_b2{0%,46%{border-color:#b8c4d2;box-shadow:none}48%,56%{border-color:#0d9488;box-shadow:0 0 0 2px rgba(13,148,136,.25)}59%,100%{border-color:#b8c4d2;box-shadow:none}}
+@keyframes l_b3{0%,62%{border-color:#b8c4d2;box-shadow:none}64%,71%{border-color:#0d9488;box-shadow:0 0 0 2px rgba(13,148,136,.25)}74%,100%{border-color:#b8c4d2;box-shadow:none}}
+@keyframes l_ok{0%,70%{opacity:0;transform:translateY(4px)}73%,92%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
 
 /* mid CTA */
 .midcta{margin-top:144px;padding:40px 48px;background:var(--navy);border-radius:16px;box-shadow:0 24px 48px -28px rgba(0,0,0,.45);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;text-align:center;gap:20px 36px}
@@ -437,51 +489,54 @@ p{margin:0}
 .gs .gin{animation-name:g_in}
 .gcard{background:#fff;color:#0f172a;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
 .gcard .gtop{display:flex;align-items:center;gap:18px;padding:18px 18px 14px}
-.gcard .ring{width:104px;height:104px}
-.gcard .ring .lt b{font-size:36px;width:56px;height:40px}
+.gcard .ring{width:108px;height:108px}
+.gcard .ring .lt b{font-size:38px;width:60px;height:42px}
 .gcard .ring .lt b span{position:absolute;left:0;right:0;top:0;text-align:center}
-.gcard .ring .g5{stroke:#f59e0b}
+.gcard .ring .g5{stroke:#3b82f6}
 .gcard .ring .g6{animation-name:g_s6}
-.gcard .bB{color:#1d4ed8;animation-name:g_bB}.gcard .bA{color:#15803d;animation-name:g_bA}
+.gcard .bB{color:var(--gB);animation-name:g_bB}.gcard .bA{color:#15803d;animation-name:g_bA}
 .gcard .gmeta b{display:block;font-size:17px;letter-spacing:-.01em}
 .gcard .gmeta small{display:block;font-size:12px;color:#64748b;font-weight:600;margin-top:1px}
 .gcard .st{position:relative;display:block;height:26px;margin-top:10px}
 .gcard .st span{position:absolute;left:0;top:0;font-size:12px;font-weight:700;border-radius:999px;padding:5px 11px;white-space:nowrap}
 .gcard .s-w{background:#fff3d6;color:#92400e;animation-name:g_sw}
 .gcard .s-ok{background:#dcfce7;color:#15803d;animation-name:g_sok}
-.gcard .rows{padding:2px 18px 6px;border-top:1px solid #f1f5f9}
-.gcard .r{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-top:1px solid #f1f5f9;font-size:13.5px;font-weight:600}
-.gcard .r:first-child{border-top:0}
-.gcard .r>span:last-child{flex:1;min-width:0}
-.gcard .r .chipw{position:relative;width:26px;height:20px;flex-shrink:0}
-.gcard .r .chipw .chip{position:absolute;inset:0;height:20px}
-.gcard .chip.B{background:#fef3c7;color:#b45309}
-.gcard .fv{margin:0 -18px;padding:7px 18px;animation-name:g_row}
-.gcard .fv .chip.m{animation-name:g_m}.gcard .fv .chip.A{animation-name:g_A}
-.gcard .fv .sw{display:grid}
-.gcard .fv .sw small{grid-area:1/1;display:block;font-weight:500;font-size:12.5px}
-.gcard .fv .sug{color:var(--teal);animation-name:g_sug}
-.gcard .fv .dsc{color:#64748b;animation-name:g_dsc}
+.gcard .five{margin:0 18px;padding:10px 12px;border-radius:12px;background:#f8fafc;display:flex;align-items:center;gap:10px}
+.gcard .five .cs{display:flex;gap:4px}
+.gcard .five .chip{height:20px;min-width:22px}
+.gcard .five span:last-child{font-size:12px;color:#64748b;font-weight:600;line-height:1.35}
+.gcard .five b{color:#0f172a}
+.gcard .fv{margin:10px 18px 14px;padding:12px;border-radius:12px;border:1.5px solid #fcd9a4;background:#fff7ed;display:flex;gap:12px;align-items:flex-start;animation-name:g_row}
+.gcard .fv .chipw{position:relative;width:32px;height:30px;flex-shrink:0}
+.gcard .fv .chip{position:absolute;inset:0;height:30px;font-size:15px;border-radius:8px}
+.gcard .fv .chip.m{background:#fde7c4;color:#b45309;animation-name:g_m}
+.gcard .fv .chip.A{animation-name:g_A}
+.gcard .fv .lb{flex:1;min-width:0}
+.gcard .fv .lb>b{display:block;font-size:15px}
+.gcard .fv .sw{display:grid;margin-top:2px}
+.gcard .fv .sw small{grid-area:1/1;display:block;font-weight:600;font-size:13px}
+.gcard .fv .sug{color:#b45309;animation-name:g_sug}
+.gcard .fv .dsc{color:#15803d;animation-name:g_dsc}
 .gcard .fix{padding:12px 18px 18px;background:#f8fafc;border-top:1px solid #eef1f4;display:flex;flex-direction:column;gap:10px}
 .gcard .vn{align-self:flex-end;max-width:84%;background:var(--sky);border-radius:14px 14px 4px 14px;padding:8px 12px;font-size:13px;font-weight:500;line-height:1.4;animation-name:g_vn}
 .gcard .vn small{display:flex;align-items:center;gap:4px;font-size:10.5px;color:#0e7490;font-weight:700;margin-bottom:2px}
 .gcard .vn small svg{width:11px;height:11px}
-.gcard .upd{position:relative;height:40px;border-radius:10px;background:var(--ws);color:#fff;font-weight:700;font-size:13.5px;display:flex;align-items:center;justify-content:center;animation-name:g_upd}
+.gcard .upd{position:relative;height:42px;border-radius:10px;background:var(--ws);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;animation-name:g_upd}
 .gcard .upd .tap{position:absolute;left:50%;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:rgba(255,255,255,.55);opacity:0;animation-name:g_tap}
-@keyframes g_in{0%{opacity:0}4%,94%{opacity:1}98%,100%{opacity:0}}
-@keyframes g_row{0%,8%{background:transparent}12%,42%{background:#fff7ed}46%,100%{background:transparent}}
-@keyframes g_sug{0%,41%{opacity:1}43%,100%{opacity:0}}
-@keyframes g_dsc{0%,43%{opacity:0}46%,100%{opacity:1}}
-@keyframes g_m{0%,42%{opacity:1}43%,100%{opacity:0}}
-@keyframes g_A{0%,42%{opacity:0;transform:scale(.4)}45%,100%{opacity:1;transform:none}}
-@keyframes g_s6{0%,43%{stroke:#e2e8f0}46%,100%{stroke:#22a06b}}
-@keyframes g_bB{0%,43%{opacity:1}44%,100%{opacity:0}}
-@keyframes g_bA{0%,44%{opacity:0;transform:scale(.6)}47%,100%{opacity:1;transform:none}}
-@keyframes g_sw{0%,44%{opacity:1}45%,100%{opacity:0}}
-@keyframes g_sok{0%,44.5%{opacity:0;transform:scale(.9)}47%,100%{opacity:1;transform:none}}
-@keyframes g_vn{0%,15%{opacity:0;transform:translateY(14px)}20%,100%{opacity:1;transform:none}}
-@keyframes g_upd{0%,24%{opacity:.35}28%,100%{opacity:1}}
-@keyframes g_tap{0%,37%{opacity:0;transform:scale(.3)}38%{opacity:1;transform:scale(.6)}42%,100%{opacity:0;transform:scale(2.2)}}
+@keyframes g_in{0%{opacity:0}3%,93%{opacity:1}97%,100%{opacity:0}}
+@keyframes g_row{0%,4%{border-color:#fcd9a4;background:#fff7ed;box-shadow:0 0 0 0 rgba(245,158,11,0)}9%{box-shadow:0 0 0 6px rgba(245,158,11,.18)}14%{box-shadow:0 0 0 0 rgba(245,158,11,0)}19%{box-shadow:0 0 0 6px rgba(245,158,11,.18)}24%,52%{border-color:#fcd9a4;background:#fff7ed;box-shadow:0 0 0 0 rgba(245,158,11,0)}56%,100%{border-color:#bbf7d0;background:#f0fdf4;box-shadow:none}}
+@keyframes g_sug{0%,53%{opacity:1}54.5%,100%{opacity:0}}
+@keyframes g_dsc{0%,54.5%{opacity:0}57%,100%{opacity:1}}
+@keyframes g_m{0%,53%{opacity:1}54%,100%{opacity:0}}
+@keyframes g_A{0%,53.5%{opacity:0;transform:scale(.4)}57%,100%{opacity:1;transform:none}}
+@keyframes g_s6{0%,54%{stroke:#e2e8f0}57%,100%{stroke:#22a06b}}
+@keyframes g_bB{0%,55%{opacity:1}56%,100%{opacity:0}}
+@keyframes g_bA{0%,56%{opacity:0;transform:scale(.6)}59%,100%{opacity:1;transform:none}}
+@keyframes g_sw{0%,55%{opacity:1}56%,100%{opacity:0}}
+@keyframes g_sok{0%,56%{opacity:0;transform:scale(.9)}59%,100%{opacity:1;transform:none}}
+@keyframes g_vn{0%,30%{opacity:0;transform:translateY(14px)}35%,100%{opacity:1;transform:none}}
+@keyframes g_upd{0%,40%{box-shadow:0 0 0 0 rgba(16,185,129,0)}45%{box-shadow:0 0 0 7px rgba(16,185,129,.28)}49%{box-shadow:0 0 0 0 rgba(16,185,129,0);transform:none}50.5%{transform:scale(.97)}52%,100%{transform:none}}
+@keyframes g_tap{0%,49.5%{opacity:0;transform:scale(.3)}50.5%{opacity:1;transform:scale(.6)}54%,100%{opacity:0;transform:scale(2.2)}}
 
 /* why */
 .why .tiles3{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:40px}
@@ -523,23 +578,25 @@ footer .logo{font-size:16px}
 @media (min-width:900px) and (max-width:1279px){.photo .phone{right:-16px}.hstep.even .photo .phone{left:-16px}.lap3{right:-8px}.c-keys{left:16px;top:16px}}
 @media (max-width:899px){
   .photo{height:auto;aspect-ratio:5/4;justify-self:stretch;max-width:none;margin-bottom:190px}
-  .photo .phone{transform:scale(.6);right:-4px;bottom:-170px}
-  .hstep.even .photo .phone{left:-4px;transform:scale(.68);bottom:-200px}
-  .hstep.even .photo{margin-bottom:220px}
+  .photo .phone{transform:scale(.72);right:-4px;bottom:-200px}
+  .hstep.even .photo .phone{left:-4px;transform:scale(.72);bottom:-200px}
+  .photo,.hstep.even .photo{margin-bottom:220px}
   .callout{transform:scale(.82);transform-origin:top left;left:12px;top:12px}
   .hstep:last-child .photo{aspect-ratio:auto;height:auto;margin-bottom:0}
   .hstep:last-child .photo>img{aspect-ratio:5/4;height:auto}
   .lap3{position:relative;right:auto;bottom:auto;width:auto;margin:-80px 20px 0;filter:drop-shadow(0 20px 30px rgba(0,0,0,.3))}
   .lap3 .lid{background:none;padding:0}
   .lap3 .lid:before,.lap3 .base{display:none}
-  .ls{height:auto;border-radius:14px;font-size:12.5px;padding:14px 14px 210px;border:1px solid var(--line)}
+  .ls{height:auto;border-radius:14px;font-size:12.5px;padding:10px;grid-template-columns:1fr;border:1px solid var(--line)}
   .ls .rh{font-size:13px}
   .ls .cc b{font-size:10px}
   .ls .cc p{font-size:12.5px}
   .ls .cc .cp{font-size:11px;padding:2px 8px}
-  .dms{left:12px;right:12px;width:auto;bottom:12px}
-  .dms .fld{font-size:10.5px}
-  .ls .mini em{display:none}
+  .ls .rdy{font-size:10.5px;right:60px}
+  .dms .fld{font-size:9.5px}
+  .dms .fld label{font-size:9px}
+  .dms .f2 .box{min-height:70px}.dms .f3 .box{min-height:40px}
+  .dms .ok{margin-top:10px}
   .steps{gap:72px}
 }
 @media (min-width:621px) and (max-width:899px){
@@ -552,10 +609,10 @@ footer .logo{font-size:16px}
 p,li{text-wrap:pretty}
 @media (prefers-reduced-motion:reduce){
   .hv .a{animation-delay:-10.8s !important;animation-play-state:paused !important}
-  .s1 .a,.s2 .a{animation-delay:-11.9s !important;animation-play-state:paused !important}
+  .s1 .a,.s2 .a,.c-keys .a,.c-cov .a{animation-delay:-11.9s !important;animation-play-state:paused !important}
   .ls .a{animation-delay:-8s !important;animation-play-state:paused !important}
   .gs .a{animation-delay:-8s !important;animation-play-state:paused !important}
-  .hv .bars i,.s1 .spin,.s1 .lis .wb i,.s2 .wbar i{animation:none}
+  .hv .bars i,.s1 .spin,.s1 .lis .wb i,.s2 .wbar i,.ls .wrt i{animation:none}
 }
 </style>
 </helmet>
@@ -591,20 +648,20 @@ p,li{text-wrap:pretty}
         <div class="tx a">
           <div class="who"><span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></span>Marcus, Tech, bay 14<span class="bars a"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
           <div class="said">
-            <span class="l1 a">Verified the smell. Reservoir's low. </span>
-            <span class="l2 a"><mark>Pressure tested at 16.</mark> <mark>Pump's dripping at the weep hole</mark>, </span>
-            <span class="l3 a">coolant down the block. <mark>Seal's gone.</mark> </span>
-            <span class="l4 a">New pump and gasket, refilled and bled. </span>
+            <span class="l1 a"><mark>Verified the smell.</mark> Reservoir's low.</span>
+            <span class="l2 a"><mark>Pressure tested at 16.</mark> <mark>Pump's dripping at the weep hole.</mark></span>
+            <span class="l3 a">Coolant down the block. <mark>Seal's gone.</mark></span>
+            <span class="l4 a"><mark>New pump and gasket</mark>, refilled and bled.</span>
             <span class="l5 a"><mark>Holds 16, road tested, no leaks.</mark></span>
           </div>
         </div>
         <div class="hlap a"><div class="lid"><div class="hscr">
           <div class="rh"><div><b>RO 41187, Line 1: Coolant smell</b><small>Warranty</small></div><span class="pill"><span class="w1 a">Writing it…</span><span class="w2 a">Story written</span></span></div>
           <div class="blk"><div class="lab">COMPLAINT <em>from the RO</em></div><p>Customer states coolant smell after driving.</p></div>
-          <div class="blk b2"><div class="lab">CAUSE</div><p class="a">Verified concern. Coolant low in reservoir. <mark>Pressure tested cooling system at 16 psi</mark> and found the <mark>water pump dripping from the weep hole</mark>, with coolant trailing down the block. <mark>Failed water pump seal.</mark></p></div>
-          <div class="blk b3"><div class="lab">CORRECTION</div><p class="a">Replaced water pump and gasket. Refilled and bled cooling system. <mark>System holds 16 psi. Road tested, no leaks.</mark></p></div>
+          <div class="blk b2"><div class="lab">CAUSE</div><p><span class="x1 a"><mark>Verified concern.</mark> Coolant low in reservoir.</span> <span class="x2 a"><mark>Pressure tested cooling system at 16 psi</mark> and found the <mark>water pump dripping from the weep hole</mark>,</span> <span class="x3 a">with coolant trailing down the block. <mark>Failed water pump seal.</mark></span></p></div>
+          <div class="blk b3"><div class="lab">CORRECTION</div><p><span class="x4 a"><mark>Replaced water pump and gasket.</mark> Refilled and bled cooling system.</span> <span class="x5 a"><mark>System holds 16 psi. Road tested, no leaks.</mark></span></p></div>
         </div></div><div class="base"></div></div>
-        <div class="seal a"><div class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 a" cx="60" cy="60" r="52"></circle><circle class="sg g2 a" cx="60" cy="60" r="52"></circle><circle class="sg g3 a" cx="60" cy="60" r="52"></circle><circle class="sg g4 a" cx="60" cy="60" r="52"></circle><circle class="sg g5 a" cx="60" cy="60" r="52"></circle><circle class="sg g6 a" cx="60" cy="60" r="52"></circle></svg><div class="lt"><b class="a">A</b><small class="a">6 of 6</small></div></div><span class="rdy a">Ready to submit</span></div>
+        <div class="seal a"><div class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 a" cx="60" cy="60" r="52"></circle><circle class="sg g2 a" cx="60" cy="60" r="52"></circle><circle class="sg g3 a" cx="60" cy="60" r="52"></circle><circle class="sg g4 a" cx="60" cy="60" r="52"></circle><circle class="sg g5 a" cx="60" cy="60" r="52"></circle><circle class="sg g6 a" cx="60" cy="60" r="52"></circle></svg><div class="lt"><span class="big"><span class="n c0 a">0</span><span class="n c1 a">1</span><span class="n c2 a">2</span><span class="n c3 a">3</span><span class="n c4 a">4</span><span class="n c5 a">5</span><span class="n c6 a">6</span><b class="a">A</b></span><span class="cnt"><span class="c0 a">0 of 6</span><span class="c1 a">1 of 6</span><span class="c2 a">2 of 6</span><span class="c3 a">3 of 6</span><span class="c4 a">4 of 6</span><span class="c5 a">5 of 6</span><span class="c6 a">6 of 6</span></span></div></div><span class="rdy a">Ready to submit</span></div>
       </div>
     </div>
   </div>
@@ -640,15 +697,15 @@ p,li{text-wrap:pretty}
       <div class="hstep">
         <div class="copy"><div class="num">1</div><h3>Talk through the repair</h3><p>Hold the button and say what you found, what you tested and what you replaced, in your own words, as you work. Each note lands on the line.</p><p class="fine">Shop talk is fine. "Pump's dripping at the weep hole" works as is.</p></div>
         <div class="photo"><img src="/_blob/5617903ae4bbfef120316120fcbf11a2" alt="A technician at the open door of an SUV in a service bay speaks into his phone" style="object-position: 40% 50%">
-          <div class="callout c-keys"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"></path><path d="M3 3l18 18" stroke="#b9314f" stroke-width="2.2"></path></svg></span><span><b>0</b><small>keystrokes</small></span></div>
+          <div class="callout c-keys"><span class="half"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></span><span><span class="tm"><b class="t0 a">0:00</b><b class="t1 a">0:04</b><b class="t2 a">0:11</b><b class="t3 a">0:17</b></span><small>talking</small></span></span><span class="dv"></span><span class="half"><span class="ic" style="background:#fdecef"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"></path><path d="M3 3l18 18" stroke="#b9314f" stroke-width="2.2"></path></svg></span><span><b>0</b><small>typing</small></span></span></div>
           <div class="phone s1"><div class="scr">
             <div class="apbar"><small>RO 41187, Line 1</small><b>Coolant smell</b></div>
             <div class="np">
               <div class="nph"><svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Story Notes<span class="cnt"><span class="c1 a">1</span><span class="c2 a">2</span><span class="c3 a">3</span><span class="c4 a">4</span></span></div>
               <div class="nt adv"><div class="who3">Dana, Advisor</div><div class="bub">Customer states coolant smell after driving.</div></div>
               <div class="nt n1 a"><div class="who3">Marcus, Tech</div><div class="bub">Verified the smell. Reservoir's low.</div><div class="vtag"><svg viewBox="0 0 24 24" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path></svg>Voice note, 0:04</div></div>
-              <div class="nt n2 a"><div class="who3">Marcus, Tech</div><div class="bub">Pressure tested at 16. Dripping at the weep hole. Seal's gone.</div><div class="vtag"><svg viewBox="0 0 24 24" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path></svg>Voice note, 0:07</div></div>
-              <div class="nt n3 a"><div class="who3">Marcus, Tech</div><div class="bub">New pump and gasket. Holds 16, road tested, no leaks.</div><div class="vtag"><svg viewBox="0 0 24 24" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path></svg>Voice note, 0:06</div></div>
+              <div class="nt n2 a"><div class="bub">Pressure tested at 16. Dripping at the weep hole. Seal's gone.</div><div class="vtag"><svg viewBox="0 0 24 24" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path></svg>Voice note, 0:07</div></div>
+              <div class="nt n3 a"><div class="bub">New pump and gasket. Holds 16, road tested, no leaks.</div><div class="vtag"><svg viewBox="0 0 24 24" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path></svg>Voice note, 0:06</div></div>
             </div>
             <div class="wsrow"><span class="wsb a">Write Story</span><span class="gmb">Guide me</span></div>
             <div class="bar"><span class="hold a"><span class="ring2 a"></span><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>Hold to make a note<span class="lis a"><span class="wb"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>Listening</span><span class="proc a"><span class="spin"></span>Processing</span></span><span class="cam"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span></div>
@@ -659,6 +716,7 @@ p,li{text-wrap:pretty}
       <div class="hstep even">
         <div class="copy"><div class="num">2</div><h3><span style="white-space:nowrap">Not sure what to say?</span> Tap Guide me.</h3><p>Guide me asks one short question at a time and offers answers to tap. The tech can also say or type their own. Each answer is saved as a story note, and it stops when all six things warranty needs are covered.</p><p class="fine">Say the notes skipped how the leak was found and how the fix was checked. Guide me asks only for those. It never guesses a code, a reading or a part number. On phones, for diagnostic warranty lines.</p></div>
         <div class="photo"><img src="/_blob/d02446da5a0e90a4af5c7c64d130fe86" alt="A technician leans on a fender and taps answers on her phone" style="object-position: 70% 40%">
+          <div class="callout c-cov"><span class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 a" cx="60" cy="60" r="52"></circle><circle class="sg g2 a" cx="60" cy="60" r="52"></circle><circle class="sg g3 a" cx="60" cy="60" r="52"></circle><circle class="sg g4 a" cx="60" cy="60" r="52"></circle><circle class="sg g5 a" cx="60" cy="60" r="52"></circle><circle class="sg g6 a" cx="60" cy="60" r="52"></circle></svg><span class="lt"><span class="cvn"><b class="n4 a">4</b><b class="n5 a">5</b><b class="n6 a">6</b></span><small>of 6</small></span></span><span class="cap">Story coverage</span></div>
           <div class="phone s2"><div class="scr">
             <div class="gh"><div class="t"><div><small>GUIDE ME</small><b>Coolant smell</b></div><span class="x">✕</span></div>
               <div class="cov"><div class="lbl"><span>Story coverage</span><span class="nn"><span class="n4 a">4 of 6</span><span class="n5 a">5 of 6</span><span class="n6 a">6 of 6</span></span></div>
@@ -681,13 +739,19 @@ p,li{text-wrap:pretty}
         <div class="copy"><div class="num">3</div><h3>One tap. <span style="white-space:nowrap">Written and graded.</span></h3><p>Tap Write Story. TenthGear turns the notes into complaint, cause and correction, then grades the story on the six things warranty looks for. Copy each section straight into your DMS.</p><p class="fine">Every section stays editable. Change a word and re-grade in one tap.</p></div>
         <div class="photo"><img src="/_blob/483365d9649f4a4ce23af47b682ab75b" alt="A warranty administrator reviews stories on a laptop in the service office" style="object-position: 30% 50%">
           <div class="lap3"><div class="lid"><div class="ls">
-            <div class="rh"><div>RO 41187, Line 1: Coolant smell<small>Warranty</small></div><span class="mini a"><em>Ready to submit</em><span class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 " cx="60" cy="60" r="52"></circle><circle class="sg g2 " cx="60" cy="60" r="52"></circle><circle class="sg g3 " cx="60" cy="60" r="52"></circle><circle class="sg g4 " cx="60" cy="60" r="52"></circle><circle class="sg g5 " cx="60" cy="60" r="52"></circle><circle class="sg g6 " cx="60" cy="60" r="52"></circle></svg><span class="lt"><b>A</b></span></span></span></div>
-            <div class="cards a">
-              <div class="cc"><b>COMPLAINT</b><p>Customer states coolant smell after driving.</p><span class="cp">Copy</span></div>
-              <div class="cc"><b>CAUSE</b><p class="t2 a">Verified concern. Coolant low in reservoir. Pressure tested cooling system at 16 psi and found the water pump dripping from the weep hole, with coolant trailing down the block. Failed water pump seal.</p><span class="cp">Copy<span class="cpd a">✓ Copied</span><i class="tap a"></i></span></div>
-              <div class="cc"><b>CORRECTION</b><p class="t3 a">Replaced water pump and gasket. Refilled and bled cooling system. System holds 16 psi. Road tested, no leaks.</p><span class="cp">Copy</span></div>
+            <div class="app">
+              <div class="rh"><div>RO 41187, Line 1: Coolant smell<small>Warranty</small></div><span class="slot"><span class="wsp a">Write Story<i class="tap a"></i></span><span class="wrt a"><i></i>Writing…</span><span class="ring a"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 " cx="60" cy="60" r="52"></circle><circle class="sg g2 " cx="60" cy="60" r="52"></circle><circle class="sg g3 " cx="60" cy="60" r="52"></circle><circle class="sg g4 " cx="60" cy="60" r="52"></circle><circle class="sg g5 " cx="60" cy="60" r="52"></circle><circle class="sg g6 " cx="60" cy="60" r="52"></circle></svg><span class="lt"><b>A</b></span></span></span></div>
+              <div class="cards">
+                <div class="cc"><b>COMPLAINT</b><p>Customer states coolant smell after driving.</p><span class="cp">Copy</span></div>
+                <div class="cc k2 a"><b>CAUSE</b><p class="t2 a">Verified concern. Coolant low in reservoir. Pressure tested cooling system at 16 psi and found the water pump dripping from the weep hole, with coolant trailing down the block. Failed water pump seal.</p><span class="cp a">Copy</span></div>
+                <div class="cc k3 a"><b>CORRECTION</b><p class="t3 a">Replaced water pump and gasket. Refilled and bled cooling system. System holds 16 psi. Road tested, no leaks.</p><span class="cp a">Copy</span></div>
+              </div>
             </div>
-            <div class="dms a"><div class="tb">Your DMS<i>RO 41187 · Line 1</i></div><div class="fld"><label>CAUSE</label><div class="box"><span class="a">VERIFIED CONCERN. COOLANT LOW IN RESERVOIR. PRESSURE TESTED COOLING SYSTEM AT 16 PSI AND FOUND THE WATER PUMP DRIPPING FROM THE WEEP HOLE, WITH COOLANT TRAILING DOWN THE BLOCK. FAILED WATER PUMP SEAL.</span></div><span class="ok a">✓ Pasted, nothing retyped</span></div></div>
+            <div class="dms"><div class="tb">Your DMS<i>RO 41187 · Line 1</i></div>
+              <div class="fld"><label>COMPLAINT</label><div class="box"><span>CUSTOMER STATES COOLANT SMELL AFTER DRIVING.</span></div></div>
+              <div class="fld f2"><label>CAUSE</label><div class="box a"><span class="v2 a">VERIFIED CONCERN. COOLANT LOW IN RESERVOIR. PRESSURE TESTED COOLING SYSTEM AT 16 PSI AND FOUND THE WATER PUMP DRIPPING FROM THE WEEP HOLE, WITH COOLANT TRAILING DOWN THE BLOCK. FAILED WATER PUMP SEAL.</span></div></div>
+              <div class="fld f3"><label>CORRECTION</label><div class="box a"><span class="v3 a">REPLACED WATER PUMP AND GASKET. REFILLED AND BLED COOLING SYSTEM. SYSTEM HOLDS 16 PSI. ROAD TESTED, NO LEAKS.</span></div></div>
+              <span class="ok a">✓ Pasted, nothing retyped</span></div>
           </div></div><div class="base"></div></div>
         </div>
       </div>
@@ -750,16 +814,10 @@ p,li{text-wrap:pretty}
     </div>
     <div class="gs" aria-hidden="true"><div class="gin a">
       <div class="gcard">
-        <div class="gtop"><div class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 " cx="60" cy="60" r="52"></circle><circle class="sg g2 " cx="60" cy="60" r="52"></circle><circle class="sg g3 " cx="60" cy="60" r="52"></circle><circle class="sg g4 " cx="60" cy="60" r="52"></circle><circle class="sg g5 " cx="60" cy="60" r="52"></circle><circle class="sg g6 a" cx="60" cy="60" r="52"></circle></svg><div class="lt"><b><span class="bB a">B+</span><span class="bA a">A</span></b></div></div>
+        <div class="gtop"><div class="ring"><svg viewBox="0 0 120 120"><circle class="trk" cx="60" cy="60" r="52"></circle><circle class="sg g1 " cx="60" cy="60" r="52"></circle><circle class="sg g2 " cx="60" cy="60" r="52"></circle><circle class="sg g3 " cx="60" cy="60" r="52"></circle><circle class="sg g4 " cx="60" cy="60" r="52"></circle><circle class="sg g5 " cx="60" cy="60" r="52"></circle><circle class="sg g6 " cx="60" cy="60" r="52"></circle></svg><div class="lt"><b><span class="bB a">B+</span><span class="bA a">A</span></b></div></div>
           <div class="gmeta"><b>Story Grade</b><small>RO 41203, Line 2: Check engine light</small><span class="st"><span class="s-w a">1 item missing</span><span class="s-ok a">Ready to submit</span></span></div></div>
-        <div class="rows">
-          <div class="r"><span class="chipw"><i class="chip A">A</i></span><span>Complaint Verification</span></div>
-          <div class="r"><span class="chipw"><i class="chip A">A</i></span><span>Diagnostics Performed</span></div>
-          <div class="r"><span class="chipw"><i class="chip A">A</i></span><span>Component Involved</span></div>
-          <div class="r"><span class="chipw"><i class="chip A">A</i></span><span>Root Cause</span></div>
-          <div class="r"><span class="chipw"><i class="chip B">B</i></span><span>Repair Action</span></div>
-          <div class="r fv a"><span class="chipw"><i class="chip m a">—</i><i class="chip A a">A</i></span><span>Final Verification<span class="sw"><small class="sug a">Add how you confirmed the repair.</small><small class="dsc a">Codes stayed clear after a road test.</small></span></span></div>
-        </div>
+        <div class="five"><span class="cs"><i class="chip A">A</i><i class="chip A">A</i><i class="chip A">A</i><i class="chip A">A</i><i class="chip B">B</i></span><span><b>5 of 6 covered:</b> verification, diagnostics, component, root cause, repair</span></div>
+        <div class="fv a"><span class="chipw"><i class="chip m a">—</i><i class="chip A a">A</i></span><span class="lb"><b>Final Verification</b><span class="sw"><small class="sug a">Missing: how was the repair confirmed?</small><small class="dsc a">Codes stayed clear after a road test.</small></span></span></div>
         <div class="fix"><div class="vn a"><small><svg viewBox="0 0 24 24" fill="none" stroke="#0e7490" stroke-width="2.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path></svg>Marcus, new voice note</small>Cleared codes. Road tested 12 miles, no codes returned.</div><span class="upd a">Update Story<i class="tap a"></i></span></div>
       </div>
     </div></div>
@@ -826,7 +884,7 @@ p,li{text-wrap:pretty}
 <footer><div class="wrap"><a class="logo" href="#top"><i></i>TenthGear</a><span>RO-bot, Inc.</span><a href="#top">Privacy</a><a href="#top">Terms</a></div></footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":8600}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":8490}}'>
 class Component extends DCLogic {
   renderVals() { return {}; }
 }
