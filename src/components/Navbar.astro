@@ -1,6 +1,11 @@
 ---
 const currentPath = Astro.url.pathname;
 // Free Tools menu: the Story Checker first, then utilities that live inside blog posts.
+// Product menu: the overview hub, then each pillar page.
+const products = [
+  { href: '/product/', name: 'Overview', note: 'Find more work, sell more work, get paid for it' },
+  { href: '/mpi/', name: 'Voice MPI', note: 'The multi point inspection that builds itself' },
+];
 const tools = [
   { href: '/warranty-story-checker/', name: 'Warranty Story Checker', note: 'Grade a story the way the auditor will' },
   { href: '/blog/warranty-parts-markup-increase/#markup-calculator', name: 'Parts Markup Calculator', note: 'What a warranty markup increase is worth' },
@@ -21,15 +26,32 @@ const tools = [
 
       <!-- Desktop nav -->
       <div class="hidden md:flex items-center gap-8">
-        <a href="/product/" class="text-sm text-white/70 hover:text-white transition-colors">Product</a>
+        <div class="relative group" id="product-menu" data-menu>
+          <button type="button" id="product-btn" aria-expanded="false" aria-controls="product-panel" data-menu-btn class="flex items-center gap-1 text-sm text-white/70 hover:text-white group-hover:text-white transition-colors">
+            Product
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+          <div id="product-panel" data-menu-panel class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-80 invisible opacity-0 group-hover:visible group-hover:opacity-100 data-[open]:visible data-[open]:opacity-100 transition-opacity">
+            <ul class="rounded-xl bg-white shadow-xl ring-1 ring-black/10 p-2">
+              {products.map((t) => (
+                <li>
+                  <a href={t.href} aria-current={currentPath === t.href ? 'page' : undefined} class="block rounded-lg px-3 py-2.5 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
+                    <span class="block text-sm font-semibold text-gray-900">{t.name}</span>
+                    <span class="block text-xs text-gray-500 mt-0.5">{t.note}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
         <a href="/pricing/" class="text-sm text-white/70 hover:text-white transition-colors">Pricing</a>
-        <div class="relative group" id="tools-menu">
-          <button type="button" id="tools-btn" aria-expanded="false" aria-controls="tools-panel" class="flex items-center gap-1 text-sm text-white/70 hover:text-white group-hover:text-white transition-colors">
+        <div class="relative group" id="tools-menu" data-menu>
+          <button type="button" id="tools-btn" aria-expanded="false" aria-controls="tools-panel" data-menu-btn class="flex items-center gap-1 text-sm text-white/70 hover:text-white group-hover:text-white transition-colors">
             Free Tools
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
           </button>
           <!-- pt-3 bridges the gap so the menu stays open while the pointer moves down -->
-          <div id="tools-panel" class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-80 invisible opacity-0 group-hover:visible group-hover:opacity-100 data-[open]:visible data-[open]:opacity-100 transition-opacity">
+          <div id="tools-panel" data-menu-panel class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-80 invisible opacity-0 group-hover:visible group-hover:opacity-100 data-[open]:visible data-[open]:opacity-100 transition-opacity">
             <ul class="rounded-xl bg-white shadow-xl ring-1 ring-black/10 p-2">
               {tools.map((t) => (
                 <li>
@@ -62,7 +84,14 @@ const tools = [
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-navy border-t border-white/10">
     <div class="px-4 py-4 space-y-3">
-      <a href="/product/" class="block text-white/70 hover:text-white transition-colors">Product</a>
+      <div>
+        <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Product</p>
+        <div class="mt-2 pl-3 border-l border-white/15 space-y-2">
+          {products.map((t) => (
+            <a href={t.href} class="block text-white/70 hover:text-white transition-colors">{t.name}</a>
+          ))}
+        </div>
+      </div>
       <a href="/pricing/" class="block text-white/70 hover:text-white transition-colors">Pricing</a>
       <div>
         <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Free Tools</p>
@@ -89,17 +118,18 @@ const tools = [
     menu?.classList.toggle('hidden');
   });
 
-  // Free Tools: opens on hover via CSS; click or Enter toggles it (touch, keyboard); Escape or tabbing out closes it.
-  const toolsMenu = document.getElementById('tools-menu');
-  const toolsBtn = document.getElementById('tools-btn');
-  const toolsPanel = document.getElementById('tools-panel');
-  const setTools = (open: boolean) => {
-    toolsBtn?.setAttribute('aria-expanded', String(open));
-    if (open) toolsPanel?.setAttribute('data-open', '');
-    else toolsPanel?.removeAttribute('data-open');
-  };
-  toolsBtn?.addEventListener('click', () => setTools(!toolsPanel?.hasAttribute('data-open')));
-  document.addEventListener('click', (e) => { if (toolsMenu && !toolsMenu.contains(e.target as Node)) setTools(false); });
-  toolsMenu?.addEventListener('focusout', (e) => { if (!toolsMenu.contains(e.relatedTarget as Node)) setTools(false); });
-  toolsMenu?.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setTools(false); toolsBtn?.focus(); } });
+  // Dropdowns (Product, Free Tools): open on hover via CSS; click or Enter toggles (touch, keyboard); Escape or tabbing out closes.
+  document.querySelectorAll<HTMLElement>('[data-menu]').forEach((wrap) => {
+    const btn = wrap.querySelector<HTMLElement>('[data-menu-btn]');
+    const panel = wrap.querySelector<HTMLElement>('[data-menu-panel]');
+    const set = (open: boolean) => {
+      btn?.setAttribute('aria-expanded', String(open));
+      if (open) panel?.setAttribute('data-open', '');
+      else panel?.removeAttribute('data-open');
+    };
+    btn?.addEventListener('click', () => set(!panel?.hasAttribute('data-open')));
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target as Node)) set(false); });
+    wrap.addEventListener('focusout', (e) => { if (!wrap.contains(e.relatedTarget as Node)) set(false); });
+    wrap.addEventListener('keydown', (e) => { if (e.key === 'Escape') { set(false); btn?.focus(); } });
+  });
 </script>

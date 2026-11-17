@@ -1,0 +1,78 @@
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What is a multi point inspection?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A multi point inspection, or MPI, is the walk-around a dealership technician does on every vehicle that comes in for service. The tech checks tires, brakes, fluids, battery, belts, hoses, lights, wipers and filters, marks each item red, yellow or green, and the results are shared with the customer so they can decide what to approve. It is the main way a service department finds work the customer didn't come in for."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What does a multi point inspection include?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Tires and tread depth, brake pads and rotors, fluid levels and condition, battery health, belts and hoses, exterior and interior lights, wiper blades, cabin and engine air filters, suspension and steering, and exhaust. TenthGear's catalog has 38 items in a color-coded carousel, and the tech adds custom items when the vehicle needs them. Our printable multi point inspection checklist lists every item."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long does a multi point inspection take?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The walk-around itself takes a few minutes. The time goes to writing it up: tapping through a tablet, typing notes, filling in measurements. With TenthGear the tech talks through the inspection and the report fills itself in, so the write-up takes no extra time at all."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is this a digital vehicle inspection (DVI)?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. TenthGear is a digital vehicle inspection built for franchise dealership service departments. The difference is that the tech talks instead of tapping, and the report builds itself. Independent shops are not our customers."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does the customer get an MPI video?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. The tech records a short inspection video with on-screen notes on what to shoot and say. The customer gets the video with their report, with chapters named by section, under your dealership's logo, name and phone number."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What if the voice finding is wrong?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The tech reviews every finding on the report before saving. Nothing becomes a line on the RO without the tech."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does it work in a loud shop?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. The tech presses and holds the mic and talks with the phone close, the way they would on a call, so the app hears their voice over the air tools and compressors. Every finding shows up on the report for the tech to review before it is saved, so a misheard word gets caught in the bay, not by the customer."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does it work with Xtime, myKaarma or Dealer-FX?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "TenthGear runs alongside the tools you use for scheduling, customer communication and payments. It handles the inspection, the video and the report."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is TenthGear integrated with our DMS?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "TenthGear currently integrates with Auto/Mate, Tekion, CDK, Reynolds, Dealertrack, PBS, Quorum, Autosoft, DealerBuilt and Dominion. DMS integration isn't required for all implementations."
+   }
+  }
+ ]
+}
