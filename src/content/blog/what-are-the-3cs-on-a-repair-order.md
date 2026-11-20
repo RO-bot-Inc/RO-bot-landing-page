@@ -1,6 +1,6 @@
 ---
 title: "What Are the 3Cs on a Repair Order? Complaint, Cause, Correction Explained (With Examples)"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Warranty"
 tags: ["3Cs", "Repair Orders", "Warranty Claims", "Documentation", "Fixed Ops"]
 excerpt: "The 3Cs on a repair order are Complaint, Cause, and Correction. See what belongs in each, with weak vs. strong examples and tips for better stories."

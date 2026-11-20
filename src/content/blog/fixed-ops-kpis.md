@@ -1,6 +1,6 @@
 ---
 title: "Fixed Ops KPIs Every Service Director Should Track in 2026"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Business"
 tags: ["Fixed Ops KPIs", "Effective Labor Rate", "Technician Productivity", "Service Department", "Fixed Ops"]
 excerpt: "14 fixed operations KPIs for dealership service directors, with formulas: ELR, productivity, hours per RO, MPI completion, warranty, and retention."

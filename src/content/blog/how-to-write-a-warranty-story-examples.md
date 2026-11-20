@@ -1,6 +1,6 @@
 ---
 title: "How to Write a Warranty Story That Gets Paid the First Time: 20 3C Examples"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Warranty"
 tags: ["Warranty Stories", "3Cs", "Warranty Claims", "Documentation", "Technician Training"]
 excerpt: "20 example warranty stories across engine, electrical, HVAC, and more, plus the four-part cause section reviewers look for."

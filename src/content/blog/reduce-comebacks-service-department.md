@@ -1,6 +1,6 @@
 ---
 title: "How to Reduce Comebacks in Your Dealership Service Department"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Business"
 tags: ["Comebacks", "Repair Quality", "Documentation", "Service Department", "Fixed Ops"]
 excerpt: "Why vehicles come back for the same repair, and eight process changes that reduce comebacks in a dealership service department."

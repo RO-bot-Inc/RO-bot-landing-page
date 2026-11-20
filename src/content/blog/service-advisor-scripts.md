@@ -1,6 +1,6 @@
 ---
 title: "Service Advisor Scripts That Get More Customer-Pay Approvals (Without Being Pushy)"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Business"
 tags: ["Service Advisors", "Customer Pay", "Approval Rate", "Video Inspections", "Fixed Ops"]
 excerpt: "Six service advisor scripts for inspection calls, price objections, declined work, and text messages that raise customer-pay approvals."

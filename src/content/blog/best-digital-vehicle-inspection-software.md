@@ -1,6 +1,6 @@
 ---
 title: "Best Digital Vehicle Inspection Software for Dealerships (2026 Comparison)"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Multi-Point Inspections"
 tags: ["Digital Vehicle Inspection", "MPI", "Video Inspections", "Service Software", "Fixed Ops"]
 excerpt: "Compare digital vehicle inspection software for dealerships, including Xtime, CDK, myKaarma, TruVideo, and TenthGear, plus 8 buying criteria."

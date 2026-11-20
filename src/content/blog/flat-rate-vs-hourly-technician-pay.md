@@ -1,6 +1,6 @@
 ---
 title: "Flat Rate vs. Hourly Technician Pay: Which Pay Plan Actually Boosts Productivity?"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Business"
 tags: ["Technician Pay", "Flat Rate", "Technician Productivity", "Technician Retention", "Fixed Ops"]
 excerpt: "Flat rate vs. hourly vs. hybrid technician pay plans: how each affects productivity, income stability, and retention in dealership service."

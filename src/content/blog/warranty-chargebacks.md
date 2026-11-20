@@ -1,6 +1,6 @@
 ---
 title: "Warranty Chargebacks: Why Dealers Lose Money Months Later and How to Stop It"
-date: "2026-11-19"
+date: "2026-11-20"
 category: "Warranty"
 tags: ["Warranty Chargebacks", "Warranty Audits", "Warranty Claims", "Documentation", "Fixed Ops"]
 excerpt: "Why manufacturers charge back paid warranty claims, the most common reasons, and the documentation habits that prevent chargebacks."
