@@ -55,7 +55,7 @@ Inspection-to-approval is AutoVitals' core product. It is used mostly by indepen
 
 ### TenthGear
 
-A voice-first platform built around the technician. Instead of tapping through screens with gloves on, techs speak their findings and [TenthGear](/product/) produces the [multi-point inspection](/product/#mpi), an [AI-guided inspection video](/product/#video) with an on-screen teleprompter, and the [3C warranty story](/product/#3cs), graded on warranty criteria. It integrates with ten DMS platforms, including CDK, Reynolds, Tekion, Dealertrack, and PBS.
+A voice-first platform built around the technician. Instead of tapping through screens with gloves on, techs speak their findings and [TenthGear](/product/) produces the [multi-point inspection](/product/#mpi), an [AI-guided inspection video](/product/#video) with an on-screen teleprompter, and the [3C warranty story](/product/#3cs), graded on warranty criteria. It integrates with ten DMS platforms, including CDK, Reynolds, Tekion, Dealertrack, PBS, and DealerBuilt.
 
 ## How the tools differ
 
