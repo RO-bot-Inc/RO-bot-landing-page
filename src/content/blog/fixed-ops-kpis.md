@@ -30,7 +30,7 @@ Measures how much of a technician's paid time is spent on billable work. Low pro
 
 **Formula:** hours flagged ÷ hours actually worked on ROs.
 
-Measures speed against book time. See [How to Raise Technician Efficiency and Flagged Hours](/blog/increase-technician-efficiency-flagged-hours/).
+Measures speed against book time.
 
 ### 4. Proficiency (overall)
 
