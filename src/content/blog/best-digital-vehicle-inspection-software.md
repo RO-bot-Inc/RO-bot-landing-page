@@ -55,12 +55,12 @@ Inspection-to-approval is AutoVitals' core product. It is used mostly by indepen
 
 ### TenthGear
 
-A voice-first platform built around the technician. Instead of tapping through screens with gloves on, techs speak their findings and [TenthGear](/product/) produces the [multi-point inspection](/product/#mpi), an [AI-guided inspection video](/product/#video) with an on-screen teleprompter, and the [3C warranty story](/product/#3cs), graded on warranty criteria. It integrates with ten DMS platforms, including CDK, Reynolds, Tekion, Dealertrack, and PBS, and can run in about 10 minutes without an integration.
+A voice-first platform built around the technician. Instead of tapping through screens with gloves on, techs speak their findings and [TenthGear](/product/) produces the [multi-point inspection](/product/#mpi), an [AI-guided inspection video](/product/#video) with an on-screen teleprompter, and the [3C warranty story](/product/#3cs), graded on warranty criteria. It integrates with ten DMS platforms, including CDK, Reynolds, Tekion, Dealertrack, and PBS.
 
 ## How the tools differ
 
 - **Built into a suite vs. standalone.** Xtime, CDK, Affinitiv, and Dealer-FX treat inspection as one module of a scheduling or service lane suite. TruVideo and AutoVitals make inspection or video their main product.
-- **Advisor-first vs. technician-first.** Most tools are built around the advisor's quote and the customer's approval. TenthGear starts in the bay, with how fast the technician can capture findings.
+- **Advisor-first vs. technician-first.** Most tools are built around the advisor's quote and the customer's approval. TenthGear starts in the bay, optimizing technician speed and accuracy.
 - **Inspection only vs. inspection plus warranty.** Only a few tools also help with 3C stories and warranty documentation, which matters for franchise dealers with a large warranty mix.
 
 ## How to compare DVI software: 8 criteria
