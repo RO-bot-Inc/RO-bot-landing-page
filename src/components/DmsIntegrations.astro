@@ -30,9 +30,9 @@ const platforms = [
 
     <div class="dms-marquee relative overflow-hidden py-2">
       <div class="dms-track flex w-max">
-        {[false, true].map((isDup) => (
+        {[false, true, true, true, true, true].map((isDup) => (
           platforms.map((p) => (
-            <div class={`flex items-center gap-2.5 mr-11 flex-shrink-0 ${isDup ? 'dms-dup' : ''}`} aria-hidden={isDup ? 'true' : undefined}>
+            <div class={`flex items-center gap-2.5 mr-14 flex-shrink-0 ${isDup ? 'dms-dup' : ''}`} aria-hidden={isDup ? 'true' : undefined}>
               <img
                 src={`/dms-logos/${p.file}`}
                 alt={isDup ? '' : `${p.name} logo`}
@@ -57,14 +57,15 @@ const platforms = [
 
 <style>
   .dms-track {
-    animation: dms-scroll 30s linear infinite;
+    animation: dms-scroll 43s linear infinite;
   }
   .dms-marquee:hover .dms-track {
     animation-play-state: paused;
   }
   @keyframes dms-scroll {
     from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    /* Six copies of the list: moving by one sixth loops with no gap on screens up to about five lists wide. */
+    to { transform: translateX(calc(-100% / 6)); }
   }
   /* Edge fades so marks drift in and out instead of popping */
   .dms-marquee::before,
